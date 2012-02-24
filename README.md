@@ -20,7 +20,7 @@ of the Symfony Documentation.
 If you've already downloaded the standard edition, and unpacked it somewhere
 within your web root directory, then move on to the "Installation" section.
 
-To download the standard edition, you have two options:
+To download the ultimate awesome edition, you have two options:
 
 ### Download an archive file (*recommended*)
 
