@@ -1,7 +1,7 @@
 
 Marca Rebuild by Calliope Initiative 
 ========================
-by Ron Balthazor, Sara Stegar, Robin Wharton, and John Weatherford
+by Ron Balthazor, Sara Steger, Robin Wharton, and John Weatherford
 
 Symfony Standard Edition
 ========================
