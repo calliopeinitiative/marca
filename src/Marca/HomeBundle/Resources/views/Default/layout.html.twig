@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+{% block title %}Marca Home {% endblock %}
+
+{% block stylesheets %}
+{% stylesheets 
+  'bundles/marcahome/css/*'
+  filter='cssrewrite'
+%}
+<link rel="stylesheet" href="{{ asset_url }}">
+{% endstylesheets %}
+{% endblock %}

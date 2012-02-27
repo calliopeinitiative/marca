@@ -1,0 +1,116 @@
+/* 
+    Document   : main
+    Created on : Feb 25, 2012, 8:02:39 AM
+    Author     : rlbaltha
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+body {
+	width: 940px;
+	margin: 0 auto;
+	font: 10pt/1.5em Verdana, Arial, sans-serif;
+}
+
+/*HTML 5 specific*/
+header,section,article,aside,footer{
+	display: block;
+}
+
+h1 {
+	font: 32pt Verdana, Arial, sans-serif;
+	text-align: center;
+	text-transform: uppercase;
+	color: #e5b7ad;
+	padding-top: 30px ;
+	text-shadow: 1px 1px 2px #fff; 
+}
+
+aside{
+	float: left;
+	width: 470px;
+	min-height: 480px;
+	margin: 0 0 20px 0;
+}
+
+aside a{
+	font: 14pt Verdana, Arial, sans-serif;
+	font-weight: lighter;
+	text-transform: uppercase;
+	color: #493831;
+	padding-bottom: 10px;
+	margin: 0;
+        text-decoration: none;
+}
+
+section{
+	float: right;
+	width: 428px;
+	padding-left: 20px;
+	margin: 0 0 20px 0px;
+	border-left: 2px dotted #b2a497;
+
+}
+
+section h2 {
+	font: 14pt Verdana, Arial, sans-serif;
+	font-weight: lighter;
+	text-transform: uppercase;
+	color: #493831;
+	padding-bottom: 10px;
+	margin: 0;
+}
+
+footer{
+	color:#200f08 ;
+	background:#ddd3bf;
+	
+	/*Opacity*/
+	filter:alpha(opacity=50); /* msie */  
+	-moz-opacity: 0.50; /* firefox 1.0 */  
+	-khtml-opacity: 0.50; /* webkit */  
+	opacity: 0.50; /* css 3 */
+
+	/*Gradient*/
+	background-image: -moz-linear-gradient(top, #ddd3bf, #bcae91); /* FF3.6 */
+	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #ddd3bf),color-stop(1, #bcae91)); /* Saf4+, Chrome *
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorStr='#ddd3bf', EndColorStr='#bcae91'); /* IE6,IE7 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ddd3bf', EndColorStr='#bcae91')"; /* IE8 */
+
+	/*Round corners*/
+	-moz-border-radius: 12px; /* FF1+ */
+	-webkit-border-radius: 12px; /* Saf3+, Chrome */
+	border-radius: 12px; /* Opera 10.5, IE 9 */	clear:both !important;
+	width:940px;
+	height: 100px;
+	padding: 10px;
+	color:#200f08 ;
+	background:#ddd3bf;
+	
+	/*Opacity*/
+	filter:alpha(opacity=50); /* msie */  
+	-moz-opacity: 0.50; /* firefox 1.0 */  
+	-khtml-opacity: 0.50; /* webkit */  
+	opacity: 0.50; /* css 3 */
+
+	/*Gradient*/
+	background-image: -moz-linear-gradient(top, #ddd3bf, #bcae91); /* FF3.6 */
+	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #ddd3bf),color-stop(1, #bcae91)); /* Saf4+, Chrome *
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorStr='#ddd3bf', EndColorStr='#bcae91'); /* IE6,IE7 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ddd3bf', EndColorStr='#bcae91')"; /* IE8 */
+
+	/*Round corners*/
+	-moz-border-radius: 12px; /* FF1+ */
+	-webkit-border-radius: 12px; /* Saf3+, Chrome */
+	border-radius: 12px; /* Opera 10.5, IE 9 */
+}
+
