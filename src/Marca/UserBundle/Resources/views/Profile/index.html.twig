@@ -1,0 +1,41 @@
+<h1>Profile list</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Lastname</th>
+            <th>Firstname</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('profile_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.lastname }}</td>
+            <td>{{ entity.firstname }}</td>
+            <td>{{ entity.email }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('profile_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('profile_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('profile_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
