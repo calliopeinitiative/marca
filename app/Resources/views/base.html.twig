@@ -1,14 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/main.css') }}">
-        {% block stylesheets %}{% endblock %}
-        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{% block title %}Welcome!{% endblock %}</title>
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/main.css') }}">
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/grid.css') }}">
+{% block stylesheets %}{% endblock %}
+<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+
+    
+<div class="row">
+<header>
+<div class="logo col_7 col">Marca</div>
+<nav class="col_9 col">
+<ul>
+<li class="last"><a href="http://www.calliopeinitiative.org/">Calliope Initiative</a></li>
+</ul>
+</nav>
+</header>
+</div>
+
+{% block body %}{% endblock %}    
+    
+<footer class="row">
+<p>The Calliope Initiative offers hosting, support, consulting, and development for the  Marca writing web application.</p>
+<p>For more information about Calliope, please contact robin@calliopeinitiative.org</p>
+</footer>
+
+    
+{% block javascripts %}{% endblock %}
+</body>
 </html>
