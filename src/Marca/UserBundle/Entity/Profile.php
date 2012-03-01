@@ -3,6 +3,7 @@
 namespace Marca\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Marca\UserBundle\Entity\Profile
@@ -41,6 +42,19 @@ class Profile
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
+    
+    /**
+    * @ORM\Column(type="datetime", nullable=true)
+    * @Gedmo\Timestampable(on="create")
+    */
+    protected $created;
+    
+    
+    /**
+    * @ORM\Column(type="datetime", nullable=true)
+    * @Gedmo\Timestampable(on="update")
+    */
+    protected $updated;    
 
 
     /**
@@ -111,5 +125,45 @@ class Profile
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set created
+     *
+     * @param datetime $created
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
+
+    /**
+     * Get created
+     *
+     * @return datetime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param datetime $updated
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return datetime 
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 }

@@ -16,13 +16,17 @@
 <div class="logo col_7 col">Marca</div>
 <nav class="col_9 col">
 <ul>
+<li class=""><a href="{{ path('user_profile') }}">Profile</a></li>
+<li class=""><a href="{{ path('course') }}">Courses</a></li>
 <li class="last"><a href="http://www.calliopeinitiative.org/">Calliope Initiative</a></li>
 </ul>
 </nav>
 </header>
 </div>
 
-{% block body %}{% endblock %}    
+<div class="row"><div class="col_16 col">    
+{% block body %}{% endblock %} 
+</div></div>                
     
 <footer class="row">
 <p>The Calliope Initiative offers hosting, support, consulting, and development for the  Marca writing web application.</p>

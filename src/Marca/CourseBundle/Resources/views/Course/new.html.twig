@@ -1,0 +1,19 @@
+{% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
+ 
+{% block body %}
+
+<form action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit">Create</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('course') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

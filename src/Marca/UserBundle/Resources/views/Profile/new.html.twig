@@ -1,16 +1,18 @@
-<h1>Profile creation</h1>
+{% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
+ 
+{% block body %}
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('user_profile') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
 
-<form action="{{ path('profile_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('user_profile_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
         <button type="submit">Create</button>
     </p>
 </form>
-
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('profile') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+{% endblock %} 

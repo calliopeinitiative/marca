@@ -1,50 +1,50 @@
 <?php
 
-namespace Marca\UserBundle\Controller;
+namespace Marca\CourseBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\UserBundle\Entity\Profile;
-use Marca\UserBundle\Form\ProfileType;
+use Marca\CourseBundle\Entity\Course;
+use Marca\CourseBundle\Form\CourseType;
 
 /**
- * Profile controller.
+ * Course controller.
  *
- * @Route("/user_profile")
+ * @Route("/course")
  */
-class ProfileController extends Controller
+class CourseController extends Controller
 {
     /**
-     * Lists all Profile entities.
+     * Lists all Course entities.
      *
-     * @Route("/", name="user_profile")
+     * @Route("/", name="course")
      * @Template()
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('MarcaUserBundle:Profile')->findAll();
+        $entities = $em->getRepository('MarcaCourseBundle:Course')->findAll();
 
         return array('entities' => $entities);
     }
 
     /**
-     * Finds and displays a Profile entity.
+     * Finds and displays a Course entity.
      *
-     * @Route("/{id}/show", name="user_profile_show")
+     * @Route("/{id}/show", name="course_show")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('MarcaUserBundle:Profile')->find($id);
+        $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Profile entity.');
+            throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -55,15 +55,15 @@ class ProfileController extends Controller
     }
 
     /**
-     * Displays a form to create a new Profile entity.
+     * Displays a form to create a new Course entity.
      *
-     * @Route("/new", name="user_profile_new")
+     * @Route("/new", name="course_new")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Profile();
-        $form   = $this->createForm(new ProfileType(), $entity);
+        $entity = new Course();
+        $form   = $this->createForm(new CourseType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -72,17 +72,17 @@ class ProfileController extends Controller
     }
 
     /**
-     * Creates a new Profile entity.
+     * Creates a new Course entity.
      *
-     * @Route("/create", name="user_profile_create")
+     * @Route("/create", name="course_create")
      * @Method("post")
-     * @Template("MarcaUserBundle:Profile:new.html.twig")
+     * @Template("MarcaCourseBundle:Course:new.html.twig")
      */
     public function createAction()
     {
-        $entity  = new Profile();
+        $entity  = new Course();
         $request = $this->getRequest();
-        $form    = $this->createForm(new ProfileType(), $entity);
+        $form    = $this->createForm(new CourseType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
@@ -90,7 +90,7 @@ class ProfileController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('profile_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('course_show', array('id' => $entity->getId())));
             
         }
 
@@ -101,22 +101,22 @@ class ProfileController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Profile entity.
+     * Displays a form to edit an existing Course entity.
      *
-     * @Route("/{id}/edit", name="user_profile_edit")
+     * @Route("/{id}/edit", name="course_edit")
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('MarcaUserBundle:Profile')->find($id);
+        $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Profile entity.');
+            throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
-        $editForm = $this->createForm(new ProfileType(), $entity);
+        $editForm = $this->createForm(new CourseType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -127,23 +127,23 @@ class ProfileController extends Controller
     }
 
     /**
-     * Edits an existing Profile entity.
+     * Edits an existing Course entity.
      *
-     * @Route("/{id}/update", name="user_profile_update")
+     * @Route("/{id}/update", name="course_update")
      * @Method("post")
-     * @Template("MarcaUserBundle:Profile:edit.html.twig")
+     * @Template("MarcaCourseBundle:Course:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('MarcaUserBundle:Profile')->find($id);
+        $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Profile entity.');
+            throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
-        $editForm   = $this->createForm(new ProfileType(), $entity);
+        $editForm   = $this->createForm(new CourseType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -154,7 +154,7 @@ class ProfileController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('user_profile_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('course_edit', array('id' => $id)));
         }
 
         return array(
@@ -165,9 +165,9 @@ class ProfileController extends Controller
     }
 
     /**
-     * Deletes a Profile entity.
+     * Deletes a Course entity.
      *
-     * @Route("/{id}/delete", name="user_profile_delete")
+     * @Route("/{id}/delete", name="course_delete")
      * @Method("post")
      */
     public function deleteAction($id)
@@ -179,17 +179,17 @@ class ProfileController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('MarcaUserBundle:Profile')->find($id);
+            $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Profile entity.');
+                throw $this->createNotFoundException('Unable to find Course entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('profile'));
+        return $this->redirect($this->generateUrl('course'));
     }
 
     private function createDeleteForm($id)

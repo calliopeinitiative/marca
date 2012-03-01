@@ -1,0 +1,53 @@
+{% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
+ 
+{% block body %}
+<ul>
+    <li>
+        <a href="{{ path('course_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
+
+<table class="records_list">
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('course_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.name }}</td>
+            <td>{{ entity.term }}</td>
+            <td>{{ entity.time }}</td>
+            <td>{{ entity.userid }}</td>
+            <td>{{ entity.enroll }}</td>
+            <td>{{ entity.post }}</td>
+            <td>{{ entity.portRubricId }}</td>
+            <td>{{ entity.multicult }}</td>
+            <td>{{ entity.projectDefaultId }}</td>
+            <td>{{ entity.parentId }}</td>
+            <td>{{ entity.assessmentId }}</td>
+            <td>{{ entity.studentForum }}</td>
+            <td>{{ entity.notes }}</td>
+            <td>{{ entity.journal }}</td>
+            <td>{{ entity.portfolio }}</td>
+            <td>{{ entity.zine }}</td>
+            <td>{{ entity.announcement }}</td>
+            <td>{{ entity.portStatus }}</td>
+            <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif%}</td>
+            <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif%}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('course_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('course_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
