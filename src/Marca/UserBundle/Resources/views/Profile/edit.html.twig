@@ -9,17 +9,13 @@
     </p>
 </form>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('user_profile') }}">
+<div class="btn-group">
+        <a class="btn" href="{{ path('user_profile') }}">
             Back to the list
         </a>
-    </li>
-    <li>
         <form action="{{ path('user_profile_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
+            <button class="btn" type="submit">Delete</button>
         </form>
-    </li>
-</ul>
+    </div>
 {% endblock %} 

@@ -1,36 +1,33 @@
 {% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
  
 {% block body %}
-<ul>
-    <li>
-        <a href="{{ path('user_profile_new') }}">
+    <div class="row-fluid">
+      <div class="span12">
+        <a class="btn btn-primary" href="{{ path('user_profile_new') }}">
             Create a new entry
         </a>
-    </li>
-</ul>
+      </div>
+    </div> 
 
-<table class="records_list">
-    <tbody>
-    {% for entity in entities %}
+    <div class="row-fluid">
+      <div class="span12">
+        <table class="table table-bordered">
+        <tbody>
+        {% for entity in entities %}
         <tr>
-            <td><a href="{{ path('user_profile_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.lastname }}</td>
             <td>{{ entity.firstname }}</td>
             <td>{{ entity.email }}</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('user_profile_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('user_profile_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                <div class="btn-group">
+                 <a class="btn" href="{{ path('user_profile_show', { 'id': entity.id }) }}">show</a>
+                 <a class="btn" href="{{ path('user_profile_edit', { 'id': entity.id }) }}">edit</a>
+                </div>
             </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-
-
+          </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        </div>
+    </div>         
 {% endblock %} 
