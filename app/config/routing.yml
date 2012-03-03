@@ -1,3 +1,13 @@
+MarcaAuthenticateBundle:
+    resource: "@MarcaAuthenticateBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+MarcaGeneratorBundle:
+    resource: "@MarcaGeneratorBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 MarcaCourseBundle:
     resource: "@MarcaCourseBundle/Controller/"
     type:     annotation

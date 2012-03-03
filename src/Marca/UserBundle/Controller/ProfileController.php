@@ -90,7 +90,7 @@ class ProfileController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('profile_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('user_profile_show', array('id' => $entity->getId())));
             
         }
 
@@ -154,7 +154,7 @@ class ProfileController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('user_profile_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('user_profile_show', array('id' => $id)));
         }
 
         return array(
@@ -189,7 +189,7 @@ class ProfileController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('profile'));
+        return $this->redirect($this->generateUrl('user_profile'));
     }
 
     private function createDeleteForm($id)

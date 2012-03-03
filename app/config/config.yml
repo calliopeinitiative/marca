@@ -52,8 +52,11 @@ doctrine:
 swiftmailer:
     transport: %mailer_transport%
     host:      %mailer_host%
+    port:      %mailer_port%
+    encryption: %mailer_encryption%
     username:  %mailer_user%
     password:  %mailer_password%
+    sender_address: %mailer_sender_address%
 
 jms_security_extra:
     secure_controllers:  true
@@ -63,3 +66,9 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Marca\UserBundle\Entity\User
+    registration:
+        confirmation:
+            enabled:    true
+    from_email:
+        address:        rlbaltha@uga.edu
+        sender_name:    Marca Dev     

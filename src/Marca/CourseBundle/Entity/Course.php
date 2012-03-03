@@ -137,7 +137,7 @@ class Course
     /**
      * @var text $announcement
      *
-     * @ORM\Column(name="announcement", type="text")
+     * @ORM\Column(name="announcement", type="text", nullable=true)
      */
     private $announcement;
 

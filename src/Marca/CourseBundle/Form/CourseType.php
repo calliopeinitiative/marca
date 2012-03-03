@@ -26,10 +26,7 @@ class CourseType extends AbstractType
             ->add('journal')
             ->add('portfolio')
             ->add('zine')
-            ->add('announcement')
             ->add('portStatus')
-            ->add('created')
-            ->add('updated')
         ;
     }
 

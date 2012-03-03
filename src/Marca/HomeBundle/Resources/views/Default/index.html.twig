@@ -2,21 +2,13 @@
  
 {% block body %}
 
-
-<div class="row">
-<div class="col col_11">
-<article>  
-<span class="information">Marca is developed and supported by 
-The Calliope Initiative</span>
-<p>The Calliope Initiative offers hosting, support, consulting, and development for the <emma> writing web application. For more information about Calliope, please contact robin@calliopeinitiative.org</p>
-<p>Take Marca for a TestDrive.</p>
-</article>
-
-<aside>
-<p><a title="Get an Account" href="{{ path('fos_user_registration_register') }}" >Get an Account</a></p>
-</aside>
+<div class="row-fluid">
+<div class="span8">
+    <h1>Take Marca for a TestDrive.</h1>
+</div>
+<div class="span4">        
+<p><a class="btn-large btn-primary" title="Get an Account" href="{{ path('fos_user_registration_register') }}" >Get an Account</a></p>
 </div>
 </div>
-
 
 {% endblock %}
