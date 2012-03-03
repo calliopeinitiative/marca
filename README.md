@@ -56,7 +56,30 @@ for Symfony. To do this, execute the following:
 
 If you get any warnings or recommendations, fix these now before moving on.
 
-### b) Install the Vendor Libraries
+### b) Create a parameters.ini file
+
+Create a file in app/config entitled "parameters.ini"
+
+Paste the following skeleton into the file, and fill out necessary values.
+
+[parameters]
+    database_driver=""
+    database_host=""
+    database_port=""
+    database_name=""
+    database_user=""
+    database_password=""
+    mailer_transport=""
+    mailer_host=""
+    mailer_user=""
+    mailer_password=""
+    mailer_port=""
+    mailer_encryption=""
+    mailer_sender_address=""
+    locale="en"
+    secret=""
+
+### c) Install the Vendor Libraries
 
 If you downloaded the archive "without vendors" or installed via git, then
 you need to download all of the necessary vendor libraries. If you're not
@@ -69,7 +92,7 @@ Note that you **must** have git installed and be able to execute the `git`
 command to execute this script. If you don't have git available, either install
 it or download Symfony with the vendor libraries already included.
 
-### c) Access the Application via the Browser
+### d) Access the Application via the Browser
 
 Congratulations! You're now ready to use Symfony. If you've unzipped Symfony
 in the web root of your computer, then you should be able to access the
