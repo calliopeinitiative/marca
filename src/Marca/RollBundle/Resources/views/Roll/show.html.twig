@@ -1,0 +1,26 @@
+
+{% extends 'MarcaRollBundle:Roll:layout.html.twig' %}
+
+{% block body %}
+<div class="row-fluid">
+<div class="span12">
+        <a class="btn" href="{{ path('roll') }}">List</a>
+        <a class="btn" href="{{ path('roll_edit', { 'id': entity.id }) }}">Edit</a>
+        <form action="{{ path('roll_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn" type="submit">Delete</button>
+        </form>
+</div>
+
+<table class="table table-bordered">
+    <tbody>        <tr>
+            <th>Id</th><td>{{ entity.id }}</td>        </tr>        <tr>
+            <th>Userid</th><td>{{ entity.userid }}</td>        </tr>        <tr>
+            <th>Courseid</th><td>{{ entity.courseid }}</td>        </tr>        <tr>
+            <th>Role</th><td>{{ entity.role }}</td>        </tr>        <tr>
+            <th>Status</th><td>{{ entity.status }}</td>        </tr>    </tbody>
+</table>
+        
+</div>
+
+{% endblock %}

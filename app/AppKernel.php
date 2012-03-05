@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new Marca\CourseBundle\MarcaCourseBundle(),
             new Marca\GeneratorBundle\MarcaGeneratorBundle(),
             new Marca\AuthenticateBundle\MarcaAuthenticateBundle(),
+            new Marca\RollBundle\MarcaRollBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

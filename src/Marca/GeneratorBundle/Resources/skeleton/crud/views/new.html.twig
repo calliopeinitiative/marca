@@ -1,0 +1,20 @@
+{% set bundlename= 'Marca'~entity~'Bundle:'~entity~':layout.html.twig' %}
+
+{{ "{% extends '"~ bundlename ~"' %}" }}
+
+{{ "{% block body %}" }}
+<div class="row-fluid">
+{% set hide_edit, hide_delete = true, true %}
+{% include 'views/others/record_actions.html.twig' %}
+
+<div class="span12" style="margin-top: 3em"> 
+<form action="{{ "{{ path('"~ route_name_prefix ~"_create') }}" }}" method="post" {{ "{{ form_enctype(form) }}" }}>
+    {{ "{{ form_widget(form) }}" }}
+    <div>
+        <button class="btn" type="submit">Create</button>
+    </div>
+</form>
+</div>
+</div>
+
+{{ "{% endblock %}" }}

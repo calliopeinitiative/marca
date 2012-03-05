@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+{% block title %}Marca Roll{% endblock %}
+
+{% block stylesheets %}
+{% stylesheets 
+  'bundles/marcacroll/css/*'
+  filter='cssrewrite'
+%}
+<link rel="stylesheet" href="{{ asset_url }}">
+{% endstylesheets %}
+{% endblock %}
+
