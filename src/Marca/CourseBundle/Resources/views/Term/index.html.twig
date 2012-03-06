@@ -1,22 +1,43 @@
-{% extends 'MarcaCourseBundle:Term:layout.html.twig' %}
 
-{% block body %}
+{% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
 
+{% block content %}
+<div class="span11">
+    
 <div class="row-fluid">
-   <div class="span12">
+   <div class="span4">
       <a class="btn btn-primary" href="{{ path('term_new') }}">New</a>
    </div>
 </div> 
 
 <div class="row-fluid">
-<div class="span12">
-<table class="table table-bordered">
+<div class="span6">
+<table class="table table-bordered table-condensed table-striped">
+<thead>
+    <tr>        
+        <th>Id</th>        
+        <th>Term</th>        
+        <th>Termname</th>        
+        <th>Status</th>        
+        <th>Actions</th>
+    </tr>
+</thead>    
 <tbody>
     {% for entity in entities %}
-        <tr>            <td><a href="{{ path('term_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>            <td>{{ entity.term }}</td>            <td>{{ entity.termName }}</td>            <td>{{ entity.status }}</td>            <td><div class="span12">     <a class="btn" href="{{ path('term_show', { 'id': entity.id }) }}">show</a>     <a class="btn" href="{{ path('term_edit', { 'id': entity.id }) }}">edit</a></div>  
-            </td>        </tr>
+    <tr>        
+        <td><a href="{{ path('term_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>        
+        <td>{{ entity.term }}</td>        
+        <td>{{ entity.termName }}</td>        
+        <td>{{ entity.status }}</td>        
+        <td><div class="btn-group"><a class="btn" href="{{ path('term_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ path('term_edit', { 'id': entity.id }) }}">edit</a></div>
+
+</td>       
+    </tr>
+    
     {% endfor %}
     </tbody>
 </table>
-
+</div>
+</div>
+</div>
 {% endblock %}

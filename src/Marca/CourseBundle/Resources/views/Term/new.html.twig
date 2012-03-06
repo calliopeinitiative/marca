@@ -1,9 +1,17 @@
-{% extends 'MarcaCourseBundle:Term:layout.html.twig' %}
 
-{% block body %}
+{% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
+
+{% block content %}
+<div class="span11">
+    
 <div class="row-fluid">
-<div class="span12">
-        <a class="btn" href="{{ path('term') }}">List</a>
+<div class="span2">
+<div class="btn-group">
+<a class="btn" href="{{ path('term') }}">List</a>
+ 
+</div> 
+</div>       
+  
 </div>
 
 <div class="span12" style="margin-top: 3em"> 

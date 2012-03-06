@@ -1,12 +1,18 @@
-<div class="span12">
-        <a class="btn" href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}">List</a>
+<div class="row-fluid">
+<div class="span2">
+<div class="btn-group">
+<a class="btn" href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}">List</a>
 {% if ('edit' in actions) and (not hide_edit) %}
-        <a class="btn" href="{{ "{{ path('"~ route_name_prefix ~"_edit', { 'id': entity.id }) }}" }}">Edit</a>
-{% endif %}
-{% if ('delete' in actions) and (not hide_delete) %}
-        <form action="{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}" method="post">
+<a class="btn" href="{{ "{{ path('"~ route_name_prefix ~"_edit', { 'id': entity.id }) }}" }}">Edit</a>
+{% endif %} 
+</div> 
+</div>       
+{% if ('delete' in actions) and (not hide_delete) %}  
+<div class="span1">        
+<form action="{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}" method="post">
             {{ '{{ form_widget(delete_form) }}' }}
-            <button class="btn" type="submit">Delete</button>
-        </form>
-{% endif %}
+            <button class="btn btn-danger" type="submit">Delete</button>
+</form>
+</div>
+{% endif %}  
 </div>

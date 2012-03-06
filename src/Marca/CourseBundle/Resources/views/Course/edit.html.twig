@@ -1,20 +1,28 @@
-{% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
- 
-{% block body %}
-<form action="{{ path('course_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
-    {{ form_widget(edit_form) }}
-    <p>
-        <button type="submit">Edit</button>
-    </p>
-</form>
 
+{% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
+
+{% block content %}
+<div class="span11">
+<div class="row-fluid">
+<div class="span1">
 <div class="btn-group">
-        <a class="btn" href="{{ path('course') }}">
-            Back to the list
-        </a>
-        <form action="{{ path('course_delete', { 'id': entity.id }) }}" method="post">
+<a class="btn" href="{{ path('course') }}">List</a>
+</div> 
+</div>       
+<div class="span1">        
+<form action="{{ path('course_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button class="btn" type="submit">Delete</button>
-        </form>
+            <button class="btn btn-danger" type="submit">Delete</button>
+</form>
+</div> 
+</div>
+<div class="row-fluid">    
+<form action="{{ path('course_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+    <div>
+        <button class="btn" type="submit">Edit</button>
+    </div>
+</form>
+</div>
 </div>
 {% endblock %}

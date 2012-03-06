@@ -1,9 +1,10 @@
-{% set bundlename= 'Marca'~entity~'Bundle:'~entity~':layout.html.twig' %}
+{% set bundlename= 'MarcaCourseBundle:Course:layout.html.twig' %}
 
 {{ "{% extends '"~ bundlename ~"' %}" }}
 
-{{ "{% block body %}" }}
-<div class="row-fluid">
+{{ "{% block content %}" }}
+<div class="span11">
+    
 {% set hide_edit, hide_delete = true, true %}
 {% include 'views/others/record_actions.html.twig' %}
 

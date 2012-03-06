@@ -20,7 +20,9 @@
             <li> <a class='last' title="Logout" href="{{ path('fos_user_change_password') }}">Change Password</a></li> 
             <li> <a class='last' title="Logout" href="{{ path('fos_user_security_logout') }}">Logout</a></li> 
             {% if is_granted('ROLE_USER') %}<li><a href="{{ path('user_profile') }}">Profile</a></li>{% endif %}
-            {% if is_granted('ROLE_INSTR') %}<li><a href="{{ path('course') }}">Courses</a></li>{% endif %}
+            {% if is_granted('ROLE_INSTR') %}
+            <li><a href="{{ path('course') }}">Courses</a></li>
+            {% endif %}
             {% else %}
             <li> <a class='last' title="Login" href="{{ path('fos_user_security_login') }}">Login</a></li> 
             {% endif %}          
@@ -36,7 +38,7 @@
 
 <div class="container-fluid">
 
-    {% block body %}{% endblock %} 
+{% block body %}{% endblock %} 
     
 <!-- Footer
 ================================================== -->

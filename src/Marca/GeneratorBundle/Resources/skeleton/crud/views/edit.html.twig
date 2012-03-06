@@ -1,11 +1,13 @@
-{% set bundlename= 'Marca'~entity~'Bundle:'~entity~':layout.html.twig' %}
+{% set bundlename= 'MarcaCourseBundle:Course:layout.html.twig' %}
 
 {{ "{% extends '"~ bundlename ~"' %}" }}
 
-{{ "{% block body %}" }}
-<div class="row-fluid">
+{{ "{% block content %}" }}
+<div class="span11">
+
 {% set hide_edit, hide_delete = true, false %}
 {% include 'views/others/record_actions.html.twig' %}
+<div class="row-fluid">    
 <form action="{{ "{{ path('"~ route_name_prefix ~"_update', { 'id': entity.id }) }}" }}" method="post" {{ "{{ form_enctype(edit_form) }}" }}>
     {{ "{{ form_widget(edit_form) }}" }}
     <div>
@@ -13,5 +15,5 @@
     </div>
 </form>
 </div>
-
+</div>
 {{ "{% endblock %}" }}

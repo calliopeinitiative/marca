@@ -1,9 +1,10 @@
-{% set bundlename= 'Marca'~entity~'Bundle:'~entity~':layout.html.twig' %}
+{% set bundlename= 'MarcaCourseBundle:Course:layout.html.twig' %}
 
 {{ "{% extends '"~ bundlename ~"' %}" }}
 
-{{ "{% block body %}" }}
-
+{{ "{% block content %}" }}
+<div class="span11">
+    
 {% if 'new' in actions %}
 <div class="row-fluid">
    <div class="span4">
@@ -16,35 +17,47 @@
 <div class="span6">
 <table class="table table-bordered table-condensed table-striped">
 <thead>
-        <tr>
-        {%- for field, metadata in fields %}
-            <th>{{ field|capitalize }}</th>
-        {%- endfor %}
-            <th>Actions</th>
-        </tr>
+    <tr>
+        
+    {%- for field, metadata in fields %}
+        
+        <th>{{ field|capitalize }}</th>
+        
+    {%- endfor %}
+        
+        <th>Actions</th>
+    </tr>
 </thead>    
 <tbody>
     {{ '{% for entity in entities %}' }}
-        <tr>
+    <tr>
+        
     {%- for field, metadata in fields %}
-        {%- if loop.first and ('show' in actions) %}
-            <td><a href="{{ "{{ path('"~ route_name_prefix ~"_show', { 'id': entity.id }) }}" }}">{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</a></td>
-            
-        {%- elseif metadata.type in ['date', 'datetime'] %}
-            <td>{{ '{% if entity.'~ field|replace({'_': ''}) ~' %}{{ entity.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}{% endif%}' }}</td>
-            
-        {%- else %}
-            <td>{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</td>
-            
-        {%- endif %}
-        {%- if loop.last %}
-            <td>{%- include "views/others/actions.html.twig" %}</td>
-            
-        {%- endif %}
-    {%- endfor %}
-        </tr>
+    {%- if loop.first and ('show' in actions) %}
+        
+        <td><a href="{{ "{{ path('"~ route_name_prefix ~"_show', { 'id': entity.id }) }}" }}">{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</a></td>
+        
+    {%- elseif metadata.type in ['date', 'datetime'] %}
+        
+        <td>{{ '{% if entity.'~ field|replace({'_': ''}) ~' %}{{ entity.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}{% endif%}' }}</td>
+        
+    {%- else %}
+        
+        <td>{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</td>
+        
+    {%- endif %}
+    {%- if loop.last %}
+        
+        <td>{%- include "views/others/actions.html.twig" %}</td>
+        
+    {%- endif %}
+    {%- endfor %}       
+    </tr>
+    
     {{ '{% endfor %}' }}
     </tbody>
 </table>
-
+</div>
+</div>
+</div>
 {{ "{% endblock %}" }}

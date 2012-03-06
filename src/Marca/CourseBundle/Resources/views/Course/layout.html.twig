@@ -10,3 +10,21 @@
 {% endstylesheets %}
 {% endblock %}
 
+{% block body %}
+<div class="row-fluid">
+{% block sidebar %}
+    <div class="span1">
+    <div class="sidebar-nav">
+     <ul class="nav nav-list">
+      <li><a href="{{ path('course') }}">Courses</a></li>
+      <li><a href="{{ path('term') }}">Term</a></li>
+      <li><a href="{{ path('roll') }}">Roll</a></li>
+      <li><a href="{{ path('project') }}">Project</a></li>
+     </ul>
+    </div> 
+    </div>        
+{% endblock %}       
+{% block content %}          
+{% endblock %}
+</div>         
+{% endblock %} 

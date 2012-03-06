@@ -49,7 +49,7 @@ class ProfileController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Profile entity.');
         }
-        return array('entities' => $entities);
+        return array('entity' => $entity);
     }
 
     /**

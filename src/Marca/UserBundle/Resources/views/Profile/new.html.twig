@@ -1,19 +1,20 @@
-{% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
- 
+
+{% extends 'MarcaUserBundle:Profile:layout.html.twig' %}
+
 {% block body %}
-    <div class="row-fluid">
-      <div class="span12">
-        <a class="btn" href="{{ path('user_profile') }}">
-            Back to the list
-        </a>
-          </div>
-        <div class="span12" style="margin-top: 3em">    
-            <form action="{{ path('user_profile_create') }}" method="post" {{ form_enctype(form) }}>
-                 {{ form_widget(form) }}
-                 <p>
-                   <button class="btn" type="submit">Create</button>
-                   </p>
-            </form>
-            </div>
-        </div>
-{% endblock %} 
+<div class="row-fluid">
+<div class="span12">
+        <a class="btn" href="{{ path('user_profile') }}">List</a>
+</div>
+
+<div class="span12" style="margin-top: 3em"> 
+<form action="{{ path('user_profile_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <div>
+        <button class="btn" type="submit">Create</button>
+    </div>
+</form>
+</div>
+</div>
+
+{% endblock %}

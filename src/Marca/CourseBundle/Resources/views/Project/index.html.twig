@@ -1,8 +1,9 @@
 
-{% extends 'MarcaCourseBundle:Project:layout.html.twig' %}
+{% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
 
-{% block body %}
-
+{% block content %}
+<div class="span11">
+    
 <div class="row-fluid">
    <div class="span4">
       <a class="btn btn-primary" href="{{ path('project_new') }}">New</a>
@@ -13,16 +14,34 @@
 <div class="span6">
 <table class="table table-bordered table-condensed table-striped">
 <thead>
-        <tr>            <th>Id</th>            <th>Name</th>            <th>Userid</th>            <th>Courseid</th>            <th>Sortorder</th>            <th>Resource</th>            <th>Actions</th>
-        </tr>
+    <tr>        
+        <th>Id</th>        
+        <th>Name</th>        
+        <th>Userid</th>        
+        <th>Courseid</th>        
+        <th>Sortorder</th>        
+        <th>Resource</th>        
+        <th>Actions</th>
+    </tr>
 </thead>    
 <tbody>
     {% for entity in entities %}
-        <tr><td><a href="{{ path('project_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td><td>{{ entity.name }}</td><td>{{ entity.userid }}</td><td>{{ entity.courseid }}</td><td>{{ entity.sortOrder }}</td><td>{{ entity.resource }}</td><td><a class="btn" href="{{ path('project_show', { 'id': entity.id }) }}">show</a>     <a class="btn" href="{{ path('project_edit', { 'id': entity.id }) }}">edit</a>
-            </td></tr>
+    <tr>        
+        <td><a href="{{ path('project_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>        
+        <td>{{ entity.name }}</td>        
+        <td>{{ entity.userid }}</td>        
+        <td>{{ entity.courseid }}</td>        
+        <td>{{ entity.sortOrder }}</td>        
+        <td>{{ entity.resource }}</td>        
+        <td><div class="btn-group"><a class="btn" href="{{ path('project_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ path('project_edit', { 'id': entity.id }) }}">edit</a></div>
+
+</td>       
+    </tr>
+    
     {% endfor %}
     </tbody>
 </table>
+</div>
 </div>
 </div>
 {% endblock %}
