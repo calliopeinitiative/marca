@@ -3,8 +3,6 @@
 {{ "{% extends '"~ bundlename ~"' %}" }}
 
 {{ "{% block content %}" }}
-<div class="span11">
-
 {% set hide_edit, hide_delete = true, false %}
 {% include 'views/others/record_actions.html.twig' %}
 <div class="row-fluid">    
@@ -14,6 +12,5 @@
         <button class="btn" type="submit">Edit</button>
     </div>
 </form>
-</div>
 </div>
 {{ "{% endblock %}" }}

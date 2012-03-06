@@ -13,8 +13,8 @@
 {% block body %}
 <div class="row-fluid">
 {% block sidebar %}
-    <div class="span1">
-    <div class="sidebar-nav">
+<div class="span2">
+    <div class="well sidebar-nav">
      <ul class="nav nav-list">
       <li><a href="{{ path('course') }}">Courses</a></li>
       <li><a href="{{ path('term') }}">Term</a></li>
@@ -23,8 +23,10 @@
      </ul>
     </div> 
     </div>        
-{% endblock %}       
+{% endblock %}  
+<div class="span10"> 
 {% block content %}          
 {% endblock %}
+</div>   
 </div>         
 {% endblock %} 

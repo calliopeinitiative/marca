@@ -3,8 +3,6 @@
 {{ "{% extends '"~ bundlename ~"' %}" }}
 
 {{ "{% block content %}" }}
-<div class="span11">
-    
 {% if 'new' in actions %}
 <div class="row-fluid">
    <div class="span4">
@@ -57,7 +55,6 @@
     {{ '{% endfor %}' }}
     </tbody>
 </table>
-</div>
 </div>
 </div>
 {{ "{% endblock %}" }}
