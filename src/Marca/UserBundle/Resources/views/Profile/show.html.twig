@@ -4,10 +4,12 @@
 
 <table class="table table-bordered">
     <tbody>
+        {% if is_granted('ROLE_ADMIN') %}
         <tr>
             <th>Id</th>
             <td>{{ entity.id }}</td>
         </tr>
+        {% endif %}
         <tr>
             <th>Lastname</th>
             <td>{{ entity.lastname }}</td>
@@ -32,9 +34,5 @@
             Edit
         </a>
 
-        <form action="{{ path('user_profile_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn" type="submit">Delete</button>
-        </form>
     </div>
 {% endblock %} 

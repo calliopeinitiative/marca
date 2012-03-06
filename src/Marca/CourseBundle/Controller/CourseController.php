@@ -25,10 +25,15 @@ class CourseController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
         $entities = $em->getRepository('MarcaCourseBundle:Course')->findAll();
-
         return array('entities' => $entities);
+        } else {    
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $entities = $em->getRepository('MarcaCourseBundle:Course')->findByUserid($userid);
+        return array('entities' => $entities);
+        }
     }
 
     /**

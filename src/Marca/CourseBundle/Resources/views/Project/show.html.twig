@@ -1,0 +1,28 @@
+
+{% extends 'MarcaCourseBundle:Project:layout.html.twig' %}
+
+{% block body %}
+<div class="row-fluid">
+<div class="span4">    
+<div class="span12">
+        <a class="btn" href="{{ path('project') }}">List</a>
+        <a class="btn" href="{{ path('project_edit', { 'id': entity.id }) }}">Edit</a>
+        <form action="{{ path('project_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn" type="submit">Delete</button>
+        </form>
+</div>
+
+<table class="table table-bordered table-condensed table-striped">
+    <tbody>        <tr>
+            <th>Id</th><td>{{ entity.id }}</td>        </tr>        <tr>
+            <th>Name</th><td>{{ entity.name }}</td>        </tr>        <tr>
+            <th>Userid</th><td>{{ entity.userid }}</td>        </tr>        <tr>
+            <th>Courseid</th><td>{{ entity.courseid }}</td>        </tr>        <tr>
+            <th>Sortorder</th><td>{{ entity.sortOrder }}</td>        </tr>        <tr>
+            <th>Resource</th><td>{{ entity.resource }}</td>        </tr>    </tbody>
+</table>
+</div>        
+</div>
+
+{% endblock %}

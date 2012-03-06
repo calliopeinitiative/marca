@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+{% block title %}Marca Project{% endblock %}
+
+{% block stylesheets %}
+{% stylesheets 
+  'bundles/marcacourse/css/*'
+  filter='cssrewrite'
+%}
+<link rel="stylesheet" href="{{ asset_url }}">
+{% endstylesheets %}
+{% endblock %}

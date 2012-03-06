@@ -6,30 +6,40 @@
 
 {% if 'new' in actions %}
 <div class="row-fluid">
-   <div class="span12">
+   <div class="span4">
       <a class="btn btn-primary" href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}">New</a>
    </div>
 </div> 
 {% endif %}
 
 <div class="row-fluid">
-<div class="span12">
-<table class="table table-bordered">
+<div class="span6">
+<table class="table table-bordered table-condensed table-striped">
+<thead>
+        <tr>
+        {%- for field, metadata in fields %}
+            <th>{{ field|capitalize }}</th>
+        {%- endfor %}
+            <th>Actions</th>
+        </tr>
+</thead>    
 <tbody>
     {{ '{% for entity in entities %}' }}
         <tr>
     {%- for field, metadata in fields %}
         {%- if loop.first and ('show' in actions) %}
             <td><a href="{{ "{{ path('"~ route_name_prefix ~"_show', { 'id': entity.id }) }}" }}">{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</a></td>
+            
         {%- elseif metadata.type in ['date', 'datetime'] %}
             <td>{{ '{% if entity.'~ field|replace({'_': ''}) ~' %}{{ entity.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}{% endif%}' }}</td>
+            
         {%- else %}
             <td>{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</td>
+            
         {%- endif %}
         {%- if loop.last %}
-            <td>
-                {%- include "views/others/actions.html.twig" %}
-            </td>
+            <td>{%- include "views/others/actions.html.twig" %}</td>
+            
         {%- endif %}
     {%- endfor %}
         </tr>
