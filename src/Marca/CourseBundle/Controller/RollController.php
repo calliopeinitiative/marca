@@ -1,13 +1,13 @@
 <?php
 
-namespace Marca\RollBundle\Controller;
+namespace Marca\CourseBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\RollBundle\Entity\Roll;
-use Marca\RollBundle\Form\RollType;
+use Marca\CourseBundle\Entity\Roll;
+use Marca\CourseBundle\Form\RollType;
 
 /**
  * Roll controller.
@@ -26,7 +26,7 @@ class RollController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('MarcaRollBundle:Roll')->findAll();
+        $entities = $em->getRepository('MarcaCourseBundle:Roll')->findAll();
 
         return array('entities' => $entities);
     }
@@ -41,7 +41,7 @@ class RollController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('MarcaRollBundle:Roll')->find($id);
+        $entity = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Roll entity.');
@@ -76,7 +76,7 @@ class RollController extends Controller
      *
      * @Route("/create", name="roll_create")
      * @Method("post")
-     * @Template("MarcaRollBundle:Roll:new.html.twig")
+     * @Template("MarcaCourseBundle:Roll:new.html.twig")
      */
     public function createAction()
     {
@@ -110,7 +110,7 @@ class RollController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('MarcaRollBundle:Roll')->find($id);
+        $entity = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Roll entity.');
@@ -131,13 +131,13 @@ class RollController extends Controller
      *
      * @Route("/{id}/update", name="roll_update")
      * @Method("post")
-     * @Template("MarcaRollBundle:Roll:edit.html.twig")
+     * @Template("MarcaCourseBundle:Roll:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('MarcaRollBundle:Roll')->find($id);
+        $entity = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Roll entity.');
@@ -179,7 +179,7 @@ class RollController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('MarcaRollBundle:Roll')->find($id);
+            $entity = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Roll entity.');

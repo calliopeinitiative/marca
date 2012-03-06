@@ -62,7 +62,25 @@ class CourseController extends Controller
      */
     public function newAction()
     {
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        
         $entity = new Course();
+        $entity->setPortRubricId(1);
+        $entity->setProjectDefaultId(1);
+        $entity->setAssessmentId(1);
+        $entity->setPortStatus(1);
+        $entity->setParentId(1);
+        $entity->setEnroll(true);
+        $entity->setPost(true);
+        $entity->setMulticult(true);
+        $entity->setNotes(true);
+        $entity->setJournal(true);
+        $entity->setPortfolio(true);
+        $entity->setZine(false);
+        $entity->setStudentForum(false);
+        $entity->setUserid($userid);
+        
         $form   = $this->createForm(new CourseType(), $entity);
 
         return array(
@@ -80,7 +98,11 @@ class CourseController extends Controller
      */
     public function createAction()
     {
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        
         $entity  = new Course();
+        $entity->setUserid($userid);
         $request = $this->getRequest();
         $form    = $this->createForm(new CourseType(), $entity);
         $form->bindRequest($request);

@@ -30,11 +30,9 @@ class Course
     private $name;
 
     /**
-     * @var string $term
-     *
-     * @ORM\Column(name="term", type="string", length=255)
-     */
-    private $term;
+    * @ORM\ManyToOne(targetEntity="Term", inversedBy="course")
+    */
+    protected $term;
 
     /**
      * @var time $time
@@ -46,7 +44,7 @@ class Course
     /**
      * @var integer $userid
      *
-     * @ORM\Column(name="userid", type="integer")
+     * @ORM\Column(name="userid", type="integer", nullable=true)
      */
     private $userid;
 
@@ -190,26 +188,6 @@ class Course
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set term
-     *
-     * @param string $term
-     */
-    public function setTerm($term)
-    {
-        $this->term = $term;
-    }
-
-    /**
-     * Get term
-     *
-     * @return string 
-     */
-    public function getTerm()
-    {
-        return $this->term;
     }
 
     /**
@@ -570,5 +548,25 @@ class Course
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set term
+     *
+     * @param Marca\CourseBundle\Entity\Term $term
+     */
+    public function setTerm(\Marca\CourseBundle\Entity\Term $term)
+    {
+        $this->term = $term;
+    }
+
+    /**
+     * Get term
+     *
+     * @return Marca\CourseBundle\Entity\Term 
+     */
+    public function getTerm()
+    {
+        return $this->term;
     }
 }

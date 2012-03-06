@@ -11,22 +11,22 @@ class CourseType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('term')
+            ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'property'=>'termName', ))
             ->add('time')
-            ->add('userid')
+            ->add('userid', 'hidden')
             ->add('enroll')
             ->add('post')
-            ->add('portRubricId')
+            ->add('portRubricId', 'hidden')
             ->add('multicult')
-            ->add('projectDefaultId')
-            ->add('parentId')
-            ->add('assessmentId')
+            ->add('projectDefaultId', 'hidden')
+            ->add('parentId', 'hidden')
+            ->add('assessmentId', 'hidden')
             ->add('studentForum')
             ->add('notes')
             ->add('journal')
             ->add('portfolio')
             ->add('zine')
-            ->add('portStatus')
+            ->add('portStatus', 'hidden')
         ;
     }
 

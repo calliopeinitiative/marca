@@ -1,14 +1,14 @@
 <?php
 
-namespace Marca\RollBundle\Entity;
+namespace Marca\CourseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Marca\RollBundle\Entity\Roll
+ * Marca\CourseBundle\Entity\Roll
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Marca\CourseBundle\Entity\RollRepository")
  */
 class Roll
 {

@@ -23,6 +23,13 @@ class Profile
     private $id;
 
     /**
+     * @var string $username
+     *
+     * @ORM\Column(name="username", type="string", length=255, nullable=true)
+     */
+    private $username;
+    
+    /**
      * @var string $lastname
      *
      * @ORM\Column(name="lastname", type="string", length=255)
@@ -165,5 +172,25 @@ class Profile
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string 
+     */
+    public function getUsername()
+    {
+        return $this->username;
     }
 }

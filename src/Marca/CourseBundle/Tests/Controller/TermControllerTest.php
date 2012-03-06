@@ -1,10 +1,10 @@
 <?php
 
-namespace Marca\RollBundle\Tests\Controller;
+namespace Marca\CourseBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class RollControllerTest extends WebTestCase
+class TermControllerTest extends WebTestCase
 {
     /*
     public function testCompleteScenario()
@@ -13,13 +13,13 @@ class RollControllerTest extends WebTestCase
         $client = static::createClient();
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/roll/');
+        $crawler = $client->request('GET', '/term/');
         $this->assertTrue(200 === $client->getResponse()->getStatusCode());
         $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'roll[field_name]'  => 'Test',
+            'term[field_name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -33,7 +33,7 @@ class RollControllerTest extends WebTestCase
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
         $form = $crawler->selectButton('Edit')->form(array(
-            'roll[field_name]'  => 'Foo',
+            'term[field_name]'  => 'Foo',
             // ... other fields to fill
         ));
 

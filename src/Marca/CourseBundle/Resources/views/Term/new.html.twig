@@ -1,0 +1,19 @@
+{% extends 'MarcaCourseBundle:Term:layout.html.twig' %}
+
+{% block body %}
+<div class="row-fluid">
+<div class="span12">
+        <a class="btn" href="{{ path('term') }}">List</a>
+</div>
+
+<div class="span12" style="margin-top: 3em"> 
+<form action="{{ path('term_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <div>
+        <button class="btn" type="submit">Create</button>
+    </div>
+</form>
+</div>
+</div>
+
+{% endblock %}

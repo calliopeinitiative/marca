@@ -1,24 +1,24 @@
 <?php
 
-namespace Marca\UserBundle\Form;
+namespace Marca\CourseBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 
-class ProfileType extends AbstractType
+class RollType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('firstname')
-            ->add('lastname')
-            ->add('username')    
-            ->add('email')
+            ->add('userid')
+            ->add('courseid')
+            ->add('role')
+            ->add('status')
         ;
     }
 
     public function getName()
     {
-        return 'marca_userbundle_profiletype';
+        return 'marca_coursebundle_rolltype';
     }
 }

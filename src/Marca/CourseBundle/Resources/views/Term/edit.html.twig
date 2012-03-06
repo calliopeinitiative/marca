@@ -1,0 +1,20 @@
+{% extends 'MarcaCourseBundle:Term:layout.html.twig' %}
+
+{% block body %}
+<div class="row-fluid">
+<div class="span12">
+        <a class="btn" href="{{ path('term') }}">List</a>
+        <form action="{{ path('term_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn" type="submit">Delete</button>
+        </form>
+</div>
+<form action="{{ path('term_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+    <div>
+        <button class="btn" type="submit">Edit</button>
+    </div>
+</form>
+</div>
+
+{% endblock %}
