@@ -3,6 +3,7 @@
 namespace Marca\CourseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -145,6 +146,25 @@ class Course
      * @ORM\Column(name="portStatus", type="boolean")
      */
     private $portStatus;
+  
+    /**
+     * @ORM\OneToMany(targetEntity="Project", mappedBy="course")
+     */
+    protected $project;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Roll", mappedBy="course")
+     */
+    protected $roll;
+
+    public function __construct()
+    {
+        $this->roll = new ArrayCollection();
+        $this->project = new ArrayCollection();
+    } 
+    
+
+  
 
     /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -568,5 +588,45 @@ class Course
     public function getTerm()
     {
         return $this->term;
+    }
+
+    /**
+     * Add roll
+     *
+     * @param Marca\CourseBundle\Entity\Roll $roll
+     */
+    public function addRoll(\Marca\CourseBundle\Entity\Roll $roll)
+    {
+        $this->roll[] = $roll;
+    }
+
+    /**
+     * Get roll
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getRoll()
+    {
+        return $this->roll;
+    }
+
+    /**
+     * Add project
+     *
+     * @param Marca\CourseBundle\Entity\Project $project
+     */
+    public function addProject(\Marca\CourseBundle\Entity\Project $project)
+    {
+        $this->project[] = $project;
+    }
+
+    /**
+     * Get project
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getProject()
+    {
+        return $this->project;
     }
 }

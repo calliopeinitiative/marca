@@ -7,6 +7,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\CourseBundle\Entity\Course;
+use Marca\CourseBundle\Entity\Roll;
+use Marca\UserBundle\Entity\Profile;
+use Marca\CourseBundle\Entity\Project;
 use Marca\CourseBundle\Form\CourseType;
 
 /**
@@ -47,7 +50,11 @@ class CourseController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
-
+        $projects = $entity->getProject();      
+        $dql1 = "SELECT p.lastname,p.firstname,r.role from MarcaUserBundle:Profile p JOIN p.roll r JOIN r.course c 
+            WHERE c.id = ?1 ORDER BY p.lastname,p.firstname";
+        $roll = $em->createQuery($dql1)->setParameter('1',$id)->getResult();
+       
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
@@ -56,6 +63,8 @@ class CourseController extends Controller
 
         return array(
             'entity'      => $entity,
+            'projects'    => $projects,
+            'roll'        => $roll, 
             'delete_form' => $deleteForm->createView(),        );
     }
 
@@ -111,10 +120,49 @@ class CourseController extends Controller
         $request = $this->getRequest();
         $form    = $this->createForm(new CourseType(), $entity);
         $form->bindRequest($request);
+        
+        $roll = new Roll();
+        $roll->setUserid($userid);
+        $roll->setRole(1);
+        $roll->setStatus(1);
+        $roll->setCourse($entity);
+        
+        $project1 = new Project();
+        $project1->setName('Paper 1');
+        $project1->setUserid($userid);
+        $project1->setSortOrder(1);
+        $project1->setResource('f');
+        $project1->setCourse($entity);
+        
+        $project2 = new Project();
+        $project2->setName('Paper 2');
+        $project2->setUserid($userid);
+        $project2->setSortOrder(2);
+        $project2->setResource('f');
+        $project2->setCourse($entity);
+        
+        $project3 = new Project();
+        $project3->setName('Paper 3');
+        $project3->setUserid($userid);
+        $project3->setSortOrder(3);
+        $project3->setResource('f');
+        $project3->setCourse($entity);
+        
+        $project4 = new Project();
+        $project4->setName('Portfolio Prep');
+        $project4->setUserid($userid);
+        $project4->setSortOrder(4);
+        $project4->setResource('f');
+        $project4->setCourse($entity);        
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
+            $em->persist($roll);
+            $em->persist($project1);
+            $em->persist($project2);
+            $em->persist($project3);
+            $em->persist($project4);
             $em->flush();
 
             return $this->redirect($this->generateUrl('course_show', array('id' => $entity->getId())));

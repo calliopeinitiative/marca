@@ -12,7 +12,6 @@ class ProjectType extends AbstractType
         $builder
             ->add('name')
             ->add('userid')
-            ->add('courseid')
             ->add('sortOrder')
             ->add('resource')
         ;

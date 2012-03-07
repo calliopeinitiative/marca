@@ -15,7 +15,6 @@
     <tr>        
         <th>Id</th>        
         <th>Userid</th>        
-        <th>Courseid</th>        
         <th>Role</th>        
         <th>Status</th>        
         <th>Actions</th>
@@ -26,7 +25,6 @@
     <tr>        
         <td><a href="{{ path('roll_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>        
         <td>{{ entity.userid }}</td>        
-        <td>{{ entity.courseid }}</td>        
         <td>{{ entity.role }}</td>        
         <td>{{ entity.status }}</td>        
         <td><div class="btn-group"><a class="btn" href="{{ path('roll_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ path('roll_edit', { 'id': entity.id }) }}">edit</a></div>

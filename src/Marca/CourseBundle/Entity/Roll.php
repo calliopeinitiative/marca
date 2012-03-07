@@ -29,13 +29,6 @@ class Roll
     private $userid;
 
     /**
-     * @var integer $courseid
-     *
-     * @ORM\Column(name="courseid", type="integer")
-     */
-    private $courseid;
-
-    /**
      * @var integer $role
      *
      * @ORM\Column(name="role", type="integer")
@@ -49,6 +42,17 @@ class Roll
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="roll")
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $course; 
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="\Marca\UserBundle\Entity\Profile", inversedBy="roll")
+     * @ORM\JoinColumn(name="userid", referencedColumnName="id")
+     */
+    protected $profile;    
 
     /**
      * Get id
@@ -78,26 +82,6 @@ class Roll
     public function getUserid()
     {
         return $this->userid;
-    }
-
-    /**
-     * Set courseid
-     *
-     * @param integer $courseid
-     */
-    public function setCourseid($courseid)
-    {
-        $this->courseid = $courseid;
-    }
-
-    /**
-     * Get courseid
-     *
-     * @return integer 
-     */
-    public function getCourseid()
-    {
-        return $this->courseid;
     }
 
     /**
@@ -138,5 +122,45 @@ class Roll
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set course
+     *
+     * @param Marca\CourseBundle\Entity\Course $course
+     */
+    public function setCourse(\Marca\CourseBundle\Entity\Course $course)
+    {
+        $this->course = $course;
+    }
+
+    /**
+     * Get course
+     *
+     * @return Marca\CourseBundle\Entity\Course 
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }  
+
+    /**
+     * Set profile
+     *
+     * @param Marca\UserBundle\Entity\Profile $profile
+     */
+    public function setProfile(\Marca\UserBundle\Entity\Profile $profile)
+    {
+        $this->profile = $profile;
+    }
+
+    /**
+     * Get profile
+     *
+     * @return Marca\UserBundle\Entity\Profile 
+     */
+    public function getProfile()
+    {
+        return $this->profile;
     }
 }

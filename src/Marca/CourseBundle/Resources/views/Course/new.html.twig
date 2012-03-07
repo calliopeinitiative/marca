@@ -12,7 +12,7 @@
 </div>
 
 <div class="row-fluid">
-<form action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
     {{ form_widget(form) }}
     <div>
         <button class="btn" type="submit">Create</button>

@@ -11,7 +11,6 @@ class RollType extends AbstractType
     {
         $builder
             ->add('userid')
-            ->add('courseid')
             ->add('role')
             ->add('status')
         ;

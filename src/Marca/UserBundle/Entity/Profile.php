@@ -50,6 +50,16 @@ class Profile
      */
     private $email;
     
+     /**
+     * @ORM\OneToMany(targetEntity="\Marca\CourseBundle\Entity\Roll", mappedBy="profile")
+     */
+    protected $roll;
+
+    public function __construct()
+    {
+        $this->roll = new ArrayCollection();
+    }
+    
     /**
     * @ORM\Column(type="datetime", nullable=true)
     * @Gedmo\Timestampable(on="create")

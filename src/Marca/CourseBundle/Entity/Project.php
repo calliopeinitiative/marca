@@ -36,12 +36,11 @@ class Project
     private $userid;
 
     /**
-     * @var integer $courseid
-     *
-     * @ORM\Column(name="courseid", type="integer")
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="project")
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $courseid;
-
+    protected $course;   
+    
     /**
      * @var integer $sortOrder
      *
@@ -165,5 +164,25 @@ class Project
     public function getResource()
     {
         return $this->resource;
+    }
+
+    /**
+     * Set course
+     *
+     * @param Marca\CourseBundle\Entity\Course $course
+     */
+    public function setCourse(\Marca\CourseBundle\Entity\Course $course)
+    {
+        $this->course = $course;
+    }
+
+    /**
+     * Get course
+     *
+     * @return Marca\CourseBundle\Entity\Course 
+     */
+    public function getCourse()
+    {
+        return $this->course;
     }
 }
