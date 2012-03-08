@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class RollRepository extends EntityRepository
 {
+       public function findRollByCourse($id)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT p.lastname,p.firstname,r.role from MarcaCourseBundle:Roll r JOIN r.profile p JOIN r.course c WHERE c.id = ?1 ORDER BY p.lastname,p.firstname')->setParameter('1',$id)->getResult();
+    }
 }
