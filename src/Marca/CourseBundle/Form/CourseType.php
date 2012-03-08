@@ -12,7 +12,7 @@ class CourseType extends AbstractType
         $builder
             ->add('name')
             ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'property'=>'termName', ))
-            ->add('time')
+            ->add('time', 'time', array('widget' => 'single_text')) 
             ->add('userid', 'hidden')
             ->add('enroll')
             ->add('post')
