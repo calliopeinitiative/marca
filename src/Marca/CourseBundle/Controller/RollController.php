@@ -25,8 +25,8 @@ class RollController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-
-        $entities = $em->getRepository('MarcaCourseBundle:Roll')->findAll();
+        $dql1 = "SELECT p.lastname,p.firstname,r.role,r.status,r.id from MarcaCourseBundle:Roll r JOIN r.profile p ORDER BY p.lastname,p.firstname";
+        $entities = $em->createQuery($dql1)->getResult();
 
         return array('entities' => $entities);
     }

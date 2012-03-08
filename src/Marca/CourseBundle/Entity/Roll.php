@@ -20,14 +20,7 @@ class Roll
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var integer $userid
-     *
-     * @ORM\Column(name="userid", type="integer")
-     */
-    private $userid;
-
+    
     /**
      * @var integer $role
      *
@@ -49,11 +42,11 @@ class Roll
     protected $course; 
     
     /**
-     * @ORM\ManyToOne(targetEntity="\Marca\UserBundle\Entity\Profile", inversedBy="roll")
-     * @ORM\JoinColumn(name="userid", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\Profile", inversedBy="roll")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    protected $profile;    
-
+    protected $profile; 
+    
     /**
      * Get id
      *
@@ -62,26 +55,6 @@ class Roll
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set userid
-     *
-     * @param integer $userid
-     */
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
-    }
-
-    /**
-     * Get userid
-     *
-     * @return integer 
-     */
-    public function getUserid()
-    {
-        return $this->userid;
     }
 
     /**
@@ -142,7 +115,9 @@ class Roll
     public function getCourse()
     {
         return $this->course;
-    }  
+    }
+
+
 
     /**
      * Set profile

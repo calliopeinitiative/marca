@@ -49,7 +49,7 @@ class Profile
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
-    
+ 
      /**
      * @ORM\OneToMany(targetEntity="\Marca\CourseBundle\Entity\Roll", mappedBy="profile")
      */
@@ -58,7 +58,8 @@ class Profile
     public function __construct()
     {
         $this->roll = new ArrayCollection();
-    }
+    } 
+    
     
     /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -202,5 +203,26 @@ class Profile
     public function getUsername()
     {
         return $this->username;
+    }
+
+
+    /**
+     * Add roll
+     *
+     * @param Marca\CourseBundle\Entity\Roll $roll
+     */
+    public function addRoll(\Marca\CourseBundle\Entity\Roll $roll)
+    {
+        $this->roll[] = $roll;
+    }
+
+    /**
+     * Get roll
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getRoll()
+    {
+        return $this->roll;
     }
 }

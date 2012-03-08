@@ -51,8 +51,7 @@ class CourseController extends Controller
 
         $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
         $projects = $entity->getProject();      
-        $dql1 = "SELECT p.lastname,p.firstname,r.role from MarcaUserBundle:Profile p JOIN p.roll r JOIN r.course c 
-            WHERE c.id = ?1 ORDER BY p.lastname,p.firstname";
+        $dql1 = "SELECT p.lastname,p.firstname,r.role from MarcaCourseBundle:Roll r JOIN r.profile p JOIN r.course c WHERE c.id = ?1 ORDER BY p.lastname,p.firstname";
         $roll = $em->createQuery($dql1)->setParameter('1',$id)->getResult();
        
         if (!$entity) {
@@ -111,9 +110,10 @@ class CourseController extends Controller
      * @Template("MarcaCourseBundle:Course:new.html.twig")
      */
     public function createAction()
-    {
+    {   $em = $this->getDoctrine()->getEntityManager();
         $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username); 
+        $userid = $profile->getId();
         
         $entity  = new Course();
         $entity->setUserid($userid);
@@ -122,8 +122,8 @@ class CourseController extends Controller
         $form->bindRequest($request);
         
         $roll = new Roll();
-        $roll->setUserid($userid);
         $roll->setRole(1);
+        $roll->setProfile($profile);
         $roll->setStatus(1);
         $roll->setCourse($entity);
         
