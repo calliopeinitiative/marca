@@ -111,6 +111,13 @@ class Course
      * @ORM\Column(name="notes", type="boolean")
      */
     private $notes;
+    
+    /**
+     * @var boolean $forum
+     *
+     * @ORM\Column(name="forum", type="boolean")
+     */
+    private $forum;    
 
     /**
      * @var boolean $journal
@@ -628,5 +635,25 @@ class Course
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * Set forum
+     *
+     * @param boolean $forum
+     */
+    public function setForum($forum)
+    {
+        $this->forum = $forum;
+    }
+
+    /**
+     * Get forum
+     *
+     * @return boolean 
+     */
+    public function getForum()
+    {
+        return $this->forum;
     }
 }

@@ -86,7 +86,7 @@ class CourseController extends Controller
         $entity->setParentId(1);
         $entity->setEnroll(true);
         $entity->setPost(true);
-        $entity->setMulticult(true);
+        $entity->setMulticult(false);
         $entity->setNotes(true);
         $entity->setJournal(true);
         $entity->setPortfolio(true);
@@ -131,28 +131,28 @@ class CourseController extends Controller
         $project1->setName('Paper 1');
         $project1->setUserid($userid);
         $project1->setSortOrder(1);
-        $project1->setResource('f');
+        $project1->setResource('t');
         $project1->setCourse($entity);
         
         $project2 = new Project();
         $project2->setName('Paper 2');
         $project2->setUserid($userid);
         $project2->setSortOrder(2);
-        $project2->setResource('f');
+        $project2->setResource('t');
         $project2->setCourse($entity);
         
         $project3 = new Project();
         $project3->setName('Paper 3');
         $project3->setUserid($userid);
         $project3->setSortOrder(3);
-        $project3->setResource('f');
+        $project3->setResource('t');
         $project3->setCourse($entity);
         
         $project4 = new Project();
         $project4->setName('Portfolio Prep');
         $project4->setUserid($userid);
         $project4->setSortOrder(4);
-        $project4->setResource('f');
+        $project4->setResource('t');
         $project4->setCourse($entity);        
 
         if ($form->isValid()) {

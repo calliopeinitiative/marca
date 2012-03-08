@@ -2,22 +2,39 @@
 {% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
 
 {% block content %}
-<div class="span11">
-<div class="row-fluid">
-<div class="span1">
-<div class="btn-group">
-<a class="btn" href="{{ path('course') }}">List</a>
-</div> 
-</div>       
-</div>
+<div class="span6">
 
 <div class="row-fluid">
-    <form action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-    {{ form_widget(form) }}
-    <div>
-        <button class="btn" type="submit">Create</button>
-    </div>
-</form>
+<h2>Course Preferences</h2>    
+<form action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate"> 
+    {{ form_errors(form) }}
+        
+    {{ form_widget (form.userid) }}{{ form_widget (form.parentId) }}{{ form_widget (form.assessmentId) }}
+        
+    {{ form_errors (form.name) }}{{ form_errors (form.term) }}{{ form_errors (form.time) }}{{ form_errors (form.userid) }}{{ form_errors (form.enroll) }}{{ form_errors (form.post) }}{{ form_errors (form.multicult) }}{{ form_errors (form.parentId) }}{{ form_errors (form.assessmentId) }}{{ form_errors (form.studentForum) }}{{ form_errors (form.notes) }}{{ form_errors (form.forum) }}{{ form_errors (form.journal) }}{{ form_errors (form.portfolio) }}{{ form_errors (form.zine) }}    
+
+    <table class="table table-bordered table-condensed table-striped">
+    <tbody>
+    <tr><th>Name</th><td>{{ form_widget (form.name) }}</td></tr>       
+    <tr><th>Term</th><td>{{ form_widget (form.term) }}</td></tr> 
+    <tr><th>Time</th><td>{{ form_widget (form.time) }}</td></tr>      
+    <tr><th>Students can enroll in this course: </th><td>{{ form_widget (form.enroll) }}</td></tr>  
+    <tr><th>Students can post to Projects:  </th><td>{{ form_widget (form.post) }}</td></tr>  
+    <tr><th>Show Multicultural Resources: </th><td> {{ form_widget (form.multicult) }}</td></tr>   
+    <tr><th>Can Student Initiate Forum Discussions</th><td>{{ form_widget (form.studentForum) }}</td></tr>  
+    <tr><th>Display Notes Tool:  </th><td>{{ form_widget (form.notes) }}</td></tr>   
+    <tr><th>Display Forum Tool:  </th><td>{{ form_widget (form.forum) }}</td></tr>  
+    <tr><th>Display Journal Tool:  </th><td>{{ form_widget (form.journal) }}</td></tr>  
+    <tr><th>Display Portfolio Tool:</th><td>{{ form_widget (form.portfolio) }}</td></tr>  
+    <tr><th>Display Zine:  </th><td>{{ form_widget (form.zine) }}</td></tr>       
+    <tr><th></th><td><input class="btn btn-primary" type="submit" value="Create"/><a style="margin-left: 1em;" class="btn" href="{{ path('course') }}">Cancel</a></td></tr>    
+</tbody>
+</table>
+{{ form_rest(form) }}        
+</form> 
+     
 </div>
 </div>
 {% endblock %}
+
+

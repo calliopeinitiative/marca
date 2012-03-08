@@ -23,6 +23,7 @@ class CourseType extends AbstractType
             ->add('assessmentId', 'hidden')
             ->add('studentForum')
             ->add('notes')
+            ->add('forum')  
             ->add('journal')
             ->add('portfolio')
             ->add('zine')

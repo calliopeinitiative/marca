@@ -13,8 +13,7 @@ class ProjectType extends AbstractType
             ->add('name')
             ->add('userid','hidden')
             ->add('sortOrder', 'text', array('label'  => 'Order in Display',))
-            ->add('resource', 'boolean', array('label'  => 'Show in Resources',))
-            ->add('resource')   
+            ->add('resource', 'choice', array('choices'   => array('t' => 'Yes', 'f' => 'No'),'required'  => true,'label'  => 'Display in Resources',))
         ;
     }
 

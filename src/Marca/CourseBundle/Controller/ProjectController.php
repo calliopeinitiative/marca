@@ -63,6 +63,7 @@ class ProjectController extends Controller
     public function newAction()
     {
         $entity = new Project();
+        $entity->setResource('t');
         $form   = $this->createForm(new ProjectType(), $entity);
 
         return array(
