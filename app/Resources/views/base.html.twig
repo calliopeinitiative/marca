@@ -13,7 +13,7 @@
 <div class="navbar">
     <div class="navbar-inner">
       <div class="container" style="width: auto;">
-        <a class="brand" href="#">Marca</a>
+        <a class="brand" href="{{ path('home') }}" title="Marca Homepage">Marca</a>
         <div class="nav-collapse">
           <ul class="nav pull-left">            
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}

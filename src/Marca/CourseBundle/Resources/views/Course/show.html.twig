@@ -97,11 +97,22 @@
 
 <div class="span4 well"> 
     <h2>Projects</h2>
-    {% for project in projects %}
-    <ul class="unstyled">      
-        <li>{{ project.name }}</li>         
-    </ul> 
+    <table class="table table-condensed">
+    <tbody>  
+    {% for project in projects %}       
+    <tr>
+        <th>{{ project.name }}</th>         
+        <td><a class="btn btn-small btn-primary" href="{{ path('project_edit', { 'id': project.id }) }}">Edit</a></td>  
+        <td>
+            <form action="{{ path('project_delete', { 'id': project.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+         </td>       
+    </tr> 
     {% endfor %}
+    </tbody>
+    </table>
     <hr/>
     <h2>Roll</h2>
     {% for roll in roll %}

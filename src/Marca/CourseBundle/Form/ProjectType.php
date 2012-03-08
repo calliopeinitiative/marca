@@ -11,9 +11,10 @@ class ProjectType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('userid')
-            ->add('sortOrder')
-            ->add('resource')
+            ->add('userid','hidden')
+            ->add('sortOrder', 'text', array('label'  => 'Order in Display',))
+            ->add('resource', 'boolean', array('label'  => 'Show in Resources',))
+            ->add('resource')   
         ;
     }
 

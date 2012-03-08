@@ -2,28 +2,18 @@
 {% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-<div class="span2">
-<div class="btn-group">
-<a class="btn" href="{{ path('project') }}">List</a>
- 
-</div> 
-</div>       
-  
-<div class="span1">        
-<form action="{{ path('project_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
-</form>
-</div>
-  
-</div>
 <div class="row-fluid">    
 <form action="{{ path('project_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}
-    <div>
-        <button class="btn" type="submit">Edit</button>
-    </div>
+<div class="row-fluid">
+        <button class="btn btn-primary" type="submit">Edit</button>
+</div>
 </form>
+</div>
+
+<div class="row-fluid">
+<div class="span2">
+<a class="btn btn-info" href="{{ path('project') }}">Return to Course Detail</a>
+</div>       
 </div>
 {% endblock %}

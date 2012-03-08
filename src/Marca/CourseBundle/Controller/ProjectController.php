@@ -138,6 +138,7 @@ class ProjectController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('MarcaCourseBundle:Project')->find($id);
+        $courseid = $entity->getCourse()->getId();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
@@ -154,7 +155,7 @@ class ProjectController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('project_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('course_show', array('id' => $courseid)));
         }
 
         return array(
