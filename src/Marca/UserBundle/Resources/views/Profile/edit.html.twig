@@ -2,25 +2,24 @@
 {% extends 'MarcaUserBundle:Profile:layout.html.twig' %}
 
 {% block content %}
-{% if is_granted('ROLE_ADMIN') %}
+
 <div class="row-fluid">
-<div class="span12">
+<div class="span6 well">
+    <h3>Please update your Profile</h3>
+<form action="{{ path('user_profile_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+    <div>
+        <button class="btn btn-primary" type="submit">Update</button>
+    </div>
+</form>
+        
+{% if is_granted('ROLE_ADMIN') %}
         <a class="btn" href="{{ path('user_profile') }}">List</a>
         <form action="{{ path('user_profile_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn" type="submit">Delete</button>
-        </form>
-</div>
-</div>        
-{% endif %} 
-<div class="row-fluid">
-<div class="span12">
-<form action="{{ path('user_profile_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-    <div>
-        <button class="btn" type="submit">Update</button>
-    </div>
-</form>
+        </form>     
+{% endif %}         
 </div>
 </div>        
 {% endblock %}

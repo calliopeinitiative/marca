@@ -3,12 +3,12 @@
 
 {% block content %}
 <div class="row-fluid">
-<div class="span6 well"><h3>Please complete the registration process by telling us about you.</h3>
+<div class="span6 well"><h3>To enroll in a course, enter your instructor's last name.</h3>
 
 <form action="{{ path('user_profile_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>
-        <button class="btn btn-primary" type="submit">Update Profile</button>
+        <button class="btn btn-primary" type="submit">Find Course</button>
     </div>
 </form>
 </div>

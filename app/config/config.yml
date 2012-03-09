@@ -71,4 +71,6 @@ fos_user:
             enabled:    true
     from_email:
         address:        rlbaltha@uga.edu
-        sender_name:    Marca Dev     
+        sender_name:    Marca Dev  
+        
+

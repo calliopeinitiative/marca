@@ -1,31 +1,51 @@
 {% extends '::base.html.twig' %}
-{% block body %}
-    <div class="row-fluid">
-        <div class="span12">
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
-                <div class="cell">
-                <a href="{{ path('fos_user_security_logout') }}">
-                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                </a>
-                </div>
-            {% else %}
-                <div class="span12"><a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a></div>
-            {% endif %}
-        </div>
+{% block title %}Marca Profile{% endblock %}
 
-        {% for key, message in app.session.getFlashes() %}
-        <div class="span12">
-        <div class="{{ key }}">
-            {{ message|trans({}, 'FOSUserBundle') }}
-        </div>
-        </div>
-        
-        {% endfor %}
-
-        <div class="span12">
-            {% block fos_user_content %}
-            {% endblock fos_user_content %}
-        </div>
-    </div>
+{% block stylesheets %}
+{% stylesheets 
+  'bundles/marcauser/css/*'
+  filter='cssrewrite'
+%}
+<link rel="stylesheet" href="{{ asset_url }}">
+{% endstylesheets %}
 {% endblock %}
+
+{% block body %}
+<div class="row-fluid">
+
+<div class="span2">
+<div class="well sidebar-nav">
+ <ul class="nav nav-list">
+   {% if is_granted('ROLE_USER') %}
+ <li><a href="{{ path('user_profile') }}">Profile</a></li>
+ <li><a href="{{ path('enroll_find') }}">Enroll</a></li>
+ <li> <a class='last' title="Logout" href="{{ path('fos_user_change_password') }}">Change Password</a></li> 
+   {% endif %}
+ </ul>
+</div> 
+</div>
+
+   
+<div class="span6 well">
+<h3>Change your password</h3>
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+<a href="{{ path('fos_user_security_logout') }}">
+{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+</a>
+{% else %}
+<a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a>{% endif %}
+
+{% for key, message in app.session.getFlashes() %}
+<div class="{{ key }}">
+{{ message|trans({}, 'FOSUserBundle') }}
+</div>
+{% endfor %}
+
+{% block fos_user_content %}
+{% endblock fos_user_content %}
+</div>
+
+
+</div>   
+{% endblock %} 

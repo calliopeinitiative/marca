@@ -2,6 +2,7 @@
 
 namespace Marca\UserBundle\Controller;
 
+use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -28,11 +29,14 @@ class ProfileController extends Controller
         if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
         $entities = $em->getRepository('MarcaUserBundle:Profile')->findAll();
         return array('entities' => $entities);
-        } else {
+        } else {          
         $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
-        $entity = $em->getRepository('MarcaUserBundle:Profile')->find($userid);
-        return $this->render('MarcaUserBundle:Profile:show.html.twig', array('entity' => $entity));
+        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username);
+        if (!$userid){
+        return $this->redirect($this->generateUrl('user_profile_new'));    
+        }
+        $userid = $userid->getId();  
+        return $this->redirect($this->generateUrl('user_profile_edit', array('id' => $userid)));
         }
     }
 
@@ -60,7 +64,14 @@ class ProfileController extends Controller
      */
     public function newAction()
     {
+        $username = $this->get('security.context')->getToken()->getUsername();
+        
+        $userManager = $this->get('fos_user.user_manager');
+        $userEmail = $userManager->findUserByUsername($username)->getEmail();
+        
         $entity = new Profile();
+        $entity->setUsername($username);
+        $entity->setEmail($userEmail);
         $form   = $this->createForm(new ProfileType(), $entity);
 
         return array(
