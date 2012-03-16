@@ -19,9 +19,6 @@
           <ul class="nav pull-left">            
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             <li> <a class='last' title="Logout" href="{{ path('fos_user_security_logout') }}">Logout</a></li> 
-            {% if is_granted('ROLE_INSTR') %}
-            <li><a href="{{ path('course') }}">Courses</a></li>
-            {% endif %}
             {% else %}
             <li> <a class='last' title="Login" href="{{ path('fos_user_security_login') }}">Login</a></li> 
             {% endif %}          
@@ -42,7 +39,6 @@
 <!-- Footer
 ================================================== -->
 <footer class="footer" style="margin-top: 3em;padding-top: 1em;border-top: grey solid 1px">
-<p class="pull-right"><a href="#">Back to top</a></p>
 <p>The Calliope Initiative offers hosting, support, consulting, and development for the  Marca writing web application.</p>
 <p>For more information about Calliope, please contact robin@calliopeinitiative.org</p>    
 </footer> 

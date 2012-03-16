@@ -3,41 +3,28 @@
 namespace Marca\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\UserBundle\Entity\Profile;
-use Marca\UserBundle\Form\ProfileType;
 
 /**
- * Profile controller.
+ * Enroll controller.
  *
- * @Route("/enroll")
+ * @Route("/user")
  */
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/home", name="user_home")
      * @Template()
      */
     public function indexAction()
     {
+        $em = $this->getDoctrine()->getEntityManager();
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username);       
+        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUserId($userid);
+        
+        return array('profile' => $profile,'courses' => $courses);
     }
-    
-    /**
-     * @Route("/find", name="enroll_find")
-     * @Template()
-     */
-    public function findCourseAction()
-    {
-        $entity = new Profile();
-        $form = $this->createFormBuilder($entity)
-            ->add('lastname')
-            ->getForm();
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView()
-        );
-    }    
 }
