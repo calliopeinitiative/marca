@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+{% block title %}Marca Profile{% endblock %}
+
+{% block stylesheets %}
+{% stylesheets 
+  'bundles/marcauser/css/*'
+  filter='cssrewrite'
+%}
+<link rel="stylesheet" href="{{ asset_url }}">
+{% endstylesheets %}
+{% endblock %}
+
+{% block subnav %}
+<li><a href="{{ path('home') }}">Journal</a></li>
+{% endblock %}
+
+{% block body %}
+<div class="row-fluid">
+{% block sidebar %}
+<div class="span2">
+    <div class="well sidebar-nav">
+     <ul class="nav nav-list">   
+       {% if is_granted('ROLE_USER') %}
+             <li><a href="{{ path('user_home') }}">Home</a></li>
+       {% endif %}
+     </ul>
+    </div> 
+    </div>        
+{% endblock %}  
+<div class="span10"> 
+{% block content %}          
+{% endblock %}
+</div>   
+</div>         
+{% endblock %} 
+

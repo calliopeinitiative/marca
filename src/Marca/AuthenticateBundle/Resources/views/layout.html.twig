@@ -1,6 +1,7 @@
 {% extends 'MarcaUserBundle:Profile:layout.html.twig' %}
 
 {% block content %}
+<div class="row-fluid">
 <div class="span6 well">
     <h3>Welcome to Marca</h3> 
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
@@ -18,6 +19,7 @@
 
 {% block fos_user_content %}
 {% endblock fos_user_content %}
+</div>
 </div>
 {% endblock %}
 

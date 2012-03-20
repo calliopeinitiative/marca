@@ -27,8 +27,8 @@
              <li> <a class='last' title="Logout" href="{{ path('fos_user_change_password') }}">Change Password</a></li> 
        {% endif %}
        {% if is_granted('ROLE_INSTR') %}
-             <li><hr/></li>
-            <li><a href="{{ path('course') }}">Courses</a></li>
+             <li class="nav-header">Instructors</li>
+            <li><a href="{{ path('course') }}">Course Creation/Editing</a></li>
        {% endif %}
      </ul>
     </div> 
