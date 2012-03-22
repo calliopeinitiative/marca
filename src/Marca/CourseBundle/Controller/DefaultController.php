@@ -22,6 +22,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $username = $this->get('security.context')->getToken()->getUsername();
         $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($id);
+        $this->get('security.context')->getUser()->setAttribute('courseid','id');
         
         return array('course' => $course);
     }

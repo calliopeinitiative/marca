@@ -70,7 +70,7 @@ fos_user:
         confirmation:
             enabled:    true
     from_email:
-        address:        rlbaltha@uga.edu
+        address:        %from_email%
         sender_name:    Marca Dev  
         
 
