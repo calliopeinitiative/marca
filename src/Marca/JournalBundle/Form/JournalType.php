@@ -10,7 +10,6 @@ class JournalType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('courseid')
             ->add('title')
             ->add('body')
         ;

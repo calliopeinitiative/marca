@@ -83,8 +83,10 @@ class JournalController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $courseid = $this->get('request')->getSession()->get('courseid');
         $entity  = new Journal();
         $entity->setUserid($userid);
+        $entity->setCourseid($courseid);
         $request = $this->getRequest();
         $form    = $this->createForm(new JournalType(), $entity);
         $form->bindRequest($request);
