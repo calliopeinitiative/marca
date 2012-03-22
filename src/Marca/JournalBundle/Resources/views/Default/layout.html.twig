@@ -1,25 +1,28 @@
 {% extends '::base.html.twig' %}
-{% block title %}Marca Course{% endblock %}
+{% block title %}Marca Profile{% endblock %}
 
 {% block stylesheets %}
 {% stylesheets 
-  'bundles/marcacourse/css/*'
+  'bundles/marcauser/css/*'
   filter='cssrewrite'
 %}
 <link rel="stylesheet" href="{{ asset_url }}">
 {% endstylesheets %}
 {% endblock %}
 
+{% block subnav %}
+{%include 'MarcaCourseBundle:Default:subnav.html.twig' %}
+{% endblock %}
+
 {% block body %}
 <div class="row-fluid">
 {% block sidebar %}
 <div class="span2">
-    <div class="sidebar-nav">
-     <ul class="nav nav-tabs nav-stacked">
-      <li><a href="{{ path('course') }}">Courses</a></li>
-      <li><a href="{{ path('term') }}">Term</a></li>
-      <li><a href="{{ path('roll') }}">Roll</a></li>
-      <li><a href="{{ path('project') }}">Project</a></li>
+    <div class="well sidebar-nav">
+     <ul class="nav nav-list">   
+       {% if is_granted('ROLE_USER') %}
+             <li><a href="{{ path('user_home') }}">Home</a></li>
+       {% endif %}
      </ul>
     </div> 
     </div>        
