@@ -63,6 +63,7 @@ class JournalController extends Controller
     public function newAction()
     {
         $entity = new Journal();
+        $entity->setBody('<p></p>');
         $form   = $this->createForm(new JournalType(), $entity);
 
         return array(
@@ -95,7 +96,7 @@ class JournalController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('journal_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('journal'));
             
         }
 
@@ -159,7 +160,7 @@ class JournalController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('journal_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('journal'));
         }
 
         return array(

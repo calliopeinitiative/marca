@@ -1,22 +1,27 @@
 
 {% extends 'MarcaJournalBundle:Default:layout.html.twig' %}
 
-{% block content %}
-<div class="row-fluid">
-<div class="span2">
-<div class="btn-group">
-<a class="btn" href="{{ path('journal') }}">List</a>
- 
-</div> 
-</div>       
-  
-</div>
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+{% endblock %}
 
-<div class="span12" style="margin-top: 3em"> 
+{% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('#marca_journalbundle_journaltype_body').ckeditor( function() {}, {height:200, skin: 'chris',forcePasteAsPlainText : true,
+toolbar : [
+['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
+'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+],} );
+});
+</script>
+<div class="span10 well"> 
 <form action="{{ path('journal_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>
-        <button class="btn" type="submit">Create</button>
+        <button class="btn btn-primary" type="submit">Create</button>
     </div>
 </form>
 </div>

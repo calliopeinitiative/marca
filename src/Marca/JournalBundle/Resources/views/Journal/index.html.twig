@@ -4,21 +4,23 @@
 {% block content %}
 
 {% for entity in entities %}
-    <div class="row well">
-        <div class="span8">
-        <div class="span4">{{ entity.title }}</div>
-        <div class="span4">
-            <div class="btn-group">
-                <a class="btn" href="{{ path('journal_show', { 'id': entity.id }) }}">show</a>
-                <a class="btn" href="{{ path('journal_edit', { 'id': entity.id }) }}">edit</a>
-            </div>
-                
-            </div>
-        </div>
-      <div class="row well">
-    <div class="span8">{{ entity.body }} </div>
-    </div> 
-    </div>
+<div class="row well">
+<div class="row">
+<div class="span4"><h4>{{ entity.title }}</h4></div>
+</div>
+  
+<div class="row">
+<div class="span8">{{ entity.body|raw }} </div>
+</div>
+        
+<div class="row">
+<div class="span4">
+<div class="btn-group">
+<a class="btn btn-primary" href="{{ path('journal_edit', { 'id': entity.id }) }}">edit</a>
+</div>
+</div>
+</div>
+</div>
 {% endfor %}
 
 {% endblock %}
