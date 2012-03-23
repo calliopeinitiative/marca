@@ -25,9 +25,9 @@ class JournalController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-
-        $entities = $em->getRepository('MarcaJournalBundle:Journal')->findAll();
-
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $entities = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($userid);
         return array('entities' => $entities);
     }
 

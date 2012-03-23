@@ -5,16 +5,17 @@
 
 {% for entity in entities %}
 <div class="row well">
-<div class="row">
-<div class="span2"><h4>{{ entity.title }}</h4></div>
-<div class="span4">
-<a class="btn btn-primary btn-mini" href="{{ path('journal_edit', { 'id': entity.id }) }}">edit</a>
+
+<div class="span2" ><h4>{{ entity.title }}</h4></div>
+<div class="span5 offset4" >
+ Created  {{ entity.created|date('M d, Y h:i a') }}  / Modified  {{ entity.updated|date('M d, Y h:i a') }} 
+<a class="btn btn-primary btn-small" href="{{ path('journal_edit', { 'id': entity.id }) }}">edit</a>
 </div>
-</div>
+
   
-<div class="row">
+
 <div class="span8">{{ entity.body|raw }} </div>
-</div>
+
 </div>
 {% endfor %}
 

@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class JournalRepository extends EntityRepository
 {
+  public function findJournalRecent($userid)
+    {  
+       return $this->getEntityManager()
+               ->createQuery('SELECT j from MarcaJournalBundle:Journal j WHERE j.userid = ?1 ORDER BY j.updated ASC')->setParameter('1',$userid)->setMaxResults(5)->getResult();
+    }
 }
