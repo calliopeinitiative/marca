@@ -20,8 +20,6 @@ $loader->registerNamespaces(array(
     'FR3D'             => __DIR__.'/../vendor/bundles',
     'Stof'             => __DIR__.'/../vendor/bundles',
     'Gedmo'            => __DIR__.'/../vendor/gedmo-doctrine-extensions/lib',
-    'Knp\\Component'   => __DIR__.'/../vendor/knp-components/src',
-    'Knp\\Bundle'      => __DIR__.'/../vendor/bundles',
 ));
 $loader->registerPrefixes(array(
     'Twig_Extensions_' => __DIR__.'/../vendor/twig-extensions/lib',
