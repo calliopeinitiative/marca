@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Marca\GeneratorBundle\MarcaGeneratorBundle(),
             new Marca\AuthenticateBundle\MarcaAuthenticateBundle(),
             new Marca\JournalBundle\MarcaJournalBundle(),
+            new Marca\ForumBundle\MarcaForumBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
