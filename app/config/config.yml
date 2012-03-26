@@ -47,6 +47,8 @@ doctrine:
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
+        mappings:
+          StofDoctrineExtensionsBundle: false
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -71,6 +73,16 @@ fos_user:
             enabled:    true
     from_email:
         address:        %from_email%
-        sender_name:    Marca Dev  
+        sender_name:    Marca Dev 
+        
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        default:
+            timestampable: true
+            sluggable: true
+            
+        
+        
         
 

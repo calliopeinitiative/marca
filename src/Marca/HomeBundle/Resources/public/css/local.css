@@ -1,0 +1,19 @@
+/* 
+    Document   : local
+    Created on : Mar 23, 2012, 9:24:24 PM
+    Author     : rlbaltha
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+.footer {margin-top: 3em;padding-top: 1em;border-top: grey solid 1px}
+
+.pad {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+}

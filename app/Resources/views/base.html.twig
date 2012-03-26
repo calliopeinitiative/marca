@@ -6,6 +6,7 @@
 <script src="{{ asset('bundles/marcahome/js/jquery-1.7.1.min.js') }}"></script>
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/bootstrap.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/bootstrap-responsive.css') }}">
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
 {% block stylesheets %}{% endblock %}
 <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
 </head>
@@ -13,7 +14,7 @@
     
 <div class="navbar">
     <div class="navbar-inner">
-      <div class="container" style="width: auto;">
+      <div class="container">
         <a class="brand" href="{{ path('home') }}" title="Marca Homepage">Marca</a>
         <div class="nav-collapse">
           <ul class="nav pull-left">  
@@ -40,7 +41,7 @@
     
 <!-- Footer
 ================================================== -->
-<footer class="footer" style="margin-top: 3em;padding-top: 1em;border-top: grey solid 1px">
+<footer class="footer">
 <p>The Calliope Initiative offers hosting, support, consulting, and development for the  Marca writing web application.</p>
 <p>For more information about Calliope, please contact robin@calliopeinitiative.org</p>    
 </footer> 

@@ -19,15 +19,16 @@ class JournalController extends Controller
     /**
      * Lists all Journal entities.
      *
-     * @Route("/", name="journal")
+     * @Route("/{set}/page", name="journal")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($set)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $username = $this->get('security.context')->getToken()->getUsername();
+        $set = $set;
         $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
-        $entities = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($userid);
+        $entities = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($userid, $set);
         return array('entities' => $entities);
     }
 
