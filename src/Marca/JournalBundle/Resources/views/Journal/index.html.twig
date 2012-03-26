@@ -19,4 +19,13 @@
 </div>
 {% endfor %}
 
+<div class="row-fluid">
+<div class="span10 well" >
+{% if set >= 1 %}    
+<div class="pull-left"><a title="View previous entries" href="{{ path('journal', { 'set': set - 1 } ) }}">Previous entries</a></div>  
+{% endif %}
+<div class="pull-right"><a title="View more entries" href="{{ path('journal', { 'set': set + 1 } ) }}">Next entries</a></div>
+</div>
+</div>
+
 {% endblock %}
