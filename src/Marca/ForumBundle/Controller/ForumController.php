@@ -19,16 +19,17 @@ class ForumController extends Controller
     /**
      * Lists all Forum entities.
      *
-     * @Route("/", name="forum")
+     * @Route("/{set}/page", name="forum")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($set)
     {
         $em = $this->getDoctrine()->getEntityManager();
-
-        $entities = $em->getRepository('MarcaForumBundle:Forum')->findAll();
-
-        return array('entities' => $entities);
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $set = $set;
+        $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $entities = $em->getRepository('MarcaForumBundle:Forum')->findForumRecent($userid, $set);
+        return array('entities' => $entities,'set' => $set);
     }
 
     /**
@@ -80,7 +81,13 @@ class ForumController extends Controller
      */
     public function createAction()
     {
+        $em = $this->getDoctrine()->getEntityManager();
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $courseid = $this->get('request')->getSession()->get('courseid');
         $entity  = new Forum();
+        $entity->setUserid($userid);
+        $entity->setCourseid($courseid);
         $request = $this->getRequest();
         $form    = $this->createForm(new ForumType(), $entity);
         $form->bindRequest($request);
@@ -154,7 +161,7 @@ class ForumController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('forum_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('forum_show', array('id' => $id)));
         }
 
         return array(

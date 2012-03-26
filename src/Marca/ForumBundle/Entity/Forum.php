@@ -23,6 +23,20 @@ class Forum
     private $id;
 
     /**
+     * @var integer $userid
+     *
+     * @ORM\Column(name="userid", type="integer")
+     */
+    private $userid;
+
+    /**
+     * @var integer $courseid
+     *
+     * @ORM\Column(name="courseid", type="integer")
+     */
+    private $courseid;    
+
+    /**
      * @var string $title
      *
      * @ORM\Column(name="title", type="string", length=255)
@@ -138,5 +152,45 @@ class Forum
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set userid
+     *
+     * @param integer $userid
+     */
+    public function setUserid($userid)
+    {
+        $this->userid = $userid;
+    }
+
+    /**
+     * Get userid
+     *
+     * @return integer 
+     */
+    public function getUserid()
+    {
+        return $this->userid;
+    }
+
+    /**
+     * Set courseid
+     *
+     * @param integer $courseid
+     */
+    public function setCourseid($courseid)
+    {
+        $this->courseid = $courseid;
+    }
+
+    /**
+     * Get courseid
+     *
+     * @return integer 
+     */
+    public function getCourseid()
+    {
+        return $this->courseid;
     }
 }

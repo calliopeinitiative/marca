@@ -26,6 +26,7 @@ security:
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/user_profile/, role: ROLE_USER }
         - { path: ^/journal/, role: ROLE_USER }
+        - { path: ^/forum/, role: ROLE_USER }
         - { path: ^/course/, role: ROLE_INSTR }
         - { path: ^/term/, role: ROLE_INSTR }
         - { path: ^/roll/, role: ROLE_INSTR }

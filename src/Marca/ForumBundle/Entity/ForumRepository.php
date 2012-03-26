@@ -12,4 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class ForumRepository extends EntityRepository
 {
+    public function findForumRecent($userid, $set)
+    {  
+       $offset = $set * 5;
+       return $this->getEntityManager()
+               ->createQuery('SELECT f from MarcaForumBundle:Forum f WHERE f.userid = ?1 ORDER BY f.created DESC')
+               ->setParameter('1',$userid)->setMaxResults(5)->setFirstResult($offset)->getResult();
+    }
 }
