@@ -21,7 +21,6 @@ class AppKernel extends Kernel
             new Symfony\Bundle\DoctrineFixturesBundle\DoctrineFixturesBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Symfony\Bundle\DoctrineMigrationsBundle\DoctrineMigrationsBundle(),
-            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Marca\HomeBundle\MarcaHomeBundle(),
             new Marca\UserBundle\MarcaUserBundle(),
             new Marca\CourseBundle\MarcaCourseBundle(),

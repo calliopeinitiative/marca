@@ -29,7 +29,7 @@ class JournalController extends Controller
         $set = $set;
         $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $entities = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($userid, $set);
-        return array('entities' => $entities);
+        return array('entities' => $entities,'set' => $set);
     }
 
     /**
@@ -97,7 +97,7 @@ class JournalController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('journal'));
+            return $this->redirect($this->generateUrl('journal', array('set' => 0)));
             
         }
 
@@ -161,7 +161,7 @@ class JournalController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('journal'));
+            return $this->redirect($this->generateUrl('journal', array('set' => 0)));
         }
 
         return array(
@@ -196,7 +196,7 @@ class JournalController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('journal'));
+        return $this->redirect($this->generateUrl('journal', array('set' => 0)));
     }
 
     private function createDeleteForm($id)
