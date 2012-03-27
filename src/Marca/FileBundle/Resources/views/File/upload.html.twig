@@ -1,0 +1,11 @@
+{% extends 'MarcaFileBundle::layout.html.twig' %}
+
+
+{% block content %}
+<div class="span12 well"> 
+<form action="#" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input class="btn btn-primary" type="submit" value="Upload Document" />
+</form>
+</div>
+{% endblock %}

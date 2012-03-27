@@ -1,3 +1,8 @@
+MarcaFileBundle:
+    resource: "@MarcaFileBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 MarcaForumBundle:
     resource: "@MarcaForumBundle/Controller/"
     type:     annotation
