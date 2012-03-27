@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
 
@@ -236,5 +238,28 @@ class FileController extends Controller
          }
 
     return array('form' => $form->createView());
-     }    
+     } 
+ 
+    /**
+     * Finds and displays a File.
+     *
+     * @Route("/{id}/view", name="file_view")
+     * 
+     */     
+    public function viewAction($id)
+	{
+             $em = $this->getDoctrine()->getEntityManager();
+             $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+		
+		$response = new Response();
+		
+		$response->setStatusCode(200);
+		$response->headers->set('Content-Type', 'application/txt');
+		$response->setContent( file_get_contents( $file->getAbsolutePath() ));
+		
+		$response->send();
+		
+		return $response;
+	}     
 }
+

@@ -15,7 +15,7 @@
 <tbody>
     {% for entity in entities %}
     <tr>        
-        <td><a href="{{ path('file_show', { 'id': entity.id }) }}">{{ entity.name }}</a></td>              
+        <td><a href="{{ path('file_view', { 'id': entity.id }) }}">{{ entity.name }}</a></td>              
         <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif%}</td>        
         <td><div class="btn-group"><a class="btn btn-primary" href="{{ path('file_edit', { 'id': entity.id }) }}">edit</a></div>
 

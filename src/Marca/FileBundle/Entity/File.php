@@ -24,15 +24,17 @@ class File
         return null === $this->path ? null : $this->getUploadDir().'/'.$this->path;
     }
 
-    protected function getUploadRootDir($userid, $courseid)
+    protected function getUploadRootDir()
     {
         // the absolute directory path where uploaded documents should be saved
-        return __DIR__.'/../../../../'.$this->getUploadDir($userid, $courseid);
+        return __DIR__.'/../../../../'.$this->getUploadDir();
     }
 
-    protected function getUploadDir($userid, $courseid)
+    protected function getUploadDir()
     {
         // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
+        $courseid = $this->getCourseid();
+        $userid = $this->getUserid();
         return 'uploads/files'.'/'.$courseid.'/'.$userid;
     }
     
@@ -51,7 +53,7 @@ class File
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */     
-    public function upload($userid, $courseid)
+    public function upload()
     {
     // the file property can be empty if the field is not required
     if (null === $this->file) {
@@ -62,7 +64,7 @@ class File
     // sanitize it at least to avoid any security issues
 
     // move takes the target directory and then the target filename to move to
-    $this->file->move($this->getUploadRootDir($userid, $courseid), $this->file->getClientOriginalName());
+    $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
 
     // set the path property to the filename where you'ved saved the file
     $this->path = $this->file->getClientOriginalName();
@@ -79,6 +81,16 @@ class File
         if ($file = $this->getAbsolutePath()) {
             unlink($file);
         }
+    }
+    
+    /**
+     * Return the contents of the file.
+     * 
+     * @return string
+     */
+    public function getContents()
+    {
+        return file_get_contents( $this->getAbsolutePath() );
     }
 
     /**
