@@ -5,11 +5,11 @@
 
 {% for entity in entities %}
 <div class="row-fluid">
-<div class="span10 well" >
-<div class="span2" ><h4>{{ entity.title }}</h4></div>
-<div class="pull-right" >
+<div class="page-header" >
+<h3>{{ entity.title }}</h3>
+<div class="small" >
  Created  {{ entity.created|date('M d, Y h:i a') }}  / Modified  {{ entity.updated|date('M d, Y h:i a') }} 
-<a class="btn btn-primary btn-small" href="{{ path('journal_edit', { 'id': entity.id }) }}">edit</a>
+<a class="btn btn-primary btn-mini" href="{{ path('journal_edit', { 'id': entity.id }) }}">edit</a>
 </div>
 </div>
 </div>

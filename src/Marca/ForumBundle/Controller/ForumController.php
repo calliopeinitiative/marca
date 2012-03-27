@@ -64,6 +64,7 @@ class ForumController extends Controller
     public function newAction()
     {
         $entity = new Forum();
+        $entity->setBody('<p></p>');
         $form   = $this->createForm(new ForumType(), $entity);
 
         return array(
@@ -97,7 +98,7 @@ class ForumController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('forum_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('forum', array('set' => 0)));
             
         }
 
@@ -161,7 +162,7 @@ class ForumController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('forum_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('forum', array('set' => 0)));
         }
 
         return array(
