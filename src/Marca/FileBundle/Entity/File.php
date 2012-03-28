@@ -3,6 +3,7 @@
 namespace Marca\FileBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -119,15 +120,14 @@ class File
      *
      * @ORM\Column(name="courseid", type="integer")
      */
-    private $courseid;  
-    
-    /**
-     * @var integer &projectid
-     *
-     * @ORM\Column(name="projectid", type="integer")
-     */
-    private $projectid;       
+    private $courseid;
 
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Project", inversedBy="file")
+    */
+    protected $project;
+    
     /**
      * @var string $name
      *
@@ -287,23 +287,25 @@ class File
         return $this->updated;
     }
 
+
+
     /**
-     * Set projectid
+     * Set project
      *
-     * @param integer $projectid
+     * @param Marca\CourseBundle\Entity\Project $project
      */
-    public function setProjectid($projectid)
+    public function setProject(\Marca\CourseBundle\Entity\Project $project)
     {
-        $this->projectid = $projectid;
+        $this->project = $project;
     }
 
     /**
-     * Get projectid
+     * Get project
      *
-     * @return integer 
+     * @return Marca\CourseBundle\Entity\Project 
      */
-    public function getProjectid()
+    public function getProject()
     {
-        return $this->projectid;
+        return $this->project;
     }
 }
