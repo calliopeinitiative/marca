@@ -217,10 +217,12 @@ class FileController extends Controller
          $file = new File();
          $file->setUserid($userid);
          $file->setCourseid($courseid);
+         $file->setProjectid(1);
          $form = $this->createFormBuilder($file)
              ->add('name')
              ->add('userid', 'hidden')  
-             ->add('courseid', 'hidden')     
+             ->add('courseid', 'hidden')
+             ->add('projectid', 'hidden')    
              ->add('file')
              ->getForm()
          ;
@@ -254,7 +256,7 @@ class FileController extends Controller
 		$response = new Response();
 		
 		$response->setStatusCode(200);
-		$response->headers->set('Content-Type', 'application/txt');
+		$response->headers->set('Content-Type', 'application/octet-stream');
 		$response->setContent( file_get_contents( $file->getAbsolutePath() ));
 		
 		$response->send();

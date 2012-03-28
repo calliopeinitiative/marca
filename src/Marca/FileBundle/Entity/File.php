@@ -119,7 +119,14 @@ class File
      *
      * @ORM\Column(name="courseid", type="integer")
      */
-    private $courseid;    
+    private $courseid;  
+    
+    /**
+     * @var integer &projectid
+     *
+     * @ORM\Column(name="projectid", type="integer")
+     */
+    private $projectid;       
 
     /**
      * @var string $name
@@ -278,5 +285,25 @@ class File
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set projectid
+     *
+     * @param integer $projectid
+     */
+    public function setProjectid($projectid)
+    {
+        $this->projectid = $projectid;
+    }
+
+    /**
+     * Get projectid
+     *
+     * @return integer 
+     */
+    public function getProjectid()
+    {
+        return $this->projectid;
     }
 }
