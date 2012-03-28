@@ -3,6 +3,7 @@
 namespace Marca\CourseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Marca\CourseBundle\Entity\Project
@@ -39,7 +40,8 @@ class Project
      * @ORM\ManyToOne(targetEntity="Course", inversedBy="project")
      * @ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected $course;   
+    protected $course; 
+    
     
     /**
      * @var integer $sortOrder
@@ -185,4 +187,5 @@ class Project
     {
         return $this->course;
     }
+
 }

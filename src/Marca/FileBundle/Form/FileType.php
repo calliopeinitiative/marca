@@ -11,7 +11,7 @@ class FileType extends AbstractType
     {
         $builder
             ->add('name')
-        ;
+            ;
     }
 
     public function getName()

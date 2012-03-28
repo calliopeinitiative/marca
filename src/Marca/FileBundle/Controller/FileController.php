@@ -29,8 +29,9 @@ class FileController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entities = $em->getRepository('MarcaFileBundle:File')->findAll();
+        $project = 'Project 1';
 
-        return array('entities' => $entities);
+        return array('entities' => $entities, 'project' => $project);
     }
 
     /**
@@ -219,6 +220,13 @@ class FileController extends Controller
          $file->setCourseid($courseid);
          $form = $this->createFormBuilder($file)
              ->add('name')
+             ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
+                function(\Marca\CourseBundle\Entity\ProjectRepository $er) {
+                $courseid = '19';
+                return $er->createQueryBuilder('p')
+                ->where('p.course = :course')
+                ->setParameter('course', $courseid)        
+                ->orderBy('p.name', 'ASC');},))    
              ->add('userid', 'hidden')  
              ->add('courseid', 'hidden')     
              ->add('file')
