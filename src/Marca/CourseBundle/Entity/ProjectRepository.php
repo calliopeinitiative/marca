@@ -15,6 +15,6 @@ class ProjectRepository extends EntityRepository
   public function findProjectsByCourse($courseid)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT p from MarcaCourseBundle:Project p WHERE p.courseid = ?1 ORDER BY p.name')->setParameter('1',$courseid)->getResult();
+            ->createQuery('SELECT p.name,p.id from MarcaCourseBundle:Project p WHERE p.course = ?1 ORDER BY p.name')->setParameter('1',$courseid)->getResult();
     }
 }

@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
+use Marca\FileBundle\Form\UploadType;
 
 /**
  * File controller.
@@ -27,13 +28,33 @@ class FileController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $courseid = $this->get('request')->getSession()->get('courseid');
         $entities = $em->getRepository('MarcaFileBundle:File')->findAll();
-        $project = 'Project 1';
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
 
-        return array('entities' => $entities, 'project' => $project);
+        return array('entities' => $entities, 'projects' => $projects);
     }
 
+    /**
+     * Lists all File entities by Project.
+     *
+     * @Route("/{id}/project", name="file_project")
+     * @Template("MarcaFileBundle:File:index.html.twig")
+     */
+    public function indexByProjectAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $courseid = $this->get('request')->getSession()->get('courseid');
+        $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid);
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
+
+        return array('entities' => $entities, 'projects' => $projects);
+    }    
+    
     /**
      * Finds and displays a File entity.
      *
@@ -112,6 +133,8 @@ class FileController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
+        $courseid = $this->get('request')->getSession()->get('courseid');
+        $options = array('courseid' => $courseid);
 
         $entity = $em->getRepository('MarcaFileBundle:File')->find($id);
 
@@ -119,7 +142,7 @@ class FileController extends Controller
             throw $this->createNotFoundException('Unable to find File entity.');
         }
 
-        $editForm = $this->createForm(new FileType(), $entity);
+        $editForm = $this->createForm(new FileType($options), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -139,14 +162,15 @@ class FileController extends Controller
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
-
+        $courseid = $this->get('request')->getSession()->get('courseid');
+        $options = array('courseid' => $courseid);
         $entity = $em->getRepository('MarcaFileBundle:File')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find File entity.');
         }
 
-        $editForm   = $this->createForm(new FileType(), $entity);
+        $editForm   = $this->createForm(new FileType($options), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -219,7 +243,7 @@ class FileController extends Controller
          $file = new File();
          $file->setUserid($userid);
          $file->setCourseid($courseid);
-         $form = $this->createForm(new FileType($options), $file);
+         $form = $this->createForm(new UploadType($options), $file);
 
          if ($this->getRequest()->getMethod() === 'POST') {
              $form->bindRequest($this->getRequest());

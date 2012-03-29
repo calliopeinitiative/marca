@@ -69,6 +69,9 @@ class File
 
     // set the path property to the filename where you'ved saved the file
     $this->path = $this->file->getClientOriginalName();
+    
+    // set the name property to the filename where you'ved saved the file
+    $this->name = $this->file->getClientOriginalName();    
 
     // clean up the file property as you won't need it anymore
     $this->file = null;

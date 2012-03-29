@@ -5,7 +5,7 @@ namespace Marca\FileBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 
-class FileType extends AbstractType
+class UploadType extends AbstractType
 {
     protected $options;
 
@@ -18,7 +18,7 @@ class FileType extends AbstractType
     {
         $options = $this->options;
         $builder
-             ->add('name')
+             ->add('name','hidden')
              ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
                 function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
                 $courseid = $options['courseid'] ;
@@ -28,6 +28,7 @@ class FileType extends AbstractType
                 ->orderBy('p.name', 'ASC');},))    
              ->add('userid', 'hidden')  
              ->add('courseid', 'hidden')
+             ->add('file')
             ;
     }
 

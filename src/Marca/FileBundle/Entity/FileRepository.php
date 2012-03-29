@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class FileRepository extends EntityRepository
 {
+   public function findFilesByProject($id, $userid)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT f from MarcaFileBundle:File f WHERE f.project = ?1 AND f.userid = ?2 ORDER BY f.updated')->setParameter('1',$id)->setParameter('2',$userid)->getResult();
+    }
 }
