@@ -10,12 +10,7 @@ class DocType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('userid')
-            ->add('courseid')
-            ->add('fileid')
             ->add('body')
-            ->add('created')
-            ->add('updated')
         ;
     }
 

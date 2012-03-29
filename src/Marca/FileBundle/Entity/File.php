@@ -144,6 +144,11 @@ class File
      * @ORM\Column(name="path", type="string", length=255)
      */
     private $path;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Marca\DocBundle\Entity\Doc", mappedBy="file")
+     */
+    private $doc;    
 
     /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -310,5 +315,25 @@ class File
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * Set doc
+     *
+     * @param Marca\DocBundle\Entity\Doc $doc
+     */
+    public function setDoc(\Marca\DocBundle\Entity\Doc $doc)
+    {
+        $this->doc = $doc;
+    }
+
+    /**
+     * Get doc
+     *
+     * @return Marca\DocBundle\Entity\Doc 
+     */
+    public function getDoc()
+    {
+        return $this->doc;
     }
 }

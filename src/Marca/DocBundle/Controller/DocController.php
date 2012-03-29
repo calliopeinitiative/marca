@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\DocBundle\Entity\Doc;
 use Marca\DocBundle\Form\DocType;
+use Marca\FileBundle\Entity\File;
 
 /**
  * Doc controller.
@@ -62,11 +63,13 @@ class DocController extends Controller
      */
     public function newAction()
     {
-        $entity = new Doc();
-        $form   = $this->createForm(new DocType(), $entity);
+        $doc = new Doc();
+        $doc->setBody('<p></p>');
+
+        $form   = $this->createForm(new DocType(), $doc);
 
         return array(
-            'entity' => $entity,
+            'doc' => $doc,
             'form'   => $form->createView()
         );
     }
@@ -80,13 +83,28 @@ class DocController extends Controller
      */
     public function createAction()
     {
-        $entity  = new Doc();
+        $em = $this->getDoctrine()->getEntityManager();
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $courseid = $this->get('request')->getSession()->get('courseid');
+        
+        $file = new File();
+        $file->setName('New eDoc');
+        $file->setUserid($userid);
+        $file->setCourseid($courseid);
+        $file->setPath('doc');
+        
+        $entity  = new Doc();    
+        $entity->setFile($file); 
+        $entity->setUserid($userid);
+        $entity->setCourseid($courseid);
         $request = $this->getRequest();
         $form    = $this->createForm(new DocType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
+            $em->persist($file);
             $em->persist($entity);
             $em->flush();
 
@@ -154,7 +172,7 @@ class DocController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('doc_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('doc_show', array('id' => $id)));
         }
 
         return array(

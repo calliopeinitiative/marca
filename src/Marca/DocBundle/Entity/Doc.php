@@ -36,12 +36,6 @@ class Doc
      */
     private $courseid;
 
-    /**
-     * @var integer $fileid
-     *
-     * @ORM\Column(name="fileid", type="integer")
-     */
-    private $fileid;
 
     /**
      * @var text $body
@@ -49,6 +43,12 @@ class Doc
      * @ORM\Column(name="body", type="text")
      */
     private $body;
+    
+   /**
+    * @ORM\OneToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="doc")
+    * @ORM\JoinColumn(name="file_id", referencedColumnName="id")
+   */
+    private $file;
 
    /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -113,25 +113,6 @@ class Doc
         return $this->courseid;
     }
 
-    /**
-     * Set fileid
-     *
-     * @param integer $fileid
-     */
-    public function setFileid($fileid)
-    {
-        $this->fileid = $fileid;
-    }
-
-    /**
-     * Get fileid
-     *
-     * @return integer 
-     */
-    public function getFileid()
-    {
-        return $this->fileid;
-    }
 
     /**
      * Set body
@@ -191,5 +172,25 @@ class Doc
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set file
+     *
+     * @param Marca\FileBundle\Entity\File $file
+     */
+    public function setFile(\Marca\FileBundle\Entity\File $file)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * Get file
+     *
+     * @return Marca\FileBundle\Entity\File 
+     */
+    public function getFile()
+    {
+        return $this->file;
     }
 }

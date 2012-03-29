@@ -1,16 +1,21 @@
+{% extends 'MarcaDocBundle::layout.html.twig' %}
 
-{% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+{% endblock %}
 
 {% block content %}
-<div class="row-fluid">
-<div class="span2">
-<div class="btn-group">
-<a class="btn" href="{{ path('doc') }}">List</a>
- 
-</div> 
-</div>       
-  
-</div>
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('#marca_docbundle_doctype_body').ckeditor( function() {}, {height:800, skin: 'chris',forcePasteAsPlainText : true,
+toolbar : [
+['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
+'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+],} );
+});
+</script>
 
 <div class="span12" style="margin-top: 3em"> 
 <form action="{{ path('doc_create') }}" method="post" {{ form_enctype(form) }}>

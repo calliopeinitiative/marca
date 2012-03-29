@@ -1,5 +1,4 @@
-
-{% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
+{% extends 'MarcaDocBundle::layout.html.twig' %}
 
 {% block content %}
 <div class="row-fluid">
@@ -16,7 +15,6 @@
         <th>Id</th>        
         <th>Userid</th>        
         <th>Courseid</th>        
-        <th>Fileid</th>        
         <th>Body</th>        
         <th>Created</th>        
         <th>Updated</th>        
@@ -29,7 +27,6 @@
         <td><a href="{{ path('doc_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>        
         <td>{{ entity.userid }}</td>        
         <td>{{ entity.courseid }}</td>        
-        <td>{{ entity.fileid }}</td>        
         <td>{{ entity.body }}</td>        
         <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif%}</td>        
         <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif%}</td>        
