@@ -28,6 +28,7 @@ security:
         - { path: ^/journal/, role: ROLE_USER }
         - { path: ^/forum/, role: ROLE_USER }
         - { path: ^/file/, role: ROLE_USER }
+        - { path: ^/user/, role: ROLE_USER }
         - { path: ^/course/, role: ROLE_INSTR }
         - { path: ^/term/, role: ROLE_INSTR }
         - { path: ^/roll/, role: ROLE_INSTR }

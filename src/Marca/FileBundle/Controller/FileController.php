@@ -202,7 +202,7 @@ class FileController extends Controller
             ->getForm()
         ;
     }
-    
+
     /**
      * Uploads a file with a Document entity.
      *
@@ -215,25 +215,11 @@ class FileController extends Controller
          $username = $this->get('security.context')->getToken()->getUsername();
          $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
          $courseid = $this->get('request')->getSession()->get('courseid');
+         $options = array('courseid' => $courseid);
          $file = new File();
          $file->setUserid($userid);
          $file->setCourseid($courseid);
-         $file->setProjectid(1);
-         $form = $this->createFormBuilder($file)
-             ->add('name')
-             ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
-                function(\Marca\CourseBundle\Entity\ProjectRepository $er) {
-                $courseid = '19';
-                return $er->createQueryBuilder('p')
-                ->where('p.course = :course')
-                ->setParameter('course', $courseid)        
-                ->orderBy('p.name', 'ASC');},))    
-             ->add('userid', 'hidden')  
-             ->add('courseid', 'hidden')
-             ->add('projectid', 'hidden')    
-             ->add('file')
-             ->getForm()
-         ;
+         $form = $this->createForm(new FileType($options), $file);
 
          if ($this->getRequest()->getMethod() === 'POST') {
              $form->bindRequest($this->getRequest());
