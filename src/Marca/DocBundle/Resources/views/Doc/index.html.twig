@@ -1,0 +1,46 @@
+
+{% extends 'MarcaCourseBundle:Course:layout.html.twig' %}
+
+{% block content %}
+<div class="row-fluid">
+   <div class="span4">
+      <a class="btn btn-primary" href="{{ path('doc_new') }}">New</a>
+   </div>
+</div> 
+
+<div class="row-fluid">
+<div class="span6">
+<table class="table table-bordered table-condensed table-striped">
+<thead>
+    <tr>        
+        <th>Id</th>        
+        <th>Userid</th>        
+        <th>Courseid</th>        
+        <th>Fileid</th>        
+        <th>Body</th>        
+        <th>Created</th>        
+        <th>Updated</th>        
+        <th>Actions</th>
+    </tr>
+</thead>    
+<tbody>
+    {% for entity in entities %}
+    <tr>        
+        <td><a href="{{ path('doc_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>        
+        <td>{{ entity.userid }}</td>        
+        <td>{{ entity.courseid }}</td>        
+        <td>{{ entity.fileid }}</td>        
+        <td>{{ entity.body }}</td>        
+        <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif%}</td>        
+        <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif%}</td>        
+        <td><div class="btn-group"><a class="btn" href="{{ path('doc_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ path('doc_edit', { 'id': entity.id }) }}">edit</a></div>
+
+</td>       
+    </tr>
+    
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+{% endblock %}
