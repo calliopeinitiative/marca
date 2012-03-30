@@ -213,7 +213,9 @@ class FileController extends Controller
             }
 
             $em->remove($entity);
+            if ($doc) {
             $em->remove($doc);
+            }
             $em->flush();
         }
 
