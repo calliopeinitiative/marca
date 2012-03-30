@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\DocBundle\Entity\Doc;
 use Marca\DocBundle\Form\DocType;
 use Marca\FileBundle\Entity\File;
+use Marca\CourseBundle\Entity\Project;
 
 /**
  * Doc controller.
@@ -43,6 +44,7 @@ class DocController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('MarcaDocBundle:Doc')->find($id);
+        $file = $entity->getFile();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
@@ -52,6 +54,7 @@ class DocController extends Controller
 
         return array(
             'entity'      => $entity,
+            'file'        => $file,
             'delete_form' => $deleteForm->createView(),        );
     }
 
@@ -87,7 +90,7 @@ class DocController extends Controller
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $courseid = $this->get('request')->getSession()->get('courseid');
-        
+              
         $file = new File();
         $file->setName('New eDoc');
         $file->setUserid($userid);

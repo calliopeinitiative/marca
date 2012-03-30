@@ -9,20 +9,28 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_docbundle_doctype_body').ckeditor( function() {}, {height:800, skin: 'chris',forcePasteAsPlainText : true,
+$('#marca_docbundle_doctype_body').ckeditor( function() {}, {height:600, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
 toolbar : [
 ['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
 'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
 ],} );
 });
 </script>
-
-<div class="span12" style="margin-top: 3em"> 
+<div class="row-fluid">
+<div class="span10"> 
 <form action="{{ path('doc_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
+    {{ form_errors(form) }}
+
+<div>
+    {{ form_errors(form.body) }}
+    {{ form_widget(form.body) }}
+</div>
+
+    {{ form_rest(form) }}
     <div>
-        <button class="btn" type="submit">Create</button>
+        <button class="btn btn-primary" type="submit">Create</button>
     </div>
 </form>
+</div>
 </div>
 {% endblock %}

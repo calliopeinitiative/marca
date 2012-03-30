@@ -21,3 +21,5 @@
 .container-fluid {margin-top:60px;}
 .navbar-inner .container {margin-left: 20px;}
 .page-header {margin-top:20px;}
+.subnav-fixed {margin-top: -20px;}
+.cell {float:left}

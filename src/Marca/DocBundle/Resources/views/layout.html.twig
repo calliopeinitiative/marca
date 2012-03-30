@@ -1,5 +1,5 @@
 {% extends '::base.html.twig' %}
-{% block title %}Marca Files{% endblock %}
+{% block title %}Marca Docs{% endblock %}
 
 {% block stylesheets %}
 {% stylesheets 
@@ -15,24 +15,13 @@
 {% endblock %}
 
 {% block body %}
-<div class="row-fluid">
-{% block sidebar %}
-<div class="span2">
-    <div class="well sidebar-nav">
-     <ul class="nav nav-list">   
-       {% if is_granted('ROLE_USER') %}
-             <li><a href="{{ path('user_home') }}">Home</a></li>
-             <li><a href="{{ path('file') }}">List Files</a></li>
-             <li><a href="{{ path('doc') }}">List eDocs</a></li>
-             <li><a href="{{ path('file_upload') }}">Upload File</a></li>
-       {% endif %}
-     </ul>
-    </div> 
-    </div>        
+<div class="row">
+{% block sidebar %}   
 {% endblock %}  
-<div class="span10"> 
+
+<div class="span12"> 
 {% block content %}          
 {% endblock %}
 </div>   
-</div>         
+</div>       
 {% endblock %} 

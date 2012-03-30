@@ -46,7 +46,7 @@ class Doc
     
    /**
     * @ORM\OneToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="doc")
-    * @ORM\JoinColumn(name="file_id", referencedColumnName="id")
+    * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="Cascade")
    */
     private $file;
 

@@ -31,7 +31,7 @@ class FileController extends Controller
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $courseid = $this->get('request')->getSession()->get('courseid');
-        $entities = $em->getRepository('MarcaFileBundle:File')->findAll();
+        $entities = $em->getRepository('MarcaFileBundle:File')->findFiles($userid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
 
         return array('entities' => $entities, 'projects' => $projects);
@@ -207,12 +207,13 @@ class FileController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
             $entity = $em->getRepository('MarcaFileBundle:File')->find($id);
-
+            $doc = $entity->getDoc();
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find File entity.');
             }
 
             $em->remove($entity);
+            $em->remove($doc);
             $em->flush();
         }
 
@@ -252,7 +253,7 @@ class FileController extends Controller
                  $file->upload($userid, $courseid);
                  $em->persist($file);
                  $em->flush(); 
-                 return $this->redirect($this->generateUrl('file_show', array('id' => $file->getId())));
+                 return $this->redirect($this->generateUrl('file'));
              }
              
          }
@@ -270,11 +271,33 @@ class FileController extends Controller
 	{
              $em = $this->getDoctrine()->getEntityManager();
              $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+             $ext = $file->getExt();
 		
 		$response = new Response();
 		
 		$response->setStatusCode(200);
-		$response->headers->set('Content-Type', 'application/octet-stream');
+                switch ($ext) {
+                      case "png":
+                      $response->headers->set('Content-Type', 'image/png');
+                      break;
+                      case "gif":
+                      $response->headers->set('Content-Type', 'image/gif');
+                      break;
+                      case "jpg":
+                      $response->headers->set('Content-Type', 'image/jpeg');
+                      break;
+                      case "odt":
+                      $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.text');
+                      break;
+                      case "doc":
+                      $response->headers->set('Content-Type', 'application/msword');
+                      break;
+                      case "pdf":
+                      $response->headers->set('Content-Type', 'application/pdf');
+                      break;
+                      default:
+                      $response->headers->set('Content-Type', 'application/octet-stream');    
+                      }
 		$response->setContent( file_get_contents( $file->getAbsolutePath() ));
 		
 		$response->send();

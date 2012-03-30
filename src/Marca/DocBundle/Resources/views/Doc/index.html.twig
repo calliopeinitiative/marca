@@ -31,6 +31,7 @@
         <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif%}</td>        
         <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif%}</td>        
         <td><div class="btn-group"><a class="btn" href="{{ path('doc_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ path('doc_edit', { 'id': entity.id }) }}">edit</a></div>
+   
 
 </td>       
     </tr>

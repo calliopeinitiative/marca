@@ -96,6 +96,17 @@ class File
     {
         return file_get_contents( $this->getAbsolutePath() );
     }
+    
+    /**
+     * Return the extention of the file.
+     * 
+     * @return string
+     */
+    public function getExt()
+    {
+        $filename = $this->getPath(); 
+        return pathinfo($filename, PATHINFO_EXTENSION);
+    }   
 
     /**
      * @Assert\File(maxSize="6000000")
@@ -147,6 +158,7 @@ class File
     
     /**
      * @ORM\OneToOne(targetEntity="Marca\DocBundle\Entity\Doc", mappedBy="file")
+     * 
      */
     private $doc;    
 

@@ -15,6 +15,12 @@ class FileRepository extends EntityRepository
    public function findFilesByProject($id, $userid)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT f from MarcaFileBundle:File f WHERE f.project = ?1 AND f.userid = ?2 ORDER BY f.updated')->setParameter('1',$id)->setParameter('2',$userid)->getResult();
+            ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project from MarcaFileBundle:File f LEFT JOIN f.doc d LEFT JOIN f.project p WHERE f.project = ?1 AND f.userid = ?2 ORDER BY f.updated DESC')->setParameter('1',$id)->setParameter('2',$userid)->getResult();
     }
+    
+   public function findFiles($userid)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project from MarcaFileBundle:File f LEFT JOIN f.doc d LEFT JOIN f.project p WHERE f.userid = ?1 ORDER BY f.updated DESC')->setParameter('1',$userid)->getResult();
+    }    
 }

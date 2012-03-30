@@ -9,29 +9,33 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_docbundle_doctype_body').ckeditor( function() {}, {height:800, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+$('#marca_docbundle_doctype_body').ckeditor( function() {}, {height:600, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
 toolbar : [
-['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
-'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+['Preview','Print','Templates','Undo','Redo','Find','Replace','SelectAll','RemoveFormat'],
+['Bold','Italic','Underline','Strike','Subscript','Superscript','NumberedLst','BulletedList','Outdent','Indent','Blockquote'],
+['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','Link','Unlink','Image','Table','HorizontalRule','Smiley','SpecialChar'],
+['Styles','Format','Font','FontSize','TextColor','BGColor','Maximize', 'ShowBlocks','About']
 ],} );
 });
 </script>
-
-<div class="row-fluid">    
+<div class="row">
+<div class="span10 well"> 
 <form action="{{ path('doc_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-    <div>
-        <button class="btn" type="submit">Update</button>
-    </div>
-</form>
+    {{ form_errors(edit_form) }}
+
+<div>
+    {{ form_errors(edit_form.body) }}
+    {{ form_widget(edit_form.body) }}
 </div>
 
-<div class="row-fluid">
-<div class="span1">        
-<form action="{{ path('doc_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
+    {{ form_rest(edit_form) }}
+<div class="span8">        
+    <div class="btn-group pull-right">
+        <button class="btn btn-primary" type="submit">Update</button>
+         <a class="btn btn-info" href="{{ path('doc_show', { 'id': entity.id }) }}">Cancel</a>
+     </div>
 </form>
 </div>
+</div>        
 </div>
 {% endblock %}
