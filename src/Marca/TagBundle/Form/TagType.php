@@ -12,7 +12,6 @@ class TagType extends AbstractType
         $builder
             ->add('name')
             ->add('color')
-            ->add('userid')
             ->add('icon')
             ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'property'=>'name','expanded'=>true,'multiple'=>false, )) 
         ;
