@@ -170,8 +170,10 @@ class Course
         $this->project = new ArrayCollection();
     } 
     
-
-  
+   /**
+    * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tagset")
+    */
+    protected $tagset; 
 
     /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -655,5 +657,25 @@ class Course
     public function getForum()
     {
         return $this->forum;
+    }
+
+    /**
+     * Add tagset
+     *
+     * @param Marca\TagBundle\Entity\Tagset $tagset
+     */
+    public function addTagset(\Marca\TagBundle\Entity\Tagset $tagset)
+    {
+        $this->tagset[] = $tagset;
+    }
+
+    /**
+     * Get tagset
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getTagset()
+    {
+        return $this->tagset;
     }
 }
