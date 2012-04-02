@@ -6,7 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response; 
 use Marca\DocBundle\Entity\Doc;
+use Marca\DocBundle\Entity\Autosave;
 use Marca\DocBundle\Form\DocType;
 use Marca\FileBundle\Entity\File;
 use Marca\CourseBundle\Entity\Project;
@@ -220,4 +222,22 @@ class DocController extends Controller
             ->getForm()
         ;
     }
+
+
+    /**
+     * Doc Autosave
+     *
+     * @Route("/autosave", name="doc_autosave")
+     * 
+     */
+    public function autosaveAction()
+    {
+        $autosave = new Autosave();
+        $autosave->debugMode = true;
+        $temp_file = '/var/www/marca/src/Marca/uploads/autosave_'.time().'.txt';
+        $autosave->saveToFile($temp_file);
+        return Response(); 
+    }  
+    
+
 }

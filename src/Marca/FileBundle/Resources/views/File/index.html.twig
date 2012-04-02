@@ -26,7 +26,7 @@
         <td>
             {% if entity.docid %}<i class="icon-edit"></i> <a href="{{ path('doc_show', { 'id': entity.docid }) }}">{{ entity.name }}</a> 
             {% else %}
-            <i class="icon-file"></i> <a href="{{ path('file_view', { 'id': entity.id }) }}">{{ entity.name }}</a>
+            <i class="icon-file"></i> <a href="{{ path('file_view', { 'id': entity.id }) }}" title="View {{ entity.name }} (will open in a new window or tab)" target="_blank">{{ entity.name }}</a>
             {% endif %}         
         </td> 
         
