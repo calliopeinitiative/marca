@@ -46,9 +46,16 @@ class Tag
     /**
      * @var string $icon
      *
-     * @ORM\Column(name="icon", type="string", length=255)
+     * @ORM\Column(name="icon", type="string", length=255, nullable=true)
      */
     private $icon;
+    
+    /**
+     * @var integer $sort
+     *
+     * @ORM\Column(name="sort", type="integer", nullable=true)
+     */
+    private $sort;
 
     /**
      * @ORM\ManyToOne(targetEntity="Tagset", inversedBy="tag")

@@ -14,6 +14,7 @@ class TagType extends AbstractType
             ->add('color')
             ->add('userid')
             ->add('icon')
+            ->add('icon', 'choice', array('choices'   => array('s' => 'Star', 'f' => 'Flag'),'expanded'=>true, 'required'  => false,))    
             ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'property'=>'name','expanded'=>true,'multiple'=>false, )) 
         ;
     }

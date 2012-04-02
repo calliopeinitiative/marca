@@ -154,7 +154,7 @@ class TagsetController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tagset_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('tagset'));
         }
 
         return array(
