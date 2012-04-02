@@ -116,6 +116,6 @@ class Autosave {
 
 $autosave = new Autosave();
 $autosave->debugMode = true;
-$temp_file = '/var/www/marca/temp/autosave_'.time().'.txt';
+$temp_file = '../temp/autosave_'.time().'.txt';
 $autosave->saveToFile($temp_file);
 ?>

@@ -291,9 +291,21 @@ class FileController extends Controller
                       case "odt":
                       $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.text');
                       break;
+                      case "ods":
+                      $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet');
+                      break;
+                      case "odp":
+                      $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.presentation');
+                      break;
                       case "doc":
                       $response->headers->set('Content-Type', 'application/msword');
                       break;
+                      case "ppt":
+                      $response->headers->set('Content-Type', 'application/mspowerpoint');
+                      break;
+                      case "xls":
+                      $response->headers->set('Content-Type', 'application/x-msexcel');
+                      break;                  
                       case "pdf":
                       $response->headers->set('Content-Type', 'application/pdf');
                       break;
@@ -307,4 +319,3 @@ class FileController extends Controller
 		return $response;
 	}     
 }
-
