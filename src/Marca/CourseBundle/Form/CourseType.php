@@ -28,6 +28,7 @@ class CourseType extends AbstractType
             ->add('portfolio')
             ->add('zine')
             ->add('portStatus', 'hidden')
+            ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'property'=>'name','expanded'=>true,'multiple'=>true, ))     
         ;
     }
 
