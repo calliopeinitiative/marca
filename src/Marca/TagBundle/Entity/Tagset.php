@@ -3,7 +3,7 @@
 namespace Marca\TagBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * Marca\TagBundle\Entity\Tagset
@@ -30,15 +30,18 @@ class Tagset
     private $name;
     
     /**
-     * @ORM\OneToMany(targetEntity="Tag", mappedBy="tagset")
+     * @var integer $userid
+     *
+     * @ORM\Column(name="userid", type="integer")
      */
-    protected $tag;
-
-    public function __construct()
-    {
-        $this->tag = new ArrayCollection();
-    }
-
+    private $userid;
+    
+    
+   /**
+    * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tag", mappedBy="tagset")
+    */
+    protected $tag; 
+    
     /**
      * Get id
      *
@@ -69,6 +72,11 @@ class Tagset
         return $this->name;
     }
 
+    public function __construct()
+    {
+        $this->tag = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Add tag
      *
@@ -87,5 +95,25 @@ class Tagset
     public function getTag()
     {
         return $this->tag;
+    }
+
+    /**
+     * Set userid
+     *
+     * @param integer $userid
+     */
+    public function setUserid($userid)
+    {
+        $this->userid = $userid;
+    }
+
+    /**
+     * Get userid
+     *
+     * @return integer 
+     */
+    public function getUserid()
+    {
+        return $this->userid;
     }
 }

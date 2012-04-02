@@ -33,8 +33,8 @@ class FileController extends Controller
         $courseid = $this->get('request')->getSession()->get('courseid');
         $entities = $em->getRepository('MarcaFileBundle:File')->findFiles($userid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
-
-        return array('entities' => $entities, 'projects' => $projects);
+        $projectid = 0;
+        return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid);
     }
 
     /**
@@ -51,8 +51,8 @@ class FileController extends Controller
         $courseid = $this->get('request')->getSession()->get('courseid');
         $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
-
-        return array('entities' => $entities, 'projects' => $projects);
+        $projectid = $id;
+        return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid);
     }    
     
     /**

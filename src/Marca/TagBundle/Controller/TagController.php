@@ -25,11 +25,35 @@ class TagController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId();
 
-        $entities = $em->getRepository('MarcaTagBundle:Tag')->findAll();
+        $entities = $em->getRepository('MarcaTagBundle:Tag')->findByUserid($userid);
+        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findByUserid($userid);
+        $tagsetid = 0;
 
-        return array('entities' => $entities);
+        return array('entities' => $entities, 'tagsets' => $tagsets, 'tagsetid'=> $tagsetid);
     }
+    
+    
+    /**
+     * Lists all Tag entities.
+     *
+     * @Route("/{id}/tagset", name="tag_bytagset")
+     * @Template("MarcaTagBundle:Tag:index.html.twig")
+     */
+    public function tagsetAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId();
+
+        $entities = $em->getRepository('MarcaTagBundle:Tag')->findTagsByTagset($id);
+        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findByUserid($userid);
+        $tagsetid = $id;
+
+        return array('entities' => $entities, 'tagsets' => $tagsets, 'tagsetid'=> $tagsetid );
+    }    
 
     /**
      * Finds and displays a Tag entity.
@@ -94,7 +118,7 @@ class TagController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tag_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('tag'));
             
         }
 

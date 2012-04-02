@@ -3,9 +3,9 @@
 {% block content %}
 <div class="row-fluid">
     <ul class="nav nav-tabs">
-            <li class=""><a href="{{ path('file') }}">All Files</a></li>
+            <li class="{% if projectid == 0 %}active{% endif %}"><a href="{{ path('file') }}">All Files</a></li>
     {% for project in projects %}
-            <li><a class="" href="{{ path('file_project', { 'id': project.id }) }}">{{ project.name }}</a></li>
+            <li class="{% if projectid == project.id %}active{% endif %}"><a class="" href="{{ path('file_project', { 'id': project.id }) }}">{{ project.name }}</a></li>
     {% endfor %}
      </ul>
 </div>

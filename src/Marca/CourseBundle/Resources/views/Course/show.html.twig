@@ -68,7 +68,13 @@
     <tr>
         <th>Portfolio editing open</th>         
         <td>{{ entity.portStatus=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>      
+    </tr>
+     <tr>
+        <th>Tagset</th>         
+        <td>{% for tagset in tagsets %}{{ tagset.name}}{% endfor %}</td>         
+    </tr>   
+    
+    
 </tbody>
 </table>
 

@@ -3,6 +3,7 @@
 namespace Marca\TagBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
@@ -57,11 +58,10 @@ class Tag
      */
     private $sort;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Tagset", inversedBy="tag")
-     * @ORM\JoinColumn(name="tagset_id", referencedColumnName="id")
-     */
-    protected $tagset;
+   /**
+    * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tagset", inversedBy="tag")
+    */
+    protected $tagset; 
     
     /**
      * Get id
@@ -171,5 +171,39 @@ class Tag
     public function getTagset()
     {
         return $this->tagset;
+    }
+    public function __construct()
+    {
+        $this->tagset = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Set sort
+     *
+     * @param integer $sort
+     */
+    public function setSort($sort)
+    {
+        $this->sort = $sort;
+    }
+
+    /**
+     * Get sort
+     *
+     * @return integer 
+     */
+    public function getSort()
+    {
+        return $this->sort;
+    }
+
+    /**
+     * Add tagset
+     *
+     * @param Marca\TagBundle\Entity\Tagset $tagset
+     */
+    public function addTagset(\Marca\TagBundle\Entity\Tagset $tagset)
+    {
+        $this->tagset[] = $tagset;
     }
 }

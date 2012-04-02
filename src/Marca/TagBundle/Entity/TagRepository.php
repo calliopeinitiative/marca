@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class TagRepository extends EntityRepository
 {
+   public function findTagsByTagset($id)
+    {  
+       return $this->getEntityManager()
+               ->createQuery('SELECT t,s from MarcaTagBundle:Tag t JOIN t.tagset s WHERE s.id = ?1 ORDER BY t.sort DESC')
+               ->setParameter('1',$id)->getResult();
+    }
 }

@@ -49,7 +49,8 @@ class CourseController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
-        $projects = $entity->getProject();      
+        $projects = $entity->getProject();
+        $tagsets = $entity->getTagset(); 
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($id);
        
         if (!$entity) {
@@ -61,6 +62,7 @@ class CourseController extends Controller
         return array(
             'entity'      => $entity,
             'projects'    => $projects,
+            'tagsets'    => $tagsets,
             'roll'        => $roll, 
             'delete_form' => $deleteForm->createView(),        );
     }
