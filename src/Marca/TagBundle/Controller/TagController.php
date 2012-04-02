@@ -80,7 +80,11 @@ class TagController extends Controller
      */
     public function createAction()
     {
+        $em = $this->getDoctrine()->getEntityManager();
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId();
         $entity  = new Tag();
+        $entity->setUserid($userid);
         $request = $this->getRequest();
         $form    = $this->createForm(new TagType(), $entity);
         $form->bindRequest($request);
