@@ -15,12 +15,16 @@ class FileRepository extends EntityRepository
    public function findFilesByProject($id, $userid)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project from MarcaFileBundle:File f LEFT JOIN f.doc d LEFT JOIN f.project p WHERE f.project = ?1 AND f.userid = ?2 ORDER BY f.updated DESC')->setParameter('1',$id)->setParameter('2',$userid)->getResult();
+            ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag from MarcaFileBundle:File f 
+                LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t WHERE f.project = ?1 AND f.userid = ?2 ORDER BY f.updated DESC')
+                ->setParameter('1',$id)->setParameter('2',$userid)->setMaxResults(25)->getResult();
     }
     
-   public function findFiles($userid)
+   public function findFiles($userid, $courseid)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project from MarcaFileBundle:File f LEFT JOIN f.doc d LEFT JOIN f.project p WHERE f.userid = ?1 ORDER BY f.updated DESC')->setParameter('1',$userid)->getResult();
+            ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag from MarcaFileBundle:File f 
+                LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t WHERE f.userid = ?1 AND f.courseid = ?2 ORDER BY f.updated DESC')
+                ->setParameter('1',$userid)->setParameter('2',$courseid)->getResult();
     }    
 }

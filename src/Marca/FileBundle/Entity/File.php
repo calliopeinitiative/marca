@@ -160,7 +160,12 @@ class File
      * @ORM\OneToOne(targetEntity="Marca\DocBundle\Entity\Doc", mappedBy="file")
      * 
      */
-    private $doc;    
+    private $doc;   
+    
+   /**
+    * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tag")
+    */
+    protected $tag;     
 
     /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -347,5 +352,29 @@ class File
     public function getDoc()
     {
         return $this->doc;
+    }
+    public function __construct()
+    {
+        $this->tag = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add tag
+     *
+     * @param Marca\TagBundle\Entity\Tag $tag
+     */
+    public function addTag(\Marca\TagBundle\Entity\Tag $tag)
+    {
+        $this->tag[] = $tag;
+    }
+
+    /**
+     * Get tag
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getTag()
+    {
+        return $this->tag;
     }
 }

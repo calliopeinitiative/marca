@@ -42,6 +42,14 @@ class Tagset
     */
     protected $tag; 
     
+   /**
+     * @ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Course")
+     * @ORM\JoinTable(name="course_tagset",
+     *      joinColumns={@ORM\JoinColumn(name="Tagset_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="Course_id", referencedColumnName="id")})
+    */
+    protected $course;     
+    
     /**
      * Get id
      *
@@ -115,5 +123,25 @@ class Tagset
     public function getUserid()
     {
         return $this->userid;
+    }
+
+    /**
+     * Add course
+     *
+     * @param Marca\TagBundle\Entity\Course $course
+     */
+    public function addCourse(\Marca\TagBundle\Entity\Course $course)
+    {
+        $this->course[] = $course;
+    }
+
+    /**
+     * Get course
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getCourse()
+    {
+        return $this->course;
     }
 }

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
 use Marca\FileBundle\Form\UploadType;
+use Marca\TagBundle\Entity\Tagset;
 
 /**
  * File controller.
@@ -31,7 +32,7 @@ class FileController extends Controller
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $courseid = $this->get('request')->getSession()->get('courseid');
-        $entities = $em->getRepository('MarcaFileBundle:File')->findFiles($userid);
+        $entities = $em->getRepository('MarcaFileBundle:File')->findFiles($userid, $courseid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
         $projectid = 0;
         return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid);

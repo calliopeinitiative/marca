@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row-fluid">
     <ul class="nav nav-tabs">
-            <li class="{% if projectid == 0 %}active{% endif %}"><a href="{{ path('file') }}">All Files</a></li>
+            <li class="{% if projectid == 0 %}active{% endif %}"><a href="{{ path('file') }}">Recent Files</a></li>
     {% for project in projects %}
             <li class="{% if projectid == project.id %}active{% endif %}"><a class="" href="{{ path('file_project', { 'id': project.id }) }}">{{ project.name }}</a></li>
     {% endfor %}
@@ -16,6 +16,7 @@
     <tr>          
         <th>Name</th> 
         <th>Project</th> 
+        <th>Tag</th> 
         <th>Updated</th>        
         <th></th>
     </tr>
@@ -32,8 +33,9 @@
         
         
         <td>{% if entity.project %}<span class="label label-info">{{ entity.project }}</span>{% endif%}</td>
+        <td>{% if entity.tag %}<span class="label label">{{ entity.tag }}</span>{% endif%}</td>
         <td>{% if entity.updated %}{{ entity.updated|date('M d Y,   g:i a') }}{% endif%}</td>        
-        <td><a class="btn btn-primary btn-mini" href="{{ path('file_edit', { 'id': entity.id }) }}">edit</a></td>  
+        <td><a class="btn btn-primary btn-mini" href="{{ path('file_edit', { 'id': entity.id }) }}">Edit listing</a></td>  
     </tr>
     
     {% endfor %}

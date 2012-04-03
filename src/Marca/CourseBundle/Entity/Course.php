@@ -171,7 +171,10 @@ class Course
     } 
     
    /**
-    * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tagset")
+     * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tagset")
+     * @ORM\JoinTable(name="course_tagset",
+     *      joinColumns={@ORM\JoinColumn(name="Course_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="Tagset_id", referencedColumnName="id")})
     */
     protected $tagset; 
 

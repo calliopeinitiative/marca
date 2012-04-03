@@ -25,12 +25,24 @@ class FileType extends AbstractType
                 return $er->createQueryBuilder('p')
                 ->where('p.course = :course')
                 ->setParameter('course', $courseid)        
-                ->orderBy('p.name', 'ASC');},))    
+                ->orderBy('p.name', 'ASC');}, 'expanded'=>true,)) 
+                ->add('tag', 'entity', array('class' => 'MarcaTagBundle:Tag','property'=>'name','query_builder' => 
+                  function(\Marca\TagBundle\Entity\TagRepository $er) use ($options) {
+                  $courseid = $options['courseid'] ;  
+                  return $er->createQueryBuilder('t')
+                        ->join("t.tagset", 's')
+                        ->join("s.course", 'c')
+                        ->where('c.id = :course')
+                        ->setParameter('course', $courseid)        
+                        ->orderBy('c.name', 'ASC');
+                }, 'expanded'=>true,'multiple'=>true,
+              ))                       
              ->add('userid', 'hidden')  
              ->add('courseid', 'hidden')
             ;
     }
-
+                 
+                        
     public function getName()
     {
         return 'marca_filebundle_filetype';

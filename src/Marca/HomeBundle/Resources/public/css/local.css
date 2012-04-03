@@ -24,3 +24,6 @@
 .subnav-fixed {margin-top: -20px;}
 .cell {float:left}
 .doc {background-color: white; border-color: gray;}
+.checkbox {display:inline;}
+label {display:inline;padding:.5em;margin-right: 2em;}
+

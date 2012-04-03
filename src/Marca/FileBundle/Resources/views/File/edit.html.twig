@@ -3,13 +3,22 @@
 {% block content %}
 
 <div class="row">
-<div class="span4  well"> 
-<form action="{{ path('file_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Update</button>
-    </div>
-</form>
+<div class="span6  well"> 
+<form action="{{ path('file_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+{{ form_errors(edit_form) }}{{ form_widget (edit_form.userid) }}{{ form_widget (edit_form.courseid) }}
+{{ form_errors (edit_form.userid) }}{{ form_errors (edit_form.courseid) }}        
+{{ form_errors (edit_form.name) }}{{ form_errors (edit_form.project) }}{{ form_errors (edit_form.tag) }}
+        
+    <table class="table table-bordered table-condensed table-striped">
+    <tbody>
+    <tr><th>Name</th><td>{{ form_widget (edit_form.name) }}</td></tr>       
+    <tr><th>Project</th><td>{{ form_widget (edit_form.project) }}</td></tr> 
+    <tr><th>Tags</th><td>{{ form_widget (edit_form.tag) }}</td></tr>      
+    <tr><th></th><td><button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn" href="{{ path('file') }}">Cancel</a></td></tr>    
+</tbody>
+</table>
+{{ form_rest(edit_form) }} 
+</form>       
 </div>
 </div>
 
@@ -18,7 +27,7 @@
 <form action="{{ path('file_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
-</form>
+</form>    
 </div>
 </div>
 
