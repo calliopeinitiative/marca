@@ -1,0 +1,87 @@
+/*
+Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+body
+{
+	/* Font */
+	font-family: Verdana, sans-serif;
+	font-size: 14px;
+
+	/* Text color */
+	color: #000;
+
+	/* Remove the background color to make it transparent */
+	background-color: #fff;
+}
+
+html
+{
+	/* #3658: [IE6] Editor document has horizontal scrollbar on long lines
+	To prevent this misbehavior, we show the scrollbar always */
+	_overflow-y: scroll
+}
+
+img:-moz-broken
+{
+	-moz-force-broken-image-icon : 1;
+	width : 24px;
+	height : 24px;
+}
+img, input, textarea
+{
+	cursor: default;
+}
+.hiddenSpellError
+{
+   border-bottom: 2px solid red;
+   cursor: default;
+}
+
+.hiddenGrammarError
+{
+   border-bottom: 2px solid green;
+   cursor: default;
+}
+
+.hiddenSuggestion
+{
+   border-bottom: 2px solid blue;
+   cursor: default;
+}
+.eDoc_note {background:#faff93;color:#000;border:1px dashed #cbcbcb;font-size:smaller;}
+.eDoc_m_note {color:blue;background:white; border:white 1px solid;padding-left:4px;padding-right: 2px;}
+.m_highlight {background:#FFFFD3}
+.eDoc_error {background:#bcd85f;padding:1px;}
+.eDoc_hanging_indent {text-indent:-0.5in; margin-left:0.5in;line-height: 200%;font-size:small;}
+.eDoc_paragraph_indent {text-indent:0.5in; line-height: 200%;font-size:small;}
+.eDoc_single_space {line-height: 100%;font-size:small;}
+.eDoc_double_space {line-height: 200%;font-size:small;}
+.context {background:#b6e4ff;padding:1px;}
+.author {background:#ffd8b6;padding:1px;}
+.topic {background:#bfb6ff;padding:1px;}
+.purpose {background:#fffa79;padding:1px;}
+.audience {background:#cdc95f;padding:1px;}
+.subject {background:#8db14f;padding:1px;}
+.main_verb {background:#ffe362;padding:1px;}
+.preposition {background:#4fb1a9;padding:1px;}
+.adjective {background:#ff8e62;padding:1px;}
+.adverb {background:#ff6296;padding:1px;}
+.predicate {background:#5f75c4;padding:1px;}
+.thesis {background:#a6a8ff;padding:1px;}
+.topic_sentence {background:#7fe3c8;padding:1px;}
+.transition {background:#d97fe3;padding:1px;}
+.support {background:#e2e37f;padding:1px;}
+.significant {background:#ea7a94;padding:1px;}
+.key_concepts {background:#7a80ea;padding:1px;}
+.connections {background:#7aea87;padding:1px;}
+.needs_defining {background:#eae47a;padding:1px;}
+.unclear {background:#7aeadc;padding:1px;}
+.argument {background:#47a936;padding:1px;}
+.evidence {background:#ffdf0b;padding:1px;}
+.interpretation {background:#4e52ff;padding:1px;}
+.ethos {background:#BC80CC;color:#000;padding:1px;}
+.pathos {background:#FCFC7C;color:#000;padding:1px;}
+.logos {background:#C8B613;color:#000;padding:1px;}
+.highlight {background:#FFFFD3}

@@ -3,6 +3,8 @@
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_styles.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_tools.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -10,7 +12,7 @@
 $(document).ready(function()
 {
 $('#marca_docbundle_doctype_body').ckeditor( function() {}, {extraPlugins: 'autosave',autosaveTargetUrl:'/marca/web/autosave.php',
-    height:600, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+    height:600, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true, stylesSet:'marca_styles',contentsCss:'/marca/web/bundles/marcahome/css/ckeditor.css', 
 toolbar : [
 ['Save','Preview','-', 'Autosave','Print','Templates','Undo','Redo','Find','Replace','SelectAll','RemoveFormat'],
 ['Bold','Italic','Underline','Strike','Subscript','Superscript','NumberedLst','BulletedList','Outdent','Indent','Blockquote'],
@@ -20,7 +22,7 @@ toolbar : [
 });
 </script>
 <div class="row">
-<div class="span10 well"> 
+<div class="span8"> 
 <form action="{{ path('doc_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_errors(edit_form) }}
 
@@ -30,13 +32,17 @@ toolbar : [
 </div>
 
     {{ form_rest(edit_form) }}
-<div class="span8">        
+<div class="span7">        
     <div class="btn-group pull-right">
         <button class="btn btn-primary" type="submit">Update</button>
          <a class="btn btn-info" href="{{ path('doc_show', { 'id': entity.id }) }}">Cancel</a>
      </div>
 </form>
 </div>
-</div>        
+</div> 
+        
+<div class="span3 well">
+{%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
+</div>    
 </div>
 {% endblock %}

@@ -42,13 +42,13 @@ class Tagset
     */
     protected $tag; 
     
-   /**
-     * @ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Course")
-     * @ORM\JoinTable(name="course_tagset",
-     *      joinColumns={@ORM\JoinColumn(name="Tagset_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="Course_id", referencedColumnName="id")})
+    /**
+     * Inverse Side
+     *
+     * @ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="tagset")
     */
-    protected $course;     
+    private $course;
+     
     
     /**
      * Get id

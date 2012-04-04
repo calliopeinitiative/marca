@@ -7,6 +7,7 @@
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/bootstrap.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/bootstrap-responsive.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
+{% block javascripts %}{% endblock %}
 {% block stylesheets %}{% endblock %}
 <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
 </head>
@@ -48,7 +49,6 @@
 </footer> 
 
 </div><!-- /container --> 
-     
-{% block javascripts %}{% endblock %}
+
 </body>
 </html>

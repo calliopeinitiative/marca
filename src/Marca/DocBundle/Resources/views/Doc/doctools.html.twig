@@ -1,0 +1,233 @@
+<!-- INSERT NOTE -->
+<div class='row'>
+<div class='cell'>
+<a href="javascript:void(0)" class="" tabindex="1" onclick="$('#insert_note_tools').toggle()" title="Toggle Insert Note">Insert Note</a>
+</div>
+</div>
+<div id='insert_note_tools'>
+<div class='row'>
+<div class='cell'>
+Highlight text, type your note and click <em>Insert.</em>
+</div>
+</div>
+<div class='row'>
+<div class='cell'>
+<form id='note_insert_form' name='note_insert_form'>
+<textarea id="insert_value" name="html_insert" rows="3" cols="35" tabindex="1"></textarea>
+<a id='note_insert_submit' href="javascript:void(0)" class="btn" tabindex="1" title="Submit entry">Insert</a>
+</form>     
+</div>
+</div>
+</div>
+
+
+<div id='image_tools'>
+<div class='row'>
+<div class='cell'>
+Place the cursor where you'd like to place your image, select the image, and click <em>Submit.</em>
+</div>
+</div>
+<div class='row'>
+<div class='cell'>
+<form id='image_insert_form' name='note_insert_form'>
+<input id="image_value" name="image_insert" size="40" tabindex="1"></input>
+<input id="image_css" name="image_css" size="40" tabindex="1"></input>
+</form>
+</div>
+</div>
+<div class='row'>
+<div class='cell'>
+<a id='image_insert_submit' href="javascript:void(0)" class="btn" tabindex="1" title="Submit entry">Embed</a>
+</div>
+</div>
+</div>
+
+<!--ERROR INSERT FORM-->
+<div class='row'>
+<div class='cell'>
+SMH Tools
+</div>
+<div class='cell_right'>
+<a href="javascript:void(0)" class="btn" tabindex="1" onclick="fadeIn('smh_tools')" title="Show SMH tools">+</a>
+<a href="javascript:void(0)" class="btn" tabindex="1" onclick="fadeOut('smh_tools')" title="Hide SMH tools">-</a>
+</div>
+</div>
+<div id='smh_tools'>
+<div class='row'>
+<div class='cell'>
+Hightlight text and then select tag.
+</div>
+</div>
+<div class='row'>
+<div class='cell'>
+Common Issues
+</div>
+</div>
+<div class='row'>
+<div class='cell'><a href="javascript:quick_link('Agreement_PA')" class="btn" tabindex="1" title="Submit entry">Agr. PA</a></div>
+<div class='cell'><a href="javascript:quick_link('Agreement_SV')" class="btn" tabindex="1" title="Submit entry">Agr. SV</a></div>
+<div class='cell'><a href="javascript:quick_link('Apostrophe')" class="btn" tabindex="1" title="Submit entry">Apos.</a></div>
+<div class='cell'><a href="javascript:quick_link('Capitals')" class="btn" tabindex="1" title="Submit entry">Capitals</a></div>
+<div class='cell'><a href="javascript:quick_link('Comma_Coordinating')" class="btn" tabindex="1" title="Submit entry">Comma Coor.</a></div>
+</div>
+
+<div class='row'>
+<div class='cell'><a href="javascript:quick_link('Comma_Introductory')" class="btn" tabindex="1" title="Submit entry">Comma Intro.</a></div>
+<div class='cell'><a href="javascript:quick_link('Comma_Non-Restrictive')" class="btn" tabindex="1" title="Submit entry">Comma Non-Restr.</a></div>
+<div class='cell'><a href="javascript:quick_link('Comma_Series')" class="btn" tabindex="1" title="Submit entry">Comma Series</a></div>
+</div>
+
+<div class='row'>
+<div class='cell'><a href="javascript:quick_link('Comma_Splice')" class="btn" tabindex="1" title="Submit entry">Comma Splice</a></div>
+<div class='cell'><a href="javascript:quick_link('Comma_Unnecessary')" class="btn" tabindex="1" title="Submit entry">Comma Unnec.</a></div>
+<div class='cell'><a href="javascript:quick_link('Dangling_Modifier')" class="btn" tabindex="1" title="Submit entry">Dangling Mod.</a></div>
+<div class='cell'><a href="javascript:quick_link('Source_Acknowledgement_Wrong')" class="btn" tabindex="1" title="Submit entry">Doc. Wrong</a></div>
+</div>
+<div class='row'>
+<div class='cell'><a href="javascript:quick_link('Fragment')" class="btn" tabindex="1" title="Submit entry">Fragment</a></div>
+<div class='cell'><a href="javascript:quick_link('Fused_Sentence')" class="btn" tabindex="1" title="Submit entry">Fused Sent.</a></div>
+<div class='cell'><a href="javascript:quick_link('Hyphen')" class="btn" tabindex="1" title="Submit entry">Hyphen</a></div>
+<div class='cell'><a href="javascript:quick_link('Missing_Article_or_Word')" class="btn" tabindex="1" title="Submit entry">Missing Word</a></div>
+</div>
+
+<div class='row'>
+<div class='cell'><a href="javascript:quick_link('Proofreading_Error')" class="btn" tabindex="1" title="Submit entry">Proof</a></div>
+<div class='cell'><a href="javascript:quick_link('Pronoun_Reference')" class="btn" tabindex="1" title="Submit entry">Pron. Ref.</a></div>
+<div class='cell'><a href="javascript:quick_link('Quote_Integration')" class="btn" tabindex="1" title="Submit entry">Quote Integ.</a></div>
+<div class='cell'><a href="javascript:quick_link('Quotation_Marks')" class="btn" tabindex="1" title="Submit entry">Quot. Marks</a></div>
+
+</div>
+<div class='row'>
+<div class='cell'><a href="javascript:quick_link('Spelling')" class="btn" tabindex="1" title="Submit entry">Spelling</a></div>
+<div class='cell'><a href="javascript:quick_link('Tense_Shift')" class="btn" tabindex="1" title="Submit entry">Tense Shift</a></div>
+<div class='cell'><a href="javascript:quick_link('Wrong_Word')" class="btn" tabindex="1" title="Submit entry">Wrong Word</a></div>
+</div>
+<div class='row'>
+<div class='cell'>All SMH tags</div>
+<div class='cell' >
+<form id='error_complete_form' action="" onsubmit="return false;"> 
+<input style='font-size:x-small' type="text" id="error_complete" value="" size="40" onclick="$('form#error_complete_form' )[ 0 ].reset();"/> 
+</form>
+</div>
+</div>
+</div>
+<div class='row'>
+<div class='cell'>
+Markup tags
+</div>
+<div class='cell_right'>
+<a href="javascript:void(0)" class="btn" tabindex="1" onclick="fadeIn('markup')" title="Show SMH tools">+</a>
+<a href="javascript:void(0)" class="btn" tabindex="1" onclick="fadeOut('markup')" title="Hide SMH tools">-</a>
+</div>
+</div>
+<div id='markup'>
+<div class='row'>
+<div class='cell'>
+Hightlight text and then select tag.
+</div>
+</div>
+<div class='row'>
+<div class='cell'>
+CAPTA
+</div>
+</div>
+<div class='row'>
+<div class='cell'><a href="javascript:markup('context')" class="btn" tabindex="1" title="Submit entry">Context</a></div>
+<div class='cell'><a href="javascript:markup('author')" class="btn" tabindex="1" title="Submit entry">Author</a></div>
+<div class='cell'><a href="javascript:markup('topic')" class="btn" tabindex="1" title="Submit entry">Topic</a></div>
+<div class='cell'><a href="javascript:markup('purpose')" class="btn" tabindex="1" title="Submit entry">Purpose</a></div>
+<div class='cell'><a href="javascript:markup('audience')" class="btn" tabindex="1" title="Submit entry">Audience</a></div>
+</div>
+<div class='row'>
+<div class='cell'>
+Sentence 
+</div>
+</div>
+<div class='row'>
+<div class='cell'><a href="javascript:markup('subject')" class="btn" tabindex="1" title="Submit entry">Subject</a></div>
+<div class='cell'><a href="javascript:markup('main_verb')" class="btn" tabindex="1" title="Submit entry">Verb</a></div>
+<div class='cell'><a href="javascript:markup('preposition')" class="btn" tabindex="1" title="Submit entry">Prep.</a></div>
+<div class='cell'><a href="javascript:markup('adjective')" class="btn" tabindex="1" title="Submit entry">Adjective</a></div>
+<div class='cell'><a href="javascript:markup('adverb')" class="btn" tabindex="1" title="Submit entry">Adverb</a></div>
+<div class='cell'><a href="javascript:markup('predicate')" class="btn" tabindex="1" title="Submit entry">Predicate</a></div>
+</div>
+<div class='row'>
+<div class='cell'>
+Structure 
+</div>
+</div>
+<div class='row'>
+<div class='cell'><a href="javascript:markup('thesis')" class="btn" tabindex="1" title="Submit entry">Thesis</a></div>
+<div class='cell'><a href="javascript:markup('topic_sentence')" class="btn" tabindex="1" title="Submit entry">Topic sentence</a></div>
+<div class='cell'><a href="javascript:markup('transition')" class="btn" tabindex="1" title="Submit entry">Transition</a></div>
+<div class='cell'><a href="javascript:markup('support')" class="btn" tabindex="1" title="Submit entry">Support</a></div>
+</div>
+<div class='row'>
+<div class='cell'>
+Annotating
+</div>
+</div>
+<div class='row'>
+<div class='cell'><a href="javascript:markup('significant')" class="btn" tabindex="1" title="Submit entry">Significant</a></div>
+<div class='cell'><a href="javascript:markup('key_concepts')" class="btn" tabindex="1" title="Submit entry">Key</a></div>
+<div class='cell'><a href="javascript:markup('connections')" class="btn" tabindex="1" title="Submit entry">Connection</a></div>
+<div class='cell'><a href="javascript:markup('needs_defining')" class="btn" tabindex="1" title="Submit entry">Define</a></div>
+<div class='cell'><a href="javascript:markup('unclear')" class="btn" tabindex="1" title="Submit entry">Unclear</a></div>
+</div>
+<div class='row'>
+<div class='cell'>
+Argument, Evidence, Interpretation
+</div>
+</div>
+<div class='row'>
+<div class='cell'><a href="javascript:markup('argument')" class="btn" tabindex="1" title="Submit entry">Argument</a></div>
+<div class='cell'><a href="javascript:markup('evidence')" class="btn" tabindex="1" title="Submit entry">Evidence</a></div>
+<div class='cell'><a href="javascript:markup('interpretation')" class="btn" tabindex="1" title="Submit entry">Interpretation</a></div>
+</div>
+<div class='row'>
+<div class='cell'>
+Ethos, Pathos, Logos
+</div>
+</div>
+<div class='row'>
+<div class='cell'><a href="javascript:markup('ethos')" class="btn" tabindex="1" title="Submit entry">Ethos</a></div>
+<div class='cell'><a href="javascript:markup('pathos')" class="btn" tabindex="1" title="Submit entry">Pathos</a></div>
+<div class='cell'><a href="javascript:markup('logos')" class="btn" tabindex="1" title="Submit entry">Logos</a></div>
+</div>
+</div>
+
+<!-- EMBED -->
+<div class='row'>
+<div class='cell'>
+Embed Slides or Video (beta)
+</div>
+<div class='cell_right'>
+<a href="javascript:void(0)" class="btn" tabindex="1" onclick="fadeIn('embed_tools')" title="Show Embed tools">+</a>
+<a href="javascript:void(0)" class="btn" tabindex="1" onclick="fadeOut('embed_tools')" title="Hide Embed tools">-</a>
+</div>
+</div>
+<div id='embed_tools'>
+<div class='row'>
+<div class='cell'>
+Place the cursor where you'd like to place your slides or video, paste in the embed code, and click <em>Embed.</em>
+</div>
+</div>
+<div class='row'>
+<div class='cell'>
+<form id='embed_insert_form' name='note_insert_form'>
+<textarea id="embed_value" name="embed_insert" rows="3" cols="35" tabindex="1"></textarea>
+</form>
+</div>
+</div>
+<div class='row'>
+<div class='cell'>
+<a id='embed_insert_submit' href="javascript:void(0)" class="btn" tabindex="1" title="Submit entry">Embed</a>
+</div>
+</div>
+</div>
+
+<div class='row'>
+<div class='cell'>
+<a id='insert_rubric_link' href="javascript:void(0)" class="btn" tabindex="1" title="Insert Grading Rubric">Insert Grading Rubric</a>
+</div>
+</div>
