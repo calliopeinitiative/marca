@@ -12,11 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class FileRepository extends EntityRepository
 {
-   public function findFilesByProject($id, $userid)
+   public function findFilesByProject($id, $userid, $sort)
     {
-        return $this->getEntityManager()
+       if($sort == 'n') {$sortOrder = 'f.name ASC';}
+       elseif ($sort == 't') {$sortOrder = 't.name ASC';}
+       else {$sortOrder = 'f.updated DESC';};
+       return $this->getEntityManager()
             ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag from MarcaFileBundle:File f 
-                LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t WHERE f.project = ?1 AND f.userid = ?2 ORDER BY f.updated DESC')
+                LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t WHERE f.project = ?1 AND f.userid = ?2 
+                ORDER BY '.$sortOrder)
                 ->setParameter('1',$id)->setParameter('2',$userid)->setMaxResults(25)->getResult();
     }
     
@@ -25,6 +29,6 @@ class FileRepository extends EntityRepository
         return $this->getEntityManager()
             ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag from MarcaFileBundle:File f 
                 LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t WHERE f.userid = ?1 AND f.courseid = ?2 ORDER BY f.updated DESC')
-                ->setParameter('1',$userid)->setParameter('2',$courseid)->getResult();
+                ->setParameter('1',$userid)->setParameter('2',$courseid)->setMaxResults(25)->getResult();
     }    
 }

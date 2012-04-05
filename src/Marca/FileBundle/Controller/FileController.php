@@ -41,16 +41,16 @@ class FileController extends Controller
     /**
      * Lists all File entities by Project.
      *
-     * @Route("/{id}/project", name="file_project")
+     * @Route("/{id}/{sort}/project", name="file_project")
      * @Template("MarcaFileBundle:File:index.html.twig")
      */
-    public function indexByProjectAction($id)
+    public function indexByProjectAction($id, $sort)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $courseid = $this->get('request')->getSession()->get('courseid');
-        $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid);
+        $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid, $sort);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
         $projectid = $id;
         return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid);

@@ -5,7 +5,8 @@
     <ul class="nav nav-tabs">
             <li class="{% if projectid == 0 %}active{% endif %}"><a href="{{ path('file') }}">Recent Files</a></li>
     {% for project in projects %}
-            <li class="{% if projectid == project.id %}active{% endif %}"><a class="" href="{{ path('file_project', { 'id': project.id }) }}">{{ project.name }}</a></li>
+            <li class="{% if projectid == project.id %}active{% endif %}">
+                <a class="" href="{{ path('file_project', { 'id': project.id, 'sort': 'updated' }) }}">{{ project.name }}</a></li>
     {% endfor %}
      </ul>
 </div>
@@ -14,10 +15,10 @@
 <table class="table table-condensed">
 <thead>
     <tr>          
-        <th>Name</th> 
+        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'n' }) }}">Name</a></th> 
         <th>Project</th> 
-        <th>Tag</th> 
-        <th>Updated</th>        
+        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 't' }) }}">Tag</a></th> 
+        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'u' }) }}">Updated</a></th>        
         <th></th>
     </tr>
 </thead>    
