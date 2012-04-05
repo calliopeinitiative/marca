@@ -22,7 +22,7 @@ toolbar : [
 });
 </script>
 <div class="row">
-<div class="span8"> 
+<div class="span9"> 
 <form action="{{ path('doc_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_errors(edit_form) }}
 
@@ -37,11 +37,12 @@ toolbar : [
         <button class="btn btn-primary" type="submit">Update</button>
          <a class="btn btn-info" href="{{ path('doc_show', { 'id': entity.id }) }}">Cancel</a>
      </div>
+</div>        
 </form>
-</div>
+
 </div> 
         
-<div class="span3 well">
+<div class="span3">
 {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 </div>    
 </div>
