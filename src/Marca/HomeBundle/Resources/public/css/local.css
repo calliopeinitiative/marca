@@ -38,9 +38,8 @@ label {display:inline;padding:.5em;margin-right: 2em;}
    Doc displays
 */
 
-.eDoc_note {background:#faff93;color:#000;border:1px dashed #cbcbcb;font-size:smaller;}
-.eDoc_m_note {color:blue;background:white; border:white 1px solid;padding-left:4px;padding-right: 2px;}
-.m_highlight {background:#FFFFD3}
+.eDoc_note {color:blue;background:white; border:white 1px solid;padding-left:4px;padding-right: 2px;}
+.eDoc_highlight {background:#FFFFD3}
 .eDoc_error {background:#bcd85f;padding:1px;}
 .eDoc_hanging_indent {text-indent:-0.5in; margin-left:0.5in;line-height: 200%;font-size:small;}
 .eDoc_paragraph_indent {text-indent:0.5in; line-height: 200%;font-size:small;}

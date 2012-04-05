@@ -1,5 +1,5 @@
 function findValue(li) {
-if( li == null ) {return alert("No match!");}
+if( li == null ) {alert("No match!");}
 else {var sValue = li;}
 var nEditor = CKEDITOR.instances.marca_docbundle_doctype_body;
 var marked = nEditor.getSelection().getNative();
@@ -20,21 +20,24 @@ var marked = nEditor.getSelection().getNative();
 var markup = CKEDITOR.dom.element.createFromHtml('<span title="'+ sValue + '" class="'+ sValue + '">' + nEditor.getSelection().getNative() + ' </span>');
 nEditor.insertElement( markup );
 }
-function InsertHTML()
+function note()
 {
 var note_id = new Date().getTime();
-var mouseover = "noteHightlight('" + note_id + "')";
-var mouseout = "fadeHightlight('" + note_id + "')";
-var nEditor = CKEDITOR.instances.eDoc_body;
+var nEditor = CKEDITOR.instances.marca_docbundle_doctype_body;
 if ( nEditor.mode == 'wysiwyg' )
 {
-var hightlight = CKEDITOR.dom.element.createFromHtml('<span  onmouseover="' + mouseover + '" class="m_highlight s' + note_id + '">' + nEditor.getSelection().getNative() + ' </span>');
+var hightlight = CKEDITOR.dom.element.createFromHtml('<span class="eDoc_highlight ' + note_id + '">' + nEditor.getSelection().getNative() + ' </span>');
 nEditor.insertElement( hightlight );
-var note = CKEDITOR.dom.element.createFromHtml( '<span class="eDoc_m_note n' + note_id + '"> '+ document.getElementById('insert_value').value + ' </span>');
+var note = CKEDITOR.dom.element.createFromHtml( '<span class="eDoc_note ' + note_id + '"> '+ document.getElementById('insert_value').value + ' </span>');
 nEditor.insertElement( note );$( "form#note_insert_form" )[ 0 ].reset();
 }
 else
 alert( 'You must be on WYSIWYG mode!' );
 }
+$(function(){
+ $('#note_insert_submit').click(function(){
+  note();
+ });
+});
 
 

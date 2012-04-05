@@ -1,10 +1,27 @@
 {% extends 'MarcaDocBundle::layout.html.twig' %}
 
 {% block content %} 
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('.eDoc_note').each(function(index) { 
+note_index = index + 1;
+var note_number = '<span class="super">' + note_index + '</span>';
+var note = '<div class="note_list">'+ note_number + $(this).html() + '</div>';
+$('#notes_container').append(note); 
+});
+ 
+$('.eDoc_highlight').each(function(index) { 
+var span_number = index + 1;
+var span_append = '<span class="super hide note_super">' + span_number + '</span>';
+$(this).append(span_append); 
+});
+});
+</script>
 
 <div class="row">
   
-<div class="span10  well">
+<div class="span9  well">
     <h4>{{file.name}}</h4>
     {% if file.project %}<span class="label label-info">{{file.project.name}}</span>{% endif%}  {{file.updated|date('M d Y,   g:i a')}} 
     <div class="btn-group pull-right">
@@ -16,14 +33,24 @@
 
 
 <div class="row">
-<div class="span10 well doc">    
+<div class="span9 well doc">    
        
 {{ entity.body|raw }}       
 
     
  <a class="pull-right btn btn-primary" href="{{ path('doc_edit', { 'id': entity.id }) }}">Edit Content</a>
 </div>        
+
+<div class="span2 well doc">
+
+<div class='cell'>
+<a class="btn btn-primary btn-mini" href="javascript:void(0);" 
+ onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.note_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
 </div>
 
+<div id='notes_container' class='cell clear hide'>
+</div>
+</div>    
 
+</div>
 {% endblock %}
