@@ -6,14 +6,14 @@ $(document).ready(function()
 {
 $('.eDoc_note').each(function(index) { 
 note_index = index + 1;
-var note_number = '<span class="super">' + note_index + '</span>';
-var note = '<div class="note_list">'+ note_number + $(this).html() + '</div>';
+var note_number = '<span class="blue">' + note_index + '</span>';
+var note = '<div class="cell divider clear">'+ note_number + $(this).html() + '</div>';
 $('#notes_container').append(note); 
 });
  
 $('.eDoc_highlight').each(function(index) { 
 var span_number = index + 1;
-var span_append = '<span class="super hide note_super">' + span_number + '</span>';
+var span_append = '<span class="hide eDoc_super">' + span_number + '</span>';
 $(this).append(span_append); 
 });
 });
@@ -45,10 +45,10 @@ $(this).append(span_append);
 
 <div class='cell'>
 <a class="btn btn-primary btn-mini" href="javascript:void(0);" 
- onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.note_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
+ onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
 </div>
 
-<div id='notes_container' class='cell clear hide'>
+<div id='notes_container' class='divider cell clear hide'>
 </div>
 </div>    
 

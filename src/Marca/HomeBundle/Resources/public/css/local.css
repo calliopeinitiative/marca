@@ -45,6 +45,8 @@ label {display:inline;padding:.5em;margin-right: 2em;}
 .eDoc_paragraph_indent {text-indent:0.5in; line-height: 200%;font-size:small;}
 .eDoc_single_space {line-height: 100%;font-size:small;}
 .eDoc_double_space {line-height: 200%;font-size:small;}
+.eDoc_super {color:blue; vertical-align: super;font-size: smaller; line-height: normal;}
+.blue {color:blue; margin-right: 1em;}
 .context {background:#b6e4ff;padding:1px;}
 .author {background:#ffd8b6;padding:1px;}
 .topic {background:#bfb6ff;padding:1px;}
