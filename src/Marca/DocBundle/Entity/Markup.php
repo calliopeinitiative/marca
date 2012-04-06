@@ -51,11 +51,11 @@ class Markup
     private $value;
 
     /**
-     * @var array $set
+     * @var array $markupset
      *
-     * @ORM\Column(name="set", type="array")
+     * @ORM\Column(name="markupset", type="array")
      */
-    private $set;
+    private $markupset;
 
 
     /**
@@ -129,26 +129,6 @@ class Markup
     }
 
     /**
-     * Set set
-     *
-     * @param array $set
-     */
-    public function setSet($set)
-    {
-        $this->set = $set;
-    }
-
-    /**
-     * Get set
-     *
-     * @return array 
-     */
-    public function getSet()
-    {
-        return $this->set;
-    }
-
-    /**
      * Set userid
      *
      * @param integer $userid
@@ -166,5 +146,25 @@ class Markup
     public function getUserid()
     {
         return $this->userid;
+    }
+
+    /**
+     * Set markupset
+     *
+     * @param array $markupset
+     */
+    public function setMarkupset($markupset)
+    {
+        $this->markupset = $markupset;
+    }
+
+    /**
+     * Get markupset
+     *
+     * @return array 
+     */
+    public function getMarkupset()
+    {
+        return $this->markupset;
     }
 }

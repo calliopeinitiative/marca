@@ -13,7 +13,7 @@ class MarkupType extends AbstractType
             ->add('name')
             ->add('function')
             ->add('value')
-            ->add('set')
+            ->add('markupset')
         ;
     }
 
