@@ -12,23 +12,31 @@ use Doctrine\ORM\EntityRepository;
  */
 class FileRepository extends EntityRepository
 {
-   public function findFilesByProject($id, $userid, $sort)
+/**
+ * Frist conditional catches sort order by name, project, tag or udpated
+ * Second conditionals catch Recent Files listing (with no associated project defined so it can be omitted from seach.
+ */
+   public function findFilesByProject($id, $userid, $sort, $courseid)
     {
+       
        if($sort == 'n') {$sortOrder = 'f.name ASC';}
        elseif ($sort == 't') {$sortOrder = 't.name ASC';}
+       elseif ($sort == 'p') {$sortOrder = 'p.name ASC';}
        else {$sortOrder = 'f.updated DESC';};
-       return $this->getEntityManager()
+       if($id == 0) {
+         return $this->getEntityManager()
             ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag from MarcaFileBundle:File f 
-                LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t WHERE f.project = ?1 AND f.userid = ?2 
+                LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t WHERE f.userid = ?1 AND f.courseid = ?2
                 ORDER BY '.$sortOrder)
-                ->setParameter('1',$id)->setParameter('2',$userid)->setMaxResults(25)->getResult();
-    }
-    
-   public function findFiles($userid, $courseid)
-    {
-        return $this->getEntityManager()
+                ->setParameter('1',$userid)->setParameter('2',$courseid)->setMaxResults(25)->getResult(); 
+       } else {
+          return $this->getEntityManager()
             ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag from MarcaFileBundle:File f 
-                LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t WHERE f.userid = ?1 AND f.courseid = ?2 ORDER BY f.updated DESC')
-                ->setParameter('1',$userid)->setParameter('2',$courseid)->setMaxResults(25)->getResult();
-    }    
+                LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t WHERE f.project = ?1 AND f.userid = ?2 AND f.courseid = ?3
+                ORDER BY '.$sortOrder)
+                ->setParameter('1',$id)->setParameter('2',$userid)->setParameter('3',$courseid)->setMaxResults(25)->getResult();
+       };
+
+    }
+      
 }

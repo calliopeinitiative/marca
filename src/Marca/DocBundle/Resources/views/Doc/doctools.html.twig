@@ -88,8 +88,11 @@ Hightlight text and then select tag.
 Hightlight text and then select tag.
 </div>
 
+{% for markup in markup %}
+<div class='cell'><a href="javascript:{{markup.function}}('{{markup.value}}')" class="label label-info" tabindex="1" title="Submit entry">{{markup.name}}</a></div>    
+{% endfor %}    
 
-
+{#
 
 <div class='cell clear'><a href="javascript:markup('context')" class="label label-info" tabindex="1" title="Submit entry">Context</a></div>
 <div class='cell'><a href="javascript:markup('author')" class="label label-info" tabindex="1" title="Submit entry">Author</a></div>
@@ -132,8 +135,9 @@ Hightlight text and then select tag.
 <div class='cell clear'><a href="javascript:markup('ethos')" class="label label-info" tabindex="1" title="Submit entry">Ethos</a></div>
 <div class='cell'><a href="javascript:markup('pathos')" class="label label-info" tabindex="1" title="Submit entry">Pathos</a></div>
 <div class='cell'><a href="javascript:markup('logos')" class="label label-info" tabindex="1" title="Submit entry">Logos</a></div>
-</div>
 
+#}
+</div>    
 {# EMBED #}
 
 <div class='cell clear divider'>

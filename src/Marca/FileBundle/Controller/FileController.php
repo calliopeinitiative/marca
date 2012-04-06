@@ -27,12 +27,14 @@ class FileController extends Controller
      * @Template()
      */
     public function indexAction()
-    {
+    {   
+        $sort = 'u';
+        $id = 0;
         $em = $this->getDoctrine()->getEntityManager();
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $courseid = $this->get('request')->getSession()->get('courseid');
-        $entities = $em->getRepository('MarcaFileBundle:File')->findFiles($userid, $courseid);
+        $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid, $sort, $courseid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
         $projectid = 0;
         return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid);
@@ -50,7 +52,7 @@ class FileController extends Controller
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $courseid = $this->get('request')->getSession()->get('courseid');
-        $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid, $sort);
+        $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid, $sort, $courseid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
         $projectid = $id;
         return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid);

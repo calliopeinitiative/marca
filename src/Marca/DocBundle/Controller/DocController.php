@@ -132,9 +132,12 @@ class DocController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
 
         $entity = $em->getRepository('MarcaDocBundle:Doc')->find($id);
-
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->findByUserid($userid);
+        
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
         }
@@ -144,6 +147,7 @@ class DocController extends Controller
 
         return array(
             'entity'      => $entity,
+            'markup'      => $markup,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
