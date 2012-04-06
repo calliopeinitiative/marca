@@ -52,9 +52,6 @@ label {display:inline;padding:.5em;margin-right: 2em;}
 .topic {background:#bfb6ff;padding:1px;}
 .purpose {background:#fffa79;padding:1px;}
 .audience {background:#cdc95f;padding:1px;}
-.subject {background:#8db14f;padding:1px;}
-.main_verb {background:#ffe362;padding:1px;}
-.preposition {background:#4fb1a9;padding:1px;}
 .adjective {background:#ff8e62;padding:1px;}
 .adverb {background:#ff6296;padding:1px;}
 .predicate {background:#5f75c4;padding:1px;}
@@ -74,5 +71,8 @@ label {display:inline;padding:.5em;margin-right: 2em;}
 .pathos {background:#FCFC7C;color:#000;padding:1px;}
 .logos {background:#C8B613;color:#000;padding:1px;}
 .highlight {background:#FFFFD3}
+.mc1 {background:#8db14f;}
+.mc2 {background:#ffe362;}
+.mc3 {background:#4fb1a9;}
 
 

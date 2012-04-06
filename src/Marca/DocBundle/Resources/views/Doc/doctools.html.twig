@@ -89,7 +89,7 @@ Hightlight text and then select tag.
 </div>
 
 {% for markup in markup %}
-<div class='cell'><a href="javascript:{{markup.function}}('{{markup.value}}')" class="label label-info" tabindex="1" title="Submit entry">{{markup.name}}</a></div>    
+<div class='cell'><a href="javascript:{{markup.function}}('{{markup.value}}','{{markup.color}}')" class="label label-info" tabindex="1" title="Submit entry">{{markup.name}}</a></div>    
 {% endfor %}    
 
 {#

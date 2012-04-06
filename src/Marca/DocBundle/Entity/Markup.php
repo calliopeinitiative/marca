@@ -49,6 +49,13 @@ class Markup
      * @ORM\Column(name="value", type="string", length=255)
      */
     private $value;
+    
+    /**
+     * @var string $color
+     *
+     * @ORM\Column(name="color", type="string", length=255)
+     */
+    private $color;    
 
     /**
      * @var array $markupset
@@ -166,5 +173,25 @@ class Markup
     public function getMarkupset()
     {
         return $this->markupset;
+    }
+
+    /**
+     * Set color
+     *
+     * @param string $color
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+    }
+
+    /**
+     * Get color
+     *
+     * @return string 
+     */
+    public function getColor()
+    {
+        return $this->color;
     }
 }
