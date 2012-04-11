@@ -1,7 +1,7 @@
 {% extends 'MarcaFileBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
+<div class="row pad-left">
     <ul class="nav nav-tabs">
             <li class="{% if projectid == 0 %}active{% endif %}"><a href="{{ path('file') }}">Recent Files</a></li>
     {% for project in projects %}
@@ -10,12 +10,13 @@
     {% endfor %}
      </ul>
 </div>
-<div class="row-fluid">
+<div class="row">
 <div class="span10">
-<table class="table table-condensed">
+<table class="table">
 <thead>
     <tr>          
-        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'n' }) }}">Name <b class="caret"></b></a></th> 
+        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'n' }) }}">Name <b class="caret"></b></a></th>
+        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'r' }) }}">Owner <b class="caret"></b></a></th> 
         <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'p' }) }}">Project <b class="caret"></b></a></th> 
         <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 't' }) }}">Tag <b class="caret"></b></a></th> 
         <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'u' }) }}">Updated <b class="caret"></b></a></th>        
@@ -32,11 +33,12 @@
             {% endif %}         
         </td> 
         
-        
+        <td></td>
         <td>{% if entity.project %}<span class="label label-info">{{ entity.project }}</span>{% endif%}</td>
+        
         <td>{% if entity.tag %}<span class="label label">{{ entity.tag }}</span>{% endif%}</td>
         <td>{% if entity.updated %}{{ entity.updated|date('M d Y,   g:i a') }}{% endif%}</td>        
-        <td><a class="btn btn-primary btn-mini" href="{{ path('file_edit', { 'id': entity.id }) }}">Edit listing</a></td>  
+        <td><a class="" href="{{ path('file_edit', { 'id': entity.id }) }}">Edit listing</a></td>  
     </tr>
     
     {% endfor %}

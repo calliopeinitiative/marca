@@ -155,12 +155,21 @@ class File
      * @ORM\Column(name="path", type="string", length=255)
      */
     private $path;
+     
+     /**
+     * @var integer $access
+     *
+     * @ORM\Column(name="access", type="integer", nullable=true)
+     */
+    private $access;   
     
     /**
      * @ORM\OneToOne(targetEntity="Marca\DocBundle\Entity\Doc", mappedBy="file")
      * 
      */
-    private $doc;   
+    private $doc; 
+    
+
     
    /**
     * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tag")
@@ -376,5 +385,25 @@ class File
     public function getTag()
     {
         return $this->tag;
+    }
+
+    /**
+     * Set access
+     *
+     * @param integer $access
+     */
+    public function setAccess($access)
+    {
+        $this->access = $access;
+    }
+
+    /**
+     * Get access
+     *
+     * @return integer 
+     */
+    public function getAccess()
+    {
+        return $this->access;
     }
 }

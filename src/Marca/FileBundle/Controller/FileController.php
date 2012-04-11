@@ -12,7 +12,7 @@ use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
 use Marca\FileBundle\Form\UploadType;
 use Marca\TagBundle\Entity\Tagset;
-
+use Marca\UserBundle\Entity\Profile;
 /**
  * File controller.
  *
@@ -56,7 +56,8 @@ class FileController extends Controller
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
         $projectid = $id;
         return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid);
-    }    
+    }   
+       
     
     /**
      * Finds and displays a File entity.

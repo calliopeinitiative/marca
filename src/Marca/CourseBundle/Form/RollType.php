@@ -10,7 +10,6 @@ class RollType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('userid')
             ->add('role')
             ->add('status')
         ;
