@@ -16,27 +16,30 @@ class FileRepository extends EntityRepository
  * Frist conditional catches sort order by name, project, tag or udpated
  * Second conditionals catch Recent Files listing (with no associated project defined so it can be omitted from seach.
  */
-   public function findFilesByProject($id, $userid, $sort, $courseid)
+   public function findFilesByProject($id, $userid, $sort, $scope, $courseid)
     {
        
        if($sort == 'n') {$sortOrder = 'f.name ASC';}
        elseif ($sort == 't') {$sortOrder = 't.name ASC';}
        elseif ($sort == 'p') {$sortOrder = 'p.name ASC';}
+       elseif ($sort == 'r') {$sortOrder = 'r.lastname,r.firstname ASC';}
        else {$sortOrder = 'f.updated DESC';};
+       if($scope == 'a') {$scopeQuery = ' or f.access = 1';}
+       else {$scopeQuery = '';};
        if($id == 0) {
          return $this->getEntityManager()
-            ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag
-                FROM MarcaFileBundle:File f LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t  
-                WHERE f.courseid = ?1
+            ->createQuery('SELECT f.id,f.userid,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag, r.lastname, r.firstname, f.access
+                FROM MarcaFileBundle:File f LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t LEFT JOIN f.profile r 
+                WHERE f.courseid = ?1 AND (f.userid = ?2'.$scopeQuery.')
                 ORDER BY '.$sortOrder)
-                ->setParameter('1',$courseid)->setMaxResults(25)->getResult(); 
+                ->setParameter('1',$courseid)->setParameter('2',$userid)->setMaxResults(25)->getResult(); 
        } else {
           return $this->getEntityManager()
-            ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag
-                FROM MarcaFileBundle:File f LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t  
-                WHERE f.project = ?1 AND f.courseid = ?2
+            ->createQuery('SELECT f.id,f.userid,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag, r.lastname, r.firstname, f.access
+                FROM MarcaFileBundle:File f LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t LEFT JOIN f.profile r
+                WHERE f.project = ?1 AND f.courseid = ?2 AND (f.userid = ?3'.$scopeQuery.')
                 ORDER BY '.$sortOrder)
-                ->setParameter('1',$id)->setParameter('2',$courseid)->setMaxResults(25)->getResult();
+                ->setParameter('1',$id)->setParameter('2',$courseid)->setParameter('3',$userid)->setMaxResults(25)->getResult();
        };
 
     }

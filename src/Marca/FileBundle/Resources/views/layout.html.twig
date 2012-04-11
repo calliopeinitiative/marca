@@ -21,7 +21,8 @@
     <div class="well sidebar-nav">
      <ul class="nav nav-list">   
        {% if is_granted('ROLE_USER') %}
-             <li><a href="{{ path('file') }}">Files</a></li>
+             <li><a href="{{ path('file_project', { 'id': 0, 'sort': 'u', 'scope': 'm' }) }}">My Files</a></li>
+             <li><a href="{{ path('file_project', { 'id': 0, 'sort': 'u', 'scope': 'a' }) }}">All Files</a></li>
              <li><a href="{{ path('doc_new') }}">Create eDoc</a></li>
              <li><a href="{{ path('file_upload') }}">Upload File</a></li>
        {% endif %}

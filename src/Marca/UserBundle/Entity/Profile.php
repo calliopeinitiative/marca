@@ -17,7 +17,7 @@ class Profile
     /**
      * @var integer $id
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", unique=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -52,7 +52,7 @@ class Profile
     private $email;
  
      /**
-     * @ORM\OneToMany(targetEntity="\Marca\CourseBundle\Entity\Roll", mappedBy="profile")
+     * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Roll", mappedBy="profile")
      */
     protected $roll;
 
@@ -60,6 +60,12 @@ class Profile
     {
         $this->roll = new ArrayCollection();
     } 
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\FileBundle\Entity\File", mappedBy="file")
+     * @ORM\JoinColumn(name="id", referencedColumnName="userid")
+     */
+    protected $file;
     
     
     /**

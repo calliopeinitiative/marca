@@ -29,33 +29,34 @@ class FileController extends Controller
     public function indexAction()
     {   
         $sort = 'u';
+        $scope = 'm';
         $id = 0;
         $em = $this->getDoctrine()->getEntityManager();
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $courseid = $this->get('request')->getSession()->get('courseid');
-        $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid, $sort, $courseid);
+        $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid, $sort, $scope, $courseid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
         $projectid = 0;
-        return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid);
+        return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid, 'scope'=> $scope, 'userid'=> $userid);
     }
 
     /**
      * Lists all File entities by Project.
      *
-     * @Route("/{id}/{sort}/project", name="file_project")
+     * @Route("/{id}/{sort}/{scope}/project", name="file_project")
      * @Template("MarcaFileBundle:File:index.html.twig")
      */
-    public function indexByProjectAction($id, $sort)
+    public function indexByProjectAction($id, $sort, $scope)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $courseid = $this->get('request')->getSession()->get('courseid');
-        $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid, $sort, $courseid);
+        $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid, $sort, $scope, $courseid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
         $projectid = $id;
-        return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid);
+        return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid, 'scope'=> $scope, 'userid'=> $userid);
     }   
        
     

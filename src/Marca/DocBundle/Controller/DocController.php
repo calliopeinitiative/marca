@@ -90,12 +90,16 @@ class DocController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username); 
+        $userid = $profile->getId(); 
         $courseid = $this->get('request')->getSession()->get('courseid');
+        $projectDefault = $em->getRepository('MarcaCourseBundle:Course')->find($courseid)->getProjectDefault();
               
         $file = new File();
         $file->setName('New eDoc');
-        $file->setUserid($userid);
+        $file->setProfile($profile);
+        $file->setAccess('0');
+        $file->setProject($projectDefault);
         $file->setCourseid($courseid);
         $file->setPath('doc');
         
@@ -113,7 +117,7 @@ class DocController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('doc_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('file_edit', array('id' => $file->getId())));
             
         }
 

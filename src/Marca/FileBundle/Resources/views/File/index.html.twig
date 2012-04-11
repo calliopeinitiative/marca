@@ -3,10 +3,10 @@
 {% block content %}
 <div class="row pad-left">
     <ul class="nav nav-tabs">
-            <li class="{% if projectid == 0 %}active{% endif %}"><a href="{{ path('file') }}">Recent Files</a></li>
+            <li class="{% if projectid == 0 %}active{% endif %}"><a href="{{ path('file_project', { 'id': 0, 'sort': 'u', 'scope': scope }) }}">Recent Files</a></li>
     {% for project in projects %}
             <li class="{% if projectid == project.id %}active{% endif %}">
-                <a class="" href="{{ path('file_project', { 'id': project.id, 'sort': 'updated' }) }}">{{ project.name }}</a></li>
+                <a class="" href="{{ path('file_project', { 'id': project.id, 'sort': 'u', 'scope': scope }) }}">{{ project.name }}</a></li>
     {% endfor %}
      </ul>
 </div>
@@ -15,11 +15,11 @@
 <table class="table">
 <thead>
     <tr>          
-        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'n' }) }}">Name <b class="caret"></b></a></th>
-        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'r' }) }}">Owner <b class="caret"></b></a></th> 
-        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'p' }) }}">Project <b class="caret"></b></a></th> 
-        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 't' }) }}">Tag <b class="caret"></b></a></th> 
-        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'u' }) }}">Updated <b class="caret"></b></a></th>        
+        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'n', 'scope': scope }) }}">Name <b class="caret"></b></a></th>
+        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'r', 'scope': scope  }) }}">Owner <b class="caret"></b></a></th> 
+        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'p', 'scope': scope  }) }}">Project <b class="caret"></b></a></th> 
+        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 't', 'scope': scope  }) }}">Tag <b class="caret"></b></a></th> 
+        <th><a class="" href="{{ path('file_project', { 'id': projectid, 'sort': 'u', 'scope': scope  }) }}">Updated <b class="caret"></b></a></th>        
         <th></th>
     </tr>
 </thead>    
@@ -30,15 +30,16 @@
             {% if entity.docid %}<i class="icon-edit"></i> <a href="{{ path('doc_show', { 'id': entity.docid }) }}">{{ entity.name }}</a> 
             {% else %}
             <i class="icon-file"></i> <a href="{{ path('file_view', { 'id': entity.id }) }}" title="View {{ entity.name }} (will open in a new window or tab)" target="_blank">{{ entity.name }}</a>
-            {% endif %}         
+            {% endif %}  
+            {% if entity.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}  
         </td> 
         
-        <td></td>
+        <td>{% if entity.lastname %}{{ entity.firstname }} {{ entity.lastname }}{% endif%}</td>
         <td>{% if entity.project %}<span class="label label-info">{{ entity.project }}</span>{% endif%}</td>
         
         <td>{% if entity.tag %}<span class="label label">{{ entity.tag }}</span>{% endif%}</td>
         <td>{% if entity.updated %}{{ entity.updated|date('M d Y,   g:i a') }}{% endif%}</td>        
-        <td><a class="" href="{{ path('file_edit', { 'id': entity.id }) }}">Edit listing</a></td>  
+        <td>{% if entity.userid==userid %}<a class="" href="{{ path('file_edit', { 'id': entity.id }) }}">Edit listing</a>{% endif%}</td>  
     </tr>
     
     {% endfor %}

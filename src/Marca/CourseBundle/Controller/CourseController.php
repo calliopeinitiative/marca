@@ -50,6 +50,7 @@ class CourseController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
         $projects = $entity->getProject();
+        $projectDefault = $entity->getProjectDefault()->getName();
         $tagsets = $entity->getTagset(); 
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($id);
        
@@ -62,6 +63,7 @@ class CourseController extends Controller
         return array(
             'entity'      => $entity,
             'projects'    => $projects,
+            'projectDefault'    => $projectDefault,
             'tagsets'    => $tagsets,
             'roll'        => $roll, 
             'delete_form' => $deleteForm->createView(),        );
@@ -184,14 +186,14 @@ class CourseController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
-
+        $options = array('courseid' => $id);
         $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
-        $editForm = $this->createForm(new CourseType(), $entity);
+        $editForm = $this->createForm(new CourseType($options), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -211,14 +213,14 @@ class CourseController extends Controller
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
-
+        $options = array('courseid' => $id);
         $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
-        $editForm   = $this->createForm(new CourseType(), $entity);
+        $editForm = $this->createForm(new CourseType($options), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();

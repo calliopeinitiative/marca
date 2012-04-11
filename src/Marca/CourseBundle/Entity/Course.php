@@ -153,6 +153,12 @@ class Course
      * @ORM\Column(name="portStatus", type="boolean")
      */
     private $portStatus;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Marca\CourseBundle\Entity\Project")
+     * 
+     */
+    private $projectDefault;     
   
     /**
      * @ORM\OneToMany(targetEntity="Project", mappedBy="course")
@@ -168,6 +174,7 @@ class Course
     {
         $this->roll = new ArrayCollection();
         $this->project = new ArrayCollection();
+        $this->projectDefault = new ArrayCollection();
     } 
     
    /**
@@ -680,5 +687,25 @@ class Course
     public function getTagset()
     {
         return $this->tagset;
+    }
+
+    /**
+     * Set projectDefault
+     *
+     * @param Marca\CourseBundle\Entity\Project $projectDefault
+     */
+    public function setProjectDefault(\Marca\CourseBundle\Entity\Project $projectDefault)
+    {
+        $this->projectDefault = $projectDefault;
+    }
+
+    /**
+     * Get projectDefault
+     *
+     * @return Marca\CourseBundle\Entity\Project 
+     */
+    public function getProjectDefault()
+    {
+        return $this->projectDefault;
     }
 }

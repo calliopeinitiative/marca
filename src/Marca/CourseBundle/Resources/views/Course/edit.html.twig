@@ -21,7 +21,7 @@ ampm: true,
 </script>
 
 <div class="span6 well">
-<div class="row">    
+ 
 <form action="{{ path('course_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
 {{ form_errors(edit_form) }}
 {{ form_widget (edit_form.userid) }}{{ form_widget (edit_form.parentId) }}{{ form_widget (edit_form.assessmentId) }}
@@ -42,12 +42,13 @@ ampm: true,
     <tr><th>Display Journal Tool:  </th><td>{{ form_widget (edit_form.journal) }}</td></tr>  
     <tr><th>Display Portfolio Tool:</th><td>{{ form_widget (edit_form.portfolio) }}</td></tr>  
     <tr><th>Display Zine:  </th><td>{{ form_widget (edit_form.zine) }}</td></tr>  
-    <tr><th>Tagset:  </th><td>{{ form_widget (edit_form.tagset) }}</td></tr>  
+    <tr><th>Tagset:  </th><td>{{ form_widget (edit_form.tagset) }}</td></tr> 
+    <tr><th>Default Project:  </th><td>{{ form_widget (edit_form.projectDefault) }}</td></tr>
     <tr><th></th><td><button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn" href="{{ path('course') }}">Cancel</a></td></tr>    
 </tbody>
 </table>
 {{ form_rest(edit_form) }} 
 </form>
-</div>
+
 </div>
 {% endblock %}

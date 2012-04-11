@@ -125,14 +125,14 @@ class File
     /**
      * @var integer $userid
      *
-     * @ORM\Column(name="userid", type="integer")
+     * @ORM\Column(name="userid", type="integer", nullable=true)
      */
     private $userid;
 
     /**
      * @var integer $courseid
      *
-     * @ORM\Column(name="courseid", type="integer")
+     * @ORM\Column(name="courseid", type="integer", nullable=true)
      */
     private $courseid;
 
@@ -169,7 +169,12 @@ class File
      */
     private $doc; 
     
-
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\Profile", inversedBy="file")
+     * @ORM\JoinColumn(name="userid", referencedColumnName="id")
+     * 
+     */
+    private $profile; 
     
    /**
     * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tag")
@@ -405,5 +410,25 @@ class File
     public function getAccess()
     {
         return $this->access;
+    }
+
+    /**
+     * Set profile
+     *
+     * @param Marca\UserBundle\Entity\Profile $profile
+     */
+    public function setProfile(\Marca\UserBundle\Entity\Profile $profile)
+    {
+        $this->profile = $profile;
+    }
+
+    /**
+     * Get profile
+     *
+     * @return Marca\UserBundle\Entity\Profile 
+     */
+    public function getProfile()
+    {
+        return $this->profile;
     }
 }
