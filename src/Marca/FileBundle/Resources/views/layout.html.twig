@@ -1,4 +1,5 @@
 {% extends '::base.html.twig' %}
+{% if scope is not defined %}{% set scope = 'x' %}{% endif %}
 {% block title %}Marca Projects{% endblock %}
 
 {% block stylesheets %}
