@@ -21,10 +21,10 @@
     <div class="well sidebar-nav">
      <ul class="nav nav-list">   
        {% if is_granted('ROLE_USER') %}
-             <li><a href="{{ path('file_project', { 'id': 0, 'sort': 'u', 'scope': 'm' }) }}">My Files</a></li>
-             <li><a href="{{ path('file_project', { 'id': 0, 'sort': 'u', 'scope': 'a' }) }}">All Files</a></li>
-             <li><a href="{{ path('doc_new') }}">Create eDoc</a></li>
-             <li><a href="{{ path('file_upload') }}">Upload File</a></li>
+             <li class="{% if scope=='m' %}active{% endif %}"><a href="{{ path('file_project', { 'id': 0, 'sort': 'u', 'scope': 'm' }) }}">My Files</a></li>
+             <li class="{% if scope=='a' %}active{% endif %}"><a href="{{ path('file_project', { 'id': 0, 'sort': 'u', 'scope': 'a' }) }}">All Files</a></li>
+             <li class=""><a href="{{ path('doc_new') }}">Create eDoc</a></li>
+             <li class=""><a href="{{ path('file_upload') }}">Upload File</a></li>
        {% endif %}
      </ul>
     </div> 
