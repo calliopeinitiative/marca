@@ -79,7 +79,6 @@ class CourseController extends Controller
     {
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
-        
         $entity = new Course();
         $entity->setPortRubricId(1);
         $entity->setProjectDefaultId(1);

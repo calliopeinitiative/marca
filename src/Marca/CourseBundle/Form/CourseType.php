@@ -7,16 +7,9 @@ use Symfony\Component\Form\FormBuilder;
 
 class CourseType extends AbstractType
 {
-     protected $options;
-
-     public function __construct (array $options)
-     {
-        $this->options = $options;
-     }
      
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $options = $this->options;
         $builder
             ->add('name')
             ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'property'=>'termName', ))
@@ -25,18 +18,7 @@ class CourseType extends AbstractType
             ->add('enroll')
             ->add('post')
             ->add('portRubricId', 'hidden')
-            ->add('multicult')
-            ->add('projectDefault','entity', array('class'=>'MarcaCourseBundle:Project', 'property'=>'name', ))
-            ->add('projectDefault', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
-                  function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
-                  $courseid = $options['courseid'] ;  
-                  return $er->createQueryBuilder('p')
-                        ->join("p.course", 'c')
-                        ->where('c.id = :course')
-                        ->setParameter('course', $courseid)        
-                        ->orderBy('p.name', 'ASC');
-                }
-              ))    
+            ->add('multicult') 
             ->add('parentId', 'hidden')
             ->add('assessmentId', 'hidden')
             ->add('studentForum')

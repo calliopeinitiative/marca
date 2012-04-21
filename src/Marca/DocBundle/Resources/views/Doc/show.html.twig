@@ -4,12 +4,19 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('.eDoc_note').each(function(index) { 
+var numNotes = $('.eDoc_note').length;
+if (numNotes > 0)
+{$('.eDoc_note').each(function(index) { 
 note_index = index + 1;
 var note_number = '<span class="blue">' + note_index + '</span>';
 var note = '<div class="cell divider clear">'+ note_number + $(this).html() + '</div>';
 $('#notes_container').append(note); 
 });
+}
+else
+{var note = '<div class="cell divider clear">There are no notes in this document.</div>';
+$('#notes_container').append(note); 
+};
  
 $('.eDoc_highlight').each(function(index) { 
 var span_number = index + 1;
@@ -18,38 +25,46 @@ $(this).append(span_append);
 });
 });
 </script>
-
-<div class="row">
+<div class="row margin-left">
+<div class="btn-group">
+  <a class="btn btn-info" href="{{ path('file') }}">Return to Files</a>
+  <a class="btn btn-primary" href="{{ path('doc_edit', { 'id': entity.id }) }}">Edit Content</a>
+</div>
+</div>
+        
+<div class="row page-header">
 <div class="span9 well doc">          
 {{ entity.body|raw }}       
 </div>        
        
 <div class="span2 well doc">
- <a class=" btn btn-small btn-info" href="{{ path('file') }}">Return to Files</a>   
-    <h4 class="divider">{{file.name}}</h4>
-    <div class="cell">   
+
+    <h3 class="">{{file.name}}</h3>
+
+    <div class="cell divider clear">   
     {% if file.project %}<span class="label label-info">{{file.project.name}}</span>{% endif%}
     </div> 
-    <div class="cell">
+    <div class="cell divider clear">
     {{file.updated|date('M d Y,   g:i a')}} 
     </div>
 
-<div class="cell divider clear">   
+    <div class="cell divider clear">   
     <div class="btn-group pull-right">
     
-    <a class="btn btn-mini btn-info" href="{{ path('file_edit', { 'id': file.id }) }}">Edit Listing</a>
-    <a class="btn btn-mini btn-primary" href="{{ path('doc_edit', { 'id': entity.id }) }}">Edit Content</a>
+    <a class="btn btn-small btn-primary" href="{{ path('file_edit', { 'id': file.id }) }}">Edit Listing</a>
+    
     </div>
 </div>
     
 <div class='cell divider clear'>
-<a class="btn btn-primary btn-mini" href="javascript:void(0);" 
+<a class="btn btn-info btn-small" href="javascript:void(0);" 
  onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
 </div>
 
 <div id='notes_container' class='divider cell clear hide'>
+
 </div>
 </div>    
 </div>
- </div>       
+    
 {% endblock %}
