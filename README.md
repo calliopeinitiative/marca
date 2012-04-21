@@ -1,6 +1,6 @@
 Marca Rebuild by Calliope Initiative 
 ========================
-by Ron Balthazor, Sara Steger, Robin Wharton, John Weatherford, and Andy Famiglietti
+by Ron Balthazor, Sara Steger, Robin Wharton, John Weatherford, and Andy Famiglietti (TEST EDIT!)
 
 Marca is a web applications designed especially for writers and can be used throughout the writing process, 
 from collecting research, to brainstorming, to drafting, through peer review, instructor grading and commenting, 
