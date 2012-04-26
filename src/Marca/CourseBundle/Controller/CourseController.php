@@ -79,10 +79,10 @@ class CourseController extends Controller
     {
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
-        
+        $id = '20';
+        $options = array('courseid' => $id);
         $entity = new Course();
         $entity->setPortRubricId(1);
-        $entity->setProjectDefaultId(1);
         $entity->setAssessmentId(1);
         $entity->setPortStatus(1);
         $entity->setParentId(1);
@@ -96,7 +96,7 @@ class CourseController extends Controller
         $entity->setStudentForum(false);
         $entity->setUserid($userid);
         
-        $form   = $this->createForm(new CourseType(), $entity);
+        $form   = $this->createForm(new CourseType($options), $entity);
 
         return array(
             'entity' => $entity,
@@ -116,11 +116,14 @@ class CourseController extends Controller
         $username = $this->get('security.context')->getToken()->getUsername();
         $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username); 
         $userid = $profile->getId();
+        $id = '20';
+        $options = array('courseid' => $id);
+        
         
         $entity  = new Course();
         $entity->setUserid($userid);
         $request = $this->getRequest();
-        $form    = $this->createForm(new CourseType(), $entity);
+        $form    = $this->createForm(new CourseType($options), $entity);
         $form->bindRequest($request);
         
         $roll = new Roll();
@@ -155,7 +158,9 @@ class CourseController extends Controller
         $project4->setUserid($userid);
         $project4->setSortOrder(4);
         $project4->setResource('t');
-        $project4->setCourse($entity);        
+        $project4->setCourse($entity); 
+        
+        $entity->setProjectDefault($project1);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
@@ -203,6 +208,42 @@ class CourseController extends Controller
         );
     }
 
+     /**
+     * Displays a form to edit an existing Course entity.
+     *
+     * @Route("/{id}/projectdefault", name="projectdefault_edit")
+     * @Template()
+     */
+    public function editprojectdefaultAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $options = array('courseid' => $id);
+        $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Course entity.');
+        }
+
+        $editForm = $this->createFormBuilder($entity)
+            ->add('projectDefault', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
+                  function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
+                  $courseid = $options['courseid'] ;  
+                  return $er->createQueryBuilder('p')
+                        ->join("p.course", 'c')
+                        ->where('c.id = :course')
+                        ->setParameter('course', $courseid)        
+                        ->orderBy('p.name', 'ASC');
+                }
+              ))   
+            ->getForm();
+
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+        );
+    }   
+    
     /**
      * Edits an existing Course entity.
      *

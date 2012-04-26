@@ -25,11 +25,7 @@
     <tr>
         <th>Multicultural Archive</th>         
         <td>{{ entity.multicult=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>        
-    <tr>
-        <th>Default Project</th>         
-        <td>{{ projectDefault }}</td>         
-    </tr>        
+    </tr>           
     <tr>
         <th>Parent Course</th>         
         <td>{{ entity.parentId }}</td>         
@@ -80,12 +76,9 @@
 
 <div class="row">
 <div class="span2">
-<a class="btn btn-primary" href="{{ path('course_edit', { 'id': entity.id }) }}">Edit this Course</a>
+<a class="btn btn-primary" href="{{ path('course_edit', { 'id': entity.id }) }}">Edit</a>
 </div> 
-
-<div class="span2">
-<a class="btn btn-info" href="{{ path('course') }}">List Courses</a>
-</div>       
+    
         
 <div class="span1">        
 <form action="{{ path('course_delete', { 'id': entity.id }) }}" method="post">
@@ -108,7 +101,7 @@
     {% for project in projects %}       
     <tr>
         <th>{{ project.name }}</th>         
-        <td><a class="btn btn-small btn-primary" href="{{ path('project_edit', { 'id': project.id }) }}">Edit</a></td>  
+        <td><a class="btn btn-small btn-primary" href="{{ path('project_edit', { 'id': project.id,'courseid': entity.id }) }}">Edit</a></td>  
         <td>
             <form action="{{ path('project_delete', { 'id': project.id }) }}" method="post">
             {{ form_widget(delete_form) }}
@@ -119,6 +112,11 @@
     {% endfor %}
     </tbody>
     </table>
+    
+    <hr/>
+    <h2>Default Project: {{ projectDefault }} </h2>       
+     <a class="btn btn-small btn-primary" href="{{ path('projectdefault_edit', { 'id': entity.id }) }}">Edit</a>
+    
     <hr/>
     <h2>Roll</h2>
     {% for roll in roll %}

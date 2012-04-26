@@ -104,10 +104,10 @@ class ProjectController extends Controller
     /**
      * Displays a form to edit an existing Project entity.
      *
-     * @Route("/{id}/edit", name="project_edit")
+     * @Route("/{id}/{courseid}/edit", name="project_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($id,$courseid)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -122,6 +122,7 @@ class ProjectController extends Controller
 
         return array(
             'entity'      => $entity,
+            'courseid'      => $courseid,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );

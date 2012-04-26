@@ -77,12 +77,6 @@ class Course
      */
     private $multicult;
 
-    /**
-     * @var integer $projectDefaultId
-     *
-     * @ORM\Column(name="projectDefaultId", type="integer")
-     */
-    private $projectDefaultId;
 
     /**
      * @var integer $parentId
@@ -173,6 +167,7 @@ class Course
     public function __construct()
     {
         $this->roll = new ArrayCollection();
+        $this->tagset = new ArrayCollection();
         $this->project = new ArrayCollection();
         $this->projectDefault = new ArrayCollection();
     } 

@@ -25,18 +25,7 @@ class CourseType extends AbstractType
             ->add('enroll')
             ->add('post')
             ->add('portRubricId', 'hidden')
-            ->add('multicult')
-            ->add('projectDefault','entity', array('class'=>'MarcaCourseBundle:Project', 'property'=>'name', ))
-            ->add('projectDefault', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
-                  function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
-                  $courseid = $options['courseid'] ;  
-                  return $er->createQueryBuilder('p')
-                        ->join("p.course", 'c')
-                        ->where('c.id = :course')
-                        ->setParameter('course', $courseid)        
-                        ->orderBy('p.name', 'ASC');
-                }
-              ))    
+            ->add('multicult') 
             ->add('parentId', 'hidden')
             ->add('assessmentId', 'hidden')
             ->add('studentForum')
