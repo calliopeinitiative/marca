@@ -7,16 +7,9 @@ use Symfony\Component\Form\FormBuilder;
 
 class CourseType extends AbstractType
 {
-     protected $options;
-
-     public function __construct (array $options)
-     {
-        $this->options = $options;
-     }
      
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $options = $this->options;
         $builder
             ->add('name')
             ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'property'=>'termName', ))
