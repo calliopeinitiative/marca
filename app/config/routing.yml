@@ -1,3 +1,8 @@
+MarcaPortfolioBundle:
+    resource: "@MarcaPortfolioBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 MarcaTagBundle:
     resource: "@MarcaTagBundle/Controller/"
     type:     annotation

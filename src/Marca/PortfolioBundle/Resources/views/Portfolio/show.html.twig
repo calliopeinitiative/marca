@@ -1,0 +1,51 @@
+
+{% extends 'MarcaPortfolioBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="row-fluid">
+<div class="span2">
+<div class="btn-group">
+<a class="btn" href="{{ path('portfolio') }}">List</a>
+<a class="btn" href="{{ path('portfolio_edit', { 'id': entity.id }) }}">Edit</a>
+ 
+</div> 
+</div>       
+  
+<div class="span1">        
+<form action="{{ path('portfolio_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger" type="submit">Delete</button>
+</form>
+</div>
+  
+</div>
+        
+<div class="row-fluid">
+<div class="span4">    
+<table class="table table-bordered table-condensed table-striped">
+<tbody>        
+    <tr>
+        <th>Id</th>         
+        <td>{{ entity.id }}</td>         
+    </tr>        
+    <tr>
+        <th>Userid</th>         
+        <td>{{ entity.userid }}</td>         
+    </tr>        
+    <tr>
+        <th>Courseid</th>         
+        <td>{{ entity.courseid }}</td>         
+    </tr>        
+    <tr>
+        <th>Fileid</th>         
+        <td>{{ entity.fileid }}</td>         
+    </tr>        
+    <tr>
+        <th>Portorder</th>         
+        <td>{{ entity.portOrder }}</td>         
+    </tr>  
+</tbody>
+</table>
+</div>        
+</div>      
+{% endblock %}
