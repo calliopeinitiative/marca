@@ -28,7 +28,8 @@ class JournalController extends Controller
         $username = $this->get('security.context')->getToken()->getUsername();
         $set = $set;
         $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
-        $entities = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($userid, $set);
+        $courseid = $this->get('request')->getSession()->get('courseid');
+        $entities = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($userid, $courseid, $set);
         return array('entities' => $entities,'set' => $set);
     }
 
