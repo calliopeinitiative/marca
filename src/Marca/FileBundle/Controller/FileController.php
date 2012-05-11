@@ -37,8 +37,9 @@ class FileController extends Controller
         $courseid = $this->get('request')->getSession()->get('courseid');
         $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid, $sort, $scope, $courseid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
         $projectid = 0;
-        return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid, 'scope'=> $scope, 'userid'=> $userid);
+        return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid, 'scope'=> $scope, 'userid'=> $userid, 'tags' => $tags);
     }
 
     /**
@@ -55,8 +56,9 @@ class FileController extends Controller
         $courseid = $this->get('request')->getSession()->get('courseid');
         $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid, $sort, $scope, $courseid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
         $projectid = $id;
-        return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid, 'scope'=> $scope, 'userid'=> $userid);
+        return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid, 'scope'=> $scope, 'userid'=> $userid, 'tags' => $tags);
     }   
        
     
@@ -142,7 +144,7 @@ class FileController extends Controller
         $options = array('courseid' => $courseid);
 
         $entity = $em->getRepository('MarcaFileBundle:File')->find($id);
-
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find File entity.');
         }
@@ -152,6 +154,7 @@ class FileController extends Controller
 
         return array(
             'entity'      => $entity,
+            'tags'        => $tags,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -248,6 +251,7 @@ class FileController extends Controller
          $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
          $courseid = $this->get('request')->getSession()->get('courseid');
          $options = array('courseid' => $courseid);
+         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
          $file = new File();
          $file->setUserid($userid);
          $file->setCourseid($courseid);
@@ -265,7 +269,7 @@ class FileController extends Controller
              
          }
 
-    return array('form' => $form->createView());
+    return array('form' => $form->createView(),'tags'  => $tags,);
      } 
  
     /**
