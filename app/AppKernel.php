@@ -24,7 +24,6 @@ class AppKernel extends Kernel
             new Marca\HomeBundle\MarcaHomeBundle(),
             new Marca\UserBundle\MarcaUserBundle(),
             new Marca\CourseBundle\MarcaCourseBundle(),
-            new Marca\GeneratorBundle\MarcaGeneratorBundle(),
             new Marca\AuthenticateBundle\MarcaAuthenticateBundle(),
             new Marca\JournalBundle\MarcaJournalBundle(),
             new Marca\ForumBundle\MarcaForumBundle(),
@@ -38,6 +37,7 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new Marca\GeneratorBundle\MarcaGeneratorBundle();
         }
 
         return $bundles;
