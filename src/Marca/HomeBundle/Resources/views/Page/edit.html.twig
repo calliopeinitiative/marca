@@ -1,0 +1,38 @@
+
+{% extends 'MarcaHomeBundle::layout.html.twig' %}
+
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('#marca_homebundle_pagetype_body').ckeditor( function() {}, {height:600, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+toolbar : [
+['Source','Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
+'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+],} );
+});
+</script>
+<div class="row-fluid">     
+  
+<div class="span1">        
+<form action="{{ path('page_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger" type="submit">Delete</button>
+</form>
+</div>
+  
+</div>
+<div class="row-fluid">    
+<form action="{{ path('page_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+    <div>
+        <button class="btn" type="submit">Edit</button>
+    </div>
+</form>
+</div>
+{% endblock %}

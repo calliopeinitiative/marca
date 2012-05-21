@@ -1,0 +1,28 @@
+
+{% extends 'MarcaHomeBundle::layout.html.twig' %}
+
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('#marca_homebundle_pagetype_body').ckeditor( function() {}, {height:600, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+toolbar : [
+['Source','Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
+'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+],} );
+});
+</script>
+<div class="span12" style="margin-top: 3em"> 
+<form action="{{ path('page_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <div>
+        <button class="btn" type="submit">Create</button>
+    </div>
+</form>
+</div>
+{% endblock %}
