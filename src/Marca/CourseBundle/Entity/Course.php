@@ -157,7 +157,7 @@ class Course
     /**
      * @ORM\OneToMany(targetEntity="Project", mappedBy="course")
      */
-    protected $project;
+    protected $projects;
     
     /**
      * @ORM\OneToMany(targetEntity="Roll", mappedBy="course")
@@ -168,7 +168,7 @@ class Course
     {
         $this->roll = new ArrayCollection();
         $this->tagset = new ArrayCollection();
-        $this->project = new ArrayCollection();
+        $this->projects = new ArrayCollection();
         $this->projectDefault = new ArrayCollection();
     } 
     
@@ -631,7 +631,7 @@ class Course
      */
     public function addProject(\Marca\CourseBundle\Entity\Project $project)
     {
-        $this->project[] = $project;
+        $this->projects[] = $project;
     }
 
     /**
@@ -639,9 +639,9 @@ class Course
      *
      * @return Doctrine\Common\Collections\Collection 
      */
-    public function getProject()
+    public function getProjects()
     {
-        return $this->project;
+        return $this->projects;
     }
 
     /**

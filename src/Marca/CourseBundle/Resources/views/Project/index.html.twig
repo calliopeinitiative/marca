@@ -4,7 +4,7 @@
 {% block content %}
 <div class="row-fluid">
    <div class="span4">
-      <a class="btn btn-primary" href="{{ path('project_new') }}">New</a>
+      <a class="btn btn-primary" href="{{ path('project_new', {'courseid': entity.id}) }}">New</a>
    </div>
 </div> 
 

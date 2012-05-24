@@ -49,7 +49,7 @@ class CourseController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
-        $projects = $entity->getProject();
+        $projects = $entity->getProjects();
         $projectDefault = $entity->getProjectDefault()->getName();
         $tagsets = $entity->getTagset(); 
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($id);
