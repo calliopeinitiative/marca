@@ -2,18 +2,9 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-<div class="span2">
-<div class="btn-group">
-<a class="btn" href="{{ path('project') }}">List</a>
- 
-</div> 
-</div>       
-  
-</div>
 
 <div class="span12" style="margin-top: 3em"> 
-<form action="{{ path('project_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('project_create', {'courseid': courseid}) }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>
         <button class="btn" type="submit">Create</button>

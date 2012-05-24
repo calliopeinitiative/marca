@@ -57,17 +57,27 @@ class ProjectController extends Controller
     /**
      * Displays a form to create a new Project entity.
      *
-     * @Route("/new", name="project_new")
+     * @Route("/{courseid}/new", name="project_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($courseid)
     {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        //find current # of projects in course (so we can suggest setting sortOrder to this +1
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $maxCourse = count($course->getProjects());
+        
+
         $entity = new Project();
+        $entity->setName('New Project');
         $entity->setResource('t');
+        $entity->setSortOrder($maxCourse + 1);
         $form   = $this->createForm(new ProjectType(), $entity);
 
         return array(
             'entity' => $entity,
+            'courseid' => $courseid,
             'form'   => $form->createView()
         );
     }
@@ -75,23 +85,33 @@ class ProjectController extends Controller
     /**
      * Creates a new Project entity.
      *
-     * @Route("/create", name="project_create")
+     * @Route("/{courseid}/create", name="project_create")
      * @Method("post")
      * @Template("MarcaCourseBundle:Project:new.html.twig")
      */
-    public function createAction()
+    public function createAction($courseid)
     {
+        $em = $this->getDoctrine()->getEntityManager();
         $entity  = new Project();
+        
+      
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $entity->setCourse($course);
+        
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username); 
+        $userid = $profile->getId();
+        $entity->setUserid($userid);
+        
         $request = $this->getRequest();
         $form    = $this->createForm(new ProjectType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('project_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('course_show', array('id' => $courseid)));
             
         }
 
@@ -112,7 +132,7 @@ class ProjectController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('MarcaCourseBundle:Project')->find($id);
-
+        
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
@@ -179,24 +199,36 @@ class ProjectController extends Controller
         $request = $this->getRequest();
 
         $form->bindRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('MarcaCourseBundle:Project')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Project entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('MarcaCourseBundle:Project')->find($id);
+        $courseid = $entity->getCourse()->getId();
+        
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $projects = $course->getProjects();
+        
+        //check if this is project is it's course's default project
+        if($entity === $course->getProjectDefault()){
+            throw $this->createNotFoundException('Cannot delete default project');
         }
+        
+        //check to see if this is the default course and reassign default course if it is
+     
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Project entity.');
+        }
+        
+        
+        $em->remove($entity);
+        $em->flush();
+            
+        //}
 
-        return $this->redirect($this->generateUrl('project'));
+        return $this->redirect($this->generateUrl('course_show', array('id' => $courseid)));
     }
 
     private function createDeleteForm($id)
     {
+        //This function is not currently used (it was called from deleteAction)
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
             ->getForm()

@@ -187,5 +187,5 @@ class Project
     {
         return $this->course;
     }
-
+    
 }
