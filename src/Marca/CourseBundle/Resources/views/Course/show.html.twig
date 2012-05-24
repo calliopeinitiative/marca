@@ -99,16 +99,25 @@
     <table class="table table-condensed">
     <tbody>  
     {% for project in projects %}       
-    <tr>
+    <tr id="delete{{project.id}}">
         <th>{{ project.name }}</th>         
         <td><a class="btn btn-small btn-primary" href="{{ path('project_edit', { 'id': project.id,'courseid': entity.id }) }}">Edit</a></td>  
+        <td>
+        <button class="btn btn-danger" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button> 
+        </td>       
+    </tr>
+     <tr id="confirm{{project.id}}" class="toggle">
+        <th>{{ project.name }}</th>         
         <td>
             <form action="{{ path('project_delete', { 'id': project.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
             </form>
-         </td>       
-    </tr> 
+        </td>  
+        <td>
+        <button  class="btn btn-info" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Cancel</button> 
+        </td>       
+    </tr>   
     {% endfor %}
     </tbody>
     </table>
