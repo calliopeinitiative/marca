@@ -59,14 +59,11 @@ class EnrollController extends Controller
     }     
     
       /**
-     * @Route("/enroll", name="enroll_enroll")
+     * @Route("/{id}/enroll", name="enroll_enroll")
      * @Template()
      */
-    public function enrollCourseAction()
+    public function enrollCourseAction($id)
     {
-       $request = $this->get('request');
-       $postData = $request->request->get('form');
-       $courseid = $postData['courseid'];
        $em = $this->get('doctrine.orm.entity_manager'); 
        return $this->redirect($this->generateUrl('user_home'));
     }  

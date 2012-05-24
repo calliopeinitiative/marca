@@ -17,4 +17,20 @@ class RollRepository extends EntityRepository
         return $this->getEntityManager()
             ->createQuery('SELECT p.lastname,p.firstname,r.role from MarcaCourseBundle:Roll r JOIN r.profile p JOIN r.course c WHERE c.id = ?1 ORDER BY p.lastname,p.firstname')->setParameter('1',$id)->getResult();
     }
+    
+    public function createAction($courseid)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username); 
+
+        $roll  = new Roll();
+        $roll->setCourse($courseid);
+        $roll->setRole('1');
+        $roll->setStatus('1');
+        $roll->setProfile($profile);
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->persist($entity);
+        $em->flush();            
+    }    
 }
