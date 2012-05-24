@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\CourseBundle\Entity\Course;
 use Marca\UserBundle\Entity\Profile;
+use Marca\CourseBundle\Entity\Roll;
 use Marca\UserBundle\Form\ProfileType;
 
 /**
@@ -64,7 +65,9 @@ class EnrollController extends Controller
      */
     public function enrollCourseAction($id)
     {
+       $profile_id = $this->get('security.context')->getToken()->getUser()->getProfile()->getId();
        $em = $this->get('doctrine.orm.entity_manager'); 
+       $em->getRepository('MarcaCourseBundle:Roll')->enroll($id,$profile_id);
        return $this->redirect($this->generateUrl('user_home'));
     }  
     

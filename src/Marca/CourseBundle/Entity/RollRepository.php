@@ -3,6 +3,8 @@
 namespace Marca\CourseBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Marca\UserBundle\Entity\Profile;
+use Marca\CourseBundle\Entity\Course;
 
 /**
  * RollRepository
@@ -18,19 +20,17 @@ class RollRepository extends EntityRepository
             ->createQuery('SELECT p.lastname,p.firstname,r.role from MarcaCourseBundle:Roll r JOIN r.profile p JOIN r.course c WHERE c.id = ?1 ORDER BY p.lastname,p.firstname')->setParameter('1',$id)->getResult();
     }
     
-    public function createAction($courseid)
+    public function enroll($id,$profile_id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $user = $this->get('security.context')->getToken()->getUser();
-        $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username); 
-
+        $em = $this->getEntityManager();
+        $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneById($profile_id);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($id);
         $roll  = new Roll();
-        $roll->setCourse($courseid);
-        $roll->setRole('1');
+        $roll->setCourse($course);
+        $roll->setRole('0');
         $roll->setStatus('1');
         $roll->setProfile($profile);
-        $em = $this->getDoctrine()->getEntityManager();
-        $em->persist($entity);
+        $em->persist($roll);
         $em->flush();            
     }    
 }

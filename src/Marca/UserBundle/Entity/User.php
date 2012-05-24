@@ -25,6 +25,13 @@ class User extends BaseUser
         // your own logic
     }
 
+     /**
+     * @ORM\OneToOne(targetEntity="Profile", mappedBy="user")
+     * @ORM\JoinColumn(nullable=true)
+     **/
+    private $profile; 
+    
+    
     /**
      * Get id
      *
@@ -33,5 +40,26 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+       
+
+    /**
+     * Set profile
+     *
+     * @param Marca\UserBundle\Entity\Profile $profile
+     */
+    public function setProfile(\Marca\UserBundle\Entity\Profile $profile)
+    {
+        $this->profile = $profile;
+    }
+
+    /**
+     * Get profile
+     *
+     * @return Marca\UserBundle\Entity\Profile 
+     */
+    public function getProfile()
+    {
+        return $this->profile;
     }
 }
