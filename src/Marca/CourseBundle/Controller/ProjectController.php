@@ -108,6 +108,13 @@ class ProjectController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
+            //attempts to find a project with the same sort order as the new project
+            $duplicateSort = $em->getRepository('MarcaCourseBundle:Project')->findProjectBySortOrder($courseid, $entity->getSortOrder());
+            //if a project with the same sort order exists, incrmement the sort order of this project by one
+            if($duplicateSort){
+                $currentSort = $duplicateSort->getSortOrder();
+                $duplicateSort->setSortOrder($currentSort + 1);
+            }
             $em->persist($entity);
             $em->flush();
 

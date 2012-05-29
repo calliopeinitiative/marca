@@ -67,11 +67,13 @@ class ProfileController extends Controller
         $username = $this->get('security.context')->getToken()->getUsername();
         
         $userManager = $this->get('fos_user.user_manager');
-        $userEmail = $userManager->findUserByUsername($username)->getEmail();
+        $user = $userManager->findUserByUsername($username);
+        $userEmail = $user->getEmail();
         
         $entity = new Profile();
         $entity->setUsername($username);
         $entity->setEmail($userEmail);
+        
         $form   = $this->createForm(new ProfileType(), $entity);
 
         return array(
@@ -89,12 +91,21 @@ class ProfileController extends Controller
      */
     public function createAction()
     {
+        //fetch user so you can add the new profile to the appropriate user later
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->findUserByUsername($username);
+        
         $entity  = new Profile();
         $request = $this->getRequest();
         $form    = $this->createForm(new ProfileType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
+            //update user to include profile 
+            $user->setProfile($entity);
+            $userManager->updateuser($user);
+            
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
             $em->flush();

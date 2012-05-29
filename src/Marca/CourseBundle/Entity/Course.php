@@ -641,7 +641,7 @@ class Course
      */
     public function getProjects()
     {
-        return $this->projects;
+        return $this->projects->toArray();
     }
 
     /**
@@ -703,4 +703,16 @@ class Course
     {
         return $this->projectDefault;
     }
+    
+    /**
+     *Get projectsInSortOrder - returns the course's projects in sort order
+     * @return array 
+     */
+    public function getProjectsInSortOrder()
+    {
+        $project_array = $this->projects->toArray();
+        usort($project_array, array("Marca\CourseBundle\Entity\Project","cmp_sortOrder"));
+        return $project_array;
+    }
+    
 }
