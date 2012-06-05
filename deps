@@ -75,8 +75,9 @@
     git=http://github.com/doctrine/migrations.git
 
 [DoctrineMigrationsBundle]
-    git=http://github.com/symfony/DoctrineMigrationsBundle.git
+    git=https://github.com/doctrine/DoctrineMigrationsBundle.git
     target=/bundles/Symfony/Bundle/DoctrineMigrationsBundle
+    version=origin/2.0
 
 [gedmo-doctrine-extensions]
     git=git://github.com/l3pp4rd/DoctrineExtensions.git
@@ -89,6 +90,7 @@
     git=http://github.com/doctrine/data-fixtures.git
 
 [DoctrineFixturesBundle]
-    git=http://github.com/symfony/DoctrineFixturesBundle.git
+    git=https://github.com/doctrine/DoctrineFixturesBundle.git
     target=/bundles/Symfony/Bundle/DoctrineFixturesBundle
+    version=origin/2.0
 
