@@ -9,4 +9,6 @@
 /uploads
 /temp
 /buildNotes
+.gitignore
 .gitignore~
+

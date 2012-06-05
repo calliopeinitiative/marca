@@ -150,6 +150,7 @@ class Course
     
     /**
      * @ORM\OneToOne(targetEntity="Marca\CourseBundle\Entity\Project")
+     * @ORM\JoinColumn(name="projectDefault_id", onDelete="CASCADE")
      * 
      */
     private $projectDefault;     
@@ -641,7 +642,7 @@ class Course
      */
     public function getProjects()
     {
-        return $this->projects->toArray();
+        return $this->projects;
     }
 
     /**

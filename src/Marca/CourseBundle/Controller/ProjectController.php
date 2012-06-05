@@ -108,12 +108,12 @@ class ProjectController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            //attempts to find a project with the same sort order as the new project
-            $duplicateSort = $em->getRepository('MarcaCourseBundle:Project')->findProjectBySortOrder($courseid, $entity->getSortOrder());
-            //if a project with the same sort order exists, incrmement the sort order of this project by one
-            if($duplicateSort){
-                $currentSort = $duplicateSort->getSortOrder();
-                $duplicateSort->setSortOrder($currentSort + 1);
+            //iterates over current courses, updates sort orders
+            foreach($course->getProjects() as $project){
+                if ($entity->getSortOrder() <= $project->getSortOrder()){
+                    $currentsort = $project->getSortOrder();
+                    $project->setSortOrder($currentsort+1);    
+                }
             }
             $em->persist($entity);
             $em->flush();
@@ -143,7 +143,7 @@ class ProjectController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
-
+        
         $editForm = $this->createForm(new ProjectType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
@@ -167,12 +167,16 @@ class ProjectController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('MarcaCourseBundle:Project')->find($id);
+        $course = $entity->getCourse();
         $courseid = $entity->getCourse()->getId();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
+        //before we update the entity, store the old sort order
+        $oldSort = $entity->getSortOrder();
+        
         $editForm   = $this->createForm(new ProjectType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
@@ -181,6 +185,24 @@ class ProjectController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
+            if ($oldSort < $entity->getSortOrder()){
+                foreach($course->getProjects() as $project){
+                    if ($entity->getSortOrder() >= $project->getSortOrder() && $oldSort < $project->getSortOrder() && $entity->getName() != $project->getName()){
+                        $currentsort = $project->getSortOrder();
+                        //$project->setName("Changed");
+                        $project->setSortOrder($currentsort-1);    
+                }
+            }
+            }
+            elseif ($oldSort > $entity->getSortOrder()){
+                foreach($course->getProjects() as $project){
+                    if ($entity->getSortOrder() <= $project->getSortOrder() && $oldSort > $project->getSortOrder() && $entity->getName() != $project->getName()){
+                        $currentsort = $project->getSortOrder();
+                        //$project->setName("Changed");
+                        $project->setSortOrder($currentsort+1);    
+                }
+            }
+            }
             $em->persist($entity);
             $em->flush();
 
