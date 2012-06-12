@@ -26,7 +26,7 @@ class User extends BaseUser
     }
 
      /**
-     * @ORM\OneToOne(targetEntity="Profile", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="Profile", mappedBy="User", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      **/
     private $profile; 

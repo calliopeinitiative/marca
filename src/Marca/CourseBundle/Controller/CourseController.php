@@ -49,11 +49,13 @@ class CourseController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
-        $projects = $entity->getProjects();
+        $projects = $entity->getProjectsInSortOrder();
+        
         $projectDefault = $entity->getProjectDefault()->getName();
         $tagsets = $entity->getTagset(); 
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($id);
-       
+
+        
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }

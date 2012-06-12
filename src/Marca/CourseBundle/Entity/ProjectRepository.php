@@ -24,4 +24,11 @@ class ProjectRepository extends EntityRepository
             ->createQuery('SELECT p.name,p.id from MarcaCourseBundle:Project p JOIN p.course c WHERE p.course = ?1 
                 and c.projectDefaultId = p.id')->setParameter('1',$courseid)->getResult();
     }    
+    
+    //finds a project in a given course matching a particular sort order
+    public function findProjectBySortOrder($courseid, $sortorder)
+    {
+        return $this->getEntityManager()->createQuery('SELECT p from MarcaCourseBundle:Project p WHERE p.course = ?1 AND p.sortOrder = ?2')->setParameter('1', $courseid)->setParameter('2', $sortorder)->getSingleResult();
+    }
+    
 }

@@ -188,4 +188,13 @@ class Project
         return $this->course;
     }
     
+    //function for comparing and sorting projects by sortOrder
+    static function cmp_sortOrder($a, $b)
+    {
+        if($a->sortOrder === $b->sortOrder) {
+            return 0;
+        }
+        return($a->sortOrder > $b->sortOrder) ? +1 : -1;
+    }
+    
 }

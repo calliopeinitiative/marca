@@ -108,6 +108,13 @@ class ProjectController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
+            //iterates over current courses, updates sort orders
+            foreach($course->getProjects() as $project){
+                if ($entity->getSortOrder() <= $project->getSortOrder()){
+                    $currentsort = $project->getSortOrder();
+                    $project->setSortOrder($currentsort+1);    
+                }
+            }
             $em->persist($entity);
             $em->flush();
 
@@ -136,7 +143,7 @@ class ProjectController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
-
+        
         $editForm = $this->createForm(new ProjectType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
@@ -160,12 +167,16 @@ class ProjectController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('MarcaCourseBundle:Project')->find($id);
+        $course = $entity->getCourse();
         $courseid = $entity->getCourse()->getId();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
+        //before we update the entity, store the old sort order
+        $oldSort = $entity->getSortOrder();
+        
         $editForm   = $this->createForm(new ProjectType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
@@ -174,6 +185,24 @@ class ProjectController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
+            if ($oldSort < $entity->getSortOrder()){
+                foreach($course->getProjects() as $project){
+                    if ($entity->getSortOrder() >= $project->getSortOrder() && $oldSort < $project->getSortOrder() && $entity->getName() != $project->getName()){
+                        $currentsort = $project->getSortOrder();
+                        //$project->setName("Changed");
+                        $project->setSortOrder($currentsort-1);    
+                }
+            }
+            }
+            elseif ($oldSort > $entity->getSortOrder()){
+                foreach($course->getProjects() as $project){
+                    if ($entity->getSortOrder() <= $project->getSortOrder() && $oldSort > $project->getSortOrder() && $entity->getName() != $project->getName()){
+                        $currentsort = $project->getSortOrder();
+                        //$project->setName("Changed");
+                        $project->setSortOrder($currentsort+1);    
+                }
+            }
+            }
             $em->persist($entity);
             $em->flush();
 
@@ -234,4 +263,52 @@ class ProjectController extends Controller
             ->getForm()
         ;
     }
+
+     /**
+     * Moves a Project entity up one in the display order.
+     *
+     * @Route("/{projectId}/promote", name="project_promote")
+     */
+    public function promoteAction($projectId){
+        $em = $this->getDoctrine()->getEntityManager();
+        $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
+        $courseid = $project->getCourse()->getId();
+        if($project->getSortOrder() != 1){
+            $currentOrder = $project->getSortOrder();
+            $previousProject = $em->getRepository('MarcaCourseBundle:Project')->findProjectBySortOrder($courseid, $currentOrder - 1);
+            $project->setSortOrder($currentOrder-1);
+            $previousProject->setSortOrder($currentOrder);
+            $em->persist($project);
+            $em->persist($previousProject);
+            $em->flush();
+        }
+        
+        return $this->redirect($this->generateUrl('course_show', array('id' => $courseid)));
+
+    }
+    
+     /**
+     * Moves a Project entity down one in the display order.
+     *
+     * @Route("/{projectId}/demote", name="project_demote")
+     */
+    public function demoteAction($projectId){
+        $em = $this->getDoctrine()->getEntityManager();
+        $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
+        $courseid = $project->getCourse()->getId();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        if($project->getSortOrder() != count($course->getProjects())){
+            $currentOrder = $project->getSortOrder();
+            $previousProject = $em->getRepository('MarcaCourseBundle:Project')->findProjectBySortOrder($courseid, $currentOrder + 1);
+            $project->setSortOrder($currentOrder+1);
+            $previousProject->setSortOrder($currentOrder);
+            $em->persist($project);
+            $em->persist($previousProject);
+            $em->flush();
+        }
+        
+        return $this->redirect($this->generateUrl('course_show', array('id' => $courseid)));
+
+    }
 }
+
