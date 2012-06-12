@@ -2,7 +2,7 @@
 
 namespace Marca\UserBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -19,8 +19,8 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $username = $this->get('security.context')->getToken()->getUsername();
+        $em = $this->getEm();
+        $username = $this->getUser()->getUsername();
         $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username);       
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUserId($userid);

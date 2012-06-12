@@ -22,16 +22,9 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+        $this->roll = new ArrayCollection();
     }
-
-     /**
-     * @ORM\OneToOne(targetEntity="Profile", mappedBy="User", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-     **/
-    private $profile; 
-    
-    
+ 
     /**
      * Get id
      *
@@ -42,24 +35,91 @@ class User extends BaseUser
         return $this->id;
     }
        
+    /**
+     * @var string $lastname
+     *
+     * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
+     */
+    private $lastname;
 
     /**
-     * Set profile
+     * @var string $firstname
      *
-     * @param Marca\UserBundle\Entity\Profile $profile
+     * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      */
-    public function setProfile(\Marca\UserBundle\Entity\Profile $profile)
+    private $firstname;
+
+ 
+     /**
+     * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Roll", mappedBy="profile")
+     */
+    protected $roll;
+  
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\FileBundle\Entity\File", mappedBy="file")
+     * @ORM\JoinColumn(name="id", referencedColumnName="userid")
+     */
+    protected $file;
+    
+
+    /**
+     * Set lastname
+     *
+     * @param string $lastname
+     */
+    public function setLastname($lastname)
     {
-        $this->profile = $profile;
+        $this->lastname = $lastname;
     }
 
     /**
-     * Get profile
+     * Get lastname
      *
-     * @return Marca\UserBundle\Entity\Profile 
+     * @return string 
      */
-    public function getProfile()
+    public function getLastname()
     {
-        return $this->profile;
+        return $this->lastname;
+    }
+
+    /**
+     * Set firstname
+     *
+     * @param string $firstname
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+    }
+
+    /**
+     * Get firstname
+     *
+     * @return string 
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+
+    /**
+     * Add roll
+     *
+     * @param Marca\CourseBundle\Entity\Roll $roll
+     */
+    public function addRoll(\Marca\CourseBundle\Entity\Roll $roll)
+    {
+        $this->roll[] = $roll;
+    }
+
+    /**
+     * Get roll
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getRoll()
+    {
+        return $this->roll;
     }
 }
