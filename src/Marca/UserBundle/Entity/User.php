@@ -19,23 +19,6 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->roll = new ArrayCollection();
-        $this->course = new ArrayCollection();
-    }
- 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
        
     /**
      * @var string $lastname
@@ -62,14 +45,39 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Roll", mappedBy="user")
      */
     protected $roll;
+    
+     /**
+     * @ORM\OneToMany(targetEntity="Marca\DocBundle\Entity\Markup", mappedBy="user")
+     */
+    protected $markup;    
   
     /**
      * @ORM\OneToMany(targetEntity="Marca\FileBundle\Entity\File", mappedBy="user")
-     * @ORM\JoinColumn(name="id", referencedColumnName="userid")
      */
     protected $file;
     
-
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\JournalBundle\Entity\Journal", mappedBy="user")
+     */
+    protected $journal;    
+    
+    public function __construct()
+    {
+        parent::__construct();
+        $this->roll = new ArrayCollection();
+        $this->course = new ArrayCollection();
+    }
+ 
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
     /**
      * Set lastname
      *
@@ -151,4 +159,64 @@ class User extends BaseUser
         return $this->course;
     }    
     
+
+    /**
+     * Add markup
+     *
+     * @param Marca\DocBundle\Entity\Markup $markup
+     */
+    public function addMarkup(\Marca\DocBundle\Entity\Markup $markup)
+    {
+        $this->markup[] = $markup;
+    }
+
+    /**
+     * Get markup
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getMarkup()
+    {
+        return $this->markup;
+    }
+
+    /**
+     * Add file
+     *
+     * @param Marca\FileBundle\Entity\File $file
+     */
+    public function addFile(\Marca\FileBundle\Entity\File $file)
+    {
+        $this->file[] = $file;
+    }
+
+    /**
+     * Get file
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Add journal
+     *
+     * @param Marca\JournalBundle\Entity\Journal $journal
+     */
+    public function addJournal(\Marca\JournalBundle\Entity\Journal $journal)
+    {
+        $this->journal[] = $journal;
+    }
+
+    /**
+     * Get journal
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getJournal()
+    {
+        return $this->journal;
+    }
 }

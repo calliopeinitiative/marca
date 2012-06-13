@@ -38,8 +38,6 @@ class FileType extends AbstractType
                 }, 'expanded'=>true,'multiple'=>true,
               ))  
              ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,))           
-             ->add('userid', 'hidden')  
-             ->add('courseid', 'hidden')
             ;
     }
                  

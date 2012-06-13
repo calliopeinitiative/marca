@@ -23,21 +23,6 @@ class Doc
     private $id;
 
     /**
-     * @var integer $userid
-     *
-     * @ORM\Column(name="userid", type="integer", nullable=true)
-     */
-    private $userid;
-
-    /**
-     * @var integer $courseid
-     *
-     * @ORM\Column(name="courseid", type="integer")
-     */
-    private $courseid;
-
-
-    /**
      * @var text $body
      *
      * @ORM\Column(name="body", type="text")
@@ -49,6 +34,7 @@ class Doc
     * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="Cascade")
    */
     private $file;
+      
 
    /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -72,47 +58,6 @@ class Doc
     {
         return $this->id;
     }
-
-    /**
-     * Set userid
-     *
-     * @param integer $userid
-     */
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
-    }
-
-    /**
-     * Get userid
-     *
-     * @return integer 
-     */
-    public function getUserid()
-    {
-        return $this->userid;
-    }
-
-    /**
-     * Set courseid
-     *
-     * @param integer $courseid
-     */
-    public function setCourseid($courseid)
-    {
-        $this->courseid = $courseid;
-    }
-
-    /**
-     * Get courseid
-     *
-     * @return integer 
-     */
-    public function getCourseid()
-    {
-        return $this->courseid;
-    }
-
 
     /**
      * Set body

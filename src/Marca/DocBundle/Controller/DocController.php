@@ -89,32 +89,28 @@ class DocController extends Controller
     public function createAction()
     {
         $em = $this->getEm();
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username); 
-        $userid = $profile->getId(); 
+        $user = $this->getUser();
         $courseid = $this->get('request')->getSession()->get('courseid');
-        $projectDefault = $em->getRepository('MarcaCourseBundle:Course')->find($courseid)->getProjectDefault();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $project = $em->getRepository('MarcaCourseBundle:Project')->findOneByCourse($courseid);
               
         $file = new File();
         $file->setName('New eDoc');
-        $file->setProfile($profile);
-        $file->setAccess('0');
-        $file->setProject($projectDefault);
-        $file->setCourseid($courseid);
+        $file->setUser($user);
+        $file->setProject($project);
+        $file->setCourse($course);
         $file->setPath('doc');
         
-        $entity  = new Doc();    
-        $entity->setFile($file); 
-        $entity->setUserid($userid);
-        $entity->setCourseid($courseid);
+        $doc  = new Doc();    
+        $doc->setFile($file); 
         $request = $this->getRequest();
-        $form    = $this->createForm(new DocType(), $entity);
+        $form    = $this->createForm(new DocType(), $doc);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
             $em->persist($file);
-            $em->persist($entity);
+            $em->persist($doc);
             $em->flush();
 
             return $this->redirect($this->generateUrl('file_edit', array('id' => $file->getId())));
@@ -122,7 +118,7 @@ class DocController extends Controller
         }
 
         return array(
-            'entity' => $entity,
+            'doc' => $doc,
             'form'   => $form->createView()
         );
     }
@@ -136,11 +132,10 @@ class DocController extends Controller
     public function editAction($id)
     {
         $em = $this->getEm();
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $user = $this->getUser();
 
         $entity = $em->getRepository('MarcaDocBundle:Doc')->find($id);
-        $markup = $em->getRepository('MarcaDocBundle:Markup')->findByUserid($userid);
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByUser($user);
         
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Doc entity.');

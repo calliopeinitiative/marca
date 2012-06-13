@@ -63,7 +63,7 @@ class File
      *
      * @ORM\Column(name="access", type="integer", nullable=true)
      */
-    private $access;   
+    private $access = 0;   
     
     /**
      * @ORM\OneToOne(targetEntity="Marca\DocBundle\Entity\Doc", mappedBy="file")

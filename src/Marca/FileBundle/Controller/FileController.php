@@ -250,7 +250,7 @@ class FileController extends Controller
          $userid = $user->getId();
          $courseid = $this->get('request')->getSession()->get('courseid');
          $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-
+         $options = array('courseid' => $courseid);
          $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
          $file = new File();
          $file->setUser($user);

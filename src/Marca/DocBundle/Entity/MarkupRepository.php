@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class MarkupRepository extends EntityRepository
 {
+    public function findMarkupByUser($user)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT m from MarcaDocBundle:Markup m WHERE m.user = ?1 ORDER BY m.name')->setParameter('1',$user)->getResult();
+    }
 }

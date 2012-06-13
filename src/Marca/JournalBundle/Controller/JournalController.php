@@ -25,11 +25,11 @@ class JournalController extends Controller
     public function indexAction($set)
     {
         $em = $this->getEm();
-        $username = $this->get('security.context')->getToken()->getUsername();
+        $user = $this->getUser();
         $set = $set;
-        $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $courseid = $this->get('request')->getSession()->get('courseid');
-        $entities = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($userid, $courseid, $set);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $entities = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course, $set);
         return array('entities' => $entities,'set' => $set);
     }
 

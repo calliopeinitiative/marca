@@ -23,20 +23,6 @@ class Journal
     private $id;
 
     /**
-     * @var integer $userid
-     *
-     * @ORM\Column(name="userid", type="integer")
-     */
-    private $userid;
-
-    /**
-     * @var integer $courseid
-     *
-     * @ORM\Column(name="courseid", type="integer")
-     */
-    private $courseid;
-
-    /**
      * @var string $title
      *
      * @ORM\Column(name="title", type="string", length=255)
@@ -49,6 +35,17 @@ class Journal
      * @ORM\Column(name="body", type="text")
      */
     private $body;
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="journal")
+    */
+    protected $user;    
+
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="journal")
+    */
+    protected $course;    
     
     /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -191,5 +188,45 @@ class Journal
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set user
+     *
+     * @param Marca\UserBundle\Entity\User $user
+     */
+    public function setUser(\Marca\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Get user
+     *
+     * @return Marca\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set course
+     *
+     * @param Marca\CourseBundle\Entity\Course $course
+     */
+    public function setCourse(\Marca\CourseBundle\Entity\Course $course)
+    {
+        $this->course = $course;
+    }
+
+    /**
+     * Get course
+     *
+     * @return Marca\CourseBundle\Entity\Course 
+     */
+    public function getCourse()
+    {
+        return $this->course;
     }
 }

@@ -26,8 +26,6 @@ class UploadType extends AbstractType
                 ->where('p.course = :course')
                 ->setParameter('course', $courseid)        
                 ->orderBy('p.name', 'ASC');},))    
-             ->add('userid', 'hidden')  
-             ->add('courseid', 'hidden')
              ->add('file')
             ;
     }

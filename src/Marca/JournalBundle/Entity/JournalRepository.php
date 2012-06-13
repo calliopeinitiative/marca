@@ -12,11 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class JournalRepository extends EntityRepository
 {
-  public function findJournalRecent($userid, $courseid, $set)
+  public function findJournalRecent($user, $course, $set)
     {  
        $offset = $set * 5;
        return $this->getEntityManager()
-               ->createQuery('SELECT j from MarcaJournalBundle:Journal j WHERE j.userid = ?1 AND j.courseid = ?2 ORDER BY j.updated DESC')
-               ->setParameters(array('1' => $userid, '2' => $courseid))->setMaxResults(5)->setFirstResult($offset)->getResult();
+               ->createQuery('SELECT j from MarcaJournalBundle:Journal j WHERE j.user = ?1 AND j.course = ?2 ORDER BY j.updated DESC')
+               ->setParameters(array('1' => $user, '2' => $course))->setMaxResults(5)->setFirstResult($offset)->getResult();
     }
 }

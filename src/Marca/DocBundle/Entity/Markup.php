@@ -21,13 +21,6 @@ class Markup
      */
     private $id;
     
-    /**
-     * @var integer $userid
-     *
-     * @ORM\Column(name="userid", type="integer")
-     */
-    private $userid;
-
 
     /**
      * @var string $name
@@ -64,6 +57,11 @@ class Markup
      */
     private $markupset;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="markup")
+    */
+    protected $user;   
+    
 
     /**
      * Get id
@@ -135,25 +133,6 @@ class Markup
         return $this->value;
     }
 
-    /**
-     * Set userid
-     *
-     * @param integer $userid
-     */
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
-    }
-
-    /**
-     * Get userid
-     *
-     * @return integer 
-     */
-    public function getUserid()
-    {
-        return $this->userid;
-    }
 
     /**
      * Set markupset
@@ -194,4 +173,24 @@ class Markup
     {
         return $this->color;
     }
+    
+    /**
+     * Set user
+     *
+     * @param Marca\UserBundle\Entity\User $user
+     */
+    public function setUser(\Marca\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Get user
+     *
+     * @return Marca\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }    
 }
