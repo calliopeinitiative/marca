@@ -26,14 +26,14 @@ class Roll
      *
      * @ORM\Column(name="role", type="integer")
      */
-    private $role;
+    private $role = 0;
 
     /**
      * @var integer $status
      *
      * @ORM\Column(name="status", type="integer")
      */
-    private $status;
+    private $status = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="Course", inversedBy="roll")
@@ -42,10 +42,9 @@ class Roll
     protected $course; 
     
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\Profile", inversedBy="roll")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
-    protected $profile; 
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="roll")
+    */
+    protected $user; 
     
     /**
      * Get id
@@ -117,25 +116,23 @@ class Roll
         return $this->course;
     }
 
-
-
     /**
-     * Set profile
+     * Set user
      *
-     * @param Marca\UserBundle\Entity\Profile $profile
+     * @param Marca\UserBundle\Entity\User $user
      */
-    public function setProfile(\Marca\UserBundle\Entity\Profile $profile)
+    public function setUser(\Marca\UserBundle\Entity\User $user)
     {
-        $this->profile = $profile;
+        $this->user = $user;
     }
 
     /**
-     * Get profile
+     * Get user
      *
-     * @return Marca\UserBundle\Entity\Profile 
+     * @return Marca\UserBundle\Entity\User
      */
-    public function getProfile()
+    public function getUser()
     {
-        return $this->profile;
+        return $this->user;
     }
 }

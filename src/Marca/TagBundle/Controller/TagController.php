@@ -2,7 +2,7 @@
 
 namespace Marca\TagBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,7 +24,7 @@ class TagController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId();
 
@@ -44,7 +44,7 @@ class TagController extends Controller
      */
     public function tagsetAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId();
 
@@ -63,7 +63,7 @@ class TagController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaTagBundle:Tag')->find($id);
 
@@ -104,7 +104,7 @@ class TagController extends Controller
      */
     public function createAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId();
         $entity  = new Tag();
@@ -114,7 +114,7 @@ class TagController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($entity);
             $em->flush();
 
@@ -136,7 +136,7 @@ class TagController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaTagBundle:Tag')->find($id);
 
@@ -163,7 +163,7 @@ class TagController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaTagBundle:Tag')->find($id);
 
@@ -206,7 +206,7 @@ class TagController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $entity = $em->getRepository('MarcaTagBundle:Tag')->find($id);
 
             if (!$entity) {

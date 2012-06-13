@@ -4,7 +4,7 @@
 {% block content %}
 <div class="row-fluid">
 <div class="span6 well">
-<h3>Welcome {{ profile.firstname }} {{ profile.lastname }} </h3>
+<h3>Welcome {{ user.firstname }} {{ user.lastname }} </h3>
 </div>
 </div>   
 
@@ -20,7 +20,6 @@
     {% for course in courses %}
         <tr>
             <td><a class="btn btn-info" href="{{ path('course_home', { 'id': course.id }) }}">{{ course.name }}</a></td>
-            <td>{{ course.lastname }}, {{ course.firstname }}</td>
             <td>{{ course.time|date('h:i a') }}</td>
         </tr>
     {% endfor %}

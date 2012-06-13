@@ -20,11 +20,9 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $em = $this->getEm();
-        $username = $this->getUser()->getUsername();
-        $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username);       
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
-        $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUserId($userid);
+        $user = $this->getUser();
+        $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUser($user);
         
-        return array('profile' => $profile,'courses' => $courses);
+        return array('user' => $user,'courses' => $courses);
     }
 }

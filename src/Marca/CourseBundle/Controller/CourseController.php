@@ -2,7 +2,7 @@
 
 namespace Marca\CourseBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -27,16 +27,10 @@ class CourseController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-        $entities = $em->getRepository('MarcaCourseBundle:Course')->findAll();
-        return array('entities' => $entities);
-        } else {    
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
-        $entities = $em->getRepository('MarcaCourseBundle:Course')->findByUserid($userid);
-        return array('entities' => $entities);
-        }
+        $em = $this->getEm(); 
+        $user = $this->getUser();
+        $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUser($user);
+        return array('courses' => $courses);
     }
 
     /**
@@ -47,25 +41,22 @@ class CourseController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
-        $projects = $entity->getProjectsInSortOrder();
-        
-        $projectDefault = $entity->getProjectDefault()->getName();
-        $tagsets = $entity->getTagset(); 
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $projects = $course->getProjectsInSortOrder();
+        $tagsets = $course->getTagset(); 
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($id);
 
         
-        if (!$entity) {
+        if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'course'      => $course,
             'projects'    => $projects,
-            'projectDefault'    => $projectDefault,
             'tagsets'    => $tagsets,
             'roll'        => $roll, 
             'delete_form' => $deleteForm->createView(),        );
@@ -79,27 +70,14 @@ class CourseController extends Controller
      */
     public function newAction()
     {
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
-        $entity = new Course();
-        $entity->setPortRubricId(1);
-        $entity->setAssessmentId(1);
-        $entity->setPortStatus(1);
-        $entity->setParentId(1);
-        $entity->setEnroll(true);
-        $entity->setPost(true);
-        $entity->setMulticult(false);
-        $entity->setNotes(true);
-        $entity->setJournal(true);
-        $entity->setPortfolio(true);
-        $entity->setZine(false);
-        $entity->setStudentForum(false);
-        $entity->setUserid($userid);
+        $user = $this->getUser();
+        $course = new Course();
+        $course->setUser($user);
         
-        $form   = $this->createForm(new CourseType($options), $entity);
+        $form   = $this->createForm(new CourseType($options), $course);
 
         return array(
-            'entity' => $entity,
+            'course' => $course,
             'form'   => $form->createView()
         );
     }
@@ -112,59 +90,46 @@ class CourseController extends Controller
      * @Template("MarcaCourseBundle:Course:new.html.twig")
      */
     public function createAction()
-    {   $em = $this->getDoctrine()->getEntityManager();
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username); 
-        $userid = $profile->getId();
-        $id = '20';
-        $options = array('courseid' => $id);
-        
-        
-        $entity  = new Course();
-        $entity->setUserid($userid);
+    {   $em = $this->getEm();
+        $user = $this->getUser();
+               
+        $course  = new Course();
+        $course->setUser($user);
         $request = $this->getRequest();
-        $form    = $this->createForm(new CourseType($options), $entity);
+        $form    = $this->createForm(new CourseType($options), $course);
         $form->bindRequest($request);
         
         $roll = new Roll();
         $roll->setRole(1);
-        $roll->setProfile($profile);
+        $roll->setUser($user);
         $roll->setStatus(1);
-        $roll->setCourse($entity);
+        $roll->setCourse($course);
         
         $project1 = new Project();
         $project1->setName('Paper 1');
-        $project1->setUserid($userid);
         $project1->setSortOrder(1);
-        $project1->setResource('t');
-        $project1->setCourse($entity);
+        $project1->setCourse($course);
         
         $project2 = new Project();
         $project2->setName('Paper 2');
-        $project2->setUserid($userid);
         $project2->setSortOrder(2);
-        $project2->setResource('t');
-        $project2->setCourse($entity);
+        $project2->setCourse($course);
         
         $project3 = new Project();
         $project3->setName('Paper 3');
-        $project3->setUserid($userid);
         $project3->setSortOrder(3);
-        $project3->setResource('t');
-        $project3->setCourse($entity);
+        $project3->setCourse($course);
         
         $project4 = new Project();
         $project4->setName('Portfolio Prep');
-        $project4->setUserid($userid);
         $project4->setSortOrder(4);
-        $project4->setResource('t');
-        $project4->setCourse($entity); 
+        $project4->setCourse($course); 
         
-        $entity->setProjectDefault($project1);
+        $course->setProjectDefault($project1);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
-            $em->persist($entity);
+            $em = $this->getEm();
+            $em->persist($course);
             $em->persist($roll);
             $em->persist($project1);
             $em->persist($project2);
@@ -172,7 +137,7 @@ class CourseController extends Controller
             $em->persist($project4);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('course_show', array('id' => $course->getId())));
             
         }
 
@@ -190,59 +155,24 @@ class CourseController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $options = array('courseid' => $id);
-        $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
 
-        if (!$entity) {
+        if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
-        $editForm = $this->createForm(new CourseType($options), $entity);
+        $editForm = $this->createForm(new CourseType($options), $course);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'course'      => $course,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
 
-     /**
-     * Displays a form to edit an existing Course entity.
-     *
-     * @Route("/{id}/projectdefault", name="projectdefault_edit")
-     * @Template()
-     */
-    public function editprojectdefaultAction($id)
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-        $options = array('courseid' => $id);
-        $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Course entity.');
-        }
-
-        $editForm = $this->createFormBuilder($entity)
-            ->add('projectDefault', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
-                  function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
-                  $courseid = $options['courseid'] ;  
-                  return $er->createQueryBuilder('p')
-                        ->join("p.course", 'c')
-                        ->where('c.id = :course')
-                        ->setParameter('course', $courseid)        
-                        ->orderBy('p.name', 'ASC');
-                }
-              ))   
-            ->getForm();
-
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-        );
-    }   
     
     /**
      * Edits an existing Course entity.
@@ -253,7 +183,7 @@ class CourseController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $options = array('courseid' => $id);
         $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
 
@@ -296,7 +226,7 @@ class CourseController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
 
             if (!$entity) {

@@ -19,7 +19,7 @@ class DefaultController extends Controller
      */
     public function indexAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($id);
         $session = $this->get('request')->getSession();
         $session->set('courseid', $id);

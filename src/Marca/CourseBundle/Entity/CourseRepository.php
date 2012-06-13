@@ -26,6 +26,12 @@ class CourseRepository extends EntityRepository
             ->createQuery('SELECT p.lastname,p.firstname,c.name,c.time,c.id from MarcaCourseBundle:Roll r JOIN r.profile p JOIN r.course c
                 WHERE p.id = ?1 ORDER BY c.name')->setParameter('1',$userid)->getResult();
     }  
+    
+    public function findCoursesByUser($user)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT c from MarcaCourseBundle:Course c WHERE c.user = ?1 ORDER BY c.name')->setParameter('1',$user)->getResult();
+    }     
          
     
 }

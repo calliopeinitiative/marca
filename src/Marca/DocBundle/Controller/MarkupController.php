@@ -2,7 +2,7 @@
 
 namespace Marca\DocBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,7 +24,7 @@ class MarkupController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entities = $em->getRepository('MarcaDocBundle:Markup')->findAll();
 
@@ -39,7 +39,7 @@ class MarkupController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaDocBundle:Markup')->find($id);
 
@@ -80,7 +80,7 @@ class MarkupController extends Controller
      */
     public function createAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $entity  = new Markup();
@@ -90,7 +90,7 @@ class MarkupController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($entity);
             $em->flush();
 
@@ -112,7 +112,7 @@ class MarkupController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaDocBundle:Markup')->find($id);
 
@@ -139,7 +139,7 @@ class MarkupController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaDocBundle:Markup')->find($id);
 
@@ -182,7 +182,7 @@ class MarkupController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $entity = $em->getRepository('MarcaDocBundle:Markup')->find($id);
 
             if (!$entity) {

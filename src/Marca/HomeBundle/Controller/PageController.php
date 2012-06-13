@@ -24,7 +24,7 @@ class PageController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entities = $em->getRepository('MarcaHomeBundle:Page')->findAll();
 
@@ -39,7 +39,7 @@ class PageController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaHomeBundle:Page')->find($id);
 
@@ -87,7 +87,7 @@ class PageController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($entity);
             $em->flush();
 
@@ -109,7 +109,7 @@ class PageController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaHomeBundle:Page')->find($id);
 
@@ -136,7 +136,7 @@ class PageController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaHomeBundle:Page')->find($id);
 
@@ -179,7 +179,7 @@ class PageController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $entity = $em->getRepository('MarcaHomeBundle:Page')->find($id);
 
             if (!$entity) {

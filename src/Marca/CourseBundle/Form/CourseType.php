@@ -14,7 +14,6 @@ class CourseType extends AbstractType
             ->add('name')
             ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'property'=>'termName', ))
             ->add('time', 'time', array('widget' => 'single_text')) 
-            ->add('userid', 'hidden')
             ->add('enroll')
             ->add('post')
             ->add('portRubricId', 'hidden')

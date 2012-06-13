@@ -34,6 +34,11 @@ class Course
     * @ORM\ManyToOne(targetEntity="Term", inversedBy="course")
     */
     protected $term;
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="course")
+    */
+    protected $user;    
 
     /**
      * @var time $time
@@ -43,39 +48,32 @@ class Course
     private $time;
 
     /**
-     * @var integer $userid
-     *
-     * @ORM\Column(name="userid", type="integer", nullable=true)
-     */
-    private $userid;
-
-    /**
      * @var boolean $enroll
      *
      * @ORM\Column(name="enroll", type="boolean")
      */
-    private $enroll;
+    private $enroll = true;
 
     /**
      * @var boolean $post
      *
      * @ORM\Column(name="post", type="boolean")
      */
-    private $post;
+    private $post = true;
 
     /**
      * @var integer $portRubricId
      *
      * @ORM\Column(name="portRubricId", type="integer")
      */
-    private $portRubricId;
+    private $portRubricId = 1;
 
     /**
      * @var boolean $multicult
      *
      * @ORM\Column(name="multicult", type="boolean")
      */
-    private $multicult;
+    private $multicult = false;
 
 
     /**
@@ -83,14 +81,14 @@ class Course
      *
      * @ORM\Column(name="parentId", type="integer")
      */
-    private $parentId;
+    private $parentId = 1;
 
     /**
      * @var integer $assessmentId
      *
      * @ORM\Column(name="assessmentId", type="integer")
      */
-    private $assessmentId;
+    private $assessmentId = 1;
 
     /**
      * @var boolean $studentForum
@@ -104,49 +102,49 @@ class Course
      *
      * @ORM\Column(name="notes", type="boolean")
      */
-    private $notes;
+    private $notes = true;
     
     /**
      * @var boolean $forum
      *
      * @ORM\Column(name="forum", type="boolean")
      */
-    private $forum;    
+    private $forum = true;    
 
     /**
      * @var boolean $journal
      *
      * @ORM\Column(name="journal", type="boolean")
      */
-    private $journal;
+    private $journal = true;
 
     /**
      * @var boolean $portfolio
      *
      * @ORM\Column(name="portfolio", type="boolean")
      */
-    private $portfolio;
+    private $portfolio = true;
 
     /**
      * @var boolean $zine
      *
      * @ORM\Column(name="zine", type="boolean")
      */
-    private $zine;
+    private $zine = false;
 
     /**
      * @var text $announcement
      *
      * @ORM\Column(name="announcement", type="text", nullable=true)
      */
-    private $announcement;
+    private $announcement = 'Welcome';
 
     /**
      * @var boolean $portStatus
      *
      * @ORM\Column(name="portStatus", type="boolean")
      */
-    private $portStatus;
+    private $portStatus = 1;
     
     /**
      * @ORM\OneToOne(targetEntity="Marca\CourseBundle\Entity\Project")
@@ -243,26 +241,6 @@ class Course
     public function getTime()
     {
         return $this->time;
-    }
-
-    /**
-     * Set userid
-     *
-     * @param integer $userid
-     */
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
-    }
-
-    /**
-     * Get userid
-     *
-     * @return integer 
-     */
-    public function getUserid()
-    {
-        return $this->userid;
     }
 
     /**
@@ -605,6 +583,26 @@ class Course
         return $this->term;
     }
 
+    /**
+     * Set user
+     *
+     * @param Marca\UserBundle\Entity\User $user
+     */
+    public function setUser(\Marca\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Get user
+     *
+     * @return Marca\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+    
     /**
      * Add roll
      *

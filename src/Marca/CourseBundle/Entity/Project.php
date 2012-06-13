@@ -30,13 +30,6 @@ class Project
     private $name;
 
     /**
-     * @var integer $userid
-     *
-     * @ORM\Column(name="userid", type="integer")
-     */
-    private $userid;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Course", inversedBy="project")
      * @ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")
      */
@@ -55,7 +48,7 @@ class Project
      *
      * @ORM\Column(name="resource", type="boolean")
      */
-    private $resource;
+    private $resource = true;
 
 
     /**
@@ -86,26 +79,6 @@ class Project
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set userid
-     *
-     * @param integer $userid
-     */
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
-    }
-
-    /**
-     * Get userid
-     *
-     * @return integer 
-     */
-    public function getUserid()
-    {
-        return $this->userid;
     }
 
     /**

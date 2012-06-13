@@ -3,7 +3,7 @@
 namespace Marca\UserBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -25,7 +25,7 @@ class ProfileController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
         $entities = $em->getRepository('MarcaUserBundle:Profile')->findAll();
         return array('entities' => $entities);
@@ -48,7 +48,7 @@ class ProfileController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $entity = $em->getRepository('MarcaUserBundle:Profile')->find($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Profile entity.');
@@ -106,7 +106,7 @@ class ProfileController extends Controller
             $user->setProfile($entity);
             $userManager->updateuser($user);
             
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($entity);
             $em->flush();
 
@@ -128,7 +128,7 @@ class ProfileController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaUserBundle:Profile')->find($id);
 
@@ -155,7 +155,7 @@ class ProfileController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaUserBundle:Profile')->find($id);
 
@@ -198,7 +198,7 @@ class ProfileController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $entity = $em->getRepository('MarcaUserBundle:Profile')->find($id);
 
             if (!$entity) {

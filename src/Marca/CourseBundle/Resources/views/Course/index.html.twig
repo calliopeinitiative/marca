@@ -13,11 +13,11 @@
     </tr>
 </thead>    
 <tbody>
-    {% for entity in entities %}
+    {% for course in courses %}
     <tr>         
-        <td>{{ entity.name }}</td>        
-        <td>{{ entity.time|date('h:i a') }}</td>        
-        <td><div class="btn-group"><a class="btn btn-info" href="{{ path('course_show', { 'id': entity.id }) }}">Course Details</a></div>
+        <td>{{ course.name }}</td>        
+        <td>{{ course.time|date('h:i a') }}</td>        
+        <td><div class="btn-group"><a class="btn btn-info" href="{{ path('course_show', { 'id': course.id }) }}">Course Details</a></div>
 
 </td>       
     </tr>

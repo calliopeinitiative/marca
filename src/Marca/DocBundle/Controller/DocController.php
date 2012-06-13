@@ -2,7 +2,7 @@
 
 namespace Marca\DocBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -28,7 +28,7 @@ class DocController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entities = $em->getRepository('MarcaDocBundle:Doc')->findAll();
 
@@ -43,7 +43,7 @@ class DocController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaDocBundle:Doc')->find($id);
         $file = $entity->getFile();
@@ -88,7 +88,7 @@ class DocController extends Controller
      */
     public function createAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $username = $this->get('security.context')->getToken()->getUsername();
         $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username); 
         $userid = $profile->getId(); 
@@ -112,7 +112,7 @@ class DocController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($file);
             $em->persist($entity);
             $em->flush();
@@ -135,7 +135,7 @@ class DocController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
 
@@ -166,7 +166,7 @@ class DocController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaDocBundle:Doc')->find($id);
 
@@ -209,7 +209,7 @@ class DocController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $entity = $em->getRepository('MarcaDocBundle:Doc')->find($id);
 
             if (!$entity) {

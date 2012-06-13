@@ -2,7 +2,7 @@
 
 namespace Marca\JournalBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,7 +24,7 @@ class JournalController extends Controller
      */
     public function indexAction($set)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $username = $this->get('security.context')->getToken()->getUsername();
         $set = $set;
         $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
@@ -41,7 +41,7 @@ class JournalController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
 
@@ -83,7 +83,7 @@ class JournalController extends Controller
      */
     public function createAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $courseid = $this->get('request')->getSession()->get('courseid');
@@ -116,7 +116,7 @@ class JournalController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
 
@@ -143,7 +143,7 @@ class JournalController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
 
@@ -186,7 +186,7 @@ class JournalController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $entity = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
 
             if (!$entity) {

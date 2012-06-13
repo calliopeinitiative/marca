@@ -2,7 +2,7 @@
 
 namespace Marca\FileBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -31,7 +31,7 @@ class FileController extends Controller
         $sort = 'u';
         $scope = 'm';
         $id = 0;
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $courseid = $this->get('request')->getSession()->get('courseid');
@@ -50,7 +50,7 @@ class FileController extends Controller
      */
     public function indexByProjectAction($id, $sort, $scope)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $username = $this->get('security.context')->getToken()->getUsername();
         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
         $courseid = $this->get('request')->getSession()->get('courseid');
@@ -70,7 +70,7 @@ class FileController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaFileBundle:File')->find($id);
 
@@ -117,7 +117,7 @@ class FileController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($entity);
             $em->flush();
 
@@ -139,7 +139,7 @@ class FileController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $courseid = $this->get('request')->getSession()->get('courseid');
         $options = array('courseid' => $courseid);
 
@@ -169,7 +169,7 @@ class FileController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $courseid = $this->get('request')->getSession()->get('courseid');
         $options = array('courseid' => $courseid);
         $entity = $em->getRepository('MarcaFileBundle:File')->find($id);
@@ -213,7 +213,7 @@ class FileController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $entity = $em->getRepository('MarcaFileBundle:File')->find($id);
             $doc = $entity->getDoc();
             if (!$entity) {
@@ -246,7 +246,7 @@ class FileController extends Controller
      */    
      public function uploadAction()
      {
-         $em = $this->getDoctrine()->getEntityManager();
+         $em = $this->getEm();
          $username = $this->get('security.context')->getToken()->getUsername();
          $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
          $courseid = $this->get('request')->getSession()->get('courseid');
@@ -260,7 +260,7 @@ class FileController extends Controller
          if ($this->getRequest()->getMethod() === 'POST') {
              $form->bindRequest($this->getRequest());
              if ($form->isValid()) {
-                 $em = $this->getDoctrine()->getEntityManager();
+                 $em = $this->getEm();
                  $file->upload($userid, $courseid);
                  $em->persist($file);
                  $em->flush(); 
@@ -280,7 +280,7 @@ class FileController extends Controller
      */     
     public function viewAction($id)
 	{
-             $em = $this->getDoctrine()->getEntityManager();
+             $em = $this->getEm();
              $file = $em->getRepository('MarcaFileBundle:File')->find($id);
              $ext = $file->getExt();
 		

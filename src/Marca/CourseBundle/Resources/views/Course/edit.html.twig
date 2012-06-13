@@ -22,11 +22,11 @@ ampm: true,
 
 <div class="span6 well">
  
-<form action="{{ path('course_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+<form action="{{ path('course_update', { 'id': course.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
 {{ form_errors(edit_form) }}
-{{ form_widget (edit_form.userid) }}{{ form_widget (edit_form.parentId) }}{{ form_widget (edit_form.assessmentId) }}
+{{ form_widget (edit_form.parentId) }}{{ form_widget (edit_form.assessmentId) }}
         
-{{ form_errors (edit_form.name) }}{{ form_errors (edit_form.term) }}{{ form_errors (edit_form.time) }}{{ form_errors (edit_form.userid) }}{{ form_errors (edit_form.enroll) }}{{ form_errors (edit_form.post) }}{{ form_errors (edit_form.multicult) }}{{ form_errors (edit_form.parentId) }}{{ form_errors (edit_form.assessmentId) }}{{ form_errors (edit_form.studentForum) }}{{ form_errors (edit_form.notes) }}{{ form_errors (edit_form.forum) }}{{ form_errors (edit_form.journal) }}{{ form_errors (edit_form.portfolio) }}{{ form_errors (edit_form.zine) }}   
+{{ form_errors (edit_form.name) }}{{ form_errors (edit_form.term) }}{{ form_errors (edit_form.time) }}{{ form_errors (edit_form.enroll) }}{{ form_errors (edit_form.post) }}{{ form_errors (edit_form.multicult) }}{{ form_errors (edit_form.parentId) }}{{ form_errors (edit_form.assessmentId) }}{{ form_errors (edit_form.studentForum) }}{{ form_errors (edit_form.notes) }}{{ form_errors (edit_form.forum) }}{{ form_errors (edit_form.journal) }}{{ form_errors (edit_form.portfolio) }}{{ form_errors (edit_form.zine) }}   
         
     <table class="table table-bordered table-condensed table-striped">
     <tbody>

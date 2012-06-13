@@ -3,12 +3,11 @@
 
 {% block content %}
 <div class="span6 well">
-<form action="{{ path('project_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+<form action="{{ path('project_update', { 'id': project.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
 {{ form_errors(edit_form) }}    
 <table class="table table-bordered table-condensed table-striped">
     <tbody>
     <tr><th>Name</th><td>{{ form_widget (edit_form.name) }}</td></tr>       
-    <tr><th>Order in Display</th><td>{{ form_widget (edit_form.sortOrder) }}</td></tr> 
     <tr><th>Display in Resources</th><td>{{ form_widget (edit_form.resource) }}</td></tr>      
     <tr><th></th><td><button class="btn btn-primary" type="submit">Update Project</button>
             <a class="btn" href="{{ path('course_show', { 'id': courseid }) }}">Cancel</a></td></tr>    

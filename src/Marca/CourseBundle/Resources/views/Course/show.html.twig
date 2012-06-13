@@ -6,64 +6,64 @@
 
 <div class="row-fluid">
 <div class="span6 well">  
-<h2>{{ entity.name }}</h2>    
+<h2>{{ course.name }}</h2>    
 <table class="table table-bordered table-condensed table-striped">
 <thead><th colspan="2">Settings</td></thead>    
 <tbody>          
     <tr>
         <th>Time</th>         
-        <td>{{ entity.time|date('h:i a') }}</td>         
+        <td>{{ course.time|date('h:i a') }}</td>         
     </tr>           
     <tr>
         <th>Enrollment open</th>         
-        <td>{{ entity.enroll=='t' ? 'Yes' : 'No' }}</td>         
+        <td>{{ course.enroll=='t' ? 'Yes' : 'No' }}</td>         
     </tr>        
     <tr>
         <th>Student can post</th>         
-        <td>{{ entity.post=='t' ? 'Yes' : 'No' }}</td>         
+        <td>{{ course.post=='t' ? 'Yes' : 'No' }}</td>         
     </tr>           
     <tr>
         <th>Multicultural Archive</th>         
-        <td>{{ entity.multicult=='t' ? 'Yes' : 'No' }}</td>         
+        <td>{{ course.multicult=='t' ? 'Yes' : 'No' }}</td>         
     </tr>           
     <tr>
         <th>Parent Course</th>         
-        <td>{{ entity.parentId }}</td>         
+        <td>{{ course.parentId }}</td>         
     </tr>        
     <tr>
         <th>Assessment</th>         
-        <td>{{ entity.assessmentId }}</td>         
+        <td>{{ course.assessmentId }}</td>         
     </tr>        
     <tr>
         <th>Student may start forum threads</th>         
-        <td>{{ entity.studentForum=='t' ? 'Yes' : 'No' }}</td>         
+        <td>{{ course.studentForum=='t' ? 'Yes' : 'No' }}</td>         
     </tr>
     <tr>
         <th colspan="2">Tools</th>              
     </tr>    
     <tr>
         <th>Notes</th>         
-        <td>{{ entity.notes=='t' ? 'Yes' : 'No' }}</td>         
+        <td>{{ course.notes=='t' ? 'Yes' : 'No' }}</td>         
     </tr>        
     <tr>
         <th>Journal</th>         
-        <td>{{ entity.journal=='t' ? 'Yes' : 'No' }}</td>         
+        <td>{{ course.journal=='t' ? 'Yes' : 'No' }}</td>         
     </tr>               
     <tr>
         <th>Zine</th>         
-        <td>{{ entity.zine=='t' ? 'Yes' : 'No' }}</td>         
+        <td>{{ course.zine=='t' ? 'Yes' : 'No' }}</td>         
     </tr>    
     <tr>
         <th>Portfolio</th>         
-        <td>{{ entity.portfolio=='t' ? 'Yes' : 'No' }}</td>         
+        <td>{{ course.portfolio=='t' ? 'Yes' : 'No' }}</td>         
     </tr>
     <tr>
         <th>Portfolio type</th>         
-        <td>{{ entity.portRubricId}}</td>         
+        <td>{{ course.portRubricId}}</td>         
     </tr> 
     <tr>
         <th>Portfolio editing open</th>         
-        <td>{{ entity.portStatus=='t' ? 'Yes' : 'No' }}</td>         
+        <td>{{ course.portStatus=='t' ? 'Yes' : 'No' }}</td>         
     </tr>
      <tr>
         <th>Tagset</th>         
@@ -76,12 +76,12 @@
 
 <div class="row">
 <div class="span2">
-<a class="btn btn-primary" href="{{ path('course_edit', { 'id': entity.id }) }}">Edit</a>
+<a class="btn btn-primary" href="{{ path('course_edit', { 'id': course.id }) }}">Edit</a>
 </div> 
     
         
 <div class="span1">        
-<form action="{{ path('course_delete', { 'id': entity.id }) }}" method="post">
+<form action="{{ path('course_delete', { 'id': course.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>
@@ -89,8 +89,8 @@
 </div>
 
 <ul class="unstyled"> 
-    <li>Created: {{ entity.created|date('Y-m-d H:i:s') }}</li>      
-    <li>Last Updated:{{ entity.updated|date('Y-m-d H:i:s') }}</li>
+    <li>Created: {{ course.created|date('Y-m-d H:i:s') }}</li>      
+    <li>Last Updated:{{ course.updated|date('Y-m-d H:i:s') }}</li>
 </ul>
 </div>        
 
@@ -101,7 +101,7 @@
     {% for project in projects %}       
     <tr id="delete{{project.id}}">
         <th>{{ project.name }}</th>         
-        <td><a class="btn btn-small btn-primary" href="{{ path('project_edit', { 'id': project.id,'courseid': entity.id }) }}">Edit</a></td>  
+        <td><a class="btn btn-small btn-primary" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>  
         <td>
         <button class="btn btn-danger" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button> 
         </td>   
@@ -127,13 +127,9 @@
     </table>
     
     <hr/> 
-    <h3> Add new project: </h3>
-     <a class="btn btn-small btn-primary" href="{{ path('project_new', {'courseid': entity.id}) }}">Add</a>
-    
-    
-    <hr/>
-    <h2>Default Project: {{ projectDefault }} </h2>       
-     <a class="btn btn-small btn-primary" href="{{ path('projectdefault_edit', { 'id': entity.id }) }}">Edit</a>
+    <div class='row'>
+        <div class='span2'><a class="btn btn-small btn-primary" href="{{ path('project_new', {'courseid': course.id}) }}">Add a new project</a></div>
+    </div>
     
     <hr/>
     <h2>Roll</h2>

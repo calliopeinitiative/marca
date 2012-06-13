@@ -1,7 +1,22 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
-
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.17.custom.min.js') }}"></script> 
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-timepicker-addon.js') }}"></script>
+{% endblock %}
+{% block stylesheets %}
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
+{% endblock %}
 {% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+$( '#marca_coursebundle_coursetype_time' ).timepicker({
+showButtonPanel: true,
+ampm: true,
+});
+});
+</script>
 <div class="span6">
 
 <div class="row-fluid">
@@ -9,9 +24,9 @@
 <form action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate"> 
     {{ form_errors(form) }}
         
-    {{ form_widget (form.userid) }}{{ form_widget (form.parentId) }}{{ form_widget (form.assessmentId) }}
+    {{ form_widget (form.parentId) }}{{ form_widget (form.assessmentId) }}
         
-    {{ form_errors (form.name) }}{{ form_errors (form.term) }}{{ form_errors (form.time) }}{{ form_errors (form.userid) }}{{ form_errors (form.enroll) }}{{ form_errors (form.post) }}{{ form_errors (form.multicult) }}{{ form_errors (form.parentId) }}{{ form_errors (form.assessmentId) }}{{ form_errors (form.studentForum) }}{{ form_errors (form.notes) }}{{ form_errors (form.forum) }}{{ form_errors (form.journal) }}{{ form_errors (form.portfolio) }}{{ form_errors (form.zine) }}    
+    {{ form_errors (form.name) }}{{ form_errors (form.term) }}{{ form_errors (form.time) }}{{ form_errors (form.enroll) }}{{ form_errors (form.post) }}{{ form_errors (form.multicult) }}{{ form_errors (form.parentId) }}{{ form_errors (form.assessmentId) }}{{ form_errors (form.studentForum) }}{{ form_errors (form.notes) }}{{ form_errors (form.forum) }}{{ form_errors (form.journal) }}{{ form_errors (form.portfolio) }}{{ form_errors (form.zine) }}    
 
     <table class="table table-bordered table-condensed table-striped">
     <tbody>

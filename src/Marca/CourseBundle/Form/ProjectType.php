@@ -11,8 +11,8 @@ class ProjectType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('sortOrder', 'text', array('label'  => 'Order in Display',))
-            ->add('resource', 'choice', array('choices'   => array('t' => 'Yes', 'f' => 'No'),'required'  => true,'label'  => 'Display in Resources', 'expanded' => true,))
+            ->add('sortOrder', 'hidden')
+            ->add('resource', 'choice', array('choices'   => array(true => 'Yes', false => 'No'),'required'  => true,'label'  => 'Display in Resources', 'expanded' => true,))
         ;
     }
 

@@ -23,6 +23,7 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->roll = new ArrayCollection();
+        $this->course = new ArrayCollection();
     }
  
     /**
@@ -51,12 +52,18 @@ class User extends BaseUser
 
  
      /**
-     * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Roll", mappedBy="profile")
+     * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="user")
+     */
+    protected $course;
+    
+    
+     /**
+     * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Roll", mappedBy="user")
      */
     protected $roll;
   
     /**
-     * @ORM\OneToMany(targetEntity="Marca\FileBundle\Entity\File", mappedBy="file")
+     * @ORM\OneToMany(targetEntity="Marca\FileBundle\Entity\File", mappedBy="user")
      * @ORM\JoinColumn(name="id", referencedColumnName="userid")
      */
     protected $file;
@@ -122,4 +129,25 @@ class User extends BaseUser
     {
         return $this->roll;
     }
+    
+    /**
+     * Add roll
+     *
+     * @param Marca\CourseBundle\Entity\Course $course
+     */
+    public function addCourse(\Marca\CourseBundle\Entity\Course $course)
+    {
+        $this->course[] = $course;
+    }
+
+    /**
+     * Get roll
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }    
+    
 }

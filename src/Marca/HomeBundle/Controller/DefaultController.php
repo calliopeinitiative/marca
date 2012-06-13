@@ -13,12 +13,5 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/", name="home")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        return array();
-    }
+
 }

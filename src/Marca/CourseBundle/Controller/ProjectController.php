@@ -2,7 +2,7 @@
 
 namespace Marca\CourseBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,7 +24,7 @@ class ProjectController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entities = $em->getRepository('MarcaCourseBundle:Project')->findAll();
 
@@ -39,7 +39,7 @@ class ProjectController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaCourseBundle:Project')->find($id);
 
@@ -62,21 +62,18 @@ class ProjectController extends Controller
      */
     public function newAction($courseid)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         
         //find current # of projects in course (so we can suggest setting sortOrder to this +1
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $maxCourse = count($course->getProjects());
-        
-
-        $entity = new Project();
-        $entity->setName('New Project');
-        $entity->setResource('t');
-        $entity->setSortOrder($maxCourse + 1);
-        $form   = $this->createForm(new ProjectType(), $entity);
+        $project = new Project();
+        $project->setName('New Project');
+        $project->setSortOrder($maxCourse + 1);
+        $form   = $this->createForm(new ProjectType(), $project);
 
         return array(
-            'entity' => $entity,
+            'project' => $project,
             'courseid' => $courseid,
             'form'   => $form->createView()
         );
@@ -91,31 +88,23 @@ class ProjectController extends Controller
      */
     public function createAction($courseid)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $entity  = new Project();
-        
-      
+        $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $entity->setCourse($course);
-        
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username); 
-        $userid = $profile->getId();
-        $entity->setUserid($userid);
-        
+        $project  = new Project(); 
+        $project->setCourse($course);
         $request = $this->getRequest();
-        $form    = $this->createForm(new ProjectType(), $entity);
+        $form    = $this->createForm(new ProjectType(), $project);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             //iterates over current courses, updates sort orders
-            foreach($course->getProjects() as $project){
-                if ($entity->getSortOrder() <= $project->getSortOrder()){
-                    $currentsort = $project->getSortOrder();
-                    $project->setSortOrder($currentsort+1);    
+            foreach($course->getProjects() as $projects){
+                if ($project->getSortOrder() <= $projects->getSortOrder()){
+                    $currentsort = $projects->getSortOrder();
+                    $projects->setSortOrder($currentsort+1);    
                 }
             }
-            $em->persist($entity);
+            $em->persist($project);
             $em->flush();
 
             return $this->redirect($this->generateUrl('course_show', array('id' => $courseid)));
@@ -123,7 +112,7 @@ class ProjectController extends Controller
         }
 
         return array(
-            'entity' => $entity,
+            'project' => $project,
             'form'   => $form->createView()
         );
     }
@@ -136,19 +125,19 @@ class ProjectController extends Controller
      */
     public function editAction($id,$courseid)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaCourseBundle:Project')->find($id);
+        $project = $em->getRepository('MarcaCourseBundle:Project')->find($id);
         
-        if (!$entity) {
+        if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
         
-        $editForm = $this->createForm(new ProjectType(), $entity);
+        $editForm = $this->createForm(new ProjectType(), $project);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'project'      => $project,
             'courseid'      => $courseid,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -164,20 +153,20 @@ class ProjectController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaCourseBundle:Project')->find($id);
-        $course = $entity->getCourse();
-        $courseid = $entity->getCourse()->getId();
+        $project = $em->getRepository('MarcaCourseBundle:Project')->find($id);
+        $course = $project->getCourse();
+        $courseid = $project->getCourse()->getId();
 
-        if (!$entity) {
+        if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
         //before we update the entity, store the old sort order
-        $oldSort = $entity->getSortOrder();
+        $oldSort = $project->getSortOrder();
         
-        $editForm   = $this->createForm(new ProjectType(), $entity);
+        $editForm   = $this->createForm(new ProjectType(), $project);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -185,32 +174,32 @@ class ProjectController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            if ($oldSort < $entity->getSortOrder()){
-                foreach($course->getProjects() as $project){
-                    if ($entity->getSortOrder() >= $project->getSortOrder() && $oldSort < $project->getSortOrder() && $entity->getName() != $project->getName()){
-                        $currentsort = $project->getSortOrder();
+            if ($oldSort < $project->getSortOrder()){
+                foreach($course->getProjects() as $projects){
+                    if ($project->getSortOrder() >= $projects->getSortOrder() && $oldSort < $projects->getSortOrder() && $entity->getName() != $projects->getName()){
+                        $currentsort = $projects->getSortOrder();
                         //$project->setName("Changed");
                         $project->setSortOrder($currentsort-1);    
                 }
             }
             }
-            elseif ($oldSort > $entity->getSortOrder()){
-                foreach($course->getProjects() as $project){
-                    if ($entity->getSortOrder() <= $project->getSortOrder() && $oldSort > $project->getSortOrder() && $entity->getName() != $project->getName()){
-                        $currentsort = $project->getSortOrder();
+            elseif ($oldSort > $project->getSortOrder()){
+                foreach($course->getProjects() as $projects){
+                    if ($project->getSortOrder() <= $projects->getSortOrder() && $oldSort > $projects->getSortOrder() && $entity->getName() != $projects->getName()){
+                        $currentsort = $projects->getSortOrder();
                         //$project->setName("Changed");
-                        $project->setSortOrder($currentsort+1);    
+                        $projects->setSortOrder($currentsort+1);    
                 }
             }
             }
-            $em->persist($entity);
+            $em->persist($project);
             $em->flush();
 
             return $this->redirect($this->generateUrl('course_show', array('id' => $courseid)));
         }
 
         return array(
-            'entity'      => $entity,
+            'project'      => $project,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -228,26 +217,20 @@ class ProjectController extends Controller
         $request = $this->getRequest();
 
         $form->bindRequest($request);
-        $em = $this->getDoctrine()->getEntityManager();
-        $entity = $em->getRepository('MarcaCourseBundle:Project')->find($id);
-        $courseid = $entity->getCourse()->getId();
+        $em = $this->getEm();
+        $project = $em->getRepository('MarcaCourseBundle:Project')->find($id);
+        $courseid = $project->getCourse()->getId();
         
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $projects = $course->getProjects();
         
-        //check if this is project is it's course's default project
-        if($entity === $course->getProjectDefault()){
-            throw $this->createNotFoundException('Cannot delete default project');
-        }
-        
-        //check to see if this is the default course and reassign default course if it is
      
-        if (!$entity) {
+        if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
         
         
-        $em->remove($entity);
+        $em->remove($project);
         $em->flush();
             
         //}
@@ -270,7 +253,7 @@ class ProjectController extends Controller
      * @Route("/{projectId}/promote", name="project_promote")
      */
     public function promoteAction($projectId){
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
         $courseid = $project->getCourse()->getId();
         if($project->getSortOrder() != 1){
@@ -293,7 +276,7 @@ class ProjectController extends Controller
      * @Route("/{projectId}/demote", name="project_demote")
      */
     public function demoteAction($projectId){
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
         $courseid = $project->getCourse()->getId();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
