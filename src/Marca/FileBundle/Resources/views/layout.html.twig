@@ -22,8 +22,8 @@
     <div class="well sidebar-nav">
      <ul class="nav nav-list">   
        {% if is_granted('ROLE_USER') %}
-             <li class="{% if scope=='m' %}active{% endif %}"><a href="{{ path('file_project', { 'id': 0, 'sort': 'u', 'scope': 'm' }) }}">My Files</a></li>
-             <li class="{% if scope=='a' %}active{% endif %}"><a href="{{ path('file_project', { 'id': 0, 'sort': 'u', 'scope': 'a' }) }}">All Files</a></li>
+             <li class="{% if scope=='m' %}active{% endif %}"><a href="{{ path('file_list', { 'project': 'recent', 'sort': 'updated', 'scope': 'mine' }) }}">My Files</a></li>
+             <li class="{% if scope=='a' %}active{% endif %}"><a href="{{ path('file_list', { 'project': 'recent', 'sort': 'updated', 'scope': 'all' }) }}">All Files</a></li>
              <li class=""><a href="{{ path('doc_new') }}">Create eDoc</a></li>
              <li class=""><a href="{{ path('file_upload') }}">Upload File</a></li>
              
@@ -35,7 +35,7 @@
         
     <ul class="nav nav-list">
     {% for tag in tags %}
-      <li><a href="{{ path('file_project', { 'id': 0, 'sort': 'u', 'scope': 'm' }) }}"><i class="icon-book"></i> {{ tag.name}}</a></li>
+      <li><a href="{{ path('file_list', { 'project': 0, 'sort': 'updated', 'scope': 'mine' }) }}"><i class="icon-book"></i> {{ tag.name}}</a></li>
     {% endfor %}
     </ul>  
     </div>            

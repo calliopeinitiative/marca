@@ -3,7 +3,6 @@
 namespace Marca\CourseBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Marca\UserBundle\Entity\Profile;
 use Marca\CourseBundle\Entity\Course;
 
 /**
@@ -20,16 +19,13 @@ class RollRepository extends EntityRepository
             ->createQuery('SELECT u.lastname,u.firstname,r.role from MarcaCourseBundle:Roll r JOIN r.user u JOIN r.course c WHERE c.id = ?1 ORDER BY u.lastname,u.firstname')->setParameter('1',$id)->getResult();
     }
     
-    public function enroll($id,$profile_id)
+    public function enroll($course,$user)
     {
         $em = $this->getEntityManager();
-        $profile = $em->getRepository('MarcaUserBundle:Profile')->findOneById($profile_id);
-        $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($id);
         $roll  = new Roll();
         $roll->setCourse($course);
-        $roll->setRole('0');
         $roll->setStatus('1');
-        $roll->setProfile($profile);
+        $roll->setUser($user);
         $em->persist($roll);
         $em->flush();            
     }    

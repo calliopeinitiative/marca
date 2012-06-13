@@ -3,8 +3,11 @@
 namespace Marca\UserBundle\Controller;
 
 use Marca\HomeBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Marca\UserBundle\Entity\User;
+use Marca\UserBundle\Form\UserType;
 
 /**
  * Enroll controller.
@@ -21,8 +24,87 @@ class DefaultController extends Controller
     {
         $em = $this->getEm();
         $user = $this->getUser();
-        $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUser($user);
+        $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($user);
         
         return array('user' => $user,'courses' => $courses);
     }
+    
+    /**
+     * Finds and displays a User profile.
+     *
+     * @Route("/show", name="user_show")
+     * @Template()
+     */
+    public function showAction()
+    {
+        $em = $this->getEm();
+        $id = $this->getUser()->getId();
+        $user = $em->getRepository('MarcaUserBundle:User')->find($id);
+        if (!$user) {
+            throw $this->createNotFoundException('Unable to find Profile entity.');
+        }
+        return array('user' => $user);
+    } 
+    
+    
+    /**
+     * Displays a form to edit an existing User entity.
+     *
+     * @Route("/{id}/edit", name="user_edit")
+     * @Template()
+     */
+    public function editAction($id)
+    {
+        $em = $this->getEm();
+
+        $user = $em->getRepository('MarcaUserBundle:User')->find($id);
+
+        if (!$user) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+
+        $editForm = $this->createForm(new UserType(), $user);
+
+        return array(
+            'user'      => $user,
+            'edit_form'   => $editForm->createView(),
+        );
+    }
+
+    /**
+     * Edits an existing User entity.
+     *
+     * @Route("/{id}/update", name="user_update")
+     * @Method("post")
+     * @Template("MarcaUserBundle:Default:edit.html.twig")
+     */
+    public function updateAction($id)
+    {
+        $em = $this->getEm();
+
+        $user = $em->getRepository('MarcaUserBundle:User')->find($id);
+
+        if (!$user) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+
+        $editForm   = $this->createForm(new UserType(), $user);
+
+        $request = $this->getRequest();
+
+        $editForm->bindRequest($request);
+
+        if ($editForm->isValid()) {
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('user_show', array('id' => $id)));
+        }
+
+        return array(
+            'user'      => $user,
+            'edit_form'   => $editForm->createView(),
+        );
+    }
+    
 }

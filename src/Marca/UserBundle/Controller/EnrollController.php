@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\CourseBundle\Entity\Course;
-use Marca\UserBundle\Entity\Profile;
+use Marca\UserBundle\Entity\User;
 use Marca\CourseBundle\Entity\Roll;
 use Marca\UserBundle\Form\ProfileType;
 
@@ -32,13 +32,13 @@ class EnrollController extends Controller
      */
     public function findCourseAction()
     {
-        $entity = new Profile();
-        $form = $this->createFormBuilder($entity)
+        $user = new User();
+        $form = $this->createFormBuilder($user)
             ->add('lastname')
             ->getForm();
 
         return array(
-            'entity' => $entity,
+            'user' => $user,
             'form'   => $form->createView()
         );
     }  
@@ -52,7 +52,7 @@ class EnrollController extends Controller
        $request = $this->get('request');
        $postData = $request->request->get('form');
        $lastname = $postData['lastname'];
-       $em = $this->get('doctrine.orm.entity_manager'); 
+       $em = $this->getEm(); 
        $courses = $em->getRepository('MarcaCourseBundle:Course')->findCourseByLastname($lastname);
        return array(
             'courses' => $courses,
@@ -60,14 +60,15 @@ class EnrollController extends Controller
     }     
     
       /**
-     * @Route("/{id}/enroll", name="enroll_enroll")
+     * @Route("/{course}/enroll", name="enroll_enroll")
      * @Template()
      */
-    public function enrollCourseAction($id)
+    public function enrollCourseAction($course)
     {
-       $profile_id = $this->get('security.context')->getToken()->getUser()->getProfile()->getId();
-       $em = $this->get('doctrine.orm.entity_manager'); 
-       $em->getRepository('MarcaCourseBundle:Roll')->enroll($id,$profile_id);
+       $user = $this->getUser();
+       $em = $this->getEm(); 
+       $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($course);
+       $em->getRepository('MarcaCourseBundle:Roll')->enroll($course,$user);
        return $this->redirect($this->generateUrl('user_home'));
     }  
     

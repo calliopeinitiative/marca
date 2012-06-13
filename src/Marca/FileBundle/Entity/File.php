@@ -15,99 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class File
 {
-    public function getAbsolutePath()
-    {
-        return null === $this->path ? null : $this->getUploadRootDir().'/'.$this->path;
-    }
-
-    public function getWebPath()
-    {
-        return null === $this->path ? null : $this->getUploadDir().'/'.$this->path;
-    }
-
-    protected function getUploadRootDir()
-    {
-        // the absolute directory path where uploaded documents should be saved
-        return __DIR__.'/../../../../'.$this->getUploadDir();
-    }
-
-    protected function getUploadDir()
-    {
-        // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
-        $courseid = $this->getCourseid();
-        $userid = $this->getUserid();
-        return 'uploads/files'.'/'.$courseid.'/'.$userid;
-    }
-    
-     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload()
-    {
-        if (null !== $this->file) {
-            $this->path = $this->file->getClientOriginalName();
-        }
-    }
-    
-     /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */     
-    public function upload()
-    {
-    // the file property can be empty if the field is not required
-    if (null === $this->file) {
-        return;
-    }
-
-    // we use the original file name here but you should
-    // sanitize it at least to avoid any security issues
-
-    // move takes the target directory and then the target filename to move to
-    $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
-
-    // set the path property to the filename where you'ved saved the file
-    $this->path = $this->file->getClientOriginalName();
-    
-    // set the name property to the filename where you'ved saved the file
-    $this->name = $this->file->getClientOriginalName();    
-
-    // clean up the file property as you won't need it anymore
-    $this->file = null;
-    }  
- 
-     /**
-     * @ORM\PostRemove()
-     */
-    public function removeUpload()
-    {
-        if ($file = $this->getAbsolutePath()) {
-            unlink($file);
-        }
-    }
-    
-    /**
-     * Return the contents of the file.
-     * 
-     * @return string
-     */
-    public function getContents()
-    {
-        return file_get_contents( $this->getAbsolutePath() );
-    }
-    
-    /**
-     * Return the extention of the file.
-     * 
-     * @return string
-     */
-    public function getExt()
-    {
-        $filename = $this->getPath(); 
-        return pathinfo($filename, PATHINFO_EXTENSION);
-    }   
-
     /**
      * @Assert\File(maxSize="6000000")
      */
@@ -121,26 +28,21 @@ class File
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+ 
     /**
-     * @var integer $userid
-     *
-     * @ORM\Column(name="userid", type="integer", nullable=true)
-     */
-    private $userid;
-
-    /**
-     * @var integer $courseid
-     *
-     * @ORM\Column(name="courseid", type="integer", nullable=true)
-     */
-    private $courseid;
-
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="file")
+    */
+    protected $user;    
 
     /**
     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Project", inversedBy="file")
     */
     protected $project;
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="file")
+    */
+    protected $course;    
     
     /**
      * @var string $name
@@ -169,12 +71,6 @@ class File
      */
     private $doc; 
     
-    /**
-     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\Profile", inversedBy="file")
-     * @ORM\JoinColumn(name="userid", referencedColumnName="id")
-     * 
-     */
-    private $profile; 
     
    /**
     * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tag")
@@ -244,47 +140,6 @@ class File
         return $this->path;
     }
     
-    
-
-    /**
-     * Set userid
-     *
-     * @param integer $userid
-     */
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
-    }
-
-    /**
-     * Get userid
-     *
-     * @return integer 
-     */
-    public function getUserid()
-    {
-        return $this->userid;
-    }
-
-    /**
-     * Set courseid
-     *
-     * @param integer $courseid
-     */
-    public function setCourseid($courseid)
-    {
-        $this->courseid = $courseid;
-    }
-
-    /**
-     * Get courseid
-     *
-     * @return integer 
-     */
-    public function getCourseid()
-    {
-        return $this->courseid;
-    }
 
     /**
      * Set created
@@ -412,23 +267,138 @@ class File
         return $this->access;
     }
 
+
     /**
-     * Set profile
+     * Set user
      *
-     * @param Marca\UserBundle\Entity\Profile $profile
+     * @param Marca\UserBundle\Entity\User $user
      */
-    public function setProfile(\Marca\UserBundle\Entity\Profile $profile)
+    public function setUser(\Marca\UserBundle\Entity\User $user)
     {
-        $this->profile = $profile;
+        $this->user = $user;
     }
 
     /**
-     * Get profile
+     * Get user
      *
-     * @return Marca\UserBundle\Entity\Profile 
+     * @return Marca\UserBundle\Entity\User 
      */
-    public function getProfile()
+    public function getUser()
     {
-        return $this->profile;
+        return $this->user;
     }
+
+    /**
+     * Set course
+     *
+     * @param Marca\CourseBundle\Entity\Course $course
+     */
+    public function setCourse(\Marca\CourseBundle\Entity\Course $course)
+    {
+        $this->course = $course;
+    }
+
+    /**
+     * Get course
+     *
+     * @return Marca\CourseBundle\Entity\Course 
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }
+    
+    public function getAbsolutePath()
+    {
+        return null === $this->path ? null : $this->getUploadRootDir().'/'.$this->path;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->path ? null : $this->getUploadDir().'/'.$this->path;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded documents should be saved
+        return __DIR__.'/../../../../'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
+        $courseid = $this->getCourse()->getId();
+        $userid = $this->getUser()->getId();
+        return 'uploads/files'.'/'.$courseid.'/'.$userid;
+    }
+    
+     /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if (null !== $this->file) {
+            $this->path = $this->file->getClientOriginalName();
+        }
+    }
+    
+     /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */     
+    public function upload()
+    {
+    // the file property can be empty if the field is not required
+    if (null === $this->file) {
+        return;
+    }
+
+    // we use the original file name here but you should
+    // sanitize it at least to avoid any security issues
+
+    // move takes the target directory and then the target filename to move to
+    $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
+
+    // set the path property to the filename where you'ved saved the file
+    $this->path = $this->file->getClientOriginalName();
+    
+    // set the name property to the filename where you'ved saved the file
+    $this->name = $this->file->getClientOriginalName();    
+
+    // clean up the file property as you won't need it anymore
+    $this->file = null;
+    }  
+ 
+     /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        if ($file = $this->getAbsolutePath()) {
+            unlink($file);
+        }
+    }
+    
+    /**
+     * Return the contents of the file.
+     * 
+     * @return string
+     */
+    public function getContents()
+    {
+        return file_get_contents( $this->getAbsolutePath() );
+    }
+    
+    /**
+     * Return the extention of the file.
+     * 
+     * @return string
+     */
+    public function getExt()
+    {
+        $filename = $this->getPath(); 
+        return pathinfo($filename, PATHINFO_EXTENSION);
+    }       
+    
 }

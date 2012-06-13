@@ -12,7 +12,7 @@ use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
 use Marca\FileBundle\Form\UploadType;
 use Marca\TagBundle\Entity\Tagset;
-use Marca\UserBundle\Entity\Profile;
+
 /**
  * File controller.
  *
@@ -28,37 +28,36 @@ class FileController extends Controller
      */
     public function indexAction()
     {   
-        $sort = 'u';
-        $scope = 'm';
-        $id = 0;
+        $sort = 'updated';
+        $scope = 'mine';
+        $project = 'recent';
         $em = $this->getEm();
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $user = $this->getUser();
         $courseid = $this->get('request')->getSession()->get('courseid');
-        $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid, $sort, $scope, $courseid);
-        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
-        $projectid = 0;
-        return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid, 'scope'=> $scope, 'userid'=> $userid, 'tags' => $tags);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        
+        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $sort, $scope, $course);
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
+        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'scope'=> $scope, 'tags' => $tags);
     }
 
     /**
      * Lists all File entities by Project.
      *
-     * @Route("/{id}/{sort}/{scope}/project", name="file_project")
+     * @Route("/{project}/{sort}/{scope}/list", name="file_list")
      * @Template("MarcaFileBundle:File:index.html.twig")
      */
-    public function indexByProjectAction($id, $sort, $scope)
+    public function indexByProjectAction($project, $sort, $scope)
     {
         $em = $this->getEm();
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+        $user = $this->getUser();
         $courseid = $this->get('request')->getSession()->get('courseid');
-        $entities = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($id, $userid, $sort, $scope, $courseid);
-        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($courseid);
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
-        $projectid = $id;
-        return array('entities' => $entities, 'projects' => $projects, 'projectid' => $projectid, 'scope'=> $scope, 'userid'=> $userid, 'tags' => $tags);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $sort, $scope, $course);
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
+        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'scope'=> $scope, 'tags' => $tags);
     }   
        
     
@@ -247,14 +246,15 @@ class FileController extends Controller
      public function uploadAction()
      {
          $em = $this->getEm();
-         $username = $this->get('security.context')->getToken()->getUsername();
-         $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
+         $user = $this->getUser();
+         $userid = $user->getId();
          $courseid = $this->get('request')->getSession()->get('courseid');
-         $options = array('courseid' => $courseid);
-         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
+         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+
+         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
          $file = new File();
-         $file->setUserid($userid);
-         $file->setCourseid($courseid);
+         $file->setUser($user);
+         $file->setCourse($course);
          $form = $this->createForm(new UploadType($options), $file);
 
          if ($this->getRequest()->getMethod() === 'POST') {

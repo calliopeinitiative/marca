@@ -81,25 +81,6 @@ class Project
         return $this->name;
     }
 
-    /**
-     * Set courseid
-     *
-     * @param integer $courseid
-     */
-    public function setCourseid($courseid)
-    {
-        $this->courseid = $courseid;
-    }
-
-    /**
-     * Get courseid
-     *
-     * @return integer 
-     */
-    public function getCourseid()
-    {
-        return $this->courseid;
-    }
 
     /**
      * Set sortOrder
