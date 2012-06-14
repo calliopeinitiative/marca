@@ -3,28 +3,28 @@
 
 {% block content %}
 
-{% for entity in entities %}
+{% for forumEntry in forumEntries %}
 <div class="row-fluid">
 <div class="span10 well" >
-<div class="span2" ><h4>{{ entity.title }}</h4></div>
+<div class="span2" ><h4>{{ forumEntry.title }}</h4></div>
 <div class="pull-right" >
- Created  {{ entity.created|date('M d, Y h:i a') }}  / Modified  {{ entity.updated|date('M d, Y h:i a') }} 
-<a class="btn btn-primary btn-small" href="{{ path('forum_edit', { 'id': entity.id }) }}">edit</a>
+ Created  {{ forumEntry.created|date('M d, Y h:i a') }}  / Modified  {{ forumEntry.updated|date('M d, Y h:i a') }} 
+<a class="btn btn-primary btn-small" href="{{ course_path('forum_edit', { 'forumid': forumEntry.id }) }}">edit</a>
 </div>
 </div>
 </div>
   
 <div class="row-fluid">
-<div class="span10 pad">{{ entity.body|raw }} </div>
+<div class="span10 pad">{{ forumEntry.body|raw }} </div>
 </div>
 {% endfor %}
 
 <div class="row-fluid">
 <div class="span10 well" >
 {% if set >= 1 %}    
-<div class="pull-left"><a title="View previous entries" href="{{ path('forum', { 'set': set - 1 } ) }}">Previous entries</a></div>  
+<div class="pull-left"><a title="View previous entries" href="{{ course_path('forum', { 'set': set - 1 } ) }}">Previous entries</a></div>  
 {% endif %}
-<div class="pull-right"><a title="View more entries" href="{{ path('forum', { 'set': set + 1 } ) }}">Next entries</a></div>
+<div class="pull-right"><a title="View more entries" href="{{ course_path('forum', { 'set': set + 1 } ) }}">Next entries</a></div>
 </div>
 </div>
 

@@ -21,8 +21,8 @@
     <div class="well sidebar-nav">
      <ul class="nav nav-list">   
        {% if is_granted('ROLE_USER') %}
-             <li><a href="{{ path('forum', { 'set': 0 }) }}">List Recent Threads</a></li>
-             <li><a href="{{ path('forum_new') }}">New Forum Thread</a></li>
+             <li><a href="{{ course_path('forum', { 'set': 0 }) }}">List Recent Threads</a></li>
+             <li><a href="{{ course_path('forum_new') }}">New Forum Thread</a></li>
        {% endif %}
      </ul>
     </div> 
