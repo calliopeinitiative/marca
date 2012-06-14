@@ -13,6 +13,12 @@ namespace Marca\CourseBundle\Twig;
  */
 class CourseExtension extends \Twig_Extension {
     
+    private $container;
+    
+    public function __construct($container) {
+        $this->container=$container;
+    } 
+    
     public function getName() {
         return 'course';
     } 
@@ -25,7 +31,7 @@ class CourseExtension extends \Twig_Extension {
     }
     
     public function getCoursePath($route, array $params=array()) {
-        return 'Hello World';
+        return $this->container->get('router')->generate($route, $parameters, $absolute);
     }
 }
 

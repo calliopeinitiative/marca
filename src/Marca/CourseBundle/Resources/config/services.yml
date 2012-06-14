@@ -1,6 +1,6 @@
 services:
     marca.course_bundle.twig.course_extension:
         class: Marca\CourseBundle\Twig\CourseExtension
-        arguments: []
+        arguments: ['@service_container']
         tags: 
             - { name:twig.extension}
