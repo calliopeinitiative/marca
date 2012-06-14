@@ -31,6 +31,12 @@ class CourseExtension extends \Twig_Extension {
     }
     
     public function getCoursePath($route, array $params=array(), $absolute=false) {
+        $request = $this->container->get('request');
+        $courseid = $request->attributes->get('courseid');
+        if (!$courseid) {
+            throw new \Exception('No course id in url.');
+        }
+        $params['courseid'] = $courseid;
         return $this->container->get('router')->generate($route, $params, $absolute);
     }
 }
