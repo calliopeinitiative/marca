@@ -45,7 +45,7 @@ class FileController extends Controller
     /**
      * Lists all File entities by Project.
      *
-     * @Route("/{project}/{sort}/{scope}/list", name="file_list")
+     * @Route("/{courseid}/{project}/{sort}/{scope}/list", name="file_list")
      * @Template("MarcaFileBundle:File:index.html.twig")
      */
     public function indexByProjectAction($project, $sort, $scope)
@@ -64,7 +64,7 @@ class FileController extends Controller
     /**
      * Finds and displays a File entity.
      *
-     * @Route("/{id}/show", name="file_show")
+     * @Route("/{courseid}/{id}/show", name="file_show")
      * @Template()
      */
     public function showAction($id)
@@ -87,7 +87,7 @@ class FileController extends Controller
     /**
      * Displays a form to create a new File entity.
      *
-     * @Route("/new", name="file_new")
+     * @Route("/{courseid}/new", name="file_new")
      * @Template()
      */
     public function newAction()
@@ -104,7 +104,7 @@ class FileController extends Controller
     /**
      * Creates a new File entity.
      *
-     * @Route("/create", name="file_create")
+     * @Route("/{courseid}/create", name="file_create")
      * @Method("post")
      * @Template("MarcaFileBundle:File:new.html.twig")
      */
@@ -133,7 +133,7 @@ class FileController extends Controller
     /**
      * Displays a form to edit an existing File entity.
      *
-     * @Route("/{id}/edit", name="file_edit")
+     * @Route("/{courseid}/{id}/edit", name="file_edit")
      * @Template()
      */
     public function editAction($id)
@@ -162,11 +162,11 @@ class FileController extends Controller
     /**
      * Edits an existing File entity.
      *
-     * @Route("/{id}/update", name="file_update")
+     * @Route("/{courseid}/{id}/update", name="file_update")
      * @Method("post")
      * @Template("MarcaFileBundle:File:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($id,$courseid)
     {
         $em = $this->getEm();
         $courseid = $this->get('request')->getSession()->get('courseid');
@@ -188,7 +188,7 @@ class FileController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file'));
+            return $this->redirect($this->generateUrl('file', array('courseid'=> $courseid,)));
         }
 
         return array(
@@ -201,10 +201,10 @@ class FileController extends Controller
     /**
      * Deletes a File entity.
      *
-     * @Route("/{id}/delete", name="file_delete")
+     * @Route("/{courseid}/{id}/delete", name="file_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($id,$courseid)
     {
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -226,7 +226,7 @@ class FileController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('file'));
+        return $this->redirect($this->generateUrl('file', array('courseid'=> $courseid,)));
     }
 
     private function createDeleteForm($id)
@@ -240,7 +240,7 @@ class FileController extends Controller
     /**
      * Uploads a file with a Document entity.
      *
-     * @Route("/upload", name="file_upload")
+     * @Route("/{courseid}/upload", name="file_upload")
      * @Template()
      */    
      public function uploadAction()
@@ -275,7 +275,7 @@ class FileController extends Controller
     /**
      * Finds and displays a File.
      *
-     * @Route("/{id}/view", name="file_view")
+     * @Route("/{courseid}/{id}/view", name="file_view")
      * 
      */     
     public function viewAction($id)

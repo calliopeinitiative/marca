@@ -23,7 +23,7 @@ class DocController extends Controller
     /**
      * Lists all Doc entities.
      *
-     * @Route("/", name="doc")
+     * @Route("/{courseid}/", name="doc")
      * @Template()
      */
     public function indexAction()
@@ -38,7 +38,7 @@ class DocController extends Controller
     /**
      * Finds and displays a Doc entity.
      *
-     * @Route("/{id}/show", name="doc_show")
+     * @Route("/{courseid}/{id}/show", name="doc_show")
      * @Template()
      */
     public function showAction($id)
@@ -63,7 +63,7 @@ class DocController extends Controller
     /**
      * Displays a form to create a new Doc entity.
      *
-     * @Route("/new", name="doc_new")
+     * @Route("/{courseid}/new", name="doc_new")
      * @Template()
      */
     public function newAction()
@@ -82,7 +82,7 @@ class DocController extends Controller
     /**
      * Creates a new Doc entity.
      *
-     * @Route("/create", name="doc_create")
+     * @Route("/{courseid}/create", name="doc_create")
      * @Method("post")
      * @Template("MarcaDocBundle:Doc:new.html.twig")
      */
@@ -126,7 +126,7 @@ class DocController extends Controller
     /**
      * Displays a form to edit an existing Doc entity.
      *
-     * @Route("/{id}/edit", name="doc_edit")
+     * @Route("/{courseid}/{id}/edit", name="doc_edit")
      * @Template()
      */
     public function editAction($id)
@@ -155,11 +155,11 @@ class DocController extends Controller
     /**
      * Edits an existing Doc entity.
      *
-     * @Route("/{id}/update", name="doc_update")
+     * @Route("/{courseid}/{id}/update", name="doc_update")
      * @Method("post")
      * @Template("MarcaDocBundle:Doc:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($id,$courseid)
     {
         $em = $this->getEm();
 
@@ -180,7 +180,7 @@ class DocController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('doc_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('doc_show', array('id' => $id, 'courseid'=> $courseid,)));
         }
 
         return array(
@@ -193,10 +193,10 @@ class DocController extends Controller
     /**
      * Deletes a Doc entity.
      *
-     * @Route("/{id}/delete", name="doc_delete")
+     * @Route("/{courseid}/{id}/delete", name="doc_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($id,$courseid)
     {
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -215,7 +215,7 @@ class DocController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('doc'));
+        return $this->redirect($this->generateUrl('doc', array('courseid'=> $courseid,)));
     }
 
     private function createDeleteForm($id)
@@ -230,7 +230,7 @@ class DocController extends Controller
     /**
      * Doc Autosave
      *
-     * @Route("/autosave", name="doc_autosave")
+     * @Route("/{courseid}/autosave", name="doc_autosave")
      * 
      */
     public function autosaveAction()

@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row-fluid">
    <div class="span4">
-      <a class="btn btn-primary" href="{{ path('doc_new') }}">New</a>
+      <a class="btn btn-primary" href="{{ course_path('doc_new') }}">New</a>
    </div>
 </div> 
 
@@ -24,13 +24,13 @@
 <tbody>
     {% for entity in entities %}
     <tr>        
-        <td><a href="{{ path('doc_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>        
+        <td><a href="{{ course_path('doc_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>        
         <td>{{ entity.userid }}</td>        
         <td>{{ entity.courseid }}</td>        
         <td>{{ entity.body }}</td>        
         <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif%}</td>        
         <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif%}</td>        
-        <td><div class="btn-group"><a class="btn" href="{{ path('doc_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ path('doc_edit', { 'id': entity.id }) }}">edit</a></div>
+        <td><div class="btn-group"><a class="btn" href="{{ course_path('doc_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ course_path('doc_edit', { 'id': entity.id }) }}">edit</a></div>
    
 
 </td>       

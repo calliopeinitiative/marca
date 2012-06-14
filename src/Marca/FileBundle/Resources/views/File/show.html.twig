@@ -4,14 +4,14 @@
 <div class="row-fluid">
 <div class="span2">
 <div class="btn-group">
-<a class="btn" href="{{ path('file') }}">List</a>
-<a class="btn" href="{{ path('file_edit', { 'id': entity.id }) }}">Edit</a>
+<a class="btn" href="{{ course_path('file') }}">List</a>
+<a class="btn" href="{{ course_path('file_edit', { 'id': entity.id }) }}">Edit</a>
  
 </div> 
 </div>       
   
 <div class="span1">        
-<form action="{{ path('file_delete', { 'id': entity.id }) }}" method="post">
+<form action="{{ course_path('file_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>

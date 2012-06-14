@@ -4,7 +4,7 @@
 <div class="row-fluid">
 <div class="span2">
 <div class="btn-group">
-<a class="btn" href="{{ path('file') }}">List</a>
+<a class="btn" href="{{ course_path('file') }}">List</a>
  
 </div> 
 </div>       
@@ -12,7 +12,7 @@
 </div>
 
 <div class="span12" style="margin-top: 3em"> 
-<form action="{{ path('file_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ course_path('file_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>
         <button class="btn" type="submit">Create</button>
