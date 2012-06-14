@@ -86,7 +86,7 @@ class DocController extends Controller
      * @Method("post")
      * @Template("MarcaDocBundle:Doc:new.html.twig")
      */
-    public function createAction()
+    public function createAction($courseid)
     {
         $em = $this->getEm();
         $user = $this->getUser();
@@ -113,7 +113,7 @@ class DocController extends Controller
             $em->persist($doc);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file_edit', array('id' => $file->getId())));
+            return $this->redirect($this->generateUrl('file_edit', array('id' => $file->getId(),'courseid'=> $courseid,)));
             
         }
 

@@ -108,7 +108,7 @@ class FileController extends Controller
      * @Method("post")
      * @Template("MarcaFileBundle:File:new.html.twig")
      */
-    public function createAction()
+    public function createAction($courseid)
     {
         $entity  = new File();
         $request = $this->getRequest();
@@ -120,7 +120,7 @@ class FileController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('file_show', array('id' => $entity->getId(),'courseid'=> $courseid,)));
             
         }
 

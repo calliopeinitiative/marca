@@ -81,7 +81,7 @@ class JournalController extends Controller
      * @Method("post")
      * @Template("MarcaJournalBundle:Journal:new.html.twig")
      */
-    public function createAction()
+    public function createAction($courseid)
     {
         $em = $this->getEm();
         $user = $this->getUser();
@@ -97,7 +97,7 @@ class JournalController extends Controller
             $em->persist($journal);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('journal', array('set' => 0)));
+            return $this->redirect($this->generateUrl('journal', array('set' => 0, 'courseid'=> $courseid,)));
             
         }
 
