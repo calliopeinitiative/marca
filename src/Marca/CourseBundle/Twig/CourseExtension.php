@@ -30,8 +30,8 @@ class CourseExtension extends \Twig_Extension {
         );
     }
     
-    public function getCoursePath($route, array $params=array()) {
-        return $this->container->get('router')->generate($route, $parameters, $absolute);
+    public function getCoursePath($route, array $params=array(), $absolute=false) {
+        return $this->container->get('router')->generate($route, $params, $absolute);
     }
 }
 
