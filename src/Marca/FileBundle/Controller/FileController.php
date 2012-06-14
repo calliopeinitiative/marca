@@ -243,13 +243,13 @@ class FileController extends Controller
      * @Route("/{courseid}/upload", name="file_upload")
      * @Template()
      */    
-     public function uploadAction()
+     public function uploadAction($courseid)
      {
          $em = $this->getEm();
          $user = $this->getUser();
          $userid = $user->getId();
-         $courseid = $this->get('request')->getSession()->get('courseid');
-         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+         $course = $this->getCourse();
+         $courseid = $course->getId();
          $options = array('courseid' => $courseid);
          $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
          $file = new File();
@@ -264,7 +264,7 @@ class FileController extends Controller
                  $file->upload($userid, $courseid);
                  $em->persist($file);
                  $em->flush(); 
-                 return $this->redirect($this->generateUrl('file'));
+                 return $this->redirect($this->generateUrl('file', array('courseid'=> $courseid,)));
              }
              
          }
