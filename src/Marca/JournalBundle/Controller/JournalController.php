@@ -19,7 +19,7 @@ class JournalController extends Controller
     /**
      * Lists all Journal entities.
      *
-     * @Route("/{set}/page/{courseid}", name="journal")
+     * @Route("/{courseid}/{set}/page/", name="journal")
      * @Template()
      */
     public function indexAction($set)
@@ -29,47 +29,47 @@ class JournalController extends Controller
         $set = $set;
         $courseid = $this->get('request')->getSession()->get('courseid');
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $entities = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course, $set);
-        return array('entities' => $entities,'set' => $set);
+        $journal = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course, $set);
+        return array('journal' => $journal,'set' => $set);
     }
 
     /**
      * Finds and displays a Journal entity.
      *
-     * @Route("/{id}/show", name="journal_show")
+     * @Route("/{courseid}/{id}/show", name="journal_show")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
+        $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
 
-        if (!$entity) {
+        if (!$journal) {
             throw $this->createNotFoundException('Unable to find Journal entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'journal'      => $journal,
             'delete_form' => $deleteForm->createView(),        );
     }
 
     /**
      * Displays a form to create a new Journal entity.
      *
-     * @Route("/new", name="journal_new")
+     * @Route("/{courseid}/new", name="journal_new")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Journal();
-        $entity->setBody('<p></p>');
-        $form   = $this->createForm(new JournalType(), $entity);
+        $journal = new Journal();
+        $journal->setBody('<p></p>');
+        $form   = $this->createForm(new JournalType(), $journal);
 
         return array(
-            'entity' => $entity,
+            'journal' => $journal,
             'form'   => $form->createView()
         );
     }
@@ -77,25 +77,24 @@ class JournalController extends Controller
     /**
      * Creates a new Journal entity.
      *
-     * @Route("/create", name="journal_create")
+     * @Route("/{courseid}/create", name="journal_create")
      * @Method("post")
      * @Template("MarcaJournalBundle:Journal:new.html.twig")
      */
     public function createAction()
     {
         $em = $this->getEm();
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
-        $courseid = $this->get('request')->getSession()->get('courseid');
-        $entity  = new Journal();
-        $entity->setUserid($userid);
-        $entity->setCourseid($courseid);
+        $user = $this->getUser();
+        $course = $this->getCourse();
+        $journal  = new Journal();
+        $journal->setUser($user);
+        $journal->setCourse($course);
         $request = $this->getRequest();
-        $form    = $this->createForm(new JournalType(), $entity);
+        $form    = $this->createForm(new JournalType(), $journal);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em->persist($entity);
+            $em->persist($journal);
             $em->flush();
 
             return $this->redirect($this->generateUrl('journal', array('set' => 0)));
@@ -103,7 +102,7 @@ class JournalController extends Controller
         }
 
         return array(
-            'entity' => $entity,
+            'journal' => $journal,
             'form'   => $form->createView()
         );
     }
@@ -111,24 +110,24 @@ class JournalController extends Controller
     /**
      * Displays a form to edit an existing Journal entity.
      *
-     * @Route("/{id}/edit", name="journal_edit")
+     * @Route("/{courseid}/{id}/edit", name="journal_edit")
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
+        $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
 
-        if (!$entity) {
+        if (!$journal) {
             throw $this->createNotFoundException('Unable to find Journal entity.');
         }
 
-        $editForm = $this->createForm(new JournalType(), $entity);
+        $editForm = $this->createForm(new JournalType(), $journal);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'journal'      => $journal,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -137,21 +136,21 @@ class JournalController extends Controller
     /**
      * Edits an existing Journal entity.
      *
-     * @Route("/{id}/update", name="journal_update")
+     * @Route("/{courseid}/{id}/update", name="journal_update")
      * @Method("post")
      * @Template("MarcaJournalBundle:Journal:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($id,$courseid)
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
+        $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
 
-        if (!$entity) {
+        if (!$journal) {
             throw $this->createNotFoundException('Unable to find Journal entity.');
         }
 
-        $editForm   = $this->createForm(new JournalType(), $entity);
+        $editForm   = $this->createForm(new JournalType(), $journal);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -159,14 +158,14 @@ class JournalController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($journal);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('journal', array('set' => 0)));
+            return $this->redirect($this->generateUrl('journal', array('set' => 0, 'courseid'=> $courseid,)));
         }
 
         return array(
-            'entity'      => $entity,
+            'journal'      => $journal,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -175,10 +174,10 @@ class JournalController extends Controller
     /**
      * Deletes a Journal entity.
      *
-     * @Route("/{id}/delete", name="journal_delete")
+     * @Route("/{courseid}/{id}/delete", name="journal_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($id,$courseid)
     {
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -187,17 +186,17 @@ class JournalController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $entity = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
+            $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
 
-            if (!$entity) {
+            if (!$journal) {
                 throw $this->createNotFoundException('Unable to find Journal entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($journal);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('journal', array('set' => 0)));
+        return $this->redirect($this->generateUrl('journal', array('set' => 0, 'courseid'=> $courseid,)));
     }
 
     private function createDeleteForm($id)

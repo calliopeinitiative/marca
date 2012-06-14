@@ -4,14 +4,14 @@
 <div class="row-fluid">
 <div class="span2">
 <div class="btn-group">
-<a class="btn" href="{{ path('journal') }}">List</a>
-<a class="btn" href="{{ path('journal_edit', { 'id': entity.id }) }}">Edit</a>
+<a class="btn" href="{{ course_path('journal') }}">List</a>
+<a class="btn" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
  
 </div> 
 </div>       
   
 <div class="span1">        
-<form action="{{ path('journal_delete', { 'id': entity.id }) }}" method="post">
+<form action="{{ course_path('journal_delete', { 'id': journal.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>
@@ -25,23 +25,23 @@
 <tbody>        
     <tr>
         <th>Id</th>         
-        <td>{{ entity.id }}</td>         
+        <td>{{ journal.id }}</td>         
     </tr>        
     <tr>
         <th>Userid</th>         
-        <td>{{ entity.userid }}</td>         
+        <td>{{ journal.userid }}</td>         
     </tr>        
     <tr>
         <th>Courseid</th>         
-        <td>{{ entity.courseid }}</td>         
+        <td>{{ journal.courseid }}</td>         
     </tr>        
     <tr>
         <th>Title</th>         
-        <td>{{ entity.title }}</td>         
+        <td>{{ journal.title }}</td>         
     </tr>        
     <tr>
         <th>Body</th>         
-        <td>{{ entity.body }}</td>         
+        <td>{{ journal.body }}</td>         
     </tr>  
 </tbody>
 </table>

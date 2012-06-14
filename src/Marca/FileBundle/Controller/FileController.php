@@ -23,7 +23,7 @@ class FileController extends Controller
     /**
      * Lists all File entities.
      *
-     * @Route("/", name="file")
+     * @Route("/{courseid}", name="file")
      * @Template()
      */
     public function indexAction()

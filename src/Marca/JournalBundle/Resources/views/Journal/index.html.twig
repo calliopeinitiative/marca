@@ -3,22 +3,22 @@
 
 {% block content %}
 
-{% for entity in entities %}
+{% for journal in journal %}
 <div class="row">
 <div class="page-header" >
-<h3>{{ entity.title }}</h3>
+<h3>{{ journal.title }}</h3>
 </div>
 </div>
  
 <div class="row" >
  <div class="span10">   
- Created  {{ entity.created|date('M d, Y h:i a') }}  / Modified  {{ entity.updated|date('M d, Y h:i a') }} 
-<a class="btn btn-primary btn-small pull-right" href="{{ path('journal_edit', { 'id': entity.id }) }}">edit</a>
+ Created  {{ journal.created|date('M d, Y h:i a') }}  / Modified  {{ journal.updated|date('M d, Y h:i a') }} 
+<a class="btn btn-primary btn-small pull-right" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">edit</a>
 </div>
 </div>
 
 <div class="row">
-<div class="span10 pad">{{ entity.body|raw }} </div>
+<div class="span10 pad">{{ journal.body|raw }} </div>
 </div>
 {% endfor %}
 

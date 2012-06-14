@@ -14,15 +14,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/{id}/home", name="course_home")
+     * @Route("/{courseid}/home", name="course_home")
      * @Template()
      */
-    public function indexAction($id)
+    public function indexAction($courseid)
     {
         $em = $this->getEm();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($id);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($courseid);
         $session = $this->get('request')->getSession();
-        $session->set('courseid', $id);
+        $session->set('courseid', $courseid);
         
         return array('course' => $course);
     }
