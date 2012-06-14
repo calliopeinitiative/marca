@@ -1,0 +1,6 @@
+services:
+    marca.course_bundle.twig.course_extension:
+        class: Marca\CourseBundle\Twig\CourseExtension
+        arguments: []
+        tags: 
+            - { name:twig.extension}

@@ -25,6 +25,19 @@ class Controller extends SymfonyController
         return $em;
     }    
     
-
+    /**
+     *
+     * @return \Marca\CourseBundle\Entity\Course
+     */   
+    public function getCourse() {
+        $request = $this->getRequest();
+        $courseid = $request->attributes->get('courseid');
+        $course = $this->getEm()->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        if (!$course) {
+            throw $this->createNotFoundException('Unable to find Course entity');
+        }
+        return $course;
+    } 
+    
     
 }

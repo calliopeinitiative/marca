@@ -26,10 +26,10 @@
 <div class="span10" >   
 <ul class="pager">
   <li class="previous">
-    {% if set >= 1 %}<a title="View previous entries" href="{{ path('journal', { 'set': set - 1 } ) }}">&larr; Previous</a>{% endif %}
+    {% if set >= 1 %}<a title="View previous entries" href="{{ course_path('journal', { 'set': set - 1 } ) }}">&larr; Previous</a>{% endif %}
   </li>
   <li class="next">
-    <a title="View more entries" href="{{ path('journal', { 'set': set + 1 } ) }}">Next &rarr;</a>
+    <a title="View more entries" href="{{ course_path('journal', { 'set': set + 1 } ) }}">Next &rarr;</a>
   </li>
 </ul>
     
