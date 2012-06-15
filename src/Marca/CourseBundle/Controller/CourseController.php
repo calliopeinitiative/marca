@@ -38,13 +38,13 @@ class CourseController extends Controller
     /**
      * Finds and displays a Course entity.
      *
-     * @Route("/{id}/show", name="course_show")
+     * @Route("/{courseid}/show", name="course_show")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction($courseid)
     {
         $em = $this->getEm();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $user = $this->getUser();
         if($this->getCourseRole($course, $user) != "instructor")
         {
@@ -52,14 +52,14 @@ class CourseController extends Controller
         }
         $projects = $course->getProjectsInSortOrder();
         $tagsets = $course->getTagset(); 
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($id);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         
         if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($courseid);
 
         return array(
             'course'      => $course,
