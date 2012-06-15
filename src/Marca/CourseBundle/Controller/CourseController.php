@@ -148,7 +148,7 @@ class CourseController extends Controller
             $em->persist($project4);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_show', array('id' => $course->getId())));
+            return $this->redirect($this->generateUrl('course_show', array('courseid' => $course->getId())));
             
         }
 
@@ -213,7 +213,7 @@ class CourseController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('course_show', array('courseid' => $id)));
         }
 
         return array(
