@@ -30,11 +30,9 @@ class Tagset
     private $name;
     
     /**
-     * @var integer $userid
-     *
-     * @ORM\Column(name="userid", type="integer")
-     */
-    private $userid;
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="tag")
+    */
+    protected $user;   
     
     
    /**
@@ -106,26 +104,6 @@ class Tagset
     }
 
     /**
-     * Set userid
-     *
-     * @param integer $userid
-     */
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
-    }
-
-    /**
-     * Get userid
-     *
-     * @return integer 
-     */
-    public function getUserid()
-    {
-        return $this->userid;
-    }
-
-    /**
      * Add course
      *
      * @param Marca\TagBundle\Entity\Course $course
@@ -143,5 +121,25 @@ class Tagset
     public function getCourse()
     {
         return $this->course;
+    }
+
+    /**
+     * Set user
+     *
+     * @param Marca\UserBundle\Entity\User $user
+     */
+    public function setUser(\Marca\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Get user
+     *
+     * @return Marca\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

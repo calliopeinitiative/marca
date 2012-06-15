@@ -1,5 +1,5 @@
 
-{% extends 'MarcaTagBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::layout.html.twig' %}
 
 
 {% block content %}
@@ -25,12 +25,12 @@
     </tr>
 </thead>    
 <tbody>
-    {% for entity in entities %}
+    {% for tag in tags %}
     <tr>         
-        <td>{{ entity.name }}</td>
-        <td>{{ entity.color }}</td>             
-        <td>{{ entity.icon }}</td>        
-        <td><div class="btn-group"><a class="btn" href="{{ path('tag_edit', { 'id': entity.id }) }}">edit</a></div>
+        <td>{{ tag.name }}</td>
+        <td>{{ tag.color }}</td>             
+        <td>{{ tag.icon }}</td>        
+        <td><div class="btn-group"><a class="btn" href="{{ path('tag_edit', { 'id': tag.id }) }}">edit</a></div>
 
 </td>       
     </tr>
@@ -38,6 +38,13 @@
     {% endfor %}
     </tbody>
 </table>
+        
+
+       {% if is_granted('ROLE_USER') %}
+             <a class='btn btn-primary' href="{{ path('tag_new') }}">New Tag</a>
+             <a class='btn btn-primary' href="{{ path('tagset_new') }}">New Tagset</a>
+       {% endif %}
+        
 </div>
 </div>
 {% endblock %}

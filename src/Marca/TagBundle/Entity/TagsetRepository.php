@@ -12,6 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class TagsetRepository extends EntityRepository
 {
+    public function findTagsetByUser($user)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT t from MarcaTagBundle:Tagset t WHERE t.user = ?1 ORDER BY t.name')->setParameter('1',$user)->getResult();
+    } 
+    
     public function findTagsetIdByCourse($courseid)
     {  
        return $this->getEntityManager()

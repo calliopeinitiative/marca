@@ -59,7 +59,17 @@ class User extends BaseUser
     /**
      * @ORM\OneToMany(targetEntity="Marca\JournalBundle\Entity\Journal", mappedBy="user")
      */
-    protected $journal;    
+    protected $journal; 
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\TagBundle\Entity\Tag", mappedBy="user")
+     */
+    protected $tag; 
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\TagBundle\Entity\Tagset", mappedBy="user")
+     */
+    protected $tagset;         
     
     public function __construct()
     {
@@ -218,5 +228,45 @@ class User extends BaseUser
     public function getJournal()
     {
         return $this->journal;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param Marca\TagBundle\Entity\Tag $tag
+     */
+    public function addTag(\Marca\TagBundle\Entity\Tag $tag)
+    {
+        $this->tag[] = $tag;
+    }
+
+    /**
+     * Get tag
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
+    /**
+     * Add tagset
+     *
+     * @param Marca\TagBundle\Entity\Tagset $tagset
+     */
+    public function addTagset(\Marca\TagBundle\Entity\Tagset $tagset)
+    {
+        $this->tagset[] = $tagset;
+    }
+
+    /**
+     * Get tagset
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getTagset()
+    {
+        return $this->tagset;
     }
 }

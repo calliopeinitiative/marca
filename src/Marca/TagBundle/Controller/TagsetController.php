@@ -41,16 +41,16 @@ class TagsetController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaTagBundle:Tagset')->find($id);
+        $tagset = $em->getRepository('MarcaTagBundle:Tagset')->find($id);
 
-        if (!$entity) {
+        if (!$tagset) {
             throw $this->createNotFoundException('Unable to find Tagset entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'tagset'      => $tagset,
             'delete_form' => $deleteForm->createView(),        );
     }
 
@@ -62,11 +62,11 @@ class TagsetController extends Controller
      */
     public function newAction()
     {
-        $entity = new Tagset();
-        $form   = $this->createForm(new TagsetType(), $entity);
+        $tagset = new Tagset();
+        $form   = $this->createForm(new TagsetType(), $tagset);
 
         return array(
-            'entity' => $entity,
+            'tagset' => $tagset,
             'form'   => $form->createView()
         );
     }
@@ -81,25 +81,24 @@ class TagsetController extends Controller
     public function createAction()
     {
         $em = $this->getEm();
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId();    
-        $entity  = new Tagset();
-        $entity->setUserid($userid);
+        $user = $this->getUser();;
+        $tagset  = new Tagset();
+        $tagset->setUser($user);
         $request = $this->getRequest();
-        $form    = $this->createForm(new TagsetType(), $entity);
+        $form    = $this->createForm(new TagsetType(), $tagset);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $em->persist($entity);
+            $em->persist($tagset);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tagset_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('tagset_show', array('id' => $tagset->getId())));
             
         }
 
         return array(
-            'entity' => $entity,
+            'tagset' => $tagset,
             'form'   => $form->createView()
         );
     }
@@ -114,17 +113,17 @@ class TagsetController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaTagBundle:Tagset')->find($id);
+        $tagset = $em->getRepository('MarcaTagBundle:Tagset')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tagset entity.');
+        if (!$tagset) {
+            throw $this->createNotFoundException('Unable to find Tagset tagset.');
         }
 
-        $editForm = $this->createForm(new TagsetType(), $entity);
+        $editForm = $this->createForm(new TagsetType(), $tagset);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'tagset'      => $tagset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -141,13 +140,13 @@ class TagsetController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaTagBundle:Tagset')->find($id);
+        $tagset = $em->getRepository('MarcaTagBundle:Tagset')->find($id);
 
-        if (!$entity) {
+        if (!$tagset) {
             throw $this->createNotFoundException('Unable to find Tagset entity.');
         }
 
-        $editForm   = $this->createForm(new TagsetType(), $entity);
+        $editForm   = $this->createForm(new TagsetType(), $tagset);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -155,14 +154,14 @@ class TagsetController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($tagset);
             $em->flush();
 
             return $this->redirect($this->generateUrl('tagset'));
         }
 
         return array(
-            'entity'      => $entity,
+            'tagset'      => $tagset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -183,13 +182,13 @@ class TagsetController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $entity = $em->getRepository('MarcaTagBundle:Tagset')->find($id);
+            $tagset = $em->getRepository('MarcaTagBundle:Tagset')->find($id);
 
-            if (!$entity) {
+            if (!$tagset) {
                 throw $this->createNotFoundException('Unable to find Tagset entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($tagset);
             $em->flush();
         }
 

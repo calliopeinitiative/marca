@@ -25,14 +25,12 @@ class TagController extends Controller
     public function indexAction()
     {
         $em = $this->getEm();
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId();
-
-        $entities = $em->getRepository('MarcaTagBundle:Tag')->findByUserid($userid);
-        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findByUserid($userid);
+        $user = $this->getUser();
+        $tags = $em->getRepository('MarcaTagBundle:Tag')->findTagsByUser($user);
+        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByUser($user);
         $tagsetid = 0;
 
-        return array('entities' => $entities, 'tagsets' => $tagsets, 'tagsetid'=> $tagsetid);
+        return array('tags' => $tags, 'tagsets' => $tagsets, 'tagsetid'=> $tagsetid);
     }
     
     
@@ -45,14 +43,12 @@ class TagController extends Controller
     public function tagsetAction($id)
     {
         $em = $this->getEm();
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId();
-
-        $entities = $em->getRepository('MarcaTagBundle:Tag')->findTagsByTagset($id);
-        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findByUserid($userid);
+        $user = $this->getUser();;
+        $tags = $em->getRepository('MarcaTagBundle:Tag')->findTagsByTagset($id);
+        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findByUserid($user);
         $tagsetid = $id;
 
-        return array('entities' => $entities, 'tagsets' => $tagsets, 'tagsetid'=> $tagsetid );
+        return array('tags' => $tags, 'tagsets' => $tagsets, 'tagsetid'=> $tagsetid );
     }    
 
     /**
@@ -65,16 +61,16 @@ class TagController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaTagBundle:Tag')->find($id);
+        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($id);
 
-        if (!$entity) {
+        if (!$tag) {
             throw $this->createNotFoundException('Unable to find Tag entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'tag'      => $tag,
             'delete_form' => $deleteForm->createView(),        );
     }
 
@@ -86,11 +82,11 @@ class TagController extends Controller
      */
     public function newAction()
     {
-        $entity = new Tag();
-        $form   = $this->createForm(new TagType(), $entity);
+        $tag = new Tag();
+        $form   = $this->createForm(new TagType(), $tag);
 
         return array(
-            'entity' => $entity,
+            'tag' => $tag,
             'form'   => $form->createView()
         );
     }
@@ -105,17 +101,16 @@ class TagController extends Controller
     public function createAction()
     {
         $em = $this->getEm();
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId();
-        $entity  = new Tag();
-        $entity->setUserid($userid);
+        $user = $this->getUser();
+        $tag  = new Tag();
+        $tag->setUser($user);
         $request = $this->getRequest();
-        $form    = $this->createForm(new TagType(), $entity);
+        $form    = $this->createForm(new TagType(), $tag);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $em->persist($entity);
+            $em->persist($tag);
             $em->flush();
 
             return $this->redirect($this->generateUrl('tag'));
@@ -123,7 +118,7 @@ class TagController extends Controller
         }
 
         return array(
-            'entity' => $entity,
+            'tag' => $tag,
             'form'   => $form->createView()
         );
     }
@@ -138,17 +133,17 @@ class TagController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaTagBundle:Tag')->find($id);
+        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($id);
 
-        if (!$entity) {
+        if (!$tag) {
             throw $this->createNotFoundException('Unable to find Tag entity.');
         }
 
-        $editForm = $this->createForm(new TagType(), $entity);
+        $editForm = $this->createForm(new TagType(), $tag);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'tag'      => $tag,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -165,13 +160,13 @@ class TagController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaTagBundle:Tag')->find($id);
+        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($id);
 
-        if (!$entity) {
+        if (!$tag) {
             throw $this->createNotFoundException('Unable to find Tag entity.');
         }
 
-        $editForm   = $this->createForm(new TagType(), $entity);
+        $editForm   = $this->createForm(new TagType(), $tag);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -179,14 +174,14 @@ class TagController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($tag);
             $em->flush();
 
             return $this->redirect($this->generateUrl('tag'));
         }
 
         return array(
-            'entity'      => $entity,
+            'tag'      => $tag,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -207,13 +202,13 @@ class TagController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $entity = $em->getRepository('MarcaTagBundle:Tag')->find($id);
+            $tag = $em->getRepository('MarcaTagBundle:Tag')->find($id);
 
-            if (!$entity) {
+            if (!$tag) {
                 throw $this->createNotFoundException('Unable to find Tag entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($tag);
             $em->flush();
         }
 
