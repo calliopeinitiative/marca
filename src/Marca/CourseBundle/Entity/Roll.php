@@ -135,4 +135,5 @@ class Roll
     {
         return $this->user;
     }
+
 }

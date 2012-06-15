@@ -722,4 +722,5 @@ class Course
         return $this->getUser()->getLastname();
     }
     
+    
 }

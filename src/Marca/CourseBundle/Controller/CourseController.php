@@ -11,6 +11,8 @@ use Marca\CourseBundle\Entity\Roll;
 use Marca\UserBundle\Entity\Profile;
 use Marca\CourseBundle\Entity\Project;
 use Marca\CourseBundle\Form\CourseType;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 
 /**
  * Course controller.
@@ -43,6 +45,11 @@ class CourseController extends Controller
     {
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $user = $this->getUser();
+        if($this->getCourseRole($course, $user) != "instructor")
+        {
+            throw new AccessDeniedException();
+        }
         $projects = $course->getProjectsInSortOrder();
         $tagsets = $course->getTagset(); 
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($id);
@@ -71,6 +78,10 @@ class CourseController extends Controller
     public function newAction()
     {
         $user = $this->getUser();
+        //any instructor can create a new course, so give all instructors access
+        if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
+        throw new AccessDeniedException();
+        }
         $course = new Course();
         $course->setUser($user);
         

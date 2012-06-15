@@ -39,5 +39,19 @@ class Controller extends SymfonyController
         return $course;
     } 
     
-    
+    /**
+     *@return string 
+     */
+    public function getCourseRole($course, $user){
+        $rollentry = $this->getEm()->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
+        if(!$rollentry){
+            return "none";
+        }
+        if($rollentry->getRole() === 1){
+            return "instructor";
+        }
+        if($rollentry->getRole() === 0){
+            return "student";
+        }
+    }
 }

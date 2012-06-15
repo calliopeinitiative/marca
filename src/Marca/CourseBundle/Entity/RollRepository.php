@@ -19,6 +19,15 @@ class RollRepository extends EntityRepository
             ->createQuery('SELECT u.lastname,u.firstname,r.role from MarcaCourseBundle:Roll r JOIN r.user u JOIN r.course c WHERE c.id = ?1 ORDER BY u.lastname,u.firstname')->setParameter('1',$id)->getResult();
     }
     
+    public function findUserInCourse($course, $user){
+        try{
+            $roleString = $this->getEntityManager()->createQuery('SELECT r from MarcaCourseBundle:Roll r WHERE r.user = ?1 AND r.course = ?2')->setParameter('1', $user->getId())->setParameter('2', $course->getId())->getSingleResult();
+        } catch (\Doctrine\Orm\NoResultException $e){
+            $roleString = null;
+        }
+        return $roleString;
+    }
+    
     public function enroll($course,$user)
     {
         $em = $this->getEntityManager();
