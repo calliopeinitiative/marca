@@ -19,56 +19,56 @@ class ForumController extends Controller
     /**
      * Lists all Forum entities.
      *
-     * @Route("/{set}/page", name="forum")
+     * @Route("/{courseid}/{set}/page", name="forum")
      * @Template()
      */
     public function indexAction($set)
     {
         $em = $this->getEm();
-        $username = $this->get('security.context')->getToken()->getUsername();
+        $user = $this->getUser();
         $set = $set;
-        $userid = $this->getDoctrine()->getEntityManager()->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
-        $entities = $em->getRepository('MarcaForumBundle:Forum')->findForumRecent($userid, $set);
-        return array('entities' => $entities,'set' => $set);
+        $userid = $user->getId();
+        $forumEntires = $em->getRepository('MarcaForumBundle:Forum')->findForumRecent($userid, $set);
+        return array('forumEntries' => $forumEntires,'set' => $set);
     }
 
     /**
      * Finds and displays a Forum entity.
      *
-     * @Route("/{id}/show", name="forum_show")
+     * @Route("/{courseid}/{forumid}/show", name="forum_show")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction($forumid)
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaForumBundle:Forum')->find($id);
+        $forum = $em->getRepository('MarcaForumBundle:Forum')->find($forumid);
 
-        if (!$entity) {
+        if (!$forum) {
             throw $this->createNotFoundException('Unable to find Forum entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($forumid);
 
         return array(
-            'entity'      => $entity,
+            'forum'      => $forum,
             'delete_form' => $deleteForm->createView(),        );
     }
 
     /**
      * Displays a form to create a new Forum entity.
      *
-     * @Route("/new", name="forum_new")
+     * @Route("/{courseid}/new", name="forum_new")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Forum();
-        $entity->setBody('<p></p>');
-        $form   = $this->createForm(new ForumType(), $entity);
+        $newForum = new Forum();
+        $newForum->setBody('<p></p>');
+        $form   = $this->createForm(new ForumType(), $newForum);
 
         return array(
-            'entity' => $entity,
+            'newForum' => $newForum,
             'form'   => $form->createView()
         );
     }
@@ -76,34 +76,32 @@ class ForumController extends Controller
     /**
      * Creates a new Forum entity.
      *
-     * @Route("/create", name="forum_create")
+     * @Route("/{courseid}/create", name="forum_create")
      * @Method("post")
      * @Template("MarcaForumBundle:Forum:new.html.twig")
      */
-    public function createAction()
+    public function createAction($courseid)
     {
         $em = $this->getEm();
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
-        $courseid = $this->get('request')->getSession()->get('courseid');
-        $entity  = new Forum();
-        $entity->setUserid($userid);
-        $entity->setCourseid($courseid);
+        $userid = $this->getUser()->getId(); 
+        $newForum  = new Forum();
+        $newForum->setUserid($userid);
+        $newForum->setCourseid($courseid);
         $request = $this->getRequest();
-        $form    = $this->createForm(new ForumType(), $entity);
+        $form    = $this->createForm(new ForumType(), $newForum);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $em->persist($entity);
+            $em->persist($newForum);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('forum', array('set' => 0)));
+            return $this->redirect($this->generateUrl('forum', array('courseid' => $courseid, 'set' => 0)));
             
         }
 
         return array(
-            'entity' => $entity,
+            'newForum' => $newForum,
             'form'   => $form->createView()
         );
     }
@@ -111,24 +109,24 @@ class ForumController extends Controller
     /**
      * Displays a form to edit an existing Forum entity.
      *
-     * @Route("/{id}/edit", name="forum_edit")
+     * @Route("/{courseid}/{forumid}/edit", name="forum_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($forumid)
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaForumBundle:Forum')->find($id);
+        $forum = $em->getRepository('MarcaForumBundle:Forum')->find($forumid);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Forum entity.');
+        if (!$forum) {
+            throw $this->createNotFoundException('Unable to find Forum.');
         }
 
-        $editForm = $this->createForm(new ForumType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createForm(new ForumType(), $forum);
+        $deleteForm = $this->createDeleteForm($forumid);
 
         return array(
-            'entity'      => $entity,
+            'forum'      => $forum,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -137,36 +135,36 @@ class ForumController extends Controller
     /**
      * Edits an existing Forum entity.
      *
-     * @Route("/{id}/update", name="forum_update")
+     * @Route("/{courseid}/{forumid}/update", name="forum_update")
      * @Method("post")
      * @Template("MarcaForumBundle:Forum:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($courseid, $forumid)
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaForumBundle:Forum')->find($id);
+        $forum = $em->getRepository('MarcaForumBundle:Forum')->find($forumid);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Forum entity.');
+        if (!$forum) {
+            throw $this->createNotFoundException('Unable to find Forum.');
         }
 
-        $editForm   = $this->createForm(new ForumType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm   = $this->createForm(new ForumType(), $forum);
+        $deleteForm = $this->createDeleteForm($forumid);
 
         $request = $this->getRequest();
 
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($forum);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('forum', array('set' => 0)));
+            return $this->redirect($this->generateUrl('forum', array('courseid' => $courseid, 'set' => 0)));
         }
 
         return array(
-            'entity'      => $entity,
+            'forum'      => $forum,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -175,33 +173,34 @@ class ForumController extends Controller
     /**
      * Deletes a Forum entity.
      *
-     * @Route("/{id}/delete", name="forum_delete")
+     * @Route("/{courseid}/{forumid}/delete", name="forum_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($courseid, $forumid)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($forumid);
         $request = $this->getRequest();
 
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $entity = $em->getRepository('MarcaForumBundle:Forum')->find($id);
+            $forum = $em->getRepository('MarcaForumBundle:Forum')->find($forumid);
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Forum entity.');
+            if (!$forum) {
+                throw $this->createNotFoundException('Unable to find Forum.');
             }
 
-            $em->remove($entity);
+            $em->remove($forum);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('forum'));
+        return $this->redirect($this->generateUrl('forum', array('courseid' => $courseid, 'set' => 0)));
     }
 
     private function createDeleteForm($id)
     {
+        //currently unused!
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
             ->getForm()

@@ -24,6 +24,7 @@ class ProjectController extends Controller
      */
     public function indexAction()
     {
+        //function is not currently used, should we delete it?
         $em = $this->getEm();
 
         $entities = $em->getRepository('MarcaCourseBundle:Project')->findAll();
@@ -38,7 +39,7 @@ class ProjectController extends Controller
      * @Template()
      */
     public function showAction($id)
-    {
+    {   
         $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaCourseBundle:Project')->find($id);
@@ -107,7 +108,7 @@ class ProjectController extends Controller
             $em->persist($project);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_show', array('id' => $courseid)));
+            return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
             
         }
 
@@ -195,7 +196,7 @@ class ProjectController extends Controller
             $em->persist($project);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_show', array('id' => $courseid)));
+            return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
         }
 
         return array(
@@ -235,7 +236,7 @@ class ProjectController extends Controller
             
         //}
 
-        return $this->redirect($this->generateUrl('course_show', array('id' => $courseid)));
+        return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
     }
 
     private function createDeleteForm($id)
@@ -266,7 +267,7 @@ class ProjectController extends Controller
             $em->flush();
         }
         
-        return $this->redirect($this->generateUrl('course_show', array('id' => $courseid)));
+        return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
 
     }
     
@@ -290,7 +291,7 @@ class ProjectController extends Controller
             $em->flush();
         }
         
-        return $this->redirect($this->generateUrl('course_show', array('id' => $courseid)));
+        return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
 
     }
 }

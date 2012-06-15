@@ -36,23 +36,23 @@ class CourseController extends Controller
     /**
      * Finds and displays a Course entity.
      *
-     * @Route("/{id}/show", name="course_show")
+     * @Route("/{courseid}/show", name="course_show")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction($courseid)
     {
         $em = $this->getEm();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $projects = $course->getProjectsInSortOrder();
         $tagsets = $course->getTagset(); 
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($id);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         
         if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($courseid);
 
         return array(
             'course'      => $course,
@@ -137,7 +137,7 @@ class CourseController extends Controller
             $em->persist($project4);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_show', array('id' => $course->getId())));
+            return $this->redirect($this->generateUrl('course_show', array('courseid' => $course->getId())));
             
         }
 
@@ -150,21 +150,21 @@ class CourseController extends Controller
     /**
      * Displays a form to edit an existing Course entity.
      *
-     * @Route("/{id}/edit", name="course_edit")
+     * @Route("/{courseid}/edit", name="course_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($courseid)
     {
         $em = $this->getEm();
-        $options = array('courseid' => $id);
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $options = array('courseid' => $courseid);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
 
         if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
         $editForm = $this->createForm(new CourseType($options), $course);
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($courseid);
 
         return array(
             'course'      => $course,
@@ -177,32 +177,32 @@ class CourseController extends Controller
     /**
      * Edits an existing Course entity.
      *
-     * @Route("/{id}/update", name="course_update")
+     * @Route("/{courseid}/update", name="course_update")
      * @Method("post")
      * @Template("MarcaCourseBundle:Course:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($courseid)
     {
         $em = $this->getEm();
-        $options = array('courseid' => $id);
-        $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $options = array('courseid' => $courseid);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
 
-        if (!$entity) {
+        if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
-        $editForm = $this->createForm(new CourseType($options), $entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createForm(new CourseType($options), $course);
+        $deleteForm = $this->createDeleteForm($courseid);
 
         $request = $this->getRequest();
 
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($course);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
         }
 
         return array(
@@ -215,34 +215,34 @@ class CourseController extends Controller
     /**
      * Deletes a Course entity.
      *
-     * @Route("/{id}/delete", name="course_delete")
+     * @Route("/{courseid}/delete", name="course_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($courseid)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($courseid);
         $request = $this->getRequest();
 
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+            $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
 
-            if (!$entity) {
+            if (!$course) {
                 throw $this->createNotFoundException('Unable to find Course entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($course);
             $em->flush();
         }
 
         return $this->redirect($this->generateUrl('course'));
     }
 
-    private function createDeleteForm($id)
+    private function createDeleteForm($courseid)
     {
-        return $this->createFormBuilder(array('id' => $id))
+        return $this->createFormBuilder(array('courseid' => $courseid))
             ->add('id', 'hidden')
             ->getForm()
         ;
