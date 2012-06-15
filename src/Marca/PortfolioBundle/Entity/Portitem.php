@@ -36,13 +36,6 @@ class Portitem
     private $description;
 
     /**
-     * @var integer $userid
-     *
-     * @ORM\Column(name="userid", type="integer")
-     */
-    private $userid;
-
-    /**
      * @var integer $sortorder
      *
      * @ORM\Column(name="sortorder", type="integer")
@@ -98,26 +91,6 @@ class Portitem
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Set userid
-     *
-     * @param integer $userid
-     */
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
-    }
-
-    /**
-     * Get userid
-     *
-     * @return integer 
-     */
-    public function getUserid()
-    {
-        return $this->userid;
     }
 
     /**

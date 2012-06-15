@@ -27,8 +27,7 @@ class ForumController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $set = $set;
-        $userid = $user->getId();
-        $forumEntires = $em->getRepository('MarcaForumBundle:Forum')->findForumRecent($userid, $set);
+        $forumEntries = $em->getRepository('MarcaForumBundle:Forum')->findForumRecent($user, $set);
         return array('forumEntries' => $forumEntires,'set' => $set);
     }
 
@@ -83,10 +82,11 @@ class ForumController extends Controller
     public function createAction($courseid)
     {
         $em = $this->getEm();
-        $userid = $this->getUser()->getId(); 
+        $user = $this->getUser();
+        $course = $this->getCourse();
         $newForum  = new Forum();
-        $newForum->setUserid($userid);
-        $newForum->setCourseid($courseid);
+        $newForum->setUser($user);
+        $newForum->setCourse($course);
         $request = $this->getRequest();
         $form    = $this->createForm(new ForumType(), $newForum);
         $form->bindRequest($request);

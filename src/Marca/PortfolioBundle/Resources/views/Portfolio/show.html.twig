@@ -5,14 +5,14 @@
 <div class="row-fluid">
 <div class="span2">
 <div class="btn-group">
-<a class="btn" href="{{ path('portfolio') }}">List</a>
-<a class="btn" href="{{ path('portfolio_edit', { 'id': entity.id }) }}">Edit</a>
+<a class="btn" href="{{ course_path('portfolio') }}">List</a>
+<a class="btn" href="{{ course_path('portfolio_edit', { 'id': entity.id }) }}">Edit</a>
  
 </div> 
 </div>       
   
 <div class="span1">        
-<form action="{{ path('portfolio_delete', { 'id': entity.id }) }}" method="post">
+<form action="{{ course_path('portfolio_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>

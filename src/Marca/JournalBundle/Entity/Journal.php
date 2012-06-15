@@ -71,46 +71,6 @@ class Journal
     }
 
     /**
-     * Set userid
-     *
-     * @param integer $userid
-     */
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
-    }
-
-    /**
-     * Get userid
-     *
-     * @return integer 
-     */
-    public function getUserid()
-    {
-        return $this->userid;
-    }
-
-    /**
-     * Set courseid
-     *
-     * @param integer $courseid
-     */
-    public function setCourseid($courseid)
-    {
-        $this->courseid = $courseid;
-    }
-
-    /**
-     * Get courseid
-     *
-     * @return integer 
-     */
-    public function getCourseid()
-    {
-        return $this->courseid;
-    }
-
-    /**
      * Set title
      *
      * @param string $title

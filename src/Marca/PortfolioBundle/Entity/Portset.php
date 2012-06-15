@@ -29,13 +29,6 @@ class Portset
     private $name;
 
     /**
-     * @var integer $userid
-     *
-     * @ORM\Column(name="userid", type="integer")
-     */
-    private $userid;
-
-    /**
      * @var text $description
      *
      * @ORM\Column(name="description", type="text")
@@ -71,26 +64,6 @@ class Portset
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set userid
-     *
-     * @param integer $userid
-     */
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
-    }
-
-    /**
-     * Get userid
-     *
-     * @return integer 
-     */
-    public function getUserid()
-    {
-        return $this->userid;
     }
 
     /**

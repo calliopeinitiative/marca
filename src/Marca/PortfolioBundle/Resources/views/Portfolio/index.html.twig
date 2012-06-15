@@ -4,7 +4,7 @@
 {% block content %}
 <div class="row-fluid">
    <div class="span4">
-      <a class="btn btn-primary" href="{{ path('portfolio_new') }}">New</a>
+      <a class="btn btn-primary" href="{{ course_path('portfolio_new') }}">New</a>
    </div>
 </div> 
 
@@ -22,14 +22,14 @@
     </tr>
 </thead>    
 <tbody>
-    {% for entity in entities %}
+    {% for portfolio in portfolios %}
     <tr>        
-        <td><a href="{{ path('portfolio_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>        
-        <td>{{ entity.userid }}</td>        
-        <td>{{ entity.courseid }}</td>        
-        <td>{{ entity.fileid }}</td>        
-        <td>{{ entity.portOrder }}</td>        
-        <td><div class="btn-group"><a class="btn" href="{{ path('portfolio_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ path('portfolio_edit', { 'id': entity.id }) }}">edit</a></div>
+        <td><a href="{{ course_path('portfolio_show', { 'id': portfolio.id }) }}">{{ portfolio.id }}</a></td>        
+        <td>{{ portfolio.userid }}</td>        
+        <td>{{ portfolio.courseid }}</td>        
+        <td>{{ portfolio.fileid }}</td>        
+        <td>{{ portfolio.portOrder }}</td>        
+        <td><div class="btn-group"><a class="btn" href="{{ course_path('portfolio_show', { 'id': portfolio.id }) }}">show</a><a class="btn" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">edit</a></div>
 
 </td>       
     </tr>

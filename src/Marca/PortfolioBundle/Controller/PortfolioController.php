@@ -19,54 +19,55 @@ class PortfolioController extends Controller
     /**
      * Lists all Portfolio entities.
      *
-     * @Route("/", name="portfolio")
+     * @Route("/{courseid}", name="portfolio")
      * @Template()
      */
     public function indexAction()
     {
         $em = $this->getEm();
-
-        $entities = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findAll();
-
-        return array('entities' => $entities);
+        $user = $this->getUser();
+        $courseid = $this->get('request')->getSession()->get('courseid');
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $portfolios = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findAll();
+        return array('portfolios' => $portfolios);
     }
 
     /**
      * Finds and displays a Portfolio entity.
      *
-     * @Route("/{id}/show", name="portfolio_show")
+     * @Route("/{courseid}/{id}/show", name="portfolio_show")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
+        $portfolios = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
 
-        if (!$entity) {
+        if (!$portfolio) {
             throw $this->createNotFoundException('Unable to find Portfolio entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'portfolios'      => $portfolios,
             'delete_form' => $deleteForm->createView(),        );
     }
 
     /**
      * Displays a form to create a new Portfolio entity.
      *
-     * @Route("/new", name="portfolio_new")
+     * @Route("/{courseid}/new", name="portfolio_new")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Portfolio();
-        $form   = $this->createForm(new PortfolioType(), $entity);
+        $portfolio = new Portfolio();
+        $form   = $this->createForm(new PortfolioType(), $portfolio);
 
         return array(
-            'entity' => $entity,
+            'portfolio' => $portfolio,
             'form'   => $form->createView()
         );
     }
@@ -74,28 +75,33 @@ class PortfolioController extends Controller
     /**
      * Creates a new Portfolio entity.
      *
-     * @Route("/create", name="portfolio_create")
+     * @Route("/{courseid}/create", name="portfolio_create")
      * @Method("post")
      * @Template("MarcaPortfolioBundle:Portfolio:new.html.twig")
      */
     public function createAction()
     {
-        $entity  = new Portfolio();
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $course = $this->getCourse();
+        $newPortfolio  = new Portfolio();
+        $newPortfolio->setUser($user);
+        $newPortfolio->setCourse($course);
         $request = $this->getRequest();
-        $form    = $this->createForm(new PortfolioType(), $entity);
+        $form    = $this->createForm(new PortfolioType(), $newPortfolio);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $em->persist($entity);
+            $em->persist($newPortfolio);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('portfolio_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('portfolio_show', array('courseid' => $courseid)));
             
         }
 
         return array(
-            'entity' => $entity,
+            'newPortfolio' => $newPortfolio,
             'form'   => $form->createView()
         );
     }
@@ -103,24 +109,24 @@ class PortfolioController extends Controller
     /**
      * Displays a form to edit an existing Portfolio entity.
      *
-     * @Route("/{id}/edit", name="portfolio_edit")
+     * @Route("/{courseid}/{id}/edit", name="portfolio_edit")
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
+        $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
 
-        if (!$entity) {
+        if (!$portfolio) {
             throw $this->createNotFoundException('Unable to find Portfolio entity.');
         }
 
-        $editForm = $this->createForm(new PortfolioType(), $entity);
+        $editForm = $this->createForm(new PortfolioType(), $portfolio);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'portfolio'      => $portfolio,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -129,7 +135,7 @@ class PortfolioController extends Controller
     /**
      * Edits an existing Portfolio entity.
      *
-     * @Route("/{id}/update", name="portfolio_update")
+     * @Route("/{courseid}/{id}/update", name="portfolio_update")
      * @Method("post")
      * @Template("MarcaPortfolioBundle:Portfolio:edit.html.twig")
      */
@@ -137,13 +143,13 @@ class PortfolioController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
+        $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
 
-        if (!$entity) {
+        if (!$portfolio) {
             throw $this->createNotFoundException('Unable to find Portfolio entity.');
         }
 
-        $editForm   = $this->createForm(new PortfolioType(), $entity);
+        $editForm   = $this->createForm(new PortfolioType(), $portfolio);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -151,14 +157,14 @@ class PortfolioController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($portfolio);
             $em->flush();
 
             return $this->redirect($this->generateUrl('portfolio_edit', array('id' => $id)));
         }
 
         return array(
-            'entity'      => $entity,
+            'portfolio'      => $portfolio,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -167,7 +173,7 @@ class PortfolioController extends Controller
     /**
      * Deletes a Portfolio entity.
      *
-     * @Route("/{id}/delete", name="portfolio_delete")
+     * @Route("/{courseid}/{id}/delete", name="portfolio_delete")
      * @Method("post")
      */
     public function deleteAction($id)
@@ -179,13 +185,13 @@ class PortfolioController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $entity = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
+            $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
 
-            if (!$entity) {
+            if (!$portfolio) {
                 throw $this->createNotFoundException('Unable to find Portfolio entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($portfolio);
             $em->flush();
         }
 

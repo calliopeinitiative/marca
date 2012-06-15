@@ -23,20 +23,6 @@ class Forum
     private $id;
 
     /**
-     * @var integer $userid
-     *
-     * @ORM\Column(name="userid", type="integer")
-     */
-    private $userid;
-
-    /**
-     * @var integer $courseid
-     *
-     * @ORM\Column(name="courseid", type="integer")
-     */
-    private $courseid;    
-
-    /**
      * @var string $title
      *
      * @ORM\Column(name="title", type="string", length=255)
@@ -49,6 +35,17 @@ class Forum
      * @ORM\Column(name="body", type="text")
      */
     private $body;
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="forum")
+    */
+    protected $user;    
+
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="forum")
+    */
+    protected $course;
     
     /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -154,43 +151,44 @@ class Forum
         return $this->updated;
     }
 
+
     /**
-     * Set userid
+     * Set user
      *
-     * @param integer $userid
+     * @param Marca\UserBundle\Entity\User $user
      */
-    public function setUserid($userid)
+    public function setUser(\Marca\UserBundle\Entity\User $user)
     {
-        $this->userid = $userid;
+        $this->user = $user;
     }
 
     /**
-     * Get userid
+     * Get user
      *
-     * @return integer 
+     * @return Marca\UserBundle\Entity\User 
      */
-    public function getUserid()
+    public function getUser()
     {
-        return $this->userid;
+        return $this->user;
     }
 
     /**
-     * Set courseid
+     * Set course
      *
-     * @param integer $courseid
+     * @param Marca\CourseBundle\Entity\Course $course
      */
-    public function setCourseid($courseid)
+    public function setCourse(\Marca\CourseBundle\Entity\Course $course)
     {
-        $this->courseid = $courseid;
+        $this->course = $course;
     }
 
     /**
-     * Get courseid
+     * Get course
      *
-     * @return integer 
+     * @return Marca\CourseBundle\Entity\Course 
      */
-    public function getCourseid()
+    public function getCourse()
     {
-        return $this->courseid;
+        return $this->course;
     }
 }
