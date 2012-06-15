@@ -1,8 +1,8 @@
 
-{% extends 'MarcaTagBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
+<div class="row well">
 <div class="span6">
 <table class="table table-bordered table-condensed table-striped">
 <thead>
@@ -15,7 +15,7 @@
     {% for entity in entities %}
     <tr>            
         <td>{{ entity.name }}</td>   
-        <td><div class="btn-group"><a class="btn" href="{{ path('tagset_edit', { 'id': entity.id }) }}">edit</a></div></td>       
+        <td><a class="btn btn-primary" href="{{ path('tagset_edit', { 'id': entity.id }) }}">Edit</a></td>       
     </tr>
     
     {% endfor %}

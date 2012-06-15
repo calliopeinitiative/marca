@@ -45,7 +45,7 @@ class TagController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();;
         $tags = $em->getRepository('MarcaTagBundle:Tag')->findTagsByTagset($id);
-        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findByUserid($user);
+        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByUser($user);
         $tagsetid = $id;
 
         return array('tags' => $tags, 'tagsets' => $tagsets, 'tagsetid'=> $tagsetid );
