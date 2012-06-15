@@ -42,7 +42,11 @@ class Controller extends SymfonyController
     /**
      *@return string 
      */
-    public function getCourseRole($course, $user){
+    public function getCourseRole(){
+        $request = $this->getRequest();
+        $courseid = $request->attributes->get('courseid');
+        $course = $this->getEm()->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $user = $this->getUser();
         $rollentry = $this->getEm()->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
         if(!$rollentry){
             return "none";
