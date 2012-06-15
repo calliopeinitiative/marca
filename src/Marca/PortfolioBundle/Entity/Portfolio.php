@@ -35,6 +35,17 @@ class Portfolio
      */
     private $portOrder;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="portfolio")
+    */
+    protected $user;    
+
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="portfolio")
+    */
+    protected $course;
+    
 
     /**
      * Get id

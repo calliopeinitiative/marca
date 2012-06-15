@@ -28,7 +28,7 @@ class ForumController extends Controller
         $user = $this->getUser();
         $set = $set;
         $forumEntries = $em->getRepository('MarcaForumBundle:Forum')->findForumRecent($user, $set);
-        return array('forumEntries' => $forumEntires,'set' => $set);
+        return array('forumEntries' => $forumEntries,'set' => $set);
     }
 
     /**
