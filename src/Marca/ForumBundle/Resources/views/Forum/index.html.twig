@@ -9,7 +9,7 @@
 <div class="span2" ><h4>{{ forumEntry.title }}</h4></div>
 <div class="pull-right" >
  Created  {{ forumEntry.created|date('M d, Y h:i a') }}  / Modified  {{ forumEntry.updated|date('M d, Y h:i a') }} 
-<a class="btn btn-primary btn-small" href="{{ course_path('forum_edit', { 'forumid': forumEntry.id }) }}">edit</a>
+<a class="btn btn-primary btn-small" href="{{ course_path('forum_edit', { 'id': forumEntry.id }) }}">edit</a>
 </div>
 </div>
 </div>
