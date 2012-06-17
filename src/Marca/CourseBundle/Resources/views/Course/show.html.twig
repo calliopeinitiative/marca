@@ -106,14 +106,14 @@
         <button class="btn btn-danger" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button> 
         </td>   
         <td>
-            <a class = "btn btn-mini btn-primary" href="{{ path('project_promote', { 'projectId':project.id}) }}"> <i class = "icon-search icon-white icon-arrow-up"></i></a>
-            <a class = "btn btn-mini btn-primary" href="{{ path('project_demote', { 'projectId':project.id}) }}"> <i class = "icon-search icon-white icon-arrow-down"></i></a>
+            <a class = "btn btn-mini btn-primary" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-search icon-white icon-arrow-up"></i></a>
+            <a class = "btn btn-mini btn-primary" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-search icon-white icon-arrow-down"></i></a>
         </td>
     </tr>
      <tr id="confirm{{project.id}}" class="toggle">
         <th>{{ project.name }}</th>         
         <td>
-            <form action="{{ path('project_delete', { 'id': project.id }) }}" method="post">
+            <form action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
             </form>

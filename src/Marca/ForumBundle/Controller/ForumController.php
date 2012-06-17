@@ -24,6 +24,8 @@ class ForumController extends Controller
      */
     public function indexAction($set)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
         $user = $this->getUser();
         $set = $set;
@@ -39,6 +41,8 @@ class ForumController extends Controller
      */
     public function showAction($id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
 
         $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
@@ -62,6 +66,8 @@ class ForumController extends Controller
      */
     public function newAction()
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $newForum = new Forum();
         $newForum->setBody('<p></p>');
         $form   = $this->createForm(new ForumType(), $newForum);
@@ -81,6 +87,8 @@ class ForumController extends Controller
      */
     public function createAction($courseid)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();
@@ -114,6 +122,8 @@ class ForumController extends Controller
      */
     public function editAction($id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
 
         $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
@@ -141,6 +151,8 @@ class ForumController extends Controller
      */
     public function updateAction($courseid, $id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
 
         $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
@@ -178,6 +190,8 @@ class ForumController extends Controller
      */
     public function deleteAction($courseid, $id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 

@@ -62,6 +62,9 @@ class ProjectController extends Controller
      */
     public function newAction($courseid)
     {
+        $allowed = array("instructor");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         
         //find current # of projects in course (so we can suggest setting sortOrder to this +1
@@ -125,6 +128,8 @@ class ProjectController extends Controller
      */
     public function editAction($id,$courseid)
     {
+        $allowed = array("instructor");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
 
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($id);
@@ -208,11 +213,14 @@ class ProjectController extends Controller
     /**
      * Deletes a Project entity.
      *
-     * @Route("/{id}/delete", name="project_delete")
+     * @Route("/{courseid}/{id}/delete", name="project_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($courseid, $id)
     {
+        $allowed = array("instructor");
+        $this->restrictAccessTo($allowed);
+        
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
@@ -250,9 +258,11 @@ class ProjectController extends Controller
      /**
      * Moves a Project entity up one in the display order.
      *
-     * @Route("/{projectId}/promote", name="project_promote")
+     * @Route("/{courseid}/{projectId}/promote", name="project_promote")
      */
     public function promoteAction($projectId){
+        $allowed = array("instructor");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
         $courseid = $project->getCourse()->getId();
@@ -273,9 +283,11 @@ class ProjectController extends Controller
      /**
      * Moves a Project entity down one in the display order.
      *
-     * @Route("/{projectId}/demote", name="project_demote")
+     * @Route("/{courseid}/{projectId}/demote", name="project_demote")
      */
     public function demoteAction($projectId){
+        $allowed = array("instructor");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
         $courseid = $project->getCourse()->getId();

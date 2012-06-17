@@ -10,7 +10,7 @@
     <tr><th>Name</th><td>{{ form_widget (form.name) }}</td></tr>       
     <tr><th>Display in Resources</th><td>{{ form_widget (form.resource) }}</td></tr>      
     <tr><th></th><td><button class="btn btn-primary" type="submit">Update Project</button>
-            <a class="btn" href="{{ path('course_show', { 'id': courseid }) }}">Cancel</a></td></tr>    
+            <a class="btn" href="{{ path('course_show', { 'courseid': courseid }) }}">Cancel</a></td></tr>    
 </tbody>
 </table>
 {{ form_rest(form) }}         

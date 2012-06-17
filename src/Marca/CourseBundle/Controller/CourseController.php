@@ -43,13 +43,11 @@ class CourseController extends Controller
      */
     public function showAction($courseid)
     {
+        $allowed = array("instructor");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $user = $this->getUser();
-        if($this->getCourseRole($course, $user) != "instructor")
-        {
-            throw new AccessDeniedException();
-        }
         $projects = $course->getProjectsInSortOrder();
         $tagsets = $course->getTagset(); 
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -167,13 +165,18 @@ class CourseController extends Controller
     public function editAction($id)
     {
         $em = $this->getEm();
+        $user = $this->getUser();
         $options = array('courseid' => $id);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
-
+        
         if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
-
+        //restrict access to the edit function to the course owner
+        if($user != $course->getUser()){
+            throw new AccessDeniedException();
+        }
+        
         $editForm = $this->createForm(new CourseType($options), $course);
         $deleteForm = $this->createDeleteForm($id);
 
@@ -231,14 +234,21 @@ class CourseController extends Controller
      */
     public function deleteAction($id)
     {
+        $em = $this->getEm();
+        $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $user = $this->getUser();
+        //restrict access to the delete function to the course owner
+        if($user != $entity->getUser()){
+            throw new AccessDeniedException();
+        }
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
-
+    
+        
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getEm();
-            $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+            
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Course entity.');
