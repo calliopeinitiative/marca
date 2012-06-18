@@ -3,10 +3,10 @@
 {% block content %}
 <div class="row pad-left">
     <ul class="nav nav-tabs">
-            <li class="{% if active_project == 0 %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'sort': 'updated', 'scope': scope }) }}">Recent Files</a></li>
+        <li class="{% if active_project == 0 %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'sort': 'updated', 'scope': scope }) }}"><strong>Recent Files</strong></a></li>
     {% for project in projects %}
-            <li class="{% if active_project == project %}active{% endif %}">
-                <a class="" href="{{ course_path('file_list', { 'project': project.id, 'sort': 'updated', 'scope': scope }) }}">{{ project.name }}</a></li>
+            <li class="{% if active_project == project.id %}active{% endif %} ">
+                <a class="" href="{{ course_path('file_list', { 'project': project.id, 'sort': 'updated', 'scope': scope }) }}"><strong>{{ project.name }}</strong></a></li>
     {% endfor %}
      </ul>
 </div>
@@ -38,8 +38,10 @@
         <td>{% if file.project %}<span class="label label-info">{{ file.project }}</span>{% endif%}</td>
         
         <td>{% if file.tag %}<span class="label label">{{ file.tag }}</span>{% endif%}</td>
-        <td>{% if file.updated %}{{ file.updated|date('M d Y,   g:i a') }}{% endif%}</td>        
-        <td><a class="" href="{{ course_path('file_edit', { 'id': file.id }) }}">Edit listing</a></td>  
+        <td>{% if file.updated %}{{ file.updated|date('M d Y,   g:i a') }}{% endif%}</td> 
+        
+        {# note: temp conditional until role permission structure is completed    #}
+        <td>{% if file.username==app.user.username %}<a class="" href="{{ course_path('file_edit', { 'id': file.id }) }}">Edit listing</a>{% endif%}</td>  
     </tr>
     
     {% endfor %}

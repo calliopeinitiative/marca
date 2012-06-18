@@ -21,29 +21,34 @@ toolbar : [
 ],} );
 });
 </script>
-<div class="row">
-<div class="span9"> 
-<form action="{{ course_path('doc_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_errors(edit_form) }}
 
-<div>
-    {{ form_errors(edit_form.body) }}
-    {{ form_widget(edit_form.body) }}
+
+<form action="{{ course_path('doc_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+ 
+<div class="row pad-left">
+    <input class="btn btn-primary btn-small" type="submit" value="Save"/>
+    <a class="btn btn-primary btn-small" href="{{ course_path('doc_show', { 'id': entity.id }) }}">Cancel</a>
 </div>
 
-    {{ form_rest(edit_form) }}
-<div class="span7">        
-    <div class="btn-group pull-right">
-        <button class="btn btn-primary" type="submit">Update</button>
-         <a class="btn btn-info" href="{{ course_path('doc_show', { 'id': entity.id }) }}">Cancel</a>
-     </div>
-</div>        
-</form>
-
-</div> 
-        
+<div class="row">
+<div class="span9">         
+<div>
+    {{ form_errors(edit_form) }}
+    {{ form_errors(edit_form.body) }}
+    {{ form_widget(edit_form.body) }}
+    {{ form_rest(edit_form) }}    
+</div>
+</div>
 <div class="span3">
 {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 </div>    
-</div>
+</div>        
+</div> 
+    
+       
+</form>
+
+
+        
+
 {% endblock %}

@@ -26,6 +26,7 @@ class ForumController extends Controller
     {
         $allowed = array("instructor", "student");
         $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $user = $this->getUser();
         $set = $set;
@@ -43,6 +44,7 @@ class ForumController extends Controller
     {
         $allowed = array("instructor", "student");
         $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
 
         $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
@@ -68,6 +70,7 @@ class ForumController extends Controller
     {
         $allowed = array("instructor", "student");
         $this->restrictAccessTo($allowed);
+        
         $newForum = new Forum();
         $newForum->setBody('<p></p>');
         $form   = $this->createForm(new ForumType(), $newForum);
@@ -89,6 +92,7 @@ class ForumController extends Controller
     {
         $allowed = array("instructor", "student");
         $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();
@@ -124,12 +128,17 @@ class ForumController extends Controller
     {
         $allowed = array("instructor", "student");
         $this->restrictAccessTo($allowed);
+        $user = $this->getUser();
+        
         $em = $this->getEm();
 
         $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
 
         if (!$forum) {
-            throw $this->createNotFoundException('Unable to find Forum.');
+            throw $this->createNotFoundException('Unable to find Forum entity.');
+        }
+        elseif($user != $forum->getUser()){
+            throw new AccessDeniedException();
         }
 
         $editForm = $this->createForm(new ForumType(), $forum);
@@ -153,6 +162,7 @@ class ForumController extends Controller
     {
         $allowed = array("instructor", "student");
         $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
 
         $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
@@ -192,6 +202,8 @@ class ForumController extends Controller
     {
         $allowed = array("instructor", "student");
         $this->restrictAccessTo($allowed);
+        $user = $this->getUser();
+        
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
@@ -202,7 +214,10 @@ class ForumController extends Controller
             $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
 
             if (!$forum) {
-                throw $this->createNotFoundException('Unable to find Forum.');
+                throw $this->createNotFoundException('Unable to find Forum entity.');
+            }
+            elseif($user != $forum->getUser()){
+                throw new AccessDeniedException();
             }
 
             $em->remove($forum);

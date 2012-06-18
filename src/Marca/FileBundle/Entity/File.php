@@ -399,6 +399,7 @@ class File
     {
         $filename = $this->getPath(); 
         return pathinfo($filename, PATHINFO_EXTENSION);
-    }       
+    }  
+         
     
 }

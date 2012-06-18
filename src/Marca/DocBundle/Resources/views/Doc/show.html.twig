@@ -25,38 +25,21 @@ $(this).append(span_append);
 });
 });
 </script>
-<div class="row margin-left">
-<div class="btn-group">
-  <a class="btn btn-info" href="{{ course_path('file') }}">Return to Files</a>
-  <a class="btn btn-primary" href="{{ course_path('doc_edit', { 'id': entity.id }) }}">Edit Content</a>
-</div>
-</div>
-        
-<div class="row page-header">
-<div class="span9 well doc">          
+<ul class="nav nav-tabs">
+    <li><h2 class="">{{file.name}}</h2></li>
+    <li class='pad-left'><a class="" href="{{ course_path('file') }}">Return to Files</a></li>    
+    <li><a class="" href="{{ course_path('doc_edit', { 'id': entity.id }) }}">Edit Content</a></li>
+    <li class="nav-header">Last updated on {{file.updated|date('M d Y,   g:i a')}}</li>
+</ul>
+
+
+<div class="row margin-top clear">
+<div class="span9 doc border pad">          
 {{ entity.body|raw }}       
 </div>        
        
-<div class="span2 well doc">
-
-    <h3 class="">{{file.name}}</h3>
-
-    <div class="cell divider clear">   
-    {% if file.project %}<span class="label label-info">{{file.project.name}}</span>{% endif%}
-    </div> 
-    <div class="cell divider clear">
-    {{file.updated|date('M d Y,   g:i a')}} 
-    </div>
-
-    <div class="cell divider clear">   
-    <div class="btn-group pull-right">
-    
-    <a class="btn btn-small btn-primary" href="{{ course_path('file_edit', { 'id': file.id }) }}">Edit Listing</a>
-    
-    </div>
-</div>
-    
-<div class='cell divider clear'>
+<div class="span2 well doc">    
+<div class='cell clear'>
 <a class="btn btn-info btn-small" href="javascript:void(0);" 
  onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
 </div>

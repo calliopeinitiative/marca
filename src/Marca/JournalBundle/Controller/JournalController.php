@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Marca\JournalBundle\Entity\Journal;
 use Marca\JournalBundle\Form\JournalType;
 
@@ -24,12 +25,16 @@ class JournalController extends Controller
      */
     public function indexAction($set)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $user = $this->getUser();
         $set = $set;
-        $courseid = $this->get('request')->getSession()->get('courseid');
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $course = $this->getCourse();
+        
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course, $set);
+        
         return array('journal' => $journal,'set' => $set);
     }
 
@@ -41,16 +46,17 @@ class JournalController extends Controller
      */
     public function showAction($id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
-
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
-
+        
         if (!$journal) {
             throw $this->createNotFoundException('Unable to find Journal entity.');
         }
-
+        
         $deleteForm = $this->createDeleteForm($id);
-
         return array(
             'journal'      => $journal,
             'delete_form' => $deleteForm->createView(),        );
@@ -64,10 +70,14 @@ class JournalController extends Controller
      */
     public function newAction()
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $journal = new Journal();
         $journal->setBody('<p></p>');
+        
         $form   = $this->createForm(new JournalType(), $journal);
-
+        
         return array(
             'journal' => $journal,
             'form'   => $form->createView()
@@ -83,13 +93,19 @@ class JournalController extends Controller
      */
     public function createAction($courseid)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $user = $this->getUser();
+        
         $course = $this->getCourse();
         $journal  = new Journal();
         $journal->setUser($user);
         $journal->setCourse($course);
+        
         $request = $this->getRequest();
+        
         $form    = $this->createForm(new JournalType(), $journal);
         $form->bindRequest($request);
 
@@ -115,12 +131,19 @@ class JournalController extends Controller
      */
     public function editAction($id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+
         $em = $this->getEm();
+        $user = $this->getUser();
 
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
 
         if (!$journal) {
             throw $this->createNotFoundException('Unable to find Journal entity.');
+        }
+        elseif($user != $journal->getUser()){
+            throw new AccessDeniedException();
         }
 
         $editForm = $this->createForm(new JournalType(), $journal);
@@ -142,6 +165,9 @@ class JournalController extends Controller
      */
     public function updateAction($id,$courseid)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
 
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
@@ -179,6 +205,11 @@ class JournalController extends Controller
      */
     public function deleteAction($id,$courseid)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
+        $user = $this->getUser();
+        
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
@@ -190,6 +221,9 @@ class JournalController extends Controller
 
             if (!$journal) {
                 throw $this->createNotFoundException('Unable to find Journal entity.');
+            }
+            elseif($user != $journal->getUser()){
+                throw new AccessDeniedException();
             }
 
             $em->remove($journal);
