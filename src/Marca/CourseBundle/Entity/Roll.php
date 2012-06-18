@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Roll
 {
+    const ROLE_STUDENT=0;
+    const ROLE_INSTRUCTOR=1;
+    const STATUS_PENDING=0;
+    const STATUS_ENROLLED=1;
+    
     /**
      * @var integer $id
      *
@@ -135,4 +140,5 @@ class Roll
     {
         return $this->user;
     }
+    
 }

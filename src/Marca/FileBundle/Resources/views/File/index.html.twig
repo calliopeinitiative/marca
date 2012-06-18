@@ -33,13 +33,12 @@
             {% endif %}  
             {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}  
         </td> 
-        
         <td>{% if file.lastname %}{{ file.firstname }} {{ file.lastname }}{% endif%}</td>
         <td>{% if file.project %}<span class="label label-info">{{ file.project }}</span>{% endif%}</td>
-        
         <td>{% if file.tag %}<span class="label label">{{ file.tag }}</span>{% endif%}</td>
         <td>{% if file.updated %}{{ file.updated|date('M d Y,   g:i a') }}{% endif%}</td>        
         <td><a class="" href="{{ course_path('file_edit', { 'id': file.id }) }}">Edit listing</a></td>  
+
     </tr>
     
     {% endfor %}
