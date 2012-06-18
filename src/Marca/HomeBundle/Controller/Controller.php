@@ -4,6 +4,7 @@ namespace Marca\HomeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as SymfonyController;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class Controller extends SymfonyController
 {
@@ -39,5 +40,40 @@ class Controller extends SymfonyController
         return $course;
     } 
     
+    /**
+     *@return string 
+     */
+    public function getCourseRole(){
+        $request = $this->getRequest();
+        $courseid = $request->attributes->get('courseid');
+        $course = $this->getEm()->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $user = $this->getUser();
+        $rollentry = $this->getEm()->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
+        if(!$rollentry){
+            return "none";
+        }
+        if($rollentry->getRole() === 1){
+            return "instructor";
+        }
+        if($rollentry->getRole() === 0){
+            return "student";
+        }
+    }
+    /*
+     * checks if the current user is in the array of allowed roles
+     * if not, throws an access denied exception
+     * if so, returns true
+     * thanks to Wyatt Peterson for design help
+     */
+    public function restrictAccessTo($allowedArray){
+        //grab our current user's role in our current course
+        $currentUserRole = $this->getCourseRole();
+        //test if user role is not in the array of allowed roles
+        if(!in_array($currentUserRole, $allowedArray)){
+            throw new AccessDeniedException();
+        } else {
+            return true;
+        }
+    }
     
 }

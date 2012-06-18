@@ -24,6 +24,8 @@ class ForumController extends Controller
      */
     public function indexAction($set)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
         $user = $this->getUser();
         $set = $set;
@@ -34,20 +36,22 @@ class ForumController extends Controller
     /**
      * Finds and displays a Forum entity.
      *
-     * @Route("/{courseid}/{forumid}/show", name="forum_show")
+     * @Route("/{courseid}/{id}/show", name="forum_show")
      * @Template()
      */
-    public function showAction($forumid)
+    public function showAction($id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
 
-        $forum = $em->getRepository('MarcaForumBundle:Forum')->find($forumid);
+        $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
 
         if (!$forum) {
             throw $this->createNotFoundException('Unable to find Forum entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($forumid);
+        $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'forum'      => $forum,
@@ -62,6 +66,8 @@ class ForumController extends Controller
      */
     public function newAction()
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $newForum = new Forum();
         $newForum->setBody('<p></p>');
         $form   = $this->createForm(new ForumType(), $newForum);
@@ -81,6 +87,8 @@ class ForumController extends Controller
      */
     public function createAction($courseid)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();
@@ -109,21 +117,23 @@ class ForumController extends Controller
     /**
      * Displays a form to edit an existing Forum entity.
      *
-     * @Route("/{courseid}/{forumid}/edit", name="forum_edit")
+     * @Route("/{courseid}/{id}/edit", name="forum_edit")
      * @Template()
      */
-    public function editAction($forumid)
+    public function editAction($id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
 
-        $forum = $em->getRepository('MarcaForumBundle:Forum')->find($forumid);
+        $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
 
         if (!$forum) {
             throw $this->createNotFoundException('Unable to find Forum.');
         }
 
         $editForm = $this->createForm(new ForumType(), $forum);
-        $deleteForm = $this->createDeleteForm($forumid);
+        $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'forum'      => $forum,
@@ -135,22 +145,24 @@ class ForumController extends Controller
     /**
      * Edits an existing Forum entity.
      *
-     * @Route("/{courseid}/{forumid}/update", name="forum_update")
+     * @Route("/{courseid}/{id}/update", name="forum_update")
      * @Method("post")
      * @Template("MarcaForumBundle:Forum:edit.html.twig")
      */
-    public function updateAction($courseid, $forumid)
+    public function updateAction($courseid, $id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
 
-        $forum = $em->getRepository('MarcaForumBundle:Forum')->find($forumid);
+        $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
 
         if (!$forum) {
             throw $this->createNotFoundException('Unable to find Forum.');
         }
 
         $editForm   = $this->createForm(new ForumType(), $forum);
-        $deleteForm = $this->createDeleteForm($forumid);
+        $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
 
@@ -173,19 +185,21 @@ class ForumController extends Controller
     /**
      * Deletes a Forum entity.
      *
-     * @Route("/{courseid}/{forumid}/delete", name="forum_delete")
+     * @Route("/{courseid}/{id}/delete", name="forum_delete")
      * @Method("post")
      */
-    public function deleteAction($courseid, $forumid)
+    public function deleteAction($courseid, $id)
     {
-        $form = $this->createDeleteForm($forumid);
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $forum = $em->getRepository('MarcaForumBundle:Forum')->find($forumid);
+            $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
 
             if (!$forum) {
                 throw $this->createNotFoundException('Unable to find Forum.');

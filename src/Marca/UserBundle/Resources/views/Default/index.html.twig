@@ -13,13 +13,14 @@
 <table class="table table-bordered table-condensed table-striped">
 <thead>
         <tr>
-            <th>Course</th><th>Time</th>
+            <th>Course</th><th>Instructor</th><th>Time</th>
         </tr>
 </thead>    
 <tbody>
     {% for course in courses %}
         <tr>
             <td><a class="btn btn-info" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></td>
+            <td> {{course.OwnerLastName}}, {{course.OwnerFirstName}} </td>
             <td>{{ course.time|date('h:i a') }}</td>
         </tr>
     {% endfor %}
