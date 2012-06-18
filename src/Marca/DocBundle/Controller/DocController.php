@@ -28,6 +28,8 @@ class DocController extends Controller
      */
     public function indexAction()
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
 
         $entities = $em->getRepository('MarcaDocBundle:Doc')->findAll();
@@ -43,6 +45,9 @@ class DocController extends Controller
      */
     public function showAction($id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaDocBundle:Doc')->find($id);
@@ -68,6 +73,9 @@ class DocController extends Controller
      */
     public function newAction()
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $doc = new Doc();
         $doc->setBody('<p></p>');
 
@@ -88,6 +96,9 @@ class DocController extends Controller
      */
     public function createAction($courseid)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $user = $this->getUser();
         $courseid = $this->get('request')->getSession()->get('courseid');
@@ -131,6 +142,9 @@ class DocController extends Controller
      */
     public function editAction($id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $user = $this->getUser();
 
@@ -161,6 +175,9 @@ class DocController extends Controller
      */
     public function updateAction($id,$courseid)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaDocBundle:Doc')->find($id);
@@ -198,6 +215,9 @@ class DocController extends Controller
      */
     public function deleteAction($id,$courseid)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
@@ -235,6 +255,9 @@ class DocController extends Controller
      */
     public function autosaveAction()
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $autosave = new Autosave();
         $autosave->debugMode = true;
         $temp_file = '/var/www/marca/src/Marca/uploads/autosave_'.time().'.txt';

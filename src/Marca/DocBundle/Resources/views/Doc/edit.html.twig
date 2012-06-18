@@ -11,8 +11,7 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_docbundle_doctype_body').ckeditor( function() {}, {extraPlugins: 'autosave',autosaveTargetUrl:'/marca/web/autosave.php',
-    height:600, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true, stylesSet:'marca_styles',contentsCss:'/marca/web/bundles/marcahome/css/ckeditor41.css', 
+$('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins : 'resize',extraPlugins:'autosave,autogrow',autosaveTargetUrl:'/marca/web/autosave.php', skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true, stylesSet:'marca_styles',contentsCss:'/marca/web/bundles/marcahome/css/ckeditor41.css', 
 toolbar : [
 ['Save','Preview','-', 'Autosave','Print','Templates','Undo','Redo','Find','Replace','SelectAll','RemoveFormat'],
 ['Bold','Italic','Underline','Strike','Subscript','Superscript','NumberedLst','BulletedList','Outdent','Indent','Blockquote'],
@@ -39,7 +38,7 @@ toolbar : [
     {{ form_rest(edit_form) }}    
 </div>
 </div>
-<div class="span3">
+<div class="span3" style="position:fixed;left:960px;">
 {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 </div>    
 </div>        
