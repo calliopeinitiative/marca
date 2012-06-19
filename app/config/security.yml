@@ -34,6 +34,7 @@ security:
         - { path: ^/term/, role: ROLE_INSTR }
         - { path: ^/roll/, role: ROLE_INSTR }
         - { path: ^/project/, role: ROLE_INSTR }
+        - { path: ^/markup/, role: ROLE_INSTR }
         
 
     role_hierarchy:

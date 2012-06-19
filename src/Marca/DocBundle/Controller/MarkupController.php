@@ -26,9 +26,9 @@ class MarkupController extends Controller
     {
         $em = $this->getEm();
 
-        $entities = $em->getRepository('MarcaDocBundle:Markup')->findAll();
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->findAll();
 
-        return array('entities' => $entities);
+        return array('markup' => $markup);
     }
 
     /**
@@ -41,16 +41,16 @@ class MarkupController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaDocBundle:Markup')->find($id);
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->find($id);
 
-        if (!$entity) {
+        if (!$markup) {
             throw $this->createNotFoundException('Unable to find Markup entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'markup'      => $markup,
             'delete_form' => $deleteForm->createView(),        );
     }
 
@@ -62,11 +62,11 @@ class MarkupController extends Controller
      */
     public function newAction()
     {
-        $entity = new Markup();
-        $form   = $this->createForm(new MarkupType(), $entity);
+        $markup = new Markup();
+        $form   = $this->createForm(new MarkupType(), $markup);
 
         return array(
-            'entity' => $entity,
+            'markup' => $markup,
             'form'   => $form->createView()
         );
     }
@@ -81,17 +81,17 @@ class MarkupController extends Controller
     public function createAction()
     {
         $em = $this->getEm();
-        $username = $this->get('security.context')->getToken()->getUsername();
-        $userid = $em->getRepository('MarcaUserBundle:Profile')->findOneByUsername($username)->getId(); 
-        $entity  = new Markup();
-        $entity->setUserid($userid);
+        $user = $this->getUser();
+
+        $markup  = new Markup();
+        $markup->setUser($user);
         $request = $this->getRequest();
-        $form    = $this->createForm(new MarkupType(), $entity);
+        $form    = $this->createForm(new MarkupType(), $markup);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $em->persist($entity);
+            $em->persist($markup);
             $em->flush();
 
             return $this->redirect($this->generateUrl('markup'));
@@ -99,7 +99,7 @@ class MarkupController extends Controller
         }
 
         return array(
-            'entity' => $entity,
+            'markup' => $markup,
             'form'   => $form->createView()
         );
     }
@@ -114,17 +114,17 @@ class MarkupController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaDocBundle:Markup')->find($id);
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->find($id);
 
-        if (!$entity) {
+        if (!$markup) {
             throw $this->createNotFoundException('Unable to find Markup entity.');
         }
 
-        $editForm = $this->createForm(new MarkupType(), $entity);
+        $editForm = $this->createForm(new MarkupType(), $markup);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'markup'      => $markup,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -141,13 +141,13 @@ class MarkupController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaDocBundle:Markup')->find($id);
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->find($id);
 
-        if (!$entity) {
+        if (!$markup) {
             throw $this->createNotFoundException('Unable to find Markup entity.');
         }
 
-        $editForm   = $this->createForm(new MarkupType(), $entity);
+        $editForm   = $this->createForm(new MarkupType(), $markup);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -155,14 +155,14 @@ class MarkupController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($markup);
             $em->flush();
 
             return $this->redirect($this->generateUrl('markup'));
         }
 
         return array(
-            'entity'      => $entity,
+            'markup'      => $markup,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -183,13 +183,13 @@ class MarkupController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $entity = $em->getRepository('MarcaDocBundle:Markup')->find($id);
+            $markup = $em->getRepository('MarcaDocBundle:Markup')->find($id);
 
-            if (!$entity) {
+            if (!$markup) {
                 throw $this->createNotFoundException('Unable to find Markup entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($markup);
             $em->flush();
         }
 

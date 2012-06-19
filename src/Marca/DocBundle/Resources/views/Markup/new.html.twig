@@ -1,22 +1,31 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-<div class="span2">
-<div class="btn-group">
-<a class="btn" href="{{ path('markup') }}">List</a>
- 
+<div class="row">
+<div class="span6  well"> 
+<a class="btn btn-info" href="{{ path('markup') }}">List</a>
 </div> 
-</div>       
+</div>
   
+<div class="row">
+<div class="span6  well">  
+    
+<form action="{{ path('markup_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_errors(form) }}
+
+            {{ form_row(form.name) }}
+            {{ form_row(form.function) }}
+            {{ form_row(form.value) }}
+            {{ form_row(form.color) }}
+            {{ form_row(form.markupset) }}
+ 
+    {{ form_rest(form) }}
+    <div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</form>       
+</div>
 </div>
 
-<div class="span12" style="margin-top: 3em"> 
-<form action="{{ path('markup_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <div>
-        <button class="btn" type="submit">Create</button>
-    </div>
-</form>
-</div>
+
 {% endblock %}
