@@ -13,7 +13,14 @@
 
 <div class="span12" style="margin-top: 3em"> 
 <form action="{{ course_path('file_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
+     {{ form_errors(form) }}   
+        
+        {{ form_row (form.name) }}      
+        {{ form_row (form.project) }} 
+        {{ form_row (form.tag) }} 
+        {{ form_row (form.access) }} 
+        
+    {{ form_rest(form) }}
     <div>
         <button class="btn" type="submit">Create</button>
     </div>

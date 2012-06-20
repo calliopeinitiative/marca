@@ -29,7 +29,10 @@
 .caret {margin-top: .5em}
 .cell {float:left}
 .doc {background-color: white; border-color: gray;}
-.checkbox {display:inline;}
+form div {padding:.5em;}
+label.inline {display:block;clear:both;width:100%;}
+div.inline input {display:inline;}
+div.inline label {display:inline;padding:.5em;}
 
 .clear {clear:left}
 .border {border: solid gray 1px}

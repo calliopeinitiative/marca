@@ -4,26 +4,18 @@
 
 <div class="row">
 <div class="span6  well"> 
-<form action="{{ course_path('file_update', { 'id': file.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
-{{ form_errors(edit_form) }}     
-{{ form_errors (edit_form.name) }}{{ form_errors (edit_form.project) }}{{ form_errors (edit_form.tag) }}{{ form_errors (edit_form.access) }}
+<form action="{{ course_path('file_update', { 'id': file.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">             
+     {{ form_errors(edit_form) }}   
         
-    <table class="table table-bordered table-condensed table-striped">
-    <tbody>
-    <tr><th>Name</th><td>{{ form_widget (edit_form.name) }}</td></tr>       
-    <tr><th>Project</th><td>{{ form_widget (edit_form.project) }}</td></tr> 
-    <tr><th>Tags</th><td>{{ form_widget (edit_form.tag) }}</td></tr>
-    <tr><th>Access</th><td>{{ form_widget (edit_form.access) }}</td></tr> 
-    <tr><th></th><td><button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn" href="{{ course_path('file') }}">Cancel</a></td></tr>    
-</tbody>
-</table>
-{{ form_rest(edit_form) }} 
+        {{ form_row (edit_form.name) }}      
+        {{ form_row (edit_form.project) }} 
+        {{ form_row (edit_form.tag) }} 
+        {{ form_row (edit_form.access) }} 
+        
+    {{ form_rest(edit_form) }}
+    <button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn" href="{{ course_path('file') }}">Cancel</a>    
 </form>       
-</div>
-</div>
-
-<div class="row">
-<div class="span4  well">        
+       
 <form action="{{ course_path('file_delete', { 'id': file.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
