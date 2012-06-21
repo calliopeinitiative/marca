@@ -1,23 +1,22 @@
+{# Marca/TabBundle/Resources/views/Tagset/new.html.twig #}
 
-{% extends 'MarcaTagBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-<div class="span2">
-<div class="btn-group">
-<a class="btn" href="{{ path('tagset') }}">List</a>
- 
+<div class="row">
+<div class="span4 well">
+    <a class="btn btn-info" href="{{ path('tag') }}">List Tags</a>
+    <a class="btn btn-info" href="{{ path('tagset') }}">List Tagsets</a>
 </div> 
-</div>       
-  
 </div>
-
-<div class="span12" style="margin-top: 3em"> 
+<div class="row">
+<div class="span4 well" > 
 <form action="{{ path('tagset_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>
-        <button class="btn" type="submit">Create</button>
+        <button class="btn btn-primary" type="submit">Create</button>
     </div>
 </form>
 </div>
+</div>        
 {% endblock %}

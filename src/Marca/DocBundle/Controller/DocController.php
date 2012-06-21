@@ -50,17 +50,17 @@ class DocController extends Controller
         
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaDocBundle:Doc')->find($id);
-        $file = $entity->getFile();
+        $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
+        $file = $doc->getFile();
 
-        if (!$entity) {
+        if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'doc'      => $doc,
             'file'        => $file,
             'delete_form' => $deleteForm->createView(),        );
     }
@@ -76,6 +76,11 @@ class DocController extends Controller
         $allowed = array("instructor", "student");
         $this->restrictAccessTo($allowed);
         
+        $em = $this->getEm();
+        $user = $this->getUser();
+
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByUser($user);
+        
         $doc = new Doc();
         $doc->setBody('<p></p>');
 
@@ -83,6 +88,7 @@ class DocController extends Controller
 
         return array(
             'doc' => $doc,
+            'markup'      => $markup,
             'form'   => $form->createView()
         );
     }
@@ -148,18 +154,18 @@ class DocController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
 
-        $entity = $em->getRepository('MarcaDocBundle:Doc')->find($id);
+        $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByUser($user);
         
-        if (!$entity) {
+        if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
         }
 
-        $editForm = $this->createForm(new DocType(), $entity);
+        $editForm = $this->createForm(new DocType(), $doc);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'doc'      => $doc,
             'markup'      => $markup,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -180,13 +186,13 @@ class DocController extends Controller
         
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaDocBundle:Doc')->find($id);
+        $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
 
-        if (!$entity) {
+        if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
         }
 
-        $editForm   = $this->createForm(new DocType(), $entity);
+        $editForm   = $this->createForm(new DocType(), $doc);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -194,14 +200,14 @@ class DocController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($doc);
             $em->flush();
 
             return $this->redirect($this->generateUrl('doc_show', array('id' => $id, 'courseid'=> $courseid,)));
         }
 
         return array(
-            'entity'      => $entity,
+            'doc'      => $doc,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -225,13 +231,13 @@ class DocController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $entity = $em->getRepository('MarcaDocBundle:Doc')->find($id);
+            $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
 
-            if (!$entity) {
+            if (!$doc) {
                 throw $this->createNotFoundException('Unable to find Doc entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($doc);
             $em->flush();
         }
 

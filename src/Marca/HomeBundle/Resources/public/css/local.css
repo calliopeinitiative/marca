@@ -3,11 +3,9 @@
     Created on : Mar 23, 2012, 9:24:24 PM
     Author     : rlbaltha
     Description:
-        Purpose of the stylesheet follows.
+        Local additions to the Twitter Bootstrap base   
 */
-
 /* 
-   TODO customize this sample style
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 .footer {margin-top: 3em;padding-top: 1em;border-top: grey solid 1px}
@@ -29,10 +27,12 @@
 .caret {margin-top: .5em}
 .cell {float:left}
 .doc {background-color: white; border-color: gray;}
-form div {padding:.5em;}
+form.form div {padding:.5em;}
 label.inline {display:block;clear:both;width:100%;}
 div.inline input {display:inline;}
 div.inline label {display:inline;padding:.5em;}
+input#remember_me {display:block;clear:left}
+
 
 .clear {clear:left}
 .border {border: solid gray 1px}
@@ -40,6 +40,7 @@ div.inline label {display:inline;padding:.5em;}
 .pad-left {padding-left: 3em}
 .margin-left {margin-left: 1em}
 .margin-top {margin-top: 1em}
+.margin-bottom {margin-top: 1em}
 .toggle {display:none;}
 
 form label.radio {clear:right;display:block;padding-top: .5em;}

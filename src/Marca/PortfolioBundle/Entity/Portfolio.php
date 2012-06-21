@@ -96,4 +96,44 @@ class Portfolio
     {
         return $this->portOrder;
     }
+
+    /**
+     * Set user
+     *
+     * @param Marca\UserBundle\Entity\User $user
+     */
+    public function setUser(\Marca\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Get user
+     *
+     * @return Marca\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set course
+     *
+     * @param Marca\CourseBundle\Entity\Course $course
+     */
+    public function setCourse(\Marca\CourseBundle\Entity\Course $course)
+    {
+        $this->course = $course;
+    }
+
+    /**
+     * Get course
+     *
+     * @return Marca\CourseBundle\Entity\Course 
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }
 }

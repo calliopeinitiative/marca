@@ -4,14 +4,12 @@
 
 {{ "{% block content %}" }}
 {% if 'new' in actions %}
-<div class="row-fluid">
-   <div class="span4">
+   <div class="span6">
       <a class="btn btn-primary" href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}">New</a>
    </div>
-</div> 
 {% endif %}
 
-<div class="row-fluid">
+
 <div class="span6">
 <table class="table table-bordered table-condensed table-striped">
 <thead>
@@ -55,6 +53,5 @@
     {{ '{% endfor %}' }}
     </tbody>
 </table>
-</div>
 </div>
 {{ "{% endblock %}" }}

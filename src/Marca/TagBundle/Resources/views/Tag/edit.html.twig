@@ -1,3 +1,4 @@
+{# Marca/TabBundle/Resources/views/Tag/edit.html.twig #}
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
@@ -8,13 +9,10 @@
 <div class="span4 well">     
 <form class="form" action="{{ path('tag_update', { 'id': tag.id }) }}" method="post" {{ form_enctype(edit_form) }}>
      {{ form_errors(edit_form) }}
-
             {{ form_row(edit_form.name) }}
             {{ form_row(edit_form.color) }}
             {{ form_row(edit_form.tagset) }} 
             {{ form_row(edit_form.icon) }}
-            
-    
     {{ form_rest(edit_form) }}
     <div class="submit">
         <button class="btn btn-primary" type="submit">Update</button>

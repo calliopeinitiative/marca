@@ -28,14 +28,14 @@ $(this).append(span_append);
 <ul class="nav nav-tabs">
     <li><h2 class="">{{file.name}}</h2></li>
     <li class='pad-left'><a class="" href="{{ course_path('file') }}">Return to Files</a></li>    
-    <li><a class="" href="{{ course_path('doc_edit', { 'id': entity.id }) }}">Edit Content</a></li>
+    <li><a class="" href="{{ course_path('doc_edit', { 'id': doc.id }) }}">Edit Content</a></li>
     <li class="nav-header">Last updated on {{file.updated|date('M d Y,   g:i a')}}</li>
 </ul>
 
 
 <div class="row margin-top clear">
 <div class="span9 doc border pad">          
-{{ entity.body|raw }}       
+{{ doc.body|raw }}       
 </div>        
        
 <div class="span2 well doc">    

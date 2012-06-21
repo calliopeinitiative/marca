@@ -1,6 +1,6 @@
-{# Marca/ForumBundle/Resources/views/Forum/new.html.twig #}
+{# Marca/PortfolioBundle/Resources/views/Portset/new.html.twig #}
 
-{% extends 'MarcaForumBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
@@ -11,19 +11,22 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_forumbundle_forumtype_body').ckeditor( function() {}, {height:200, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+$('#marca_portfoliobundle_portsettype_description').ckeditor( function() {}, {height:300, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
 toolbar : [
 ['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
 'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
 ],} );
 });
 </script>
+<div class="span6 well"> 
+<a class="btn btn-info" href="{{ path('portset') }}">List Portfolio Sets</a>
+</div> 
 
-<div class="span10 well"> 
-<form action="{{ course_path('forum_create') }}" method="post" {{ form_enctype(form) }}>
+<div class="span6 well"> 
+<form class="form" action="{{ path('portset_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
-         {{ form_row(form.title) }}
-         {{ form_row(form.body) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.description) }}
     {{ form_rest(form) }}
     <div>
         <button class="btn" type="submit">Create</button>

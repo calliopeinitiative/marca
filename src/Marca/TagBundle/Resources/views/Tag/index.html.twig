@@ -1,3 +1,4 @@
+{# Marca/TabBundle/Resources/views/Tag/index.html.twig #}
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
@@ -5,11 +6,8 @@
 {% block content %}
 <div class="row ">
     <div class="span6 well">   
-       {% if is_granted('ROLE_USER') %}
              <a class='btn btn-primary' href="{{ path('tag_new') }}">New Tag</a>
-             <a class='btn btn-primary' href="{{ path('tagset_new') }}">New Tagset</a>
-             <a class='btn btn-primary' href="{{ path('tagset') }}">Edit Tagsets</a>
-       {% endif %}
+             <a class='btn btn-info' href="{{ path('tagset') }}">List Tagsets</a>
      </div>
 </div>
              

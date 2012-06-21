@@ -6,8 +6,8 @@
 {% set hide_edit, hide_delete = false, false %}
 {% include 'views/others/record_actions.html.twig' %}
         
-<div class="row-fluid">
-<div class="span4">    
+
+<div class="span6">    
 <table class="table table-bordered table-condensed table-striped">
 <tbody>
 {%- for field, metadata in fields %}
@@ -25,6 +25,5 @@
 {%- endfor %}  
 </tbody>
 </table>
-</div>        
-</div>      
+</div>          
 {{ "{% endblock %}" }}
