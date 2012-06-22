@@ -43,6 +43,12 @@ class FileRepository extends EntityRepository
        };
 
     }
-     
+    
+    public function findByPortitem($portitem)
+    {  
+       return $this->getEntityManager()
+               ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid from MarcaFileBundle:File f LEFT JOIN f.doc d JOIN f.portitem p WHERE p.id = ?1')
+               ->setParameter('1',$portitem)->getResult();
+    }     
       
 }

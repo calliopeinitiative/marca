@@ -28,8 +28,12 @@ class PortfolioController extends Controller
         $user = $this->getUser();
         $courseid = $this->get('request')->getSession()->get('courseid');
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $portfolios = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findAll();
-        return array('portfolios' => $portfolios);
+        $portset = $course->getPortset();
+        $portitems = $em->getRepository('MarcaPortfolioBundle:Portitem')->findByPortset($portset);
+        foreach ($portitems as &$portitem) {
+        $portitem = $em->getRepository('MarcaFileBundle:File')->findByPortitem($portitem);
+        }
+        return array('portset' =>$portset, 'portitems' =>$portitems, );
     }
 
     /**

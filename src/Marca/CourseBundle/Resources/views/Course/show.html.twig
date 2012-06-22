@@ -58,8 +58,8 @@
         <td>{{ course.portfolio=='t' ? 'Yes' : 'No' }}</td>         
     </tr>
     <tr>
-        <th>Portfolio type</th>         
-        <td>{{ course.portRubricId}}</td>         
+        <th>Portfolio Set</th>         
+        <td>{% if portset %}{{ portset.name}}{% else %}No portfolio set designated{% endif %}</td>         
     </tr> 
     <tr>
         <th>Portfolio editing open</th>         
