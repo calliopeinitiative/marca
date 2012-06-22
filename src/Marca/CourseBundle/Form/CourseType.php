@@ -16,7 +16,6 @@ class CourseType extends AbstractType
             ->add('time', 'time', array('widget' => 'single_text')) 
             ->add('enroll','checkbox', array('label'  => 'Allow students to enroll','attr' => array('class' => 'checkbox inline'),))
             ->add('post', 'checkbox', array('label'  => 'Allow student to post documents','attr' => array('class' => 'checkbox inline'),))
-            ->add('portRubricId', 'hidden')
             ->add('multicult', 'checkbox', array('label'  => 'Allow student to post documents','attr' => array('class' => 'checkbox inline'),)) 
             ->add('parentId', 'hidden')
             ->add('assessmentId', 'hidden')
