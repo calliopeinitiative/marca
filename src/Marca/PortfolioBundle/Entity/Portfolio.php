@@ -21,30 +21,33 @@ class Portfolio
      */
     private $id;
 
-    /**
-     * @var integer $fileid
-     *
-     * @ORM\Column(name="fileid", type="integer")
-     */
-    private $fileid;
 
     /**
-     * @var integer $portOrder
+     * @var integer $portorder
      *
-     * @ORM\Column(name="portOrder", type="integer")
+     * @ORM\Column(name="portorder", type="integer")
      */
-    private $portOrder;
+    private $portorder = 1;
 
     /**
     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="portfolio")
     */
     protected $user;    
-
     
     /**
     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="portfolio")
     */
     protected $course;
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="portfolio")
+    */
+    protected $file;   
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\PortfolioBundle\Entity\Portitem", inversedBy="portfolio")
+    */
+    protected $portitem;    
     
 
     /**
@@ -58,43 +61,23 @@ class Portfolio
     }
 
     /**
-     * Set fileid
-     *
-     * @param integer $fileid
-     */
-    public function setFileid($fileid)
-    {
-        $this->fileid = $fileid;
-    }
-
-    /**
-     * Get fileid
-     *
-     * @return integer 
-     */
-    public function getFileid()
-    {
-        return $this->fileid;
-    }
-
-    /**
-     * Set portOrder
+     * Set portorder
      *
      * @param integer $portOrder
      */
-    public function setPortOrder($portOrder)
+    public function setPortorder($portorder)
     {
-        $this->portOrder = $portOrder;
+        $this->portorder = $portorder;
     }
 
     /**
-     * Get portOrder
+     * Get portorder
      *
      * @return integer 
      */
-    public function getPortOrder()
+    public function getPortorder()
     {
-        return $this->portOrder;
+        return $this->portorder;
     }
 
     /**
@@ -135,5 +118,45 @@ class Portfolio
     public function getCourse()
     {
         return $this->course;
+    }
+
+    /**
+     * Set file
+     *
+     * @param Marca\FileBundle\Entity\File $file
+     */
+    public function setFile(\Marca\FileBundle\Entity\File $file)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * Get file
+     *
+     * @return Marca\FileBundle\Entity\File 
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Set portitem
+     *
+     * @param Marca\PortfolioBundle\Entity\Portitem $portitem
+     */
+    public function setPortitem(\Marca\PortfolioBundle\Entity\Portitem $portitem)
+    {
+        $this->portitem = $portitem;
+    }
+
+    /**
+     * Get portitem
+     *
+     * @return Marca\PortfolioBundle\Entity\Portitem 
+     */
+    public function getPortitem()
+    {
+        return $this->portitem;
     }
 }

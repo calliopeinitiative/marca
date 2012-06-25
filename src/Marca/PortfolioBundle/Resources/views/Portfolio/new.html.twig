@@ -2,23 +2,18 @@
 
 {% extends 'MarcaPortfolioBundle::layout.html.twig' %}
 
-{% block content %}
-<div class="row-fluid">
-<div class="span2">
-<div class="btn-group">
-<a class="btn" href="{{ course_path('portfolio') }}">List</a>
- 
-</div> 
-</div>       
-  
-</div>
-
-<div class="span12" style="margin-top: 3em"> 
-<form action="{{ course_path('portfolio_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
+{% block content %}       
+<div class="row">   
+<div class="span6 well"> 
+<form class="form" action="{{ course_path('portfolio_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_errors(form) }}
+            {{ form_row(form.portitem) }}
+            {{ form_row(form.portorder) }}
+    {{ form_rest(form) }}
     <div>
-        <button class="btn" type="submit">Create</button>
+        <button class="btn btn-primary" type="submit">Create</button>
     </div>
 </form>
 </div>
+</div> 
 {% endblock %}

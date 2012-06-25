@@ -41,7 +41,8 @@
         <td>{% if file.updated %}{{ file.updated|date('M d Y,   g:i a') }}{% endif%}</td> 
         
         {# note: temp conditional until role permission structure is completed    #}
-        <td>{% if file.username==app.user.username %}<a class="" href="{{ course_path('file_edit', { 'id': file.id }) }}">Edit listing</a>{% endif%}</td>  
+        <td>{% if file.username==app.user.username %}<a class="" href="{{ course_path('file_edit', { 'id': file.id }) }}">Edit listing</a>{% endif%}</td> 
+        <td>{% if file.username==app.user.username and file.access==1 %}<a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>{% endif%}</td>
     </tr>
     
     {% endfor %}

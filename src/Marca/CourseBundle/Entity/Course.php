@@ -64,7 +64,7 @@ class Course
     /**
     * @ORM\ManyToOne(targetEntity="Marca\PortfolioBundle\Entity\Portset", inversedBy="course")
     */
-    protected $portSet;   
+    protected $portset;   
 
     /**
      * @var boolean $multicult
@@ -703,13 +703,13 @@ class Course
     
 
     /**
-     * Set portSet
+     * Set portset
      *
-     * @param Marca\PortfolioBundle\Entity\Portset $portSet
+     * @param Marca\PortfolioBundle\Entity\Portset $portset
      */
-    public function setPortSet(\Marca\PortfolioBundle\Entity\Portset $portSet)
+    public function setPortset(\Marca\PortfolioBundle\Entity\Portset $portset)
     {
-        $this->portSet = $portSet;
+        $this->portset = $portset;
     }
 
     /**
@@ -717,8 +717,8 @@ class Course
      *
      * @return Marca\PortfolioBundle\Entity\Portset 
      */
-    public function getPortSet()
+    public function getPortset()
     {
-        return $this->portSet;
+        return $this->portset;
     }
 }

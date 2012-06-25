@@ -48,6 +48,7 @@ class Portset
     
    /**
     * @ORM\OneToMany(targetEntity="Marca\PortfolioBundle\Entity\Portitem", mappedBy="portset")
+    * @ORM\OrderBy({"sortorder" = "ASC"})
     */
     protected $portitem;     
 

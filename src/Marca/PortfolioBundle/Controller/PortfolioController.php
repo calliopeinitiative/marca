@@ -29,8 +29,10 @@ class PortfolioController extends Controller
         $courseid = $this->get('request')->getSession()->get('courseid');
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $portset = $course->getPortset();
-        return array('portset' =>$portset, 'user' => $user, 'course' => $course,);
+        $portfolio = $course = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
+        return array('portfolio' =>$portfolio, 'portset' => $portset);
     }
+    
 
     /**
      * Finds and displays a Portfolio entity.
@@ -56,55 +58,29 @@ class PortfolioController extends Controller
     }
 
     /**
-     * Displays a form to create a new Portfolio entity.
+     * Adds a new Portfolio entity and redirects to edit for Portitem and Portorder.
      *
-     * @Route("/{courseid}/new", name="portfolio_new")
+     * @Route("/{courseid}/{fileid}/new", name="portfolio_new")
      * @Template()
      */
-    public function newAction()
-    {
-        $portfolio = new Portfolio();
-        $form   = $this->createForm(new PortfolioType(), $portfolio);
-
-        return array(
-            'portfolio' => $portfolio,
-            'form'   => $form->createView()
-        );
-    }
-
-    /**
-     * Creates a new Portfolio entity.
-     *
-     * @Route("/{courseid}/create", name="portfolio_create")
-     * @Method("post")
-     * @Template("MarcaPortfolioBundle:Portfolio:new.html.twig")
-     */
-    public function createAction()
+    public function newAction($courseid, $fileid)
     {
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();
-        $newPortfolio  = new Portfolio();
-        $newPortfolio->setUser($user);
-        $newPortfolio->setCourse($course);
-        $request = $this->getRequest();
-        $form    = $this->createForm(new PortfolioType(), $newPortfolio);
-        $form->bindRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getEm();
-            $em->persist($newPortfolio);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('portfolio_show', array('courseid' => $courseid)));
-            
-        }
-
-        return array(
-            'newPortfolio' => $newPortfolio,
-            'form'   => $form->createView()
-        );
+        $portset = $course->getPortset();
+        $file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+        $portitem = $portset->getPortitem()->first();
+        $portfolio = new Portfolio();
+        $portfolio->setFile($file);
+        $portfolio->setUser($user);
+        $portfolio->setCourse($course);
+        $portfolio->setPortitem($portitem);
+        $em->persist($portfolio);
+        $em->flush();       
+        return $this->redirect($this->generateUrl('portfolio_edit', array('id' => $portfolio->getId(),'courseid' => $courseid)));
     }
+
 
     /**
      * Displays a form to edit an existing Portfolio entity.
@@ -112,17 +88,17 @@ class PortfolioController extends Controller
      * @Route("/{courseid}/{id}/edit", name="portfolio_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($id,$courseid)
     {
         $em = $this->getEm();
-
+        $options = array('courseid' => $courseid);
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
 
         if (!$portfolio) {
             throw $this->createNotFoundException('Unable to find Portfolio entity.');
         }
 
-        $editForm = $this->createForm(new PortfolioType(), $portfolio);
+        $editForm = $this->createForm(new PortfolioType($options), $portfolio);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -139,17 +115,17 @@ class PortfolioController extends Controller
      * @Method("post")
      * @Template("MarcaPortfolioBundle:Portfolio:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($id,$courseid)
     {
         $em = $this->getEm();
-
+        $options = array('courseid' => $courseid);
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
 
         if (!$portfolio) {
             throw $this->createNotFoundException('Unable to find Portfolio entity.');
         }
 
-        $editForm   = $this->createForm(new PortfolioType(), $portfolio);
+        $editForm   = $this->createForm(new PortfolioType($options), $portfolio);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -160,7 +136,7 @@ class PortfolioController extends Controller
             $em->persist($portfolio);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('portfolio_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('portfolio', array('courseid' => $courseid)));
         }
 
         return array(

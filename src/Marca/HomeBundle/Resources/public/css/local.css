@@ -12,6 +12,7 @@
 
 .pad {min-height: 20px;  padding: 19px;  margin-bottom: 20px;}
 .pad1 {padding: 1em;}
+.pad05 {padding: .5em;}
 /* 
   Local mods for Twitter Bootstrap
 */
@@ -28,6 +29,7 @@ label.inline {display:block;clear:both;width:100%;}
 div.inline input {display:inline;}
 div.inline label {display:inline;padding:.5em;}
 input#remember_me {display:block;clear:left}
+dl.dl-horizontal dd p {display:inline}
 
 
 .clear {clear:left}
