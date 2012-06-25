@@ -45,7 +45,12 @@ class Portitem
     /**
     * @ORM\ManyToOne(targetEntity="Marca\PortfolioBundle\Entity\Portset", inversedBy="portitem")
     */
-    protected $portset;     
+    protected $portset;  
+    
+   /**
+    * @ORM\ManyToMany(targetEntity="Marca\FileBundle\Entity\File", mappedBy="portitem")
+    */
+    protected $file;      
 
 
     /**
@@ -136,5 +141,30 @@ class Portitem
     public function getPortset()
     {
         return $this->portset;
+    }
+    public function __construct()
+    {
+        $this->file = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * Add file
+     *
+     * @param Marca\FileBundle\Entity\File $file
+     */
+    public function addFile(\Marca\FileBundle\Entity\File $file)
+    {
+        $this->file[] = $file;
+    }
+
+    /**
+     * Get file
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getFile()
+    {
+        return $this->file;
     }
 }

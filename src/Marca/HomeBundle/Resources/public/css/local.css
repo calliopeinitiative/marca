@@ -10,12 +10,8 @@
 */
 .footer {margin-top: 3em;padding-top: 1em;border-top: grey solid 1px}
 
-.pad {
-  min-height: 20px;
-  padding: 19px;
-  margin-bottom: 20px;
-}
-
+.pad {min-height: 20px;  padding: 19px;  margin-bottom: 20px;}
+.pad1 {padding: 1em;}
 /* 
   Local mods for Twitter Bootstrap
 */

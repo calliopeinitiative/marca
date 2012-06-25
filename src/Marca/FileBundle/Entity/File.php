@@ -78,7 +78,7 @@ class File
     protected $tag;  
     
    /**
-    * @ORM\ManyToMany(targetEntity="Marca\PortfolioBundle\Entity\Portitem")
+    * @ORM\ManyToMany(targetEntity="Marca\PortfolioBundle\Entity\Portitem", inversedBy="file")
     */
     protected $portitem;  
 
@@ -405,8 +405,7 @@ class File
         $filename = $this->getPath(); 
         return pathinfo($filename, PATHINFO_EXTENSION);
     }  
-         
-    
+
 
     /**
      * Add portitem

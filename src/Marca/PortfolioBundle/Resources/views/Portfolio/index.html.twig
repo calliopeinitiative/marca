@@ -5,22 +5,22 @@
 {% block content %}
 <div class="row">        
 <div class="span6 well">
-    {{ portset.description|raw }}
-    
-    {% for portitem in portitems %}
-         <h4>{{ portitem.name }}</h4>
-        {% for file in portitem %}
-            <div class="span4">
-            {% if file.docid %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.docid }) }}">{{ file.name }}</a> 
-            {% else %}
-            <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="View {{ file.name }} (will open in a new window or tab)" target="_blank">{{ file.name }}</a>
-            {% endif %}
-            </div>
-    {% endfor %} 
-    {% endfor %}
-    
-    
-  
+    <div class="page-header"><h3>{{ portset.name }}</h3></div>
+    <dl>
+        {% for portitem in portset.portitem %}
+
+           <dt class="pad2"><h4>{{portitem.name}}</h4></dt>
+           
+           {% for file in portitem.file if file.user==user and  file.course==course %}
+            <dd class="pad1">
+             {% if file.doc.id %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id }) }}">{{ file.name }}</a> 
+             {% else %}
+             <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="View {{ file.name }} (will open in a new window or tab)" target="_blank">{{ file.name }}</a>
+             {% endif %}
+             {% endfor %} 
+            </dd>    
+          {% endfor %}
+     </dl>
 </div>        
 </div>  
 
