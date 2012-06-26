@@ -1,5 +1,6 @@
 {# This subnav is the top navigation when inside a course.  Included from layout.html.twig #}
 
+<li><a href="{{ course_path('calendar') }}">Calendar</a></li>
 <li><a href="{{ course_path('file') }}">Projects</a></li>
 <li><a href="{{ course_path('journal', { 'set': 0 }) }}">Journal</a></li>
 <li><a href="{{ course_path('forum', { 'set': 0 }) }}">Forum</a></li>

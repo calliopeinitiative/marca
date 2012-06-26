@@ -1,0 +1,14 @@
+{# Marca/CalendarBundle/Resources/views/Calendar/new.html.twig #}
+
+{% extends 'MarcaCalendarBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="span6 well"> 
+<form action="{{ course_path('calendar_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <div>
+        <button class="btn btn-primary" type="submit">Create</button>
+    </div>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{# Marca/CalendarBundle/Resources/views/Calendar/edit.html.twig #}
+
+{% extends 'MarcaCalendarBundle::layout.html.twig' %}
+
+{% block content %}
+      
+  
+<div class="span6">        
+<form action="{{ course_path('calendar_delete', { 'id': calendar.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger" type="submit">Delete</button>
+</form>
+
+        <form action="{{ course_path('calendar_update', { 'id': calendar.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+            {{ form_widget(edit_form) }}
+        <div>
+            <button class="btn" type="submit">Update</button>
+        </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
