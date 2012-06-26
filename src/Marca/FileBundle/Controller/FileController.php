@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Marca\FileBundle\Entity\File;
@@ -27,7 +28,10 @@ class FileController extends Controller
      * @Template()
      */
     public function indexAction()
-    {   
+    {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $sort = 'updated';
         $scope = 'mine';
         $project = 'recent';
@@ -50,6 +54,9 @@ class FileController extends Controller
      */
     public function indexByProjectAction($project, $sort, $scope)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $user = $this->getUser();
         $courseid = $this->get('request')->getSession()->get('courseid');
@@ -69,18 +76,21 @@ class FileController extends Controller
      */
     public function showAction($id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
 
-        if (!$entity) {
+        if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'file'      => $file,
             'delete_form' => $deleteForm->createView(),        );
     }
 
@@ -92,11 +102,14 @@ class FileController extends Controller
      */
     public function newAction()
     {
-        $entity = new File();
-        $form   = $this->createForm(new FileType(), $entity);
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
+        $file = new File();
+        $form   = $this->createForm(new FileType(), $file);
 
         return array(
-            'entity' => $entity,
+            'file' => $file,
             'form'   => $form->createView()
         );
     }
@@ -110,22 +123,25 @@ class FileController extends Controller
      */
     public function createAction($courseid)
     {
-        $entity  = new File();
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
+        $file  = new File();
         $request = $this->getRequest();
-        $form    = $this->createForm(new FileType(), $entity);
+        $form    = $this->createForm(new FileType(), $file);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $em->persist($entity);
+            $em->persist($file);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file_show', array('id' => $entity->getId(),'courseid'=> $courseid,)));
+            return $this->redirect($this->generateUrl('file_show', array('id' => $file->getId(),'courseid'=> $courseid,)));
             
         }
 
         return array(
-            'entity' => $entity,
+            'file' => $file,
             'form'   => $form->createView()
         );
     }
@@ -138,21 +154,29 @@ class FileController extends Controller
      */
     public function editAction($id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        $user = $this->getUser();
+        
         $em = $this->getEm();
         $courseid = $this->get('request')->getSession()->get('courseid');
         $options = array('courseid' => $courseid);
 
-        $entity = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find File entity.');
+              
+        if (!$file) {
+            throw $this->createNotFoundException('Unable to find Journal entity.');
         }
+        elseif($user != $file->getUser()){
+            throw new AccessDeniedException();
+        }        
 
-        $editForm = $this->createForm(new FileType($options), $entity);
+        $editForm = $this->createForm(new FileType($options), $file);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'file'      => $file,
             'tags'        => $tags,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -168,36 +192,47 @@ class FileController extends Controller
      */
     public function updateAction($id,$courseid)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        $user = $this->getUser();
+        
         $em = $this->getEm();
         $courseid = $this->get('request')->getSession()->get('courseid');
         $options = array('courseid' => $courseid);
-        $entity = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
 
-        if (!$entity) {
+        if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
         }
+        elseif($user != $file->getUser()){
+            throw new AccessDeniedException();
+        } 
 
-        $editForm   = $this->createForm(new FileType($options), $entity);
+        $editForm   = $this->createForm(new FileType($options), $file);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
+        $postData = $request->get('marca_filebundle_filetype');
+        $project = $postData['project'];
 
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($file);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file', array('courseid'=> $courseid,)));
+            return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>$project,)));
         }
 
         return array(
-            'entity'      => $entity,
+            'file'      => $file,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
 
+    
+        
     /**
      * Deletes a File entity.
      *
@@ -206,6 +241,9 @@ class FileController extends Controller
      */
     public function deleteAction($id,$courseid)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
@@ -213,13 +251,13 @@ class FileController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $entity = $em->getRepository('MarcaFileBundle:File')->find($id);
+            $file = $em->getRepository('MarcaFileBundle:File')->find($id);
             $doc = $entity->getDoc();
-            if (!$entity) {
+            if (!$file) {
                 throw $this->createNotFoundException('Unable to find File entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($file);
             if ($doc) {
             $em->remove($doc);
             }
@@ -245,6 +283,9 @@ class FileController extends Controller
      */    
      public function uploadAction($courseid)
      {
+         $allowed = array("instructor", "student");
+         $this->restrictAccessTo($allowed);
+        
          $em = $this->getEm();
          $user = $this->getUser();
          $userid = $user->getId();
@@ -280,6 +321,9 @@ class FileController extends Controller
      */     
     public function viewAction($id)
 	{
+             $allowed = array("instructor", "student");
+             $this->restrictAccessTo($allowed);
+        
              $em = $this->getEm();
              $file = $em->getRepository('MarcaFileBundle:File')->find($id);
              $ext = $file->getExt();

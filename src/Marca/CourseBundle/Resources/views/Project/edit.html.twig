@@ -2,18 +2,17 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span6 well">
+<div class="span4 well">
+<h3>Edit Project</h3>   
 <form action="{{ path('project_update', { 'id': project.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
-{{ form_errors(edit_form) }}    
-<table class="table table-bordered table-condensed table-striped">
-    <tbody>
-    <tr><th>Name</th><td>{{ form_widget (edit_form.name) }}</td></tr>       
-    <tr><th>Display in Resources</th><td>{{ form_widget (edit_form.resource) }}</td></tr>      
-    <tr><th></th><td><button class="btn btn-primary" type="submit">Update Project</button>
-            <a class="btn" href="{{ path('course_show', { 'courseid': courseid }) }}">Cancel</a></td></tr>    
-</tbody>
-</table>
-{{ form_rest(edit_form) }}         
+    {{ form_errors(edit_form) }}   
+        
+        {{ form_row (edit_form.name) }}      
+        {{ form_row (edit_form.resource) }} 
+        
+    {{ form_rest(edit_form) }}     
+<button class="btn btn-primary" type="submit">Update Project</button>
+<a class="btn" href="{{ path('course_show', { 'courseid': courseid }) }}">Cancel</a></td></tr>          
 </form>
 </div>
 {% endblock %}

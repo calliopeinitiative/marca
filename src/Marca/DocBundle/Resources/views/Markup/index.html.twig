@@ -1,19 +1,17 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-   <div class="span4">
+<div class="row">
+<div class="span6 well">
       <a class="btn btn-primary" href="{{ path('markup_new') }}">New</a>
-   </div>
 </div> 
-
-<div class="row-fluid">
-<div class="span6">
+</div>
+ 
+<div class="row">
+<div class="span6 well">
 <table class="table table-bordered table-condensed table-striped">
 <thead>
-    <tr>        
-        <th>Id</th>        
-        <th>Userid</th>        
+    <tr>              
         <th>Name</th>        
         <th>Function</th>        
         <th>Value</th>
@@ -23,18 +21,14 @@
     </tr>
 </thead>    
 <tbody>
-    {% for entity in entities %}
-    <tr>        
-        <td><a href="{{ path('markup_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>        
-        <td>{{ entity.userid }}</td>        
-        <td>{{ entity.name }}</td>        
-        <td>{{ entity.function }}</td>        
-        <td>{{ entity.value }}</td>  
-        <td>{{ entity.color }}</td>
-        <td>{{ entity.markupset }}</td>        
-        <td><div class="btn-group"><a class="btn" href="{{ path('markup_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ path('markup_edit', { 'id': entity.id }) }}">edit</a></div>
-
-</td>       
+    {% for markup in markup %}
+    <tr>                     
+        <td>{{ markup.name }}</td>        
+        <td>{{ markup.function }}</td>        
+        <td>{{ markup.value }}</td>  
+        <td>{{ markup.color }}</td>
+        <td>{{ markup.markupset }}</td>        
+        <td><a class="btn btn-primary" href="{{ path('markup_edit', { 'id': markup.id }) }}">Edit</a></td>       
     </tr>
     
     {% endfor %}

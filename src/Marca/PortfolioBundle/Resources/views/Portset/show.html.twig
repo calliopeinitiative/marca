@@ -1,0 +1,25 @@
+{# Marca/PortfolioBundle/Resources/views/Portset/show.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="row">
+<div class="span6 well">
+<a class="btn btn-info" href="{{ path('portset') }}">List Portfolio Sets</a>  
+</div>
+</div>
+<div class="row">        
+<div class="span6 well">
+    <h4>{{ portset.name }}</h4>
+    <a class="btn btn-primary btn-small pull-right" href="{{ path('portitem_new', { 'portsetid': portset.id }) }}">Add Item</a>
+    <a class="btn btn-primary btn-small pull-right" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit</a>
+    {{ portset.description|raw }}
+    
+    {% for portitem in portitems %}
+    <h5>{{ portitem.name }}</h5>
+    <a class="btn btn-primary btn-small pull-right" href="{{ path('portitem_edit', { 'id': portitem.id }) }}">Edit</a>
+    {{ portitem.description|raw }}
+    {% endfor %}
+</div>        
+</div>  
+{% endblock %}

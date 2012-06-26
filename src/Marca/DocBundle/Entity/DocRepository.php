@@ -12,4 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class DocRepository extends EntityRepository
 {
+      public function showDoc($id)
+    {  
+
+    }
 }

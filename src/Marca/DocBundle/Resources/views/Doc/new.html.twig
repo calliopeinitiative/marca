@@ -9,28 +9,33 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_docbundle_doctype_body').ckeditor( function() {}, {height:600, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+$('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins : 'resize',extraPlugins:'autosave,autogrow',autosaveTargetUrl:'/marca/web/autosave.php', autoGrow_minHeight: '600', skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true, stylesSet:'marca_styles',contentsCss:'/marca/web/bundles/marcahome/css/ckeditor41.css', 
 toolbar : [
-['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
-'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+['Save','Preview','-', 'Autosave','Print','Templates','Undo','Redo','Find','Replace','SelectAll','RemoveFormat'],
+['Bold','Italic','Underline','Strike','Subscript','Superscript','NumberedLst','BulletedList','Outdent','Indent','Blockquote'],
+['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','Link','Unlink','Image','Table','HorizontalRule','Smiley','SpecialChar'],
+['Styles','Format','Font','FontSize','TextColor','BGColor','Maximize', 'ShowBlocks','About']
 ],} );
 });
 </script>
-<div class="row-fluid">
-<div class="span10"> 
-<form action="{{ course_path('doc_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_errors(form) }}
 
+<form action="{{ course_path('doc_create') }}" method="post" {{ form_enctype(form) }}>
+<div class="span9">         
 <div>
+    {{ form_errors(form) }}
     {{ form_errors(form.body) }}
     {{ form_widget(form.body) }}
+    {{ form_rest(form) }}    
 </div>
+</div>
+<div class="span3" style="position:fixed;left:960px;">
+<div class="row pad-left">
+    <input class="btn btn-primary btn-small" type="submit" value="Save"/>
+    <a class="btn btn-primary btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'sort': 'updated', 'scope': 'mine' }) }}">Cancel</a>
+</div>    
+{%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
+</div>         
+</div>         
+</form>  
 
-    {{ form_rest(form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Create</button>
-    </div>
-</form>
-</div>
-</div>
 {% endblock %}

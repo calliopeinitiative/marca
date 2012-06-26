@@ -1,10 +1,22 @@
+{# Marca/TabBundle/Resources/views/Tag/index.html.twig #}
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 
 {% block content %}
 <div class="row ">
+    <div class="span6 well">   
+             <a class='btn btn-primary' href="{{ path('tag_new') }}">New Tag</a>
+             <a class='btn btn-info' href="{{ path('tagset') }}">List Tagsets</a>
+     </div>
+</div>
+             
+             
+<div class="row ">
 <div class="span6 well">
+    
+
+             
     <ul class="nav nav-tabs">
             <li class="nav-header">Tag sets:</a></li>
             <li class="{% if tagsetid == 0 %}active{% endif %}"><a href="{{ path('tag') }}">All Tags</a></li>
@@ -36,11 +48,7 @@
 </table>
         
 
-       {% if is_granted('ROLE_USER') %}
-             <a class='btn btn-primary' href="{{ path('tag_new') }}">New Tag</a>
-             <a class='btn btn-primary' href="{{ path('tagset_new') }}">New Tagset</a>
-             <a class='btn btn-primary' href="{{ path('tagset') }}">Edit Tagsets</a>
-       {% endif %}
+
         
 </div>
 </div>

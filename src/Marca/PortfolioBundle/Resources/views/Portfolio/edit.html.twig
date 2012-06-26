@@ -1,29 +1,19 @@
+{# Marca/PortfolioBundle/Resources/views/Portfolio/edit.html.twig #}
 
 {% extends 'MarcaPortfolioBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-<div class="span2">
-<div class="btn-group">
-<a class="btn" href="{{ course_path('portfolio') }}">List</a>
- 
-</div> 
-</div>       
-  
-<div class="span1">        
-<form action="{{ course_path('portfolio_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
-</form>
-</div>
-  
-</div>
-<div class="row-fluid">    
-<form action="{{ course_path('portfolio_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
+<div class="row">   
+<div class="span6 well"> 
+<form class="form" action="{{ course_path('portfolio_update', { 'id': portfolio.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_errors(edit_form) }}
+            {{ form_row(edit_form.portitem) }}
+            {{ form_row(edit_form.portorder) }}
+    {{ form_rest(edit_form) }}
     <div>
-        <button class="btn" type="submit">Edit</button>
+        <button class="btn btn-primary" type="submit">Update</button>
     </div>
 </form>
 </div>
+</div> 
 {% endblock %}

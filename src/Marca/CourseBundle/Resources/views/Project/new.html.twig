@@ -3,17 +3,13 @@
 
 {% block content %}
 <div class="span6 well">
-<form action="{{ path('project_create', { 'courseid': courseid }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-{{ form_errors(form) }}    
-<table class="table table-bordered table-condensed table-striped">
-    <tbody>
-    <tr><th>Name</th><td>{{ form_widget (form.name) }}</td></tr>       
-    <tr><th>Display in Resources</th><td>{{ form_widget (form.resource) }}</td></tr>      
-    <tr><th></th><td><button class="btn btn-primary" type="submit">Update Project</button>
-            <a class="btn" href="{{ path('course_show', { 'courseid': courseid }) }}">Cancel</a></td></tr>    
-</tbody>
-</table>
-{{ form_rest(form) }}         
+<form class="form" action="{{ path('project_create', { 'courseid': courseid }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+    {{ form_errors(form) }}   
+        
+        {{ form_row (form.name) }}      
+        {{ form_row (form.resource) }} 
+        
+    {{ form_rest(form) }}           
 </form>
 </div>
 {% endblock %}

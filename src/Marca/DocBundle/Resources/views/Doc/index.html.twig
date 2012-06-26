@@ -22,15 +22,15 @@
     </tr>
 </thead>    
 <tbody>
-    {% for entity in entities %}
+    {% for doc in docs %}
     <tr>        
-        <td><a href="{{ course_path('doc_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>        
-        <td>{{ entity.userid }}</td>        
-        <td>{{ entity.courseid }}</td>        
-        <td>{{ entity.body }}</td>        
-        <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif%}</td>        
-        <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif%}</td>        
-        <td><div class="btn-group"><a class="btn" href="{{ course_path('doc_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ course_path('doc_edit', { 'id': entity.id }) }}">edit</a></div>
+        <td><a href="{{ course_path('doc_show', { 'id': doc.id }) }}">{{ doc.id }}</a></td>        
+        <td>{{ doc.userid }}</td>        
+        <td>{{ doc.courseid }}</td>        
+        <td>{{ doc.body }}</td>        
+        <td>{% if doc.created %}{{ doc.created|date('Y-m-d H:i:s') }}{% endif%}</td>        
+        <td>{% if doc.updated %}{{ doc.updated|date('Y-m-d H:i:s') }}{% endif%}</td>        
+        <td><div class="btn-group"><a class="btn" href="{{ course_path('doc_show', { 'id': doc.id }) }}">show</a><a class="btn" href="{{ course_path('doc_edit', { 'id': doc.id }) }}">edit</a></div>
    
 
 </td>       

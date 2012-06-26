@@ -1,0 +1,39 @@
+{# Marca/PortfolioBundle/Resources/views/Portitem/new.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('#marca_portfoliobundle_portitemtype_description').ckeditor( function() {}, {height:200, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+toolbar : [
+['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
+'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+],} );
+});
+</script>
+<div class="row">
+<div class="span6 well"> 
+<a class="btn btn-info" href="{{ path('portitem') }}">List Portfolio Sets</a>
+</div> 
+</div>         
+<div class="row">
+<div class="span6 well"> 
+<form class="form" action="{{ path('portitem_create', { 'portsetid': portsetid }) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_errors(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.description) }}
+    {{ form_rest(form) }}
+    <div>
+        <button class="btn" type="submit">Create</button>
+    </div>
+</form>
+</div>
+</div>         
+{% endblock %}

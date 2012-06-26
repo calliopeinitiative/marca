@@ -28,14 +28,14 @@ class FileRepository extends EntityRepository
        else {$scopeQuery = '';};
        if($project == 'recent') {
          return $this->getEntityManager()
-            ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag, u.lastname, u.firstname, f.access
+            ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag, u.lastname, u.firstname, f.access, u.username
                 FROM MarcaFileBundle:File f LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t LEFT JOIN f.user u 
                 WHERE f.course = ?1 AND (f.user = ?2'.$scopeQuery.')
                 ORDER BY '.$sortOrder)
                 ->setParameter('1',$course)->setParameter('2',$user)->setMaxResults(25)->getResult(); 
        } else {
           return $this->getEntityManager()
-            ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag, u.lastname, u.firstname, f.access
+            ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid,p.name as project,t.name as tag, u.lastname, u.firstname, f.access, u.username
                 FROM MarcaFileBundle:File f LEFT JOIN f.doc d LEFT JOIN f.project p LEFT JOIN f.tag t LEFT JOIN f.user u
                 WHERE f.project = ?1 AND f.course = ?2 AND (f.user = ?3'.$scopeQuery.')
                 ORDER BY '.$sortOrder)
@@ -43,6 +43,12 @@ class FileRepository extends EntityRepository
        };
 
     }
-     
+    
+    public function findByPortitem($portitem)
+    {  
+       return $this->getEntityManager()
+               ->createQuery('SELECT f.id,f.name,f.updated,d.id AS docid from MarcaFileBundle:File f LEFT JOIN f.doc d JOIN f.portitem p WHERE p.id = ?1')
+               ->setParameter('1',$portitem)->getResult();
+    }     
       
 }

@@ -103,24 +103,24 @@ class RollController extends Controller
     /**
      * Displays a form to edit an existing Roll entity.
      *
-     * @Route("/{id}/edit", name="roll_edit")
+     * @Route("/{courseid}/{id}/edit", name="roll_edit")
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollUser($id);
 
-        if (!$entity) {
+        if (!$roll) {
             throw $this->createNotFoundException('Unable to find Roll entity.');
         }
 
-        $editForm = $this->createForm(new RollType(), $entity);
+        $editForm = $this->createForm(new RollType(), $roll);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'roll'      => $roll,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -129,11 +129,11 @@ class RollController extends Controller
     /**
      * Edits an existing Roll entity.
      *
-     * @Route("/{id}/update", name="roll_update")
+     * @Route("/{courseid}/{id}/update", name="roll_update")
      * @Method("post")
      * @Template("MarcaCourseBundle:Roll:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($id,$courseid)
     {
         $em = $this->getEm();
 
@@ -154,7 +154,7 @@ class RollController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('roll_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
         }
 
         return array(

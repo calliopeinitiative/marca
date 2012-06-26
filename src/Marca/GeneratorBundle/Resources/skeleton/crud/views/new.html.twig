@@ -6,7 +6,7 @@
 {% set hide_edit, hide_delete = true, true %}
 {% include 'views/others/record_actions.html.twig' %}
 
-<div class="span12" style="margin-top: 3em"> 
+<div class="span6 well"> 
 <form action="{{ "{{ path('"~ route_name_prefix ~"_create') }}" }}" method="post" {{ "{{ form_enctype(form) }}" }}>
     {{ "{{ form_widget(form) }}" }}
     <div>

@@ -1,3 +1,5 @@
+{# Marca/PortfolioBundle/Resources/views/layout.html.twig #}
+
 {% extends '::base.html.twig' %}
 {% block title %}Marca Portfolio{% endblock %}
 {% block javascripts %}{% endblock %}
@@ -21,10 +23,8 @@
 <div class="span2">
     <div class="well sidebar-nav">
      <ul class="nav nav-list">   
-       {% if is_granted('ROLE_USER') %}
-             <li class=""><a href="">Add to Portfolio</a></li>
-             <li class=""><a href="">View Portfolio</a></li>
-       {% endif %}
+             <li><a href="{{ course_path('portfolio') }}">View Portfolio</a></li>
+             <li><a href="{{ course_path('file') }}">Add to Portfolio</a></li>
      </ul>
     </div> 
     </div>     

@@ -1,3 +1,5 @@
+{# Marca/ForumBundle/Resources/views/Forum/new.html.twig #}
+
 {% extends 'MarcaForumBundle::layout.html.twig' %}
 
 {% block javascripts %}
@@ -9,7 +11,7 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_forumbundle_forumtype_body').ckeditor( function() {}, {height:100, skin: 'chris',forcePasteAsPlainText : true,
+$('#marca_forumbundle_forumtype_body').ckeditor( function() {}, {height:200, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
 toolbar : [
 ['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
 'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
@@ -17,9 +19,12 @@ toolbar : [
 });
 </script>
 
-<div class="span12 well"> 
+<div class="span10 well"> 
 <form action="{{ course_path('forum_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
+    {{ form_errors(form) }}
+         {{ form_row(form.title) }}
+         {{ form_row(form.body) }}
+    {{ form_rest(form) }}
     <div>
         <button class="btn" type="submit">Create</button>
     </div>

@@ -1,14 +1,14 @@
+{# Marca/TabBundle/Resources/views/Tagset/edit.html.twig #}
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
 <div class="row"> 
-<div class="span6 well">    
+<div class="span4 well">    
 <form action="{{ path('tagset_update', { 'id': tagset.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         {{ form_errors(edit_form) }}
 
-        <table class="table table-bordered table-condensed table-striped">   
-            <tr><td>{{ form_row(edit_form.name) }}</td></tr>
+           {{ form_row(edit_form.name) }}
         </table>   
     
     {{ form_rest(edit_form) }}

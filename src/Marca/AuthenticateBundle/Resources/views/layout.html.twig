@@ -1,8 +1,8 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-<div class="span10 well">
+<div class="row">
+<div class="span3 well">
     <h3>Welcome to Marca</h3> 
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}

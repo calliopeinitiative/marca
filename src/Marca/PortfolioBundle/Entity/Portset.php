@@ -31,10 +31,26 @@ class Portset
     /**
      * @var text $description
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="portset")
+    */
+    protected $user;
+    
+    /**
+    * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="portset")
+    */
+    protected $course; 
+    
+    
+   /**
+    * @ORM\OneToMany(targetEntity="Marca\PortfolioBundle\Entity\Portitem", mappedBy="portset")
+    * @ORM\OrderBy({"sortorder" = "ASC"})
+    */
+    protected $portitem;     
 
     /**
      * Get id
@@ -84,5 +100,79 @@ class Portset
     public function getDescription()
     {
         return $this->description;
+    }
+    public function __construct()
+    {
+        $this->portitem = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Set user
+     *
+     * @param Marca\UserBundle\Entity\User $user
+     */
+    public function setUser(\Marca\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Get user
+     *
+     * @return Marca\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Add portitem
+     *
+     * @param Marca\PortfolioBundle\Entity\Portset $portitem
+     */
+    public function addPortset(\Marca\PortfolioBundle\Entity\Portset $portitem)
+    {
+        $this->portitem[] = $portitem;
+    }
+
+    /**
+     * Get portitem
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getPortitem()
+    {
+        return $this->portitem;
+    }
+
+    /**
+     * Add course
+     *
+     * @param Marca\CourseBundle\Entity\Course $course
+     */
+    public function addCourse(\Marca\CourseBundle\Entity\Course $course)
+    {
+        $this->course[] = $course;
+    }
+
+    /**
+     * Get course
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }
+
+    /**
+     * Add portitem
+     *
+     * @param Marca\PortfolioBundle\Entity\Portitem $portitem
+     */
+    public function addPortitem(\Marca\PortfolioBundle\Entity\Portitem $portitem)
+    {
+        $this->portitem[] = $portitem;
     }
 }
