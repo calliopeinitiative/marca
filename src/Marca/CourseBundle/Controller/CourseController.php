@@ -51,7 +51,7 @@ class CourseController extends Controller
         $projects = $course->getProjectsInSortOrder();
         $tagsets = $course->getTagset();
         $portset = $course->getPortset();
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $roll = $course->getRoll();
 
         
         if (!$course) {

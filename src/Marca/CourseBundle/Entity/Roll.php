@@ -139,6 +139,24 @@ class Roll
     public function getUser()
     {
         return $this->user;
+    }
+    
+    /**
+     *Get firstname
+     * @return string 
+     */
+    public function getfirstname()
+    {
+        return $this->user->getFirstname();
+    }
+
+     /**
+     *Get lastname
+     * @return string 
+     */
+    public function getlastname()
+    {
+        return $this->user->getLastname();
 
     }
     
