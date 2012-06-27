@@ -1,0 +1,24 @@
+{# Marca/CalendarBundle/Resources/views/layout.html.twig #}
+
+
+{% extends '::base.html.twig' %}
+{% block title %}Marca Calendar{% endblock %}
+
+{% block stylesheets %}
+{% stylesheets 
+  'bundles/marcacalendar/css/*'
+  filter='cssrewrite'
+%}
+<link rel="stylesheet" href="{{ asset_url }}">
+{% endstylesheets %}
+{% endblock %}
+
+{% block subnav %}
+{%include 'MarcaCourseBundle::subnav.html.twig' %}
+{% endblock %}
+
+{% block sidebar %}  
+             <li><a class="" href="{{ course_path('calendar_new') }}">New Event</a></li>
+             <li><a class="" href="{{ course_path('calendar') }}">List Events</a></li>
+      {% endblock %}  
+

@@ -3,39 +3,38 @@
 {% extends 'MarcaPortfolioBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-   <div class="span4">
-      
-   </div>
-</div> 
+<div class="row">        
+<div class="span6 well">
+    <div class=""><h3>{{ portset.name }}</h3></div>
+     <dl class="dl-horizontal">
+        {% for portitem in portset.portitem %}
 
-<div class="row-fluid">
-<div class="span6">
-<table class="table">
-<thead>
-    <tr>             
-        <th>Userid</th>        
-        <th>Courseid</th>        
-        <th>Fileid</th>        
-        <th>Portorder</th>        
-        <th>Actions</th>
-    </tr>
-</thead>    
-<tbody>
-    {% for portfolio in portfolios %}
-    <tr>              
-        <td>{{ portfolio.userid }}</td>        
-        <td>{{ portfolio.courseid }}</td>        
-        <td>{{ portfolio.fileid }}</td>        
-        <td>{{ portfolio.portOrder }}</td>        
-        <td><div class="btn-group"><a class="btn" href="{{ course_path('portfolio_show', { 'id': portfolio.id }) }}">show</a><a class="btn" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">edit</a></div>
-
-</td>       
-    </tr>
+            <dt class="pad05">
+             {{portitem.name}}
+            </dt>
+            <dd>
+             {{portitem.description|raw}}
+            </dd>          
+            
+        {% endfor %} 
+     </dl>
     
-    {% endfor %}
-    </tbody>
-</table>
-</div>
-</div>
+    <dl>
+        {% for portfolio in portfolio %}
+
+            <dd class="pad05">
+             {% if portfolio.file.doc %}<i class="icon-edit"></i> 
+             <a href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id }) }}" target="_blank">{{ portfolio.file.name }}</a> 
+             {% else %}
+             <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
+             {% endif %}
+             ({{portfolio.portitem.name}}) 
+             <a class="btn btn-primary btn-mini pull-right" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Edit</a>
+            </dd>  
+            
+        {% endfor %} 
+     </dl>
+</div>        
+</div>  
+
 {% endblock %}

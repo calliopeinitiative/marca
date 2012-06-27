@@ -15,7 +15,14 @@ class PortitemRepository extends EntityRepository
     public function findByPortset($portset)
     {  
        return $this->getEntityManager()
-               ->createQuery('SELECT p from MarcaPortfolioBundle:Portitem p JOIN p.portset o WHERE o.id = ?1 ORDER BY p.sortorder DESC')
+               ->createQuery('SELECT p from MarcaPortfolioBundle:Portitem p JOIN p.portset o WHERE o.id = ?1 ORDER BY p.sortorder ASC')
                ->setParameter('1',$portset)->getResult();
     }
+    
+    public function findOneByPortset($portset)
+    {  
+       return $this->getEntityManager()
+               ->createQuery('SELECT p from MarcaPortfolioBundle:Portitem p JOIN p.portset o WHERE o.id = ?1')
+               ->setParameter('1',$portset)->getSingleResult();
+    }    
 }

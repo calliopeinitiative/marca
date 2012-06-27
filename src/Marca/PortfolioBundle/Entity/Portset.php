@@ -38,10 +38,17 @@ class Portset
     /**
     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="portset")
     */
-    protected $user;  
+    protected $user;
+    
+    /**
+    * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="portset")
+    */
+    protected $course; 
+    
     
    /**
-    * @ORM\OneToMany(targetEntity="Marca\PortfolioBundle\Entity\Portset", mappedBy="portset")
+    * @ORM\OneToMany(targetEntity="Marca\PortfolioBundle\Entity\Portitem", mappedBy="portset")
+    * @ORM\OrderBy({"sortorder" = "ASC"})
     */
     protected $portitem;     
 
@@ -137,5 +144,35 @@ class Portset
     public function getPortitem()
     {
         return $this->portitem;
+    }
+
+    /**
+     * Add course
+     *
+     * @param Marca\CourseBundle\Entity\Course $course
+     */
+    public function addCourse(\Marca\CourseBundle\Entity\Course $course)
+    {
+        $this->course[] = $course;
+    }
+
+    /**
+     * Get course
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }
+
+    /**
+     * Add portitem
+     *
+     * @param Marca\PortfolioBundle\Entity\Portitem $portitem
+     */
+    public function addPortitem(\Marca\PortfolioBundle\Entity\Portitem $portitem)
+    {
+        $this->portitem[] = $portitem;
     }
 }

@@ -14,34 +14,35 @@
 <div class="span10">
 <table class="table">
 <thead>
-    <tr>          
+    <tr>
         <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'name', 'scope': scope }) }}">Name <b class="caret"></b></a></th>
-        <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'owner', 'scope': scope  }) }}">Owner <b class="caret"></b></a></th> 
-        <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'project', 'scope': scope  }) }}">Project <b class="caret"></b></a></th> 
-        <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'tag', 'scope': scope  }) }}">Tag <b class="caret"></b></a></th> 
-        <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'updated', 'scope': scope  }) }}">Updated <b class="caret"></b></a></th>        
+        <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'owner', 'scope': scope }) }}">Owner <b class="caret"></b></a></th>
+        <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'project', 'scope': scope }) }}">Project <b class="caret"></b></a></th>
+        <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'tag', 'scope': scope }) }}">Tag <b class="caret"></b></a></th>
+        <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'updated', 'scope': scope }) }}">Updated <b class="caret"></b></a></th>
         <th></th>
     </tr>
-</thead>    
+</thead>
 <tbody>
     {% for file in files %}
-    <tr>        
+    <tr>
         <td>
-            {% if file.docid %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.docid }) }}">{{ file.name }}</a> 
+            {% if file.docid %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.docid }) }}">{{ file.name }}</a>
             {% else %}
             <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="View {{ file.name }} (will open in a new window or tab)" target="_blank">{{ file.name }}</a>
-            {% endif %}  
-            {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}  
-        </td> 
+            {% endif %}
+            {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
+        </td>
         
         <td>{% if file.lastname %}{{ file.firstname }} {{ file.lastname }}{% endif%}</td>
         <td>{% if file.project %}<span class="label label-info">{{ file.project }}</span>{% endif%}</td>
         
         <td>{% if file.tag %}<span class="label label">{{ file.tag }}</span>{% endif%}</td>
-        <td>{% if file.updated %}{{ file.updated|date('M d Y,   g:i a') }}{% endif%}</td> 
+        <td>{% if file.updated %}{{ file.updated|date('M d Y, g:i a') }}{% endif%}</td>
         
-        {# note: temp conditional until role permission structure is completed    #}
-        <td>{% if file.username==app.user.username %}<a class="" href="{{ course_path('file_edit', { 'id': file.id }) }}">Edit listing</a>{% endif%}</td>  
+        {# note: temp conditional until role permission structure is completed #}
+        <td>{% if file.username==app.user.username %}<a class="" href="{{ course_path('file_edit', { 'id': file.id }) }}">Edit listing</a>{% endif%}</td>
+        <td>{% if file.username==app.user.username and file.access==1 %}<a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>{% endif%}</td>
     </tr>
     
     {% endfor %}

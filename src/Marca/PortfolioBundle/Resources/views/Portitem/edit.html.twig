@@ -11,21 +11,22 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_portfoliobundle_portitemtype_description').ckeditor( function() {}, {height:300, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+$('#marca_portfoliobundle_portitemtype_description').ckeditor( function() {}, {height:200, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
 toolbar : [
 ['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
 'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
 ],} );
 });
 </script>
-
+<div class="row">
 <div class="span6 well">
 <form class="form" action="{{ path('portitem_delete', { 'id': portitem.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>
-</div>       
-
+</div>   
+</div>        
+<div class="row">
 <div class="span6 well">    
 <form action="{{ path('portitem_update', { 'id': portitem.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_errors(edit_form) }}
@@ -37,4 +38,5 @@ toolbar : [
     </div>
 </form>
 </div>
+</div>        
 {% endblock %}

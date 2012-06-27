@@ -49,7 +49,8 @@ class CourseController extends Controller
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $projects = $course->getProjectsInSortOrder();
-        $tagsets = $course->getTagset(); 
+        $tagsets = $course->getTagset();
+        $portset = $course->getPortset();
         $roll = $course->getRoll();
 
         
@@ -63,6 +64,7 @@ class CourseController extends Controller
             'course'      => $course,
             'projects'    => $projects,
             'tagsets'    => $tagsets,
+            'portset'    => $portset,
             'roll'        => $roll, 
             'delete_form' => $deleteForm->createView(),        );
     }

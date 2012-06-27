@@ -11,17 +11,19 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_portfoliobundle_portsettype_description').ckeditor( function() {}, {height:300, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+$('#marca_portfoliobundle_portsettype_description').ckeditor( function() {}, {height:200, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
 toolbar : [
 ['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
 'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
 ],} );
 });
 </script>
+<div class="row">   
 <div class="span6 well"> 
 <a class="btn btn-info" href="{{ path('portset') }}">List Portfolio Sets</a>
 </div> 
-
+</div>        
+<div class="row">   
 <div class="span6 well"> 
 <form class="form" action="{{ path('portset_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
@@ -29,8 +31,9 @@ toolbar : [
             {{ form_row(form.description) }}
     {{ form_rest(form) }}
     <div>
-        <button class="btn" type="submit">Create</button>
+        <button class="btn btn-primary" type="submit">Create</button>
     </div>
 </form>
 </div>
+</div>        
 {% endblock %}

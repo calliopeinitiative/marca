@@ -60,13 +60,11 @@ class Course
      * @ORM\Column(name="post", type="boolean")
      */
     private $post = true;
-
+   
     /**
-     * @var integer $portRubricId
-     *
-     * @ORM\Column(name="portRubricId", type="integer")
-     */
-    private $portRubricId = 1;
+    * @ORM\ManyToOne(targetEntity="Marca\PortfolioBundle\Entity\Portset", inversedBy="course")
+    */
+    protected $portset;   
 
     /**
      * @var boolean $multicult
@@ -281,26 +279,6 @@ class Course
     public function getPost()
     {
         return $this->post;
-    }
-
-    /**
-     * Set portRubricId
-     *
-     * @param integer $portRubricId
-     */
-    public function setPortRubricId($portRubricId)
-    {
-        $this->portRubricId = $portRubricId;
-    }
-
-    /**
-     * Get portRubricId
-     *
-     * @return integer 
-     */
-    public function getPortRubricId()
-    {
-        return $this->portRubricId;
     }
 
     /**
@@ -723,4 +701,24 @@ class Course
     }
     
     
+
+    /**
+     * Set portset
+     *
+     * @param Marca\PortfolioBundle\Entity\Portset $portset
+     */
+    public function setPortset(\Marca\PortfolioBundle\Entity\Portset $portset)
+    {
+        $this->portset = $portset;
+    }
+
+    /**
+     * Get portSet
+     *
+     * @return Marca\PortfolioBundle\Entity\Portset 
+     */
+    public function getPortset()
+    {
+        return $this->portset;
+    }
 }

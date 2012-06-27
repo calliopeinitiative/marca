@@ -75,7 +75,12 @@ class File
    /**
     * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tag")
     */
-    protected $tag;     
+    protected $tag;  
+    
+   /**
+    * @ORM\ManyToMany(targetEntity="Marca\PortfolioBundle\Entity\Portitem", inversedBy="file")
+    */
+    protected $portitem;  
 
     /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -400,6 +405,25 @@ class File
         $filename = $this->getPath(); 
         return pathinfo($filename, PATHINFO_EXTENSION);
     }  
-         
-    
+
+
+    /**
+     * Add portitem
+     *
+     * @param Marca\PortfolioBundle\Entity\Portitem $portitem
+     */
+    public function addPortitem(\Marca\PortfolioBundle\Entity\Portitem $portitem)
+    {
+        $this->portitem[] = $portitem;
+    }
+
+    /**
+     * Get portitem
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getPortitem()
+    {
+        return $this->portitem;
+    }
 }

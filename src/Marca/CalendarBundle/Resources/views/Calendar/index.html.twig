@@ -1,0 +1,24 @@
+{# Marca/CalendarBundle/Resources/views/Calendar/index.html.twig #}
+
+{% extends 'MarcaCalendarBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="span10">
+<table class="table">   
+<tbody>
+    {% for calendar in calendar %}
+    <tr>                
+        <td>{% if calendar.startDate %}{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}{% endif%}</td>               
+        <td>{% if calendar.endDate %}{{ calendar.endDate|date('j M Y') }} {{ calendar.endTime|date('g:i A') }}{% endif%}</td>        
+        <td>{{ calendar.title }}</td>        
+        <td>{{ calendar.description|raw }}</td>             
+        <td><a class="btn btn-info" href="{{ course_path('calendar_show', { 'id': calendar.id }) }}">Show</a>
+            <a class="btn btn-primary" href="{{ course_path('calendar_edit', { 'id': calendar.id }) }}">Edit</a>
+       </td>       
+    </tr>
+    
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

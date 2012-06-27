@@ -31,6 +31,7 @@ security:
         - { path: ^/user/, role: ROLE_USER }
         - { path: ^/doc/, role: ROLE_USER }  
         - { path: ^/portfolio/, role: ROLE_USER }  
+        - { path: ^/calendar/, role: ROLE_USER }         
         - { path: ^/course/, role: ROLE_USER }
         - { path: ^/term/, role: ROLE_INSTR }
         - { path: ^/roll/, role: ROLE_INSTR }
