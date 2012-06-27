@@ -50,7 +50,7 @@ class CourseController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $projects = $course->getProjectsInSortOrder();
         $tagsets = $course->getTagset(); 
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $roll = $course->getRoll();
 
         
         if (!$course) {
