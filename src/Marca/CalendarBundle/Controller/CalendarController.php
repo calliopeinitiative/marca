@@ -72,6 +72,7 @@ class CalendarController extends Controller
         $this->restrictAccessTo($allowed);
         
         $calendar = new Calendar();
+        $calendar->setDescription('<p> </p>');
         $form   = $this->createForm(new CalendarType(), $calendar);
 
         return array(
