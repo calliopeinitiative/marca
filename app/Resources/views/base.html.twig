@@ -39,7 +39,26 @@
 
 <div class="container-fluid">
 
-{% block body %}{% endblock %} 
+{%if block('sidebar') %}
+    <div class="row-fluid">  
+        <div class="span2">
+    <div class="well sidebar-nav">
+     <ul class="nav nav-list">
+    {{block('sidebar')}}
+     </ul>
+    </div> 
+    </div>  
+         
+    <div class="span10"> 
+    {% block content %}          
+    {% endblock %}
+    </div>   
+    </div>
+{% else %}
+
+    
+    {{block('body')}}
+{% endif %}
     
 <!-- Footer
 ================================================== -->

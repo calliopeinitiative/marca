@@ -139,4 +139,5 @@ class Roll
     public function getUser()
     {
         return $this->user;
-
+    }
+}

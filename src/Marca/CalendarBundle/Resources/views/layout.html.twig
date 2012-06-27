@@ -17,21 +17,8 @@
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
 {% endblock %}
 
-{% block body %}
-<div class="row-fluid">
-{% block sidebar %}
-<div class="span2">
-    <div class="well sidebar-nav">
-     <ul class="nav nav-list">   
+{% block sidebar %}  
              <li><a class="" href="{{ course_path('calendar_new') }}">New Event</a></li>
              <li><a class="" href="{{ course_path('calendar') }}">List Events</a></li>
-     </ul>
-    </div> 
-    </div>        
-{% endblock %}  
-<div class="span10"> 
-{% block content %}          
-{% endblock %}
-</div>   
-</div>         
-{% endblock %} 
+      {% endblock %}  
+

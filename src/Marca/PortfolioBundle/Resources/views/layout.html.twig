@@ -16,23 +16,9 @@
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
 {% endblock %}
 
-{% block body %}
-<div class="row-fluid">
-    
-{% block sidebar %} 
-<div class="span2">
-    <div class="well sidebar-nav">
-     <ul class="nav nav-list">   
-             <li><a href="{{ course_path('portfolio') }}">View Portfolio</a></li>
-             <li><a href="{{ course_path('file') }}">Add to Portfolio</a></li>
-     </ul>
-    </div> 
-    </div>     
-{% endblock %}  
 
-<div class="span10"> 
-{% block content %}          
-{% endblock %}
-</div>   
-</div>       
-{% endblock %} 
+{% block sidebar %}   
+             <li><a href="{{ course_path('portfolio') }}">View Portfolio</a></li>
+             <li><a href="{{ course_path('file') }}">Add to Portfolio</a></li> 
+{% endblock %}  
+ 
