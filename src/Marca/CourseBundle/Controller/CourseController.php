@@ -34,6 +34,21 @@ class CourseController extends Controller
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUser($user);
         return array('courses' => $courses);
     }
+    
+    /**
+     * Landing page once in a course
+     * @Route("/{courseid}/home", name="course_home")
+     * @Template()
+     */
+    public function homeAction($courseid)
+    {
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($courseid);
+        $session = $this->get('request')->getSession();
+        $session->set('courseid', $courseid);
+        
+        return array('course' => $course);
+    }    
 
     /**
      * Finds and displays a Course entity.
