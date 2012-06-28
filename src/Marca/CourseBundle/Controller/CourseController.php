@@ -169,7 +169,7 @@ class CourseController extends Controller
         }
 
         return array(
-            'entity' => $entity,
+            'course' => $course,
             'form'   => $form->createView()
         );
     }
@@ -217,13 +217,13 @@ class CourseController extends Controller
     {
         $em = $this->getEm();
         $options = array('courseid' => $id);
-        $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
 
-        if (!$entity) {
+        if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
-        $editForm = $this->createForm(new CourseType($options), $entity);
+        $editForm = $this->createForm(new CourseType($options), $course);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -231,14 +231,14 @@ class CourseController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($course);
             $em->flush();
 
             return $this->redirect($this->generateUrl('course_show', array('courseid' => $id)));
         }
 
         return array(
-            'entity'      => $entity,
+            'course'      => $course,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -253,10 +253,10 @@ class CourseController extends Controller
     public function deleteAction($id)
     {
         $em = $this->getEm();
-        $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
         $user = $this->getUser();
         //restrict access to the delete function to the course owner
-        if($user != $entity->getUser()){
+        if($user != $course->getUser()){
             throw new AccessDeniedException();
         }
         $form = $this->createDeleteForm($id);
@@ -268,11 +268,11 @@ class CourseController extends Controller
         if ($form->isValid()) {
             
 
-            if (!$entity) {
+            if (!$course) {
                 throw $this->createNotFoundException('Unable to find Course entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($course);
             $em->flush();
         }
 

@@ -6,13 +6,13 @@
 <div class="row-fluid">
 <div class="span2">
 <div class="btn-group">
-<a class="btn" href="{{ path('forum_edit', { 'id': entity.id }) }}">Edit</a>
+<a class="btn" href="{{ path('forum_edit', { 'id': forum.id }) }}">Edit</a>
  
 </div> 
 </div>       
   
 <div class="span1">        
-<form action="{{ path('forum_delete', { 'id': entity.id }) }}" method="post">
+<form action="{{ path('forum_delete', { 'id': forum.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>
@@ -26,21 +26,21 @@
 <tbody>        
     <tr>
         <th>Id</th>         
-        <td>{{ entity.id }}</td>         
+        <td>{{ forum.id }}</td>         
     </tr>        
     <tr>
         <th>Title</th>         
-        <td>{{ entity.title }}</td>         
+        <td>{{ forum.title }}</td>         
     </tr>        
     <tr>
         <th>Body</th>         
-        <td>{{ entity.body }}</td>         
+        <td>{{ forum.body }}</td>         
     </tr>        
     <tr>
-        <th>Created</th>        <td>{{ entity.created|date('Y-m-d H:i:s') }}</td>         
+        <th>Created</th>        <td>{{ forum.created|date('Y-m-d H:i:s') }}</td>         
     </tr>        
     <tr>
-        <th>Updated</th>        <td>{{ entity.updated|date('Y-m-d H:i:s') }}</td>         
+        <th>Updated</th>        <td>{{ forum.updated|date('Y-m-d H:i:s') }}</td>         
     </tr>  
 </tbody>
 </table>

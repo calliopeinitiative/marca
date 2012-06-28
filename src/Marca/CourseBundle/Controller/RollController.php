@@ -6,7 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\CourseBundle\Entity\Roll;
+use Marca\CourseBundle\roll\Roll;
 use Marca\CourseBundle\Form\RollType;
 
 /**
@@ -26,13 +26,13 @@ class RollController extends Controller
     {
         $em = $this->getEm();
         $dql1 = "SELECT p.lastname,p.firstname,r.role,r.status,r.id from MarcaCourseBundle:Roll r JOIN r.profile p ORDER BY p.lastname,p.firstname";
-        $entities = $em->createQuery($dql1)->getResult();
+        $rolls = $em->createQuery($dql1)->getResult();
 
-        return array('entities' => $entities);
+        return array('rolls' => $rolls);
     }
 
     /**
-     * Finds and displays a Roll entity.
+     * Finds and displays a Roll roll.
      *
      * @Route("/{id}/show", name="roll_show")
      * @Template()
@@ -41,38 +41,38 @@ class RollController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Roll entity.');
+        if (!$roll) {
+            throw $this->createNotFoundException('Unable to find Roll roll.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'roll'      => $roll,
             'delete_form' => $deleteForm->createView(),        );
     }
 
     /**
-     * Displays a form to create a new Roll entity.
+     * Displays a form to create a new Roll roll.
      *
      * @Route("/new", name="roll_new")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Roll();
-        $form   = $this->createForm(new RollType(), $entity);
+        $roll = new Roll();
+        $form   = $this->createForm(new RollType(), $roll);
 
         return array(
-            'entity' => $entity,
+            'roll' => $roll,
             'form'   => $form->createView()
         );
     }
 
     /**
-     * Creates a new Roll entity.
+     * Creates a new Roll roll.
      *
      * @Route("/create", name="roll_create")
      * @Method("post")
@@ -80,28 +80,28 @@ class RollController extends Controller
      */
     public function createAction()
     {
-        $entity  = new Roll();
+        $roll  = new Roll();
         $request = $this->getRequest();
-        $form    = $this->createForm(new RollType(), $entity);
+        $form    = $this->createForm(new RollType(), $roll);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $em->persist($entity);
+            $em->persist($roll);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('roll_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('roll_show', array('id' => $roll->getId())));
             
         }
 
         return array(
-            'entity' => $entity,
+            'roll' => $roll,
             'form'   => $form->createView()
         );
     }
 
     /**
-     * Displays a form to edit an existing Roll entity.
+     * Displays a form to edit an existing Roll roll.
      *
      * @Route("/{courseid}/{id}/edit", name="roll_edit")
      * @Template()
@@ -113,7 +113,7 @@ class RollController extends Controller
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollUser($id);
 
         if (!$roll) {
-            throw $this->createNotFoundException('Unable to find Roll entity.');
+            throw $this->createNotFoundException('Unable to find Roll roll.');
         }
 
         $editForm = $this->createForm(new RollType(), $roll);
@@ -127,7 +127,7 @@ class RollController extends Controller
     }
 
     /**
-     * Edits an existing Roll entity.
+     * Edits an existing Roll roll.
      *
      * @Route("/{courseid}/{id}/update", name="roll_update")
      * @Method("post")
@@ -137,13 +137,13 @@ class RollController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Roll entity.');
+        if (!$roll) {
+            throw $this->createNotFoundException('Unable to find Roll roll.');
         }
 
-        $editForm   = $this->createForm(new RollType(), $entity);
+        $editForm   = $this->createForm(new RollType(), $roll);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -151,21 +151,21 @@ class RollController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($roll);
             $em->flush();
 
             return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
         }
 
         return array(
-            'entity'      => $entity,
+            'roll'      => $roll,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
 
     /**
-     * Deletes a Roll entity.
+     * Deletes a Roll roll.
      *
      * @Route("/{id}/delete", name="roll_delete")
      * @Method("post")
@@ -179,13 +179,13 @@ class RollController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $entity = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
+            $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
 
-            if (!$entity) {
+            if (!$roll) {
                 throw $this->createNotFoundException('Unable to find Roll entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($roll);
             $em->flush();
         }
 

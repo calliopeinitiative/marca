@@ -1,3 +1,4 @@
+{# Marca/CourseBundle/Resources/views/Roll/index.html.twig #}
 
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
@@ -21,13 +22,13 @@
     </tr>
 </thead>    
 <tbody>
-    {% for entity in entities %}
+    {% for roll in rolls %}
     <tr>        
-        <td><a href="{{ path('roll_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>        
-        <td>{{ entity.lastname }}, {{ entity.firstname }}</td>        
-        <td>{{ entity.role }}</td>        
-        <td>{{ entity.status }}</td>        
-        <td><div class="btn-group"><a class="btn" href="{{ path('roll_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ path('roll_edit', { 'id': entity.id }) }}">edit</a></div>
+        <td><a href="{{ path('roll_show', { 'id': roll.id }) }}">{{ roll.id }}</a></td>        
+        <td>{{ roll.lastname }}, {{ roll.firstname }}</td>        
+        <td>{{ roll.role }}</td>        
+        <td>{{ roll.status }}</td>        
+        <td><div class="btn-group"><a class="btn" href="{{ path('roll_show', { 'id': roll.id }) }}">show</a><a class="btn" href="{{ path('roll_edit', { 'id': roll.id }) }}">edit</a></div>
 
 </td>       
     </tr>
