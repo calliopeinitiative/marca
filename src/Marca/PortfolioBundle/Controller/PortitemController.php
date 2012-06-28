@@ -26,9 +26,9 @@ class PortitemController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('MarcaPortfolioBundle:Portitem')->findAll();
+        $portitems = $em->getRepository('MarcaPortfolioBundle:Portitem')->findAll();
 
-        return array('entities' => $entities);
+        return array('portitems' => $portitems);
     }
 
     /**

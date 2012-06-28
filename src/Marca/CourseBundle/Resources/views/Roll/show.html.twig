@@ -1,3 +1,4 @@
+{# Marca/CourseBundle/Resources/views/Roll/show.html.twig #}
 
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
@@ -6,13 +7,13 @@
 <div class="span2">
 <div class="btn-group">
 <a class="btn" href="{{ path('roll') }}">List</a>
-<a class="btn" href="{{ path('roll_edit', { 'id': entity.id }) }}">Edit</a>
+<a class="btn" href="{{ path('roll_edit', { 'id': roll.id }) }}">Edit</a>
  
 </div> 
 </div>       
   
 <div class="span1">        
-<form action="{{ path('roll_delete', { 'id': entity.id }) }}" method="post">
+<form action="{{ path('roll_delete', { 'id': roll.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>
@@ -26,19 +27,19 @@
 <tbody>        
     <tr>
         <th>Id</th>         
-        <td>{{ entity.id }}</td>         
+        <td>{{ roll.id }}</td>         
     </tr>        
     <tr>
         <th>Userid</th>         
-        <td>{{ entity.userid }}</td>         
+        <td>{{ roll.userid }}</td>         
     </tr>        
     <tr>
         <th>Role</th>         
-        <td>{{ entity.role }}</td>         
+        <td>{{ roll.role }}</td>         
     </tr>        
     <tr>
         <th>Status</th>         
-        <td>{{ entity.status }}</td>         
+        <td>{{ roll.status }}</td>         
     </tr>  
 </tbody>
 </table>

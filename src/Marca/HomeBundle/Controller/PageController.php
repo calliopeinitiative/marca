@@ -26,9 +26,9 @@ class PageController extends Controller
     {
         $em = $this->getEm();
 
-        $entities = $em->getRepository('MarcaHomeBundle:Page')->findAll();
+        $pages = $em->getRepository('MarcaHomeBundle:Page')->findAll();
 
-        return array('entities' => $entities);
+        return array('pages' => $pages);
     }
 
     /**
@@ -41,16 +41,16 @@ class PageController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaHomeBundle:Page')->find($id);
+        $page = $em->getRepository('MarcaHomeBundle:Page')->find($id);
 
-        if (!$entity) {
+        if (!$page) {
             throw $this->createNotFoundException('Unable to find Page entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'page'      => $page,
             'delete_form' => $deleteForm->createView(),        );
     }
 
@@ -62,12 +62,12 @@ class PageController extends Controller
      */
     public function newAction()
     {
-        $entity = new Page();
-        $entity->setBody('<div class="container-fluid"><div class="row-fluid"><div class="span4">Left</hr></div><div class="span4">Center</hr></div><div class="span4">Right</hr></div></div></div>');
-        $form   = $this->createForm(new PageType(), $entity);
+        $page = new Page();
+        $page->setBody('<div class="container-fluid"><div class="row-fluid"><div class="span4">Left</hr></div><div class="span4">Center</hr></div><div class="span4">Right</hr></div></div></div>');
+        $form   = $this->createForm(new PageType(), $page);
 
         return array(
-            'entity' => $entity,
+            'page' => $page,
             'form'   => $form->createView()
         );
     }
@@ -81,22 +81,22 @@ class PageController extends Controller
      */
     public function createAction()
     {
-        $entity  = new Page();
+        $page  = new Page();
         $request = $this->getRequest();
-        $form    = $this->createForm(new PageType(), $entity);
+        $form    = $this->createForm(new PageType(), $page);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $em->persist($entity);
+            $em->persist($page);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('page_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('page_show', array('id' => $page->getId())));
             
         }
 
         return array(
-            'entity' => $entity,
+            'page' => $page,
             'form'   => $form->createView()
         );
     }
@@ -111,17 +111,17 @@ class PageController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaHomeBundle:Page')->find($id);
+        $page = $em->getRepository('MarcaHomeBundle:Page')->find($id);
 
-        if (!$entity) {
+        if (!$page) {
             throw $this->createNotFoundException('Unable to find Page entity.');
         }
 
-        $editForm = $this->createForm(new PageType(), $entity);
+        $editForm = $this->createForm(new PageType(), $page);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'page'      => $page,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -138,13 +138,13 @@ class PageController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaHomeBundle:Page')->find($id);
+        $page = $em->getRepository('MarcaHomeBundle:Page')->find($id);
 
-        if (!$entity) {
+        if (!$page) {
             throw $this->createNotFoundException('Unable to find Page entity.');
         }
 
-        $editForm   = $this->createForm(new PageType(), $entity);
+        $editForm   = $this->createForm(new PageType(), $page);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -152,14 +152,14 @@ class PageController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($page);
             $em->flush();
 
             return $this->redirect($this->generateUrl('page_show', array('id' => $id)));
         }
 
         return array(
-            'entity'      => $entity,
+            'page'      => $page,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -180,13 +180,13 @@ class PageController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $entity = $em->getRepository('MarcaHomeBundle:Page')->find($id);
+            $page = $em->getRepository('MarcaHomeBundle:Page')->find($id);
 
-            if (!$entity) {
+            if (!$page) {
                 throw $this->createNotFoundException('Unable to find Page entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($page);
             $em->flush();
         }
 

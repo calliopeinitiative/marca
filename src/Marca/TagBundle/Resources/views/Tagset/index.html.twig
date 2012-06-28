@@ -21,10 +21,10 @@
     </tr>
 </thead>    
 <tbody>
-    {% for entity in entities %}
+    {% for tagset in tagsets %}
     <tr>            
-        <td>{{ entity.name }}</td>   
-        <td><a class="btn btn-primary" href="{{ path('tagset_edit', { 'id': entity.id }) }}">Edit</a></td>       
+        <td>{{ tagset.name }}</td>   
+        <td><a class="btn btn-primary" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit</a></td>       
     </tr>
     
     {% endfor %}

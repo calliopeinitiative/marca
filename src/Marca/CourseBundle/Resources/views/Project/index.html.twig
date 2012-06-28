@@ -1,10 +1,12 @@
+{# Marca/CourseBundle/Resources/views/Project/index.html.twig #}
+
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
 <div class="row-fluid">
    <div class="span4">
-      <a class="btn btn-primary" href="{{ path('project_new', {'courseid': entity.id}) }}">New</a>
+      <a class="btn btn-primary" href="{{ path('project_new', {'courseid': project.id}) }}">New</a>
    </div>
 </div> 
 
@@ -22,14 +24,14 @@
     </tr>
 </thead>    
 <tbody>
-    {% for entity in entities %}
+    {% for project in projects %}
     <tr>        
-        <td><a href="{{ path('project_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>        
-        <td>{{ entity.name }}</td>        
-        <td>{{ entity.userid }}</td>        
-        <td>{{ entity.sortOrder }}</td>        
-        <td>{{ entity.resource }}</td>        
-        <td><div class="btn-group"><a class="btn" href="{{ path('project_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ path('project_edit', { 'id': entity.id }) }}">edit</a></div>
+        <td><a href="{{ path('project_show', { 'id': project.id }) }}">{{ project.id }}</a></td>        
+        <td>{{ project.name }}</td>        
+        <td>{{ project.userid }}</td>        
+        <td>{{ project.sortOrder }}</td>        
+        <td>{{ project.resource }}</td>        
+        <td><div class="btn-group"><a class="btn" href="{{ path('project_show', { 'id': project.id }) }}">show</a><a class="btn" href="{{ path('project_edit', { 'id': project.id }) }}">edit</a></div>
 
 </td>       
     </tr>
