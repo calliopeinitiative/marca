@@ -22,11 +22,10 @@ class PortfolioController extends Controller
      * @Route("/{courseid}", name="portfolio")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($courseid)
     {
         $em = $this->getEm();
         $user = $this->getUser();
-        $courseid = $this->get('request')->getSession()->get('courseid');
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $portset = $course->getPortset();
         $portfolio = $course = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);

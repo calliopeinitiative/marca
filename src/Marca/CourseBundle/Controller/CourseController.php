@@ -44,8 +44,6 @@ class CourseController extends Controller
     {
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($courseid);
-        $session = $this->get('request')->getSession();
-        $session->set('courseid', $courseid);
         
         return array('course' => $course);
     }    
