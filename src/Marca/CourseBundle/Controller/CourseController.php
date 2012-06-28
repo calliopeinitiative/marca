@@ -85,6 +85,7 @@ class CourseController extends Controller
         $course = new Course();
         $course->setUser($user);
         
+        
         $form   = $this->createForm(new CourseType($options), $course);
 
         return array(
