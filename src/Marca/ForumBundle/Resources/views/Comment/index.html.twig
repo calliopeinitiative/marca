@@ -1,0 +1,39 @@
+{# Marca/ForumBundle/Resources/views/Comment/index.html.twig #}
+
+{% extends 'MarcaForumBundle::layout.html.twig' %}
+
+{% block content %}
+   <div class="span6">
+      <a class="btn btn-primary" href="{{ course_path('comment_new') }}">New</a>
+   </div>
+
+
+<div class="span6">
+<table class="table table-bordered table-condensed table-striped">
+<thead>
+    <tr>        
+        <th>Id</th>        
+        <th>Parent</th>        
+        <th>Body</th>        
+        <th>Created</th>        
+        <th>Updated</th>        
+        <th>Actions</th>
+    </tr>
+</thead>    
+<tbody>
+    {% for comment in comments %}
+    <tr>        
+        <td><a href="{{ course_path('comment_show', { 'id': comment.id }) }}">{{ comment.id }}</a></td>        
+        <td>{{ comment.parent }}</td>        
+        <td>{{ comment.body }}</td>        
+        <td>{% if comment.created %}{{ comment.created|date('Y-m-d H:i:s') }}{% endif%}</td>        
+        <td>{% if comment.updated %}{{ comment.updated|date('Y-m-d H:i:s') }}{% endif%}</td>        
+        <td><a class="btn" href="{{ course_path('comment_show', { 'id': comment.id }) }}">show</a><a class="btn" href="{{ course_path('comment_edit', { 'id': comment.id }) }}">edit</a>
+</td>       
+    </tr>
+    
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}
