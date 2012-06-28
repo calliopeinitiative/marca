@@ -692,15 +692,6 @@ class Course
         return $project_array;
     }
     
-    public function getOwnerFirstName(){
-        return $this->getUser()->getFirstname();
-    }
-    
-    public function getOwnerLastName(){
-        return $this->getUser()->getLastname();
-    }
-    
-    
 
     /**
      * Set portset
