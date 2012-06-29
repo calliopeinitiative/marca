@@ -45,7 +45,7 @@ class CommentController extends Controller
         $allowed = array("instructor", "student");
         $this->restrictAccessTo($allowed);
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $comment = $em->getRepository('MarcaForumBundle:Comment')->find($id);
 
@@ -63,18 +63,22 @@ class CommentController extends Controller
     /**
      * Displays a form to create a new Comment entity.
      *
-     * @Route("/{courseid}/new", name="comment_new")
+     * @Route("/{courseid}/{forumid}/{parentid}/new", name="comment_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($forumid,$parentid)
     {
         $allowed = array("instructor", "student");
         $this->restrictAccessTo($allowed);
         
         $comment = new Comment();
+        $comment->setParent($parentid);
+        $comment->setBody('<p></p>');
+        
         $form   = $this->createForm(new CommentType(), $comment);
 
         return array(
+            'forumid' => $forumid,
             'comment' => $comment,
             'form'   => $form->createView()
         );
@@ -83,16 +87,23 @@ class CommentController extends Controller
     /**
      * Creates a new Comment entity.
      *
-     * @Route("/{courseid}/create", name="comment_create")
+     * @Route("/{courseid}/{forumid}/create", name="comment_create")
      * @Method("post")
      * @Template("MarcaForumBundle:Comment:new.html.twig")
      */
-    public function createAction($courseid)
+    public function createAction($forumid,$courseid)
     {
         $allowed = array("instructor", "student");
         $this->restrictAccessTo($allowed);
         
+        $em = $this->getEm();
+        $forum = $em->getRepository('MarcaForumBundle:Forum')->find($forumid);
+        
+        $user = $this->getUser();
         $comment  = new Comment();
+        $comment->setUser($user);
+        $comment->setForum($forum);
+        
         $request = $this->getRequest();
         $form    = $this->createForm(new CommentType(), $comment);
         $form->bindRequest($request);

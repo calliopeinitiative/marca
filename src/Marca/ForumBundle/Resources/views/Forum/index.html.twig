@@ -17,6 +17,8 @@
     </div>
      <div class="row">
          {{ forumEntry.body|raw }} 
+         <a class="btn btn-primary" href="{{ course_path('forum_show', { 'id': forumEntry.id }) }}">Open Forum</a>       
+         <a class="btn btn-primary" href="{{ course_path('comment_new', { 'parentid': forumEntry.id ,'forumid': forumEntry.id }) }}">Add a Comment</a>    
      </div>
 {% endfor %}
 

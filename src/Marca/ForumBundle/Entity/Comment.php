@@ -37,7 +37,7 @@ class Comment
     private $body;  
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\ForumBundle\Entity\Forum", inversedBy="forum")
+    * @ORM\ManyToOne(targetEntity="Marca\ForumBundle\Entity\Forum", inversedBy="comments")
     */
     protected $forum;      
     

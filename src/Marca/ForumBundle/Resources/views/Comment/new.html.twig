@@ -2,20 +2,30 @@
 
 {% extends 'MarcaForumBundle::layout.html.twig' %}
 
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+{% endblock %}
+
 {% block content %}
-
-<div class="span2">
-<a class="btn btn-info" href="{{ course_path('comment') }}">List</a>
- 
-</div>       
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('#marca_forumbundle_commenttype_body').ckeditor( function() {}, {height:200, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+toolbar : [
+['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
+'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+],} );
+});
+</script>  
   
-
-
-<div class="span6 well"> 
-<form action="{{ course_path('comment_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
+<div class="span10 well"> 
+<form action="{{ course_path('comment_create', { 'forumid': forumid }) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_errors(form) }}
+         {{ form_row(form.body) }}
+    {{ form_rest(form) }}
     <div>
-        <button class="btn" type="submit">Create</button>
+        <button class="btn btn-primary" type="submit">Create</button>
     </div>
 </form>
 </div>

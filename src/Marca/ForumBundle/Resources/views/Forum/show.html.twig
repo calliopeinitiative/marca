@@ -3,47 +3,31 @@
 {% extends 'MarcaForumBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-<div class="span2">
-<div class="btn-group">
-<a class="btn" href="{{ path('forum_edit', { 'id': forum.id }) }}">Edit</a>
- 
-</div> 
-</div>       
-  
-<div class="span1">        
-<form action="{{ path('forum_delete', { 'id': forum.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
-</form>
-</div>
-  
-</div>
+<div class="span10" >
+    <div class="row">        
+        <div class="page-header" >
+            <h3>{{ forum.title }}</h3>
+        </div>
+    <div class="pull-right" >
+         Created  {{ forum.created|date('M d, Y h:i a') }}  / Modified  {{ forum.updated|date('M d, Y h:i a') }} 
+         <a class="btn btn-primary btn-small" href="{{ course_path('forum_edit', { 'id': forum.id }) }}">Edit</a>
+    </div>
+    </div>
+     <div class="row">
+         {{ forum.body|raw }}      
+         <a class="btn btn-primary" href="{{ course_path('comment_new', { 'parentid': forum.id ,'forumid': forum.id }) }}">Add a Comment</a>    
+     </div>
         
-<div class="row-fluid">
-<div class="span4">    
-<table class="table table-bordered table-condensed table-striped">
-<tbody>        
-    <tr>
-        <th>Id</th>         
-        <td>{{ forum.id }}</td>         
-    </tr>        
-    <tr>
-        <th>Title</th>         
-        <td>{{ forum.title }}</td>         
-    </tr>        
-    <tr>
-        <th>Body</th>         
-        <td>{{ forum.body }}</td>         
-    </tr>        
-    <tr>
-        <th>Created</th>        <td>{{ forum.created|date('Y-m-d H:i:s') }}</td>         
-    </tr>        
-    <tr>
-        <th>Updated</th>        <td>{{ forum.updated|date('Y-m-d H:i:s') }}</td>         
-    </tr>  
-</tbody>
-</table>
-</div>        
-</div>      
+        {% for comment in forum.comments %}
+     <div class="span10 well pull-right">
+         <div class="pull-right" >
+         Created  {{ comment.created|date('M d, Y h:i a') }}  / Modified  {{ comment.updated|date('M d, Y h:i a') }} 
+         <a class="btn btn-primary btn-small" href="{{ course_path('forum_edit', { 'id': comment.id }) }}">Edit</a>
+         </div>
+             
+         {{ comment.body|raw }}     
+         <a class="btn btn-primary" href="{{ course_path('comment_new', { 'parentid': comment.id ,'forumid': comment.id }) }}">Add a Comment</a>    
+     </div>
+{% endfor %}
+ </div>       
 {% endblock %}

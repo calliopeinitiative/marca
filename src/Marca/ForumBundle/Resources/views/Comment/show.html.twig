@@ -6,12 +6,12 @@
 
 <div class="span2">
 <a class="btn btn-info" href="{{ course_path('comment') }}">List</a>
-<a class="btn btn-primary" href="{{ course_path('comment_edit', { 'id': entity.id }) }}">Edit</a>
+<a class="btn btn-primary" href="{{ course_path('comment_edit', { 'id': comment.id }) }}">Edit</a>
  
 </div>       
   
 <div class="span1">        
-<form action="{{ course_path('comment_delete', { 'id': entity.id }) }}" method="post">
+<form action="{{ course_path('comment_delete', { 'id': comment.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>
@@ -25,21 +25,21 @@
 <tbody>        
     <tr>
         <th>Id</th>         
-        <td>{{ entity.id }}</td>         
+        <td>{{ comment.id }}</td>         
     </tr>        
     <tr>
         <th>Parent</th>         
-        <td>{{ entity.parent }}</td>         
+        <td>{{ comment.parent }}</td>         
     </tr>        
     <tr>
         <th>Body</th>         
-        <td>{{ entity.body }}</td>         
+        <td>{{ comment.body }}</td>         
     </tr>        
     <tr>
-        <th>Created</th>        <td>{{ entity.created|date('Y-m-d H:i:s') }}</td>         
+        <th>Created</th>        <td>{{ comment.created|date('Y-m-d H:i:s') }}</td>         
     </tr>        
     <tr>
-        <th>Updated</th>        <td>{{ entity.updated|date('Y-m-d H:i:s') }}</td>         
+        <th>Updated</th>        <td>{{ comment.updated|date('Y-m-d H:i:s') }}</td>         
     </tr>  
 </tbody>
 </table>
