@@ -3,30 +3,29 @@
 {% extends 'MarcaForumBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span10" >
-    <div class="row">        
-        <div class="page-header" >
-            <h3>{{ forum.title }}</h3>
-        </div>
-    <div class="pull-right" >
+<div class="span10 well" >     
+      <div class="page-header" >
+          <h3>{{ forum.title }}</h3>
          Created  {{ forum.created|date('M d, Y h:i a') }}  / Modified  {{ forum.updated|date('M d, Y h:i a') }} 
-         <a class="btn btn-primary btn-small" href="{{ course_path('forum_edit', { 'id': forum.id }) }}">Edit</a>
-    </div>
-    </div>
-     <div class="row">
-         {{ forum.body|raw }}      
-         <a class="btn btn-primary" href="{{ course_path('comment_new', { 'parentid': forum.id ,'forumid': forum.id }) }}">Add a Comment</a>    
-     </div>
-        
-        {% for comment in forum.comments %}
-     <div class="span10 well pull-right">
+         
+         <div class="span9 pad05" >{{ forum.body|raw }}  </div>       
+         <div class="span9 pad05" ><a class="btn btn-primary  btn-mini" href="{{ course_path('comment_new', { 'parentid': forum.id ,'forumid': forum.id }) }}">Comment</a>
+         <a class="btn btn-primary btn-mini" href="{{ course_path('forum_edit', { 'id': forum.id }) }}">Edit</a>
+         </div>   
+      </div>
+
+
+   {% for comment in forum.comments %}
+     <div class="span9 well doc pad05">
+         <div class="pull-left" >{{ comment.user.firstname }} {{ comment.user.lastname }}</div>
          <div class="pull-right" >
-         Created  {{ comment.created|date('M d, Y h:i a') }}  / Modified  {{ comment.updated|date('M d, Y h:i a') }} 
-         <a class="btn btn-primary btn-small" href="{{ course_path('forum_edit', { 'id': comment.id }) }}">Edit</a>
+          Created  {{ comment.created|date('M d, Y h:i a') }}  / Modified  {{ comment.updated|date('M d, Y h:i a') }} 
+         
          </div>
              
-         {{ comment.body|raw }}     
-         <a class="btn btn-primary" href="{{ course_path('comment_new', { 'parentid': comment.id ,'forumid': comment.id }) }}">Add a Comment</a>    
+         <div class="span8 pad05" >{{ comment.body|raw }}</div>    
+         <div class="span8 pad05" ><a class="btn btn-primary btn-mini" href="{{ course_path('comment_new', { 'parentid': comment.id ,'forumid': comment.id }) }}">Comment</a>
+         <a class="btn btn-primary btn-mini" href="{{ course_path('comment_edit', { 'id': comment.id }) }}">Edit</a></div>     
      </div>
 {% endfor %}
  </div>       
