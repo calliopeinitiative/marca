@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Marca\ForumBundle\Entity\Comment;
 use Marca\ForumBundle\Form\CommentType;
 
@@ -16,49 +17,6 @@ use Marca\ForumBundle\Form\CommentType;
  */
 class CommentController extends Controller
 {
-    /**
-     * Lists all Comment entities.
-     *
-     * @Route("/{courseid}", name="comment")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $allowed = array("instructor", "student");
-        $this->restrictAccessTo($allowed);
-        
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $comments = $em->getRepository('MarcaForumBundle:Comment')->findAll();
-
-        return array('comments' => $comments);
-    }
-
-    /**
-     * Finds and displays a Comment entity.
-     *
-     * @Route("/{courseid}/{id}/show", name="comment_show")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $allowed = array("instructor", "student");
-        $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
-
-        $comment = $em->getRepository('MarcaForumBundle:Comment')->find($id);
-
-        if (!$comment) {
-            throw $this->createNotFoundException('Unable to find Comment entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'comment'      => $comment,
-            'delete_form' => $deleteForm->createView(),        );
-    }
 
     /**
      * Displays a form to create a new Comment entity.
@@ -134,12 +92,16 @@ class CommentController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getDoctrine()->getEntityManager();
+        $user = $this->getUser();
 
         $comment = $em->getRepository('MarcaForumBundle:Comment')->find($id);
 
         if (!$comment) {
             throw $this->createNotFoundException('Unable to find Comment entity.');
         }
+        elseif ($user != $comment->getUser()) {
+            throw new AccessDeniedException();
+        }        
 
         $editForm = $this->createForm(new CommentType(), $comment);
         $deleteForm = $this->createDeleteForm($id);

@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Marca\ForumBundle\Entity\Reply;
 use Marca\ForumBundle\Form\ReplyType;
 
@@ -16,43 +17,6 @@ use Marca\ForumBundle\Form\ReplyType;
  */
 class ReplyController extends Controller
 {
-    /**
-     * Lists all Reply entities.
-     *
-     * @Route("/{courseid}", name="reply")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $replies = $em->getRepository('MarcaForumBundle:Reply')->findAll();
-
-        return array('replies' => $replies);
-    }
-
-    /**
-     * Finds and displays a Reply entity.
-     *
-     * @Route("/{courseid}/{id}/show", name="reply_show")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $reply = $em->getRepository('MarcaForumBundle:Reply')->find($id);
-
-        if (!$reply) {
-            throw $this->createNotFoundException('Unable to find Reply entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'reply'      => $reply,
-            'delete_form' => $deleteForm->createView(),        );
-    }
 
     /**
      * Displays a form to create a new Reply entity.
@@ -62,6 +26,9 @@ class ReplyController extends Controller
      */
     public function newAction($commentid)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $reply = new Reply();
         $reply->setBody('<p></p>');
         $form   = $this->createForm(new ReplyType(), $reply);
@@ -121,13 +88,20 @@ class ReplyController extends Controller
      */
     public function editAction($id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getDoctrine()->getEntityManager();
+        $user = $this->getUser();
 
         $reply = $em->getRepository('MarcaForumBundle:Reply')->find($id);
 
         if (!$reply) {
             throw $this->createNotFoundException('Unable to find Reply entity.');
         }
+        elseif ($user != $reply->getUser()) {
+            throw new AccessDeniedException();
+        }  
 
         $editForm = $this->createForm(new ReplyType(), $reply);
         $deleteForm = $this->createDeleteForm($id);
@@ -148,6 +122,9 @@ class ReplyController extends Controller
      */
     public function updateAction($id, $courseid)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getDoctrine()->getEntityManager();
 
         $reply = $em->getRepository('MarcaForumBundle:Reply')->find($id);
@@ -185,6 +162,9 @@ class ReplyController extends Controller
      */
     public function deleteAction($id)
     {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
