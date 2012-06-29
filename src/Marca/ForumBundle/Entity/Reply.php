@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo; 
 
 /**
- * Marca\ForumBundle\Entity\Comment
+ * Marca\ForumBundle\Entity\Reply
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Marca\ForumBundle\Entity\CommentRepository")
+ * @ORM\Entity(repositoryClass="Marca\ForumBundle\Entity\ReplyRepository")
  */
-class Comment
+class Reply
 {
     /**
      * @var integer $id
@@ -27,18 +27,13 @@ class Comment
      *
      * @ORM\Column(name="body", type="text")
      */
-    private $body;  
+    private $body;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\ForumBundle\Entity\Forum", inversedBy="comments")
+    * @ORM\ManyToOne(targetEntity="Marca\ForumBundle\Entity\Comment", inversedBy="replies")
     */
-    protected $forum;  
-    
-    /**
-    * @ORM\OneToMany(targetEntity="Marca\ForumBundle\Entity\Reply", mappedBy="comment")
-    */
-    protected $replies;     
-    
+    protected $comment;    
+
     /**
     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")
     */
@@ -56,7 +51,7 @@ class Comment
     * @Gedmo\Timestampable(on="update")
     */
     protected $updated;
-
+    
     /**
      * Get id
      *
@@ -127,6 +122,28 @@ class Comment
         return $this->updated;
     }
 
+
+
+    /**
+     * Set comment
+     *
+     * @param Marca\ForumBundle\Entity\Comment $comment
+     */
+    public function setComment(\Marca\ForumBundle\Entity\Comment $comment)
+    {
+        $this->comment = $comment;
+    }
+
+    /**
+     * Get comment
+     *
+     * @return Marca\ForumBundle\Entity\Comment 
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
     /**
      * Set user
      *
@@ -145,50 +162,5 @@ class Comment
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * Set forum
-     *
-     * @param Marca\ForumBundle\Entity\Forum $forum
-     */
-    public function setForum(\Marca\ForumBundle\Entity\Forum $forum)
-    {
-        $this->forum = $forum;
-    }
-
-    /**
-     * Get forum
-     *
-     * @return Marca\ForumBundle\Entity\Forum 
-     */
-    public function getForum()
-    {
-        return $this->forum;
-    }
-
-    public function __construct()
-    {
-        $this->replies = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add replies
-     *
-     * @param Marca\ForumBundle\Entity\Reply $replies
-     */
-    public function addReply(\Marca\ForumBundle\Entity\Reply $replies)
-    {
-        $this->replies[] = $replies;
-    }
-
-    /**
-     * Get replies
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getReplies()
-    {
-        return $this->replies;
     }
 }

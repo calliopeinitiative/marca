@@ -72,7 +72,7 @@ class CommentController extends Controller
         $this->restrictAccessTo($allowed);
         
         $comment = new Comment();
-        $comment->setParent($parentid);
+
         $comment->setBody('<p></p>');
         
         $form   = $this->createForm(new CommentType(), $comment);
@@ -98,11 +98,10 @@ class CommentController extends Controller
         
         $em = $this->getEm();
         $forum = $em->getRepository('MarcaForumBundle:Forum')->find($forumid);
-        
-        $user = $this->getUser();
         $comment  = new Comment();
+        $user = $this->getUser();     
         $comment->setUser($user);
-        $comment->setForum($forum);
+        $comment->setForum($forum);     
         
         $request = $this->getRequest();
         $form    = $this->createForm(new CommentType(), $comment);
@@ -113,7 +112,7 @@ class CommentController extends Controller
             $em->persist($comment);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('comment_show', array('courseid' => $courseid,'id' => $comment->getId())));
+            return $this->redirect($this->generateUrl('forum_show', array('courseid' => $courseid,'id' => $forumid)));
             
         }
 
@@ -183,7 +182,7 @@ class CommentController extends Controller
             $em->persist($comment);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('comment_show', array('courseid' => $courseid,'id' => $id)));
+            return $this->redirect($this->generateUrl('forum_show', array('courseid' => $courseid,'id' => $comment->getForum()->getId(),)));
         }
 
         return array(
