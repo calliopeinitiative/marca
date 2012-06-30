@@ -1,0 +1,24 @@
+{# Marca/CalendarBundle/Resources/views/Calendar/index.html.twig #}
+
+{% extends 'MarcaCalendarBundle::layout.html.twig' %}
+
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/fullcalendar.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/fullcalendar.css') }}">
+{% endblock %}
+
+{% block content %}
+<script language="javascript">
+$(document).ready(function() {
+    $('#calendar').fullCalendar({
+
+    })
+});
+</script>
+<div class="span10">
+        <div id='calendar'></div>
+</div>
+{% endblock %}

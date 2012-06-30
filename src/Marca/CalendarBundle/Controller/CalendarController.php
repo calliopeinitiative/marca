@@ -33,6 +33,25 @@ class CalendarController extends Controller
 
         return array('calendar' => $calendar);
     }
+    
+    
+    /**
+     * Lists all Calendar entities.
+     *
+     * @Route("/{courseid}/display", name="calendar_display")
+     * @Template()
+     */
+    public function displayAction()
+    {
+        $allowed = array("instructor", "student");
+        $this->restrictAccessTo($allowed);
+        
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findAll();
+
+        return array('calendar' => $calendar);
+    }    
 
     /**
      * Finds and displays a Calendar entity.
