@@ -50,13 +50,11 @@ class Controller extends SymfonyController
         $user = $this->getUser();
         $rollentry = $this->getEm()->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
         if(!$rollentry){
-            return "none";
+            return array("none");
         }
-        if($rollentry->getRole() === 1){
-            return "instructor";
-        }
-        if($rollentry->getRole() === 0){
-            return "student";
+        else{
+            $roles = $rollentry->getRole();
+            return $roles;
         }
     }
     /*
@@ -67,9 +65,9 @@ class Controller extends SymfonyController
      */
     public function restrictAccessTo($allowedArray){
         //grab our current user's role in our current course
-        $currentUserRole = $this->getCourseRole();
+        $currentUserRoles = $this->getCourseRole();
         //test if user role is not in the array of allowed roles
-        if(!in_array($currentUserRole, $allowedArray)){
+        if(!array_intersect($currentUserRoles, $allowedArray)){
             throw new AccessDeniedException();
         } else {
             return true;

@@ -16,8 +16,8 @@ class CourseRepository extends EntityRepository
     {
        $lastname == $lastname.'%';
         return $this->getEntityManager()
-            ->createQuery('SELECT u.lastname,u.firstname,c.name,c.time,c.id from MarcaCourseBundle:Roll r JOIN r.user u JOIN r.course c
-                WHERE r.role=1 AND u.lastname LIKE ?1 ORDER BY c.name')->setParameter('1',$lastname)->getResult();
+            ->createQuery("SELECT u.lastname,u.firstname,c.name,c.time,c.id from MarcaCourseBundle:Roll r JOIN r.user u JOIN r.course c
+                WHERE r.role LIKE '%instructor%' AND u.lastname LIKE ?1 ORDER BY c.name")->setParameter('1',$lastname)->getResult();
     }
    
     public function findCoursesByUserId($userid)

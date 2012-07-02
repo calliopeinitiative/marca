@@ -125,7 +125,7 @@ class CourseController extends Controller
         $form->bindRequest($request);
         
         $roll = new Roll();
-        $roll->setRole(1);
+        $roll->setRole("instructor");
         $roll->setUser($user);
         $roll->setStatus(1);
         $roll->setCourse($course);

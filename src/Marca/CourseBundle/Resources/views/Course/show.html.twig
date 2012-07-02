@@ -136,7 +136,7 @@
     <h2>Roll</h2>
     {% for roll in roll %}
     <ul class="unstyled">      
-        <li>{{ roll.lastname }}, {{ roll.firstname }} {% if roll.role == 1 %}**{% endif %} <a class="btn btn-mini btn-primary" href="{{ path('roll_edit', { 'id': roll.id,'courseid':course.id, }) }}">Edit</a></li>         
+        <li>{{ roll.lastname }}, {{ roll.firstname }} {% if "instructor" in roll.role %}**{% endif %} {% if "pending_student" in roll.role%} PENDING <a class="btn btn-mini btn-primary" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>{% endif %}<a class="btn btn-mini btn-primary" href="{{ path('roll_edit', { 'id': roll.id,'courseid':course.id, }) }}">Edit</a></li>         
     </ul> 
     {% endfor %}    
 </div>

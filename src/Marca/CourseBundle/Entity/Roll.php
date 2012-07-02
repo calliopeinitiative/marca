@@ -29,9 +29,9 @@ class Roll
     /**
 * @var integer $role
 *
-* @ORM\Column(name="role", type="integer")
+* @ORM\Column(name="role", type="array")
 */
-    private $role = 0;
+    private $role = array();
 
     /**
 * @var integer $status
@@ -64,17 +64,26 @@ class Roll
     /**
 * Set role
 *
-* @param integer $role
+* @param string $role
 */
     public function setRole($role)
     {
-        $this->role = $role;
+        $this->role[] = $role;
     }
-
+    
+    /**
+     *Remove Role
+     * @param string $role 
+     */
+    public function removeRole($role)
+    {
+        $this->role = array_diff($this->role, array($role));
+    }
+    
     /**
 * Get role
 *
-* @return integer
+* @return array
 */
     public function getRole()
     {

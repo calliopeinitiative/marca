@@ -40,6 +40,7 @@ class RollRepository extends EntityRepository
         $roll  = new Roll();
         $roll->setCourse($course);
         $roll->setStatus('1');
+        $roll->setRole("pending_student");
         $roll->setUser($user);
         $em->persist($roll);
         $em->flush();            

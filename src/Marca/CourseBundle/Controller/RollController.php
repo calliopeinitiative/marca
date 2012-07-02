@@ -199,4 +199,24 @@ class RollController extends Controller
             ->getForm()
         ;
     }
+    
+    /**
+     *Approves a pending student 
+     * @Route("/{courseid}/{id}/approve_pending" , name="roll_approve")
+     *
+     */
+     public function approveAction($id, $courseid)
+     {
+         $em = $this->getEm();
+         $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
+         //remove pending student role
+         $roll->removeRole("pending_student");
+         //add student role
+         $roll->setRole("student");
+         $em->persist($roll);
+         $em->flush();
+         return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
+         
+     }
+    
 }
