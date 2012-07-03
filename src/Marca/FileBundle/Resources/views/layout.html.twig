@@ -4,14 +4,8 @@
 {% if scope is not defined %}{% set scope = 'x' %}{% endif %}
 {% block title %}Marca Projects{% endblock %}
 
-{% block stylesheets %}
-{% stylesheets 
-  'bundles/marcafile/css/*'
-  filter='cssrewrite'
-%}
-<link rel="stylesheet" href="{{ asset_url }}">
-{% endstylesheets %}
-{% endblock %}
+{% block javascripts %}{% endblock %}
+{% block stylesheets %}{% endblock %}
 
 {% block subnav %}
 {%include 'MarcaCourseBundle::subnav.html.twig' %}

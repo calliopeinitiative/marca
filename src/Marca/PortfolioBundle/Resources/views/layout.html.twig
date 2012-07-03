@@ -2,15 +2,9 @@
 
 {% extends '::base.html.twig' %}
 {% block title %}Marca Portfolio{% endblock %}
+
 {% block javascripts %}{% endblock %}
-{% block stylesheets %}
-{% stylesheets 
-  'bundles/marcaportfolio/css/*'
-  filter='cssrewrite'
-%}
-<link rel="stylesheet" href="{{ asset_url }}">
-{% endstylesheets %}
-{% endblock %}
+{% block stylesheets %}{% endblock %}
 
 {% block subnav %}
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
