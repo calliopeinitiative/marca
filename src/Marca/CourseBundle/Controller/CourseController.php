@@ -56,8 +56,6 @@ class CourseController extends Controller
      */
     public function showAction($courseid)
     {
-        $allowed = array("instructor");
-        $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);

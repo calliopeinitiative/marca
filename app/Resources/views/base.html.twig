@@ -21,7 +21,7 @@
         <div class="nav-collapse">
           <ul class="nav">  
             
-            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            {% if is_granted('ROLE_USER') %}
             <li><a class="brand" href="{{ path('user_home') }}" title="Marca Homepage">Marca</a></li>  
             {% block subnav %}{% endblock %} 
             <li> <a class='active' title="Logout" href="{{ path('fos_user_security_logout') }}">Logout</a></li> 
