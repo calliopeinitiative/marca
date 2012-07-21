@@ -52,10 +52,20 @@ class Roll
     protected $user;
     
     /**
-* Get id
-*
-* @return integer
-*/
+     *@ORM\ManyToMany(targetEntity="Marca\CourseBundle\Team", mappedBy = "roll") 
+     */
+    protected $teams;
+    
+    public function __construct(){
+        $this->teams = new ArrayCollection();
+    }
+    
+
+    /** 
+    * Get id
+    *   
+    * @return integer
+    */
     public function getId()
     {
         return $this->id;

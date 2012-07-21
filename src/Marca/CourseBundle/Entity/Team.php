@@ -34,8 +34,17 @@ class Team
      * @ORM\Column(name="description", type="text")
      */
     private $description;
+    
+    /**
+     *@ORM\ManyToMany(targetEntity = "Marca\CourseBundle\Roll", inversedBy="team")
+     *@ORM\JoinTable(name = "teams_rolls") 
+     */
+    protected $rolls;
 
-
+    public function __construct() {
+        $this->rolls = new ArrayCollection();
+    }
+    
     /**
      * Get id
      *
