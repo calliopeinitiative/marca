@@ -26,7 +26,7 @@ class CommentController extends Controller
      */
     public function newAction($forumid,$parentid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $comment = new Comment();
@@ -51,7 +51,7 @@ class CommentController extends Controller
      */
     public function createAction($forumid,$courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -88,7 +88,7 @@ class CommentController extends Controller
      */
     public function editAction($id)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getDoctrine()->getEntityManager();
@@ -122,7 +122,7 @@ class CommentController extends Controller
      */
     public function updateAction($id,$courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getDoctrine()->getEntityManager();
@@ -162,7 +162,7 @@ class CommentController extends Controller
      */
     public function deleteAction($id)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $form = $this->createDeleteForm($id);

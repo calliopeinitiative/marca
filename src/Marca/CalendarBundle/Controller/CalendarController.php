@@ -24,7 +24,7 @@ class CalendarController extends Controller
      */
     public function indexAction()
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getDoctrine()->getEntityManager();
@@ -43,7 +43,7 @@ class CalendarController extends Controller
      */
     public function displayAction()
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getDoctrine()->getEntityManager();
@@ -61,7 +61,7 @@ class CalendarController extends Controller
      */
     public function showAction($id)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getDoctrine()->getEntityManager();
