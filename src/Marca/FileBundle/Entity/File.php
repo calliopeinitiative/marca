@@ -426,4 +426,14 @@ class File
     {
         return $this->portitem;
     }
+    
+    public function isOwner($user)
+    {
+        if($user == $this->user){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

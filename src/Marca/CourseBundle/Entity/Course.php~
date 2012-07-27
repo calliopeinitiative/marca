@@ -719,24 +719,4 @@ class Course
     {
         return $this->portset;
     }
-
-    /**
-     * Add teams
-     *
-     * @param Marca\CourseBundle\Entity\Team $teams
-     */
-    public function addTeam(\Marca\CourseBundle\Entity\Team $teams)
-    {
-        $this->teams[] = $teams;
-    }
-
-    /**
-     * Get teams
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getTeams()
-    {
-        return $this->teams;
-    }
 }

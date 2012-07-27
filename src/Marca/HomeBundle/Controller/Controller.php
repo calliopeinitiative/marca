@@ -8,6 +8,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class Controller extends SymfonyController
 {
+    const ROLE_PENDING=0;
+    const ROLE_STUDENT=1;
+    const ROLE_INSTRUCTOR=2;
+    const ROLE_TA=3;
+    
     /**
      *
      * @return \Marca\UserBundle\Entity\User
@@ -49,11 +54,11 @@ class Controller extends SymfonyController
         $user = $this->getUser();
         $rollentry = $this->getEm()->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
         if(!$rollentry){
-            return array("none");
+            return null;
         }
         else{
-            $roles = $rollentry->getRole();
-            return $roles;
+            $role = $rollentry->getRole();
+            return $role;
         }
     }
     /*
@@ -66,7 +71,7 @@ class Controller extends SymfonyController
         //grab our current user's role in our current course
         $currentUserRoles = $this->getCourseRole();
         //test if user role is not in the array of allowed roles
-        if(!array_intersect($currentUserRoles, $allowed)){
+        if(!in_array($currentUserRoles, $allowed)){
             throw new AccessDeniedException();
         } else {
             return true;

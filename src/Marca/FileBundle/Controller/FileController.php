@@ -29,7 +29,7 @@ class FileController extends Controller
      */
     public function indexAction($courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $sort = 'updated';
@@ -53,7 +53,7 @@ class FileController extends Controller
      */
     public function indexByProjectAction($project, $sort, $scope, $courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -74,7 +74,7 @@ class FileController extends Controller
      */
     public function showAction($id)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -100,7 +100,7 @@ class FileController extends Controller
      */
     public function newAction()
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $file = new File();
@@ -121,7 +121,7 @@ class FileController extends Controller
      */
     public function createAction($courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $file  = new File();
@@ -152,7 +152,7 @@ class FileController extends Controller
      */
     public function editAction($id, $courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         $user = $this->getUser();
         
@@ -189,7 +189,7 @@ class FileController extends Controller
      */
     public function updateAction($id,$courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         $user = $this->getUser();
         
@@ -237,7 +237,7 @@ class FileController extends Controller
      */
     public function deleteAction($id,$courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $form = $this->createDeleteForm($id);
@@ -279,7 +279,7 @@ class FileController extends Controller
      */    
      public function uploadAction($courseid)
      {
-         $allowed = array("instructor", "student");
+         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
          $this->restrictAccessTo($allowed);
         
          $em = $this->getEm();
@@ -317,7 +317,7 @@ class FileController extends Controller
      */     
     public function viewAction($id)
 	{
-             $allowed = array("instructor", "student");
+             $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
              $this->restrictAccessTo($allowed);
         
              $em = $this->getEm();

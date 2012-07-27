@@ -1,7 +1,7 @@
 <?php
 
 namespace Marca\CourseBundle\Entity;
-use Doctrine\Common\Collections\ArrayCollection;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,10 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
 */
 class Roll
 {
-    const ROLE_PENDING=0;
-    const ROLE_STUDENT=1;
-    const ROLE_INSTRUCTOR=2;
-    const ROLE_TA=3;
+    const ROLE_STUDENT=0;
+    const ROLE_INSTRUCTOR=1;
+    const STATUS_PENDING=0;
+    const STATUS_ENROLLED=1;
     
     /**
 * @var integer $id
@@ -29,9 +29,9 @@ class Roll
     /**
 * @var integer $role
 *
-* @ORM\Column(name="role", type="integer")
+* @ORM\Column(name="role", type="array")
 */
-    private $role;
+    private $role = array();
 
     /**
 * @var integer $status
@@ -52,7 +52,7 @@ class Roll
     protected $user;
     
     /**
-     *@ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Team", mappedBy = "roll") 
+     *@ORM\ManyToMany(targetEntity="Marca\CourseBundle\Team", mappedBy = "roll") 
      */
     protected $teams;
     
@@ -74,18 +74,26 @@ class Roll
     /**
 * Set role
 *
-* @param integer $role
+* @param string $role
 */
     public function setRole($role)
     {
-        $this->role = $role;
+        $this->role[] = $role;
     }
     
+    /**
+     *Remove Role
+     * @param string $role 
+     */
+    public function removeRole($role)
+    {
+        $this->role = array_diff($this->role, array($role));
+    }
     
     /**
 * Get role
 *
-* @return integer
+* @return array
 */
     public function getRole()
     {
@@ -171,24 +179,4 @@ class Roll
 
     }
     
-
-    /**
-     * Add teams
-     *
-     * @param Marca\CourseBundle\Team $teams
-     */
-    public function addTeam(\Marca\CourseBundle\Team $team)
-    {
-        $this->teams[] = $team;
-    }
-
-    /**
-     * Get teams
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getTeams()
-    {
-        return $this->teams;
-    }
 }

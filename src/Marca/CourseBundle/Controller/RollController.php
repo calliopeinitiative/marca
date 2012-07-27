@@ -210,9 +210,7 @@ class RollController extends Controller
          $em = $this->getEm();
          $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
          //remove pending student role
-         $roll->removeRole("pending_student");
-         //add student role
-         $roll->setRole("student");
+         $roll->setRole(self::ROLE_STUDENT);
          $em->persist($roll);
          $em->flush();
          return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));

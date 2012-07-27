@@ -62,7 +62,7 @@ class ProjectController extends Controller
      */
     public function newAction($courseid)
     {
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -128,7 +128,7 @@ class ProjectController extends Controller
      */
     public function editAction($id,$courseid)
     {
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         $em = $this->getEm();
 
@@ -218,7 +218,7 @@ class ProjectController extends Controller
      */
     public function deleteAction($courseid, $id)
     {
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         
         $form = $this->createDeleteForm($id);
@@ -261,7 +261,7 @@ class ProjectController extends Controller
      * @Route("/{courseid}/{projectId}/promote", name="project_promote")
      */
     public function promoteAction($projectId){
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         $em = $this->getEm();
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
@@ -286,7 +286,7 @@ class ProjectController extends Controller
      * @Route("/{courseid}/{projectId}/demote", name="project_demote")
      */
     public function demoteAction($projectId){
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         $em = $this->getEm();
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
