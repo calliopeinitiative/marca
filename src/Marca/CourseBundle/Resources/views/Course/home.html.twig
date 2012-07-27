@@ -1,3 +1,4 @@
+{# Marca/CourseBundle/Resources/views/Course/home.html.twig #}
 
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
@@ -5,6 +6,7 @@
 <div class="row">
 <div class="span6 well">
 <h3>Welcome to {{ course.name }}</h3>
+<h4>{{ course.user.firstname }} {{ course.user.lastname }}</h4>
 </div>
 </div>   
 

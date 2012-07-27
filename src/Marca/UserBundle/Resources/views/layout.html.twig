@@ -1,22 +1,13 @@
+{# Marca/UserBundle/Resources/views/layout.html.twig #}
+
 {% extends '::base.html.twig' %}
 {% block title %}Marca Profile{% endblock %}
 
-{% block stylesheets %}
-{% stylesheets 
-  'bundles/marcauser/css/*'
-  filter='cssrewrite'
-%}
-<link rel="stylesheet" href="{{ asset_url }}">
-{% endstylesheets %}
-{% endblock %}
+{% block javascripts %}{% endblock %}
+{% block stylesheets %}{% endblock %}
 
-{% block body %}
-<div class="row-fluid">
+
 {% block sidebar %}
-<div class="span2">
-    <div class="well sidebar-nav">
-     <ul class="nav nav-list">
-         
        {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
              <li><a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a></li>
        {% endif %}      
@@ -32,15 +23,5 @@
              <li><a href="{{ path('tag') }}">Tag Creation/Editing</a></li>
              <li><a href="{{ path('markup') }}">Markup Creation/Editing</a></li>
              <li><a href="{{ path('portset') }}">Portfolio Set Creation/Editing</a></li>
-       {% endif %}
-     </ul>
-    </div> 
-    </div>        
+       {% endif %}        
 {% endblock %}  
-<div class="span10"> 
-{% block content %}          
-{% endblock %}
-</div>   
-</div>         
-{% endblock %} 
-

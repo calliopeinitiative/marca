@@ -1,0 +1,50 @@
+{# Marca/CalendarBundle/Resources/views/Calendar/new.html.twig #}
+
+{% extends 'MarcaCalendarBundle::layout.html.twig' %}
+
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.17.custom.min.js') }}"></script> 
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-timepicker-addon.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
+{% endblock %}
+
+{% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {height:300, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+toolbar : [
+['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
+'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+],} );
+$( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
+showButtonPanel: true,
+});
+$( '#marca_calendarbundle_calendartype_startTime' ).timepicker({
+showButtonPanel: true,
+ampm: true,
+});
+$( '#marca_calendarbundle_calendartype_endDate' ).datepicker({
+showButtonPanel: true,
+});
+$( '#marca_calendarbundle_calendartype_endTime' ).timepicker({
+showButtonPanel: true,
+ampm: true,
+});
+});
+</script>
+
+<div class="span6 well"> 
+<form action="{{ course_path('calendar_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <div>
+        <button class="btn btn-primary" type="submit">Create</button>
+    </div>
+</form>
+</div>
+{% endblock %}

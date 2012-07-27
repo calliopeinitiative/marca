@@ -47,6 +47,11 @@ class Forum
     */
     protected $course;
     
+     /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="forum")
+     */
+    protected $comments;
+    
     /**
     * @ORM\Column(type="datetime", nullable=true)
     * @Gedmo\Timestampable(on="create")
@@ -190,5 +195,30 @@ class Forum
     public function getCourse()
     {
         return $this->course;
+    }
+    
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add comments
+     *
+     * @param Marca\ForumBundle\Entity\Comment $comments
+     */
+    public function addComment(\Marca\ForumBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+    }
+
+    /**
+     * Get comments
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

@@ -1,36 +1,18 @@
+{# Marca/CourseBundle/Resources/views/layout.html.twig #}
+
 {% extends '::base.html.twig' %}
 {% block title %}Marca Profile{% endblock %}
+
 {% block javascripts %}{% endblock %}
-{% block stylesheets %}
-{% stylesheets 
-  'bundles/marcauser/css/*'
-  filter='cssrewrite'
-%}
-<link rel="stylesheet" href="{{ asset_url }}">
-{% endstylesheets %}
-{% endblock %}
+{% block stylesheets %}{% endblock %}
 
 {% block subnav %}
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
 {% endblock %}
 
-{% block body %}
-<div class="row-fluid">
-{% block sidebar %}
-<div class="span2">
-    <div class="well sidebar-nav">
-     <ul class="nav nav-list">   
+{% block sidebar %}  
        {% if is_granted('ROLE_USER') %}
              <li class="active"><a href="{{ path('user_home') }}">Home</a></li>
-       {% endif %}
-     </ul>
-    </div> 
-    </div>        
-{% endblock %}  
-<div class="span10"> 
-{% block content %}          
-{% endblock %}
-</div>   
-</div>         
+       {% endif %}        
 {% endblock %} 
 

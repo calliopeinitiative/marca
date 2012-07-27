@@ -32,9 +32,9 @@ class DocController extends Controller
         $this->restrictAccessTo($allowed);
         $em = $this->getEm();
 
-        $entities = $em->getRepository('MarcaDocBundle:Doc')->findAll();
+        $docs = $em->getRepository('MarcaDocBundle:Doc')->findAll();
 
-        return array('entities' => $entities);
+        return array('docs' => $docs);
     }
 
     /**

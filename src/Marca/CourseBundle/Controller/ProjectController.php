@@ -26,9 +26,9 @@ class ProjectController extends Controller
     {
         $em = $this->getEm();
 
-        $entities = $em->getRepository('MarcaCourseBundle:Project')->findAll();
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findAll();
 
-        return array('entities' => $entities);
+        return array('projects' => $projects);
     }
 
     /**
@@ -41,16 +41,16 @@ class ProjectController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaCourseBundle:Project')->find($id);
+        $project = $em->getRepository('MarcaCourseBundle:Project')->find($id);
 
-        if (!$entity) {
+        if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'project'      => $project,
             'delete_form' => $deleteForm->createView(),        );
     }
 
@@ -62,7 +62,7 @@ class ProjectController extends Controller
      */
     public function newAction($courseid)
     {
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -128,7 +128,7 @@ class ProjectController extends Controller
      */
     public function editAction($id,$courseid)
     {
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         $em = $this->getEm();
 
@@ -181,7 +181,7 @@ class ProjectController extends Controller
         if ($editForm->isValid()) {
             if ($oldSort < $project->getSortOrder()){
                 foreach($course->getProjects() as $projects){
-                    if ($project->getSortOrder() >= $projects->getSortOrder() && $oldSort < $projects->getSortOrder() && $entity->getName() != $projects->getName()){
+                    if ($project->getSortOrder() >= $projects->getSortOrder() && $oldSort < $projects->getSortOrder() && $project->getName() != $projects->getName()){
                         $currentsort = $projects->getSortOrder();
                         //$project->setName("Changed");
                         $project->setSortOrder($currentsort-1);    
@@ -190,7 +190,7 @@ class ProjectController extends Controller
             }
             elseif ($oldSort > $project->getSortOrder()){
                 foreach($course->getProjects() as $projects){
-                    if ($project->getSortOrder() <= $projects->getSortOrder() && $oldSort > $projects->getSortOrder() && $entity->getName() != $projects->getName()){
+                    if ($project->getSortOrder() <= $projects->getSortOrder() && $oldSort > $projects->getSortOrder() && $project->getName() != $projects->getName()){
                         $currentsort = $projects->getSortOrder();
                         //$project->setName("Changed");
                         $projects->setSortOrder($currentsort+1);    
@@ -218,7 +218,7 @@ class ProjectController extends Controller
      */
     public function deleteAction($courseid, $id)
     {
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         
         $form = $this->createDeleteForm($id);
@@ -261,7 +261,7 @@ class ProjectController extends Controller
      * @Route("/{courseid}/{projectId}/promote", name="project_promote")
      */
     public function promoteAction($projectId){
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         $em = $this->getEm();
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
@@ -286,7 +286,7 @@ class ProjectController extends Controller
      * @Route("/{courseid}/{projectId}/demote", name="project_demote")
      */
     public function demoteAction($projectId){
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         $em = $this->getEm();
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);

@@ -1,50 +1,27 @@
+{# Marca/FileBundle/Resources/views/layout.html.twig #}
+
 {% extends '::base.html.twig' %}
 {% if scope is not defined %}{% set scope = 'x' %}{% endif %}
 {% block title %}Marca Projects{% endblock %}
 
-{% block stylesheets %}
-{% stylesheets 
-  'bundles/marcafile/css/*'
-  filter='cssrewrite'
-%}
-<link rel="stylesheet" href="{{ asset_url }}">
-{% endstylesheets %}
-{% endblock %}
+{% block javascripts %}{% endblock %}
+{% block stylesheets %}{% endblock %}
 
 {% block subnav %}
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
 {% endblock %}
 
-{% block body %}
-<div class="row">
-{% block sidebar %}
-<div class="span2">
-    <div class="well sidebar-nav">
-     <ul class="nav nav-list">   
+{% block sidebar %}  
        {% if is_granted('ROLE_USER') %}
              <li class="{% if scope=='m' %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'sort': 'updated', 'scope': 'mine' }) }}">My Files</a></li>
              <li class="{% if scope=='a' %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'sort': 'updated', 'scope': 'all' }) }}">All Files</a></li>
              <li class=""><a href="{{ course_path('doc_new') }}">Create eDoc</a></li>
              <li class=""><a href="{{ course_path('file_upload') }}">Upload File</a></li>
-             
-
        {% endif %}
-     </ul>
-
-
-        
+            
     <ul class="nav nav-list">
     {% for tag in tags %}
       <li><a href="{{ course_path('file_list', { 'project': 0, 'sort': 'updated', 'scope': 'mine' }) }}"><i class="icon-book"></i> {{ tag.name}}</a></li>
     {% endfor %}
     </ul>  
-    </div>            
-</div> 
-
 {% endblock %}  
-<div class="span10"> 
-{% block content %}          
-{% endblock %}
-</div>   
-</div>         
-{% endblock %} 

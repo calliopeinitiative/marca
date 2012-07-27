@@ -1,3 +1,4 @@
+{# Marca/CourseBundle/Resources/views/Term/show.html.twig #}
 
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
@@ -6,13 +7,13 @@
 <div class="span2">
 <div class="btn-group">
 <a class="btn" href="{{ path('term') }}">List</a>
-<a class="btn" href="{{ path('term_edit', { 'id': entity.id }) }}">Edit</a>
+<a class="btn" href="{{ path('term_edit', { 'id': term.id }) }}">Edit</a>
  
 </div> 
 </div>       
   
 <div class="span1">        
-<form action="{{ path('term_delete', { 'id': entity.id }) }}" method="post">
+<form action="{{ path('term_delete', { 'id': term.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>
@@ -26,19 +27,19 @@
 <tbody>        
     <tr>
         <th>Id</th>         
-        <td>{{ entity.id }}</td>         
+        <td>{{ term.id }}</td>         
     </tr>        
     <tr>
         <th>Term</th>         
-        <td>{{ entity.term }}</td>         
+        <td>{{ term.term }}</td>         
     </tr>        
     <tr>
         <th>Termname</th>         
-        <td>{{ entity.termName }}</td>         
+        <td>{{ term.termName }}</td>         
     </tr>        
     <tr>
         <th>Status</th>         
-        <td>{{ entity.status }}</td>         
+        <td>{{ term.status }}</td>         
     </tr>  
 </tbody>
 </table>

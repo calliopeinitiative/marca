@@ -8,6 +8,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class Controller extends SymfonyController
 {
+    const ROLE_PENDING=0;
+    const ROLE_STUDENT=1;
+    const ROLE_INSTRUCTOR=2;
+    const ROLE_TA=3;
+    
     /**
      *
      * @return \Marca\UserBundle\Entity\User
@@ -45,18 +50,15 @@ class Controller extends SymfonyController
      */
     public function getCourseRole(){
         $request = $this->getRequest();
-        $courseid = $request->attributes->get('courseid');
-        $course = $this->getEm()->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $course = $this->getCourse();
         $user = $this->getUser();
         $rollentry = $this->getEm()->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
         if(!$rollentry){
-            return "none";
+            return null;
         }
-        if($rollentry->getRole() === 1){
-            return "instructor";
-        }
-        if($rollentry->getRole() === 0){
-            return "student";
+        else{
+            $role = $rollentry->getRole();
+            return $role;
         }
     }
     /*
@@ -65,11 +67,11 @@ class Controller extends SymfonyController
      * if so, returns true
      * thanks to Wyatt Peterson for design help
      */
-    public function restrictAccessTo($allowedArray){
+    public function restrictAccessTo($allowed){
         //grab our current user's role in our current course
-        $currentUserRole = $this->getCourseRole();
+        $currentUserRoles = $this->getCourseRole();
         //test if user role is not in the array of allowed roles
-        if(!in_array($currentUserRole, $allowedArray)){
+        if(!in_array($currentUserRoles, $allowed)){
             throw new AccessDeniedException();
         } else {
             return true;

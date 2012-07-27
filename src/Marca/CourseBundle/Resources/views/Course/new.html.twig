@@ -1,3 +1,4 @@
+{# Marca/CourseBundle/Resources/views/Course/new.html.twig #}
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 {% block javascripts %}
@@ -38,11 +39,12 @@ ampm: true,
             {{ form_row (form.forum) }} 
             {{ form_row (form.journal) }} 
             {{ form_row (form.portfolio) }}
-            {{ form_row (edit_form.portset) }} 
+            {{ form_row (form.portset) }} 
             {{ form_row (form.zine) }} 
             {{ form_row (form.tagset) }}
  
-      {{ form_rest(form) }}       
+      {{ form_rest(form) }} 
+      <button class="btn btn-primary" type="submit">Create</button><a style="margin-left: 1em;" class="btn" href="{{ path('course') }}">Cancel</a>   
 </form>     
 </div>
 

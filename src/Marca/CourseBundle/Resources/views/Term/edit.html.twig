@@ -1,3 +1,4 @@
+{# Marca/CourseBundle/Resources/views/Term/edit.html.twig #}
 
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
@@ -11,7 +12,7 @@
 </div>       
   
 <div class="span1">        
-<form action="{{ path('term_delete', { 'id': entity.id }) }}" method="post">
+<form action="{{ path('term_delete', { 'id': term.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>
@@ -19,7 +20,7 @@
   
 </div>
 <div class="row-fluid">    
-<form action="{{ path('term_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+<form action="{{ path('term_update', { 'id': term.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}
     <div>
         <button class="btn" type="submit">Edit</button>

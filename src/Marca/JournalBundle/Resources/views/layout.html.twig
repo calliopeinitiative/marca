@@ -1,36 +1,19 @@
+{# Marca/JournalBundle/Resources/views/layout.html.twig #}
+
 {% extends '::base.html.twig' %}
 {% block title %}Marca Journal{% endblock %}
 
-{% block stylesheets %}
-{% stylesheets 
-  'bundles/marcauser/css/*'
-  filter='cssrewrite'
-%}
-<link rel="stylesheet" href="{{ asset_url }}">
-{% endstylesheets %}
-{% endblock %}
+{% block javascripts %}{% endblock %}
+{% block stylesheets %}{% endblock %}
 
 {% block subnav %}
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
 {% endblock %}
 
-{% block body %}
-<div class="row-fluid">
+
 {% block sidebar %}
-<div class="span2">
-    <div class="well sidebar-nav">
-     <ul class="nav nav-list">   
        {% if is_granted('ROLE_USER') %}
              <li><a href="{{ course_path('journal', { 'set': 0 }) }}">List Recent Entries</a></li>
              <li><a href="{{ course_path('journal_new') }}">New Journal Entry</a></li>
-       {% endif %}
-     </ul>
-    </div> 
-    </div>        
+       {% endif %}      
 {% endblock %}  
-<div class="span10"> 
-{% block content %}          
-{% endblock %}
-</div>   
-</div>         
-{% endblock %} 

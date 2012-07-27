@@ -38,8 +38,7 @@ class DefaultController extends Controller
     public function showAction()
     {
         $em = $this->getEm();
-        $id = $this->getUser()->getId();
-        $user = $em->getRepository('MarcaUserBundle:User')->find($id);
+        $user = $this->getUser();
         if (!$user) {
             throw $this->createNotFoundException('Unable to find Profile entity.');
         }
@@ -57,7 +56,7 @@ class DefaultController extends Controller
     {
         $em = $this->getEm();
 
-        $user = $em->getRepository('MarcaUserBundle:User')->find($id);
+        $user = $this->getUser();
 
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -82,7 +81,7 @@ class DefaultController extends Controller
     {
         $em = $this->getEm();
 
-        $user = $em->getRepository('MarcaUserBundle:User')->find($id);
+        $user = $this->getUser();
 
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User entity.');

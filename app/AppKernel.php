@@ -18,7 +18,6 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new Symfony\Bundle\DoctrineFixturesBundle\DoctrineFixturesBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Symfony\Bundle\DoctrineMigrationsBundle\DoctrineMigrationsBundle(),
             new Marca\HomeBundle\MarcaHomeBundle(),
@@ -31,6 +30,7 @@ class AppKernel extends Kernel
             new Marca\DocBundle\MarcaDocBundle(),
             new Marca\TagBundle\MarcaTagBundle(),
             new Marca\PortfolioBundle\MarcaPortfolioBundle(),
+            new Marca\CalendarBundle\MarcaCalendarBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

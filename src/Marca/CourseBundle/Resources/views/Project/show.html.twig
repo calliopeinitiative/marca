@@ -1,3 +1,4 @@
+{# Marca/CourseBundle/Resources/views/Project/show.html.twig #}
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
@@ -6,13 +7,13 @@
 <div class="span2">
 <div class="btn-group">
 <a class="btn" href="{{ path('project') }}">List</a>
-<a class="btn" href="{{ path('project_edit', { 'id': entity.id }) }}">Edit</a>
+<a class="btn" href="{{ path('project_edit', { 'id': project.id }) }}">Edit</a>
  
 </div> 
 </div>       
   
 <div class="span1">        
-<form action="{{ path('project_delete', { 'id': entity.id }) }}" method="post">
+<form action="{{ path('project_delete', { 'id': project.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>
@@ -26,23 +27,23 @@
 <tbody>        
     <tr>
         <th>Id</th>         
-        <td>{{ entity.id }}</td>         
+        <td>{{ project.id }}</td>         
     </tr>        
     <tr>
         <th>Name</th>         
-        <td>{{ entity.name }}</td>         
+        <td>{{ project.name }}</td>         
     </tr>        
     <tr>
         <th>Userid</th>         
-        <td>{{ entity.userid }}</td>         
+        <td>{{ project.userid }}</td>         
     </tr>        
     <tr>
         <th>Sortorder</th>         
-        <td>{{ entity.sortOrder }}</td>         
+        <td>{{ project.sortOrder }}</td>         
     </tr>        
     <tr>
         <th>Resource</th>         
-        <td>{{ entity.resource }}</td>         
+        <td>{{ project.resource }}</td>         
     </tr>  
 </tbody>
 </table>

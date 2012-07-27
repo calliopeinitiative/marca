@@ -1,3 +1,4 @@
+{# Marca/HomeBundle/Resources/views/Page/show.html.twig #}
 
 {% extends 'MarcaHomeBundle::layout.html.twig' %}
 
@@ -6,11 +7,11 @@
 <div class="span2">
 <div class="btn-group">
 <a class="btn" href="{{ path('page') }}">List</a>
-<a class="btn" href="{{ path('page_edit', { 'id': entity.id }) }}">Edit</a> 
+<a class="btn" href="{{ path('page_edit', { 'id': page.id }) }}">Edit</a> 
 </div> 
 </div>         
 </div>
         
-{{ entity.body|raw }}
+{{ page.body|raw }}
       
 {% endblock %}

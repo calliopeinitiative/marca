@@ -1,20 +1,8 @@
+{# Marca/HomeBundle/Resources/views/layout.html.twig #}
+
 {% extends '::base.html.twig' %}
 {% block title %}Marca Home{% endblock %}
 
-{% block stylesheets %}
-{% stylesheets 
-  'bundles/marcahome/css/*'
-  filter='cssrewrite'
-%}
-<link rel="stylesheet" href="{{ asset_url }}">
-{% endstylesheets %}
-{% endblock %}
+{% block javascripts %}{% endblock %}
+{% block stylesheets %}{% endblock %}
 
-{% block body %}
-<div class="row">
-<div class="span12"> 
-{% block content %}          
-{% endblock %}
-</div>   
-</div>         
-{% endblock %} 

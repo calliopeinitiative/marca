@@ -26,9 +26,9 @@ class TagsetController extends Controller
     {
         $em = $this->getEm();
 
-        $entities = $em->getRepository('MarcaTagBundle:Tagset')->findAll();
+        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findAll();
 
-        return array('entities' => $entities);
+        return array('tagsets' => $tagsets);
     }
 
     /**
@@ -93,7 +93,7 @@ class TagsetController extends Controller
             $em->persist($tagset);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tagset_show', array('id' => $tagset->getId())));
+            return $this->redirect($this->generateUrl('tagset', array('id' => $tagset->getId())));
             
         }
 

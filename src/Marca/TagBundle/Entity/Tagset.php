@@ -108,7 +108,7 @@ class Tagset
      *
      * @param Marca\TagBundle\Entity\Course $course
      */
-    public function addCourse(\Marca\TagBundle\Entity\Course $course)
+    public function addCourse(\Marca\CourseBundle\Entity\Course $course)
     {
         $this->course[] = $course;
     }

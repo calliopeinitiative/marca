@@ -60,15 +60,15 @@ class EnrollController extends Controller
     }     
     
       /**
-     * @Route("/{course}/enroll", name="enroll_enroll")
+     * @Route("/{courseid}/enroll", name="enroll_enroll")
      * @Template()
      */
-    public function enrollCourseAction($course)
+    public function enrollCourseAction($courseid)
     {
        $user = $this->getUser();
+       $course = $this->getCourse();
        $em = $this->getEm(); 
-       $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($course);
-       $em->getRepository('MarcaCourseBundle:Roll')->enroll($course,$user);
+       $em->getRepository('MarcaCourseBundle:Roll')->enroll($course, $user);
        return $this->redirect($this->generateUrl('user_home'));
     }  
     

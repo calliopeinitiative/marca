@@ -1,3 +1,4 @@
+{# Marca/CourseBundle/Resources/views/Term/index.html.twig #}
 
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
@@ -21,13 +22,13 @@
     </tr>
 </thead>    
 <tbody>
-    {% for entity in entities %}
+    {% for term in terms %}
     <tr>        
-        <td><a href="{{ path('term_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>        
-        <td>{{ entity.term }}</td>        
-        <td>{{ entity.termName }}</td>        
-        <td>{{ entity.status }}</td>        
-        <td><div class="btn-group"><a class="btn" href="{{ path('term_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ path('term_edit', { 'id': entity.id }) }}">edit</a></div>
+        <td><a href="{{ path('term_show', { 'id': term.id }) }}">{{ term.id }}</a></td>        
+        <td>{{ term.term }}</td>        
+        <td>{{ term.termName }}</td>        
+        <td>{{ term.status }}</td>        
+        <td><div class="btn-group"><a class="btn" href="{{ path('term_show', { 'id': term.id }) }}">show</a><a class="btn" href="{{ path('term_edit', { 'id': term.id }) }}">edit</a></div>
 
 </td>       
     </tr>

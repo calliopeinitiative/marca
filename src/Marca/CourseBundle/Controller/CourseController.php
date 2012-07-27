@@ -34,6 +34,19 @@ class CourseController extends Controller
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUser($user);
         return array('courses' => $courses);
     }
+    
+    /**
+     * Landing page once in a course
+     * @Route("/{courseid}/home", name="course_home")
+     * @Template()
+     */
+    public function homeAction($courseid)
+    {
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($courseid);
+        
+        return array('course' => $course);
+    }    
 
     /**
      * Finds and displays a Course entity.
@@ -43,15 +56,13 @@ class CourseController extends Controller
      */
     public function showAction($courseid)
     {
-        $allowed = array("instructor");
-        $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $projects = $course->getProjectsInSortOrder();
         $tagsets = $course->getTagset();
         $portset = $course->getPortset();
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $roll = $course->getRoll();
 
         
         if (!$course) {
@@ -85,6 +96,7 @@ class CourseController extends Controller
         $course = new Course();
         $course->setUser($user);
         
+        
         $form   = $this->createForm(new CourseType($options), $course);
 
         return array(
@@ -111,7 +123,7 @@ class CourseController extends Controller
         $form->bindRequest($request);
         
         $roll = new Roll();
-        $roll->setRole(1);
+        $roll->setRole(Roll::ROLE_INSTRUCTOR);
         $roll->setUser($user);
         $roll->setStatus(1);
         $roll->setCourse($course);
@@ -153,7 +165,7 @@ class CourseController extends Controller
         }
 
         return array(
-            'entity' => $entity,
+            'course' => $course,
             'form'   => $form->createView()
         );
     }
@@ -201,13 +213,13 @@ class CourseController extends Controller
     {
         $em = $this->getEm();
         $options = array('courseid' => $id);
-        $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
 
-        if (!$entity) {
+        if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
-        $editForm = $this->createForm(new CourseType($options), $entity);
+        $editForm = $this->createForm(new CourseType($options), $course);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -215,14 +227,14 @@ class CourseController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($course);
             $em->flush();
 
             return $this->redirect($this->generateUrl('course_show', array('courseid' => $id)));
         }
 
         return array(
-            'entity'      => $entity,
+            'course'      => $course,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -237,10 +249,10 @@ class CourseController extends Controller
     public function deleteAction($id)
     {
         $em = $this->getEm();
-        $entity = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
         $user = $this->getUser();
         //restrict access to the delete function to the course owner
-        if($user != $entity->getUser()){
+        if($user != $course->getUser()){
             throw new AccessDeniedException();
         }
         $form = $this->createDeleteForm($id);
@@ -252,11 +264,11 @@ class CourseController extends Controller
         if ($form->isValid()) {
             
 
-            if (!$entity) {
+            if (!$course) {
                 throw $this->createNotFoundException('Unable to find Course entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($course);
             $em->flush();
         }
 

@@ -26,9 +26,9 @@ class TermController extends Controller
     {
         $em = $this->getEm();
 
-        $entities = $em->getRepository('MarcaCourseBundle:Term')->findAll();
+        $terms = $em->getRepository('MarcaCourseBundle:Term')->findAll();
 
-        return array('entities' => $entities);
+        return array('terms' => $terms);
     }
 
     /**
@@ -41,16 +41,16 @@ class TermController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaCourseBundle:Term')->find($id);
+        $term = $em->getRepository('MarcaCourseBundle:Term')->find($id);
 
-        if (!$entity) {
+        if (!$term) {
             throw $this->createNotFoundException('Unable to find Term entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'term'      => $term,
             'delete_form' => $deleteForm->createView(),        );
     }
 
@@ -62,11 +62,11 @@ class TermController extends Controller
      */
     public function newAction()
     {
-        $entity = new Term();
-        $form   = $this->createForm(new TermType(), $entity);
+        $term = new Term();
+        $form   = $this->createForm(new TermType(), $term);
 
         return array(
-            'entity' => $entity,
+            'term' => $term,
             'form'   => $form->createView()
         );
     }
@@ -80,22 +80,22 @@ class TermController extends Controller
      */
     public function createAction()
     {
-        $entity  = new Term();
+        $term  = new Term();
         $request = $this->getRequest();
-        $form    = $this->createForm(new TermType(), $entity);
+        $form    = $this->createForm(new TermType(), $term);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $em->persist($entity);
+            $em->persist($term);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('term_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('term_show', array('id' => $term->getId())));
             
         }
 
         return array(
-            'entity' => $entity,
+            'term' => $term,
             'form'   => $form->createView()
         );
     }
@@ -110,17 +110,17 @@ class TermController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaCourseBundle:Term')->find($id);
+        $term = $em->getRepository('MarcaCourseBundle:Term')->find($id);
 
-        if (!$entity) {
+        if (!$term) {
             throw $this->createNotFoundException('Unable to find Term entity.');
         }
 
-        $editForm = $this->createForm(new TermType(), $entity);
+        $editForm = $this->createForm(new TermType(), $term);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'term'      => $term,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -137,13 +137,13 @@ class TermController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaCourseBundle:Term')->find($id);
+        $term = $em->getRepository('MarcaCourseBundle:Term')->find($id);
 
-        if (!$entity) {
+        if (!$term) {
             throw $this->createNotFoundException('Unable to find Term entity.');
         }
 
-        $editForm   = $this->createForm(new TermType(), $entity);
+        $editForm   = $this->createForm(new TermType(), $term);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -151,14 +151,14 @@ class TermController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($term);
             $em->flush();
 
             return $this->redirect($this->generateUrl('term_edit', array('id' => $id)));
         }
 
         return array(
-            'entity'      => $entity,
+            'term'      => $term,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -179,13 +179,13 @@ class TermController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $entity = $em->getRepository('MarcaCourseBundle:Term')->find($id);
+            $term = $em->getRepository('MarcaCourseBundle:Term')->find($id);
 
-            if (!$entity) {
+            if (!$term) {
                 throw $this->createNotFoundException('Unable to find Term entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($term);
             $em->flush();
         }
 

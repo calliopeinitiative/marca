@@ -16,7 +16,7 @@ class ForumRepository extends EntityRepository
     {  
        $offset = $set * 5;
        return $this->getEntityManager()
-               ->createQuery('SELECT f from MarcaForumBundle:Forum f WHERE f.user = ?1 ORDER BY f.created DESC')
-               ->setParameter('1',$user)->setMaxResults(5)->setFirstResult($offset)->getResult();
+               ->createQuery('SELECT f from MarcaForumBundle:Forum f ORDER BY f.created DESC')
+               ->setMaxResults(5)->setFirstResult($offset)->getResult();
     }
 }

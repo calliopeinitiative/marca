@@ -1,14 +1,10 @@
+{# Marca/DocBundle/Resources/views/layout.html.twig #}
+
 {% extends '::base.html.twig' %}
 {% block title %}Marca Docs{% endblock %}
+
 {% block javascripts %}{% endblock %}
-{% block stylesheets %}
-{% stylesheets 
-  'bundles/marcafile/css/*'
-  filter='cssrewrite'
-%}
-<link rel="stylesheet" href="{{ asset_url }}">
-{% endstylesheets %}
-{% endblock %}
+{% block stylesheets %}{% endblock %}
 
 {% block subnav %}
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
@@ -16,9 +12,6 @@
 
 {% block body %}
 
-    
-{% block sidebar %}   
-{% endblock %}  
 
 
 {% block content %}          

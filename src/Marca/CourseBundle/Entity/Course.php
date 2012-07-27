@@ -160,13 +160,20 @@ class Course
      * @ORM\OneToMany(targetEntity="Roll", mappedBy="course")
      */
     protected $roll;
-
+    
+    /**
+     *@ORM\OneToMany(targetEntity="Team", mappedBy="course") 
+     */
+    protected $teams;
+    
+    
     public function __construct()
     {
         $this->roll = new ArrayCollection();
         $this->tagset = new ArrayCollection();
         $this->projects = new ArrayCollection();
         $this->projectDefault = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     } 
     
    /**
@@ -692,15 +699,6 @@ class Course
         return $project_array;
     }
     
-    public function getOwnerFirstName(){
-        return $this->getUser()->getFirstname();
-    }
-    
-    public function getOwnerLastName(){
-        return $this->getUser()->getLastname();
-    }
-    
-    
 
     /**
      * Set portset
@@ -720,5 +718,25 @@ class Course
     public function getPortset()
     {
         return $this->portset;
+    }
+
+    /**
+     * Add teams
+     *
+     * @param Marca\CourseBundle\Entity\Team $teams
+     */
+    public function addTeam(\Marca\CourseBundle\Entity\Team $teams)
+    {
+        $this->teams[] = $teams;
+    }
+
+    /**
+     * Get teams
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getTeams()
+    {
+        return $this->teams;
     }
 }

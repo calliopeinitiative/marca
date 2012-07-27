@@ -1,0 +1,32 @@
+{# Marca/ForumBundle/Resources/views/Comment/edit.html.twig #}
+
+{% extends 'MarcaForumBundle::layout.html.twig' %}
+
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('#marca_forumbundle_commenttype_body').ckeditor( function() {}, {height:200, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+toolbar : [
+['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
+'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+],} );
+});
+</script>  
+  
+<div class="span10 well"> 
+<form action="{{ course_path('comment_update', { 'id': comment.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_errors(edit_form) }}
+         {{ form_row(edit_form.body) }}
+    {{ form_rest(edit_form) }}
+    <div>
+        <button class="btn btn-primary" type="submit">Update</button>
+    </div>
+</form>
+</div>
+{% endblock %}

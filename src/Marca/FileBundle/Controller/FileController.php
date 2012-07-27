@@ -27,9 +27,9 @@ class FileController extends Controller
      * @Route("/{courseid}", name="file")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $sort = 'updated';
@@ -37,7 +37,6 @@ class FileController extends Controller
         $project = 'recent';
         $em = $this->getEm();
         $user = $this->getUser();
-        $courseid = $this->get('request')->getSession()->get('courseid');
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $sort, $scope, $course);
@@ -52,14 +51,13 @@ class FileController extends Controller
      * @Route("/{courseid}/{project}/{sort}/{scope}/list", name="file_list")
      * @Template("MarcaFileBundle:File:index.html.twig")
      */
-    public function indexByProjectAction($project, $sort, $scope)
+    public function indexByProjectAction($project, $sort, $scope, $courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
         $user = $this->getUser();
-        $courseid = $this->get('request')->getSession()->get('courseid');
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $sort, $scope, $course);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course);
@@ -76,7 +74,7 @@ class FileController extends Controller
      */
     public function showAction($id)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -102,7 +100,7 @@ class FileController extends Controller
      */
     public function newAction()
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $file = new File();
@@ -123,7 +121,7 @@ class FileController extends Controller
      */
     public function createAction($courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $file  = new File();
@@ -152,14 +150,13 @@ class FileController extends Controller
      * @Route("/{courseid}/{id}/edit", name="file_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($id, $courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         $user = $this->getUser();
         
         $em = $this->getEm();
-        $courseid = $this->get('request')->getSession()->get('courseid');
         $options = array('courseid' => $courseid);
 
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
@@ -192,12 +189,11 @@ class FileController extends Controller
      */
     public function updateAction($id,$courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         $user = $this->getUser();
         
         $em = $this->getEm();
-        $courseid = $this->get('request')->getSession()->get('courseid');
         $options = array('courseid' => $courseid);
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
 
@@ -241,7 +237,7 @@ class FileController extends Controller
      */
     public function deleteAction($id,$courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $form = $this->createDeleteForm($id);
@@ -283,7 +279,7 @@ class FileController extends Controller
      */    
      public function uploadAction($courseid)
      {
-         $allowed = array("instructor", "student");
+         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
          $this->restrictAccessTo($allowed);
         
          $em = $this->getEm();
@@ -321,7 +317,7 @@ class FileController extends Controller
      */     
     public function viewAction($id)
 	{
-             $allowed = array("instructor", "student");
+             $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
              $this->restrictAccessTo($allowed);
         
              $em = $this->getEm();
