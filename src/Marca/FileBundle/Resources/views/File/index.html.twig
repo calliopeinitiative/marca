@@ -29,22 +29,20 @@
     {% for file in files %}
     <tr>
         <td>
-            {% if file.docid %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.docid }) }}">{{ file.name }}</a>
+            {% if file.doc %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id }) }}">{{ file.name }}</a>
             {% else %}
             <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="View {{ file.name }} (will open in a new window or tab)" target="_blank">{{ file.name }}</a>
             {% endif %}
             {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
         </td>
         
-        <td>{% if file.lastname %}{{ file.firstname }} {{ file.lastname }}{% endif%}</td>
-        <td>{% if file.project %}<span class="label label-info">{{ file.project }}</span>{% endif%}</td>
-        
-        <td>{% if file.tag %}<span class="label label">{{ file.tag }}</span>{% endif%}</td>
+        <td>{% if file.user.lastname %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif%}</td>
+        <td>{% if file.project.name %}<span class="label label-info">{{ file.project.name }}</span>{% endif%}</td>
+        <td>{% for tag in file.tag %}<span class="label label">{{ tag.name }}</span>{% endfor %}</td>
         <td>{% if file.updated %}{{ file.updated|date('M d Y, g:i a') }}{% endif%}</td>
-        
-        {# note: temp conditional until role permission structure is completed #}
         <td>{% if file.isOwner(app.user.username) %}<a class="" href="{{ course_path('file_edit', { 'id': file.id }) }}">Edit listing</a>{% endif%}</td>
         <td>{% if file.isOwner(app.user.username) and file.access==1 %}<a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>{% endif%}</td>
+        
     </tr>
     
     {% endfor %}

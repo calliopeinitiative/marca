@@ -28,7 +28,7 @@ class DocController extends Controller
      */
     public function indexAction()
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         $em = $this->getEm();
 
@@ -45,7 +45,7 @@ class DocController extends Controller
      */
     public function showAction($id)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -73,7 +73,7 @@ class DocController extends Controller
      */
     public function newAction()
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -102,7 +102,7 @@ class DocController extends Controller
      */
     public function createAction($courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -148,7 +148,7 @@ class DocController extends Controller
      */
     public function editAction($id)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -181,7 +181,7 @@ class DocController extends Controller
      */
     public function updateAction($id,$courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -221,7 +221,7 @@ class DocController extends Controller
      */
     public function deleteAction($id,$courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $form = $this->createDeleteForm($id);
@@ -261,7 +261,7 @@ class DocController extends Controller
      */
     public function autosaveAction()
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $autosave = new Autosave();

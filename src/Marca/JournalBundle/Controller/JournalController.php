@@ -25,7 +25,7 @@ class JournalController extends Controller
      */
     public function indexAction($set)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -46,7 +46,7 @@ class JournalController extends Controller
      */
     public function showAction($id)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -70,7 +70,7 @@ class JournalController extends Controller
      */
     public function newAction()
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $journal = new Journal();
@@ -93,7 +93,7 @@ class JournalController extends Controller
      */
     public function createAction($courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -131,7 +131,7 @@ class JournalController extends Controller
      */
     public function editAction($id)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
 
         $em = $this->getEm();
@@ -165,7 +165,7 @@ class JournalController extends Controller
      */
     public function updateAction($id,$courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -205,7 +205,7 @@ class JournalController extends Controller
      */
     public function deleteAction($id,$courseid)
     {
-        $allowed = array("instructor", "student");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $user = $this->getUser();

@@ -24,6 +24,9 @@ class PortfolioController extends Controller
      */
     public function indexAction($courseid)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
@@ -41,6 +44,9 @@ class PortfolioController extends Controller
      */
     public function showAction($id)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
 
         $portfolios = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
@@ -64,6 +70,9 @@ class PortfolioController extends Controller
      */
     public function newAction($courseid, $fileid)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();
@@ -89,6 +98,9 @@ class PortfolioController extends Controller
      */
     public function editAction($id,$courseid)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $options = array('courseid' => $courseid);
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
@@ -116,6 +128,9 @@ class PortfolioController extends Controller
      */
     public function updateAction($id,$courseid)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $options = array('courseid' => $courseid);
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
@@ -153,6 +168,9 @@ class PortfolioController extends Controller
      */
     public function deleteAction($id)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
