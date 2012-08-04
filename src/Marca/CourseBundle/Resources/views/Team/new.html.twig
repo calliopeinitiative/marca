@@ -1,0 +1,21 @@
+{# Marca/CourseBundle/Resources/views/Team/edit.html.twig #}
+
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="span4 well">
+<h3>Edit Project</h3>   
+<form action="{{ path('create_team', { 'courseid': course.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+    {{ form_errors(edit_form) }}   
+        
+        {{ form_row (edit_form.name) }}      
+        {{ form_row (edit_form.description) }}
+        {{ form_row (edit_form.rolls) }}
+        
+    {{ form_rest(edit_form) }}     
+<button class="btn btn-primary" type="submit">Create Team</button>
+<a class="btn" href="{{ path('team_manage', { 'courseid': course.id }) }}">Cancel</a></td></tr>          
+</form>
+</div>
+{% endblock %}

@@ -171,7 +171,17 @@ class Roll
 
     }
     
-
+    /**Get full name
+     * @return string
+     */
+    public function getfullname()
+    {
+        
+        return $this->getfirstname() . " " . $this->getlastname();
+        
+    }
+    
+    
     /**
      * Add teams
      *
