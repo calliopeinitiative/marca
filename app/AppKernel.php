@@ -31,6 +31,7 @@ class AppKernel extends Kernel
             new Marca\TagBundle\MarcaTagBundle(),
             new Marca\PortfolioBundle\MarcaPortfolioBundle(),
             new Marca\CalendarBundle\MarcaCalendarBundle(),
+            new Marca\NoteBundle\MarcaNoteBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

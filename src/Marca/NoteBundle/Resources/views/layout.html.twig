@@ -1,0 +1,20 @@
+{# Marca/NoteBundle/Resources/views/layout.html.twig #}
+
+{% extends '::base.html.twig' %}
+{% block javascripts %}
+{% javascripts '@MarcaHomeBundle/Resources/public/js/*' 
+'@MarcaNoteBundle/Resources/public/notes.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}
+
+{% block subnav %}
+{%include 'MarcaCourseBundle::subnav.html.twig' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% if is_granted('ROLE_USER') %}
+<li><a href="{{ course_path('new_note') }}">New Note</a></li>
+    {% endif %}
+{% endblock %}
