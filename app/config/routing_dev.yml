@@ -2,10 +2,6 @@ _welcome:
     pattern:  /
     defaults: { _controller: MarcaHomeBundle:Default:index }
 
-_assetic:
-    resource: .
-    type:     assetic
-
 _wdt:
     resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"
     prefix:   /_wdt

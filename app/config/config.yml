@@ -7,16 +7,15 @@ framework:
     #esi:             ~
     translator:      { fallback: %locale% }
     secret:          %secret%
-    charset:         UTF-8
-    router:          { resource: "%kernel.root_dir%/config/routing.yml" }
+    router:          
+      strict_requirements: %kernel.debug%
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
-    session:
-        default_locale: %locale%
-        lifetime:       3600
-        auto_start:     true
+    session: ~
+    default_locale: %locale%  
+    trust_proxy_headers: false
 
 # Twig Configuration
 twig:
@@ -49,8 +48,6 @@ doctrine:
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
-        mappings:
-          StofDoctrineExtensionsBundle: false
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -61,10 +58,7 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     sender_address: %mailer_sender_address%
-
-jms_security_extra:
-    secure_controllers:  true
-    secure_all_services: false
+    spool: { type: memory }
     
 fos_user:
     db_driver: orm
@@ -76,15 +70,11 @@ fos_user:
     from_email:
         address:        %from_email%
         sender_name:    Marca Dev 
-        
+
+# Doctrine extensions    
 stof_doctrine_extensions:
     default_locale: en_US
     orm:
         default:
             timestampable: true
-            sluggable: true
-            
-        
-        
-        
-
+            sluggable: true   
