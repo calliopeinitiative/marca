@@ -138,7 +138,11 @@
     <ul class="unstyled">      
         <li>{{ roll.lastname }}, {{ roll.firstname }} {% if roll.role == 2 %}**{% endif %} {% if roll.role == 0 %} PENDING <a class="btn btn-mini btn-primary" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>{% endif %}<a class="btn btn-mini btn-primary" href="{{ path('roll_edit', { 'id': roll.id,'courseid':course.id, }) }}">Edit</a></li>         
     </ul> 
-    {% endfor %}    
+    {% endfor %}
+    
+    <div class='row'>
+        <div class='span2'><a class="btn btn-small btn-primary" href="{{ path('team_manage', {'courseid': course.id}) }}">Create and edit student teams</a></div>
+    </div>
 </div>
 </div>
         

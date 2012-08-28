@@ -16,5 +16,3 @@ Marca is built with Symfony (http://symfony.com/)
 
 
 
-
-

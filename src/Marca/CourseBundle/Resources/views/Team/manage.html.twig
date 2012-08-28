@@ -1,0 +1,16 @@
+{# Marca/CourseBundle/Resources/views/Team/manage.html.twig #}
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="span11">
+<h2>Teams for {{course.name}}</h2>
+<table class="table table-bordered table-condensed table-striped">
+{% for team in teams %}
+        <tr><th>{{team.name}}</th>
+            <td><a class="btn btn-small btn-primary" href="{{ path('team_edit', { 'id': team.id,'courseid': course.id }) }}">Edit</a></td>
+            </tr>
+{% endfor %}
+</table>
+<a class="btn btn-primary" href="{{ path('new_team', {'courseid': course.id}) }}">New Team</a>
+</div>
+{% endblock %} 
