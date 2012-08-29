@@ -3,15 +3,24 @@
 namespace Marca\TagBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TagsetType extends AbstractType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name')
+            ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes'),'required'  => true,'label'  => 'Shared your tagset', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))   
         ;
+    }
+    
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Marca\TagBundle\Entity\Tagset'
+        ));
     }
 
     public function getName()

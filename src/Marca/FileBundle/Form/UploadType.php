@@ -3,7 +3,8 @@
 namespace Marca\FileBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UploadType extends AbstractType
 {
@@ -14,7 +15,7 @@ class UploadType extends AbstractType
         $this->options = $options;
      }
 
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $options = $this->options;
         $builder
@@ -28,6 +29,13 @@ class UploadType extends AbstractType
                 ->orderBy('p.name', 'ASC');},))    
              ->add('file')
             ;
+    }
+    
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Marca\FileBundle\Entity\Upload'
+        ));
     }
 
     public function getName()

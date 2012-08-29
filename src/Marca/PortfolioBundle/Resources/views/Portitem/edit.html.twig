@@ -27,9 +27,10 @@ toolbar : [
 </div>   
 </div>        
 <div class="row">
-<div class="span6 well">    
+<div class="span6">    
 <form action="{{ path('portitem_update', { 'id': portitem.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_errors(edit_form) }}
+        <legend>Portfolio</legend>
             {{ form_row(edit_form.name) }}
             {{ form_row(edit_form.description) }}
     {{ form_rest(edit_form) }}

@@ -18,9 +18,10 @@ toolbar : [
 ],} );
 });
 </script>
-<div class="span10 well"> 
+<div class="span10"> 
 <form class="form" action="{{ course_path('journal_create') }}" method="post" {{ form_enctype(form) }}>
      {{ form_errors(form) }}
+        <legend>Journal Entry</legend>
          {{ form_row(form.title) }}
          {{ form_row(form.body) }}
     {{ form_rest(form) }}

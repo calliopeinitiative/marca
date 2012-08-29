@@ -13,6 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tagset
 {
+    
+    const LOCAL=0;
+    const SHARED=1;
+    
     /**
      * @var integer $id
      *
@@ -39,6 +43,13 @@ class Tagset
     * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tag", mappedBy="tagset")
     */
     protected $tag; 
+    
+    /**
+     * @var integer $shared
+     *
+     * @ORM\Column(name="shared", type="integer", nullable=true)
+     */
+    private $shared=0;      
     
     /**
      * Inverse Side
@@ -142,4 +153,57 @@ class Tagset
     {
         return $this->user;
     }
+
+    /**
+     * Remove tag
+     *
+     * @param Marca\TagBundle\Entity\Tag $tag
+     */
+    public function removeTag(\Marca\TagBundle\Entity\Tag $tag)
+    {
+        $this->tag->removeElement($tag);
+    }
+
+    /**
+     * Remove course
+     *
+     * @param Marca\CourseBundle\Entity\Course $course
+     */
+    public function removeCourse(\Marca\CourseBundle\Entity\Course $course)
+    {
+        $this->course->removeElement($course);
+    }
+
+    /**
+     * Set shared
+     *
+     * @param integer $shared
+     * @return Tagset
+     */
+    public function setShared($shared)
+    {
+        $this->shared = $shared;
+    
+        return $this;
+    }
+
+    /**
+     * Get shared
+     *
+     * @return integer 
+     */
+    public function getShared()
+    {
+        return $this->shared;
+    }
+    
+    public function isOwner($user)
+    {
+        if($user == $this->user){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }    
 }

@@ -113,7 +113,7 @@ class TagController extends Controller
             $em->persist($tag);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tag'));
+            return $this->redirect($this->generateUrl('tagset'));
             
         }
 
@@ -177,7 +177,7 @@ class TagController extends Controller
             $em->persist($tag);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tag'));
+            return $this->redirect($this->generateUrl('tagset'));
         }
 
         return array(

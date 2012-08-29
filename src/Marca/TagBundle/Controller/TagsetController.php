@@ -25,8 +25,8 @@ class TagsetController extends Controller
     public function indexAction()
     {
         $em = $this->getEm();
-
-        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findAll();
+        $user = $this->getUser();
+        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByUser($user);
 
         return array('tagsets' => $tagsets);
     }
@@ -81,7 +81,7 @@ class TagsetController extends Controller
     public function createAction()
     {
         $em = $this->getEm();
-        $user = $this->getUser();;
+        $user = $this->getUser();
         $tagset  = new Tagset();
         $tagset->setUser($user);
         $request = $this->getRequest();

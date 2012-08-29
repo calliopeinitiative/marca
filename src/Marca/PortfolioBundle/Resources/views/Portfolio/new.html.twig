@@ -4,9 +4,10 @@
 
 {% block content %}       
 <div class="row">   
-<div class="span6 well"> 
+<div class="span6"> 
 <form class="form" action="{{ course_path('portfolio_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
+        <legend>Portfolio</legend>
             {{ form_row(form.portitem) }}
             {{ form_row(form.portorder) }}
     {{ form_rest(form) }}

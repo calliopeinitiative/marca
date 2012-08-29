@@ -14,6 +14,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Tag
 {
+    
+    const LOCAL=0;
+    const SHARED=1;
+    
+    
     /**
      * @var integer $id
      *
@@ -55,6 +60,13 @@ class Tag
      * @ORM\Column(name="sort", type="integer", nullable=true)
      */
     private $sort;
+    
+    /**
+     * @var integer $shared
+     *
+     * @ORM\Column(name="shared", type="integer", nullable=true)
+     */
+    private $shared=0;      
 
    /**
     * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tagset", inversedBy="tag")
@@ -203,5 +215,39 @@ class Tag
     public function getUser()
     {
         return $this->user;
+    }
+
+
+    /**
+     * Remove tagset
+     *
+     * @param Marca\TagBundle\Entity\Tagset $tagset
+     */
+    public function removeTagset(\Marca\TagBundle\Entity\Tagset $tagset)
+    {
+        $this->tagset->removeElement($tagset);
+    }
+
+    /**
+     * Set shared
+     *
+     * @param integer $shared
+     * @return Tag
+     */
+    public function setShared($shared)
+    {
+        $this->shared = $shared;
+    
+        return $this;
+    }
+
+    /**
+     * Get shared
+     *
+     * @return integer 
+     */
+    public function getShared()
+    {
+        return $this->shared;
     }
 }

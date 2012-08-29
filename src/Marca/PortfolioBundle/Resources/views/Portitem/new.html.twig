@@ -24,9 +24,10 @@ toolbar : [
 </div> 
 </div>         
 <div class="row">
-<div class="span6 well"> 
+<div class="span6"> 
 <form class="form" action="{{ path('portitem_create', { 'portsetid': portsetid }) }}" method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
+        <legend>Portfolio</legend>
             {{ form_row(form.name) }}
             {{ form_row(form.description) }}
     {{ form_rest(form) }}

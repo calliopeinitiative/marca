@@ -87,7 +87,7 @@ class CalendarController extends Controller
      */
     public function newAction()
     {
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $calendar = new Calendar();
@@ -109,7 +109,7 @@ class CalendarController extends Controller
      */
     public function createAction($courseid)
     {
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -128,7 +128,7 @@ class CalendarController extends Controller
             $em->persist($calendar);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('calendar_show', array('id' => $calendar->getId(), 'courseid'=> $courseid,)));
+            return $this->redirect($this->generateUrl('calendar', array('courseid'=> $courseid,)));
             
         }
 
@@ -146,7 +146,7 @@ class CalendarController extends Controller
      */
     public function editAction($id)
     {
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getDoctrine()->getEntityManager();
@@ -176,7 +176,7 @@ class CalendarController extends Controller
      */
     public function updateAction($id,$courseid)
     {
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getDoctrine()->getEntityManager();
@@ -216,7 +216,7 @@ class CalendarController extends Controller
      */
     public function deleteAction($id)
     {
-        $allowed = array("instructor");
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $form = $this->createDeleteForm($id);

@@ -63,7 +63,7 @@ class CourseController extends Controller
         $tagsets = $course->getTagset();
         $portset = $course->getPortset();
         $roll = $course->getRoll();
-
+        $teams = $course->getTeams();
         
         if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
@@ -74,9 +74,10 @@ class CourseController extends Controller
         return array(
             'course'      => $course,
             'projects'    => $projects,
-            'tagsets'    => $tagsets,
-            'portset'    => $portset,
+            'tagsets'     => $tagsets,
+            'portset'     => $portset,
             'roll'        => $roll, 
+            'teams'       => $teams, 
             'delete_form' => $deleteForm->createView(),        );
     }
 

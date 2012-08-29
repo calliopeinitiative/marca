@@ -3,12 +3,13 @@
 namespace Marca\CourseBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class CourseType extends AbstractType
 {
      
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name')
@@ -30,6 +31,13 @@ class CourseType extends AbstractType
             ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select tag sets for Projects','attr' => array('class' => 'checkbox inline'),)) 
                 
         ;
+    }
+    
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Marca\CourseBundle\Entity\Course'
+        ));
     }
 
     public function getName()
