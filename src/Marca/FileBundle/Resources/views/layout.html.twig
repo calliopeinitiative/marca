@@ -21,7 +21,7 @@
             
     <ul class="nav nav-list">
     {% for tag in tags %}
-      <li><a href="{{ course_path('file_list', { 'project': 0, 'sort': 'updated', 'scope': 'mine' }) }}"><i class="icon-book"></i> {{ tag.name}}</a></li>
+      <li><a href="{{ course_path('file_list', { 'project': 0, 'sort': 'updated', 'scope': 'mine' }) }}"><span class="label {{ tag.color }}">{{ tag.name }}</span></a></li>
     {% endfor %}
     </ul>  
 {% endblock %}  

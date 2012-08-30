@@ -17,7 +17,7 @@
     <strong>{{ tagset.name }}</strong> {% if tagset.isOwner(app.user.username) %}<a class='btn btn-primary btn-mini  pull-right' href="{{ path('tag_new') }}">Add Tag</a><a class="btn btn-primary btn-mini pull-right" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit Tagset</a> {% endif %} 
     <table class="table">
     {% for tag in tagset.tag %}
-            <tr><td>{{ tag.name }}</td><td>{% if tagset.isOwner(app.user.username) %}<a class="btn btn-primary btn-mini  pull-right" href="{{ path('tag_edit', { 'id': tag.id }) }}">Edit</a>{% endif %}</td></tr>
+            <tr><td><span class="label {{ tag.color }}">{{ tag.name }}</span></td><td>{% if tagset.isOwner(app.user.username) %}<a class="btn btn-primary btn-mini  pull-right" href="{{ path('tag_edit', { 'id': tag.id }) }}">Edit</a>{% endif %}</td></tr>
     {% endfor %}
     </table>        
     {% endfor %}

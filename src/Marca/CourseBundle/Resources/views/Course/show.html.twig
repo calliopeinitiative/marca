@@ -144,8 +144,8 @@
     <h2>Teams</h2>
     <ul class="unstyled"> 
     {% for team in teams %}
-            <li><strong>{{ team.name }}</strong> {{ team.description }} <a class="btn btn-mini btn-primary" href="{{ path('team_edit', { 'id': team.id,'courseid': course.id }) }}">Edit</a>
-            <ol>      
+            <li  class="pad05"><strong>{{ team.name }}</strong> {{ team.description }} <a class="btn btn-mini btn-primary" href="{{ path('team_edit', { 'id': team.id,'courseid': course.id }) }}">Edit</a>
+            <ol  class="pad05">      
                  {% for listing in team.rolls %}
                       <li>{{ listing.user.firstname }} {{ listing.user.lastname }} </li>
                  {% endfor %}     

@@ -166,7 +166,7 @@ class TeamController extends Controller
             $em->persist($team);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('team_manage', array('courseid' => $courseid)));
+            return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
             
         }
 

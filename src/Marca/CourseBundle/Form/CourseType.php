@@ -28,7 +28,7 @@ class CourseType extends AbstractType
             ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'property'=>'name','expanded'=>false,'multiple'=>false, 'label' => 'Select the Portfolio Set',)) 
             ->add('zine', 'checkbox', array('label'  => 'Use the Zine','attr' => array('class' => 'checkbox inline'),))
             ->add('portStatus', 'hidden')
-            ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select tag sets for Projects','attr' => array('class' => 'checkbox inline'),)) 
+            ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select tag sets for Projects','attr' => array('class' => 'checkbox'),)) 
                 
         ;
     }

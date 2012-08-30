@@ -38,7 +38,7 @@
         
         <td>{% if file.user.lastname %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif%}</td>
         <td>{% if file.project.name %}<span class="label label-info">{{ file.project.name }}</span>{% endif%}</td>
-        <td>{% for tag in file.tag %}<span class="label label">{{ tag.name }}</span>{% endfor %}</td>
+        <td>{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
         <td>{% if file.updated %}{{ file.updated|date('M d Y, g:i a') }}{% endif%}</td>
         <td>{% if file.isOwner(app.user.username) %}<a class="" href="{{ course_path('file_edit', { 'id': file.id }) }}">Edit listing</a>{% endif%}</td>
         <td>{% if file.isOwner(app.user.username) and file.access==1 %}<a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>{% endif%}</td>

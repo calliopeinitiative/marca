@@ -13,8 +13,8 @@ class TagType extends AbstractType
         $builder
             ->add('name')
             ->add('color')
-            ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'property'=>'name','expanded'=>true,'multiple'=>true,'attr' => array('class' => 'checkbox inline'), ))     
-            ->add('icon', 'choice', array('choices'   => array('s' => 'Star', 'f' => 'Flag'),'expanded'=>true, 'required'  => false,'attr' => array('class' => 'radio inline'),))    
+            ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'property'=>'name','expanded'=>true,'multiple'=>true,'attr' => array('class' => 'checkbox'), ))     
+            ->add('icon', 'choice', array('choices'   => array('s' => 'Star', 'f' => 'Flag'),'expanded'=>true, 'required'  => false,'attr' => array('class' => 'radio'),))    
 
         ;
     }
