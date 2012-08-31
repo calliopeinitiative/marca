@@ -35,6 +35,7 @@ class FileController extends Controller
         $sort = 'updated';
         $scope = 'mine';
         $project = 'recent';
+        $tag = 0;
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
@@ -42,16 +43,17 @@ class FileController extends Controller
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $sort, $scope, $course);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
-        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'scope'=> $scope, 'tags' => $tags);
+        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
+        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'scope'=> $scope, 'tags' => $tags, 'tag' => $tag);
     }
 
     /**
      * Lists all File entities by Project.
      *
-     * @Route("/{courseid}/{project}/{sort}/{scope}/list", name="file_list")
+     * @Route("/{courseid}/{project}/{sort}/{tag}/{scope}/list", name="file_list")
      * @Template("MarcaFileBundle:File:index.html.twig")
      */
-    public function indexByProjectAction($project, $sort, $scope, $courseid)
+    public function indexByProjectAction($project, $sort, $scope, $courseid, $tag)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -59,12 +61,34 @@ class FileController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $sort, $scope, $course);
+        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $sort, $scope, $course, $tag);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
-        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'scope'=> $scope, 'tags' => $tags);
+        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
+        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'scope'=> $scope, 'tags' => $tags, 'tag' => $tag);
     }   
        
+      /**
+     * Lists all File entities by Project.
+     *
+     * @Route("/{courseid}/{project}/{sort}/{tag}/{scope}/list_by_tag", name="file_tag_list")
+     * @Template("MarcaFileBundle:File:index.html.twig")
+     */
+    public function indexByTagAction($project, $sort, $scope, $courseid, $tag)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
+        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByTag($project, $user, $sort, $scope, $course, $tag);
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
+        
+        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'scope'=> $scope, 'tags' => $tags, 'tag' => $tag);
+    }    
     
     /**
      * Finds and displays a File entity.

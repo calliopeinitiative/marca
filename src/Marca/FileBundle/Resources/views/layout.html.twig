@@ -13,15 +13,15 @@
 
 {% block sidebar %}  
        {% if is_granted('ROLE_USER') %}
-             <li class="{% if scope=='m' %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'sort': 'updated', 'scope': 'mine' }) }}">My Files</a></li>
-             <li class="{% if scope=='a' %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'sort': 'updated', 'scope': 'all' }) }}">All Files</a></li>
+             <li class="{% if scope=='m' %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'sort': 'updated', 'scope': 'mine' , 'tag': '0'}) }}">My Files</a></li>
+             <li class="{% if scope=='a' %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'sort': 'updated', 'scope': 'all'  , 'tag': '0'}) }}">All Files</a></li>
              <li class=""><a href="{{ course_path('doc_new') }}">Create eDoc</a></li>
              <li class=""><a href="{{ course_path('file_upload') }}">Upload File</a></li>
        {% endif %}
             
     <ul class="nav nav-list">
     {% for tag in tags %}
-      <li><a href="{{ course_path('file_list', { 'project': 0, 'sort': 'updated', 'scope': 'mine' }) }}"><span class="label {{ tag.color }}">{{ tag.name }}</span></a></li>
+      <li><a href="{{ course_path('file_tag_list', { 'project': 'recent', 'sort': 'updated', 'scope': 'all'  , 'tag': tag.id}) }}"><span class="label {{ tag.color }}">{{ tag.name }}</span></a></li>
     {% endfor %}
     </ul>  
 {% endblock %}  
