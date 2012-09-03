@@ -1,8 +1,8 @@
 parameters:
     database_driver:   pdo_pgsql
     database_host:     localhost
-    database_port:     5432
-    database_name:     marca_db
+    database_port:     xxxx
+    database_name:     xxxx
     database_user:     xxxxxx
     database_password: xxxxxx
 
@@ -16,4 +16,4 @@ parameters:
     from_email:        xxxx
 
     locale:            en
-    secret:            5bf101ce3605f4eeebe56bc4873d2b2b2
+    secret:            xxxx
