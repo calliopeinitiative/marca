@@ -3,17 +3,17 @@ parameters:
     database_host:     localhost
     database_port:     5432
     database_name:     marca_db
-    database_user:     rlbaltha
-    database_password: hdt71217
+    database_user:     xxxxxx
+    database_password: xxxxxx
 
     mailer_transport:  smtp
-    mailer_host:       pod51004.outlook.com
-    mailer_port:       587
-    mailer_sender_address: rlbaltha@uga.edu
-    mailer_user:       rlbaltha@uga.edu
-    mailer_password:   faithinas33d!
-    mailer_ecryption:  tls
-    from_email:        rlbaltha@uga.edu
+    mailer_host:       xxxx
+    mailer_port:       xxxx
+    mailer_sender_address: xxxxxx
+    mailer_user:       xxxxxx
+    mailer_password:   xxxx
+    mailer_ecryption:  xxx
+    from_email:        xxxx
 
     locale:            en
     secret:            5bf101ce3605f4eeebe56bc4873d2b2b2
