@@ -5,7 +5,7 @@
 {% block content %}
 <div class="row pad-left">
     <ul class="nav nav-tabs">
-        <li class="{% if active_project == 0 %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'sort': 'updated', 'scope': scope, 'tag': '0' }) }}"><strong>Recent Files</strong></a></li>
+        <li class="{% if active_project == 0 %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'scope': scope, 'tag': '0' }) }}"><strong>Recent Files</strong></a></li>
     {% for project in projects %}
             <li class="{% if active_project == project.id %}active{% endif %} ">
                 <a class="" href="{{ course_path('file_list', { 'project': project.id, 'sort': 'updated', 'scope': scope, 'tag': '0' }) }}"><strong>{{ project.name }}</strong></a></li>
@@ -17,11 +17,11 @@
 <table class="table">
 <thead>
     <tr>
-        <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'name', 'scope': scope, 'tag': '0' }) }}">Name <b class="caret"></b></a></th>
-        <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'owner', 'scope': scope, 'tag': '0' }) }}">Owner <b class="caret"></b></a></th>
-        <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'project', 'scope': scope, 'tag': '0' }) }}">Project <b class="caret"></b></a></th>
-        <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'tag', 'scope': scope, 'tag': '0' }) }}">Tag <b class="caret"></b></a></th>
-        <th><a class="" href="{{ course_path('file_list', { 'project': active_project, 'sort': 'updated', 'scope': scope, 'tag': '0' }) }}">Updated <b class="caret"></b></a></th>
+        <th>Name</th>
+        <th>Owner</th>
+        <th>Project</th>
+        <th>Tag</th>
+        <th>Updated</th>
         <th></th>
     </tr>
 </thead>

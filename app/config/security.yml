@@ -35,11 +35,11 @@ security:
         - { path: ^/portfolio/, role: ROLE_USER }  
         - { path: ^/calendar/, role: ROLE_USER }         
         - { path: ^/course/, role: ROLE_USER }
-        - { path: ^/term/, role: ROLE_INSTR }
-        - { path: ^/roll/, role: ROLE_INSTR }
-        - { path: ^/project/, role: ROLE_INSTR }
-        - { path: ^/markup/, role: ROLE_INSTR }
-        - { path: ^/portset/, role: ROLE_INSTR }
+        - { path: ^/term/, role: ROLE_USER }
+        - { path: ^/roll/, role: ROLE_USER }
+        - { path: ^/project/, role: ROLE_USER }
+        - { path: ^/markup/, role: ROLE_USER }
+        - { path: ^/portset/, role: ROLE_USER }
         - { path: ^/team/, role: ROLE_USER }
 
     role_hierarchy:

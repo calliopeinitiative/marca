@@ -1,5 +1,5 @@
 <?php
-umask(0002);
+
 use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 

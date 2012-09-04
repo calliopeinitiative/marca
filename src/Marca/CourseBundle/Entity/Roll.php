@@ -187,7 +187,7 @@ class Roll
      *
      * @param Marca\CourseBundle\Team $teams
      */
-    public function addTeam(\Marca\CourseBundle\Team $team)
+    public function addTeam(\Marca\CourseBundle\Entity\Team $team)
     {
         $this->teams[] = $team;
     }
