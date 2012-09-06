@@ -10,8 +10,8 @@
         {
             "package": "doctrine/dbal",
             "version": "2.3.x-dev",
-            "source-reference": "adb28e4e1f959d515971b8e8b7f05a01913a7b91",
-            "commit-date": "1346249329"
+            "source-reference": "239630b61f03f39d198441eced1bfffb7b0e61d1",
+            "commit-date": "1346866589"
         },
         {
             "package": "doctrine/doctrine-bundle",
@@ -22,14 +22,8 @@
         {
             "package": "doctrine/orm",
             "version": "2.3.x-dev",
-            "source-reference": "bbf527a27356414bfa9bf520f018c5cb7af67c77",
-            "commit-date": "1346250986"
-        },
-        {
-            "package": "friendsofsymfony/user-bundle",
-            "version": "dev-master",
-            "alias-pretty-version": "2.0.x-dev",
-            "alias-version": "2.0.9999999.9999999-dev"
+            "source-reference": "4d9f24b2eef3af3a3e76c773994c19bbb0706f88",
+            "commit-date": "1346869007"
         },
         {
             "package": "friendsofsymfony/user-bundle",
@@ -88,8 +82,8 @@
         {
             "package": "monolog/monolog",
             "version": "dev-master",
-            "source-reference": "1.2.1",
-            "commit-date": "1346241200"
+            "source-reference": "a929570bb7688b39fefe4106f0ecf0ac35f37647",
+            "commit-date": "1346873566"
         },
         {
             "package": "sensio/distribution-bundle",
@@ -100,8 +94,8 @@
         {
             "package": "sensio/distribution-bundle",
             "version": "dev-master",
-            "source-reference": "645f2044cce2e2382b0e0dd6d1787b3d619d7a21",
-            "commit-date": "1346834239"
+            "source-reference": "v2.1.0",
+            "commit-date": "1346859132"
         },
         {
             "package": "sensio/framework-extra-bundle",
@@ -112,7 +106,7 @@
         {
             "package": "sensio/framework-extra-bundle",
             "version": "dev-master",
-            "source-reference": "1281f6218226ddb88df8546f28a3166e2a0cb55d",
+            "source-reference": "v2.1.0",
             "commit-date": "1346234539"
         },
         {
@@ -190,8 +184,8 @@
         {
             "package": "symfony/symfony",
             "version": "dev-master",
-            "source-reference": "1dd153205b1db5b9ddcb4bfd4825ce6b8c4f41e7",
-            "commit-date": "1346770195"
+            "source-reference": "cba2a31e3631ab9043389f8f7df873da0e6c8f47",
+            "commit-date": "1346926365"
         },
         {
             "package": "twig/extensions",
