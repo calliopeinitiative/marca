@@ -62,6 +62,9 @@ class TermController extends Controller
      */
     public function newAction()
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $term = new Term();
         $form   = $this->createForm(new TermType(), $term);
 
@@ -80,6 +83,9 @@ class TermController extends Controller
      */
     public function createAction()
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $term  = new Term();
         $request = $this->getRequest();
         $form    = $this->createForm(new TermType(), $term);
@@ -108,6 +114,9 @@ class TermController extends Controller
      */
     public function editAction($id)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
 
         $term = $em->getRepository('MarcaCourseBundle:Term')->find($id);
@@ -135,6 +144,9 @@ class TermController extends Controller
      */
     public function updateAction($id)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
 
         $term = $em->getRepository('MarcaCourseBundle:Term')->find($id);
@@ -172,6 +184,9 @@ class TermController extends Controller
      */
     public function deleteAction($id)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 

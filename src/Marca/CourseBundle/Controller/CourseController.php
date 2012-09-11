@@ -91,6 +91,7 @@ class CourseController extends Controller
      */
     public function newAction()
     {
+        
         $user = $this->getUser();
         //any instructor can create a new course, so give all instructors access
         if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
@@ -116,7 +117,9 @@ class CourseController extends Controller
      * @Template("MarcaCourseBundle:Course:new.html.twig")
      */
     public function createAction()
-    {   $em = $this->getEm();
+    {
+        
+        $em = $this->getEm();
         $user = $this->getUser();
                
         $course  = new Course();
@@ -176,15 +179,16 @@ class CourseController extends Controller
     /**
      * Displays a form to edit an existing Course entity.
      *
-     * @Route("/{id}/edit", name="course_edit")
+     * @Route("/{courseid}/edit", name="course_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($courseid)
     {
+        
         $em = $this->getEm();
         $user = $this->getUser();
-        $options = array('courseid' => $id);
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $options = array('courseid' => $courseid);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         
         if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
@@ -195,7 +199,7 @@ class CourseController extends Controller
         }
         
         $editForm = $this->createForm(new CourseType($options), $course);
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($courseid);
 
         return array(
             'course'      => $course,
@@ -208,22 +212,25 @@ class CourseController extends Controller
     /**
      * Edits an existing Course entity.
      *
-     * @Route("/{id}/update", name="course_update")
+     * @Route("/{courseid}/update", name="course_update")
      * @Method("post")
      * @Template("MarcaCourseBundle:Course:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($courseid)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
-        $options = array('courseid' => $id);
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $options = array('courseid' => $courseid);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
 
         if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
         $editForm = $this->createForm(new CourseType($options), $course);
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($courseid);
 
         $request = $this->getRequest();
 
@@ -233,7 +240,7 @@ class CourseController extends Controller
             $em->persist($course);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_show', array('courseid' => $id)));
+            return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
         }
 
         return array(
@@ -246,19 +253,22 @@ class CourseController extends Controller
     /**
      * Deletes a Course entity.
      *
-     * @Route("/{id}/delete", name="course_delete")
+     * @Route("/{courseid}/delete", name="course_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($courseid)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($id);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $user = $this->getUser();
         //restrict access to the delete function to the course owner
         if($user != $course->getUser()){
             throw new AccessDeniedException();
         }
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($courseid);
         $request = $this->getRequest();
     
         

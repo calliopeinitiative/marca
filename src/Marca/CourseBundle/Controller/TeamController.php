@@ -54,6 +54,9 @@ class TeamController extends Controller
      */
     public function manageAction($courseid)
     {
+       $allowed = array(self::ROLE_INSTRUCTOR);
+       $this->restrictAccessTo($allowed);
+        
        $course = $this->getCourse();
        $teams = $course->getTeams();
        
@@ -69,6 +72,9 @@ class TeamController extends Controller
      */
     public function editAction($courseid, $id)
     {
+       $allowed = array(self::ROLE_INSTRUCTOR);
+       $this->restrictAccessTo($allowed);
+        
        
        $em = $this->getEm();
        $course = $this->getCourse();
@@ -95,6 +101,9 @@ class TeamController extends Controller
      */
     public function updateAction($id)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
 
         $team = $em->getRepository('MarcaCourseBundle:Team')->find($id);
@@ -129,7 +138,9 @@ class TeamController extends Controller
      */
     public function newAction($courseid)
     {
-       
+       $allowed = array(self::ROLE_INSTRUCTOR);
+       $this->restrictAccessTo($allowed);
+        
        $em = $this->getEm();
        $course = $this->getCourse();
        $team = new Team();
@@ -153,6 +164,9 @@ class TeamController extends Controller
      */
     public function createAction($courseid)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $team  = new Team(); 

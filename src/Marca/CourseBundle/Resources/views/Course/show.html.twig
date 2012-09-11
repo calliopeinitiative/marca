@@ -77,12 +77,12 @@
 
 <div class="row">
 <div class="span2">
-<a class="btn btn-primary" href="{{ path('course_edit', { 'id': course.id }) }}">Edit</a>
+<a class="btn btn-primary" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit</a>
 </div> 
     
         
 <div class="span1">        
-<form action="{{ path('course_delete', { 'id': course.id }) }}" method="post">
+<form action="{{ path('course_delete', { 'courseid': course.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>

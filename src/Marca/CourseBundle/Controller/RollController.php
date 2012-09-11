@@ -62,6 +62,9 @@ class RollController extends Controller
      */
     public function newAction()
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $roll = new Roll();
         $form   = $this->createForm(new RollType(), $roll);
 
@@ -80,6 +83,9 @@ class RollController extends Controller
      */
     public function createAction()
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $roll  = new Roll();
         $request = $this->getRequest();
         $form    = $this->createForm(new RollType(), $roll);
@@ -108,6 +114,9 @@ class RollController extends Controller
      */
     public function editAction($id)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
 
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollUser($id);
@@ -135,6 +144,9 @@ class RollController extends Controller
      */
     public function updateAction($id,$courseid)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
 
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
@@ -172,6 +184,9 @@ class RollController extends Controller
      */
     public function deleteAction($id)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
@@ -207,6 +222,9 @@ class RollController extends Controller
      */
      public function approveAction($id, $courseid)
      {
+         $allowed = array(self::ROLE_INSTRUCTOR);
+         $this->restrictAccessTo($allowed);
+        
          $em = $this->getEm();
          $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
          //remove pending student role

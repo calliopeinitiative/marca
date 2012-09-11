@@ -1,19 +1,20 @@
 parameters:
-    database_driver:   pdo_mysql
+    database_driver:   pdo_pgsql
     database_host:     localhost
-    database_port:     3306
-    database_name:     marca
-    database_user:     root
-    database_password: ddt123
+    database_port:     5432
+    database_name:     marca_db
+    database_user:     rlbaltha
+    database_password: hdt71217
 
     mailer_transport:  smtp
-    mailer_host:       localhost
-    mailer_port:       25
-    mailer_sender_address: return@yourmail.com
+    mailer_host:       pod51004.outlook.com
+    mailer_port:       587
+    mailer_sender_address: rlbaltha@uga.edu
     mailer_user:       afamiglietti
     mailer_password:   password
     mailer_encryption: tls
-    from_email:        return@yourmail.com
+    from_email:        rlbaltha@uga.edu
 
     locale:            en
-    secret:            b6ac9707094a9e6826d80d14ac32464b
+    secret:            5bf101ce3605f4eeebe56bc4873d2b2b2
+    
