@@ -1,0 +1,22 @@
+{# Marca/DocBundle/Resources/views/Markupset/index.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block content %}   
+<div class="row">
+<div class="span4 well">
+    <a class="btn btn-info" href="{{ path('markup') }}">List Markup</a>
+    <a class="btn btn-info" href="{{ path('markupset') }}">List Markupsets</a>
+</div> 
+</div>
+<div class="row">
+<div class="span4 well"> 
+<form action="{{ path('markupset_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <div>
+        <button class="btn" type="submit">Create</button>
+    </div>
+</form>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{# Marca/DocBundle/Resources/views/Markupset/index.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block content %}
+
+<div class="span2">
+<a class="btn btn-info" href="{{ path('markupset') }}">List</a>
+<a class="btn btn-primary" href="{{ path('markupset_edit', { 'id': entity.id }) }}">Edit</a>
+ 
+</div>       
+  
+<div class="span1">        
+<form action="{{ path('markupset_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger" type="submit">Delete</button>
+</form>
+</div>
+  
+
+        
+
+<div class="span6">    
+<table class="table table-bordered table-condensed table-striped">
+<tbody>        
+    <tr>
+        <th>Id</th>         
+        <td>{{ entity.id }}</td>         
+    </tr>        
+    <tr>
+        <th>Name</th>         
+        <td>{{ entity.name }}</td>         
+    </tr>        
+    <tr>
+        <th>Shared</th>         
+        <td>{{ entity.shared }}</td>         
+    </tr>  
+</tbody>
+</table>
+</div>          
+{% endblock %}

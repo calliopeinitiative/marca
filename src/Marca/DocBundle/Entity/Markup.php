@@ -50,12 +50,10 @@ class Markup
      */
     private $color;    
 
-    /**
-     * @var array $markupset
-     *
-     * @ORM\Column(name="markupset", type="array")
-     */
-    private $markupset;
+   /**
+    * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markupset", inversedBy="markup")
+    */
+    protected $markupset; 
 
     /**
     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="markup")
@@ -133,27 +131,6 @@ class Markup
         return $this->value;
     }
 
-
-    /**
-     * Set markupset
-     *
-     * @param array $markupset
-     */
-    public function setMarkupset($markupset)
-    {
-        $this->markupset = $markupset;
-    }
-
-    /**
-     * Get markupset
-     *
-     * @return array 
-     */
-    public function getMarkupset()
-    {
-        return $this->markupset;
-    }
-
     /**
      * Set color
      *
@@ -193,4 +170,44 @@ class Markup
     {
         return $this->user;
     }    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->markupset = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add markupset
+     *
+     * @param Marca\DocBundle\Entity\Markupset $markupset
+     * @return Markup
+     */
+    public function addMarkupset(\Marca\DocBundle\Entity\Markupset $markupset)
+    {
+        $this->markupset[] = $markupset;
+    
+        return $this;
+    }
+
+    /**
+     * Remove markupset
+     *
+     * @param Marca\DocBundle\Entity\Markupset $markupset
+     */
+    public function removeMarkupset(\Marca\DocBundle\Entity\Markupset $markupset)
+    {
+        $this->markupset->removeElement($markupset);
+    }
+
+    /**
+     * Get markupset
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getMarkupset()
+    {
+        return $this->markupset;
+    }
 }

@@ -12,7 +12,7 @@ parameters:
     mailer_sender_address: xxxxxx
     mailer_user:       xxxxxx
     mailer_password:   xxxx
-    mailer_ecryption:  xxx
+    mailer_encryption:  xxx
     from_email:        xxxx
 
     locale:            en
