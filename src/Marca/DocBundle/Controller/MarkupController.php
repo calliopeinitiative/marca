@@ -94,7 +94,7 @@ class MarkupController extends Controller
             $em->persist($markup);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('markup'));
+            return $this->redirect($this->generateUrl('markupset'));
             
         }
 
@@ -158,7 +158,7 @@ class MarkupController extends Controller
             $em->persist($markup);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('markup'));
+            return $this->redirect($this->generateUrl('markupset'));
         }
 
         return array(
@@ -193,7 +193,7 @@ class MarkupController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('markup'));
+        return $this->redirect($this->generateUrl('markupset'));
     }
 
     private function createDeleteForm($id)
