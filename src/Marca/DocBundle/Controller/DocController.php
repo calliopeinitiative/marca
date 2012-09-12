@@ -155,7 +155,7 @@ class DocController extends Controller
         $user = $this->getUser();
 
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
-        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByUser($user);
+        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findAll();
         
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
@@ -166,7 +166,7 @@ class DocController extends Controller
 
         return array(
             'doc'      => $doc,
-            'markup'      => $markup,
+            'markupsets'      => $markupsets,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );

@@ -4,34 +4,27 @@
 
 {% block content %}
 <div class="row">
-<div class="span4  well"> 
-<a class="btn btn-info" href="{{ path('markup') }}">List</a>
-</div> 
-</div>
-  
-<div class="row">
-<div class="span4  well">  
+<div class="span6">  
     
 <form class="form" action="{{ path('markup_update', { 'id': markup.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_errors(edit_form) }}
-
+        <legend>Markup</legend>
             {{ form_row(edit_form.name) }}
             {{ form_row(edit_form.function) }}
             {{ form_row(edit_form.value) }}
             {{ form_row(edit_form.color) }}
             {{ form_row(edit_form.markupset) }}
- 
     {{ form_rest(edit_form) }}
     <div class="submit">
-        <button class="btn btn-primary" type="submit">Update</button>
+        <button class="btn btn-primary" type="submit">Update</button><a class="btn btn-info" href="{{ path('markup') }}">Cancel</a> 
     </div>
-</form>    
+</form> 
+
 <form action="{{ path('markup_delete', { 'id': markup.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-    <div class="delete">
         <button class="btn btn-danger" type="submit">Delete</button>
-    </div>
-</form>    
+</form>  
+
 </div>
 </div>
 {% endblock %}

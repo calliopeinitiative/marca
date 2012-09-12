@@ -240,7 +240,7 @@ class FileController extends Controller
             $em->persist($file);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>$project,)));
+            return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>'recent', 'tag'=>'0')));
         }
 
         return array(

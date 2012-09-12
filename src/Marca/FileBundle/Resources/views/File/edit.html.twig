@@ -16,7 +16,7 @@
             <li class="pad05">{{ form_row (edit_form.access) }} </li> 
         </ul>
     {{ form_rest(edit_form) }}
-    <button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn" href="{{ course_path('file') }}">Cancel</a>    
+    <button class="btn btn-primary" type="submit">Update</button><a class="btn btn-info" href="{{ course_path('file') }}">Cancel</a>    
 </form>       
        
 <form action="{{ course_path('file_delete', { 'id': file.id }) }}" method="post">

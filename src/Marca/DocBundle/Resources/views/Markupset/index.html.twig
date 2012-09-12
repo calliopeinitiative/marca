@@ -14,7 +14,7 @@
 
 
     {% for markupset in markupsets%}
-    <strong>{{ markupset.name }}</strong> {% if markupset.isOwner(app.user.username) %}<a class='btn btn-primary btn-mini  pull-right' href="{{ path('markup_new') }}">Add Markup</a><a class="btn btn-primary btn-mini pull-right" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit Markupset</a> {% endif %} 
+    <strong>{{ markupset.name }}</strong> {% if markupset.isOwner(app.user.username) %}<a class='btn btn-primary btn-mini  pull-right' href="{{ path('markup_new') }}">Add Markup</a><a class="btn btn-primary btn-mini pull-right" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit</a> {% endif %} 
     <table class="table">
     {% for markup in markupset.markup %}
             <tr><td><span class="label {{ markup.color }}">{{ markup.name }}</span></td><td>{% if markupset.isOwner(app.user.username) %}<a class="btn btn-primary btn-mini  pull-right" href="{{ path('markup_edit', { 'id': markup.id }) }}">Edit</a>{% endif %}</td></tr>

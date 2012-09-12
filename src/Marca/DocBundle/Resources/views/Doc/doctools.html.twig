@@ -21,66 +21,8 @@ Highlight text, type your note and click <em>Insert.</em>
 
 </div>
 
-
-{#ERROR INSERT FORM#}
-
 <div class='cell clear divider'>
-<a href="javascript:void(0)" class="" tabindex="1" onclick="$('#smh_tools').toggle()" title="Toggle Insert Note">SMH Tools</a>
-</div>
-
-<div id='smh_tools' class='hide clear'>
-
-<div class='cell  alert alert-info'>
-Hightlight text and then select tag.
-</div>
-
-<div class='cell'><a href="javascript:quick_link('Agreement_PA')" class="label label-info" tabindex="1" title="Submit entry">Agr. PA</a></div>
-<div class='cell'><a href="javascript:quick_link('Agreement_SV')" class="label label-info" tabindex="1" title="Submit entry">Agr. SV</a></div>
-<div class='cell'><a href="javascript:quick_link('Apostrophe')" class="label label-info" tabindex="1" title="Submit entry">Apos.</a></div>
-<div class='cell'><a href="javascript:quick_link('Capitals')" class="label label-info" tabindex="1" title="Submit entry">Capitals</a></div>
-<div class='cell'><a href="javascript:quick_link('Comma_Coordinating')" class="label label-info" tabindex="1" title="Submit entry">Comma Coor.</a></div>
-
-
-<div class='cell'><a href="javascript:quick_link('Comma_Introductory')" class="label label-info" tabindex="1" title="Submit entry">Comma Intro.</a></div>
-<div class='cell'><a href="javascript:quick_link('Comma_Non-Restrictive')" class="label label-info" tabindex="1" title="Submit entry">Comma Non-Restr.</a></div>
-<div class='cell'><a href="javascript:quick_link('Comma_Series')" class="label label-info" tabindex="1" title="Submit entry">Comma Series</a></div>
-
-
-
-<div class='cell'><a href="javascript:quick_link('Comma_Splice')" class="label label-info" tabindex="1" title="Submit entry">Comma Splice</a></div>
-<div class='cell'><a href="javascript:quick_link('Comma_Unnecessary')" class="label label-info" tabindex="1" title="Submit entry">Comma Unnec.</a></div>
-<div class='cell'><a href="javascript:quick_link('Dangling_Modifier')" class="label label-info" tabindex="1" title="Submit entry">Dangling Mod.</a></div>
-<div class='cell'><a href="javascript:quick_link('Source_Acknowledgement_Wrong')" class="label label-info" tabindex="1" title="Submit entry">Doc. Wrong</a></div>
-
-
-<div class='cell'><a href="javascript:quick_link('Fragment')" class="label label-info" tabindex="1" title="Submit entry">Fragment</a></div>
-<div class='cell'><a href="javascript:quick_link('Fused_Sentence')" class="label label-info" tabindex="1" title="Submit entry">Fused Sent.</a></div>
-<div class='cell'><a href="javascript:quick_link('Hyphen')" class="label label-info" tabindex="1" title="Submit entry">Hyphen</a></div>
-<div class='cell'><a href="javascript:quick_link('Missing_Article_or_Word')" class="label label-info" tabindex="1" title="Submit entry">Missing Word</a></div>
-
-
-
-<div class='cell'><a href="javascript:quick_link('Proofreading_Error')" class="label label-info" tabindex="1" title="Submit entry">Proof</a></div>
-<div class='cell'><a href="javascript:quick_link('Pronoun_Reference')" class="label label-info" tabindex="1" title="Submit entry">Pron. Ref.</a></div>
-<div class='cell'><a href="javascript:quick_link('Quote_Integration')" class="label label-info" tabindex="1" title="Submit entry">Quote Integ.</a></div>
-<div class='cell'><a href="javascript:quick_link('Quotation_Marks')" class="label label-info" tabindex="1" title="Submit entry">Quot. Marks</a></div>
-
-
-<div class='cell'><a href="javascript:quick_link('Spelling')" class="label label-info" tabindex="1" title="Submit entry">Spelling</a></div>
-<div class='cell'><a href="javascript:quick_link('Tense_Shift')" class="label label-info" tabindex="1" title="Submit entry">Tense Shift</a></div>
-<div class='cell'><a href="javascript:quick_link('Wrong_Word')" class="label label-info" tabindex="1" title="Submit entry">Wrong Word</a></div>
-
-<div class='cell clear '>All SMH tags</div>
-<div class='cell' >
-<form id='error_complete_form' action="" onsubmit="return false;"> 
-<input style='font-size:x-small' type="text" id="error_complete" value="" onclick="$('form#error_complete_form' )[ 0 ].reset();"/> 
-</form>
-</div>
-</div>
-
-
-<div class='cell clear divider'>
-<a href="javascript:void(0)" class="" tabindex="1" onclick="$('#markup').toggle()" title="Toggle Insert Note">Markup tags</a>
+<a href="javascript:void(0)" class="" tabindex="1" onclick="$('#markup').toggle()" title="Toggle Markup Tags">Markup tags</a>
 </div>
 
 <div id='markup' class='hide clear'>
@@ -89,55 +31,16 @@ Hightlight text and then select tag.
 Hightlight text and then select tag.
 </div>
 
-{% for markup in markup %}
-<div class='cell'><a href="javascript:{{markup.function}}('{{markup.value}}','{{markup.color}}')" class="label label-info" tabindex="1" title="Submit entry">{{markup.name}}</a></div>    
-{% endfor %}    
-
-{#
-
-<div class='cell clear'><a href="javascript:markup('context')" class="label label-info" tabindex="1" title="Submit entry">Context</a></div>
-<div class='cell'><a href="javascript:markup('author')" class="label label-info" tabindex="1" title="Submit entry">Author</a></div>
-<div class='cell'><a href="javascript:markup('topic')" class="label label-info" tabindex="1" title="Submit entry">Topic</a></div>
-<div class='cell'><a href="javascript:markup('purpose')" class="label label-info" tabindex="1" title="Submit entry">Purpose</a></div>
-<div class='cell'><a href="javascript:markup('audience')" class="label label-info" tabindex="1" title="Submit entry">Audience</a></div>
-
-
-
-<div class='cell clear'><a href="javascript:markup('subject')" class="label label-info" tabindex="1" title="Submit entry">Subject</a></div>
-<div class='cell'><a href="javascript:markup('main_verb')" class="label label-info" tabindex="1" title="Submit entry">Verb</a></div>
-<div class='cell'><a href="javascript:markup('preposition')" class="label label-info" tabindex="1" title="Submit entry">Prep.</a></div>
-<div class='cell'><a href="javascript:markup('adjective')" class="label label-info" tabindex="1" title="Submit entry">Adjective</a></div>
-<div class='cell'><a href="javascript:markup('adverb')" class="label label-info" tabindex="1" title="Submit entry">Adverb</a></div>
-<div class='cell'><a href="javascript:markup('predicate')" class="label label-info" tabindex="1" title="Submit entry">Predicate</a></div>
-
-
-
-<div class='cell clear'><a href="javascript:markup('thesis')" class="label label-info" tabindex="1" title="Submit entry">Thesis</a></div>
-<div class='cell'><a href="javascript:markup('topic_sentence')" class="label label-info" tabindex="1" title="Submit entry">Topic sentence</a></div>
-<div class='cell'><a href="javascript:markup('transition')" class="label label-info" tabindex="1" title="Submit entry">Transition</a></div>
-<div class='cell'><a href="javascript:markup('support')" class="label label-info" tabindex="1" title="Submit entry">Support</a></div>
-
-
-
-<div class='cell clear'><a href="javascript:markup('significant')" class="label label-info" tabindex="1" title="Submit entry">Significant</a></div>
-<div class='cell'><a href="javascript:markup('key_concepts')" class="label label-info" tabindex="1" title="Submit entry">Key</a></div>
-<div class='cell'><a href="javascript:markup('connections')" class="label label-info" tabindex="1" title="Submit entry">Connection</a></div>
-<div class='cell'><a href="javascript:markup('needs_defining')" class="label label-info" tabindex="1" title="Submit entry">Define</a></div>
-<div class='cell'><a href="javascript:markup('unclear')" class="label label-info" tabindex="1" title="Submit entry">Unclear</a></div>
-
-
-
-<div class='cell clear'><a href="javascript:markup('argument')" class="label label-info" tabindex="1" title="Submit entry">Argument</a></div>
-<div class='cell'><a href="javascript:markup('evidence')" class="label label-info" tabindex="1" title="Submit entry">Evidence</a></div>
-<div class='cell'><a href="javascript:markup('interpretation')" class="label label-info" tabindex="1" title="Submit entry">Interpretation</a></div>
-
-
-
-<div class='cell clear'><a href="javascript:markup('ethos')" class="label label-info" tabindex="1" title="Submit entry">Ethos</a></div>
-<div class='cell'><a href="javascript:markup('pathos')" class="label label-info" tabindex="1" title="Submit entry">Pathos</a></div>
-<div class='cell'><a href="javascript:markup('logos')" class="label label-info" tabindex="1" title="Submit entry">Logos</a></div>
-
-#}
+    {% for markupset in markupsets%}
+    <div class='cell clear divider'>
+        <strong>{{ markupset.name }}</strong>
+    
+    {% for markup in markupset.markup %}
+    <a href="javascript:{{markup.function}}('{{markup.value}}','{{markup.color}}')" class="label label-info" tabindex="1" title="Submit entry"><span class="label {{ markup.color }}">{{ markup.name }}</span></a></li> 
+    {% endfor %} 
+    </div>
+    {% endfor %}
+    
 </div>    
 {# EMBED #}
 

@@ -23,7 +23,7 @@ class FileRepository extends EntityRepository
        else {$scopeQuery = '';};
        if($project == 'recent') {
          return $this->getEntityManager()
-            ->createQuery('SELECT f FROM MarcaFileBundle:File f WHERE f.course = ?1 AND (f.user = ?2'.$scopeQuery.') ORDER BY f.updated ASC')
+            ->createQuery('SELECT f FROM MarcaFileBundle:File f WHERE f.course = ?1 AND (f.user = ?2'.$scopeQuery.') ORDER BY f.updated DESC')
                 ->setParameter('1',$course)->setParameter('2',$user)->setMaxResults(25)->getResult(); 
        } else {
           return $this->getEntityManager()
