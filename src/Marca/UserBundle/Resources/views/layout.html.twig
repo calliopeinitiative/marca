@@ -18,10 +18,10 @@
              <li> <a class='last' title="Logout" href="{{ path('fos_user_change_password') }}">Change Password</a></li> 
        {% endif %}
        {% if is_granted('ROLE_INSTR') %}
-             <li class="nav-header">Instructors</li>
-             <li><a href="{{ path('course') }}">Course Creation/Editing</a></li>
-             <li><a href="{{ path('tagset') }}">Tag Creation/Editing</a></li>
-             <li><a href="{{ path('markupset') }}">Markup Creation/Editing</a></li>
-             <li><a href="{{ path('portset') }}">Portfolio Set Creation/Editing</a></li>
+             <li class="nav-header">Settings</li>
+             <li><a href="{{ path('course') }}">Courses</a></li>
+             <li><a href="{{ path('tagset') }}">Tags</a></li>
+             <li><a href="{{ path('markupset') }}">Markup</a></li>
+             <li><a href="{{ path('portset') }}">Portfolios</a></li>
        {% endif %}        
 {% endblock %}  

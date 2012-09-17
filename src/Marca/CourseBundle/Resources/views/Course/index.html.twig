@@ -4,8 +4,14 @@
 
 {% block content %}
 <div class="row">
-<div class="span6 well">
-<table class="table table-bordered table-condensed table-striped">
+   <div class="span6 well">
+      <a class="btn btn-primary" href="{{ path('course_new') }}">New Course</a>
+   </div>
+</div>
+
+<div class="row">
+<div class="span6">
+<table class="table">
 <thead>
     <tr>              
         <th>Course Name</th>        
@@ -16,11 +22,8 @@
 <tbody>
     {% for course in courses %}
     <tr>         
-        <td>{{ course.name }}</td>        
-        <td>{{ course.time|date('h:i a') }}</td>        
-        <td><div class="btn-group"><a class="btn btn-info" href="{{ path('course_show', { 'courseid': course.id }) }}">Course Details</a></div>
-
-</td>       
+        <td><a class="" href="{{ path('course_show', { 'courseid': course.id }) }}">{{ course.name }}</a></td>        
+        <td>{{ course.time|date('h:i a') }}</td>             
     </tr>
     
     {% endfor %}
@@ -29,10 +32,6 @@
 </div>
 </div>
 
-<div class="row">
-   <div class="span4">
-      <a class="btn btn-primary" href="{{ path('course_new') }}">Create a New Course</a>
-   </div>
-</div> 
+ 
 {% endblock %}
 
