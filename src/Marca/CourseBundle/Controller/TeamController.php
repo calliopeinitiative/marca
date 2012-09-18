@@ -95,7 +95,7 @@ class TeamController extends Controller
     /**
      * Edits an existing team entity.
      *
-     * @Route("/{id}/update", name="team_update")
+     * @Route("/{courseid}/{id}/update", name="team_update")
      * @Method("post")
      * @Template("MarcaCourseBundle:Team:edit.html.twig")
      */

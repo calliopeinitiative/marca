@@ -4,9 +4,9 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span4 well">
-<h3>Edit Project</h3>   
-<form action="{{ path('team_update', { 'id': team.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+<div class="span4">
+<legend>Teams</legend>   
+<form action="{{ course_path('team_update', { 'id': team.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
     {{ form_errors(edit_form) }}   
         
         {{ form_row (edit_form.name) }}      
@@ -14,8 +14,8 @@
         {{ form_row (edit_form.rolls) }}
         
     {{ form_rest(edit_form) }}     
-<button class="btn btn-primary" type="submit">Update Team</button>
-<a class="btn" href="{{ path('team_manage', { 'courseid': courseid }) }}">Cancel</a></td></tr>          
+<button class="btn btn-primary" type="submit">Update</button>
+<a class="btn" href="{{ path('course_show', { 'courseid': courseid }) }}">Cancel</a></td></tr>          
 </form>
 </div>
 {% endblock %}

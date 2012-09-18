@@ -16,7 +16,7 @@ class TeamType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('rolls','entity', array('class'=>'MarcaCourseBundle:Roll'
+            ->add('rolls','entity', array('label'  => 'Select team members:','class'=>'MarcaCourseBundle:Roll'
                 ,'query_builder' => function(RollRepository $rr) use ($courseid){
                 $qb = $rr->createQueryBuilder('roll');
                 $qb->add('where', 'roll.course = :course');

@@ -3,14 +3,16 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
+<legend>Portfolios</legend>
+
 <div class="row">
-<div class="span6 well">   
+<div class="span6">   
     <a class="btn btn-primary" href="{{ path('portset_new') }}">New Portfolio Set</a>
 </div>
 </div>
 
 <div class="row">
-<div class="span6 well">
+<div class="span6">
     {% for portset in portsets %}
         <h4>{{ portset.name }}</h4>
         <a class="btn btn-primary btn-small pull-right" href="{{ path('portset_show', { 'id': portset.id }) }}">show</a><a class="btn btn-primary btn-small pull-right" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit</a>

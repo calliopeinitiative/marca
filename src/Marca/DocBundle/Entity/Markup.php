@@ -34,7 +34,7 @@ class Markup
      *
      * @ORM\Column(name="function", type="string", length=255)
      */
-    private $function;
+    private $function = 'markup';
 
     /**
      * @var string $value

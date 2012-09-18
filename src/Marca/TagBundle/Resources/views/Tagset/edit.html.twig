@@ -4,7 +4,8 @@
 
 {% block content %}
 <div class="row"> 
-<div class="span4 well">    
+<div class="span4">  
+    <legend>Tag Sets</legend>
 <form action="{{ path('tagset_update', { 'id': tagset.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         {{ form_errors(edit_form) }}
 
@@ -13,7 +14,7 @@
     
     {{ form_rest(edit_form) }}
     <div>
-        <button class="btn btn-primary" type="submit">Update</button>
+        <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('tagset') }}">Cancel</a> 
     </div>
 </form>
        
