@@ -1,0 +1,20 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     localhost
+    database_port:     xxxx
+    database_name:     xxxx
+    database_user:     xxxx
+    database_password: xxxx
+
+    mailer_transport:  xxxx
+    mailer_host:       xxxx
+    mailer_port:       xxxx
+    mailer_sender_address: xxxx
+    mailer_user:       xxxx
+    mailer_password:   xxxx
+    mailer_encryption:  xxxx
+    from_email:        xxxx
+
+    locale:            xxxx
+    secret:            xxxx
+
