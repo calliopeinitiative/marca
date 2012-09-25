@@ -5,6 +5,8 @@
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_styles.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_tools.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -33,7 +35,7 @@ toolbar : [
 <div class="span3" style="position:fixed;left:960px;">
 <div class="row pad-left">
     <input class="btn btn-primary btn-small" type="submit" value="Save"/>
-    <a class="btn btn-primary btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'sort': 'updated', 'scope': 'mine' }) }}">Cancel</a>
+    <a class="btn btn-primary btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'tag': 0, 'scope': 'mine' }) }}">Cancel</a>
 </div>    
 {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 </div>         

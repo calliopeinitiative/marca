@@ -79,7 +79,7 @@ class DocController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
 
-        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByUser($user);
+        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findAll();
         
         $doc = new Doc();
         $doc->setBody('<p></p>');
@@ -88,7 +88,7 @@ class DocController extends Controller
 
         return array(
             'doc' => $doc,
-            'markup'      => $markup,
+            'markupsets'      => $markupsets,
             'form'   => $form->createView()
         );
     }
@@ -107,7 +107,8 @@ class DocController extends Controller
         
         $em = $this->getEm();
         $user = $this->getUser();
-        $courseid = $this->get('request')->getSession()->get('courseid');
+        $em = $this->getEm();
+
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $project = $em->getRepository('MarcaCourseBundle:Project')->findOneByCourse($courseid);
               

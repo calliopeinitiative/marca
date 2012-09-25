@@ -8,7 +8,7 @@
         <li class="{% if active_project == 0 %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'scope': scope, 'tag': '0' }) }}"><strong>Recent Files</strong></a></li>
     {% for project in projects %}
             <li class="{% if active_project == project.id %}active{% endif %} ">
-                <a class="" href="{{ course_path('file_list', { 'project': project.id, 'sort': 'updated', 'scope': scope, 'tag': '0' }) }}"><strong>{{ project.name }}</strong></a></li>
+                <a class="" href="{{ course_path('file_list', { 'project': project.id, 'scope': scope, 'tag': '0' }) }}"><strong>{{ project.name }}</strong></a></li>
     {% endfor %}
      </ul>
 </div>
