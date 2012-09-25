@@ -16,5 +16,6 @@ parameters:
     from_email:        xxxx
 
     locale:            xxxx
-    secret:            xxxx
+    secret:            xxxxX
+
 
