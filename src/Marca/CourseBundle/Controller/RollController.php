@@ -119,7 +119,7 @@ class RollController extends Controller
         
         $em = $this->getEm();
 
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollUser($id);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
 
         if (!$roll) {
             throw $this->createNotFoundException('Unable to find Roll roll.');
@@ -231,6 +231,28 @@ class RollController extends Controller
          $roll->setRole(self::ROLE_STUDENT);
          $em->persist($roll);
          $em->flush();
+         return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
+         
+     }
+     
+     /**
+     *Approves a pending student 
+     * @Route("/{courseid}/approve_all_pending" , name="roll_approve_all")
+     *
+     */
+     public function approveAllAction($courseid)
+     {
+         $allowed = array(self::ROLE_INSTRUCTOR);
+         $this->restrictAccessTo($allowed);
+         $em = $this->getEm();
+         $course = $this->getCourse();
+         foreach($course->getRoll() as $roll){
+            if ($roll->getRole() == self::ROLE_PENDING){ 
+                $roll->setRole(self::ROLE_STUDENT);
+                $em->persist($roll);
+                $em->flush();
+            }
+         }
          return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
          
      }

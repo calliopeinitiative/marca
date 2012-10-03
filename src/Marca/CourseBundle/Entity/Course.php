@@ -166,6 +166,11 @@ class Course
      */
     protected $teams;
     
+    /**
+     * @var boolean $pendingFlag
+     * @ORM\Column(name="pendingFlag", type="boolean")
+     */
+    private $pendingFlag = false; 
     
     public function __construct()
     {
@@ -739,4 +744,25 @@ class Course
     {
         return $this->teams;
     }
+    
+    /**
+     * Set Pending Flag
+     * 
+     * @param boolean $flag 
+     */
+    public function setPendingFlag($flag)
+    {
+        $this->pendingFlag = $flag;
+    }
+    
+    /**
+     * Return Pending Status
+     * 
+     * @return boolean 
+     */
+    public function hasPendingStudents()
+    {
+        return $this->pendingFlag;
+    }
+    
 }
