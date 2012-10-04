@@ -134,6 +134,7 @@
     
     <hr/>
     <h2>Roll</h2>
+    {% if course.hasPendingStudents %}<a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{% endif %}
     {% for roll in roll %}
     <ul class="unstyled">      
         <li>{{ roll.lastname }}, {{ roll.firstname }} {% if roll.role == 2 %}**{% endif %} {% if roll.role == 0 %} PENDING <a class="btn btn-mini btn-primary" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>{% endif %}<a class="btn btn-mini btn-primary" href="{{ path('roll_edit', { 'id': roll.id,'courseid':course.id, }) }}">Edit</a></li>         

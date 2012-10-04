@@ -24,10 +24,12 @@ class enrollFixture extends AbstractFixture implements OrderedFixtureInterface
 {
      public function load(ObjectManager $manager)
     {
-        for ($i = 1; $i <= 50; $i++){
+         $course = $manager->merge($this->getReference('course1'));
+         $course->setPendingFlag(true);
+         
+         for ($i = 1; $i <= 50; $i++){
             $num = strval($i);
             $user = $manager->merge($this->getReference('stdnt'.$num.'-user'));
-            $course = $manager->merge($this->getReference('course1'));
             $roll = new Roll();
             $roll->setRole(Roll::ROLE_PENDING);
             $roll->setUser($user);
@@ -37,11 +39,12 @@ class enrollFixture extends AbstractFixture implements OrderedFixtureInterface
             $manager->persist($roll);
             $manager->flush();
         }
-        
+
+        $course = $manager->merge($this->getReference('course2'));
+        $course->setPendingFlag(true);   
         for ($i = 51; $i <= 100; $i++){
             $num = strval($i);
             $user = $manager->merge($this->getReference('stdnt'.$num.'-user'));
-            $course = $manager->merge($this->getReference('course2'));
             $roll = new Roll();
             $roll->setRole(Roll::ROLE_PENDING);
             $roll->setUser($user);
