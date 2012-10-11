@@ -2,7 +2,7 @@ Marca Rebuild by Calliope Initiative
 ========================
 by Ron Balthazor, Sara Steger, Robin Wharton, John Weatherford, and Andy Famiglietti 
 
-Marca is a web applications designed especially for writers and can be used throughout the writing process, 
+Marca is a web application designed especially for writers and can be used throughout the writing process, 
 from collecting research, to brainstorming, to drafting, through peer review, instructor grading and commenting, 
 and revision. Marca is designed to foster a writing community in the classroom by providing both public and private
 spaces where students can collect their work and receive feedback from their peers as well as their instructor.
