@@ -1,0 +1,3 @@
+{% for feed in feed %}
+{title : {{ feed.title|json_encode }}, color : {{ feed.color|json_encode }}, start : {{ feed.startDate|date('j M Y')|json_encode }} {{ feed.startTime|date(' H:i:s')|json_encode }}, allDay : &quotfalse&quot},
+{% endfor %}  

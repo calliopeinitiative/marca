@@ -14,7 +14,26 @@
 <script language="javascript">
 $(document).ready(function() {
     $('#calendar').fullCalendar({
+        header: 
+            {
+              left:   'title',
+              center: '',
+              right:  'today month,agendaWeek,agendaDay,prev,next'
+             },
+       events: [
+       {% for calendar in calendar %}
+    
+        {
+            title  : '{{ calendar.title }}',
+            color  : '{{ calendar.color }}',
+            start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date(' H:i:s') }}',
+            allDay : false,
+            textColor: 'black',
+        },
 
+       {% endfor %} 
+       ]
+       
     })
 });
 </script>

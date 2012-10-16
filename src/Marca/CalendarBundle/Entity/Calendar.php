@@ -63,6 +63,13 @@ class Calendar
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
+    
+    /**
+     * @var string $color
+     *
+     * @ORM\Column(name="color", type="string", length=255, nullable=true)
+     */
+    private $color;    
 
     /**
     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="calendar")
@@ -295,5 +302,30 @@ class Calendar
     public function getCourse()
     {
         return $this->course;
+    }
+
+
+
+    /**
+     * Set color
+     *
+     * @param string $color
+     * @return Calendar
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+    
+        return $this;
+    }
+
+    /**
+     * Get color
+     *
+     * @return string 
+     */
+    public function getColor()
+    {
+        return $this->color;
     }
 }

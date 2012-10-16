@@ -10,5 +10,7 @@
 /uploads
 /temp
 /buildNotes
+composer.lock
+composer.phar
 .gitignore
 

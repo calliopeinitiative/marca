@@ -16,6 +16,7 @@ class CalendarType extends AbstractType
             ->add('endDate', 'date', array('widget' => 'single_text','format' => 'MM/dd/yyyy')) 
             ->add('endTime', 'time', array('widget' => 'single_text', 'attr' => array('name' => 'timepicker')))                 
             ->add('title')
+            ->add('color')    
             ->add('description')
         ;
     }

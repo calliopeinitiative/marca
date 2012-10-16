@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\CalendarBundle\Entity\Calendar;
 use Marca\CalendarBundle\Form\CalendarType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Calendar controller.
@@ -27,7 +28,7 @@ class CalendarController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findAll();
 
@@ -46,7 +47,7 @@ class CalendarController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findAll();
 
@@ -64,7 +65,7 @@ class CalendarController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
 
@@ -149,7 +150,7 @@ class CalendarController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
 
@@ -179,7 +180,7 @@ class CalendarController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
 
@@ -246,4 +247,22 @@ class CalendarController extends Controller
             ->getForm()
         ;
     }
+    
+     /**
+     * Edits an existing Calendar entity.
+     * @Template("MarcaCalendarBundle:Calendar:display.json.twig")
+     */
+ public function feedAction() { 
+     
+     $em = $this->getEm();
+     
+     $dql1 = "SELECT c FROM MarcaCalendarBundle:Calendar c";    
+     $query = $em->createQuery($dql1);
+     $feed = $query->getResult();
+     
+     return array('feed' => $feed);
+    
+}
+
+
 }
