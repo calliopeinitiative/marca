@@ -12,7 +12,7 @@ class TagType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('color')
+            ->add('color')   
             ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'property'=>'name','expanded'=>true,'multiple'=>true,'attr' => array('class' => 'checkbox'), ))        
 
         ;

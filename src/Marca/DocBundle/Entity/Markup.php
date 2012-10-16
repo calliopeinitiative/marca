@@ -48,7 +48,21 @@ class Markup
      *
      * @ORM\Column(name="color", type="string", length=255)
      */
-    private $color;    
+    private $color;
+    
+    /**
+     * @var string $url
+     *
+     * @ORM\Column(name="url", type="string", length=255, nullable=true)
+     */
+    private $url;
+    
+    /**
+     * @var string $mouseover
+     *
+     * @ORM\Column(name="mouseover", type="text", nullable=true)
+     */
+    private $mouseover;
 
    /**
     * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markupset", inversedBy="markup")
@@ -209,5 +223,51 @@ class Markup
     public function getMarkupset()
     {
         return $this->markupset;
+    }
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     * @return Markup
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    
+        return $this;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string 
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * Set mouseover
+     *
+     * @param string $mouseover
+     * @return Markup
+     */
+    public function setMouseover($mouseover)
+    {
+        $this->mouseover = $mouseover;
+    
+        return $this;
+    }
+
+    /**
+     * Get mouseover
+     *
+     * @return string 
+     */
+    public function getMouseover()
+    {
+        return $this->mouseover;
     }
 }

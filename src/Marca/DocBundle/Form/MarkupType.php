@@ -13,7 +13,9 @@ class MarkupType extends AbstractType
         $builder
             ->add('name')
             ->add('value')
-            ->add('color')    
+            ->add('color')
+            ->add('url')
+            ->add('mouseover') 
             ->add('markupset','entity', array('class'=>'MarcaDocBundle:Markupset', 'property'=>'name','expanded'=>true,'multiple'=>true,'attr' => array('class' => 'checkbox'), ))  
         ;
     }

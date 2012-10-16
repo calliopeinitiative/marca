@@ -20,6 +20,7 @@
     <table class="table">
     {% for markup in markupset.markup %}
             <tr><td><span class="label {{ markup.color }}">{{ markup.name }}</span></td><td>{% if markupset.isOwner(app.user.username) %}<a class="btn btn-primary btn-mini  pull-right" href="{{ path('markup_edit', { 'id': markup.id }) }}">Edit</a>{% endif %}</td></tr>
+            <tr><td>{% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">URL</a>{% else %}No URL{% endif %}</td><td colspan=2>{{ markup.mouseover }}</td></tr>
     {% endfor %}
     </table>        
     {% endfor %}
