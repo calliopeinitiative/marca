@@ -13,7 +13,7 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins : 'resize',extraPlugins:'autosave,autogrow',autosaveTargetUrl:'/marca/web/autosave.php', skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true, stylesSet:'marca_styles',contentsCss:'/marca/web/bundles/marcahome/css/ckeditor41.css', 
+$('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins : 'resize',extraPlugins:'autosave,autogrow',autosaveTargetUrl:'/marca/web/autosave.php', skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
 toolbar : [
 ['Save','Preview','-', 'Autosave','Print','Templates','Undo','Redo','Find','Replace','SelectAll','RemoveFormat'],
 ['Bold','Italic','Underline','Strike','Subscript','Superscript','NumberedLst','BulletedList','Outdent','Indent','Blockquote'],

@@ -25,8 +25,24 @@ var span_number = index + 1;
 var span_append = '<span class="hide eDoc_super">' + span_number + '</span>';
 $(this).append(span_append); 
 });
+
+$('span').mouseover(function (){ 
+var htmlStr = $(this).attr('title');    
+$('#eDoc_pop').toggle().html(htmlStr);
+});
+$('span').mouseout(function (){ 
+$('#eDoc_pop').toggle();
+});
+
+
 });
 </script>
+
+<div id='eDoc_pop' class='well hide' style='position:fixed;left:70em;top:15em;'>
+
+</div>
+
+
 <ul class="nav nav-tabs">
     <li><h2 class="">{{file.name}}</h2></li>
     <li class='pad-left'><a class="" href="{{ course_path('file') }}">Return to Files</a></li>    
@@ -49,7 +65,13 @@ $(this).append(span_append);
 <div id='notes_container' class='divider cell clear hide'>
 
 </div>
+        
+
+        
+        
 </div>    
 </div>
+
+
     
 {% endblock %}
