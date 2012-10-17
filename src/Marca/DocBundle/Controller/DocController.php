@@ -52,6 +52,7 @@ class DocController extends Controller
 
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
         $file = $doc->getFile();
+        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findAll();
 
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
@@ -62,6 +63,7 @@ class DocController extends Controller
         return array(
             'doc'      => $doc,
             'file'        => $file,
+            'markupsets' => $markupsets,
             'delete_form' => $deleteForm->createView(),        );
     }
 
