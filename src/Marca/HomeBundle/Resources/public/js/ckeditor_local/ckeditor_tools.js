@@ -18,7 +18,7 @@ var nEditor = CKEDITOR.instances.marca_docbundle_doctype_body;
 var tag = tag;
 var color = color;
 var marked = nEditor.getSelection().getNative();
-var markup = CKEDITOR.dom.element.createFromHtml('<span title="'+ tag + '" class="'+ tag + ' ' + color +'">' + nEditor.getSelection().getNative() + ' </span>');
+var markup = CKEDITOR.dom.element.createFromHtml('<span title="'+ tag + '" class="'+ tag + ' markup ' + color +'">' + nEditor.getSelection().getNative() + ' </span>');
 nEditor.insertElement( markup );
 }
 function note()

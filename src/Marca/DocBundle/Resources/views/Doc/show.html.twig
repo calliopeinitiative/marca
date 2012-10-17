@@ -25,8 +25,17 @@ var span_number = index + 1;
 var span_append = '<span class="hide eDoc_super">' + span_number + '</span>';
 $(this).append(span_append); 
 });
+
+$('.markup').mouseover(function (){ 
+var name = '#' + $(this).attr('title');    
+$('.popup').hide();$(name).show();
+});
+
+
 });
 </script>
+
+
 <ul class="nav nav-tabs">
     <li><h2 class="">{{file.name}}</h2></li>
     <li class='pad-left'><a class="" href="{{ course_path('file') }}">Return to Files</a></li>    
@@ -40,7 +49,22 @@ $(this).append(span_append);
 {{ doc.body|raw }}       
 </div>        
        
-<div class="span2 well doc">    
+<div class="span2 well doc" style='left:70em;position:fixed;'>  
+<div class='cell clear'>
+    
+    {% for markupset in markupsets%}
+    {% for markup in markupset.markup %}
+    <div id='{{ markup.value }}' class='popup hide'>
+            <span  class="label {{ markup.color }} ">{{ markup.name }}</span>
+            <br/>
+            {{ markup.mouseover }}
+            {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">URL</a>{% endif %}<hr/>
+    </div>        
+    {% endfor %} 
+    {% endfor %}
+     
+</div> 
+
 <div class='cell clear'>
 <a class="btn btn-info btn-small" href="javascript:void(0);" 
  onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
@@ -48,8 +72,10 @@ $(this).append(span_append);
 
 <div id='notes_container' class='divider cell clear hide'>
 
-</div>
+</div>    
 </div>    
 </div>
+
+
     
 {% endblock %}
