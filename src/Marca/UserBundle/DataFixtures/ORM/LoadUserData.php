@@ -24,17 +24,21 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $userInstr = new User();
-        $userInstr->setUsername('testInstructor1');
-        $userInstr->setPlainPassword('test');
-        $userInstr->setEmail('test@someemail.com');
-        $userInstr->setEnabled(True);
-        
-        $manager->persist($userInstr);
-        $manager->flush();
-        
-        $this->addReference('instr1-user', $userInstr);
-        
+        for ($i = 1; $i <= 25; $i++){
+            $num = strval($i);
+            $userInstr = new User();
+            $userInstr->setUsername('testInstructor'.$num);
+            $userInstr->setPlainPassword('test'.$num);
+            $userInstr->setEmail('test'.$num.'@someemail.com');
+            $userInstr->setFirstname('Test'.$num);
+            $userInstr->setLastname('Instructor'.$num);
+            $userInstr->setEnabled(True);
+
+            $manager->persist($userInstr);
+            $manager->flush();
+
+            $this->addReference('instr'.$num.'-user', $userInstr);
+        }
         for ($i = 1; $i <= 100; $i++){
             $num = strval($i);
             $userStudent = new User();
