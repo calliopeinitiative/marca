@@ -25,82 +25,55 @@ class LoadMarkupsetData extends AbstractFixture implements OrderedFixtureInterfa
      */
     public function load(ObjectManager $manager)
     {
-        $shared = 1;
-        $name = 'Standard';
-        $markupset = new Markupset();
+       
         $user = $manager->merge($this->getReference('instr1-user')); 
-        $markupset->setUser($user);
-        $markupset->setShared($shared);
-        $markupset->setName($name); 
+        //$markupset = $this->createMarkupSet('Standard', 1, $user);
         
-        $name = 'Subject';
-        $color = 'mc1';
-        $value = 'subject';
-        $markup1 = new Markup();
-        $markup1->setUser($user);
-        $markup1->setName($name);
-        $markup1->setColor($color);
-        $markup1->setValue($value);
-        $markup1->addMarkupset($markupset);
+        //$markup1 = $this->createMarkup('Subject', $user, 'mc1', 'subject', $markupset);
+        //$markup2 = $this->createMarkup('Verb', $user, 'mc2', 'verb', $markupset);
+        //$markup3 = $this->createMarkup('Preposition', $user, 'mc3', 'preposition', $markupset);       
         
-        $name = 'Verb';
-        $color = 'mc2';
-        $value = 'verb';
-        $markup2 = new Markup();
-        $markup2->setUser($user);
-        $markup2->setName($name);
-        $markup2->setColor($color);
-        $markup2->setValue($value);
-        $markup2->addMarkupset($markupset);        
-        
-        $name = 'Preposition';
-        $color = 'mc3';
-        $value = 'preposition';
-        $markup3 = new Markup();
-        $markup3->setUser($user);
-        $markup3->setName($name);
-        $markup3->setColor($color);
-        $markup3->setValue($value);
-        $markup3->addMarkupset($markupset);
-        
-        $manager->persist($markupset);       
-        $manager->persist($markup1);
-        $manager->persist($markup2);
-        $manager->persist($markup3);
+        //$manager->persist($markupset);       
+        //$manager->persist($markup1);
+        //$manager->persist($markup2);
+        //$manager->persist($markup3);
 
-        $markupset2 = new Markupset();
-        $markupset2->setUser($user);
-        $markupset2->setShared($shared);
-        $markupset2->setName('Rhetoric');
-        
-        $markup4 = new Markup();
-        $markup4->setUser($user);
-        $markup4->setName('Ethos');
-        $markup4->setColor('mc4');
-        $markup4->setValue('Ethos');
-        $markup4->setUrl('http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/585-ethos');
-        $markup4->addMarkupset($markupset2);
-        
-        $markup5 = new Markup();
-        $markup5->setUser($user);
-        $markup5->setName('Pathos');
-        $markup5->setColor('mc5');
-        $markup5->setValue('Pathos');
-        $markup5->setUrl('http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/591-pathos');
-        $markup5->addMarkupset($markupset2);
-        
-        $markup6 = new Markup();
-        $markup6->setUser($user);
-        $markup6->setName('Logos');
-        $markup6->setColor('mc6');
-        $markup6->setValue('Logos');
-        $markup6->setUrl('http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/593-logos');
-        $markup6->addMarkupset($markupset2);
+        $markupset2 = $this->createMarkupSet('Rhetoric', 1, $user);
+
+        $markup4 = $this->createMarkup('Ethos', $user, 'mc4', 'ethos', $markupset2, 'http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/585-ethos');
+        $markup5 = $this->createMarkup('Pathos', $user, 'mc5' , 'pathos', $markupset2, 'http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/591-pathos');
+        $markup6 = $this->createMarkup('Logos', $user, 'mc6', 'logos', $markupset2, 'http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/593-logos');
         
         $manager->persist($markupset2);       
         $manager->persist($markup4);
         $manager->persist($markup5);
         $manager->persist($markup6);
+        
+        $markupset3 = $this->createMarkupSet('Evidence', 1, $user);
+ 
+        $markup7 = $this->createMarkup('Context', $user, 'mc7', 'context', $markupset3, null, 'Provide more context for this quote');
+        $markup8 = $this->createMarkup('Interpret', $user, 'mc8', 'interpret', $markupset3, null, 'Interpret this quote');
+        $markup9 = $this->createMarkup('Connect', $user, 'mc9', 'connect', $markupset3, null, 'Connect this evidence to your argument');
+        
+        $manager->persist($markupset3);
+        $manager->persist($markup7);
+        $manager->persist($markup8);
+        $manager->persist($markup9);
+        
+        $markupset4 = $this->createMarkupSet('Grammar', 1, $user);
+        
+        $markup10 = $this->createMarkup('Comma_Splice', $user, 'mc1', 'comma_splice', $markupset4, 'http://owl.english.purdue.edu/engagement/index.php?category_id=2&sub_category_id=1&article_id=34');
+        $markup11 = $this->createMarkup('Passive_Voice', $user, 'mc2', 'passive_voice', $markupset4, 'http://owl.english.purdue.edu/owl/resource/539/1/');
+        $markup12 = $this->createMarkup('Expletive_Construction', $user, 'mc3', 'expletive_construction', $markupset4, 'http://owl.english.purdue.edu/owl/resource/539/1/');
+        $markup13 = $this->createMarkup('Subject_Verb_Agreement', $user, 'mc4', 'subject_verb_agreement', $markupset4, 'http://writingcommons.org/style/grammar/subject-verb-agreement');
+        $markup14 = $this->createMarkup('Pronoun_antecedent_agreement ', $user, 'mc5', 'pronoun_antecedent_agreement', $markupset4, 'http://writingcommons.org/style/grammar/subject-pronoun-agreement');
+        
+        $manager->persist($markupset4);
+        $manager->persist($markup10);
+        $manager->persist($markup11);
+        $manager->persist($markup12);
+        $manager->persist($markup13);
+        $manager->persist($markup14);
         
         $manager->flush();
         
@@ -114,5 +87,28 @@ class LoadMarkupsetData extends AbstractFixture implements OrderedFixtureInterfa
     public function getOrder()
     {
         return 4;
+    }
+    
+    private function createMarkupSet($name, $shared, $user)
+    {
+        $markupset = new Markupset();
+        $markupset->setName($name);
+        $markupset->setShared($shared);
+        $markupset->setUser($user);
+        
+        return $markupset;
+    }
+    
+    private function createMarkup($name, $user, $color, $value, $markupset, $url=null, $mouseover=null)
+    {
+        $markup = new Markup();
+        $markup->setName($name);
+        $markup->setColor($color);
+        $markup->setUser($user);
+        $markup->setValue($value);
+        $markup->setUrl($url);
+        $markup->setMouseover($mouseover);
+        $markup->addMarkupset($markupset);
+        return $markup;
     }
 }
