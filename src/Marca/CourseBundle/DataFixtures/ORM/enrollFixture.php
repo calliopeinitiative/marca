@@ -24,7 +24,7 @@ class enrollFixture extends AbstractFixture implements OrderedFixtureInterface
 {
      public function load(ObjectManager $manager)
     {
-         $course = $manager->merge($this->getReference('course1'));
+         $course = $manager->merge($this->getReference('course1.1'));
          $course->setPendingFlag(true);
          
          for ($i = 1; $i <= 50; $i++){
@@ -40,7 +40,7 @@ class enrollFixture extends AbstractFixture implements OrderedFixtureInterface
             $manager->flush();
         }
 
-        $course = $manager->merge($this->getReference('course2'));
+        $course = $manager->merge($this->getReference('course2.1'));
         $course->setPendingFlag(true);   
         for ($i = 51; $i <= 100; $i++){
             $num = strval($i);
