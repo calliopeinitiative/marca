@@ -1,3 +1,8 @@
+marca_admin:
+    resource: "@MarcaAdminBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 MarcaCalendarFeed:
     pattern: /calendar/myfeed.php
     defaults: { _controller: MarcaCalendarBundle:Calendar:feed, _format: json}

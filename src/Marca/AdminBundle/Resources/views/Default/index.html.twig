@@ -1,0 +1,15 @@
+{# Marca/AdminBundle/Resources/views/Default/index.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block content %}
+
+{% for user in users %}
+<ul>
+    <li>
+       {{user.lastname}}, {{user.firstname}}
+       <a href="{{ path('user_admin', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Permissions</a>
+    </li>
+</ul>
+{% endfor %}
+{% endblock %}

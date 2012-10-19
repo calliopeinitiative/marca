@@ -14,7 +14,8 @@
 {% endblock %}
 
 {% block sidebar %}
+    <li><legend>Notes</legend></li>
     {% if is_granted('ROLE_USER') %}
-<li><a href="{{ course_path('new_note') }}">New Note</a></li>
+    <li><a href="{{ course_path('new_note') }}">New Note</a></li>
     {% endif %}
 {% endblock %}

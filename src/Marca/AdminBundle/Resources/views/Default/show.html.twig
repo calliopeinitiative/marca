@@ -1,0 +1,14 @@
+{# Marca/AdminBundle/Resources/views/Default/index.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block content %}
+
+<ul>
+    <li>{{user.lastname}}, {{user.firstname}}</li>
+    <li>{% for role in user.roles %}{{ role }} {% endfor %}</li>
+    <li><a href="{{ path('user_promote', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Promote Instr.</a></li>
+    <li><a href="{{ path('user_demote', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Demote Instr.</a></li>
+</ul>
+
+{% endblock %}

@@ -11,7 +11,8 @@
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
 {% endblock %}
 
-{% block sidebar %}  
+{% block sidebar %}
+        <li><legend>Projects</legend></li>
        {% if is_granted('ROLE_USER') %}
              <li class="{% if scope=='m' %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine' , 'tag': '0'}) }}">My Files</a></li>
              <li class="{% if scope=='a' %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all'  , 'tag': '0'}) }}">All Files</a></li>
