@@ -29,7 +29,7 @@
              <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
              {% endif %}
              ({{portfolio.portitem.name}}) 
-             <a class="btn btn-danger btn-mini pull-right" href="{{ course_path('portfolio_show', { 'id': portfolio.id }) }}">Delete</a>
+             <a class="btn btn-warning btn-mini pull-right" href="{{ course_path('portfolio_show', { 'id': portfolio.id }) }}">Delete</a>
              <a class="btn btn-primary btn-mini pull-right" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Edit</a>
              
             </dd>  
