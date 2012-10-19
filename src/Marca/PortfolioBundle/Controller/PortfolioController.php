@@ -32,7 +32,7 @@ class PortfolioController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $portset = $course->getPortset();
         $portfolio = $course = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
-        return array('portfolio' =>$portfolio, 'portset' => $portset);
+        return array('portfolio' =>$portfolio, 'portset' => $portset,);
     }
     
 
@@ -49,7 +49,7 @@ class PortfolioController extends Controller
         
         $em = $this->getEm();
 
-        $portfolios = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
+        $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
 
         if (!$portfolio) {
             throw $this->createNotFoundException('Unable to find Portfolio entity.');
@@ -58,7 +58,7 @@ class PortfolioController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'portfolios'      => $portfolios,
+            'portfolio'      => $portfolio,
             'delete_form' => $deleteForm->createView(),        );
     }
 
@@ -166,7 +166,7 @@ class PortfolioController extends Controller
      * @Route("/{courseid}/{id}/delete", name="portfolio_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -188,7 +188,7 @@ class PortfolioController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('portfolio'));
+        return $this->redirect($this->generateUrl('portfolio', array('courseid' => $courseid)));
     }
 
     private function createDeleteForm($id)
