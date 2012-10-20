@@ -69,7 +69,12 @@ class User extends BaseUser
     /**
      * @ORM\OneToMany(targetEntity="Marca\TagBundle\Entity\Tagset", mappedBy="user")
      */
-    protected $tagset;         
+    protected $tagset;  
+    
+    /**
+     * @ORM\Column(name="share_email", type="boolean")
+     */
+    private $share_email = false;
     
     public function __construct()
     {
@@ -268,5 +273,25 @@ class User extends BaseUser
     public function getTagset()
     {
         return $this->tagset;
+    }
+    
+    /**
+     * Get share email
+     * 
+     * @return boolean
+     */
+    public function getShareEmail()
+    {
+        return $this->share_email;
+    }
+    
+    /**
+     * Set share email
+     * 
+     * @param boolean
+     */
+    public function setShareEmail($share_email)
+    {
+        $this->share_email = $share_email;
     }
 }

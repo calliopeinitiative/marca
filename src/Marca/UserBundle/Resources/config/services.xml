@@ -8,13 +8,12 @@
     <parameters>
         <parameter key="marca_user.example.class">Marca\UserBundle\Example</parameter>
     </parameters>
-
+    -->
     <services>
-        <service id="marca_user.example" class="%marca_user.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="marca_user.registration.form.type" class="Marca\UserBundle\Form\RegistrationFormType">
+            <tag name="form.type" alias="marca_user_registration" />
+            <argument>%fos_user.model.user.class%</argument>
         </service>
     </services>
-    -->
+  
 </container>

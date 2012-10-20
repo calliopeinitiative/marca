@@ -66,6 +66,8 @@ fos_user:
     firewall_name: main
     user_class: Marca\UserBundle\Entity\User
     registration:
+        form:
+            type: marca_user_registration
         confirmation:
             enabled:    true
     from_email:
