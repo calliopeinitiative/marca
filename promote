@@ -1,0 +1,7 @@
+#!/bin/bash
+
+
+for i in {4..25}
+do
+	php app/console fos:user:promote testInstructor$i ROLE_INSTR
+done
