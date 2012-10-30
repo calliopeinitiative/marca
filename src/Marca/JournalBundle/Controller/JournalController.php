@@ -33,6 +33,7 @@ class JournalController extends Controller
         $course = $this->getCourse();
         
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course);
+        
         //pagination
         $paginator = $this->get('knp_paginator');
         $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', 1),5);
