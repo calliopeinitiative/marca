@@ -31,7 +31,11 @@ class CalendarController extends Controller
         $em = $this->getEm();
 
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findAll();
-
+        
+        //pagination for files
+        $paginator = $this->get('knp_paginator');
+        $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),10);
+        
         return array('calendar' => $calendar);
     }
     
