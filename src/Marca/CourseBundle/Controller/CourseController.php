@@ -65,6 +65,8 @@ class CourseController extends Controller
         $tagsets = $course->getTagset();
         $portset = $course->getPortset();
         $roll = $course->getRoll();
+        $paginator = $this->get('knp_paginator');
+        $roll = $paginator->paginate($roll,$this->get('request')->query->get('page',1),10);
         $teams = $course->getTeams();
         
         if (!$course) {
