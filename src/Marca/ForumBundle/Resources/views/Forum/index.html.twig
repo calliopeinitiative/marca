@@ -22,17 +22,6 @@
      </div>
 {% endfor %}
 
-
-<div class="row"> 
-<ul class="pager">
-  <li class="previous">
-    {% if set >= 1 %}<a title="View previous entries" href="{{ course_path('forum', { 'set': set - 1 } ) }}">&larr; Previous</a>{% endif %}
-  </li>
-  <li class="next">
-    <a title="View more entries" href="{{ course_path('forum', { 'set': set + 1 } ) }}">Next &rarr;</a>
-  </li>
-</ul>
-</div>
     
 <div class="navigation">
     {{ forumEntries.render()|raw }}
