@@ -32,6 +32,7 @@ class FileController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
+        
         $scope = 'mine';
         $project = 'recent';
         $tag = 0;
@@ -43,6 +44,11 @@ class FileController extends Controller
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
+        
+        //pagination for files
+        $paginator = $this->get('knp_paginator');
+        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),10);
+
         return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'scope'=> $scope, 'tags' => $tags, 'tag' => $tag);
     }
 
@@ -64,8 +70,13 @@ class FileController extends Controller
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
+        
+        //pagination for files
+        $paginator = $this->get('knp_paginator');
+        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),10);
+
         return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'scope'=> $scope, 'tags' => $tags, 'tag' => $tag);
-    }   
+    }  
        
       /**
      * Lists all File entities by Project.
@@ -86,8 +97,12 @@ class FileController extends Controller
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
         
+        //pagination for files
+        $paginator = $this->get('knp_paginator');
+        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),10);
+
         return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'scope'=> $scope, 'tags' => $tags, 'tag' => $tag);
-    }    
+    }     
     
     /**
      * Finds and displays a File entity.

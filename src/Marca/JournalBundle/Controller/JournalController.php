@@ -23,19 +23,21 @@ class JournalController extends Controller
      * @Route("/{courseid}/{set}/page/", name="journal")
      * @Template()
      */
-    public function indexAction($set)
+    public function indexAction()
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
         $user = $this->getUser();
-        $set = $set;
         $course = $this->getCourse();
         
-        $journal = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course, $set);
+        $journal = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course);
+        //pagination
+        $paginator = $this->get('knp_paginator');
+        $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', 1),5);
         
-        return array('journal' => $journal,'set' => $set);
+        return array('journal' => $journal);
     }
 
     /**

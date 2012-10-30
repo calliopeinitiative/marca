@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Marca\HomeBundle\MarcaHomeBundle(),
             new Marca\UserBundle\MarcaUserBundle(),
             new Marca\CourseBundle\MarcaCourseBundle(),

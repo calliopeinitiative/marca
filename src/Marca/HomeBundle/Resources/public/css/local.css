@@ -32,6 +32,36 @@ div.inline label {display:inline;padding:.5em;}
 input#remember_me {display:block;clear:left}
 dl.dl-horizontal dd p {display:inline}
 
+div.pagination {  border-left: 1px solid #ddd; }
+.pagination span.current {
+  float: left;
+  padding: 0 14px;
+  line-height: 34px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-left-width: 0;
+}
+
+.pagination a:hover, .pagination .current {
+  background-color: #f5f5f5;
+}
+.pagination .current {
+  color: #999999;
+  cursor: default;
+}
+
+.label {
+  font-weight: normal;
+}
+
+a {
+  color: #004466;
+  text-decoration: none;
+}
+a:hover {
+  color: #004466;
+  text-decoration: underline;
+}
 
 .clear {clear:left}
 .border {border: solid gray 1px}
@@ -101,7 +131,7 @@ form label.checkbox {clear:right;display:block;padding-top: .5em; }
 .mc9 {background:#4FB1AF;}
 
 .tc1 {background:#8db14f;}
-.tc2 {background:#ffe362;}
+.tc2 {background:#D1AD06;}
 .tc3 {background:#4fb1a9;}
 .tc4 {background:#4F78B1;}
 .tc5 {background:#764FB1;}

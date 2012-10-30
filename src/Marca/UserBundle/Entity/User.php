@@ -72,7 +72,7 @@ class User extends BaseUser
     protected $tagset;  
     
     /**
-     * @ORM\Column(name="share_email", type="boolean")
+     * @ORM\Column(name="share_email", type="boolean", nullable=true)
      */
     private $share_email = false;
     

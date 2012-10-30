@@ -13,7 +13,8 @@
      </ul>
 </div>
 <div class="row">
-<div class="span10">
+<div class="span10">  
+    
 <table class="table">
 <thead>
     <tr>
@@ -48,6 +49,12 @@
     {% endfor %}
     </tbody>
 </table>
+        
+
+<div class="navigation">
+    {{ files.render()|raw }}
+</div>
+        
 </div>
 </div>
 {% endblock %}
