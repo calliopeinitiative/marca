@@ -30,8 +30,7 @@ class ForumController extends Controller
         
         $em = $this->getEm();
         $user = $this->getUser();
-        $set = $set;
-        $forumEntries = $em->getRepository('MarcaForumBundle:Forum')->findForumRecent($user, $set);
+        $forumEntries = $em->getRepository('MarcaForumBundle:Forum')->findForumRecent($user);
         
         //pagination
         $paginator = $this->get('knp_paginator');
