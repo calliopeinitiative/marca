@@ -23,7 +23,7 @@ toolbar : [
 });
 </script>
 
-<form action="{{ course_path('doc_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ course_path('doc_create', {'resource': app.request.get('resource')}) }}" method="post" {{ form_enctype(form) }}>
 <div class="span9">         
 <div>
     {{ form_errors(form) }}
@@ -35,7 +35,7 @@ toolbar : [
 <div class="span3" style="position:fixed;left:960px;">
 <div class="row pad-left">
     <input class="btn btn-primary btn-small" type="submit" value="Save"/>
-    <a class="btn btn-primary btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'tag': 0, 'scope': 'mine' }) }}">Cancel</a>
+    <a class="btn btn-primary btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'tag': 0, 'scope': 'mine', 'resource': app.request.get('resource') }) }}">Cancel</a>
 </div>    
 {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 </div>         

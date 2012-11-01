@@ -71,7 +71,7 @@ class ProjectController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $maxCourse = count($course->getProjects());
         $project = new Project();
-        $project->setName('New Project');
+        $project->setName('New Project or Resource');
         $project->setSortOrder($maxCourse + 1);
         $form   = $this->createForm(new ProjectType(), $project);
 

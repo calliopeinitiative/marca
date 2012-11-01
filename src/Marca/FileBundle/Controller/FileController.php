@@ -20,45 +20,15 @@ use Marca\TagBundle\Entity\Tagset;
  * @Route("/file")
  */
 class FileController extends Controller
-{
-    /**
-     * Lists all File entities.
-     *
-     * @Route("/{courseid}", name="file")
-     * @Template()
-     */
-    public function indexAction($courseid)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
-        
-        $scope = 'mine';
-        $project = 'recent';
-        $tag = 0;
-        $em = $this->getEm();
-        $user = $this->getUser();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        
-        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag);
-        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course);
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
-        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
-        
-        //pagination for files
-        $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),10);
-
-        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'scope'=> $scope, 'tags' => $tags, 'tag' => $tag);
-    }
+{ 
 
     /**
      * Lists all File entities by Project.
      *
-     * @Route("/{courseid}/{project}/{tag}/{scope}/list", name="file_list")
+     * @Route("/{courseid}/{project}/{tag}/{scope}/{resource}/list", name="file_list")
      * @Template("MarcaFileBundle:File:index.html.twig")
      */
-    public function indexByProjectAction($project, $scope, $courseid, $tag)
+    public function indexByProjectAction($project, $scope, $courseid, $tag, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -66,8 +36,8 @@ class FileController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag);
-        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course);
+        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag, $resource);
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
         
@@ -75,7 +45,7 @@ class FileController extends Controller
         $paginator = $this->get('knp_paginator');
         $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),10);
 
-        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'scope'=> $scope, 'tags' => $tags, 'tag' => $tag);
+        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'tags' => $tags, 'course' => $course);
     }  
        
       /**
@@ -89,19 +59,20 @@ class FileController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
+        $resource ='f';
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
 
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesByTag($project, $user, $scope, $course, $tag);
-        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course);
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
         $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),10);
 
-        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'scope'=> $scope, 'tags' => $tags, 'tag' => $tag);
+        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'tags' => $tags, 'course' => $course);
     }     
     
     /**
@@ -185,7 +156,7 @@ class FileController extends Controller
     /**
      * Displays a form to edit an existing File entity.
      *
-     * @Route("/{courseid}/{id}/edit", name="file_edit")
+     * @Route("/{courseid}/{resource}/{id}/edit", name="file_edit")
      * @Template()
      */
     public function editAction($id, $courseid)
@@ -195,8 +166,8 @@ class FileController extends Controller
         $user = $this->getUser();
         
         $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $options = array('courseid' => $courseid);
-
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
               
@@ -213,6 +184,7 @@ class FileController extends Controller
         return array(
             'file'      => $file,
             'tags'        => $tags,
+            'course' => $course,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -248,14 +220,19 @@ class FileController extends Controller
         $request = $this->getRequest();
         $postData = $request->get('marca_filebundle_filetype');
         $project = $postData['project'];
-
+        $resource = $em->getRepository('MarcaCourseBundle:Project')->find($project);
+        $resource = $resource->getResource();
+        if (!$resource)
+        {$resource = '0';}
+        
+        
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($file);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>'recent', 'tag'=>'0')));
+            return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'resource'=>$resource)));
         }
 
         return array(
@@ -270,10 +247,10 @@ class FileController extends Controller
     /**
      * Deletes a File entity.
      *
-     * @Route("/{courseid}/{id}/delete", name="file_delete")
+     * @Route("/{courseid}/{resource}/{id}/delete", name="file_delete")
      * @Method("post")
      */
-    public function deleteAction($id,$courseid)
+    public function deleteAction($id, $courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -286,7 +263,7 @@ class FileController extends Controller
         if ($form->isValid()) {
             $em = $this->getEm();
             $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-            $doc = $entity->getDoc();
+            $doc = $file->getDoc();
             if (!$file) {
                 throw $this->createNotFoundException('Unable to find File entity.');
             }
@@ -298,7 +275,7 @@ class FileController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('file', array('courseid'=> $courseid,)));
+       return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>'recent', 'tag'=>'0', 'resource'=>$resource)));
     }
 
     private function createDeleteForm($id)
@@ -312,10 +289,10 @@ class FileController extends Controller
     /**
      * Uploads a file with a Document entity.
      *
-     * @Route("/{courseid}/upload", name="file_upload")
+     * @Route("/{courseid}/{resource}/upload", name="file_upload")
      * @Template()
      */    
-     public function uploadAction($courseid)
+     public function uploadAction($courseid, $resource)
      {
          $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
          $this->restrictAccessTo($allowed);
@@ -332,6 +309,13 @@ class FileController extends Controller
          $file->setUser($user);
          $file->setCourse($course);
          $form = $this->createForm(new UploadType($options), $file);
+         
+        $request = $this->getRequest();
+        $postData = $request->get('marca_filebundle_filetype');
+        $project = $postData['project'];
+        if (!$resource)
+        {$resource = '0';}
+        
 
          if ($this->getRequest()->getMethod() === 'POST') {
              $form->bindRequest($this->getRequest());
@@ -340,12 +324,12 @@ class FileController extends Controller
                  $file->upload($userid, $courseid);
                  $em->persist($file);
                  $em->flush(); 
-                 return $this->redirect($this->generateUrl('file', array('courseid'=> $courseid,)));
+                 return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'resource'=>$resource)));
              }
              
          }
 
-    return array('form' => $form->createView(),'tags'  => $tags,);
+    return array('form' => $form->createView(),'tags'  => $tags,'course' => $course,);
      } 
  
     /**

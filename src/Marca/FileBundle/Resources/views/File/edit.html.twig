@@ -6,7 +6,7 @@
 
 <div class="row">
 <div class="span6"> 
-<form action="{{ course_path('file_update', { 'id': file.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">             
+<form action="{{ course_path('file_update', { 'id': file.id, 'resource': app.request.get('resource') }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">             
      {{ form_errors(edit_form) }}   
         <legend>File listing</legend>
         <ul class="unstyled">
@@ -16,10 +16,10 @@
             <li class="pad05">{{ form_row (edit_form.access) }} </li> 
         </ul>
     {{ form_rest(edit_form) }}
-    <button class="btn btn-primary" type="submit">Update</button><a class="btn btn-info" href="{{ course_path('file') }}">Cancel</a>    
+    <button class="btn btn-primary" type="submit">Update</button>    
 </form>       
        
-<form action="{{ course_path('file_delete', { 'id': file.id }) }}" method="post">
+<form action="{{ course_path('file_delete', { 'id': file.id, 'resource': app.request.get('resource') }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>    

@@ -98,11 +98,11 @@ class DocController extends Controller
     /**
      * Creates a new Doc entity.
      *
-     * @Route("/{courseid}/create", name="doc_create")
+     * @Route("/{courseid}/{resource}/create", name="doc_create")
      * @Method("post")
      * @Template("MarcaDocBundle:Doc:new.html.twig")
      */
-    public function createAction($courseid)
+    public function createAction($courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -133,7 +133,7 @@ class DocController extends Controller
             $em->persist($doc);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file_edit', array('id' => $file->getId(),'courseid'=> $courseid,)));
+            return $this->redirect($this->generateUrl('file_edit', array('id' => $file->getId(),'courseid'=> $courseid,'resource'=> $resource,)));
             
         }
 

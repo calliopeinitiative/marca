@@ -6,7 +6,7 @@
 <div class="span11">
 
 <div class="row-fluid">
-<div class="span6 well">  
+<div class="span5 well">  
 <h2>{{ course.name }}</h2>    
 <table class="table table-bordered table-condensed table-striped">
 <thead><th colspan="2">Settings</td></thead>    
@@ -93,13 +93,47 @@
     <li>Created: {{ course.created|date('Y-m-d H:i:s') }}</li>      
     <li>Last Updated:{{ course.updated|date('Y-m-d H:i:s') }}</li>
 </ul>
-</div>        
 
-<div class="span4 well"> 
+
+    <hr/>
+    
+    
     <h2>Projects</h2>
-    <table class="table table-condensed">
+    <table class="table table-condensed table-striped">
     <tbody>  
-    {% for project in projects %}       
+    {% for project in projects  %}{% if project.resource == 0  %}
+            
+    <tr id="delete{{project.id}}">
+        <th>{{ project.name }}{{ project.resource }}</th>         
+        <td><a class="btn btn-small btn-primary" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>  
+        <td>
+        <button class="btn btn-danger" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button> 
+        </td>   
+        <td>
+            <a class = "btn btn-mini btn-primary" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-search icon-white icon-arrow-up"></i></a>
+            <a class = "btn btn-mini btn-primary" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-search icon-white icon-arrow-down"></i></a>
+        </td>
+    </tr>
+     <tr id="confirm{{project.id}}" class="toggle">
+        <th>{{ project.name }}</th>         
+        <td>
+            <form action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        </td>  
+        <td>
+        <button  class="btn btn-info" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Cancel</button> 
+        </td>       
+    </tr>   
+    {% endif %}{% endfor %}
+     </tbody>
+    </table>   
+
+    <h2>Resources</h2>
+    <table class="table table-condensed table-striped">
+    <tbody>  
+    {% for project in projects  %}{% if project.resource == 1  %}        
     <tr id="delete{{project.id}}">
         <th>{{ project.name }}</th>         
         <td><a class="btn btn-small btn-primary" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>  
@@ -123,26 +157,39 @@
         <button  class="btn btn-info" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Cancel</button> 
         </td>       
     </tr>   
-    {% endfor %}
+    {% endif %}{% endfor %}
+    
     </tbody>
     </table>
     
     <hr/> 
     <div class='row'>
-        <div class='span2'><a class="btn btn-primary" href="{{ path('project_new', {'courseid': course.id}) }}">New Project</a></div>
+        <div class='span2'><a class="btn btn-primary" href="{{ path('project_new', {'courseid': course.id}) }}">New Project/Resource</a></div>
     </div>
     
-    <hr/>
-    <h2>Roll</h2>
-    {% if course.hasPendingStudents %}<a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{% endif %}
-    {% for roll in roll %}
-    <ul class="unstyled">      
-        <li>{{ roll.lastname }}, {{ roll.firstname }} {% if roll.role == 2 %}**{% endif %} {% if roll.role == 0 %} PENDING <a class="btn btn-mini btn-primary" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>{% endif %}<a class="btn btn-mini btn-primary" href="{{ path('roll_edit', { 'id': roll.id,'courseid':course.id, }) }}">Edit</a></li>         
-    </ul> 
-    {% endfor %}
 
+    
+</div>        
+
+<div class="span5 well"> 
+
+    <h2>Roll</h2>
+    <table class="table table-condensed"><tbody>  
+    {% for roll in roll %}
+    <tr>
+        <td>{{ roll.lastname }}, {{ roll.firstname }}{% if roll.role == 2 %}**{% endif %}</td> 
+
+        <td> {% if roll.role == 0 %} PENDING <a class="btn btn-mini btn-primary" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>{% endif %}<a class="btn btn-mini btn-primary" href="{{ path('roll_edit', { 'id': roll.id,'courseid':course.id, }) }}">Edit</a></td>
+    
+    </tr>
+    {% endfor %}
+    </tbody>
+     </table>
+    
     {{ roll.render()|raw }}
 
+    {% if course.hasPendingStudents %}<a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{% endif %}
+    
     <hr/>
     <h2>Teams</h2>
     <ul class="unstyled"> 

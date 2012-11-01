@@ -1,7 +1,6 @@
 {# Marca/FileBundle/Resources/views/layout.html.twig #}
 
 {% extends '::base.html.twig' %}
-{% if scope is not defined %}{% set scope = 'x' %}{% endif %}
 {% block title %}Marca Projects{% endblock %}
 
 {% block javascripts %}{% endblock %}
@@ -12,17 +11,35 @@
 {% endblock %}
 
 {% block sidebar %}
-        <li><legend>Projects</legend></li>
-       {% if is_granted('ROLE_USER') %}
-             <li class="{% if scope=='m' %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine' , 'tag': '0'}) }}">My Files</a></li>
-             <li class="{% if scope=='a' %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all'  , 'tag': '0'}) }}">All Files</a></li>
-             <li class=""><a href="{{ course_path('doc_new') }}">Create eDoc</a></li>
-             <li class=""><a href="{{ course_path('file_upload') }}">Upload File</a></li>
-       {% endif %}
-            
+<li><legend>{% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}</legend></li>
+
+{# if for resources (no need to display My/All Files links  #}
+{% if app.request.get('resource')=='0' %}
+
+<li class="{% if app.request.get('scope')=='mine' %}active{% endif %}">
+     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">My Files</a>
+</li>
+<li class="{% if app.request.get('scope')=='all' %}active{% endif %}">
+     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">All Files</a>
+</li>
+{% endif %}
+
+{# if for resources (only instructor can post to resources)  #}
+{% if app.request.get('resource')=='0' or course.isOwner(app.user.username) %}
+
+<li class=""><a href="{{ course_path('doc_new', { 'resource': app.request.get('resource') }) }}">Create eDoc</a></li>
+<li class=""><a href="{{ course_path('file_upload', { 'resource': app.request.get('resource') }) }}">Upload File</a></li>
+             
+{% endif %}
+
+{# if for resources (No tags for resources)  #}
+{% if app.request.get('resource')=='0' %}
+             
     <ul class="nav nav-list">
     {% for tag in tags %}
-      <li><a href="{{ course_path('file_tag_list', { 'project': 'recent', 'sort': 'updated', 'scope': 'all'  , 'tag': tag.id}) }}"><span class="label {{ tag.color }}">{{ tag.name }}</span></a></li>
+      <li><a href="{{ course_path('file_tag_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': tag.id }) }}"><span class="label {{ tag.color }}">{{ tag.name }}</span></a></li>
     {% endfor %}
-    </ul>  
+    </ul> 
+             
+ {% endif %}            
 {% endblock %}  

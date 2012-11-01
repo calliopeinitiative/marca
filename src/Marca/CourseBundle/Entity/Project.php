@@ -48,7 +48,7 @@ class Project
      *
      * @ORM\Column(name="resource", type="boolean")
      */
-    private $resource = true;
+    private $resource = false;
 
 
     /**

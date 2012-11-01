@@ -66,7 +66,7 @@ class CourseController extends Controller
         $portset = $course->getPortset();
         $roll = $course->getRoll();
         $paginator = $this->get('knp_paginator');
-        $roll = $paginator->paginate($roll,$this->get('request')->query->get('page',1),10);
+        $roll = $paginator->paginate($roll,$this->get('request')->query->get('page',1),20);
         $teams = $course->getTeams();
         
         if (!$course) {
@@ -156,6 +156,12 @@ class CourseController extends Controller
         $project4->setSortOrder(4);
         $project4->setCourse($course); 
         
+        $project5 = new Project();
+        $project5->setName('Readings');
+        $project5->setSortOrder(5);
+        $project5->setResource('t');
+        $project5->setCourse($course);         
+        
         $course->setProjectDefault($project1);
 
         if ($form->isValid()) {
@@ -166,6 +172,7 @@ class CourseController extends Controller
             $em->persist($project2);
             $em->persist($project3);
             $em->persist($project4);
+            $em->persist($project5);
             $em->flush();
 
             return $this->redirect($this->generateUrl('course_show', array('courseid' => $course->getId())));

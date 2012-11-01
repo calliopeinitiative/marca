@@ -4,57 +4,59 @@
 
 {% block content %}
 <div class="row pad-left">
-    <ul class="nav nav-tabs">
-        <li class="{% if active_project == 0 %}active{% endif %}"><a href="{{ course_path('file_list', { 'project': 'recent', 'scope': scope, 'tag': '0' }) }}"><strong>Recent Files</strong></a></li>
-    {% for project in projects %}
-            <li class="{% if active_project == project.id %}active{% endif %} ">
-                <a class="" href="{{ course_path('file_list', { 'project': project.id, 'scope': scope, 'tag': '0' }) }}"><strong>{{ project.name }}</strong></a></li>
-    {% endfor %}
-     </ul>
+<ul class="nav nav-tabs">
+
+<li class="{% if active_project == 0 %}active{% endif %}">
+<a href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">
+<strong>Recent Files</strong></a></li>
+
+{% for project in projects %}
+<li class="{% if active_project == project.id %}active{% endif %} ">
+<a class="" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">
+<strong>{{ project.name }}</strong></a></li>
+{% endfor %}
+ 
+</ul>
 </div>
 <div class="row">
 <div class="span10">  
-    
+  
+
+
 <table class="table">
-<thead>
-    <tr>
-        <th>Name</th>
-        <th>Owner</th>
-        <th>Project</th>
-        <th>Tag</th>
-        <th>Updated</th>
-        <th></th>
-    </tr>
-</thead>
+{% if app.request.get('resource')=='1' %}
+
+{% endif %}
+
 <tbody>
-    {% for file in files%}
-    <tr>
-        <td>
-            {% if file.doc %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id }) }}">{{ file.name }}</a>
-            {% else %}
-            <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="View {{ file.name }} (will open in a new window or tab)" target="_blank">{{ file.name }}</a>
-            {% endif %}
-            {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
-        </td>
-        
-        <td>{% if file.user.lastname %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif%}</td>
-        <td>{% if file.project.name %}<strong>{{ file.project.name }}</strong>{% endif%}</td>
-        <td>{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
-        <td>{% if file.updated %}{{ file.updated|date('M d Y, g:i a') }}{% endif%}</td>
-        <td>{% if file.isOwner(app.user.username) %}<a class="" href="{{ course_path('file_edit', { 'id': file.id }) }}">Edit listing</a>{% endif%}</td>
-        <td>{% if file.isOwner(app.user.username) and file.access==1 %}<a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>{% endif%}</td>
-        
-    </tr>
-    
-    {% endfor %}
-    </tbody>
+{% for file in files%}
+<tr>
+<td> 
+{% if file.doc %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id }) }}">{{ file.name }}</a>
+{% else %}
+<i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="View {{ file.name }} (will open in a new window or tab)" target="_blank">{{ file.name }}</a>
+{% endif %}
+{% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
+</td>
+<td>{% if file.user.lastname and app.request.get('scope')=='all' %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif%}</td>
+<td>{% if file.project.name %}<strong>{{ file.project.name }}</strong>{% endif%}</td>
+<td>{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
+{% if app.request.get('resource')=='0' %}
+<td>{% if file.updated %}{{ file.updated|date('M d Y, g:i a') }}{% endif%}</td>
+{% endif %}
+<td>{% if file.isOwner(app.user.username) %}<a class="" href="{{ course_path('file_edit', { 'id': file.id, 'resource': app.request.get('resource') }) }}">Edit listing</a>{% endif%}</td>
+<td>{% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>{% endif%}</td>
+</tr>
+
+{% endfor %}
+</tbody>
 </table>
-        
+  
 
 <div class="navigation">
-    {{ files.render()|raw }}
+{{ files.render()|raw }}
 </div>
-        
+
 </div>
 </div>
 {% endblock %}
