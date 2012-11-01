@@ -24,10 +24,6 @@
 
 
 <table class="table">
-{% if app.request.get('resource')=='1' %}
-
-{% endif %}
-
 <tbody>
 {% for file in files%}
 <tr>
@@ -38,7 +34,7 @@
 {% endif %}
 {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
 </td>
-<td>{% if file.user.lastname and app.request.get('scope')=='all' %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif%}</td>
+<td>{% if app.request.get('scope')=='all' and app.request.get('resource')=='0' %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif%}</td>
 <td>{% if file.project.name %}<strong>{{ file.project.name }}</strong>{% endif%}</td>
 <td>{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
 {% if app.request.get('resource')=='0' %}
