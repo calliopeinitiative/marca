@@ -1,0 +1,10 @@
+## YAML Template.
+services:
+    namer.upload_file:
+        class: Marca\FileBundle\Namer\Namer
+        tags:
+            - { name: namer }
+    directory_namer.upload_file:
+        class: Marca\FileBundle\Namer\DirectoryNamer
+        tags:
+            - { name: directory_namer }

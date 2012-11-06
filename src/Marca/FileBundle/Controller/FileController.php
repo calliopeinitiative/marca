@@ -104,7 +104,7 @@ class FileController extends Controller
     /**
      * Displays a form to create a new File entity.
      *
-     * @Route("/{courseid}/new", name="file_new")
+     * @Route("/{courseid}/{resource}/{tag}/new", name="file_new")
      * @Template()
      */
     public function newAction()
@@ -156,7 +156,7 @@ class FileController extends Controller
     /**
      * Displays a form to edit an existing File entity.
      *
-     * @Route("/{courseid}/{resource}/{id}/edit", name="file_edit")
+     * @Route("/{courseid}/{resource}/{tag}/{id}/edit", name="file_edit")
      * @Template()
      */
     public function editAction($id, $courseid)
@@ -268,10 +268,12 @@ class FileController extends Controller
                 throw $this->createNotFoundException('Unable to find File entity.');
             }
 
-            $em->remove($file);
+            
             if ($doc) {
             $em->remove($doc);
+            $em->getRepository('MarcaFileBundle:File')->deleteEdoc($id);
             }
+            else {$em->remove($file);}
             $em->flush();
         }
 
@@ -289,7 +291,7 @@ class FileController extends Controller
     /**
      * Uploads a file with a Document entity.
      *
-     * @Route("/{courseid}/{resource}/upload", name="file_upload")
+     * @Route("/{courseid}/{resource}/{tag}/upload", name="file_upload")
      * @Template()
      */    
      public function uploadAction($courseid, $resource)
@@ -321,7 +323,6 @@ class FileController extends Controller
              $form->bindRequest($this->getRequest());
              if ($form->isValid()) {
                  $em = $this->getEm();
-                 $file->upload($userid, $courseid);
                  $em->persist($file);
                  $em->flush(); 
                  return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'resource'=>$resource)));
@@ -345,6 +346,8 @@ class FileController extends Controller
         
              $em = $this->getEm();
              $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+             $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
+             $path = $helper->asset($file, 'file');
              $ext = $file->getExt();
 		
 		$response = new Response();
@@ -356,6 +359,9 @@ class FileController extends Controller
                       break;
                       case "gif":
                       $response->headers->set('Content-Type', 'image/gif');
+                      break;
+                      case "jpeg":
+                      $response->headers->set('Content-Type', 'image/jpeg');
                       break;
                       case "jpg":
                       $response->headers->set('Content-Type', 'image/jpeg');
@@ -384,7 +390,7 @@ class FileController extends Controller
                       default:
                       $response->headers->set('Content-Type', 'application/octet-stream');    
                       }
-		$response->setContent( file_get_contents( $file->getAbsolutePath() ));
+		$response->setContent( file_get_contents( $path));
 		
 		$response->send();
 		
