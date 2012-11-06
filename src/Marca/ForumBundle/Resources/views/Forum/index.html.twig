@@ -20,6 +20,10 @@
          <a class="btn btn-primary btn-small" href="{{ course_path('forum_show', { 'id': forumEntry.id }) }}">Open Forum</a> 
          {% if forumEntry.user==app.user %}<a class="btn btn-primary btn-small" href="{{ course_path('forum_edit', { 'id': forumEntry.id }) }}">Edit</a>{% endif%}
      </div>
+{% else %}
+<div class="row" >    
+There are no open forums at this time.  
+</div>         
 {% endfor %}
 
     

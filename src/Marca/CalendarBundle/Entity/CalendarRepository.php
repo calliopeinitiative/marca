@@ -12,4 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class CalendarRepository extends EntityRepository
 {
+    
+    public function findCalendarByCourse($course)
+    {
+        $startDate = date("Y-m-d") ;
+        return $this->getEntityManager()
+            ->createQuery('SELECT c FROM MarcaCalendarBundle:Calendar c WHERE c.course = ?1 AND c.startDate >= ?2 ORDER BY c.startDate ASC')->setParameter('1',$course)->setParameter('2',$startDate)->getResult();
+    } 
 }

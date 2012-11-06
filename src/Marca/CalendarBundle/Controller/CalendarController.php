@@ -29,8 +29,8 @@ class CalendarController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-
-        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findAll();
+        $course = $this->getCourse();
+        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourse($course);
         
         //pagination for files
         $paginator = $this->get('knp_paginator');

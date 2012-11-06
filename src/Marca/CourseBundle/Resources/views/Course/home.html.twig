@@ -3,18 +3,32 @@
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row">
-<div class="span6 well">
-<h3>Welcome to {{ course.name }}</h3>
-<h4>{{ course.user.firstname }} {{ course.user.lastname }}</h4>
-</div>
-</div>   
 
-<div class="row">
-<div class="span6 well">
-    <h3>Announcements</h3>  
-    <p>{{ course.announcement }}</p>
+<div class="span4 well">
+<h4>{{ course.name }}</h4> {{ course.time|date('g:i A') }} {{ course.user.firstname }} {{ course.user.lastname }}</h4>
+
+<h4>Announcements</h4>  
+<p>{{ course.announcement }}</p>
+</div>
+
+
+
+<div class="span4 well">
+<h3>Calendar</h3>  
+<table class="table">   
+<tbody>
+{% for calendar in calendar %}
+<tr><td style="{% if calendar.color != '' %}background: {{calendar.color}}{% endif%}">{% if calendar.startDate %}{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}{% endif%}</td></tr> 
+<tr><td>{{ calendar.title }}</td></tr>   
+<tr><td>{{ calendar.description|raw }}</td></tr>                  
+{% endfor %}
+</tbody>
+</table>
+
+<div class="navigation">
+    {{ calendar.render()|raw }}
 </div>
 </div>
+
 
 {% endblock %}

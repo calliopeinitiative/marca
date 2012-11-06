@@ -14,7 +14,6 @@
        {% endif %}      
        {% if is_granted('ROLE_USER') %}
              <li><a href="{{ path('user_home') }}">Welcome</a></li>
-             <li><a href="{{ path('user_show') }}">Profile</a></li>
              <li><a href="{{ path('enroll_find') }}">Enroll</a></li>
              <li> <a class='last' title="Logout" href="{{ path('fos_user_change_password') }}">Change Password</a></li> 
        {% endif %}

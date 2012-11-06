@@ -44,8 +44,10 @@ class CourseController extends Controller
     {
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($courseid);
-        
-        return array('course' => $course);
+        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourse($course);
+        $paginator = $this->get('knp_paginator');
+        $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),10);
+        return array('course' => $course, 'calendar' => $calendar);
     }    
 
     /**

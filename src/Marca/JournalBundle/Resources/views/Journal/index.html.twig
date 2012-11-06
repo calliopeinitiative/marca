@@ -5,6 +5,7 @@
 {% block content %}
 
 <div class="span10">       
+
     
 {% for journal in journal %}
 <div class="row">
@@ -21,6 +22,11 @@
 <div class="row">
 {{ journal.body|raw }}
 </div>
+    
+{% else %}
+<div class="row" >    
+You don’t have any journals yet. Why not write one? 
+</div>    
 {% endfor %}
 
 <div class="navigation">
