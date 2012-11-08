@@ -33,8 +33,21 @@ class User extends BaseUser
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      */
     private $firstname;
+    
+    /**
+     * @var string $photo
+     *
+     * @ORM\Column(name="photo", type="string", length=255, nullable=true)
+     */
+    private $photo;    
 
- 
+    /**
+     * @var string $bio
+     *
+     * @ORM\Column(name="bio", type="text", nullable=true)
+     */
+    private $bio = '<p></p>';      
+    
      /**
      * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="user")
      */
@@ -293,5 +306,121 @@ class User extends BaseUser
     public function setShareEmail($share_email)
     {
         $this->share_email = $share_email;
+    }
+
+    /**
+     * Set photo
+     *
+     * @param string $photo
+     * @return User
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+    
+        return $this;
+    }
+
+    /**
+     * Get photo
+     *
+     * @return string 
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * Set bio
+     *
+     * @param string $bio
+     * @return User
+     */
+    public function setBio($bio)
+    {
+        $this->bio = $bio;
+    
+        return $this;
+    }
+
+    /**
+     * Get bio
+     *
+     * @return string 
+     */
+    public function getBio()
+    {
+        return $this->bio;
+    }
+
+    /**
+     * Remove course
+     *
+     * @param Marca\CourseBundle\Entity\Course $course
+     */
+    public function removeCourse(\Marca\CourseBundle\Entity\Course $course)
+    {
+        $this->course->removeElement($course);
+    }
+
+    /**
+     * Remove roll
+     *
+     * @param Marca\CourseBundle\Entity\Roll $roll
+     */
+    public function removeRoll(\Marca\CourseBundle\Entity\Roll $roll)
+    {
+        $this->roll->removeElement($roll);
+    }
+
+    /**
+     * Remove markup
+     *
+     * @param Marca\DocBundle\Entity\Markup $markup
+     */
+    public function removeMarkup(\Marca\DocBundle\Entity\Markup $markup)
+    {
+        $this->markup->removeElement($markup);
+    }
+
+    /**
+     * Remove file
+     *
+     * @param Marca\FileBundle\Entity\File $file
+     */
+    public function removeFile(\Marca\FileBundle\Entity\File $file)
+    {
+        $this->file->removeElement($file);
+    }
+
+    /**
+     * Remove journal
+     *
+     * @param Marca\JournalBundle\Entity\Journal $journal
+     */
+    public function removeJournal(\Marca\JournalBundle\Entity\Journal $journal)
+    {
+        $this->journal->removeElement($journal);
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param Marca\TagBundle\Entity\Tag $tag
+     */
+    public function removeTag(\Marca\TagBundle\Entity\Tag $tag)
+    {
+        $this->tag->removeElement($tag);
+    }
+
+    /**
+     * Remove tagset
+     *
+     * @param Marca\TagBundle\Entity\Tagset $tagset
+     */
+    public function removeTagset(\Marca\TagBundle\Entity\Tagset $tagset)
+    {
+        $this->tagset->removeElement($tagset);
     }
 }

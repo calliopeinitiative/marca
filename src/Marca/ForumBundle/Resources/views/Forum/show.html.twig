@@ -5,14 +5,15 @@
 {% block content %}
 <div class="span10 well" >     
       <div class="page-header" >
-          <h3>{{ forum.title }}</h3>
-         Created  {{ forum.created|date('M d, Y h:i a') }}  / Modified  {{ forum.updated|date('M d, Y h:i a') }} 
+          <strong>{{ forum.title }}</strong>
+          <span class='pull-right'>Created  {{ forum.created|date('M d, Y h:i a') }}  / Modified  {{ forum.updated|date('M d, Y h:i a') }} </span>
+      </div>
          
          <div class="span9" >{{ forum.body|raw }}  </div>       
          <div class="span9" ><a class="btn btn-primary  btn-mini" href="{{ course_path('comment_new', { 'parentid': forum.id ,'forumid': forum.id }) }}">Comment</a>
          {% if forum.user==app.user %}<a class="btn btn-primary btn-mini" href="{{ course_path('forum_edit', { 'id': forum.id }) }}">Edit</a>{% endif%}
          </div>   
-      </div>
+
 
 
    {% for comment in forum.comments%}
