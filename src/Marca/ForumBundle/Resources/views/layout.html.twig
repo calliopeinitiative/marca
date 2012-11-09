@@ -13,8 +13,10 @@
 
 {% block sidebar %} 
        <li><legend>Forum</legend></li>
-       {% if is_granted('ROLE_USER') %}
-             <li><a href="{{ course_path('forum', { 'set': 0 }) }}">List Recent Threads</a></li>
-             <li><a href="{{ course_path('forum_new') }}">New Forum Thread</a></li>
-       {% endif %}     
+       {% if is_granted('ROLE_INSTR') %}
+             <li><a class='btn' href="{{ course_path('forum_new') }}">CREATE</a></li>
+             {% endif %} 
+             <li><a href="{{ course_path('forum', { 'set': 0 }) }}">Recent Discussions</a></li>
+             
+           
 {% endblock %}  

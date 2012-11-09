@@ -32,12 +32,12 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 
 <form id="doc_form" action="{{ course_path('doc_update', { 'id': doc.id }) }}" method="post" {{ form_enctype(edit_form) }}>
 <div class="span9">         
-<div>
+
     {{ form_errors(edit_form) }}
     {{ form_errors(edit_form.body) }}
     {{ form_widget(edit_form.body) }}
     {{ form_rest(edit_form) }}    
-</div>
+
 </div>
 
 <div class="span2 well doc" style="">

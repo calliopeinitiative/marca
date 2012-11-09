@@ -19,7 +19,7 @@ toolbar : [
 });
 </script>
 
-<div class="span10">   
+<div class="span8 well doc">   
 <form class="form" action="{{ course_path('journal_update', { 'id': journal.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     <legend>Journal Entry</legend>
     {{ form_errors(edit_form) }}

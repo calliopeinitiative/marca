@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="row">
-<div class="span6"> 
+<div class="span6 well doc"> 
 <form action="{{ course_path('file_update', { 'id': file.id, 'resource': app.request.get('resource') }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">             
      {{ form_errors(edit_form) }}   
         <legend>File listing</legend>

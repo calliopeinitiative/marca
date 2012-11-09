@@ -204,6 +204,7 @@ class FileController extends Controller
         $user = $this->getUser();
         
         $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $options = array('courseid' => $courseid);
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
@@ -239,6 +240,7 @@ class FileController extends Controller
         return array(
             'file'      => $file,
             'tags'        => $tags,
+            'course' => $course,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );

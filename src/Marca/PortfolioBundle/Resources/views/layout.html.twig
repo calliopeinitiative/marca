@@ -13,7 +13,8 @@
 
 {% block sidebar %}
              <li><legend>Portfolio</legend></li>
+             <li><a class='btn' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'resource': '0', 'tag': '0' }) }}">CREATE</a></li> 
              <li><a href="{{ course_path('portfolio') }}">View Portfolio</a></li>
-             <li><a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'resource': '0', 'tag': '0' }) }}">Projects</a>Add to Portfolio</a></li> 
+             
 {% endblock %}  
  
