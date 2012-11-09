@@ -48,5 +48,12 @@ class FileRepository extends EntityRepository
                 ->setParameter('1',$tag)->setParameter('2',$course)->setParameter('3',$user)->getResult();
        };
 
-    }    
+    }  
+    
+    public function deleteEdoc($id)
+    {
+         return $this->getEntityManager()
+            ->createQuery('DELETE MarcaFileBundle:File f WHERE f.id = ?1')
+                ->setParameter('1',$id)->getResult(); 
+    }   
 }

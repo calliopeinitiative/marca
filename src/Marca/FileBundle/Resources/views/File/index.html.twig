@@ -40,7 +40,7 @@
 {% if app.request.get('resource')=='0' %}
 <td>{% if file.updated %}{{ file.updated|date('M d Y, g:i a') }}{% endif%}</td>
 {% endif %}
-<td>{% if file.isOwner(app.user.username) %}<a class="" href="{{ course_path('file_edit', { 'id': file.id, 'resource': app.request.get('resource') }) }}">Edit listing</a>{% endif%}</td>
+<td>{% if file.isOwner(app.user.username) %}<a class="" href="{{ course_path('file_edit', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Edit listing</a>{% endif%}</td>
 <td>{% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>{% endif%}</td>
 </tr>
 

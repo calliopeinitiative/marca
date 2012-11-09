@@ -7,18 +7,26 @@
 <div class="row">
 <div class="span6">
 
-<table class="table">
-<tbody>
-<tr><th>User name</th><td>{{ user.username }}</td></tr>
-<tr><th>First name</th><td>{{ user.firstname }}</td></tr>
-<tr><th>Last name</th><td>{{ user.lastname }}</td></tr>
-<tr><th>Email</th><td>{{ user.email }}</td></tr>
-</tbody>
-</table>
+<legend>{{ user.firstname }} {{ user.lastname }}  </legend>
+<p>{{ user.email }}</p>
+
+<ul class="thumbnails">
+  <li class="span2">
+    <div class="thumbnail">
+      <img src="{{ user.photo }}" alt="{{ user.firstname }} {{ user.lastname }}">
+      <h3></h3>
+      <p>{{ user.firstname }} {{ user.lastname }}</p>
+    </div>
+  </li>
+</ul>
+
+<p>{{ user.bio|raw }}</p>
+
    
 
-<a class="btn btn-primary" href="{{ path('user_edit', { 'id': user.id }) }}">Edit Profile</a>
-
+<a class="btn btn-primary" title="Edit Profile" href="{{ path('user_edit', { 'id': user.id }) }}">Edit Profile</a>
+<a class="btn btn-primary" title="Enroll" href="{{ path('enroll_find') }}">Enroll in a Course</a>
+<a class="btn btn-primary" title="Change Password" href="{{ path('fos_user_change_password') }}">Change Password</a>
 </div>
 </div>  
 {% endblock %}

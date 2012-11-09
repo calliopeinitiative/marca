@@ -119,7 +119,6 @@ class DocController extends Controller
         $file->setUser($user);
         $file->setProject($project);
         $file->setCourse($course);
-        $file->setPath('doc');
         
         $doc  = new Doc();    
         $doc->setFile($file); 
@@ -318,25 +317,6 @@ class DocController extends Controller
             ->getForm()
         ;
     }
-
-
-    /**
-     * Doc Autosave
-     *
-     * @Route("/{courseid}/autosave", name="doc_autosave")
-     * 
-     */
-    public function autosaveAction()
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
-        $autosave = new Autosave();
-        $autosave->debugMode = true;
-        $temp_file = '/var/www/marca/src/Marca/uploads/autosave_'.time().'.txt';
-        $autosave->saveToFile($temp_file);
-        return Response(); 
-    }  
-    
+  
 
 }

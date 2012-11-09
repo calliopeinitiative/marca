@@ -21,7 +21,10 @@
         "friendsofsymfony/user-bundle": "*",
         "stof/doctrine-extensions-bundle": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
-        "knplabs/knp-paginator-bundle": "dev-master"
+        "knplabs/knp-paginator-bundle": "dev-master",
+        "vich/uploader-bundle": "dev-master",
+        "knplabs/gaufrette" : "dev-master",
+        "knplabs/knp-gaufrette-bundle" : "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

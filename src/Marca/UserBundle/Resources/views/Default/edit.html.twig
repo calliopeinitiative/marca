@@ -2,17 +2,38 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
-{% block content %}
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+{% endblock %}
 
-<div class="row-fluid">
-<div class="span6 well">
-    <h3>Please update your Profile</h3>
-<form action="{{ path('user_update', { 'id': user.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
+{% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('#marca_userbundle_usertype_bio').ckeditor( function() {}, {height:300, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+toolbar : [
+['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
+'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+],} );
+});
+</script>
+
+<div class="row">
+<div class="span8">
+
+
+    <form class="form" action="{{ path('user_update', { 'id': user.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+    <legend>Please update your Profile</legend>
+    {{ form_errors(edit_form) }}
+         {{ form_row(edit_form.photo) }}
+         {{ form_row(edit_form.bio) }}
+    {{ form_rest(edit_form) }}
     <div>
         <button class="btn btn-primary" type="submit">Update</button>
     </div>
 </form>
+
               
 </div>
 </div>        

@@ -6,19 +6,28 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Marca\FileBundle\Entity\File
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Marca\FileBundle\Entity\FileRepository")
+ * @Vich\Uploadable
  */
 class File
 {
-    /**
-     * @Assert\File(maxSize="6000000")
+
+     /**
+     * @Assert\File(
+     *     maxSize="1M",
+     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg", "application/pdf", "application/vnd.oasis.opendocument.text"}
+     * )
+     * @Vich\UploadableField(mapping="property_file", fileNameProperty="path")
+     *
+     * @var File $file
      */
-    public $file;
+    protected $file;
     
     /**
      * @var integer $id
@@ -54,7 +63,7 @@ class File
     /**
      * @var string $path
      *
-     * @ORM\Column(name="path", type="string", length=255)
+     * @ORM\Column(name="path", type="string", length=255, nullable=true)
      */
     private $path;
      
@@ -186,7 +195,25 @@ class File
         return $this->updated;
     }
 
+    /**
+     * Set file
+     *
+     * @param string $file
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
 
+    /**
+     * Get file
+     *
+     * @return string 
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
 
     /**
      * Set project
@@ -313,88 +340,6 @@ class File
         return $this->course;
     }
     
-    public function getAbsolutePath()
-    {
-        return null === $this->path ? null : $this->getUploadRootDir().'/'.$this->path;
-    }
-
-    public function getWebPath()
-    {
-        return null === $this->path ? null : $this->getUploadDir().'/'.$this->path;
-    }
-
-    protected function getUploadRootDir()
-    {
-        // the absolute directory path where uploaded documents should be saved
-        return __DIR__.'/../../../../'.$this->getUploadDir();
-    }
-
-    protected function getUploadDir()
-    {
-        // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
-        $courseid = $this->getCourse()->getId();
-        $userid = $this->getUser()->getId();
-        return 'uploads/files'.'/'.$courseid.'/'.$userid;
-    }
-    
-     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload()
-    {
-        if (null !== $this->file) {
-            $this->path = $this->file->getClientOriginalName();
-        }
-    }
-    
-     /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */     
-    public function upload()
-    {
-    // the file property can be empty if the field is not required
-    if (null === $this->file) {
-        return;
-    }
-
-    // we use the original file name here but you should
-    // sanitize it at least to avoid any security issues
-
-    // move takes the target directory and then the target filename to move to
-    $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
-
-    // set the path property to the filename where you'ved saved the file
-    $this->path = $this->file->getClientOriginalName();
-    
-    // set the name property to the filename where you'ved saved the file
-    $this->name = $this->file->getClientOriginalName();    
-
-    // clean up the file property as you won't need it anymore
-    $this->file = null;
-    }  
- 
-     /**
-     * @ORM\PostRemove()
-     */
-    public function removeUpload()
-    {
-        if ($file = $this->getAbsolutePath()) {
-            unlink($file);
-        }
-    }
-    
-    /**
-     * Return the contents of the file.
-     * 
-     * @return string
-     */
-    public function getContents()
-    {
-        return file_get_contents( $this->getAbsolutePath() );
-    }
-    
     /**
      * Return the extention of the file.
      * 
@@ -404,9 +349,8 @@ class File
     {
         $filename = $this->getPath(); 
         return pathinfo($filename, PATHINFO_EXTENSION);
-    }  
-
-
+    }    
+    
     /**
      * Add portitem
      *
@@ -435,5 +379,25 @@ class File
         else{
             return false;
         }
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param Marca\TagBundle\Entity\Tag $tag
+     */
+    public function removeTag(\Marca\TagBundle\Entity\Tag $tag)
+    {
+        $this->tag->removeElement($tag);
+    }
+
+    /**
+     * Remove portitem
+     *
+     * @param Marca\PortfolioBundle\Entity\Portitem $portitem
+     */
+    public function removePortitem(\Marca\PortfolioBundle\Entity\Portitem $portitem)
+    {
+        $this->portitem->removeElement($portitem);
     }
 }

@@ -27,8 +27,8 @@
 {# if for resources (only instructor can post to resources)  #}
 {% if app.request.get('resource')=='0' or course.isOwner(app.user.username) %}
 
-<li class=""><a href="{{ course_path('doc_new', { 'resource': app.request.get('resource') }) }}">Create eDoc</a></li>
-<li class=""><a href="{{ course_path('file_upload', { 'resource': app.request.get('resource') }) }}">Upload File</a></li>
+<li class=""><a href="{{ course_path('doc_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Create eDoc</a></li>
+<li class=""><a href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}">Upload File</a></li>
              
 {% endif %}
 

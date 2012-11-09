@@ -22,6 +22,8 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+            new Vich\UploaderBundle\VichUploaderBundle(),
             new Marca\HomeBundle\MarcaHomeBundle(),
             new Marca\UserBundle\MarcaUserBundle(),
             new Marca\CourseBundle\MarcaCourseBundle(),

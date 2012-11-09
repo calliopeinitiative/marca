@@ -12,10 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class ForumRepository extends EntityRepository
 {
-    public function findForumRecent($user)
-    {  
-       return $this->getEntityManager()
-               ->createQuery('SELECT f from MarcaForumBundle:Forum f ORDER BY f.created DESC')
-               ->getResult();
-    }
+    
+    public function findForumByCourse($course)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT f FROM MarcaForumBundle:Forum f WHERE f.course = ?1')->setParameter('1',$course)->getResult();
+    }    
 }
