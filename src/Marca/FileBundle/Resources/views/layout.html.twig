@@ -13,6 +13,19 @@
 {% block sidebar %}
 <li><legend>{% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}</legend></li>
 
+
+{# if for resources (only instructor can post to resources)  #}
+{% if app.request.get('resource')=='0' or course.isOwner(app.user.username) %}
+
+<li class="" style='margin-bottom: 10px;'>
+<a class='btn' href="{{ course_path('doc_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">CREATE</a>
+
+<a class='btn' href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}">UPLOAD</a>
+</li>
+         
+{% endif %}
+
+
 {# if for resources (no need to display My/All Files links  #}
 {% if app.request.get('resource')=='0' %}
 
@@ -22,14 +35,6 @@
 <li class="{% if app.request.get('scope')=='all' %}active{% endif %}">
      <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">All Files</a>
 </li>
-{% endif %}
-
-{# if for resources (only instructor can post to resources)  #}
-{% if app.request.get('resource')=='0' or course.isOwner(app.user.username) %}
-
-<li class=""><a href="{{ course_path('doc_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Create eDoc</a></li>
-<li class=""><a href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}">Upload File</a></li>
-             
 {% endif %}
 
 {# if for resources (No tags for resources)  #}

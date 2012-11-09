@@ -110,6 +110,7 @@ class DocController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $em = $this->getEm();
+        $tag = '0';
 
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $project = $em->getRepository('MarcaCourseBundle:Project')->findOneByCourse($courseid);
@@ -132,7 +133,7 @@ class DocController extends Controller
             $em->persist($doc);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file_edit', array('id' => $file->getId(),'courseid'=> $courseid,'resource'=> $resource,)));
+            return $this->redirect($this->generateUrl('file_edit', array('id' => $file->getId(),'courseid'=> $courseid,'resource'=> $resource, 'tag' => $tag)));
             
         }
 
@@ -254,8 +255,7 @@ class DocController extends Controller
             $autosaveFile->setCourse($file->getCourse());
             $autosaveFile->setProject($file->getProject());
             $currentTitle = $file->getName();
-            $autosaveFile->setName($currentTitle."_Autosave");
-            $autosaveFile->setPath('doc');
+            $autosaveFile->setName($currentTitle."_backup");
             $autosaveDoc->setFile($autosaveFile);
             $autosaveDoc->setBody($test);
             

@@ -13,17 +13,22 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins : 'resize',extraPlugins:'autosave,autogrow',autosaveTargetUrl:'/marca/web/autosave.php', skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
+$('#marca_docbundle_doctype_body').ckeditor( function() {}, {extraPlugins:'autogrow', autoGrow_maxHeight : 700, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
 toolbar : [
-['Source','Save','Preview','-', 'Autosave','Print','Templates','Undo','Redo','Find','Replace','SelectAll','RemoveFormat'],
+['Preview','-', 'Print','Templates','Undo','Redo','Find','Replace','SelectAll','RemoveFormat'],
 ['Bold','Italic','Underline','Strike','Subscript','Superscript','NumberedLst','BulletedList','Outdent','Indent','Blockquote'],
 ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','Link','Unlink','Image','Table','HorizontalRule','Smiley','SpecialChar'],
 ['Styles','Format','Font','FontSize','TextColor','BGColor','Maximize', 'ShowBlocks','About']
 ],} );
-var intervalID = setInterval(function(){$.post("{{ course_path('doc_ajax', { 'id': doc.id }) }}", {test:$('#marca_docbundle_doctype_body').val()}, function(data){
-    alert(data.test)});}, 5000);
+$('#backup_alert').toggle();
+
+var editor = $('#marca_docbundle_doctype_body').ckeditorGet();
+
+var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (buffer==1) {editor.resetDirty(); $.post("{{ course_path('doc_ajax', { 'id': doc.id }) }}", {test:$('#marca_docbundle_doctype_body').val()}, function(data){
+    alert(data.test)});$('#backup_alert').fadeIn();$('#backup_alert').delay(2000).fadeOut();}}, 5000);
 });
 </script>
+
 
 <form id="doc_form" action="{{ course_path('doc_update', { 'id': doc.id }) }}" method="post" {{ form_enctype(edit_form) }}>
 <div class="span9">         
@@ -34,8 +39,10 @@ var intervalID = setInterval(function(){$.post("{{ course_path('doc_ajax', { 'id
     {{ form_rest(edit_form) }}    
 </div>
 </div>
-<div class="span3 well doc" style="position:fixed;left:900px;">
+
+<div class="span2 well doc" style="">
 <div class="cell clear divider">
+    <p style='min-height:1.5em;'><span id='backup_alert' class='alert'>Backing up work</span></p>
     <input class="btn btn-primary btn-small" type="submit" id="doc_save" value="Save"/>
     <a class="btn btn-primary btn-small" href="{{ course_path('doc_show', { 'id': doc.id }) }}">Cancel</a>
 </div>    

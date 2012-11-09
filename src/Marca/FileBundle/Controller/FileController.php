@@ -206,6 +206,7 @@ class FileController extends Controller
         $em = $this->getEm();
         $options = array('courseid' => $courseid);
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
 
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
@@ -237,6 +238,7 @@ class FileController extends Controller
 
         return array(
             'file'      => $file,
+            'tags'        => $tags,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
