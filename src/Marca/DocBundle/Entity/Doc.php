@@ -50,6 +50,12 @@ class Doc
     protected $updated;
     
     /**
+     * @ORM\OneToOne(targetEntity="Marca\DocBundle\Entity\Doc")
+     * @ORM\JoinColumn(name="autosave_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    protected $autosaveDoc;
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -138,4 +144,25 @@ class Doc
     {
         return $this->file;
     }
+    
+    /**
+     * Set autosave doc
+     *
+     * @param Marca\DocBundle\Entity\Doc $doc
+     */
+    public function setAutosaveDoc(\Marca\DocBundle\Entity\Doc $doc)
+    {
+        $this->autosaveDoc = $doc;
+    }
+
+    /**
+     * Get autosave doc
+     *
+     * @return Marca\DocBundle\Entity\Doc
+     */
+    public function getAutosaveDoc()
+    {
+        return $this->autosaveDoc;
+    }
+    
 }

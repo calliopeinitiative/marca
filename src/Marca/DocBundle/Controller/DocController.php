@@ -194,7 +194,14 @@ class DocController extends Controller
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
         }
-
+        
+        $autosaveDoc = $doc->getAutosaveDoc();
+        if ($autosaveDoc){
+            $autosaveFile = $autosaveDoc->getFile();
+            $em->remove($autosaveDoc);
+            $em->remove($autosaveFile);
+        }
+        
         $editForm   = $this->createForm(new DocType(), $doc);
         $deleteForm = $this->createDeleteForm($id);
 
@@ -215,6 +222,63 @@ class DocController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
+
+    /**
+     * Saves via AJAX
+     * @Route("/{courseid}/{id}/ajaxupdate", name="doc_ajax")
+     * @Method("post")
+     */
+    public function ajaxUpdate($id, $courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        
+        $em = $this->getEm();
+
+        $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
+        
+        $request = $this->get('request');
+        $test = $request->request->get('test');
+        
+        if (!$doc) {
+            throw $this->createNotFoundException('Unable to find Doc entity.');
+        }
+        
+        $file = $doc->getFile();
+        
+        $autosaveDoc = $doc->getAutosaveDoc();
+        
+        if (!$autosaveDoc){
+            $autosaveDoc = new Doc();
+            $autosaveFile = new File();
+            $autosaveFile->setUser($file->getUser());
+            $autosaveFile->setCourse($file->getCourse());
+            $autosaveFile->setProject($file->getProject());
+            $currentTitle = $file->getName();
+            $autosaveFile->setName($currentTitle."_Autosave");
+            $autosaveFile->setPath('doc');
+            $autosaveDoc->setFile($autosaveFile);
+            $autosaveDoc->setBody($test);
+            
+            $em->persist($autosaveFile);
+            $em->persist($autosaveDoc);
+        
+            $doc->setAutosaveDoc($autosaveDoc);
+        
+            $em->persist($doc);
+        }
+        else{
+            $autosaveDoc->setBody($test);
+            $em->persist($autosaveDoc);
+            $em->persist($doc);
+        }
+        
+        $em->flush();
+        
+        $return = "success"; 
+        return new Response($return,200,array('Content-Type'=>'application/json'));
+    }
+
 
     /**
      * Deletes a Doc entity.

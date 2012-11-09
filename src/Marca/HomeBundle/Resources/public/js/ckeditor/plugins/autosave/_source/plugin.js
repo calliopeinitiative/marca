@@ -70,7 +70,7 @@
 	var autosaveTestPattern =  /^form$|^body$/i;
 
 	var autosaveTestPatternSmall =  /^form$/i;
-
+        
 	// Ajax object handler.
 	var autosaveAjax = ( function()
 	{

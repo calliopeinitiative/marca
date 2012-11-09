@@ -66,7 +66,7 @@ class File
     private $access = 0;   
     
     /**
-     * @ORM\OneToOne(targetEntity="Marca\DocBundle\Entity\Doc", mappedBy="file")
+     * @ORM\OneToOne(targetEntity="Marca\DocBundle\Entity\Doc", mappedBy="file", cascade="remove")
      * 
      */
     private $doc; 
