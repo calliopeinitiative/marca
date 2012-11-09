@@ -196,9 +196,9 @@ class DocController extends Controller
         
         $autosaveDoc = $doc->getAutosaveDoc();
         if ($autosaveDoc){
-            $autosaveFile = $autosaveDoc->getFile();
+            $autosaveId = $autosaveDoc->getFile()->getId();
             $em->remove($autosaveDoc);
-            $em->remove($autosaveFile);
+            $em->getRepository('MarcaFileBundle:File')->deleteEdoc($autosaveId);
         }
         
         $editForm   = $this->createForm(new DocType(), $doc);
