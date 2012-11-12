@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>{% block title %}Welcome!{% endblock %}</title>
 <script src="{{ asset('bundles/marcahome/js/jquery-1.7.2.min.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/bootstrap.js') }}"></script>
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/bootstrap.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/bootstrap-responsive.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
@@ -31,8 +32,12 @@
             </ul>
             <ul class="nav pull-right">
             {% if is_granted('ROLE_USER') %}
+            <li class="dropdown">
+            <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">{{ user.firstname }} {{user.lastname}}<b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
             <li class=''><a href="{{ path('user_show') }}">Profile</a></li>
-            <li class=''> <a class='active' title="Logout" href="{{ path('fos_user_security_logout') }}">Logout</a></li> 
+            <li class=''> <a class='active' title="Logout" href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+            </ul>
             {% else %}         
             <li> <a class='active' title="Login" href="{{ path('fos_user_security_login') }}">Login</a></li>
             {% endif %} 
@@ -44,7 +49,7 @@
     </div><!-- /navbar-inner -->
   </div><!-- /navbar -->    
 
-<div class="container-fluid">
+<div class="container" id="mainContainer">
 
 {%if block('sidebar') %}
     <div class="row">  
