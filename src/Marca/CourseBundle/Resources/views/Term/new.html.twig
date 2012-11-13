@@ -1,24 +1,18 @@
 {# Marca/CourseBundle/Resources/views/Term/new.html.twig #}
 
-{% extends 'MarcaCourseBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-<div class="span2">
-<div class="btn-group">
-<a class="btn" href="{{ path('term') }}">List</a>
- 
-</div> 
-</div>       
-  
-</div>
+<legend>Terms</legend>      
 
-<div class="span12" style="margin-top: 3em"> 
+<div class="row">
+<div class="span6">   
 <form action="{{ path('term_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>
         <button class="btn" type="submit">Create</button>
     </div>
 </form>
+</div>
 </div>
 {% endblock %}

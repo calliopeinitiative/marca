@@ -72,12 +72,12 @@ class Calendar
     private $color;    
 
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="calendar")
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")
     */
     protected $user;    
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="calendar")
+    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course")
     */
     protected $course;    
     

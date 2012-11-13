@@ -14,12 +14,11 @@ class CourseType extends AbstractType
         $builder
             ->add('name')
             ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'property'=>'termName', ))
+            ->add('children','entity', array('class'=> 'MarcaCourseBundle:Course', 'property'=>'name', 'expanded'=>false,'multiple'=>true,'required' => false,))     
             ->add('time', 'time', array('widget' => 'single_text')) 
             ->add('enroll','checkbox', array('label'  => 'Allow students to enroll','attr' => array('class' => 'checkbox inline'),))
             ->add('post', 'checkbox', array('label'  => 'Allow student to post documents','attr' => array('class' => 'checkbox inline'),))
             ->add('multicult', 'checkbox', array('label'  => 'Show Multicultural Archive','attr' => array('class' => 'checkbox inline'),)) 
-            ->add('parentId', 'hidden')
-            ->add('assessmentId', 'hidden')
             ->add('studentForum', 'checkbox', array('label'  => 'Allow student to start Forum  threads','attr' => array('class' => 'checkbox inline'),))
             ->add('notes', 'checkbox', array('label'  => 'Use the Notes tool','attr' => array('class' => 'checkbox inline'),))
             ->add('forum', 'checkbox', array('label'  => 'Use the Forum','attr' => array('class' => 'checkbox inline'),))  

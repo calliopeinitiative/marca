@@ -36,7 +36,7 @@ class Portset
     private $description;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="portset")
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")
     */
     protected $user;
     

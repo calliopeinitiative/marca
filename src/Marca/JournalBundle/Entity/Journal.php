@@ -43,7 +43,7 @@ class Journal
 
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="journal")
+    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course")
     */
     protected $course;    
     

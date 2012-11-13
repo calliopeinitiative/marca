@@ -30,7 +30,7 @@ class Project
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Course", inversedBy="project")
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="projects")
      * @ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $course; 

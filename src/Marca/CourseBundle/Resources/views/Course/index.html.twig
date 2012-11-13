@@ -3,16 +3,10 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<legend>Courses</legend>
-
-<div class="row">
-   <div class="span6">
+<div class="span9  well">
+       <legend>Courses</legend>
       <a class="btn btn-primary" href="{{ path('course_new') }}">New Course</a>
-   </div>
-</div>
 
-<div class="row">
-<div class="span6">
 <table class="table">
 <thead>
     <tr>              
@@ -32,7 +26,7 @@
     </tbody>
 </table>
 </div>
-</div>
+
 
  
 {% endblock %}

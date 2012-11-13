@@ -36,13 +36,13 @@ class Team
     private $description;
     
     /**
-     *@ORM\ManyToMany(targetEntity = "Marca\CourseBundle\Entity\Roll", inversedBy="team")
+     *@ORM\ManyToMany(targetEntity = "Marca\CourseBundle\Entity\Roll")
      *@ORM\JoinTable(name = "teams_rolls") 
      */
     protected $rolls;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Course", inversedBy="team")
+    * @ORM\ManyToOne(targetEntity="Course", inversedBy="teams")
     * @ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")
     */
     protected $course;

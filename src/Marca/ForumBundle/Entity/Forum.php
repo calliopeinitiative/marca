@@ -37,13 +37,13 @@ class Forum
     private $body;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="forum")
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")
     */
     protected $user;    
 
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="forum")
+    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course")
     */
     protected $course;
     
