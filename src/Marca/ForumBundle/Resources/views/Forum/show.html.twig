@@ -3,40 +3,40 @@
 {% extends 'MarcaForumBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span10 well" >     
+<div class="span9 well" >     
       <div class="page-header" >
           <strong>{{ forum.title }}</strong>
           <span class='pull-right'>Created  {{ forum.created|date('M d, Y h:i a') }}  / Modified  {{ forum.updated|date('M d, Y h:i a') }} </span>
       </div>
          
-         <div class="span9" >{{ forum.body|raw }}  </div>       
-         <div class="span9" ><a class="btn btn-primary  btn-mini" href="{{ course_path('comment_new', { 'parentid': forum.id ,'forumid': forum.id }) }}">Comment</a>
+         <div class="span8" >{{ forum.body|raw }}  </div>       
+         <div class="span8" ><a class="btn btn-primary  btn-mini" href="{{ course_path('comment_new', { 'parentid': forum.id ,'forumid': forum.id }) }}">Comment</a>
          {% if forum.user==app.user %}<a class="btn btn-primary btn-mini" href="{{ course_path('forum_edit', { 'id': forum.id }) }}">Edit</a>{% endif%}
          </div>   
 
 
 
    {% for comment in forum.comments%}
-     <div class="span9 pad1" style="border-top: 1px gray solid;margin-top: 1em;float:right;margin-right: 5em;">
+     <div class="span8 pad1" style="border-top: 1px gray solid;margin-top: 1em;float:right;margin-right: 5em;">
          <div class="pull-left" >{{ comment.user.firstname }} {{ comment.user.lastname }}</div>
          <div class="pull-right" >
           Created  {{ comment.created|date('M d, Y h:i a') }}  / Modified  {{ comment.updated|date('M d, Y h:i a') }} 
          </div>
              
-         <div class="span8">{{ comment.body|raw }}</div>    
-         <div class="span8" ><a class="btn btn-primary btn-mini" href="{{ course_path('reply_new', { 'commentid': comment.id  }) }}">Comment</a>
+         <div class="span7">{{ comment.body|raw }}</div>    
+         <div class="span7" ><a class="btn btn-primary btn-mini" href="{{ course_path('reply_new', { 'commentid': comment.id  }) }}">Comment</a>
          {% if comment.user==app.user %}<a class="btn btn-primary btn-mini" href="{{ course_path('comment_edit', { 'id': comment.id }) }}">Edit</a>{% endif%}</div>  
          
          {% for reply in comment.replies%}
-           <div class="span8 pad1" style="border-top: 1px gray solid;margin-top: 1em;;float:right;">
+           <div class="span7 pad1" style="border-top: 1px gray solid;margin-top: 1em;;float:right;">
            <div class="pull-left" >{{ reply.user.firstname }} {{ reply.user.lastname }}</div>
            <div class="pull-right" >
            Created  {{ reply.created|date('M d, Y h:i a') }}  / Modified  {{ reply.updated|date('M d, Y h:i a') }} 
            </div>
              
-           <div class="span8" >{{ reply.body|raw }}</div>    
+           <div class="span7" >{{ reply.body|raw }}</div>    
            {% if reply.user==app.user %}
-           <div class="span8" ><a class="btn btn-primary btn-mini" href="{{ course_path('reply_edit', { 'id': reply.id }) }}">Edit</a></div>  
+           <div class="span7" ><a class="btn btn-primary btn-mini" href="{{ course_path('reply_edit', { 'id': reply.id }) }}">Edit</a></div>  
            {% endif%}
            </div>
         {% endfor %}                

@@ -34,7 +34,7 @@ class Tagset
     private $name;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="tag")
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="tagset")
     */
     protected $user;   
     

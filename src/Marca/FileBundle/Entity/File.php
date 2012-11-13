@@ -44,12 +44,12 @@ class File
     protected $user;    
 
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Project", inversedBy="file")
+    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Project")
     */
     protected $project;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="file")
+    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course")
     */
     protected $course;    
     

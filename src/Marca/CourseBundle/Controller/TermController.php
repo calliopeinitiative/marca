@@ -62,8 +62,6 @@ class TermController extends Controller
      */
     public function newAction()
     {
-        $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
         
         $term = new Term();
         $form   = $this->createForm(new TermType(), $term);
@@ -83,8 +81,6 @@ class TermController extends Controller
      */
     public function createAction()
     {
-        $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
         
         $term  = new Term();
         $request = $this->getRequest();
@@ -96,7 +92,7 @@ class TermController extends Controller
             $em->persist($term);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('term_show', array('id' => $term->getId())));
+            return $this->redirect($this->generateUrl('term'));
             
         }
 
@@ -114,8 +110,6 @@ class TermController extends Controller
      */
     public function editAction($id)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
 
@@ -144,8 +138,6 @@ class TermController extends Controller
      */
     public function updateAction($id)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
 
@@ -166,7 +158,7 @@ class TermController extends Controller
             $em->persist($term);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('term_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('term'));
         }
 
         return array(

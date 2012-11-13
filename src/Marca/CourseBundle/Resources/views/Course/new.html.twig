@@ -26,13 +26,13 @@ ampm: true,
 <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate"> 
     {{ form_errors(form) }}
         
-    <div class="span4">          
+
+    <div class="span4">           
             {{ form_row (form.name) }}    
             {{ form_row (form.term) }}
             {{ form_row (form.time) }} 
             {{ form_row (form.portset) }} 
-            {{ form_row (form.tagset) }}
-             
+            {{ form_row (form.tagset) }}          
       </div>      
       <div class="span4">      
             {{ form_row (form.enroll) }} 

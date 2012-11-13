@@ -25,6 +25,9 @@ class DefaultController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $users = $em->getRepository('MarcaUserBundle:User')->findAll();
+        //pagination
+        $paginator = $this->get('knp_paginator');
+        $users = $paginator->paginate($users,$this->get('request')->query->get('page', 1),25);
         
         return array('user' => $user,'users' => $users);
     }

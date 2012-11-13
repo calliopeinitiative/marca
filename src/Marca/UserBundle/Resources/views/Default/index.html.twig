@@ -3,14 +3,14 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row">
-<div class="span6 well">
+
+<div class="span9 well">
 <h3>Welcome {{ user.firstname }} {{ user.lastname }} </h3>
 </div>
-</div>   
+ 
 
-<div class="row">
-<div class="span6">
+
+<div class="span9 well">
 <table class="table">
 <thead>
         <tr>
@@ -28,6 +28,6 @@
     </tbody>
 </table>
 </div>
-</div>
+
 
 {% endblock %}

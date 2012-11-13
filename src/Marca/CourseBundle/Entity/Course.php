@@ -31,7 +31,7 @@ class Course
     private $name;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Term", inversedBy="course")
+    * @ORM\ManyToOne(targetEntity="Term")
     */
     protected $term;
     
@@ -153,6 +153,18 @@ class Course
     protected $teams;
     
     /**
+     * @ORM\OneToMany(targetEntity="Course", mappedBy="parent")
+     */
+    private $children;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+     */
+    private $parent;
+
+
+    /**
      * @var boolean $pendingFlag
      * @ORM\Column(name="pendingFlag", type="boolean")
      */
@@ -165,10 +177,11 @@ class Course
         $this->projects = new ArrayCollection();
         $this->projectDefault = new ArrayCollection();
         $this->teams = new ArrayCollection();
+        $this->children = new ArrayCollection();
     } 
     
    /**
-     * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tagset")
+     * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tagset", inversedBy="course")
      * @ORM\JoinTable(name="course_tagset",
      *      joinColumns={@ORM\JoinColumn(name="Course_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="Tagset_id", referencedColumnName="id")})
@@ -721,4 +734,110 @@ class Course
         }
     }    
     
+
+    /**
+     * Get pendingFlag
+     *
+     * @return boolean 
+     */
+    public function getPendingFlag()
+    {
+        return $this->pendingFlag;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param Marca\CourseBundle\Entity\Project $projects
+     */
+    public function removeProject(\Marca\CourseBundle\Entity\Project $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
+
+    /**
+     * Remove roll
+     *
+     * @param Marca\CourseBundle\Entity\Roll $roll
+     */
+    public function removeRoll(\Marca\CourseBundle\Entity\Roll $roll)
+    {
+        $this->roll->removeElement($roll);
+    }
+
+    /**
+     * Remove teams
+     *
+     * @param Marca\CourseBundle\Entity\Team $teams
+     */
+    public function removeTeam(\Marca\CourseBundle\Entity\Team $teams)
+    {
+        $this->teams->removeElement($teams);
+    }
+
+    /**
+     * Remove tagset
+     *
+     * @param Marca\TagBundle\Entity\Tagset $tagset
+     */
+    public function removeTagset(\Marca\TagBundle\Entity\Tagset $tagset)
+    {
+        $this->tagset->removeElement($tagset);
+    }
+
+    /**
+     * Add children
+     *
+     * @param Marca\CourseBundle\Entity\Category $children
+     * @return Course
+     */
+    public function addChildren(\Marca\CourseBundle\Entity\Category $children)
+    {
+        $this->children[] = $children;
+    
+        return $this;
+    }
+
+    /**
+     * Remove children
+     *
+     * @param Marca\CourseBundle\Entity\Category $children
+     */
+    public function removeChildren(\Marca\CourseBundle\Entity\Category $children)
+    {
+        $this->children->removeElement($children);
+    }
+
+    /**
+     * Get children
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param Marca\CourseBundle\Entity\Category $parent
+     * @return Course
+     */
+    public function setParent(\Marca\CourseBundle\Entity\Category $parent = null)
+    {
+        $this->parent = $parent;
+    
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return Marca\CourseBundle\Entity\Category 
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
 }

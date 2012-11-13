@@ -30,22 +30,22 @@ class Portfolio
     private $portorder = 1;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="portfolio")
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")
     */
     protected $user;    
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="portfolio")
+    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course")
     */
     protected $course;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="portfolio")
+    * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File")
     */
     protected $file;   
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\PortfolioBundle\Entity\Portitem", inversedBy="portfolio")
+    * @ORM\ManyToOne(targetEntity="Marca\PortfolioBundle\Entity\Portitem")
     */
     protected $portitem;    
     

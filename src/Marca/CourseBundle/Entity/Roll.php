@@ -52,7 +52,7 @@ class Roll
     protected $user;
     
     /**
-     *@ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Team", mappedBy = "roll") 
+     *@ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Team") 
      */
     protected $teams;
     

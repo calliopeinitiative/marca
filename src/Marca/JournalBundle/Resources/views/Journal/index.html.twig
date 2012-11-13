@@ -4,25 +4,21 @@
 
 {% block content %}
 
-<div class="span10">       
+<div class="span9 well">       
 
     
 {% for journal in journal %}
-<div class="row">
+
 <div class="page-header" >
 <strong>{{ journal.title }}</strong>
 <span class='pull-right'>Created  {{ journal.created|date('M d, Y h:i a') }}  / Modified  {{ journal.updated|date('M d, Y h:i a') }}
 <a class="btn btn-primary btn-mini" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">edit</a></span> 
 </div>
-</div>
-<div class="row">
+
 {{ journal.body|raw }}
-</div>
     
-{% else %}
-<div class="row" >    
-You don’t have any journals yet. Why not write one? 
-</div>    
+{% else %} 
+You don’t have any journals yet. Why not write one?   
 {% endfor %}
 
 <div class="navigation">

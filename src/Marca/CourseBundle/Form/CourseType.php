@@ -14,6 +14,7 @@ class CourseType extends AbstractType
         $builder
             ->add('name')
             ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'property'=>'termName', ))
+            ->add('children','entity', array('class'=> 'MarcaCourseBundle:Course', 'property'=>'name', 'expanded'=>false,'multiple'=>true,'required' => false,))     
             ->add('time', 'time', array('widget' => 'single_text')) 
             ->add('enroll','checkbox', array('label'  => 'Allow students to enroll','attr' => array('class' => 'checkbox inline'),))
             ->add('post', 'checkbox', array('label'  => 'Allow student to post documents','attr' => array('class' => 'checkbox inline'),))
