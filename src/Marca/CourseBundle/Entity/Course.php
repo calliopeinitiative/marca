@@ -153,15 +153,13 @@ class Course
     protected $teams;
     
     /**
-     * @ORM\OneToMany(targetEntity="Course", mappedBy="parent")
+     * @ORM\ManyToMany(targetEntity="Course")
+     * @ORM\JoinTable(name="parent_child",
+     *      joinColumns={@ORM\JoinColumn(name="parent_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="child_id", referencedColumnName="id")}
+     *      )
      */
-    private $children;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Course", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
-     */
-    private $parent;
+    private $parents;
 
 
     /**
@@ -177,7 +175,7 @@ class Course
         $this->projects = new ArrayCollection();
         $this->projectDefault = new ArrayCollection();
         $this->teams = new ArrayCollection();
-        $this->children = new ArrayCollection();
+        $this->parents = new ArrayCollection();
     } 
     
    /**
@@ -785,59 +783,38 @@ class Course
         $this->tagset->removeElement($tagset);
     }
 
+
+
     /**
-     * Add children
+     * Add parents
      *
-     * @param Marca\CourseBundle\Entity\Category $children
+     * @param Marca\CourseBundle\Entity\Course $parents
      * @return Course
      */
-    public function addChildren(\Marca\CourseBundle\Entity\Category $children)
+    public function addParent(\Marca\CourseBundle\Entity\Course $parents)
     {
-        $this->children[] = $children;
+        $this->parents[] = $parents;
     
         return $this;
     }
 
     /**
-     * Remove children
+     * Remove parents
      *
-     * @param Marca\CourseBundle\Entity\Category $children
+     * @param Marca\CourseBundle\Entity\Course $parents
      */
-    public function removeChildren(\Marca\CourseBundle\Entity\Category $children)
+    public function removeParent(\Marca\CourseBundle\Entity\Course $parents)
     {
-        $this->children->removeElement($children);
+        $this->parents->removeElement($parents);
     }
 
     /**
-     * Get children
+     * Get parents
      *
      * @return Doctrine\Common\Collections\Collection 
      */
-    public function getChildren()
+    public function getParents()
     {
-        return $this->children;
-    }
-
-    /**
-     * Set parent
-     *
-     * @param Marca\CourseBundle\Entity\Category $parent
-     * @return Course
-     */
-    public function setParent(\Marca\CourseBundle\Entity\Category $parent = null)
-    {
-        $this->parent = $parent;
-    
-        return $this;
-    }
-
-    /**
-     * Get parent
-     *
-     * @return Marca\CourseBundle\Entity\Category 
-     */
-    public function getParent()
-    {
-        return $this->parent;
+        return $this->parents;
     }
 }
