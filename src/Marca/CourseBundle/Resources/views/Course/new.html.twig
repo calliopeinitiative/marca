@@ -26,9 +26,7 @@ ampm: true,
 <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate"> 
     {{ form_errors(form) }}
         
-    <div class="span4">      
-            {{ form_row (form.parentId) }}
-            {{ form_row (form.assessmentId) }}       
+    <div class="span4">          
             {{ form_row (form.name) }}    
             {{ form_row (form.term) }}
             {{ form_row (form.time) }} 

@@ -75,20 +75,6 @@ class Course
 
 
     /**
-     * @var integer $parentId
-     *
-     * @ORM\Column(name="parentId", type="integer")
-     */
-    private $parentId = 1;
-
-    /**
-     * @var integer $assessmentId
-     *
-     * @ORM\Column(name="assessmentId", type="integer")
-     */
-    private $assessmentId = 1;
-
-    /**
      * @var boolean $studentForum
      *
      * @ORM\Column(name="studentForum", type="boolean")
@@ -331,46 +317,6 @@ class Course
     public function getProjectDefaultId()
     {
         return $this->projectDefaultId;
-    }
-
-    /**
-     * Set parentId
-     *
-     * @param integer $parentId
-     */
-    public function setParentId($parentId)
-    {
-        $this->parentId = $parentId;
-    }
-
-    /**
-     * Get parentId
-     *
-     * @return integer 
-     */
-    public function getParentId()
-    {
-        return $this->parentId;
-    }
-
-    /**
-     * Set assessmentId
-     *
-     * @param integer $assessmentId
-     */
-    public function setAssessmentId($assessmentId)
-    {
-        $this->assessmentId = $assessmentId;
-    }
-
-    /**
-     * Get assessmentId
-     *
-     * @return integer 
-     */
-    public function getAssessmentId()
-    {
-        return $this->assessmentId;
     }
 
     /**
