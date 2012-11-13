@@ -51,21 +51,41 @@ class LoadTagsetData extends AbstractFixture implements OrderedFixtureInterface
         $tag2->setName($name);
         $tag2->setColor($color);
         $tag2->setShared($shared);
-        $tag2->addTagset($tagset);        
+        $tag2->addTagset($tagset); 
         
-        $name = 'Draft3';
+        $name = 'Peer Review';
         $color = 'tc3';
         $tag3 = new Tag();
         $tag3->setUser($user);
         $tag3->setName($name);
         $tag3->setColor($color);
         $tag3->setShared($shared);
-        $tag3->addTagset($tagset);
+        $tag3->addTagset($tagset);         
+        
+        $name = 'Final';
+        $color = 'tc4';
+        $tag4 = new Tag();
+        $tag4->setUser($user);
+        $tag4->setName($name);
+        $tag4->setColor($color);
+        $tag4->setShared($shared);
+        $tag4->addTagset($tagset); 
+        
+        $name = 'Backup';
+        $color = 'tc3';
+        $tag5 = new Tag();
+        $tag5->setUser($user);
+        $tag5->setName($name);
+        $tag5->setColor($color);
+        $tag5->setShared($shared);
+        $tag5->addTagset($tagset);
         
         $manager->persist($tagset);       
         $manager->persist($tag1);
         $manager->persist($tag2);
         $manager->persist($tag3);
+        $manager->persist($tag4);
+        $manager->persist($tag5);        
         $manager->flush();
         
            

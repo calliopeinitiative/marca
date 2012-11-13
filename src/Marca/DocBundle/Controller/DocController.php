@@ -234,8 +234,9 @@ class DocController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-
+        $tagid = 5;
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
+        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tagid);
         
         $request = $this->get('request');
         $test = $request->request->get('test');
@@ -254,6 +255,7 @@ class DocController extends Controller
             $autosaveFile->setUser($file->getUser());
             $autosaveFile->setCourse($file->getCourse());
             $autosaveFile->setProject($file->getProject());
+            $autosaveFile->addTag($tag);
             $currentTitle = $file->getName();
             $autosaveFile->setName($currentTitle."_backup");
             $autosaveDoc->setFile($autosaveFile);

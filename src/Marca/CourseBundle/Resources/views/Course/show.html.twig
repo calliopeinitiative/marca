@@ -32,8 +32,8 @@
         <td>{{ course.studentForum=='t' ? 'Yes' : 'No' }}</td>         
     </tr>
     <tr>
-        <th>Parent Course(s)</th>         
-        <td></td>         
+        <th>Associated Course(s)</th>         
+        <td>{% for course in course.parents %}{{ course.name }}</br>{% else %}No associated courses{% endfor %}</td>         
     </tr>    
     <tr>
         <th colspan="2">Tools</th>              
