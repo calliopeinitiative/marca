@@ -20,8 +20,8 @@
 </div>
     
 {% else %}
-<div class="row" >    
-You don’t have any journals yet. Why not write one? 
+<div class="row">    
+You don’t have any journals yet. Why not <a href="{{ course_path('journal_new') }}">write one</a>?
 </div>    
 {% endfor %}
 

@@ -19,8 +19,9 @@
 */
 body {background: url('../img/mosaic.png')}
 html, body {height:100%;}
+.centered {text-align: right;color:blue;}
 .background {background: #F2F2F2}
-.navbar .bran {margin-left:0px;}
+.navbar .brand {margin-left:0px;}
 .navbar-inner {background:#373737;}
 #mainContainer {padding-top:60px;padding-left:15px;padding-right:15px;margin-left:auto;margin-right:auto;background:url('../img/whitewash.png');min-height:100%;
 -moz-box-shadow:0px 0px 15px rgba(0,0,0,.5);  
