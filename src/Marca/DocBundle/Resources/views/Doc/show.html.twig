@@ -38,7 +38,7 @@ $('.popup').hide();$(name).show();
 
 <ul class="nav nav-tabs">
     <li><h2 class="">{{file.name}}</h2></li>   
-    <li><a class="" href="{{ course_path('doc_edit', { 'id': doc.id }) }}">Edit Content</a></li>
+    <li>{% if doc.isOwner(app.user.username) %}<a class="" href="{{ course_path('doc_edit', { 'id': doc.id }) }}">Edit Content</a>{% endif %}</li>
     <li class="nav-header">Last updated on {{file.updated|date('M d Y,   g:i a')}}</li>
 </ul>
 

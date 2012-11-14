@@ -165,4 +165,14 @@ class Doc
         return $this->autosaveDoc;
     }
     
+    public function isOwner($user)
+    {
+        if($user == $this->file->getUser()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }    
+    
 }

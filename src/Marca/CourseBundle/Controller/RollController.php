@@ -19,28 +19,30 @@ class RollController extends Controller
     /**
      * Lists all Roll entities.
      *
-     * @Route("/", name="roll")
+     * @Route("/{courseid}/", name="roll")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($courseid)
     {
         $em = $this->getEm();
-        $dql1 = "SELECT p.lastname,p.firstname,r.role,r.status,r.id from MarcaCourseBundle:Roll r JOIN r.profile p ORDER BY p.lastname,p.firstname";
-        $rolls = $em->createQuery($dql1)->getResult();
-
-        return array('rolls' => $rolls);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $paginator = $this->get('knp_paginator');
+        $roll = $paginator->paginate($roll,$this->get('request')->query->get('page',1),20);
+        
+        return array('roll' => $roll, 'course' => $course);
     }
 
     /**
      * Finds and displays a Roll roll.
      *
-     * @Route("/{id}/show", name="roll_show")
+     * @Route("/{courseid}/{id}/show", name="roll_show")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction($id, $courseid)
     {
         $em = $this->getEm();
-
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
 
         if (!$roll) {
@@ -51,7 +53,8 @@ class RollController extends Controller
 
         return array(
             'roll'      => $roll,
-            'delete_form' => $deleteForm->createView(),        );
+            'delete_form' => $deleteForm->createView(), 
+            'course' => $course,);
     }
 
     /**
@@ -166,7 +169,7 @@ class RollController extends Controller
             $em->persist($roll);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
+            return $this->redirect($this->generateUrl('roll', array('courseid' => $courseid)));
         }
 
         return array(
@@ -179,10 +182,10 @@ class RollController extends Controller
     /**
      * Deletes a Roll roll.
      *
-     * @Route("/{id}/delete", name="roll_delete")
+     * @Route("/{courseid}/{id}/delete", name="roll_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
@@ -204,7 +207,7 @@ class RollController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('roll'));
+        return $this->redirect($this->generateUrl('roll', array('courseid' => $courseid)));
     }
 
     private function createDeleteForm($id)
@@ -214,9 +217,9 @@ class RollController extends Controller
             ->getForm()
         ;
     }
-    
+       
     /**
-     *Approves a pending student 
+     *Promote a student to TA
      * @Route("/{courseid}/{id}/approve_pending" , name="roll_approve")
      *
      */
@@ -231,9 +234,29 @@ class RollController extends Controller
          $roll->setRole(self::ROLE_STUDENT);
          $em->persist($roll);
          $em->flush();
-         return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
+         return $this->redirect($this->generateUrl('roll', array('courseid' => $courseid)));
          
-     }
+     }   
+     
+    /**
+     * 
+     * @Route("/{courseid}/{id}/{role}/promote" , name="roll_promote")
+     *
+     */
+     public function promoteAction($id, $courseid, $role)
+     {
+         $allowed = array(self::ROLE_INSTRUCTOR);
+         $this->restrictAccessTo($allowed);
+        
+         $em = $this->getEm();
+         $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
+         if ($role == 1 ){ $newRole= self::ROLE_STUDENT;} elseif ($role == 2) {$newRole= self::ROLE_INSTRUCTOR;} else {$newRole= self::ROLE_TA;}
+         $roll->setRole($newRole);
+         $em->persist($roll);
+         $em->flush();
+         return $this->redirect($this->generateUrl('roll', array('courseid' => $courseid)));
+         
+     }  
      
      /**
      *Approves a pending student 
@@ -253,7 +276,7 @@ class RollController extends Controller
                 $em->flush();
             }
          }
-         return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
+         return $this->redirect($this->generateUrl('roll', array('courseid' => $courseid)));
          
      }
     

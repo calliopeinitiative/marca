@@ -68,10 +68,6 @@ class CourseController extends Controller
         $parentProjects = $em->getRepository('MarcaCourseBundle:Project')->findParentProjects($course);
         $tagsets = $course->getTagset();
         $portset = $course->getPortset();
-        $roll = $course->getRoll();
-        $paginator = $this->get('knp_paginator');
-        $roll = $paginator->paginate($roll,$this->get('request')->query->get('page',1),20);
-        $teams = $course->getTeams();
         
         if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
@@ -85,11 +81,10 @@ class CourseController extends Controller
             'parentProjects'    => $parentProjects,            
             'tagsets'     => $tagsets,
             'portset'     => $portset,
-            'roll'        => $roll, 
-            'teams'       => $teams, 
             'delete_form' => $deleteForm->createView(),        );
     }
-
+  
+    
     /**
      * Displays a form to create a new Course entity.
      *

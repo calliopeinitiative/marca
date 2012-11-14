@@ -1,41 +1,33 @@
 {# Marca/CourseBundle/Resources/views/Roll/index.html.twig #}
 
-{% extends 'MarcaCourseBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-   <div class="span4">
-      <a class="btn btn-primary" href="{{ path('roll_new') }}">New</a>
-   </div>
-</div> 
+<div class="span8 well"> 
 
-<div class="row-fluid">
-<div class="span6">
-<table class="table table-bordered table-condensed table-striped">
-<thead>
-    <tr>        
-        <th>Id</th>        
-        <th>Name</th>        
-        <th>Role</th>        
-        <th>Status</th>        
-        <th>Actions</th>
-    </tr>
-</thead>    
-<tbody>
-    {% for roll in rolls %}
-    <tr>        
-        <td><a href="{{ path('roll_show', { 'id': roll.id }) }}">{{ roll.id }}</a></td>        
-        <td>{{ roll.lastname }}, {{ roll.firstname }}</td>        
-        <td>{{ roll.role }}</td>        
-        <td>{{ roll.status }}</td>        
-        <td><div class="btn-group"><a class="btn" href="{{ path('roll_show', { 'id': roll.id }) }}">show</a><a class="btn" href="{{ path('roll_edit', { 'id': roll.id }) }}">edit</a></div>
-
-</td>       
-    </tr>
+    <legend>Roll</legend>
+    <table class="table table-condensed"><tbody>  
+    {% for roll in roll %}
+    <tr>
+        <td>{{ roll.lastname }}, {{ roll.firstname }}</td> 
+        <td>{% if roll.role == 2 %}Instructor{% elseif roll.role == 3 %}TA{% else %}Student{% endif %}</td>
+        <td> {% if roll.role == 0 %} PENDING 
+            <a class="btn btn-mini btn-primary" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>{% endif %}
+            Change role to: 
+            <a class="btn btn-mini btn-primary" href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'1'}) }}">Student</a>
+            <a class="btn btn-mini btn-primary" href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'3'}) }}">TA</a>
+            <a class="btn btn-mini btn-primary" href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'2'}) }}">Instructor</a>
+            <a class="btn btn-mini btn-warning" href="{{ path('roll_show', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a></td>
     
+    </tr>
     {% endfor %}
     </tbody>
-</table>
-</div>
+     </table>
+    
+    {{ roll.render()|raw }}
+
+    {% if course.hasPendingStudents %}<a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{% endif %}
+    
+           
 </div>
 {% endblock %}

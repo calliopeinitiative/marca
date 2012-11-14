@@ -18,15 +18,22 @@ use Symfony\Component\HttpFoundation\Response;
 class TeamController extends Controller
 
 {
-     /**
-     * 
-     * @Route("/", name="team")
-     * @Template()
+    
+    /**
+     * Lists all Teams.
+     *
+     * @Route("/{courseid}/", name="teams")
+     * @Template("MarcaCourseBundle:Team:manage.html.twig")
      */
-    public function indexAction()
+    public function indexAction($courseid)
     {
-         return new Response('<html><body>Hello World!</body></html>');
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $teams = $course->getTeams();
+        
+        return array('teams' => $teams, 'course' => $course);
     }
+    
     
     /**
      * Finds and displays a team
@@ -127,7 +134,7 @@ class TeamController extends Controller
             $em->persist($team);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
+            return $this->redirect($this->generateUrl('teams', array('courseid' => $courseid)));
         }
     }
 

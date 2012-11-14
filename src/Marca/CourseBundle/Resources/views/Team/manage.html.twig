@@ -2,14 +2,20 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span11">
-<h2>Teams for {{course.name}}</h2>
-<table class="table table-bordered table-condensed table-striped">
-{% for team in teams %}
-        <tr><th>{{team.name}}</th>
-            <td><a class="btn btn-small btn-primary" href="{{ path('team_edit', { 'id': team.id,'courseid': course.id }) }}">Edit</a></td>
-            </tr>
-{% endfor %}
+<div class="span8 well">
+    <legend>Teams for {{course.name}}</legend>
+
+    <ul class="unstyled"> 
+    {% for team in teams %}
+            <li  class="pad05"><strong>{{ team.name }}</strong> {{ team.description }} <a class="btn btn-mini btn-primary" href="{{ path('team_edit', { 'id': team.id,'courseid': course.id }) }}">Edit</a>
+            <ol  class="pad05">      
+                 {% for listing in team.rolls %}
+                      <li>{{ listing.user.firstname }} {{ listing.user.lastname }} </li>
+                 {% endfor %}     
+            </ol>           
+            </li>
+    {% endfor %}
+     </ul> 
 </table>
 <a class="btn btn-primary" href="{{ path('new_team', {'courseid': course.id}) }}">New Team</a>
 </div>

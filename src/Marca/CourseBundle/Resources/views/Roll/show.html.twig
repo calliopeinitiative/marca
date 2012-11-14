@@ -1,48 +1,17 @@
 {# Marca/CourseBundle/Resources/views/Roll/show.html.twig #}
 
-{% extends 'MarcaCourseBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
 <div class="row-fluid">
-<div class="span2">
-<div class="btn-group">
-<a class="btn" href="{{ path('roll') }}">List</a>
-<a class="btn" href="{{ path('roll_edit', { 'id': roll.id }) }}">Edit</a>
- 
-</div> 
+<div class="span8 well">
+<legend>Confirm removal of  {{ roll.firstname }} {{ roll.lastname }}</legend>
+<form action="{{ path('roll_delete', { 'id': roll.id,'courseid': course.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger" type="submit">Remove</button>
+</form> 
 </div>       
   
-<div class="span1">        
-<form action="{{ path('roll_delete', { 'id': roll.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
-</form>
 </div>
-  
-</div>
-        
-<div class="row-fluid">
-<div class="span4">    
-<table class="table table-bordered table-condensed table-striped">
-<tbody>        
-    <tr>
-        <th>Id</th>         
-        <td>{{ roll.id }}</td>         
-    </tr>        
-    <tr>
-        <th>Userid</th>         
-        <td>{{ roll.userid }}</td>         
-    </tr>        
-    <tr>
-        <th>Role</th>         
-        <td>{{ roll.role }}</td>         
-    </tr>        
-    <tr>
-        <th>Status</th>         
-        <td>{{ roll.status }}</td>         
-    </tr>  
-</tbody>
-</table>
-</div>        
-</div>      
+     
 {% endblock %}

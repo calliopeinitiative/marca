@@ -8,18 +8,14 @@
       <a class="btn btn-primary" href="{{ path('course_new') }}">New Course</a>
 
 <table class="table">
-<thead>
-    <tr>              
-        <th>Course Name</th>        
-        <th>Time</th>
-        <th></th>
-    </tr>
-</thead>    
+   
 <tbody>
     {% for course in courses %}
-    <tr>         
-        <td><a class="" href="{{ path('course_show', { 'courseid': course.id }) }}">{{ course.name }}</a></td>        
-        <td>{{ course.time|date('h:i a') }}</td>             
+    <tr> 
+        <td>{{ course.name }} {{ course.time|date('h:i a') }}</td> 
+        <td><a class="btn btn-primary" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>
+        <a class="btn btn-primary" href="{{ path('roll', { 'courseid': course.id }) }}">Roll</a>
+        <a class="btn btn-primary" href="{{ path('teams', { 'courseid': course.id }) }}">Teams</a></td>     
     </tr>
     
     {% endfor %}

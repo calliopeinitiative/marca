@@ -7,7 +7,7 @@
 
 <div class="row">
 <div class="span4 well">  
-<h2>{{ course.name }}</h2>    
+<legend>{{ course.name }}</legend>    
 <table class="table table-bordered table-condensed table-striped">
 <thead><th colspan="2">Settings</td></thead>    
 <tbody>          
@@ -89,12 +89,12 @@
     <li>Created: {{ course.created|date('Y-m-d H:i:s') }}</li>      
     <li>Last Updated:{{ course.updated|date('Y-m-d H:i:s') }}</li>
 </ul>
+  
+</div>        
 
+<div class="span4 well"> 
 
-    <hr/>
-    
-    
-    <h2>Projects</h2>
+        <legend>Projects</legend>
     <table class="table table-condensed table-striped">
     <tbody>  
     {% for project in projects  %}{% if project.resource == 0  %}
@@ -126,7 +126,7 @@
      </tbody>
     </table>   
 
-    <h2>Resources</h2>
+    <legend>Resources</legend>
     <table class="table table-condensed table-striped">
     <tbody>  
     {% for project in projects  %}{% if project.resource == 1  %}        
@@ -164,7 +164,7 @@
         <div class='span2'><a class="btn btn-primary" href="{{ path('project_new', {'courseid': course.id}) }}">New Project/Resource</a></div>
     </div>
     
-    <h2>Associated Resources</h2>
+    <legend>Associated Resources</legend>
     <table class="table table-condensed table-striped">
     <tbody>  
     {% for project in parentProjects  %}{% if project.resource == 1  %}        
@@ -175,47 +175,7 @@
     
     </tbody>
     </table>
-    
-    <hr/>
-    
-</div>        
-
-<div class="span4 well"> 
-
-    <h2>Roll</h2>
-    <table class="table table-condensed"><tbody>  
-    {% for roll in roll %}
-    <tr>
-        <td>{{ roll.lastname }}, {{ roll.firstname }}{% if roll.role == 2 %}**{% endif %}</td> 
-
-        <td> {% if roll.role == 0 %} PENDING <a class="btn btn-mini btn-primary" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>{% endif %}<a class="btn btn-mini btn-primary" href="{{ path('roll_edit', { 'id': roll.id,'courseid':course.id, }) }}">Edit</a></td>
-    
-    </tr>
-    {% endfor %}
-    </tbody>
-     </table>
-    
-    {{ roll.render()|raw }}
-
-    {% if course.hasPendingStudents %}<a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{% endif %}
-    
-    <hr/>
-    <h2>Teams</h2>
-    <ul class="unstyled"> 
-    {% for team in teams %}
-            <li  class="pad05"><strong>{{ team.name }}</strong> {{ team.description }} <a class="btn btn-mini btn-primary" href="{{ path('team_edit', { 'id': team.id,'courseid': course.id }) }}">Edit</a>
-            <ol  class="pad05">      
-                 {% for listing in team.rolls %}
-                      <li>{{ listing.user.firstname }} {{ listing.user.lastname }} </li>
-                 {% endfor %}     
-            </ol>           
-            </li>
-    {% endfor %}
-     </ul>       
-     <hr/> 
-    <div class='row'>
-        <div class='span2'><a class="btn btn-primary" href="{{ path('new_team', {'courseid': course.id}) }}">New Team</a></div>
-    </div>            
+           
 </div>
         
        
