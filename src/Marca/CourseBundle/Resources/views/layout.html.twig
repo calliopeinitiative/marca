@@ -10,9 +10,8 @@
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
 {% endblock %}
 
-{% block sidebar %}  
-       {% if is_granted('ROLE_USER') %}
-             <li class="active"><a href="{{ path('user_home') }}">Home</a></li>
-       {% endif %}        
+{% block sidebar %}
+<li class=""><a href="{{ course_path('course_home') }}">Home</a></li>
+<li class=""><a href="{{ course_path('course_roll') }}">Roll</a></li>      
 {% endblock %} 
 

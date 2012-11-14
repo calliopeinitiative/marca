@@ -1,0 +1,22 @@
+{# Marca/CourseBundle/Resources/views/Course/roll.html.twig #}
+
+{% extends 'MarcaCourseBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="span8 well"> 
+
+    <legend>Roll</legend>
+    <table class="table table-condensed"><tbody>  
+    {% for roll in roll %}
+    <tr>
+        <td><a class="" href="{{ course_path('course_roll_profile', { 'id': roll.id }) }}">{{ roll.lastname }}, {{ roll.firstname }}</a></td>    
+    </tr>
+    {% endfor %}
+    </tbody>
+     </table>
+    
+    {{ roll.render()|raw }}
+  
+           
+</div>
+{% endblock %}

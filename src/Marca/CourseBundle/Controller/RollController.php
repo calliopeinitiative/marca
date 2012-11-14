@@ -32,6 +32,39 @@ class RollController extends Controller
         
         return array('roll' => $roll, 'course' => $course);
     }
+    
+    
+    /**
+     * Lists Roll for Course home.
+     *
+     * @Route("/{courseid}/course_roll", name="course_roll")
+     * @Template("MarcaCourseBundle:Course:roll.html.twig")
+     */
+    public function courseRollAction($courseid)
+    {
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $paginator = $this->get('knp_paginator');
+        $roll = $paginator->paginate($roll,$this->get('request')->query->get('page',1),20);
+        
+        return array('roll' => $roll, 'course' => $course);
+    }
+    
+    /**
+     * Lists Profile
+     *
+     * @Route("/{courseid}/{id}/course_roll_profile", name="course_roll_profile")
+     * @Template("MarcaCourseBundle:Course:profile.html.twig")
+     */
+    public function courseRollProfileAction($courseid,$id)
+    {
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $profile = $em->getRepository('MarcaCourseBundle:Roll')->findRollUser($id);
+
+        return array('profile' => $profile, 'course' => $course);
+    }     
 
     /**
      * Finds and displays a Roll roll.

@@ -22,7 +22,7 @@ class RollRepository extends EntityRepository
     public function findRollUser($id)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT u.lastname,u.firstname,r.role,r.status,r.id from MarcaCourseBundle:Roll r JOIN r.user u WHERE r.id = ?1')->setParameter('1',$id)->getSingleResult();
+            ->createQuery('SELECT u.lastname,u.firstname,u.photo,u.bio,u.email,r.role,r.status,r.id from MarcaCourseBundle:Roll r JOIN r.user u WHERE r.id = ?1')->setParameter('1',$id)->getSingleResult();
     }
     
     public function findUserInCourse($course, $user){

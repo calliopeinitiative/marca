@@ -5,16 +5,17 @@
 {% block content %}
 
 <div class="span4 well">
-<h4>{{ course.name }}</h4> {{ course.time|date('g:i A') }} {{ course.user.firstname }} {{ course.user.lastname }}</h4>
-
-<h4>Announcements</h4>  
+<legend>{{ course.name }}</legend> {{ course.time|date('g:i A') }} {{ course.user.firstname }} {{ course.user.lastname }}
+</div>
+<div class="span4 well">
+<legend>Announcements</legend>  
 <p>{{ course.announcement }}</p>
 </div>
 
 
 
 <div class="span4 well">
-<h3>Calendar</h3>  
+<legend>Calendar</legend>  
 <table class="table">   
 <tbody>
 {% for calendar in calendar %}
