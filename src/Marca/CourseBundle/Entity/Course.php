@@ -660,7 +660,6 @@ class Course
         usort($project_array, array("Marca\CourseBundle\Entity\Project","cmp_sortOrder"));
         return $project_array;
     }
-    
 
     /**
      * Set portset

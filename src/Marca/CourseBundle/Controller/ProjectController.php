@@ -169,7 +169,7 @@ class ProjectController extends Controller
 
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($id);
         $course = $project->getCourse();
-        $courseid = $project->getCourse()->getId();
+        $courseid = $course->getId();
 
         if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
@@ -274,10 +274,12 @@ class ProjectController extends Controller
         
         $em = $this->getEm();
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
-        $courseid = $project->getCourse()->getId();
+        $course = $project->getCourse();
+        $courseid = $course->getId();
+
         if($project->getSortOrder() != 1){
             $currentOrder = $project->getSortOrder();
-            $previousProject = $em->getRepository('MarcaCourseBundle:Project')->findProjectBySortOrder($courseid, $currentOrder - 1);
+            $previousProject = $em->getRepository('MarcaCourseBundle:Project')->findProjectBySortOrder($course, $currentOrder - 1);
             $project->setSortOrder($currentOrder-1);
             $previousProject->setSortOrder($currentOrder);
             $em->persist($project);
@@ -301,8 +303,9 @@ class ProjectController extends Controller
         
         $em = $this->getEm();
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
-        $courseid = $project->getCourse()->getId();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $course = $project->getCourse();
+        $courseid = $course->getId();
+
         if($project->getSortOrder() != count($course->getProjects())){
             $currentOrder = $project->getSortOrder();
             $previousProject = $em->getRepository('MarcaCourseBundle:Project')->findProjectBySortOrder($courseid, $currentOrder + 1);

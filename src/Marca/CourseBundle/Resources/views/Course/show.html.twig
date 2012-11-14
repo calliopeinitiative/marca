@@ -159,11 +159,24 @@
     </table>
     
     <hr/> 
+    
     <div class='row'>
         <div class='span2'><a class="btn btn-primary" href="{{ path('project_new', {'courseid': course.id}) }}">New Project/Resource</a></div>
     </div>
     
-
+    <h2>Associated Resources</h2>
+    <table class="table table-condensed table-striped">
+    <tbody>  
+    {% for project in parentProjects  %}{% if project.resource == 1  %}        
+    <tr>
+        <th>{{ project.name }}</th>         
+    </tr>   
+    {% endif %}{% else %}This course has no associated Resources{% endfor %}
+    
+    </tbody>
+    </table>
+    
+    <hr/>
     
 </div>        
 

@@ -64,6 +64,7 @@ class CourseController extends Controller
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $projects = $course->getProjectsInSortOrder();
+        $parentProjects = $em->getRepository('MarcaCourseBundle:Project')->findParentsProjects($courseid);
         $tagsets = $course->getTagset();
         $portset = $course->getPortset();
         $roll = $course->getRoll();
@@ -80,6 +81,7 @@ class CourseController extends Controller
         return array(
             'course'      => $course,
             'projects'    => $projects,
+            'parentProjects'    => $parentProjects,            
             'tagsets'     => $tagsets,
             'portset'     => $portset,
             'roll'        => $roll, 

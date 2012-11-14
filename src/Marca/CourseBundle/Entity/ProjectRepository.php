@@ -15,8 +15,19 @@ class ProjectRepository extends EntityRepository
   public function findProjectsByCourse($course, $resource)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT p.name,p.id from MarcaCourseBundle:Project p WHERE p.course = ?1 AND p.resource = ?2 ORDER BY p.name')->setParameter('1',$course)->setParameter('2',$resource)->getResult();
+            ->createQuery('SELECT p.name,p.id from MarcaCourseBundle:Project p WHERE p.course = ?1 AND p.resource = ?2 ORDER BY p.sortOrder')->setParameter('1',$course)->setParameter('2',$resource)->getResult();
     }
- 
+    
+  public function findParentsProjects($courseid)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT p from MarcaCourseBundle:Project p JOIN p.course c JOIN c.parents r WHERE c.id = ?1 ORDER BY p.sortOrder')->setParameter('1',$courseid)->getResult();
+    }    
+   
+    public function findProjectBySortOrder($course, $sortOrder)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT p from MarcaCourseBundle:Project p WHERE p.course = ?1 AND p.sortOrder = ?2')->setParameter('1',$course)->setParameter('2',$sortOrder)->getSingleResult();
+    }
     
 }
