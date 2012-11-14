@@ -27,8 +27,8 @@ class FileRepository extends EntityRepository
                 ->setParameter('1',$course)->setParameter('2',$user)->setParameter('3',$resource)->getResult(); 
        } else {
           return $this->getEntityManager()
-            ->createQuery('SELECT f FROM MarcaFileBundle:File f WHERE f.project = ?1 AND f.course = ?2 AND (f.user = ?3'.$scopeQuery.') ORDER BY f.name ASC')
-                ->setParameter('1',$project)->setParameter('2',$course)->setParameter('3',$user)->getResult();
+            ->createQuery('SELECT f FROM MarcaFileBundle:File f WHERE f.project = ?1 AND (f.user = ?3'.$scopeQuery.') ORDER BY f.name ASC')
+                ->setParameter('1',$project)->setParameter('3',$user)->getResult();
        };
 
     }
@@ -44,8 +44,8 @@ class FileRepository extends EntityRepository
                 ->setParameter('1',$course)->setParameter('2',$user)->getResult(); 
        } else {
           return $this->getEntityManager()
-            ->createQuery('SELECT f FROM MarcaFileBundle:File f JOIN f.tag t WHERE t.id = ?1 AND f.course = ?2 AND (f.user = ?3'.$scopeQuery.') ORDER BY f.name ASC')
-                ->setParameter('1',$tag)->setParameter('2',$course)->setParameter('3',$user)->getResult();
+            ->createQuery('SELECT f FROM MarcaFileBundle:File f JOIN f.tag t WHERE t.id = ?1 AND (f.user = ?3'.$scopeQuery.') ORDER BY f.name ASC')
+                ->setParameter('1',$tag)->setParameter('3',$user)->getResult();
        };
 
     }  
