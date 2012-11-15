@@ -6,15 +6,7 @@
 
 <div class="span4 well">
 <legend>{{ course.name }}</legend> {{ course.time|date('g:i A') }} {{ course.user.firstname }} {{ course.user.lastname }}
-</div>
-<div class="span4 well">
-<legend>Announcements</legend>  
-<p>{{ course.announcement }}</p>
-</div>
-
-
-
-<div class="span4 well">
+<hr/>
 <legend>Calendar</legend>  
 <table class="table">   
 <tbody>
@@ -31,5 +23,10 @@
 </div>
 </div>
 
+<div class="span4 well">
+<legend>Announcements  
+    {% if course.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ path('announce_edit', { 'courseid': course.id }) }}">Edit</a>{% endif %}</legend>  
+<p>{{ course.announcement|raw }}</p>
+</div>
 
 {% endblock %}

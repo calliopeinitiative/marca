@@ -11,6 +11,7 @@ use Marca\CourseBundle\Entity\Roll;
 use Marca\UserBundle\Entity\Profile;
 use Marca\CourseBundle\Entity\Project;
 use Marca\CourseBundle\Form\CourseType;
+use Marca\CourseBundle\Form\AnnounceType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
@@ -304,4 +305,75 @@ class CourseController extends Controller
             ->getForm()
         ;
     }
+    
+    
+    /**
+     * Displays a form to edit an existing Course entity.
+     *
+     * @Route("/{courseid}/annouce_edit", name="announce_edit")
+     * @Template("MarcaCourseBundle:Course:announce_edit.html.twig")
+     */
+    public function editAnnouncementAction($courseid)
+    {
+        
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $options = array('courseid' => $courseid);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        
+        if (!$course) {
+            throw $this->createNotFoundException('Unable to find Course entity.');
+        }
+        //restrict access to the edit function to the course owner
+        if($user != $course->getUser()){
+            throw new AccessDeniedException();
+        }
+        
+        $editForm = $this->createForm(new AnnounceType($options), $course);
+
+        return array(
+            'course'      => $course,
+            'edit_form'   => $editForm->createView(),
+        );
+    }
+
+    
+    /**
+     * Edits an existing Course entity.
+     *
+     * @Route("/{courseid}/annouce_update", name="announce_update")
+     * @Method("post")
+     * @Template("MarcaCourseBundle:Course:announce_edit.html.twig")
+     */
+    public function updateAnnouncementAction($courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
+        $em = $this->getEm();
+        $options = array('courseid' => $courseid);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+
+        if (!$course) {
+            throw $this->createNotFoundException('Unable to find Course entity.');
+        }
+
+        $editForm = $this->createForm(new AnnounceType($options), $course);
+
+        $request = $this->getRequest();
+
+        $editForm->bindRequest($request);
+
+        if ($editForm->isValid()) {
+            $em->persist($course);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('course_home', array('courseid' => $courseid)));
+        }
+
+        return array(
+            'course'      => $course,
+            'edit_form'   => $editForm->createView(),
+        );
+    }    
 }

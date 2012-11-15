@@ -37,9 +37,8 @@ $('.popup').hide();$(name).show();
 
 
 <ul class="nav nav-tabs">
-    <li><h2 class="">{{file.name}}</h2></li>   
-    <li>{% if doc.isOwner(app.user.username) %}<a class="" href="{{ course_path('doc_edit', { 'id': doc.id }) }}">Edit Content</a>{% endif %}</li>
-    <li class="nav-header">Last updated on {{file.updated|date('M d Y,   g:i a')}}</li>
+    <li><h2 class="">{{file.name}}</h2></li>    
+    <li class="nav-header">Last updated on {{doc.updated|date('M d Y,   g:i a')}}</li>
 </ul>
 
 
@@ -48,7 +47,7 @@ $('.popup').hide();$(name).show();
 {{ doc.body|raw }}       
 </div>        
        
-<div class="span2 well doc" style='left:70em;position:fixed;'>  
+<div class="span2 well doc" >  
 <div class='cell clear'>
     
     {% for markupset in markupsets%}
@@ -65,6 +64,7 @@ $('.popup').hide();$(name).show();
 </div> 
 
 <div class='cell clear'>
+{% if doc.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id }) }}">Edit</a> {% endif %}   
 <a class="btn btn-info btn-small" href="javascript:void(0);" 
  onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
 </div>

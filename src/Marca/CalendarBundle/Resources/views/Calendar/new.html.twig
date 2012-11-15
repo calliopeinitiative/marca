@@ -7,10 +7,13 @@
 <script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
 <script src="{{ asset('bundles/marcahome/js/jquery-ui-timepicker-addon.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
+
 {% endblock %}
 
 {% block stylesheets %}
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -19,8 +22,8 @@ $(document).ready(function()
 {
 $('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {height:100, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
 toolbar : [
-['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
-'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+['Bold','Italic','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
+'BulletedList','Image','RemoveFormat'],
 ],} );
 $( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
 showButtonPanel: true,
@@ -36,10 +39,19 @@ $( '#marca_calendarbundle_calendartype_endTime' ).timepicker({
 showButtonPanel: true,
 ampm: true,
 });
+$("#marca_calendarbundle_calendartype_color").spectrum({
+    showPaletteOnly: true,
+    color: 'BEDFE8',
+    palette: [
+        ['E8BECF', 'DABEE8', 'BEDFE8'],
+        ['E8CABE','BEE8C7', 'E8E5BE']
+    ]
+});
+
 });
 </script>
 
-<div class="span6 well"> 
+<div class="span8 well"> 
 <form action="{{ course_path('calendar_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>

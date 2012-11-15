@@ -90,13 +90,25 @@ class CalendarController extends Controller
      * @Route("/{courseid}/new", name="calendar_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
+        $em = $this->getEm();
+
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        
+        $startTime = $course->getTime();
+        $startDate = date_create();
+         
         $calendar = new Calendar();
         $calendar->setDescription('<p> </p>');
+        $calendar->setStartTime($startTime);
+        $calendar->setEndTime($startTime);
+        $calendar->setStartDate($startDate);
+        $calendar->setEndDate($startDate);
+        
         $form   = $this->createForm(new CalendarType(), $calendar);
 
         return array(
