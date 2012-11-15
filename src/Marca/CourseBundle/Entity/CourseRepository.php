@@ -30,6 +30,12 @@ class CourseRepository extends EntityRepository
     public function findEnrolledCourses($user)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT c from MarcaCourseBundle:Course c JOIN c.roll r WHERE r.user = ?1 ORDER BY c.name')->setParameter('1',$user)->getResult();
-    }     
+            ->createQuery('SELECT c from MarcaCourseBundle:Course c JOIN c.roll r WHERE r.user = ?1 and r.role > 0 ORDER BY c.name')->setParameter('1',$user)->getResult();
+    } 
+    
+    public function findPendingCourses($user)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT c from MarcaCourseBundle:Course c JOIN c.roll r WHERE r.user = ?1 and r.role = 0 ORDER BY c.name')->setParameter('1',$user)->getResult();
+    }    
 }

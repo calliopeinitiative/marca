@@ -25,8 +25,14 @@ class DefaultController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($user);
+        $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($user);
         
-        return array('user' => $user,'courses' => $courses);
+        $userfind = new User();
+        $form = $this->createFormBuilder($userfind)
+            ->add('lastname')
+            ->getForm();
+        
+        return array('user' => $user,'courses' => $courses, 'pending' => $pending, 'form'   => $form->createView());
     }
     
     /**
