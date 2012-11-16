@@ -49,13 +49,18 @@ class EnrollController extends Controller
      */
     public function listCourseAction()
     {
+        $user = new User();
+        $form = $this->createFormBuilder($user)
+            ->add('lastname')
+            ->getForm();
+        
        $request = $this->get('request');
        $postData = $request->request->get('form');
        $lastname = $postData['lastname'];
        $em = $this->getEm(); 
        $courses = $em->getRepository('MarcaCourseBundle:Course')->findCourseByLastname($lastname);
        return array(
-            'courses' => $courses,
+            'courses' => $courses,'form'   => $form->createView(),
         );
     }     
     

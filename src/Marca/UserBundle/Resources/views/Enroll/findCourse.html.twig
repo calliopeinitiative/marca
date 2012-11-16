@@ -3,8 +3,8 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row">
-<div class="span8"><h3>To enroll in a course, enter your instructor's last name.</h3>
+
+<div class="span8 well"><legend>To enroll in a course, enter your instructor's last name.</legend>
 
 <form action="{{ path('enroll_list') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
@@ -13,5 +13,5 @@
     </div>
 </form>
 </div>
-</div>
+
 {% endblock %}

@@ -4,13 +4,12 @@
 
 {% block content %}
 <div class="span8 well">
+    {% if courses %}
     <div class='alert alert-info'>Select the course in which you wish to enroll.  Be sure to check the time.</div>
-<table class="table">
-<thead>
-        <tr>
-            <th>Course</th><th>Instructor</th><th>Time</th>
-        </tr>
-</thead>    
+    {% else %}
+    <div class='alert alert-warning'>No courses were found.  Please check the name and try again.</div>
+    {% endif %}
+<table class="table">    
 <tbody>
     {% for course in courses %}
         <tr>
@@ -21,6 +20,13 @@
             <a class="btn btn-primary" title="Enroll in this course" href="{{ path('enroll_enroll', { 'courseid': course.id } ) }}">Enroll</a>
             </td>
         </tr>
+    {% else %}
+    <form action="{{ path('enroll_list') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <div>
+        <button class="btn btn-primary" type="submit">Find Course</button>
+    </div>
+    </form>    
     {% endfor %}
     </tbody>
 </table>
