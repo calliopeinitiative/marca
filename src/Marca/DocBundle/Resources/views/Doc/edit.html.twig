@@ -29,6 +29,10 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 });
 </script>
 
+<ul class="nav nav-tabs">
+    <li><h2 class="">{{file.name}}</h2></li>    
+    <li class="nav-header">Last updated on {{doc.updated|date('M d Y,   g:i a')}}</li>
+</ul>
 
 <form id="doc_form" action="{{ course_path('doc_update', { 'id': doc.id }) }}" method="post" {{ form_enctype(edit_form) }}>
 <div class="span9">         

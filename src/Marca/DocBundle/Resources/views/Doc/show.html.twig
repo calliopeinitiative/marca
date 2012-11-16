@@ -46,8 +46,9 @@ $('.popup').hide();$(name).show();
 <div class="span9 doc border pad">          
 {{ doc.body|raw }}       
 </div>        
-       
-<div class="span2 well doc" >  
+
+<div class="span2">         
+<div class="well doc" style='position:fixed'>  
 <div class='cell clear'>
     
     {% for markupset in markupsets%}
@@ -72,7 +73,8 @@ $('.popup').hide();$(name).show();
 <div id='notes_container' class='divider cell clear hide'>
 
 </div>    
-</div>    
+</div> 
+</div>
 </div>
 
 
