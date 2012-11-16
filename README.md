@@ -15,4 +15,21 @@ For more information about Calliope, please contact robin@calliopeinitiative.org
 Marca is built with Symfony (http://symfony.com/)
 
 
+Documentation
+========================
+
+Symfony Bundles Included
+
+
+Twitter Bootstrap Implementation
+
+JQuery
+
+
+Ckeditor
+
+
+Spectrum Colorpicker
+
+
 
