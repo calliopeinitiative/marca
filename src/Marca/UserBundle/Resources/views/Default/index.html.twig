@@ -17,7 +17,8 @@
 {% endif %}
 <tbody>
     {% if pending %}
-      <tr><td colspan="3"><div class='alert alert-info'>Enrollment pending.  Please check back soon.</div>
+      <tr><td colspan="3"><div class='alert alert-info'>Enrollment pending.  Please check back soon.
+                  <a class='btn btn-primary btn-mini pull-right' href="{{ path('user_home') }}">Check now</a></div>
     {% endif %}
     {% for course in pending %}
         <tr>
