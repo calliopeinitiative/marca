@@ -2,7 +2,35 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-timepicker-addon.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+{% endblock %}
+
 {% block content %}
+<script language="javascript">
+    $(document).ready(function()
+    {
+    $("#marca_docbundle_markuptype_color").spectrum({
+    showPaletteOnly: true,
+    color: '8db14f',
+    palette: [
+        ['8db14f', 'ffe362', '4fb1a9'],
+        ['4f78b1', '764fb1', 'b14f8b'],
+        ['b14f4f', 'b1754f', '4fb1af']
+    ]
+    });
+    });
+</script>
+
+
 <div class="row">
 <div class="span6">  
     
@@ -14,7 +42,6 @@
             {{ form_row(edit_form.color) }}
             {{ form_row(edit_form.url) }}
             {{ form_row(edit_form.mouseover) }}
-            {{ form_row(edit_form.markupset) }}
     {{ form_rest(edit_form) }}
     <div class="submit">
         <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('markup') }}">Cancel</a> 

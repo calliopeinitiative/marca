@@ -57,15 +57,18 @@ class MarkupController extends Controller
     /**
      * Displays a form to create a new Markup entity.
      *
-     * @Route("/new", name="markup_new")
+     * @Route("/{set_id}/new", name="markup_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($set_id)
     {
         $markup = new Markup();
-        $form   = $this->createForm(new MarkupType(), $markup);
+        $form   = $this->createForm(new MarkupType(), $markup, array(
+            'em'=>$this->getDoctrine()->getEntityManager(),
+        ));
 
         return array(
+            'set_id' => $set_id,
             'markup' => $markup,
             'form'   => $form->createView()
         );
@@ -74,19 +77,23 @@ class MarkupController extends Controller
     /**
      * Creates a new Markup entity.
      *
-     * @Route("/create", name="markup_create")
+     * @Route("/{set_id}/create", name="markup_create")
      * @Method("post")
      * @Template("MarcaDocBundle:Markup:new.html.twig")
      */
-    public function createAction()
+    public function createAction($set_id)
     {
         $em = $this->getEm();
         $user = $this->getUser();
 
         $markup  = new Markup();
         $markup->setUser($user);
+        $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($set_id);
+        $markup->addMarkupset($markupset);
         $request = $this->getRequest();
-        $form    = $this->createForm(new MarkupType(), $markup);
+        $form    = $this->createForm(new MarkupType(), $markup, array(
+            'em'=>$this->getDoctrine()->getEntityManager(),
+        ));
         $form->bindRequest($request);
 
         if ($form->isValid()) {
@@ -120,7 +127,9 @@ class MarkupController extends Controller
             throw $this->createNotFoundException('Unable to find Markup entity.');
         }
 
-        $editForm = $this->createForm(new MarkupType(), $markup);
+        $editForm = $this->createForm(new MarkupType(), $markup, array(
+            'em'=>$this->getDoctrine()->getEntityManager(),
+        ));
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -147,7 +156,9 @@ class MarkupController extends Controller
             throw $this->createNotFoundException('Unable to find Markup entity.');
         }
 
-        $editForm   = $this->createForm(new MarkupType(), $markup);
+        $editForm   = $this->createForm(new MarkupType(), $markup, array(
+            'em'=>$this->getDoctrine()->getEntityManager(),
+        ));
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();

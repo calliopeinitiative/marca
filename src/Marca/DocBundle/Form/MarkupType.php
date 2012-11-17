@@ -5,18 +5,20 @@ namespace Marca\DocBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Marca\DocBundle\Form\DataTransformer\ColorToCssTransformer;
 
 class MarkupType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $entitymanager = $options['em'];
+        $transformer = new ColorToCssTransformer($entitymanager);
         $builder
             ->add('name')
             ->add('value')
-            ->add('color')
+            ->add($builder->create('color', 'text')->addModelTransformer($transformer))
             ->add('url')
-            ->add('mouseover') 
-            ->add('markupset','entity', array('class'=>'MarcaDocBundle:Markupset', 'property'=>'name','expanded'=>true,'multiple'=>true,'attr' => array('class' => 'checkbox'), ))  
+            ->add('mouseover')   
         ;
     }
     
@@ -25,6 +27,7 @@ class MarkupType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Marca\DocBundle\Entity\Markup'
         ));
+        $resolver->setRequired(array('em'));
     }
 
     public function getName()
