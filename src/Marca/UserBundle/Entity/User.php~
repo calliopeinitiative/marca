@@ -85,8 +85,7 @@ class User extends BaseUser
     protected $tagset;  
     
     /**
-     * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markupset")
-     * @ORM\JoinTable(name="user_markupset")
+     * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\MarkupSet", mappedBy="markupset")
      */
     protected $markupsets; 
     
@@ -100,7 +99,6 @@ class User extends BaseUser
         parent::__construct();
         $this->roll = new ArrayCollection();
         $this->course = new ArrayCollection();
-        $this->markupsets = new ArrayCollection();
     }
  
     /**
@@ -429,38 +427,5 @@ class User extends BaseUser
     public function removeTagset(\Marca\TagBundle\Entity\Tagset $tagset)
     {
         $this->tagset->removeElement($tagset);
-    }
-
-    /**
-     * Add markupsets
-     *
-     * @param Marca\DocBundle\Entity\MarkupSet $markupsets
-     * @return User
-     */
-    public function addMarkupset(\Marca\DocBundle\Entity\MarkupSet $markupsets)
-    {
-        $this->markupsets[] = $markupsets;
-    
-        return $this;
-    }
-
-    /**
-     * Remove markupsets
-     *
-     * @param Marca\DocBundle\Entity\MarkupSet $markupsets
-     */
-    public function removeMarkupset(\Marca\DocBundle\Entity\MarkupSet $markupsets)
-    {
-        $this->markupsets->removeElement($markupsets);
-    }
-
-    /**
-     * Get markupsets
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getMarkupsets()
-    {
-        return $this->markupsets;
     }
 }

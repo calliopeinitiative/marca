@@ -44,6 +44,13 @@ class LoadMarkupsetData extends AbstractFixture implements OrderedFixtureInterfa
         $markup5 = $this->createMarkup('Pathos', $user, 'mc5' , 'pathos', $markupset2, 'http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/591-pathos');
         $markup6 = $this->createMarkup('Logos', $user, 'mc6', 'logos', $markupset2, 'http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/593-logos');
         
+       for ($i=2; $i <=25; $i++){
+            $num = strval($i);
+            $extrauser = $manager->merge($this->getReference('instr'.$num.'-user'));
+            $markupset2->addUser($extrauser);
+        }
+              
+        
         $manager->persist($markupset2);       
         $manager->persist($markup4);
         $manager->persist($markup5);
@@ -54,6 +61,15 @@ class LoadMarkupsetData extends AbstractFixture implements OrderedFixtureInterfa
         $markup7 = $this->createMarkup('Context', $user, 'mc7', 'context', $markupset3, null, 'Provide more context for this quote');
         $markup8 = $this->createMarkup('Interpret', $user, 'mc8', 'interpret', $markupset3, null, 'Interpret this quote');
         $markup9 = $this->createMarkup('Connect', $user, 'mc9', 'connect', $markupset3, null, 'Connect this evidence to your argument');
+        
+        for ($j=2; $j <=25; $j++){
+            $num = strval($j);
+            $extrauser2 = $manager->merge($this->getReference('instr'.$num.'-user'));
+            $markupset3->addUser($extrauser2);
+        }
+        
+        //$extrauser = $manager->merge($this->getReference('instr2-user'));
+        //$markupset3->addUser($extrauser);
         
         $manager->persist($markupset3);
         $manager->persist($markup7);
@@ -67,6 +83,15 @@ class LoadMarkupsetData extends AbstractFixture implements OrderedFixtureInterfa
         $markup12 = $this->createMarkup('Expletive_Construction', $user, 'mc3', 'expletive_construction', $markupset4, 'http://owl.english.purdue.edu/owl/resource/539/1/');
         $markup13 = $this->createMarkup('Subject_Verb_Agreement', $user, 'mc4', 'subject_verb_agreement', $markupset4, 'http://writingcommons.org/style/grammar/subject-verb-agreement');
         $markup14 = $this->createMarkup('Pronoun_antecedent_agreement ', $user, 'mc5', 'pronoun_antecedent_agreement', $markupset4, 'http://writingcommons.org/style/grammar/subject-pronoun-agreement');
+        
+        for ($i=2; $i <=25; $i++){
+            $num = strval($i);
+            $extrauser = $manager->merge($this->getReference('instr'.$num.'-user'));
+            $markupset4->addUser($extrauser);
+        }
+        
+        //$extrauser = $manager->merge($this->getReference('instr2-user'));
+        //$markupset4->addUser($extrauser);
         
         $manager->persist($markupset4);
         $manager->persist($markup10);
@@ -94,7 +119,7 @@ class LoadMarkupsetData extends AbstractFixture implements OrderedFixtureInterfa
         $markupset = new Markupset();
         $markupset->setName($name);
         $markupset->setShared($shared);
-        $markupset->setUser($user);
+        $markupset->setOwner($user);
         
         return $markupset;
     }

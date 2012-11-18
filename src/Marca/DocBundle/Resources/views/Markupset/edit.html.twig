@@ -5,7 +5,7 @@
 {% block content %} 
 <div class="row">   
     <div class="span6">  
-        <form action="{{ path('markupset_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+        <form action="{{ path('markupset_update', { 'id': markupset.id }) }}" method="post" {{ form_enctype(edit_form) }}>
          {{ form_errors(edit_form) }}
         <legend>Markup set</legend>
             {{ form_row(edit_form.name) }}
@@ -13,7 +13,7 @@
     {{ form_rest(edit_form) }}
             <button class="btn btn-primary" type="submit">Edit</button><a class="btn btn-info" href="{{ path('markupset') }}">Cancel</a>
         </form>
-<form action="{{ path('markupset_delete', { 'id': entity.id }) }}" method="post">
+<form action="{{ path('markupset_delete', { 'id': markupset.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>            

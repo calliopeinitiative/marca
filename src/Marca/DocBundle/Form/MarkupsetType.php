@@ -12,6 +12,7 @@ class MarkupsetType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('description')    
             ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes'),'required'  => true,'label'  => 'Shared your tagset', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))   
         ;
     }

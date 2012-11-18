@@ -47,8 +47,7 @@ class Markupset
     
     /**
      * Users who access this markupset
-     * @ORM\ManyToMany(targetEntity="Marca\UserBundle\Entity\User")
-     *
+     * @ORM\ManyToMany(targetEntity="Marca\UserBundle\Entity\User", mappedBy="markupset")
      */
     protected $users;
        
@@ -147,6 +146,7 @@ class Markupset
     {
         $this->owner = $user;
         $this->addUser($user);
+        
         return $this;
     }
 
@@ -258,7 +258,6 @@ class Markupset
     public function removeUser(\Marca\UserBundle\Entity\User $users)
     {
         $this->users->removeElement($users);
-        $users->removeMarkupset($this);
     }
 
     /**
@@ -269,39 +268,5 @@ class Markupset
     public function getUsers()
     {
         return $this->users;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Markupset
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-    
-    public function hasAccess($user)
-    {
-       $users_array = $this->users->toArray();
-       if(in_array($user, $users_array)){
-           return true;
-       }
-       else{
-           return false;
-        }
     }
 }

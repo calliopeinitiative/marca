@@ -25,9 +25,10 @@ class MarkupsetController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-
-        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findAll();
-
+        $user = $this->getUser();
+        
+        //$markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findAll();
+        $markupsets = $user->getMarkupsets();
         return array('markupsets' => $markupsets);
     }
 
@@ -83,7 +84,7 @@ class MarkupsetController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $markupset  = new Markupset();
-        $markupset->setUser($user);
+        $markupset->setOwner($user);
         $request = $this->getRequest();
         $form    = $this->createForm(new MarkupsetType(), $markupset);
         $form->bindRequest($request);
@@ -119,17 +120,17 @@ class MarkupsetController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
+        $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
 
-        if (!$entity) {
+        if (!$markupset) {
             throw $this->createNotFoundException('Unable to find Markupset entity.');
         }
 
-        $editForm = $this->createForm(new MarkupsetType(), $entity);
+        $editForm = $this->createForm(new MarkupsetType(), $markupset);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'markupset'      => $markupset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -146,13 +147,13 @@ class MarkupsetController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
+        $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
 
-        if (!$entity) {
+        if (!$markupset) {
             throw $this->createNotFoundException('Unable to find Markupset entity.');
         }
 
-        $editForm   = $this->createForm(new MarkupsetType(), $entity);
+        $editForm   = $this->createForm(new MarkupsetType(), $markupset);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -160,10 +161,10 @@ class MarkupsetController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($markupset);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('markupset_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('markupset', array('id' => $markupset->getid())));
         }
 
         return array(
@@ -200,7 +201,57 @@ class MarkupsetController extends Controller
 
         return $this->redirect($this->generateUrl('markupset'));
     }
+    
+    /**
+     * Allow user to browse for new Markupsets
+     * @Route("/find", name="find_markupset")
+     * @Template("MarcaDocBundle:Markupset:findMarkupset.html.twig")
+     */
+    public function findMarkupsetAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $markupsets = $em->getRepository("MarcaDocBundle:Markupset")->findByShared(1);
 
+        return array(
+            'markupsets'=>$markupsets
+        ); 
+    }
+    
+    /**
+     * Allow user to add shared tagset to his/her tagsets
+     * @Route("/add/{id}", name="add_markupset")
+     */
+    public function addMarkupsetAction($id)
+    {
+        $user = $this->getUser();
+        $em = $this->getEm();
+        $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
+        $markupset->addUser($user);
+        
+        $em->persist($markupset);
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('find_markupset'));
+    }
+    
+    /**
+     * Allow user to remove shared tagset from his/her tagsets
+     * @Route("/remove/{id}", name="remove_markupset")
+     */
+    public function removeMarkupsetAction($id)
+    {
+        $user = $this->getUser();
+        $em = $this->getEm();
+        $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
+        $markupset->removeUser($user);
+        
+        $em->persist($markupset);
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('find_markupset'));
+    }
+    
+    
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
