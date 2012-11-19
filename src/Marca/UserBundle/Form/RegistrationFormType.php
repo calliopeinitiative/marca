@@ -13,7 +13,11 @@ class RegistrationFormType extends BaseType
             parent::buildForm($builder, $options);
 
             // add your custom field
+            $builder->add('Firstname', null, array('label'=>'First Name', 'required'=>true));
+            $builder->add('Lastname', null, array('label'=>'Last Name', 'required'=>true));
             $builder->add('share_email', null, array('label' => 'Do you want to be added to the MARCA mailing list?', 'required' => false));
+            
+            
         }
 
         public function getName()

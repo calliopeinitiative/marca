@@ -85,7 +85,7 @@ class User extends BaseUser
     protected $tagset;  
     
     /**
-     * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markupset")
+     * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markupset", cascade={"persist"})
      * @ORM\JoinTable(name="user_markupset")
      */
     protected $markupsets; 

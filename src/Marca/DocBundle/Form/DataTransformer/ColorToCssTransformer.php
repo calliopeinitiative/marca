@@ -32,7 +32,7 @@ class ColorToCssTransformer implements DataTransformerInterface
      * @return string
      */
     public function transform($css_class) {
-        $color = 'reversed';
+        $color = $css_class;
         switch($css_class){
             case "mc1":
                 $color = '#8db14f';
@@ -71,7 +71,7 @@ class ColorToCssTransformer implements DataTransformerInterface
      * @return string
      */
     public function reverseTransform($color) {
-        $css_class = 'test';
+        $css_class = $color;
         if($color=='#8db14f'){
                 $css_class = "mc1";         
         }

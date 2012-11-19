@@ -41,7 +41,7 @@ class Markupset
     private $description = '<p></p>'; 
 
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="tag")
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")
     */
     protected $owner;
     

@@ -38,13 +38,13 @@
     {{ form_errors(edit_form) }}
         <legend>Markup</legend>
             {{ form_row(edit_form.name) }}
-            {{ form_row(edit_form.value) }}
             {{ form_row(edit_form.color) }}
             {{ form_row(edit_form.url) }}
+            {{ form_row(edit_form.linktext) }}
             {{ form_row(edit_form.mouseover) }}
     {{ form_rest(edit_form) }}
     <div class="submit">
-        <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('markup') }}">Cancel</a> 
+        <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('markupset') }}">Cancel</a> 
     </div>
 </form> 
 

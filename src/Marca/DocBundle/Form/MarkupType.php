@@ -14,11 +14,11 @@ class MarkupType extends AbstractType
         $entitymanager = $options['em'];
         $transformer = new ColorToCssTransformer($entitymanager);
         $builder
-            ->add('name')
-            ->add('value')
-            ->add($builder->create('color', 'text')->addModelTransformer($transformer))
-            ->add('url')
-            ->add('mouseover')   
+            ->add('name', null, array('label'=>'Tag Name'))
+            ->add($builder->create('color', 'text', array('label'=>'Tag Color', 'data'=>'#8db14f'))->addModelTransformer($transformer))
+            ->add('url', null, array('label'=>'Url (Web address) for outside resources'))
+            ->add('linktext', null, array('label'=>'Display text for link to outside resources'))    
+            ->add('mouseover', null, array('label'=>'Text to display for this tag'))   
         ;
     }
     

@@ -277,27 +277,4 @@ class Markup
     {
         return $this->mouseover;
     }
-
-    /**
-     * Set linktext
-     *
-     * @param string $linktext
-     * @return Markup
-     */
-    public function setLinktext($linktext)
-    {
-        $this->linktext = $linktext;
-    
-        return $this;
-    }
-
-    /**
-     * Get linktext
-     *
-     * @return string 
-     */
-    public function getLinktext()
-    {
-        return $this->linktext;
-    }
 }

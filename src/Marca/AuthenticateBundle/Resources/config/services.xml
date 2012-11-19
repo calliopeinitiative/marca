@@ -7,14 +7,16 @@
     <!--
     <parameters>
         <parameter key="marca_authenticate.example.class">Marca\AuthenticateBundle\Example</parameter>
-    </parameters>
+    </parameters> -->
 
     <services>
-        <service id="marca_authenticate.example" class="%marca_authenticate.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="marca_user.form.handler.registration" class="Marca\AuthenticateBundle\Form\Handler\RegistrationFormHandler" scope="request" public="false">
+            <argument type="service" id="fos_user.registration.form" />
+            <argument type="service" id="request" />
+            <argument type="service" id="fos_user.user_manager" />
+            <argument type="service" id="fos_user.mailer" />
+            <argument type="service" id="fos_user.util.token_generator" />
         </service>
     </services>
-    -->
+    
 </container>

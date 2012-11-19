@@ -68,6 +68,7 @@ fos_user:
     registration:
         form:
             type: marca_user_registration
+            handler: marca_user.form.handler.registration
         confirmation:
             enabled:    true
     from_email:

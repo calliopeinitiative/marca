@@ -96,6 +96,10 @@ class MarkupController extends Controller
         ));
         $form->bindRequest($request);
 
+        $name = $markup->getName();
+        $name = preg_replace('/[^[:alpha:] ]/', '', $name);
+        $markup->setValue(preg_replace('/ /', '_', $name));
+        
         if ($form->isValid()) {
             $em = $this->getEm();
             $em->persist($markup);
