@@ -461,6 +461,10 @@ class User extends BaseUser
      */
     public function getMarkupsets()
     {
-        return $this->markupsets;
+        $markupsets_array = $this->markupsets->toArray();
+        usort($markupsets_array, array("Marca\DocBundle\Entity\Markupset","cmp_shared"));
+        return $markupsets_array;
+        
+        //return $this->markupsets;
     }
 }

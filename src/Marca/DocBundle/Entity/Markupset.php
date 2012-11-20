@@ -305,4 +305,13 @@ class Markupset
            return false;
         }
     }
+    
+    //function for comparing and sorting projects by sortOrder
+    static function cmp_shared($a, $b)
+    {
+        if($a->shared === $b->shared) {
+            return 0;
+        }
+        return($a->shared > $b->shared) ? +1 : -1;
+    }
 }

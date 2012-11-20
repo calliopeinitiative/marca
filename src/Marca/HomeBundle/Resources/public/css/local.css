@@ -39,6 +39,7 @@ div.inline input {display:inline;}
 div.inline label {display:inline;padding:.5em;}
 input#remember_me {display:block;clear:left}
 dl.dl-horizontal dd p {display:inline}
+.accordion {float:left; width:180px}
 
 
 .navbar .nav > li > a {color: #fff;text-shadow: none;}

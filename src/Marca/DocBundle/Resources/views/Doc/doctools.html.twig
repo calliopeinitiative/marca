@@ -21,27 +21,43 @@ Highlight text, type your note and click <em>Insert.</em>
 
 </div>
 
+{#
 <div class='cell clear divider'>
 <a href="javascript:void(0)" class="" tabindex="1" onclick="$('#markup').toggle()" title="Toggle Markup Tags">Markup tags</a>
 </div>
 
-<div id='markup' class='hide clear'>
+ <div id='markup' class='hide clear'> #}
+<div class = "cell accordion" id="markup">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#collapseOne">Markup Tags</a>
+            </div>
+        <div id="collapseOne" class="accordion-body collapse">    
+            <div class="accordion-inner">
+                <div class='cell alert alert-info'>
+                    Hightlight text and then select tag.
+                </div>
 
-<div class='cell alert alert-info'>
-Hightlight text and then select tag.
-</div>
+                {% for markupset in markupsets%}
+                <div class="accordion-group">
+                    <div class='accordion-heading cell clear divider'>
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#{{markupset.name}}">{{ markupset.name }}</a>
+                    </div>
+                <div id="{{markupset.name}}" class=" cell accordion-body collapse">
+                <div class="accordion-inner">
+                {% for markup in markupset.markup %}
+                 <a href="javascript:{{markup.function}}('{{markup.value}}','{{markup.color}}')" class="label label-info" tabindex="1" title="Submit entry"><span class="label {{ markup.color }}">{{ markup.name }}</span></a></li> 
+                {% endfor %} 
+                </div>
+                </div>
+                {% endfor %}
+                </div>
+              </div>
+        </div>
+     </div>
+    
+</div>   
 
-    {% for markupset in markupsets%}
-    <div class='cell clear divider'>
-        <strong>{{ markupset.name }}</strong>
-    
-    {% for markup in markupset.markup %}
-    <a href="javascript:{{markup.function}}('{{markup.value}}','{{markup.color}}')" class="label label-info" tabindex="1" title="Submit entry"><span class="label {{ markup.color }}">{{ markup.name }}</span></a></li> 
-    {% endfor %} 
-    </div>
-    {% endfor %}
-    
-</div>    
 {# EMBED 
 
 <div class='cell clear divider'>
