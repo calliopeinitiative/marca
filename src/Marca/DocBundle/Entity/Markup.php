@@ -220,6 +220,7 @@ class Markup
     public function removeMarkupset(\Marca\DocBundle\Entity\Markupset $markupset)
     {
         $this->markupset->removeElement($markupset);
+        $markupset->removeMarkup($this);
     }
 
     /**
@@ -299,5 +300,16 @@ class Markup
     public function getLinktext()
     {
         return $this->linktext;
+    }
+    
+    public function isInSet($markupset)
+    {
+        $markupset_array = $this->markupset->toArray();
+        if(in_array($markupset, $markupset_array)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

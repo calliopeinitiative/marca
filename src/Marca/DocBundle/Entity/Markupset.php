@@ -54,6 +54,7 @@ class Markupset
        
    /**
     * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markup", mappedBy="markupset")
+    * @ORM\JoinTable(name="markup_markupset")
     */
     protected $markup; 
     

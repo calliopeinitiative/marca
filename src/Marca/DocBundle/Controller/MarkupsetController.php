@@ -251,8 +251,62 @@ class MarkupsetController extends Controller
         return $this->redirect($this->generateUrl('find_markupset'));
     }
     
-    
-    private function createDeleteForm($id)
+     /**
+     * Add outside tags to a set
+     * @Route("/add_tags/{id}", name="add_tags")
+     * @Template("MarcaDocBundle:Markupset:addTagsMarkupset.html.twig")
+     */
+     public function addTagsAction($id)
+     {
+         $em = $this->getEm();
+         $currentset = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
+         $user = $this->getUser();
+         $allsets = $user->getMarkupsets();
+         
+         return array("currentset"=>$currentset, 
+                      "allsets"=>$allsets);
+     }
+     
+     /**
+     * Add tag to a set
+     * @Route("/add_tag_to_set/{set_id}/{tag_id}", name="add_tag_to_set")
+     */
+     public function addTagToSetAction($set_id, $tag_id)
+     {
+         $em = $this->getEm();
+         $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($set_id);
+         $tag = $em->getRepository('MarcaDocBundle:Markup')->find($tag_id);
+         $tag->addMarkupset($markupset);
+         
+         $em->persist($tag);
+         $em->flush();
+         
+         return $this->redirect($this->generateUrl('add_tags', array('id' => $markupset->getid())));
+         
+     }
+
+     /**
+     * Remove tag from a set
+     * @Route("/remove_tag_from_set/{set_id}/{tag_id}", name="remove_tag_from_set")
+     */
+     public function removeTagFromSetAction($set_id, $tag_id)
+     {
+         $em = $this->getEm();
+         $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($set_id);
+         $tag = $em->getRepository('MarcaDocBundle:Markup')->find($tag_id);
+         $tag->removeMarkupset($markupset);
+         $markupset->removeMarkup($tag);
+         
+         $em->persist($tag);
+         $em->persist($markupset);
+         $em->flush();
+         
+         return $this->redirect($this->generateUrl('add_tags', array('id' => $markupset->getid())));
+         
+     }
+
+
+     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')

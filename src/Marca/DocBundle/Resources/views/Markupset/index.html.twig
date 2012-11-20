@@ -31,7 +31,7 @@
     {% if markupset.isOwner(app.user.username) %}
     <div class ="btn-toolbar pull-right">
     <a class='btn btn-primary btn-mini' href="{{ path('markup_new', { 'set_id' : markupset.getid}) }}">Create Markup Tag</a>
-    <a class='btn btn-primary btn-mini'>Add tags to this set</a>
+    <a class='btn btn-primary btn-mini' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Add tags to this set</a>
     </div>
     {% endif %}
     <div class="row"></div>

@@ -1,0 +1,43 @@
+
+{# Marca/DocBundle/Resources/views/Markupset/addTagsMarkupset.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block content %}
+
+<legend>Current Set</legend>
+<a class="btn btn-primary" href="{{path('markupset')}}">Return to Markupsets</a>
+
+<div class = "row">
+<div class = "span8">
+    <strong>{{currentset.name}}</strong>
+    <table class="table">
+    {% for tag in currentset.markup %}
+            <tr><td><span class="label {{ tag.color }}">{{ tag.name }}</span></td>
+                <td>{% if tag.url != '' or tag.url is not null %}<a href="{{ tag.url }}" target="_blank">URL</a>{% else %}No URL{% endif %}</td><td colspan=2>{{ tag.mouseover }}</td>
+            </tr>
+    {% endfor %}
+    </table>
+</div>     
+</div>
+
+<Legend>All Available Tags</legend>
+<div class = "row">
+<div class = "span8">
+    <table class="table">
+    {% for thisset in allsets %}
+    {% for tag in thisset.markup %}
+            <tr><td><span class="label {{ tag.color }}">{{ tag.name }}</span></td>
+                <td>{% if tag.url != '' or tag.url is not null %}<a href="{{ tag.url }}" target="_blank">URL</a>{% else %}No URL{% endif %}</td><td colspan=2>{{ tag.mouseover }}</td>
+                <td>{% if tag.isInSet(currentset) %}<span class = "label label-info">In this set</span>{% endif %}</td>
+                <td>{% if tag.isInSet(currentset) %}<a class="btn btn-warning btn-mini pull-right" href="{{ path('remove_tag_from_set', {'set_id':currentset.id, 'tag_id':tag.id}) }}">Remove from set</a>{% else %}<a class="btn btn-primary btn-mini pull-right" href="{{ path('add_tag_to_set', {'set_id':currentset.id, 'tag_id':tag.id}) }}">Add to set</a>{% endif %}</td>
+            </tr>
+    {% endfor %}
+    {% endfor %}
+    </table>
+       
+</div>     
+</div>
+
+
+{% endblock %}
