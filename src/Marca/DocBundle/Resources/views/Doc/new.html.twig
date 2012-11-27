@@ -15,10 +15,7 @@ $(document).ready(function()
 {
 $('#marca_docbundle_doctype_body').ckeditor( function() {}, {extraPlugins:'autogrow', autoGrow_maxHeight : 700, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
 toolbar : [
-['Preview','-', 'Print','Templates','Undo','Redo','Find','Replace','SelectAll','RemoveFormat'],
-['Bold','Italic','Underline','Strike','Subscript','Superscript','NumberedLst','BulletedList','Outdent','Indent','Blockquote'],
-['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','Link','Unlink','Image','Table','HorizontalRule','Smiley','SpecialChar'],
-['Styles','Format','Font','FontSize','TextColor','BGColor','Maximize', 'ShowBlocks','About']
+['Undo','RemoveFormat','Bold','Italic','Underline','Strike','NumberedLst','BulletedList','Outdent','Indent','JustifyLeft','JustifyCenter','JustifyRight','Link','Unlink','Image','Table','Styles','FontSize','TextColor','BGColor']
 ],} );
 $('#backup_alert').toggle();
 
@@ -30,7 +27,7 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 </script>
 
 <form action="{{ course_path('doc_create', {'resource': app.request.get('resource')}) }}" method="post" {{ form_enctype(form) }}>
-<div class="span9">         
+<div class="span8">         
 <div>
     {{ form_errors(form) }}
     {{ form_errors(form.body) }}
@@ -38,7 +35,7 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
     {{ form_rest(form) }}    
 </div>
 </div>
-<div class="span2 well doc" style="">
+<div class="span3 well doc" style="">
 <div class="cell clear divider">
     <p style='min-height:1.5em;'><span id='backup_alert' class='alert'>Backing up work</span></p>
     <input class="btn btn-primary btn-small" type="submit" id="doc_save" value="Save"/>

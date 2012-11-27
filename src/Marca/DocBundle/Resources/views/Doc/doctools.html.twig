@@ -1,58 +1,47 @@
 {# Marca/DocBundle/Resources/views/Doc/doctools.html.twig #}
 {# INSERT NOTE #}
 
-<div class='cell clear divider'>
+<div class='clear'>
 <a href="javascript:void(0)" class="" tabindex="1" onclick="$('#insert_note_tools').toggle()" title="Toggle Insert Note">Insert Note</a>
 </div>
 
-<div id='insert_note_tools'>
-
-<div class='cell alert alert-info'>
-Highlight text, type your note and click <em>Insert.</em>
-</div>
-
-
-<div class='cell'>
+<div class='' id='insert_note_tools'>
+<div class=''>
 <form id='note_insert_form' name='note_insert_form'>
-<textarea  class='span2' id="insert_value" name="html_insert" tabindex="1"></textarea>
+<textarea  class='span3' id="insert_value" name="html_insert" tabindex="1"></textarea>
 <a id='note_insert_submit' href="javascript:void(0)" class="label label-info" tabindex="1" title="Submit entry">Insert</a>
 </form>     
 </div>
-
 </div>
 
-{#
-<div class='cell clear divider'>
-<a href="javascript:void(0)" class="" tabindex="1" onclick="$('#markup').toggle()" title="Toggle Markup Tags">Markup tags</a>
-</div>
 
- <div id='markup' class='hide clear'> #}
-<div class = "cell accordion" id="markup">
+<div class = "accordion" id="markup" style='width:100%; margin-top: 1em;'>
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#collapseOne">Markup Tags</a>
             </div>
         <div id="collapseOne" class="accordion-body collapse">    
-            <div class="accordion-inner">
-                <div class='cell alert alert-info'>
-                    Hightlight text and then select tag.
-                </div>
 
                 {% for markupset in markupsets%}
+            
                 <div class="accordion-group">
-                    <div class='accordion-heading cell clear divider'>
+                <div class='accordion-heading'>
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#{{markupset.name}}">{{ markupset.name }}</a>
-                    </div>
-                <div id="{{markupset.name}}" class=" cell accordion-body collapse">
+                </div>
+                <div id="{{markupset.name}}" class=" accordion-body collapse">
                 <div class="accordion-inner">
+                    
                 {% for markup in markupset.markup %}
                  <a href="javascript:{{markup.function}}('{{markup.value}}','{{markup.color}}')" class="label label-info" tabindex="1" title="Submit entry"><span class="label {{ markup.color }}">{{ markup.name }}</span></a></li> 
                 {% endfor %} 
+                
                 </div>
                 </div>
+                        
+                 </div>
+            
                 {% endfor %}
-                </div>
-              </div>
+              
         </div>
      </div>
     
