@@ -6,25 +6,47 @@
 
 <div class="span9 well">       
 
-    
 {% for journal in journal %}
-
+<div class="span8" >
 <div class="page-header" >
 <strong>{{ journal.title }}</strong>
 <span class='pull-right'>Created  {{ journal.created|date('M d, Y h:i a') }}  / Modified  {{ journal.updated|date('M d, Y h:i a') }}
-<a class="btn btn-primary btn-mini" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">edit</a></span> 
+{% if journal.isOwner(app.user.username) %}
+        <a class="btn btn-primary btn-small" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
+{% endif %} 
+</span>         
 </div>
 
 {{ journal.body|raw }}
     
+    <div class="span7 ">
+    {% for response in journal.responses %}
+    {% if loop.first %}    
+    <div class="page-header" >
+    <strong>Responses</strong>
+    </div>       
+    {% endif %}      
+            <div class="span7 well">
+                <strong>By {{ response.user.firstname}} {{ response.user.lastname}}</strong>
+               {{ response.body|raw }} 
+                {% if response.isOwner(app.user.username) %}
+                <a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': journal.id, 'source': 'journal' }) }}">Edit</a>
+                {% endif %}
+            </div>   
+    {% endfor %}    
+    <a class="btn btn-primary btn-small pull-right" href="{{ course_path('response_new', { 'sourceid': journal.id, 'source': 'journal' }) }}">Respond</a>        
+    </div>        
+</div> 
 
+   
 {% else %}
 You don’t have any journals yet. Why not <a href="{{ course_path('journal_new') }}">write one</a>?
 {% endfor %}
 
+<div class="span8" > 
 <div class="navigation">
     {{ journal.render()|raw }}
-</div>        
-        
+</div>              
+</div>
 </div>
 {% endblock %}

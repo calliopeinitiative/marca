@@ -41,6 +41,10 @@ class Journal
     */
     protected $user;    
 
+     /**
+     * @ORM\OneToMany(targetEntity="Marca\ResponseBundle\Entity\Response", mappedBy="journal")
+     */
+    protected $responses;    
     
     /**
     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course")
@@ -189,4 +193,55 @@ class Journal
     {
         return $this->course;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->responses = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add responses
+     *
+     * @param \Marca\ResponseBundle\Entity\Response $responses
+     * @return Journal
+     */
+    public function addResponse(\Marca\ResponseBundle\Entity\Response $responses)
+    {
+        $this->responses[] = $responses;
+    
+        return $this;
+    }
+
+    /**
+     * Remove responses
+     *
+     * @param \Marca\ResponseBundle\Entity\Response $responses
+     */
+    public function removeResponse(\Marca\ResponseBundle\Entity\Response $responses)
+    {
+        $this->responses->removeElement($responses);
+    }
+
+    /**
+     * Get responses
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getResponses()
+    {
+        return $this->responses;
+    }
+    
+    public function isOwner($user)
+    {
+        if($user == $this->user){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
 }

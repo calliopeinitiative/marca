@@ -28,7 +28,7 @@
          {% if comment.user==app.user %}<a class="btn btn-primary btn-mini" href="{{ course_path('comment_edit', { 'id': comment.id }) }}">Edit</a>{% endif%}</div>  
          
          {% for reply in comment.replies%}
-           <div class="span7 pad1" style="border-top: 1px gray solid;margin-top: 1em;;float:right;">
+           <div class="span7 pad1" style="border-top: 1px gray solid;margin-top: 1em;float:right;">
            <div class="pull-left" >{{ reply.user.firstname }} {{ reply.user.lastname }}</div>
            <div class="pull-right" >
            Created  {{ reply.created|date('M d, Y h:i a') }}  / Modified  {{ reply.updated|date('M d, Y h:i a') }} 

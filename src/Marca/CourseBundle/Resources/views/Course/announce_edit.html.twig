@@ -24,15 +24,10 @@ toolbar : [
 <legend>Announcements</legend>   
 
 <form class="form" action="{{ path('announce_update', { 'courseid': course.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">  
-    <div class="span8">
       {{ form_errors(edit_form) }}
-
             {{ form_row (edit_form.announcement) }}    
       {{ form_rest(edit_form) }}       
-      </div>      
-      <div class="span8"> 
-      <button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn" href="{{ path('course_home', { 'courseid': course.id }) }}">Cancel</a>
-      </div>
+      <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('course_home', { 'courseid': course.id }) }}">Cancel</a>
 </form>
 </div>
 {% endblock %}

@@ -1,0 +1,35 @@
+{# Marca/ResponseBundle/Resources/views/Response/edit.html.twig #}
+
+{% extends 'MarcaResponseBundle::layout.html.twig' %}
+
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+ <script language="javascript"> 
+$(document).ready(function()
+{
+$('#marca_responsebundle_responsetype_body').ckeditor( function() {}, {height:300, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+toolbar : [
+['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
+'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+],} );
+});
+</script>    
+   
+    <div class="span8 well">  
+        <form action="{{ course_path('response_update', { 'id': response.id, 'source': source, 'sourceid': sourceid }) }}" method="post" {{ form_enctype(edit_form) }}>
+            {{ form_widget(edit_form) }}  
+            <button class="btn btn-primary" type="submit">Update</button>
+            <a class="btn" href="{{ course_path(source) }}">Cancel</a> 
+        </form>
+        
+        <form action="{{ course_path('response_delete', { 'id': response.id, 'source': source }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger" type="submit">Delete</button>
+        </form>    
+    </div>
+
+{% endblock %}

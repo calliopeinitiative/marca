@@ -29,6 +29,7 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 <ul class="nav nav-tabs">
     <li><h2 class="">{{file.name}}</h2></li>    
     <li class="nav-header">Last updated on {{doc.updated|date('M d Y,   g:i a')}}</li>
+    <li><span id='backup_alert' class='alert alert-info'>Backing up work</span></li>
 </ul>
 
 <form id="doc_form" action="{{ course_path('doc_update', { 'id': doc.id }) }}" method="post" {{ form_enctype(edit_form) }}>
@@ -43,7 +44,6 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 
 <div class="span3 well doc" style="">
 <div class="cell clear divider">
-    <p style='min-height:1.5em;'><span id='backup_alert' class='alert alert-success'>Backing up work</span></p>
     <input class="btn btn-primary btn-small" type="submit" id="doc_save" value="Save"/>
     <a class="btn btn-small" href="{{ course_path('doc_show', { 'id': doc.id }) }}">Cancel</a>
 </div>    

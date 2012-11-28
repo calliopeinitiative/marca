@@ -1,6 +1,6 @@
-{# Marca/JournalBundle/Resources/views/Journal/new.html.twig #}
+{# Marca/ResponseBundle/Resources/views/Response/new.html.twig #}
 
-{% extends 'MarcaJournalBundle::layout.html.twig' %}
+{% extends 'MarcaResponseBundle::layout.html.twig' %}
 
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
@@ -11,22 +11,22 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_journalbundle_journaltype_body').ckeditor( function() {}, {height:300, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+$('#marca_responsebundle_responsetype_body').ckeditor( function() {}, {height:300, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
 toolbar : [
 ['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
 'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
 ],} );
 });
 </script>
+
 <div class="span8 well"> 
-<form class="form" action="{{ course_path('journal_create') }}" method="post" {{ form_enctype(form) }}>
-     {{ form_errors(form) }}
-         {{ form_row(form.title) }}
+<form action="{{ course_path('response_create', { 'source': source, 'sourceid': sourceid }) }}" method="post" {{ form_enctype(form) }}>
+        {{ form_errors(form) }}
          {{ form_row(form.body) }}
-    {{ form_rest(form) }}
-    <div>
+         {{ form_rest(form) }}
         <button class="btn btn-primary" type="submit">Create</button>
-    </div>
+        <a class="btn" href="{{ course_path(source) }}">Cancel</a> 
 </form>
+          
 </div>
 {% endblock %}

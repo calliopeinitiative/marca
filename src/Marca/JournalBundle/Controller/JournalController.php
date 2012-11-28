@@ -20,7 +20,7 @@ class JournalController extends Controller
     /**
      * Lists all Journal entities.
      *
-     * @Route("/{courseid}/{set}/page/", name="journal")
+     * @Route("/{courseid}/", name="journal")
      * @Template()
      */
     public function indexAction()

@@ -19,15 +19,12 @@ toolbar : [
 });
 </script>  
   
-<div class="span10"> 
+<div class="span8 well"> 
 <form action="{{ course_path('reply_update', { 'id': reply.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_errors(edit_form) }}
-        <legend>Forum Entry</legend>
          {{ form_row(edit_form.body) }}
     {{ form_rest(edit_form) }}
-    <div>
         <button class="btn btn-primary" type="submit">Update</button>
-    </div>
 </form>
 </div>
 {% endblock %}

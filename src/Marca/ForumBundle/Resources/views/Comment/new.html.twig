@@ -19,15 +19,12 @@ toolbar : [
 });
 </script>  
   
-<div class="span10"> 
+<div class="span8 well"> 
 <form action="{{ course_path('comment_create', { 'forumid': forumid }) }}" method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
-        <legend>Forum Entry</legend>
          {{ form_row(form.body) }}
     {{ form_rest(form) }}
-    <div>
         <button class="btn btn-primary" type="submit">Create</button>
-    </div>
 </form>
 </div>
 {% endblock %}
