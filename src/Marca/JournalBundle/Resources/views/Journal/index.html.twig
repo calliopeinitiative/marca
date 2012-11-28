@@ -14,6 +14,7 @@
 {% if journal.isOwner(app.user.username) %}
         <a class="btn btn-primary btn-small" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
 {% endif %} 
+        <a class="btn btn-info btn-small" href="{{ course_path('response_new', { 'sourceid': journal.id, 'source': 'journal' }) }}">Respond</a>
 </span>         
 </div>
 
@@ -34,7 +35,7 @@
                 {% endif %}
             </div>   
     {% endfor %}    
-    <a class="btn btn-primary btn-small pull-right" href="{{ course_path('response_new', { 'sourceid': journal.id, 'source': 'journal' }) }}">Respond</a>        
+            
     </div>        
 </div> 
 

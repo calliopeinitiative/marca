@@ -35,22 +35,26 @@ $('.popup').hide();$(name).show();
 });
 </script>
 
-
+{# Doc header #}
 <ul class="nav nav-tabs">
     <li><h2 class="">{{file.name}}</h2></li>    
     <li class="nav-header">Last updated on {{doc.updated|date('M d Y,   g:i a')}}</li>
 </ul>
 
-
+{# Doc display #}
 <div class="row margin-top clear">
 <div class="span8 doc border pad">          
-{{ doc.body|raw }}       
-</div>        
-
+{{ doc.body|raw }}
+        
+<a class="btn btn-info btn-small pull-right" href="{{ course_path('response_new', { 'sourceid': file.id, 'source': 'doc_show' }) }}">Respond</a>        
+</div>
+ 
+{# Doc tools #}        
 <div class="span3">         
-<div class="well doc" style='position:fixed'>  
+<div class="span3 well doc" style='position:fixed; margin-left: -1em;'>  
 <div class='cell clear'>
     
+    {# Markup #}
     {% for markupset in markupsets%}
     {% for markup in markupset.markup %}
     <div id='{{ markup.value }}' class='popup hide'>
@@ -59,22 +63,46 @@ $('.popup').hide();$(name).show();
             {{ markup.mouseover }}
             {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">URL</a>{% endif %}<hr/>
     </div>        
-    {% endfor %} 
-    {% endfor %}
-     
+{% endfor %} 
+{% endfor %}
+   
 </div> 
 
+{# Doc edit button #}
 <div class='cell clear'>
-{% if doc.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id }) }}">Edit</a> {% endif %}   
+{% if doc.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id }) }}">Edit</a> {% endif %} 
+
+{# Notes #}
 <a class="btn btn-info btn-small" href="javascript:void(0);" 
  onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
+
 </div>
 
 <div id='notes_container' class='divider cell clear hide'>
-
-</div>    
+</div> 
+              
 </div> 
 </div>
+        
+        
+{# Responses #}
+<div class="span8 doc border pad"> 
+{% for response in file.responses %}
+{% if loop.first %}    
+<div class="page-header" >
+<strong>Responses</strong>
+</div>       
+{% endif %}      
+<div class="divider cell clear ">
+<strong>By {{ response.user.firstname}} {{ response.user.lastname}}</strong>
+{% if response.isOwner(app.user.username) %}
+<a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': file.id, 'source': 'doc_show' }) }}">Edit</a>
+{% endif %}
+{{ response.body|raw }}                
+</div>   
+{% endfor %}    
+            
+</div>         
 </div>
 
 

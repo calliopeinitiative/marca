@@ -38,6 +38,11 @@ class Response
     * @ORM\ManyToOne(targetEntity="Marca\JournalBundle\Entity\Journal", inversedBy="responses")
     */
     protected $journal;       
+ 
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="responses")
+    */
+    protected $file;       
     
     /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -186,4 +191,27 @@ class Response
             return false;
         }
     }    
+
+    /**
+     * Set file
+     *
+     * @param \Marca\FileBundle\Entity\File $file
+     * @return Response
+     */
+    public function setFile(\Marca\FileBundle\Entity\File $file = null)
+    {
+        $this->file = $file;
+    
+        return $this;
+    }
+
+    /**
+     * Get file
+     *
+     * @return \Marca\FileBundle\Entity\File 
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
 }

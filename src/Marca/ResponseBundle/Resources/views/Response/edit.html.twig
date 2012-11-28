@@ -23,10 +23,10 @@ toolbar : [
         <form action="{{ course_path('response_update', { 'id': response.id, 'source': source, 'sourceid': sourceid }) }}" method="post" {{ form_enctype(edit_form) }}>
             {{ form_widget(edit_form) }}  
             <button class="btn btn-primary" type="submit">Update</button>
-            <a class="btn" href="{{ course_path(source) }}">Cancel</a> 
+            <a class="btn" href="{{ course_path(source, { 'id': sourceid }) }}">Cancel</a> 
         </form>
         
-        <form action="{{ course_path('response_delete', { 'id': response.id, 'source': source }) }}" method="post">
+        <form action="{{ course_path('response_delete', { 'id': response.id, 'source': source, 'sourceid': sourceid }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
         </form>    

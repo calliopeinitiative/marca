@@ -51,7 +51,12 @@ class File
     /**
     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course")
     */
-    protected $course;    
+    protected $course; 
+    
+     /**
+     * @ORM\OneToMany(targetEntity="Marca\ResponseBundle\Entity\Response", mappedBy="file")
+     */
+    protected $responses;      
     
     /**
      * @var string $name
@@ -399,5 +404,38 @@ class File
     public function removePortitem(\Marca\PortfolioBundle\Entity\Portitem $portitem)
     {
         $this->portitem->removeElement($portitem);
+    }
+
+    /**
+     * Add responses
+     *
+     * @param \Marca\ResponseBundle\Entity\Response $responses
+     * @return File
+     */
+    public function addResponse(\Marca\ResponseBundle\Entity\Response $responses)
+    {
+        $this->responses[] = $responses;
+    
+        return $this;
+    }
+
+    /**
+     * Remove responses
+     *
+     * @param \Marca\ResponseBundle\Entity\Response $responses
+     */
+    public function removeResponse(\Marca\ResponseBundle\Entity\Response $responses)
+    {
+        $this->responses->removeElement($responses);
+    }
+
+    /**
+     * Get responses
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getResponses()
+    {
+        return $this->responses;
     }
 }

@@ -91,12 +91,18 @@ class ResponseController extends Controller
         $response  = new Response();
         $response->setUser($user);
         
-        if ($source = 'journal')
+        if ($source == 'journal')
         {
             $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($sourceid);
             $response->setJournal($journal);
+        }
+            else
+        {
+            $doc = $em->getRepository('MarcaDocBundle:Doc')->find($sourceid);
+            $file = $doc->getFile();
+            $response->setFile($file); 
             
-            };
+        };
         $request = $this->getRequest();
         $form    = $this->createForm(new ResponseType(), $response);
         $form->bindRequest($request);
@@ -106,7 +112,7 @@ class ResponseController extends Controller
             $em->persist($response);
             $em->flush();
 
-            return $this->redirect($this->generateUrl($source, array('courseid' => $courseid)));
+            return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'id' => $sourceid)));
             
         }
 
@@ -172,7 +178,7 @@ class ResponseController extends Controller
             $em->persist($response);
             $em->flush();
 
-            return $this->redirect($this->generateUrl($source, array('courseid' => $courseid)));
+            return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'id' => $sourceid)));
         }
 
         return array(
@@ -185,10 +191,10 @@ class ResponseController extends Controller
     /**
      * Deletes a Response response.
      *
-     * @Route("/{courseid}/{source}/{id}/delete", name="response_delete")
+     * @Route("/{courseid}/{source}/{sourceid}/{id}/delete", name="response_delete")
      * @Method("post")
      */
-    public function deleteAction($id, $courseid, $source)
+    public function deleteAction($id, $courseid, $source, $sourceid)
     {
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -207,7 +213,7 @@ class ResponseController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl($source, array('courseid' => $courseid)));
+        return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'id' => $sourceid)));
     }
 
     private function createDeleteForm($id)
