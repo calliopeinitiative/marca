@@ -78,27 +78,28 @@ class FileController extends Controller
     /**
      * Finds and displays a File entity.
      *
-     * @Route("/{courseid}/{id}/show", name="file_show")
+     * @Route("/{courseid}/{id}/{project}/{tag}/{scope}/{resource}/show", name="file_show")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
+        $resource ='f';
         $em = $this->getEm();
-
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $user = $this->getUser();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
 
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
 
-        return array(
-            'file'      => $file,
-            'delete_form' => $deleteForm->createView(),        );
+        return array('file' => $file,'projects' => $projects, 'active_project' => '0', 'tags' => $tags, 'course' => $course);
     }
 
     /**
@@ -234,7 +235,7 @@ class FileController extends Controller
             $em->persist($file);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'resource'=>$resource)));
+            return $this->redirect($this->generateUrl('file_show', array('id'=> $id,'courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'resource'=>$resource)));
         }
 
         return array(

@@ -25,7 +25,7 @@ class Doc
     /**
      * @var text $body
      *
-     * @ORM\Column(name="body", type="text")
+     * @ORM\Column(name="body", type="text", nullable=true)
      */
     private $body;
     

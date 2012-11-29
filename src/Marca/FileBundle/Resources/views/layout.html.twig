@@ -18,9 +18,10 @@
 {% if app.request.get('resource')=='0' or course.isOwner(app.user.username) %}
 
 <li class="" style='margin-bottom: 10px;'>
-<a class='btn' href="{{ course_path('doc_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">CREATE</a>
+   
+<a class='btn btn-primary' href="{{ course_path('doc_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Create<i class="icon-pencil icon-white"></i></a>
 
-<a class='btn' href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}">UPLOAD</a>
+<a class='btn  btn-primary' href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}">Upload</a>
 </li>
          
 {% endif %}

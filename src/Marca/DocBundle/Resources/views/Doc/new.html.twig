@@ -26,6 +26,13 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 });
 </script>
 
+
+<ul class="nav nav-tabs">
+    <li><h2 class="">New eDoc</h2></li>    
+    <li class="nav-header"></li>
+    <li></li>
+</ul>
+
 <form action="{{ course_path('doc_create', {'resource': app.request.get('resource')}) }}" method="post" {{ form_enctype(form) }}>
 <div class="span8">         
 <div>
@@ -37,9 +44,8 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 </div>
 <div class="span3 well doc" style="">
 <div class="cell clear divider">
-    <p style='min-height:1.5em;'><span id='backup_alert' class='alert'>Backing up work</span></p>
     <input class="btn btn-primary btn-small" type="submit" id="doc_save" value="Save"/>
-    <a class="btn btn-primary btn-small" href="{{ course_path('doc_show', { 'id': doc.id }) }}">Cancel</a>
+    <a class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': '0', 'tag': '0' }) }}">Cancel</a>
 </div>      
 {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 </div>         
