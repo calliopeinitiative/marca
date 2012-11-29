@@ -18,7 +18,8 @@
   Local mods for Twitter Bootstrap
 */
 body {background: url('../img/mosaic.png')}
-html, body {height:100%;}
+html, body {height:100%;font-family:"museo-sans";}
+.container {font-family:"museo-slab";}
 .centered {text-align: right;color:blue;}
 .background {background: #F2F2F2}
 .navbar .brand {margin-left:0px;}
