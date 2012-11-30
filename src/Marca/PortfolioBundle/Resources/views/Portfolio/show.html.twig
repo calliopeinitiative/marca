@@ -3,16 +3,26 @@
 {% extends 'MarcaPortfolioBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row"> 
-<div class="span2">        
-<form action="{{ course_path('portfolio_delete', { 'id': portfolio.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Confirm Delete</button>
-</form>
-</div>
-<div class="span1">
-<a class="btn btn-info" href="{{ course_path('portfolio', { 'id': portfolio.id }) }}">Cancel</a>
-</div>   
-</div>
+<div class="row">        
+<div class="span9 well">
+
+<dl>
+        {% for portfolio in portfolio %}
+         {% if loop.first %}<div class=""><legend>{{ portfolio.user.firstname }} {{ portfolio.user.lastname }}'s Portfolio</legend></div>{% endif %}
+            <dd class="pad05">
+             {% if portfolio.file.doc %}<i class="icon-edit"></i> 
+             <a href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id }) }}" target="_blank">{{ portfolio.file.name }}</a> 
+             {% else %}
+             <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
+             {% endif %}
+             ({{portfolio.portitem.name}}) 
              
+            </dd>  
+            
+        {% endfor %} 
+</dl>
+    
+</div>        
+</div>  
+
 {% endblock %}

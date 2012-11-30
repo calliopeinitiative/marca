@@ -5,23 +5,18 @@
 {% block content %}
 <div class="row">        
 <div class="span9 well">
-    <div class=""><h3>{{ portset.name }}</h3></div>
-     <dl class="dl-horizontal">
+    <div class=""><legend>{{ portset.name }}</legend></div>
+     <dl class="dl-vertical">
         {% for portitem in portset.portitem %}
-
             <dt class="pad05">
              {{portitem.name}}
             </dt>
+            
             <dd>
              {{portitem.description|raw}}
             </dd>          
-            
-        {% endfor %} 
-     </dl>
-    
-    <dl>
-        {% for portfolio in portfolio %}
 
+            {% for portfolio in portfolio if portfolio.portitem.name==portitem.name %}
             <dd class="pad05">
              {% if portfolio.file.doc %}<i class="icon-edit"></i> 
              <a href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id }) }}" target="_blank">{{ portfolio.file.name }}</a> 
@@ -30,12 +25,13 @@
              {% endif %}
              ({{portfolio.portitem.name}}) 
              <a class="btn btn-warning btn-mini" href="{{ course_path('portfolio_show', { 'id': portfolio.id }) }}">Delete</a>
-             <a class="btn btn-primary btn-mini" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Edit</a>
-             
+             <a class="btn btn-primary btn-mini" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Edit</a>        
             </dd>  
+        {% endfor %} 
             
         {% endfor %} 
      </dl>
+    
 </div>        
 </div>  
 

@@ -39,27 +39,20 @@ class PortfolioController extends Controller
     /**
      * Finds and displays a Portfolio entity.
      *
-     * @Route("/{courseid}/{id}/show", name="portfolio_show")
+     * @Route("/{courseid}/show", name="portfolio_show")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction($courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-
-        $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
-
-        if (!$portfolio) {
-            throw $this->createNotFoundException('Unable to find Portfolio entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'portfolio'      => $portfolio,
-            'delete_form' => $deleteForm->createView(),        );
+        $user = $this->getUser();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $portset = $course->getPortset();
+        $portfolio = $course = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
+        return array('portfolio' =>$portfolio, 'portset' => $portset,);
     }
 
     /**
