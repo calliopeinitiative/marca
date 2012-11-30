@@ -145,7 +145,7 @@ class CalendarController extends Controller
             $em->persist($calendar);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('calendar', array('courseid'=> $courseid,)));
+            return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,)));
             
         }
 
@@ -215,7 +215,7 @@ class CalendarController extends Controller
             $em->persist($calendar);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('calendar', array('courseid'=> $courseid,)));
+            return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,)));
         }
 
         return array(
