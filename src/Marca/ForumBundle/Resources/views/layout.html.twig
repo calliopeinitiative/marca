@@ -14,7 +14,7 @@
 {% block sidebar %} 
        <li><legend>Forum</legend></li>
        {% if is_granted('ROLE_INSTR') %}
-             <li><a class='btn btn-primary' href="{{ course_path('forum_new') }}">Create<i class="icon-pencil icon-white"></i></a></li>
+             <a class='btn btn-primary' href="{{ course_path('forum_new') }}">Create<i class="icon-pencil icon-white"></i></a>
              {% endif %} 
              <li><a href="{{ course_path('forum', { 'set': 0 }) }}">Recent Discussions</a></li>
              

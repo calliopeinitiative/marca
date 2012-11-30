@@ -18,8 +18,6 @@
   Local mods for Twitter Bootstrap
 */
 body {background: url('../img/mosaic.png')}
-html, body {height:100%;font-family:"museo-sans";}
-.container {font-family:"museo-slab";}
 .centered {text-align: right;color:blue;}
 .background {background: #F2F2F2}
 .navbar .brand {margin-left:0px;}
@@ -32,7 +30,8 @@ box-shadow: 0px 0px 15px rgba(0,0,0,.5);}
 .page-header {margin-top:20px;}
 .subnav-fixed {margin-top: -20px;}
 .icon-pencil {margin-left:12px;}
-.nav-list li .btn-primary {width:7em;margin-left:0;}
+.nav-list .btn-primary {width:7em;margin-left:0;}
+.nav-list li a {width:7em;margin-left:0;}
 .caret {margin-top: .5em}
 .cell {float:left}
 .doc {background-color: white; border-color: gray;}
