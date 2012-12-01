@@ -9,12 +9,12 @@
 
 <li class="{% if active_project == 0 %}active{% endif %}">
 <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">
-<strong>Recent Files</strong></a></li>
+Recent Files</a></li>
 
 {% for project in projects %}
 <li class="{% if active_project == project.id %}active{% endif %} ">
 <a class="" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">
-<strong>{{ project.name }}</strong></a></li>
+{{ project.name }}</a></li>
 {% endfor %}
  
 </ul>

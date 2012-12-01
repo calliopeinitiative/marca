@@ -47,20 +47,16 @@ dl.dl-horizontal dd p {display:inline}
 
 .navbar .nav > li > a {color: #fff;text-shadow: none;}
 .navbar .nav > li > a:hover {color: #999;}
+.nav-list .active > a {background-color:#006DCC;}
+.nav-pills .active > a {background-color:#006DCC;}
 .navbar .brand {color: #fff;text-shadow: none;}
 
-.label {
-  font-weight: normal;
-}
 
-a {
-  color: #004466;
-  text-decoration: none;
-}
-a:hover {
-  color: #004466;
-  text-decoration: underline;
-}
+.label {font-weight: normal;}
+.label {font-weight: normal;}
+
+a {color: #006DCC;text-decoration: none;}
+a:hover {color: #006DCC;text-decoration: underline;}
 
 .clear {clear:left}
 .border {border: solid gray 1px}
