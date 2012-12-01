@@ -17,7 +17,7 @@
 {# if for resources (only instructor can post to resources)  #}
 {% if app.request.get('resource')=='0' or course.isOwner(app.user.username) %}
 <a class='btn btn-primary' href="{{ course_path('doc_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Create<i class="icon-pencil icon-white"></i></a>
-<a class='btn  btn-primary' href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}">Upload</a>       
+<a class='btn  btn-primary' href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}">Upload<i class="icon-upload icon-white"></i></a>       
 {% endif %}
 
 
