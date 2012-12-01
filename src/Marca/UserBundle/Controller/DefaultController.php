@@ -24,6 +24,9 @@ class DefaultController extends Controller
     {
         $em = $this->getEm();
         $user = $this->getUser();
+        $username = $user->getFirstname().' '.$user->getLastname();
+        $session = $this->get('session'); 
+        $session->set('username', $username); 
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($user);
         $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($user);
         

@@ -7,7 +7,7 @@
 <li><a href="{{ course_path('calendar_display') }}">Calendar</a></li>
 <li><a href="{{ course_path('journal', { 'set': 0 }) }}">Journal</a></li>
 <li><a href="{{ course_path('forum', { 'set': 0 }) }}">Forum</a></li>
-<li><a href="{{ course_path('portfolio') }}">Portfolio</a></li>
+{% if app.session.get('portSwitch')=='true'%}<li><a href="{{ course_path('portfolio') }}">Portfolio</a></li>{%endif%}
 
 
 

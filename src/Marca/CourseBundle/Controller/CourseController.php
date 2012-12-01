@@ -45,6 +45,8 @@ class CourseController extends Controller
     {
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($courseid);
+        $session = $this->get('session'); 
+        $session->set('portSwitch', $course->getPortfolio()); 
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourse($course);
         $paginator = $this->get('knp_paginator');
         $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),10);
