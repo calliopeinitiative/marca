@@ -47,8 +47,19 @@
 {% if app.request.get('resource')=='0' %}
 <td>{{ file.updated|date('M d Y, g:i a') }}</td>
 {% endif %}
-<td>{% if file.isOwner(app.user.username) %}<a class="" href="{{ course_path('file_edit', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Edit</a>{% endif%}</td>
-<td><a href="{{ course_path('file_show', { 'id': file.id, 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">More</a></td>
+<td>
+<ul class="nav files">
+    <li class="dropdown">
+    <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        {% if file.isOwner(app.user.username) %}<li><a class="" href="{{ course_path('file_edit', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Edit Listing</a></li>{% endif%}
+        {% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<li><a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a></li>{% endif%}
+        <li><a href="{{ course_path('file_show', { 'id': file.id, 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">More Info</a></li>
+        </ul>
+     </li>
+</ul>
+</td>
+<td></td>
 </tr>
 
 {% endfor %}
