@@ -15,10 +15,10 @@
 </div>
 
 <div class="row">
-<div class="span8">
 
 
     {% for markupset in markupsets%}
+    <div class="span8 well">
     <strong>{{ markupset.name }}</strong> {% if markupset.isOwner(app.user.username) %}<a class="btn btn-primary btn-mini pull-right" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit This Markup Set</a> {% endif %} 
     <table class="table">
     {% for markup in markupset.markup %}
@@ -34,9 +34,10 @@
     <a class='btn btn-primary btn-mini' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Add tags to this set</a>
     </div>
     {% endif %}
-    <div class="row"></div>
+
+    </div>
     {% endfor %}
 
-</div>
+
 </div>
 {% endblock %}

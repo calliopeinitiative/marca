@@ -36,6 +36,7 @@ Recent Files</a></li>
 <tr>
 <td> 
 {% if file.doc %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id }) }}">{{ file.name }}</a>
+{% elseif file.url %}<i class="icon-adjust"></i> <a href="{{ file.url}}" target="_blank">{{ file.name }}</a>
 {% else %}
 <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="View {{ file.name }} (will open in a new window or tab)" target="_blank">{{ file.name }}</a>
 {% endif %}

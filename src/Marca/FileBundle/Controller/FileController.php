@@ -108,19 +108,26 @@ class FileController extends Controller
      * @Route("/{courseid}/{resource}/{tag}/new", name="file_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $file = new File();
-        $form   = $this->createForm(new FileType(), $file);
+        $em = $this->getEm();
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $options = array('courseid' => $courseid);
+        $form   = $this->createForm(new FileType($options), $file);
 
         return array(
-            'file' => $file,
+            'file'      => $file,
+            'tags'        => $tags,
+            'course' => $course,
             'form'   => $form->createView()
         );
     }
+       
 
     /**
      * Creates a new File entity.
@@ -135,8 +142,21 @@ class FileController extends Controller
         $this->restrictAccessTo($allowed);
         
         $file  = new File();
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $file->setUser($user);
+        $file->setCourse($course);
+        $options = array('courseid' => $courseid);
         $request = $this->getRequest();
-        $form    = $this->createForm(new FileType(), $file);
+        $postData = $request->get('marca_filebundle_filetype');
+        $project = $postData['project'];
+        $resource = $em->getRepository('MarcaCourseBundle:Project')->find($project);
+        $resource = $resource->getResource();
+        if (!$resource)
+        {$resource = '0';}
+        $form    = $this->createForm(new FileType($options), $file);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
@@ -144,7 +164,7 @@ class FileController extends Controller
             $em->persist($file);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file_show', array('id' => $file->getId(),'courseid'=> $courseid,)));
+        return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'resource'=>$resource)));
             
         }
 

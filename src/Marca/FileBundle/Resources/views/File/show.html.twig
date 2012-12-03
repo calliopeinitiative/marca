@@ -5,9 +5,9 @@
 {% block content %}
 <div class="span9 well">  
   
-<ul class="nav nav-tabs">
+<ul class="nav nav-pills">
 
-<li class="{% if active_project == 0 %}active{% endif %}">
+<li class="">
 <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">
 <strong>Recent Files</strong></a></li>
 

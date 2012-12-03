@@ -36,10 +36,9 @@ $('.popup').hide();$(name).show();
 </script>
 
 {# Doc header #}
-<ul class="nav nav-tabs">
-    <li><h2 class="">{{file.name}}</h2></li>    
-    <li class="nav-header">Last updated on {{doc.updated|date('M d Y,   g:i a')}}</li>
-</ul>
+<legend>{{file.name}}</legend></li>    
+Last updated on {{doc.updated|date('M d Y,   g:i a')}}
+
 
 {# Doc display #}
 <div class="row margin-top clear">

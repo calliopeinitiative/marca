@@ -27,7 +27,7 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 </script>
 
 <ul class="nav nav-tabs">
-    <li><h2 class="">{{file.name}}</h2></li>    
+    <li><legend>{{file.name}}</legend></li>    
     <li class="nav-header">Last updated on {{doc.updated|date('M d Y,   g:i a')}}</li>
     <li><span id='backup_alert' class='alert alert-info'>Backing up work</span></li>
 </ul>

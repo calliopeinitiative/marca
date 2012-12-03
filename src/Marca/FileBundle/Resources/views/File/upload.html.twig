@@ -4,10 +4,23 @@
 
 
 {% block content %}
-<div class="span9 well"> 
-<form action="#" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <input class="btn btn-primary" type="submit" value="Upload Document" />
-</form>
+<div class="row">
+<div class="span6 well"> 
+<form action="#" method="post" {{ form_enctype(form) }}  novalidate="novalidate">            
+     {{ form_errors(form) }}   
+        <legend>File listing</legend>
+        <ul class="unstyled">
+            <li class="pad1">{{ form_row (form.name) }} </li>
+            <li class="pad1">{{ form_row (form.project) }} </li> 
+            <li class="pad1">{{ form_row (form.tag) }} </li> 
+            <li class="pad1">{{ form_row (form.access) }} </li> 
+            <li class="pad1">{{ form_row (form.file) }} </li>
+        </ul>
+    {{ form_rest(form) }}
+    <button class="btn btn-primary" type="submit">Upload</button>    
+</form>       
+       
+   
+</div>
 </div>
 {% endblock %}

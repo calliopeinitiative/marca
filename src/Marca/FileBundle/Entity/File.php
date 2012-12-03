@@ -64,6 +64,13 @@ class File
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
+    
+    /**
+     * @var string $url
+     *
+     * @ORM\Column(name="url", type="string", length=255, nullable=true)
+     */
+    private $url;    
 
     /**
      * @var string $path
@@ -437,5 +444,28 @@ class File
     public function getResponses()
     {
         return $this->responses;
+    }
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     * @return File
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    
+        return $this;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string 
+     */
+    public function getUrl()
+    {
+        return $this->url;
     }
 }

@@ -3,29 +3,22 @@
 {% extends 'MarcaFileBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-<div class="span2">
-<div class="btn-group">
-<a class="btn" href="{{ course_path('file') }}">List</a>
- 
-</div> 
-</div>       
-  
-</div>
-
-<div class="span12" style="margin-top: 3em"> 
-<form action="{{ course_path('file_create') }}" method="post" {{ form_enctype(form) }}>
+<div class="row">
+<div class="span6 well"> 
+<form action="{{ course_path('file_create') }}" method="post" {{ form_enctype(form) }}  novalidate="novalidate">            
      {{ form_errors(form) }}   
-        
-        {{ form_row (form.name) }}      
-        {{ form_row (form.project) }} 
-        {{ form_row (form.tag) }} 
-        {{ form_row (form.access) }} 
-        
+        <legend>File listing</legend>
+        <ul class="unstyled">
+            <li class="pad1">{{ form_row (form.name) }} </li>
+            <li class="pad1">{{ form_row (form.url) }} </li>
+            <li class="pad1">{{ form_row (form.project) }} </li> 
+            <li class="pad1">{{ form_row (form.tag) }} </li> 
+            <li class="pad1">{{ form_row (form.access) }} </li> 
+        </ul>
     {{ form_rest(form) }}
-    <div>
-        <button class="btn" type="submit">Create</button>
-    </div>
-</form>
+    <button class="btn btn-primary" type="submit">Update</button>    
+</form>       
+         
+</div>
 </div>
 {% endblock %}

@@ -10,10 +10,11 @@
      {{ form_errors(edit_form) }}   
         <legend>File listing</legend>
         <ul class="unstyled">
-            <li class="pad05">{{ form_row (edit_form.name) }} </li>     
-            <li class="pad05">{{ form_row (edit_form.project) }} </li> 
-            <li class="pad05">{{ form_row (edit_form.tag) }} </li> 
-            <li class="pad05">{{ form_row (edit_form.access) }} </li> 
+            <li class="pad1">{{ form_row (edit_form.name) }} </li>
+            <li class="pad1">{{ form_row (edit_form.url) }} </li>
+            <li class="pad1">{{ form_row (edit_form.project) }} </li> 
+            <li class="pad1">{{ form_row (edit_form.tag) }} </li> 
+            <li class="pad1">{{ form_row (edit_form.access) }} </li> 
         </ul>
     {{ form_rest(edit_form) }}
     <button class="btn btn-primary" type="submit">Update</button>    
