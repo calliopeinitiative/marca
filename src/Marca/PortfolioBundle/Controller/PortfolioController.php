@@ -52,7 +52,12 @@ class PortfolioController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $portset = $course->getPortset();
         $portfolio = $course = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
-        return array('portfolio' =>$portfolio, 'portset' => $portset,);
+        
+        //pagination for files
+        $paginator = $this->get('knp_paginator');
+        $portfolio_docs = $paginator->paginate($portfolio,$this->get('request')->query->get('page', 1),1);
+        
+        return array('portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,);
     }
 
     /**

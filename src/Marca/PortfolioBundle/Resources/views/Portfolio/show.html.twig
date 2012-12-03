@@ -1,10 +1,39 @@
 {# Marca/PortfolioBundle/Resources/views/Portfolio/show.html.twig #}
 
-{% extends 'MarcaPortfolioBundle::layout.html.twig' %}
+{% extends 'MarcaPortfolioBundle::port_layout.html.twig' %}
 
 {% block content %}
-<div class="row">        
-<div class="span9 well">
+
+{# Doc header #}
+{% for portfolio_doc in portfolio_docs %}
+{% if portfolio_doc.file.doc %}
+<legend>{{portfolio_doc.file.name}}</legend> 
+{# Doc display #}
+
+<div class="span8 doc border pad">   
+{{ portfolio_doc.file.doc.body|raw }}  
+</div>
+
+{% else %} 
+
+<legend>{{portfolio_doc.file.name}}</legend>   
+
+{# Doc display #}
+
+<div class="span8 doc border pad">  
+Please download this file to view.
+<i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+</div>
+
+{% endif %} 
+{% endfor %} 
+        
+        
+{# Doc tools #}        
+<div class="span3">         
+<div class="span3 well doc" style='position:fixed; margin-left: -1em;'>  
+<div class='cell clear'>
+   
 
 <dl>
         {% for portfolio in portfolio %}
@@ -15,14 +44,22 @@
              {% else %}
              <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
              {% endif %}
+             </dd> 
+             <dd class="">
              ({{portfolio.portitem.name}}) 
+             </dd>
              
-            </dd>  
             
         {% endfor %} 
 </dl>
+
+<div class="navigation">
+{{ portfolio_docs.render()|raw }}
+</div>
     
 </div>        
-</div>  
+</div>
+</div>
+
 
 {% endblock %}
