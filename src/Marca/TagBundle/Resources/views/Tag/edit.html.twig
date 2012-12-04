@@ -7,7 +7,7 @@
 {% block content %}
 <div class="row">   
 <div class="span4"> 
-    <legend>Tags</legend>
+    <legend>Labels</legend>
 <form class="form" action="{{ path('tag_update', { 'id': tag.id }) }}" method="post" {{ form_enctype(edit_form) }}>
      {{ form_errors(edit_form) }}
             {{ form_row(edit_form.name) }}

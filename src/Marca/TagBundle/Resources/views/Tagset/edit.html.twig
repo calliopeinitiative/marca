@@ -5,7 +5,7 @@
 {% block content %}
 <div class="row"> 
 <div class="span4">  
-    <legend>Tag Sets</legend>
+    <legend>Label Sets</legend>
 <form action="{{ path('tagset_update', { 'id': tagset.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         {{ form_errors(edit_form) }}
 
