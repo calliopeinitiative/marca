@@ -30,8 +30,8 @@ box-shadow: 0px 0px 15px rgba(0,0,0,.5);}
 .page-header {margin-top:20px;}
 .subnav-fixed {margin-top: -20px;}
 .icon-white {margin-left:12px;}
-.nav-list .btn-primary {width:7em;margin-left:0;}
-.nav-list li a {width:7em;margin-left:0;}
+.nav-list .btn-primary {width:7em;margin-left:0;margin-bottom:.7em;}
+.nav-list li a {width:7em;margin-left:0}
 .caret {margin-top: .5em}
 .cell {float:left}
 .doc {background-color: white; border-color: gray;}

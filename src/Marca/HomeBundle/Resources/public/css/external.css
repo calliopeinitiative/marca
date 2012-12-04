@@ -7,5 +7,6 @@
 */
 
 html, body {height:100%;font-family:"museo-sans";}
-.container {font-family:"museo-sans";}
+h1,h2,h3,h4,h5,h6,legend,.navbar-fixed-top {font-family:"museo-slab";}
+
 
