@@ -8,7 +8,7 @@
     <div class=""><legend>{{ portset.name }}</legend></div>
      <dl class="dl-vertical">
         {% for portitem in portset.portitem %}
-            <dt class="pad05">
+            <dt class="pad05 divider">
              {{portitem.name}}
             </dt>
             
@@ -17,16 +17,17 @@
             </dd>          
 
             {% for portfolio in portfolio if portfolio.portitem.name==portitem.name %}
-            <dd class="pad05">
+            <dd class="pad05 ">
              {% if portfolio.file.doc %}<i class="icon-edit"></i> 
              <a href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id }) }}" target="_blank">{{ portfolio.file.name }}</a> 
              {% elseif portfolio.file.url %}<i class="icon-adjust"></i> <a href="{{ portfolio.file.url}}" target="_blank">{{ portfolio.file.name }}</a>
              {% else %}
              <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
              {% endif %}
-             ({{portfolio.portitem.name}}) 
+             ({{portfolio.portitem.name}})
+             <a class="btn btn-primary btn-mini" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Edit</a>
              <a class="btn btn-warning btn-mini" href="{{ course_path('portfolio_show', { 'id': portfolio.id }) }}">Delete</a>
-             <a class="btn btn-primary btn-mini" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Edit</a>        
+                     
             </dd>  
         {% endfor %} 
             

@@ -61,7 +61,7 @@ a:hover {color: #006DCC;text-decoration: underline;}
 
 .clear {clear:left}
 .border {border: solid gray 1px}
-.divider {margin-top: 1em; }
+.divider {margin-top: 2em; border-bottom: 1px solid #e5e5e5; }
 .pad-left {padding-left: 3em}
 .margin-left {margin-left: 1em}
 .margin-top {margin-top: 1em}

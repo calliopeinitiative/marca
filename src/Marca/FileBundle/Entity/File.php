@@ -20,7 +20,7 @@ class File
 
      /**
      * @Assert\File(
-     *     maxSize="1M",
+     *     maxSize="6M",
      *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg", "application/pdf", "application/vnd.oasis.opendocument.text"}
      * )
      * @Vich\UploadableField(mapping="property_file", fileNameProperty="path")
