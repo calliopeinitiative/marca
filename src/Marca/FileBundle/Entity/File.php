@@ -21,7 +21,7 @@ class File
      /**
      * @Assert\File(
      *     maxSize="6M",
-     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg", "application/pdf", "application/vnd.oasis.opendocument.text"}
+     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg", "application/pdf", "application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.presentation","application/vnd.oasis.opendocument.spreadsheet", "application/msword", "application/mspowerpoint", "application/excel", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.openxmlformats-officedocument.presentationml.presentation", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
      * )
      * @Vich\UploadableField(mapping="property_file", fileNameProperty="path")
      *

@@ -7,11 +7,19 @@
 {# Doc header #}
 {% for portfolio_doc in portfolio_docs %}
 {% if portfolio_doc.file.doc %}
+<div class="span11"> 
 <legend>{{portfolio_doc.file.name}}</legend> 
+</div>
+
+
 {# Doc display #}
 
 <div class="span8 doc border pad">   
-{{ portfolio_doc.file.doc.body|raw }}  
+{{ portfolio_doc.file.doc.body|raw }} 
+
+<div class="navigation">
+{{ portfolio_docs.render()|raw }}
+</div>        
 </div>
 
 {% else %} 
@@ -27,14 +35,15 @@ Please click link to to view.
 {% else %}        
 Please download this file to view.
 <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
-{% endif %}    
-
+{% endif %} 
+<div class="navigation">
+{{ portfolio_docs.render()|raw }}
+</div>
 </div>
 
 {% endif %} 
 {% endfor %} 
-        
-        
+
 {# Doc tools #}        
 <div class="span3">         
 <div class="span3 well doc" style='position:fixed; margin-left: -1em;'>  
@@ -60,9 +69,7 @@ Please download this file to view.
         {% endfor %} 
 </dl>
 
-<div class="navigation">
-{{ portfolio_docs.render()|raw }}
-</div>
+
     
 </div>        
 </div>

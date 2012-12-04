@@ -71,6 +71,12 @@ Last updated on {{doc.updated|date('M d Y,   g:i a')}}
 <div class='cell clear'>
 {% if doc.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id }) }}">Edit</a> {% endif %} 
 
+{% if file.project.resource == 'true' %}
+<a class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': '1', 'tag': '0' }) }}">Close</a>
+{% else %}
+<a class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'resource': '0', 'tag': '0' }) }}">Close</a>
+{% endif %}
+
 {# Notes #}
 <a class="btn btn-info btn-small" href="javascript:void(0);" 
  onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
