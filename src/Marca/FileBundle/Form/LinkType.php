@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UploadType extends AbstractType
+class LinkType extends AbstractType
 {
     protected $options;
 
@@ -20,6 +20,7 @@ class UploadType extends AbstractType
         $options = $this->options;
         $builder
              ->add('name','text', array('attr' => array('class' => 'width30'),))
+             ->add('url','text', array('attr' => array('class' => 'width30'),))
              ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
                 function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
                 $courseid = $options['courseid'] ;
@@ -38,8 +39,7 @@ class UploadType extends AbstractType
                         ->orderBy('c.name', 'ASC');
                 }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Select Tag', 'attr' => array('class' => 'inline'),
               ))  
-             ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'inline'),))  
-             ->add('file')           
+             ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'inline'),))           
             ;
     }
     
@@ -49,7 +49,8 @@ class UploadType extends AbstractType
             'data_class' => 'Marca\FileBundle\Entity\File'
         ));
     }
-
+                 
+                        
     public function getName()
     {
         return 'marca_filebundle_filetype';

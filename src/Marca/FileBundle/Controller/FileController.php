@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
+use Marca\FileBundle\Form\LinkType;
 use Marca\FileBundle\Form\UploadType;
 use Marca\TagBundle\Entity\Tagset;
 
@@ -118,7 +119,7 @@ class FileController extends Controller
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $options = array('courseid' => $courseid);
-        $form   = $this->createForm(new FileType($options), $file);
+        $form   = $this->createForm(new LinkType($options), $file);
 
         return array(
             'file'      => $file,
@@ -190,16 +191,24 @@ class FileController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $options = array('courseid' => $courseid);
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $url = $file->getUrl();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
               
         if (!$file) {
-            throw $this->createNotFoundException('Unable to find Journal entity.');
+            throw $this->createNotFoundException('Unable to find File entity.');
         }
         elseif($user != $file->getUser()){
             throw new AccessDeniedException();
-        }        
+        };   
+        
+        //test to see if this is a link update
+        if (empty($url)) {
+            $editForm = $this->createForm(new FileType($options), $file);
+        }
+        else {
+            $editForm = $this->createForm(new LinkType($options), $file);
+        }
 
-        $editForm = $this->createForm(new FileType($options), $file);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
