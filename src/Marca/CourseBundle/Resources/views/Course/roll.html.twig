@@ -9,7 +9,8 @@
     <table class="table table-condensed"><tbody>  
     {% for roll in roll %}
     <tr>
-        <td><a class="" href="{{ course_path('course_roll_profile', { 'id': roll.id }) }}">{{ roll.lastname }}, {{ roll.firstname }}</a></td>    
+        <td><a class="" href="{{ course_path('course_roll_profile', { 'id': roll.id }) }}">{{ roll.lastname }}, {{ roll.firstname }}</a></td>  
+        <td><a class="" target="_blank" href="mailto:{{ roll.email }}">{{ roll.email }}</a></td>
     </tr>
     {% endfor %}
     </tbody>
@@ -19,4 +20,8 @@
   
            
 </div>
+<div class="span8 well">
+<a class="" target="_blank" href="mailto:{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}</a>
+</div>
+
 {% endblock %}

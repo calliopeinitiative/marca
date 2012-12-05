@@ -44,11 +44,11 @@ class RollController extends Controller
     {
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $full_roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $paginator = $this->get('knp_paginator');
-        $roll = $paginator->paginate($roll,$this->get('request')->query->get('page',1),20);
+        $roll = $paginator->paginate($full_roll,$this->get('request')->query->get('page',1),20);
         
-        return array('roll' => $roll, 'course' => $course);
+        return array('roll' => $roll,'full_roll' => $full_roll, 'course' => $course);
     }
     
     /**
