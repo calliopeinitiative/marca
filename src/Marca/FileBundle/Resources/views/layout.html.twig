@@ -16,16 +16,9 @@
 
 {# if for resources (only instructor can post to resources)  #}
 {% if app.request.get('resource')=='0' or course.isOwner(app.user.username) %}
-<div class="btn-group">
-  <a class='btn btn-primary main' href="{{ course_path('doc_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Create<i class="icon-pencil icon-white"></i></a>
-  <button class="btn dropdown-toggle " data-toggle="dropdown">
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu">
-<li><a href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}">Upload<i class="icon-upload"></i></a></li>  
-<li><a href="{{ course_path('file_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Link<i class="icon-adjust"></i></a></li> 
-  </ul>
-</div>
+<a class='btn btn-primary' href="{{ course_path('doc_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Create<i class="icon-pencil icon-white"></i></a>	  	
+<a class='btn  btn-primary' href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}">Upload<i class="icon-upload icon-white"></i></a>  
+<a class='btn btn-primary' href="{{ course_path('file_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Link<i class="icon-adjust icon-white"></i></a> 
 {% endif %}
 
 
