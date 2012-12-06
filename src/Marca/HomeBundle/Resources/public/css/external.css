@@ -6,7 +6,7 @@
         Purpose of the stylesheet follows.
 */
 
-html, body {height:100%;font-family:"museo-sans", arial, sans-serif;}
-h1,h2,h3,h4,h5,h6,legend,.navbar-fixed-top {font-family:"museo-slab", arial, sans-serif;}
+html, body {height:100%;font-family:"museo-sans", "Helvetica Neue", Helvetica, Arial, sans-serif;}
+h1,h2,h3,h4,h5,h6,legend,.navbar-fixed-top {font-family:"museo-slab", Cambria, Georgia, serif;}
 
 
