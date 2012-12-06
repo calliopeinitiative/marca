@@ -23,7 +23,7 @@ class JournalController extends Controller
      * @Route("/{courseid}/", name="journal")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -31,6 +31,7 @@ class JournalController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course);
         
@@ -38,8 +39,33 @@ class JournalController extends Controller
         $paginator = $this->get('knp_paginator');
         $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', 1),5);
         
-        return array('journal' => $journal);
+        return array('journal' => $journal, 'roll' => $roll);
     }
+    
+    /**
+     * Lists all Journal entities.
+     *
+     * @Route("/{courseid}/{userid}/journal_by_user", name="journal_user")
+     * @Template("MarcaJournalBundle:Journal:index.html.twig")
+     */
+    public function indexByUserAction($courseid, $userid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
+        $em = $this->getEm();
+        $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+        $course = $this->getCourse();
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        
+        $journal = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course);
+        
+        //pagination
+        $paginator = $this->get('knp_paginator');
+        $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', 1),5);
+        
+        return array('journal' => $journal, 'roll' => $roll);
+    }    
 
     /**
      * Finds and displays a Journal entity.
