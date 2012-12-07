@@ -83,7 +83,7 @@ class FileController extends Controller
     /**
      * Finds and displays a File entity.
      *
-     * @Route("/{courseid}/{id}/{project}/{tag}/{scope}/{resource}/show", name="file_show")
+     * @Route("/{courseid}/{id}/{project}/{tag}/{scope}/{resource}/{userid}/show", name="file_show")
      * @Template()
      */
     public function showAction($id, $courseid)
@@ -122,6 +122,7 @@ class FileController extends Controller
         $file = new File();
         $em = $this->getEm();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $options = array('courseid' => $courseid);
         $form   = $this->createForm(new LinkType($options), $file);
@@ -129,6 +130,7 @@ class FileController extends Controller
         return array(
             'file'      => $file,
             'tags'        => $tags,
+            'roll'        => $roll,
             'course' => $course,
             'form'   => $form->createView()
         );
@@ -170,7 +172,7 @@ class FileController extends Controller
             $em->persist($file);
             $em->flush();
 
-        return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'resource'=>$resource)));
+        return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource)));
             
         }
 
@@ -271,7 +273,7 @@ class FileController extends Controller
             $em->persist($file);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file_show', array('id'=> $id,'courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0','resource'=>$resource)));
+            return $this->redirect($this->generateUrl('file_show', array('id'=> $id,'courseid'=> $courseid,'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0','resource'=>$resource)));
         }
 
         return array(
@@ -318,7 +320,7 @@ class FileController extends Controller
             $em->flush();
         }
 
-       return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>'recent', 'tag'=>'0', 'resource'=>$resource)));
+       return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>'recent', 'tag'=>'0', 'userid'=>'0','resource'=>$resource)));
     }
 
     private function createDeleteForm($id)
@@ -348,6 +350,7 @@ class FileController extends Controller
          $options = array('courseid' => $courseid);
          
          $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
+         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
          $file = new File();
          $file->setUser($user);
          $file->setCourse($course);
@@ -366,12 +369,12 @@ class FileController extends Controller
                  $em = $this->getEm();
                  $em->persist($file);
                  $em->flush(); 
-                 return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'resource'=>$resource)));
+                 return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0','resource'=>$resource)));
              }
              
          }
 
-    return array('form' => $form->createView(),'tags'  => $tags,'course' => $course,);
+    return array('form' => $form->createView(),'tags'  => $tags,'roll'  => $roll,'course' => $course,);
      } 
  
     /**
