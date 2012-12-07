@@ -17,9 +17,10 @@ class FileRepository extends EntityRepository
  * Second conditional catches Recent Files listing (with no associated project defined so it can be omitted from seach.
  * Sort is not currently working; need to refactor the join
  */
-   public function findFilesByProject($project, $user, $scope, $course, $tag, $resource)
+   public function findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser)
     {
        if($scope == 'all') {$scopeQuery = ' or f.access = 1';}
+       elseif($scope == 'byuser') {$user = $byuser; $scopeQuery = ' AND f.access = 1';}
        else {$scopeQuery = '';};
        if($project == 'recent') {
          return $this->getEntityManager()

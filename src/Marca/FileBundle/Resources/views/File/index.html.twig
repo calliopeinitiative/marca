@@ -8,31 +8,32 @@
 <ul class="nav nav-pills">
 
 <li class="{% if active_project == 0 %}active{% endif %}">
-<a href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">
+<a href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
 Recent Files</a></li>
 
 {% for project in projects %}
 <li class="{% if active_project == project.id %}active{% endif %} ">
-<a class="" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">
+<a class="" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
 {{ project.name }}</a></li>
 {% endfor %}
  
 </ul>
 
 <table class="table">
-    
+{% for file in files%}  
+{% if loop.first %}        
 <thead>
 <th>Title</th>
-{% if app.request.get('scope')=='all' and app.request.get('resource')=='0' %}<th>Owner</th>{% endif %}
+{% if (app.request.get('scope')=='all' or app.request.get('scope')=='byuser') and app.request.get('resource')=='0' %}<th>Owner</th>{% endif %}
 {% if app.request.get('project')=='recent' %}<th>Project</th>{% endif %}
 <th>Labels</th>
 {% if app.request.get('resource')=='0' %}<th>Modified</th>{% endif %}
 <th></th>
 <th></th>
-</thead>    
-
+</thead> 
 <tbody>
-{% for file in files%}
+{% endif %}
+
 <tr>
 <td> 
 {% if file.doc %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id }) }}">{{ file.name }}</a>
@@ -42,7 +43,7 @@ Recent Files</a></li>
 {% endif %}
 {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
 </td>
-{% if app.request.get('scope')=='all' and app.request.get('resource')=='0' %}<td>{{ file.user.firstname }} {{ file.user.lastname }}</td>{% endif%}
+{% if (app.request.get('scope')=='all' or app.request.get('scope')=='byuser') and app.request.get('resource')=='0' %}<td>{{ file.user.firstname }} {{ file.user.lastname }}</td>{% endif%}
 {% if app.request.get('project')=='recent' %}<td><strong>{{ file.project.name }}</strong></td>{% endif %}
 <td>{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
 {% if app.request.get('resource')=='0' %}
@@ -62,9 +63,13 @@ Recent Files</a></li>
 </td>
 <td></td>
 </tr>
-
-{% endfor %}
+{% if loop.first %}  
 </tbody>
+{% endif %}
+{% else %}
+No files match your request.
+{% endfor %}
+
 </table>
   
 

@@ -45,7 +45,7 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 <div class="span3 well doc" style="">
 <div class="cell clear divider">
     <input class="btn btn-primary btn-small" type="submit" id="doc_save" value="Save"/>
-    <a class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': '0', 'tag': '0' }) }}">Cancel</a>
+    <a class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Cancel</a>
 </div>      
 {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 </div>         
