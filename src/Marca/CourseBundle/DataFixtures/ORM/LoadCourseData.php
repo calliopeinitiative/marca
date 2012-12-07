@@ -28,10 +28,9 @@ class LoadCourseData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        for ($i = 1; $i <= 25; $i++){
-            $num = strval($i);
+
             $course = new Course();
-            $user = $manager->merge($this->getReference('instr'.$num.'-user')); 
+            $user = $manager->merge($this->getReference('instr1-user')); 
             $course->setUser($user);
             $course->setName("Test Course 1");
             $time = new \DateTime('9 am');
@@ -75,10 +74,10 @@ class LoadCourseData extends AbstractFixture implements OrderedFixtureInterface
             $manager->persist($project4);
             $manager->flush();
 
-            $this->addReference('course1.'.$num, $course);
+            $this->addReference('course1.1', $course);
 
             $course = new Course();
-            $user = $manager->merge($this->getReference('instr'.$num.'-user')); 
+            $user = $manager->merge($this->getReference('instr2-user')); 
             $course->setUser($user);
             $course->setName("Test Course 2");
             $time = new \DateTime('11 am');
@@ -122,8 +121,7 @@ class LoadCourseData extends AbstractFixture implements OrderedFixtureInterface
             $manager->persist($project4);
             $manager->flush();
 
-            $this->addReference('course2.'.$num, $course);
-        }
+            $this->addReference('course2.1', $course);
     }
     
     /**

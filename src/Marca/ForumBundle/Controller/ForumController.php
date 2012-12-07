@@ -20,10 +20,10 @@ class ForumController extends Controller
     /**
      * Lists all Forum entities.
      *
-     * @Route("/{courseid}/{set}/page", name="forum")
+     * @Route("/{courseid}/page", name="forum")
      * @Template()
      */
-    public function indexAction($set)
+    public function indexAction()
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -37,7 +37,7 @@ class ForumController extends Controller
         $paginator = $this->get('knp_paginator');
         $forumEntries = $paginator->paginate($forumEntries,$this->get('request')->query->get('page', 1),5);
         
-        return array('forumEntries' => $forumEntries,'set' => $set);
+        return array('forumEntries' => $forumEntries);
     }
 
     /**

@@ -12,12 +12,12 @@
     </div>
 
          {{ forumEntry.body|raw }} 
-         <a class="btn btn-primary btn-mini" href="{{ course_path('forum_show', { 'id': forumEntry.id }) }}">Open Forum</a> 
-         {% if forumEntry.user==app.user %}<a class="btn btn-primary btn-mini" href="{{ course_path('forum_edit', { 'id': forumEntry.id }) }}">Edit</a>{% endif%}
+         <a class="btn btn-primary btn-mini" title="Open this discussion" href="{{ course_path('forum_show', { 'id': forumEntry.id }) }}">Open</a> 
+         {% if forumEntry.user==app.user %}<a class="btn btn-primary btn-mini" title="Edit this discussion" href="{{ course_path('forum_edit', { 'id': forumEntry.id }) }}">Edit</a>{% endif%}
 
 {% else %}
    
-There are no open forums at this time.  
+There are no open discussions at this time.  
         
 {% endfor %}
 

@@ -6,12 +6,13 @@
 <div class="span9 well" >     
       <div class="page-header" >
           <strong>{{ forum.title }}</strong>
-          <span class='pull-right'>Created  {{ forum.created|date('M d, Y h:i a') }}  / Modified  {{ forum.updated|date('M d, Y h:i a') }} </span>
+          <span class='pull-right'>Created  {{ forum.created|date('M d, Y h:i a') }}  / Modified  {{ forum.updated|date('M d, Y h:i a') }} 
+          <a class="btn btn-warning btn-mini" title="Close this discussion" href="{{ course_path('forum') }}">Close</a></span>
       </div>
          
          <div class="span8" >{{ forum.body|raw }}  </div>       
-         <div class="span8" ><a class="btn btn-primary  btn-mini" href="{{ course_path('comment_new', { 'parentid': forum.id ,'forumid': forum.id }) }}">Comment</a>
-         {% if forum.user==app.user %}<a class="btn btn-primary btn-mini" href="{{ course_path('forum_edit', { 'id': forum.id }) }}">Edit</a>{% endif%}
+         <div class="span8" ><a class="btn btn-primary  btn-mini" title="Comment on this discussion" href="{{ course_path('comment_new', { 'parentid': forum.id ,'forumid': forum.id }) }}">Comment</a>
+         {% if forum.user==app.user %}<a class="btn btn-primary btn-mini" title="Edit this discussion" href="{{ course_path('forum_edit', { 'id': forum.id }) }}">Edit</a>{% endif%}
          </div>   
 
 
@@ -24,8 +25,8 @@
          </div>
              
          <div class="span7">{{ comment.body|raw }}</div>    
-         <div class="span7" ><a class="btn btn-primary btn-mini" href="{{ course_path('reply_new', { 'commentid': comment.id  }) }}">Comment</a>
-         {% if comment.user==app.user %}<a class="btn btn-primary btn-mini" href="{{ course_path('comment_edit', { 'id': comment.id }) }}">Edit</a>{% endif%}</div>  
+         <div class="span7" ><a class="btn btn-primary btn-mini"  title="Reply to this comment" href="{{ course_path('reply_new', { 'commentid': comment.id  }) }}">Comment</a>
+         {% if comment.user==app.user %}<a class="btn btn-primary btn-mini"  title="Edit this comment" href="{{ course_path('comment_edit', { 'id': comment.id }) }}">Edit</a>{% endif%}</div>  
          
          {% for reply in comment.replies%}
            <div class="span7 pad1" style="border-top: 1px gray solid;margin-top: 1em;float:right;">
@@ -36,7 +37,7 @@
              
            <div class="span7" >{{ reply.body|raw }}</div>    
            {% if reply.user==app.user %}
-           <div class="span7" ><a class="btn btn-primary btn-mini" href="{{ course_path('reply_edit', { 'id': reply.id }) }}">Edit</a></div>  
+           <div class="span7" ><a class="btn btn-primary btn-mini"  title="Edit this reply" href="{{ course_path('reply_edit', { 'id': reply.id }) }}">Edit</a></div>  
            {% endif%}
            </div>
         {% endfor %}                
