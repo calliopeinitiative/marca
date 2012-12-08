@@ -24,7 +24,8 @@
 
 <tr>
 <td> 
-{% if file.doc %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id }) }}">{{ file.name }}</a>
+{% if file.doc %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">{{ file.name }}</a>
+ <a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}"><i class="icon-share-alt"></i></a>
 {% else %}
 <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="View {{ file.name }} (will open in a new window or tab)" target="_blank">{{ file.name }}</a>
 {% endif %}
