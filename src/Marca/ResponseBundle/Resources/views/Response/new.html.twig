@@ -20,12 +20,12 @@ toolbar : [
 </script>
 
 <div class="span8 well"> 
-<form action="{{ course_path('response_create', { 'source': source, 'sourceid': sourceid }) }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ course_path('response_create', { 'source': source, 'sourceid': sourceid,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
          {{ form_row(form.body) }}
          {{ form_rest(form) }}
         <button class="btn btn-primary" type="submit">Create</button>
-        <a class="btn" href="{{ course_path(source, { 'id': sourceid }) }}">Cancel</a> 
+        <a class="btn" href="{{ course_path(source, { 'id': sourceid,'view': app.request.get('view') }) }}">Cancel</a> 
 </form>
           
 </div>

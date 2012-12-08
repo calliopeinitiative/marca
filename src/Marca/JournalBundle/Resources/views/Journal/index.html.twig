@@ -14,7 +14,7 @@
 {% if journal.isOwner(app.user.username) %}
         <a class="btn btn-primary btn-small" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
 {% endif %} 
-        <a class="btn btn-info btn-small" href="{{ course_path('response_new', { 'sourceid': journal.id, 'source': 'journal' }) }}">Respond</a>
+        <a class="btn btn-info btn-small" href="{{ course_path('response_new', { 'sourceid': journal.id, 'source': 'journal','view': 'app' }) }}">Respond</a>
 </span>         
 </div>
 
@@ -31,7 +31,7 @@
                 <strong>By {{ response.user.firstname}} {{ response.user.lastname}}</strong>
                {{ response.body|raw }} 
                 {% if response.isOwner(app.user.username) %}
-                <a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': journal.id, 'source': 'journal' }) }}">Edit</a>
+                <a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': journal.id, 'source': 'journal','view': 'app' }) }}">Edit</a>
                 {% endif %}
             </div>   
     {% endfor %}    

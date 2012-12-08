@@ -1,13 +1,16 @@
 {# Marca/DocBundle/Resources/views/layout.html.twig #}
 
 {% extends '::base.html.twig' %}
+
 {% block title %}Marca Docs{% endblock %}
 
 {% block javascripts %}{% endblock %}
 {% block stylesheets %}{% endblock %}
 
 {% block subnav %}
+{% if app.request.get('view') == 'app' %}
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
+{% endif %}
 {% endblock %}
 
 {% block body %}

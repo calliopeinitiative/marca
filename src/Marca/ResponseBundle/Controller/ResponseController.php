@@ -57,7 +57,7 @@ class ResponseController extends Controller
     /**
      * Displays a form to create a new Response response.
      *
-     * @Route("/{courseid}/{source}/{sourceid}/new", name="response_new")
+     * @Route("/{courseid}/{source}/{sourceid}/{view}/new", name="response_new")
      * @Template()
      */
     public function newAction($source, $sourceid)
@@ -77,11 +77,11 @@ class ResponseController extends Controller
     /**
      * Creates a new Response response.
      *
-     * @Route("/{courseid}/{source}/{sourceid}/create", name="response_create")
+     * @Route("/{courseid}/{source}/{sourceid}/{view}/create", name="response_create")
      * @Method("post")
      * @Template("MarcaResponseBundle:Response:new.html.twig")
      */
-    public function createAction($courseid, $source, $sourceid)
+    public function createAction($courseid, $source, $sourceid, $view)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -112,7 +112,7 @@ class ResponseController extends Controller
             $em->persist($response);
             $em->flush();
 
-            return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'id' => $sourceid)));
+            return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));
             
         }
 
@@ -125,10 +125,10 @@ class ResponseController extends Controller
     /**
      * Displays a form to edit an existing Response response.
      *
-     * @Route("/{courseid}/{source}/{sourceid}/{id}/edit", name="response_edit")
+     * @Route("/{courseid}/{source}/{sourceid}/{id}/{view}/edit", name="response_edit")
      * @Template()
      */
-    public function editAction($id, $source, $sourceid)
+    public function editAction($id, $source, $sourceid, $view)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -145,6 +145,7 @@ class ResponseController extends Controller
             'response'      => $response,
             'source' => $source,
             'sourceid' => $sourceid,
+            'view' => $view,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -153,11 +154,11 @@ class ResponseController extends Controller
     /**
      * Edits an existing Response response.
      *
-     * @Route("/{courseid}/{source}/{sourceid}/{id}/update", name="response_update")
+     * @Route("/{courseid}/{source}/{sourceid}/{id}/{view}/update", name="response_update")
      * @Method("post")
      * @Template("MarcaResponseBundle:Response:edit.html.twig")
      */
-    public function updateAction($id, $source, $sourceid, $courseid)
+    public function updateAction($id, $source, $sourceid, $courseid, $view)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -178,7 +179,7 @@ class ResponseController extends Controller
             $em->persist($response);
             $em->flush();
 
-            return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'id' => $sourceid)));
+            return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));
         }
 
         return array(
@@ -191,10 +192,10 @@ class ResponseController extends Controller
     /**
      * Deletes a Response response.
      *
-     * @Route("/{courseid}/{source}/{sourceid}/{id}/delete", name="response_delete")
+     * @Route("/{courseid}/{source}/{sourceid}/{id}/{view}/delete", name="response_delete")
      * @Method("post")
      */
-    public function deleteAction($id, $courseid, $source, $sourceid)
+    public function deleteAction($id, $courseid, $source, $sourceid, $view)
     {
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -213,7 +214,7 @@ class ResponseController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'id' => $sourceid)));
+        return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));
     }
 
     private function createDeleteForm($id)

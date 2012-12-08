@@ -216,7 +216,7 @@ class JournalController extends Controller
             $em->persist($journal);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('journal', array('set' => 0, 'courseid'=> $courseid,)));
+            return $this->redirect($this->generateUrl('journal', array('courseid'=> $courseid,)));
         }
 
         return array(

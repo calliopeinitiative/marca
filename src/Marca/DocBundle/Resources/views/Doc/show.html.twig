@@ -1,5 +1,6 @@
 {# Marca/DocBundle/Resources/views/Doc/show.html.twig #}
 
+
 {% extends 'MarcaDocBundle::layout.html.twig' %}
 
 {% block content %} 
@@ -30,14 +31,16 @@ $('.markup').mouseover(function (){
 var name = '#' + $(this).attr('title');    
 $('.popup').hide();$(name).show();
 });
-
+$('#close_window').click(function(){
+    window.close();
+});
 
 });
 </script>
 
 {# Doc header #}
 <legend>{{file.name}}</legend></li>    
-Last updated on {{doc.updated|date('M d Y,   g:i a')}}
+Last updated on {{doc.updated|date('M d Y,   g:i a')}}{{app.request.attributes.get('_route')}}
 
 
 {# Doc display #}
@@ -45,7 +48,7 @@ Last updated on {{doc.updated|date('M d Y,   g:i a')}}
 <div class="span8 doc border pad">          
 {{ doc.body|raw }}
         
-<a class="btn btn-info btn-small pull-right" href="{{ course_path('response_new', { 'sourceid': file.id, 'source': 'doc_show' }) }}">Respond</a>        
+<a class="btn btn-info btn-small pull-right" href="{{ course_path('response_new', { 'sourceid': file.id, 'source': 'doc_show' ,'view': app.request.get('view') }) }}">Respond</a>        
 </div>
  
 {# Doc tools #}        
@@ -69,12 +72,14 @@ Last updated on {{doc.updated|date('M d Y,   g:i a')}}
 
 {# Doc edit button #}
 <div class='cell clear'>
-{% if doc.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id }) }}">Edit</a> {% endif %} 
+{% if doc.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %} 
 
-{% if file.project.resource == 'true' %}
-<a class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': '1', 'tag': '0' }) }}">Close</a>
+{% if app.request.get('view') == 'window' %}
+<a id="close_window" title="Will close the current window or tab" class="btn btn-warning btn-small" href="javascript:void(0);">Close</a>
+{% elseif file.project.resource == 'true' %}
+<a class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
 {% else %}
-<a class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'resource': '0', 'tag': '0' }) }}">Close</a>
+<a class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
 {% endif %}
 
 {# Notes #}
@@ -101,7 +106,7 @@ Last updated on {{doc.updated|date('M d Y,   g:i a')}}
 <div class="divider cell clear ">
 <strong>By {{ response.user.firstname}} {{ response.user.lastname}}</strong>
 {% if response.isOwner(app.user.username) %}
-<a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': file.id, 'source': 'doc_show' }) }}">Edit</a>
+<a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': file.id, 'source': 'doc_show','view': app.request.get('view')  }) }}">Edit</a>
 {% endif %}
 {{ response.body|raw }}                
 </div>   

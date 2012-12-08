@@ -17,7 +17,8 @@
 <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <body>
-    
+
+{% if app.request.get('view') != 'window' %}
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
@@ -58,7 +59,7 @@
       </div><!-- /container -->
     </div><!-- /navbar-inner -->
   </div><!-- /navbar -->    
-
+{% endif %}
 <div class="container" id="mainContainer">
 
 {%if block('sidebar') %}

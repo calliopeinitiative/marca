@@ -40,7 +40,7 @@ class DocController extends Controller
     /**
      * Finds and displays a Doc entity.
      *
-     * @Route("/{courseid}/{id}/show", name="doc_show")
+     * @Route("/{courseid}/{id}/{view}/show", name="doc_show")
      * @Template()
      */
     public function showAction($id)
@@ -146,7 +146,7 @@ class DocController extends Controller
     /**
      * Displays a form to edit an existing Doc entity.
      *
-     * @Route("/{courseid}/{id}/edit", name="doc_edit")
+     * @Route("/{courseid}/{id}/{view}/edit", name="doc_edit")
      * @Template()
      */
     public function editAction($id)
@@ -180,11 +180,11 @@ class DocController extends Controller
     /**
      * Edits an existing Doc entity.
      *
-     * @Route("/{courseid}/{id}/update", name="doc_update")
+     * @Route("/{courseid}/{id}/{view}/update", name="doc_update")
      * @Method("post")
      * @Template("MarcaDocBundle:Doc:edit.html.twig")
      */
-    public function updateAction($id,$courseid)
+    public function updateAction($id,$courseid,$view)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -215,7 +215,7 @@ class DocController extends Controller
             $em->persist($doc);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('doc_show', array('id' => $id, 'courseid'=> $courseid,)));
+            return $this->redirect($this->generateUrl('doc_show', array('id' => $id, 'courseid'=> $courseid, 'view' => $view)));
         }
 
         return array(
