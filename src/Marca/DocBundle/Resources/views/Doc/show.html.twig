@@ -48,7 +48,7 @@ Last updated on {{doc.updated|date('M d Y,   g:i a')}}{{app.request.attributes.g
 <div class="span8 doc border pad">          
 {{ doc.body|raw }}
         
-<a class="btn btn-info btn-small pull-right" href="{{ course_path('response_new', { 'sourceid': file.id, 'source': 'doc_show' ,'view': app.request.get('view') }) }}">Respond</a>        
+<a class="btn btn-info btn-small pull-right" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view') }) }}">Respond</a>        
 </div>
  
 {# Doc tools #}        
@@ -106,7 +106,7 @@ Last updated on {{doc.updated|date('M d Y,   g:i a')}}{{app.request.attributes.g
 <div class="divider cell clear ">
 <strong>By {{ response.user.firstname}} {{ response.user.lastname}}</strong>
 {% if response.isOwner(app.user.username) %}
-<a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': file.id, 'source': 'doc_show','view': app.request.get('view')  }) }}">Edit</a>
+<a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view')  }) }}">Edit</a>
 {% endif %}
 {{ response.body|raw }}                
 </div>   
