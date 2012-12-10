@@ -13,9 +13,9 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_docbundle_doctype_body').ckeditor( function() {}, {extraPlugins:'autogrow', autoGrow_maxHeight : 700, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
+$('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins: 'elementspath', extraPlugins:'autogrow', autoGrow_maxHeight : 700, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
 toolbar : [
-['Undo','RemoveFormat','Bold','Italic','Underline','Strike','NumberedLst','BulletedList','Outdent','Indent','JustifyLeft','JustifyCenter','JustifyRight','Link','Unlink','Image','Table','Styles','FontSize','TextColor','BGColor']
+['RemoveFormat','Bold','Italic','Link','Unlink','Outdent','Indent']
 ],} );
 $('#backup_alert').toggle();
 
@@ -28,7 +28,7 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 
 
 <ul class="nav nav-tabs">
-    <li><legend>New eDoc</legend></li>    
+    <li><legend>New Document</legend></li>    
     <li class="nav-header"></li>
     <li></li>
 </ul>
@@ -45,7 +45,7 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 <div class="span3 well doc" style="">
 <div class="cell clear divider">
     <input class="btn btn-primary btn-small" type="submit" id="doc_save" value="Save"/>
-    <a class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Cancel</a>
+    <a class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Cancel</a>
 </div>      
 {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 </div>         

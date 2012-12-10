@@ -17,5 +17,14 @@
              <li><a href="{{ course_path('portfolio') }}">List Portfolio</a></li>
              <li><a href="{{ course_path('portfolio_show') }}">View Portfolio</a></li>
              
+            <li class="dropdown">
+                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">Roll<b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        {% for roll in roll %}
+                        <li><a href="{{ course_path('portfolio_user', { 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 
+                        {% endfor %}
+                    </ul>
+              </li>
+             
 {% endblock %}  
  

@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="row">   
-<div class="span6"> 
+<div class="span6 well"> 
 <form class="form" action="{{ course_path('portfolio_update', { 'id': portfolio.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_errors(edit_form) }}
         <legend>Portfolio</legend>

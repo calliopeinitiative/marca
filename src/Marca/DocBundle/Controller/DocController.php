@@ -116,7 +116,7 @@ class DocController extends Controller
         $project = $em->getRepository('MarcaCourseBundle:Project')->findOneByCourse($courseid);
               
         $file = new File();
-        $file->setName('New eDoc');
+        $file->setName('New Document');
         $file->setUser($user);
         $file->setProject($project);
         $file->setCourse($course);

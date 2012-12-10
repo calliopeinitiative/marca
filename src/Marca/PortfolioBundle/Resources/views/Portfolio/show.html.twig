@@ -52,7 +52,9 @@ Please download this file to view.
 
 <dl>
         {% for portfolio in portfolio %}
-         {% if loop.first %}<div class=""><legend>{{ portfolio.user.firstname }} {{ portfolio.user.lastname }}'s Portfolio</legend></div>{% endif %}
+         {% if loop.first %}<div class=""><legend>{{ portfolio.user.firstname }} {{ portfolio.user.lastname }}'s Portfolio</legend>
+         
+         </div>{% endif %}
             <dd class="pad05">
              {% if portfolio.file.doc %}<i class="icon-edit"></i> 
              <a href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a> 
@@ -67,6 +69,7 @@ Please download this file to view.
              
             
         {% endfor %} 
+        <a class="btn btn-warning btn-small pull-right" href="{{ course_path('portfolio') }}">Close</a>     
 </dl>
 
 

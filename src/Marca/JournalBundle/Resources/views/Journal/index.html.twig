@@ -40,8 +40,13 @@
 </div> 
 
    
-{% else %}
+{% else %}   
+{% if app.request.get('_route') == 'journal_user' %}  
+Sorry, no entries were found.
+{% else %}    
 You don’t have any journals yet. Why not <a href="{{ course_path('journal_new') }}">write one</a>?
+{% endif %}
+
 {% endfor %}
 
 <div class="span8" > 
