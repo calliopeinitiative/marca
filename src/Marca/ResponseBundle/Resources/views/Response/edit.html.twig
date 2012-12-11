@@ -23,7 +23,7 @@ toolbar : [
         <form action="{{ course_path('response_update', { 'id': response.id, 'source': source, 'sourceid': sourceid,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
             {{ form_widget(edit_form) }}  
             <button class="btn btn-primary" type="submit">Update</button>
-            <a class="btn" href="{{ course_path(source, { 'id': sourceid,'view': app.request.get('view') }) }}">Cancel</a> 
+            <a class="btn btn-warning" href="{{ course_path(source, { 'id': sourceid,'view': app.request.get('view') }) }}">Cancel</a> 
         </form>
         
         <form action="{{ course_path('response_delete', { 'id': response.id, 'source': source, 'sourceid': sourceid,'view': app.request.get('view') }) }}" method="post">

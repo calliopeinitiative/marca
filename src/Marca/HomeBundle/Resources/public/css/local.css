@@ -70,6 +70,7 @@ a:hover {color: #006DCC;text-decoration: underline;}
 .toggle {display:none;}
 .note { width: 150px; height: 150px; padding: 0.5em; background: yellow;}
 .inline li {display: inline;}
+.table th, .table td {padding:4px;line-height: 25px;}
 
 
 form label.radio {clear:right;display:block;padding-top: .5em;}

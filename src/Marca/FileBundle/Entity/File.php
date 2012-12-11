@@ -54,9 +54,20 @@ class File
     protected $course; 
     
      /**
-     * @ORM\OneToMany(targetEntity="Marca\ResponseBundle\Entity\Response", mappedBy="file")
+     * @ORM\OneToMany(targetEntity="Marca\ResponseBundle\Entity\Response", mappedBy="file", cascade="remove")
      */
-    protected $responses;      
+    protected $responses;  
+  
+     /**
+     * @ORM\OneToMany(targetEntity="File", mappedBy="reviewed")
+     */
+    private $reviews;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="File", inversedBy="reviews")
+     * @ORM\JoinColumn(name="reviewed_id", referencedColumnName="id")
+     */
+    private $reviewed;
     
     /**
      * @var string $name
@@ -266,9 +277,11 @@ class File
     {
         return $this->doc;
     }
+    
     public function __construct()
     {
-        $this->tag = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tag = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
     
     /**
@@ -467,5 +480,62 @@ class File
     public function getUrl()
     {
         return $this->url;
+    }
+
+
+    /**
+     * Add reviews
+     *
+     * @param \Marca\FileBundle\Entity\File $reviews
+     * @return File
+     */
+    public function addReview(\Marca\FileBundle\Entity\File $reviews)
+    {
+        $this->reviews[] = $reviews;
+    
+        return $this;
+    }
+
+    /**
+     * Remove reviews
+     *
+     * @param \Marca\FileBundle\Entity\File $reviews
+     */
+    public function removeReview(\Marca\FileBundle\Entity\File $reviews)
+    {
+        $this->reviews->removeElement($reviews);
+    }
+
+    /**
+     * Get reviews
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReviews()
+    {
+        return $this->reviews;
+    }
+
+    /**
+     * Set reviewed
+     *
+     * @param \Marca\FileBundle\Entity\File $reviewed
+     * @return File
+     */
+    public function setReviewed(\Marca\FileBundle\Entity\File $reviewed = null)
+    {
+        $this->reviewed = $reviewed;
+    
+        return $this;
+    }
+
+    /**
+     * Get reviewed
+     *
+     * @return \Marca\FileBundle\Entity\File 
+     */
+    public function getReviewed()
+    {
+        return $this->reviewed;
     }
 }

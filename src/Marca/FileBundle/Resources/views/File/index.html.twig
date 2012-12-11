@@ -20,20 +20,22 @@ Recent Files</a></li>
 </ul>
 
 <table class="table">
-{% for file in files%}  
+{% for file in files%}
+{# list headings #}        
 {% if loop.first %}        
 <thead>
 <th>Title</th>
-{% if (app.request.get('scope')=='all' or app.request.get('scope')=='byuser') and app.request.get('resource')=='0' %}<th>Owner</th>{% endif %}
-{% if app.request.get('project')=='recent' %}<th>Project</th>{% endif %}
+<th>{% if (app.request.get('scope')=='all' or app.request.get('scope')=='byuser') and app.request.get('resource')=='0' %}Owner{% endif %}</th>
+<th>{% if app.request.get('project')=='recent' %}Project{% endif %}</th>
 <th>Labels</th>
-{% if app.request.get('resource')=='0' %}<th>Modified</th>{% endif %}
+<th>{% if app.request.get('resource')=='0' %}Modified{% endif %}</th>
 <th></th>
 <th></th>
 </thead> 
 <tbody>
 {% endif %}
 
+{# main list of files #}
 <tr>
 <td> 
 {% if file.doc %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">{{ file.name }}</a>
@@ -44,12 +46,11 @@ Recent Files</a></li>
 {% endif %}
 {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
 </td>
-{% if (app.request.get('scope')=='all' or app.request.get('scope')=='byuser') and app.request.get('resource')=='0' %}<td>{{ file.user.firstname }} {{ file.user.lastname }}</td>{% endif%}
-{% if app.request.get('project')=='recent' %}<td><strong>{{ file.project.name }}</strong></td>{% endif %}
+<td>{% if (app.request.get('scope')=='all' or app.request.get('scope')=='byuser') and app.request.get('resource')=='0' %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif%}</td>
+<td>{% if app.request.get('project')=='recent' %}<strong>{{ file.project.name }}</strong>{% endif %}</td>
 <td>{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
-{% if app.request.get('resource')=='0' %}
-<td>{{ file.updated|date('M d Y, g:i a') }}</td>
-{% endif %}
+
+<td>{% if app.request.get('resource')=='0' %}{{ file.updated|date('M d Y, g:i a') }}{% endif %}</td>
 <td>
 <ul class="nav files">
     <li class="dropdown">
@@ -64,6 +65,36 @@ Recent Files</a></li>
 </td>
 <td></td>
 </tr>
+
+{# peer reviews #}
+{% for file in file.reviews%}  
+<tr style="background:#FAF9C8;"> 
+<td colspan="2" style="padding-left:3em;"> 
+<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">Review by {{ file.user.firstname }} {{ file.user.lastname }}</a>
+ <a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}"><i class="icon-share-alt"></i></a>
+{% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
+</td>
+
+<td></td>
+<td>{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
+
+<td>{% if app.request.get('resource')=='0' %}{{ file.updated|date('M d Y, g:i a') }}{% endif %}</td>
+<td>
+<ul class="nav files">
+    <li class="dropdown">
+    <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        {% if file.isOwner(app.user.username) %}<li><a class="" href="{{ course_path('file_edit', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Edit Listing</a></li>{% endif%}
+        {% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<li><a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a></li>{% endif%}
+        <li><a href="{{ course_path('file_show', { 'id': file.id, 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">More Info</a></li>
+        </ul>
+     </li>
+</ul>
+</td>
+<td></td>
+</tr>
+{% endfor %}
+
 {% if loop.first %}  
 </tbody>
 {% endif %}

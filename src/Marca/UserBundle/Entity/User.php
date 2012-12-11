@@ -69,6 +69,7 @@ class User extends BaseUser
      */
     protected $file;
     
+    
     /**
      * @ORM\OneToMany(targetEntity="Marca\JournalBundle\Entity\Journal", mappedBy="user")
      */
@@ -467,4 +468,5 @@ class User extends BaseUser
         
         //return $this->markupsets;
     }
+
 }

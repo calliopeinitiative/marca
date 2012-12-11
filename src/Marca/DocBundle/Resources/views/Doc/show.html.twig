@@ -41,6 +41,7 @@ $('#close_window').click(function(){
 {# Doc header #}
 <legend>{{file.name}}</legend></li>    
 Last updated on {{doc.updated|date('M d Y,   g:i a')}}
+{% if file.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ course_path('file_edit', { 'id': file.id, 'resource': 'f', 'tag': '0' }) }}">Rename</a>{% endif%}
 
 
 {# Doc display #}
@@ -73,6 +74,8 @@ Last updated on {{doc.updated|date('M d Y,   g:i a')}}
 {# Doc edit button #}
 <div class='cell clear'>
 {% if doc.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %} 
+
+<a class="btn btn-info btn-small" href="{{ course_path('doc_review', { 'fileid': file.id,'view': app.request.get('view'),'resource': '0' }) }}">Review</a>
 
 {% if app.request.get('view') == 'window' %}
 <a id="close_window" title="Will close the current window or tab" class="btn btn-warning btn-small" href="javascript:void(0);">Close</a>

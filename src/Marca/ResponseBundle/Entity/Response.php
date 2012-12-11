@@ -40,7 +40,7 @@ class Response
     protected $journal;       
  
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="responses")
+    * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="responses", cascade="remove")
     */
     protected $file;       
     

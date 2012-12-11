@@ -33,7 +33,7 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
     <li></li>
 </ul>
 
-<form action="{{ course_path('doc_create', {'resource': app.request.get('resource')}) }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ course_path('doc_create', {'resource': app.request.get('resource'), 'view':app.request.get('view'), 'fileid': fileid }) }}" method="post" {{ form_enctype(form) }}>
 <div class="span8">         
 <div>
     {{ form_errors(form) }}
@@ -49,7 +49,7 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 </div>      
 {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 </div>         
-</div>         
+       
 </form>  
 
 {% endblock %}

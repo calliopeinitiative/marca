@@ -70,7 +70,7 @@ class DocController extends Controller
     /**
      * Displays a form to create a new Doc entity.
      *
-     * @Route("/{courseid}/new", name="doc_new")
+     * @Route("/{courseid}/{view}/new", name="doc_new")
      * @Template()
      */
     public function newAction()
@@ -82,6 +82,7 @@ class DocController extends Controller
         $user = $this->getUser();
 
         $markupsets = $user->getMarkupsets();
+        $fileid = '0';
         
         $doc = new Doc();
         $doc->setBody('<p></p>');
@@ -90,6 +91,7 @@ class DocController extends Controller
 
         return array(
             'doc' => $doc,
+            'fileid' => $fileid,
             'markupsets'      => $markupsets,
             'form'   => $form->createView()
         );
@@ -98,11 +100,11 @@ class DocController extends Controller
     /**
      * Creates a new Doc entity.
      *
-     * @Route("/{courseid}/{resource}/create", name="doc_create")
+     * @Route("/{courseid}/{fileid}/{resource}/{view}/create", name="doc_create")
      * @Method("post")
      * @Template("MarcaDocBundle:Doc:new.html.twig")
      */
-    public function createAction($courseid, $resource)
+    public function createAction($courseid, $resource, $view, $fileid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -114,12 +116,21 @@ class DocController extends Controller
 
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $project = $em->getRepository('MarcaCourseBundle:Project')->findOneByCourse($courseid);
+        $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+
               
         $file = new File();
         $file->setName('New Document');
         $file->setUser($user);
         $file->setProject($project);
         $file->setCourse($course);
+        if ($fileid != 0) {
+            $file->setReviewed($reviewed_file);
+            $file->setName('Review');
+            $tagid = 3;
+            $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tagid);
+            $file->addTag($tag);
+        }
         
         $doc  = new Doc();    
         $doc->setFile($file); 
@@ -133,7 +144,7 @@ class DocController extends Controller
             $em->persist($doc);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file_edit', array('id' => $file->getId(),'courseid'=> $courseid,'resource'=> $resource, 'tag' => $tag)));
+            return $this->redirect($this->generateUrl('doc_show', array('id' => $doc->getId(), 'courseid'=> $courseid, 'view' => $view)));
             
         }
 
@@ -142,6 +153,38 @@ class DocController extends Controller
             'form'   => $form->createView()
         );
     }
+    
+  
+    /**
+     * Displays a form to create a new Doc entity.
+     *
+     * @Route("/{courseid}/{resource}/{fileid}/review", name="doc_review")
+     * @Template("MarcaDocBundle:Doc:new.html.twig")
+     */
+    public function reviewAction($fileid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        
+        $em = $this->getEm();
+        $user = $this->getUser();
+
+        $markupsets = $user->getMarkupsets();
+        $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+        $reviewed_body = $reviewed_file->getDoc()->getBody();
+        $doc = new Doc();
+        $doc->setBody($reviewed_body);
+
+        $form   = $this->createForm(new DocType(), $doc);
+
+        return array(
+            'doc' => $doc,
+            'fileid' => $fileid,
+            'markupsets'      => $markupsets,
+            'form'   => $form->createView()
+        );
+    }    
+       
 
     /**
      * Displays a form to edit an existing Doc entity.
