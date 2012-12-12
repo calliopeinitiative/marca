@@ -6,6 +6,7 @@
 /vendor
 /app/config/parameters.ini
 /app/config/parameters.yml
+/app/config/security.yml
 /nbproject
 /uploads
 /temp
