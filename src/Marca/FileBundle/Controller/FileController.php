@@ -14,6 +14,7 @@ use Marca\FileBundle\Form\FileType;
 use Marca\FileBundle\Form\LinkType;
 use Marca\FileBundle\Form\UploadType;
 use Marca\TagBundle\Entity\Tagset;
+use Marca\DocBundle\Entity\Doc;
 
 /**
  * File controller.
@@ -438,5 +439,94 @@ class FileController extends Controller
 		$response->send();
 		
 		return $response;
-	}     
+	} 
+        
+        
+ 
+   /**
+     * Finds and displays an XSL transformation of a File entity.
+     *
+     * @Route("/{courseid}/{id}/display", name="file_display")
+     * @Template("MarcaDocBundle:Doc:show.html.twig")
+     */
+    public function displayAction($id)
+    {
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $doc = new Doc();
+        $doc->setFile($file);
+        
+        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findAll();
+        
+        $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
+        $file_content = $helper->asset($file, 'file');
+
+        if (!$file) {
+            throw $this->createNotFoundException('Unable to find File entity.');
+        }
+
+            $html = $this->oo_convert($this->oo_unzip($file_content));
+            $doc->setBody($html);    
+            return array(
+            'doc'      => $doc,
+            'file'        => $file,
+            'markupsets' => $markupsets,
+             );
+          
+
+    }    
+
+        
+        
+        
+        
+        
+    
+    public function oo_unzip($file, $path = false)
+		{
+		IF(!function_exists('zip_open'))
+			{
+			throw new Exception('NO ZIP FUNCTIONS DETECTED. Do you have the PECL ZIP extensions loaded?');
+			}
+		IF(!is_file($file))
+			{
+			throw new Exception('Can\'t find file: '.$file);
+			}
+		IF($zip = zip_open($file))
+			{
+			while ($zip_entry = zip_read($zip))
+				{
+				$filename = zip_entry_name($zip_entry);
+				IF(zip_entry_name($zip_entry) == 'content.xml' and zip_entry_open($zip, $zip_entry, "r"))
+					{
+					$content = zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
+					zip_entry_close($zip_entry);
+					}
+
+				}
+			IF(isset($content))
+				{
+				return $content;
+				}
+			}
+		}
+	public function oo_convert($xml)
+		{
+		$xls = new \DOMDocument;
+		$xls->load(__DIR__.'/../../../../src/Marca/DocBundle/Resources/xsl/template.xsl');
+		$xslt = new \XsltProcessor();
+		$xslt->importStylesheet($xls);
+		
+		$x = preg_replace('#<draw:image xlink:href="Pictures/([a-z .A-Z_0-9]*)" (.*?)/>#es', "ODT2XHTML::makeImage('\\1')", $xml);
+		
+		$xml = new \DOMDocument;
+		$xml->loadXML($x);
+		return html_entity_decode($xslt->transformToXML($xml));
+		}
+	public function makeImage($img)
+		{
+		return '&lt;img src="Pictures/'.$img.'" border="0" /&gt;';
+		} 
+                
 }

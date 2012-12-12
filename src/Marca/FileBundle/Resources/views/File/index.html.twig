@@ -42,7 +42,7 @@ Recent Files</a></li>
  <a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}"><i class="icon-share-alt"></i></a>
 {% elseif file.url %}<i class="icon-adjust"></i> <a href="{{ file.url}}" target="_blank">{{ file.name }}</a>
 {% else %}
-<i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="View {{ file.name }} (will open in a new window or tab)" target="_blank">{{ file.name }}</a>
+<i class="icon-file"></i> <a href="{{ course_path('file_display', { 'id': file.id }) }}" title="View {{ file.name }}" >{{ file.name }}</a>
 {% endif %}
 {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
 </td>
