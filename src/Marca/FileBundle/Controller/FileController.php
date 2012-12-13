@@ -46,7 +46,7 @@ class FileController extends Controller
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),10);
+        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),8);
 
         return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 
             'tags' => $tags, 'course' => $course, 'roll' => $roll);
@@ -446,7 +446,7 @@ class FileController extends Controller
    /**
      * Finds and displays an XSL transformation of a File entity.
      *
-     * @Route("/{courseid}/{id}/display", name="file_display")
+     * @Route("/{courseid}/{id}/{view}/display", name="file_display")
      * @Template("MarcaDocBundle:Doc:show.html.twig")
      */
     public function displayAction($id)
@@ -460,14 +460,17 @@ class FileController extends Controller
         $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findAll();
         
         $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
-        $file_content = $helper->asset($file, 'file');
+        $odtfile = $helper->asset($file, 'file');
+        $xsltfile = __DIR__.'/../../../../src/Marca/DocBundle/Resources/xsl/odt2html.xsl';
 
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
         }
 
-            $html = $this->oo_convert($this->oo_unzip($file_content));
-            $doc->setBody($html);    
+            $html4doc = $this->odt2html($odtfile, $xsltfile)->render_inline_images()->get_html();
+            $doc->setBody($html4doc);
+            $em->persist($doc);
+            $em->flush();
             return array(
             'doc'      => $doc,
             'file'        => $file,
@@ -476,57 +479,162 @@ class FileController extends Controller
           
 
     }    
+            
+                
+                
+	//------------------------------------------------------------------------------------------
+	// ODT 2 HTML
+	//------------------------------------------------------------------------------------------
+	private $html;
+	private $odtZipfilename;
 
-        
-        
-        
-        
-        
-    
-    public function oo_unzip($file, $path = false)
-		{
-		IF(!function_exists('zip_open'))
-			{
-			throw new Exception('NO ZIP FUNCTIONS DETECTED. Do you have the PECL ZIP extensions loaded?');
-			}
-		IF(!is_file($file))
-			{
-			throw new Exception('Can\'t find file: '.$file);
-			}
-		IF($zip = zip_open($file))
-			{
-			while ($zip_entry = zip_read($zip))
-				{
-				$filename = zip_entry_name($zip_entry);
-				IF(zip_entry_name($zip_entry) == 'content.xml' and zip_entry_open($zip, $zip_entry, "r"))
-					{
-					$content = zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
-					zip_entry_close($zip_entry);
-					}
+	public function odt2html($odtfile, $xsltfile)
+	{
+		$xslFile = "odt";
+		$xslDoc = new \DOMDocument();
+		$xslDoc->load($xsltfile);
 
-				}
-			IF(isset($content))
-				{
-				return $content;
-				}
-			}
+		$odtZipfilename = "zip://"  . $odtfile;
+		$xmlDoc = new \DOMDocument();
+		$xmlDoc->load("$odtZipfilename#content.xml");
+		$this->odtZipfilename = $odtZipfilename;
+
+		$proc = new \XSLTProcessor();
+		$proc->importStylesheet($xslDoc);
+		$html = $proc->transformToXML($xmlDoc);
+
+		$this->html = $html;
+                return $this;
+	}
+
+
+
+	//------------------------------------------------------------------------------------------
+	// Chainable methods
+	//------------------------------------------------------------------------------------------
+
+	public function render_inline_images()
+	{
+		$html = $this->html;
+		preg_match_all('/Pictures\/.*?.png/', $html, $matches);
+		$img_files = $matches[0];
+		$img_files_src = array();
+		foreach($img_files as $img_file) {
+			$img_files_src[$img_file] = $this->odt_picture_to_inline_img($this->odtZipfilename, $img_file);
 		}
-	public function oo_convert($xml)
-		{
-		$xls = new \DOMDocument;
-		$xls->load(__DIR__.'/../../../../src/Marca/DocBundle/Resources/xsl/template.xsl');
-		$xslt = new \XsltProcessor();
-		$xslt->importStylesheet($xls);
-		
-		$x = preg_replace('#<draw:image xlink:href="Pictures/([a-z .A-Z_0-9]*)" (.*?)/>#es', "ODT2XHTML::makeImage('\\1')", $xml);
-		
-		$xml = new \DOMDocument;
-		$xml->loadXML($x);
-		return html_entity_decode($xslt->transformToXML($xml));
+		foreach($img_files as $img_file) {
+			$html = str_replace($img_file, $img_files_src[$img_file], $html);
 		}
-	public function makeImage($img)
-		{
-		return '&lt;img src="Pictures/'.$img.'" border="0" /&gt;';
-		} 
+		$this->html = $html;
+		return $this;
+	}
+
+	public function save_to_htmlfile($filename, $utf8=TRUE)
+	{
+		file_put_contents($filename, $this->get_html($utf8));
+		return $this;
+	}
+
+	//------------------------------------------------------------------------------------------
+	// Methods
+	//------------------------------------------------------------------------------------------
+
+	public function get_html($utf8=TRUE, $utf8header=TRUE)
+	{
+		$html = ($utf8header) 
+		? '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . PHP_EOL . $this->html 
+		: $this->html;
+
+		return ($utf8) ? $html : utf8_decode($html);
+	}
+
+	//--------------------------------------------------------------------------------------------------
+
+	private function odt_picture_to_inline_img($odt_zip_filename, $odt_img_filename) {
+		$zip_picture_name = $odt_zip_filename . "#$odt_img_filename";
+		$file_data = self::file_to_filedata($zip_picture_name);
+
+		$gd_data = self::file_to_gddata($zip_picture_name);
+		$gd_data_scaled = self::gddata_scale($gd_data);
+		$file_data = self::gddata_to_filedata($gd_data_scaled);
+
+		return self::filedata_to_imagesrc($file_data);
+	}
+
+	//------------------------------------------------------------------------------------------
+	// Image functions
+	//------------------------------------------------------------------------------------------
+
+	static private function filedata_to_uridata($filedata, $mime='image/png') {
+		$base64   = base64_encode($filedata);
+		return ('data:' . $mime . ';base64,' . $base64);
+	}
+
+	static private function filedata_to_imagetag($filedata) {
+		$ret = '<img src="';
+		$ret .= self::filedata_to_uridata($filedata);
+		$ret .=  '" />';
+		return $ret;
+	}
+
+	static private function filedata_to_imagesrc($filedata) {
+		$ret = self::filedata_to_uridata($filedata);
+		return $ret;
+	}
+
+	static private function file_to_filedata($pngfile_name) {
+		return file_get_contents($pngfile_name);
+	}
+
+	static private function file_to_gddata($pngfile_name) {
+		return imagecreatefrompng($pngfile_name);
+	}
+
+	static private function gddata_to_filedata($gddata) {
+		ob_start();
+		imagepng($gddata);
+		imagedestroy($gddata);
+		$filedata = ob_get_contents();
+		ob_end_clean();
+		return $filedata;
+	}
+
+	static private function gddata_to_uridata($gddata) {
+		$filedata = self::gddata_to_filedata($gddata);
+		$uridata = self::filedata_to_uridata($filedata);
+		return $uridata;
+	}
+
+	static private function gddata_to_imagetag($gddata) {
+		$filedata = self::gddata_to_filedata($gddata);
+		return self::filedata_to_imagetag($filedata);
+	}
+
+	static private function gddata_process($gddata) {
+		$color = imagecolorallocate($gddata, 255, 0, 0);
+		imagefilledrectangle($gddata, 10, 10, 20, 20, $color);
+		$fontname = 'Arial.ttf';
+		$font =  dirname(__FILE__).'/fonts/'.$fontname;
+		imagettftext($gddata, 20, 0, 50, 50, $color, $font, 'Hello');
+		return $gddata;
+	}
+
+	static private function gddata_resize($gddata, $new_w, $new_h) {
+		$current_w = imageSX($gddata);
+		$current_h = imageSY($gddata);
+		$new_gddata = ImageCreateTrueColor($new_w, $new_h);
+		imagecopyresampled($new_gddata,$gddata,0,0,0,0,$new_w,$new_h,$current_w,$current_h );
+		return $new_gddata;
+	}
+
+	static private function gddata_scale($gddata, $factor=1) {
+		$current_w = imageSX($gddata);
+		$current_h = imageSY($gddata);
+		$new_w = $current_w * $factor;
+		$new_h = $current_h * $factor;
+		$new_gddata = ImageCreateTrueColor($new_w, $new_h);
+		imagecopyresampled($new_gddata, $gddata,0,0,0,0, $new_w, $new_h, $current_w, $current_h );
+		return $new_gddata;
+	}                
                 
 }
