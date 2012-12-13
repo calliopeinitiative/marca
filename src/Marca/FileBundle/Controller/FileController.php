@@ -46,7 +46,7 @@ class FileController extends Controller
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),8);
+        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),15);
 
         return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 
             'tags' => $tags, 'course' => $course, 'roll' => $roll);
@@ -172,7 +172,7 @@ class FileController extends Controller
             $em->persist($file);
             $em->flush();
 
-        return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource)));
+        return $this->redirect($this->generateUrl('file_show', array('courseid'=> $courseid,'id'=> $file->getId(),'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource)));
             
         }
 
@@ -369,7 +369,7 @@ class FileController extends Controller
                  $em = $this->getEm();
                  $em->persist($file);
                  $em->flush(); 
-                 return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0','resource'=>$resource)));
+                 return $this->redirect($this->generateUrl('file_show', array('courseid'=> $courseid,'id'=> $file->getId(),'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0','resource'=>$resource)));
              }
              
          }
