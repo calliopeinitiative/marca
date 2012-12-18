@@ -4,13 +4,20 @@
 
 {% block content %}
 
-<div class="span9 well">
+<script language="javascript"> 
+$(document).ready(function()
+tour.start();
+});
+</script>
+
+<div class="span9 well" id="userWelcome">
 <legend>Welcome {{ user.firstname }} {{ user.lastname }} </legend>
+<p><a href="#" class="restart">Restart tour</a></p>
 </div>
  
 
 
-<div class="span9 well">
+<div class="span9 well" id="userCourses">
 <table class="table">
 {% if courses or pending %}    
         <thead><tr><td colspan="3"><legend>Courses</legend></td></tr></thead>
