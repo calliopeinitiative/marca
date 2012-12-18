@@ -48,6 +48,7 @@
                 <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">{{ app.session.get('username') }}<b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li><a href="{{ path('user_show') }}">Profile</a></li>
+                        <li><a class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll</a></li>
                         <li><a title="Logout" href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                     </ul>
                  </li>

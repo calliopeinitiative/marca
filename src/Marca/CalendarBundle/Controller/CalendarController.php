@@ -30,7 +30,7 @@ class CalendarController extends Controller
         
         $em = $this->getEm();
         $course = $this->getCourse();
-        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourse($course);
+        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
@@ -53,7 +53,7 @@ class CalendarController extends Controller
         
         $em = $this->getEm();
         $course = $this->getCourse();
-        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourse($course);
+        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
 
         return array('calendar' => $calendar);
     }    
