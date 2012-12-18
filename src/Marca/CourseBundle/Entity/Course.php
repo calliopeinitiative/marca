@@ -69,7 +69,7 @@ class Course
     /**
      * @var boolean $multicult
      *
-     * @ORM\Column(name="multicult", type="boolean")
+     * @ORM\Column(name="multicult", type="boolean", nullable=true)
      */
     private $multicult = false;
 
@@ -79,12 +79,12 @@ class Course
      *
      * @ORM\Column(name="studentForum", type="boolean")
      */
-    private $studentForum;
+    private $studentForum = false;
 
     /**
      * @var boolean $notes
      *
-     * @ORM\Column(name="notes", type="boolean")
+     * @ORM\Column(name="notes", type="boolean", nullable=true)
      */
     private $notes = true;
     
@@ -112,7 +112,7 @@ class Course
     /**
      * @var boolean $zine
      *
-     * @ORM\Column(name="zine", type="boolean")
+     * @ORM\Column(name="zine", type="boolean", nullable=true)
      */
     private $zine = false;
 

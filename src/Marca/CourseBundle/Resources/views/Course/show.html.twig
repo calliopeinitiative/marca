@@ -22,11 +22,13 @@
     <tr>
         <th>Student can post</th>         
         <td>{{ course.post=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>           
+    </tr>
+    {# hidden for now  
     <tr>
         <th>Multicultural Archive</th>         
         <td>{{ course.multicult=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>                 
+    </tr>  
+    #}               
     <tr>
         <th>Student may start forum threads</th>         
         <td>{{ course.studentForum=='t' ? 'Yes' : 'No' }}</td>         
@@ -37,23 +39,31 @@
     </tr>    
     <tr>
         <th colspan="2">Tools</th>              
-    </tr>    
+    </tr>
+    {# hidden for now  
     <tr>
         <th>Notes</th>         
         <td>{{ course.notes=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>        
+    </tr> 
+    #}       
     <tr>
         <th>Journal</th>         
         <td>{{ course.journal=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>               
+    </tr>
+    {# hidden for now  
     <tr>
         <th>Zine</th>         
         <td>{{ course.zine=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>    
+    </tr>  
+    #}  
+    <tr>
+        <th>Forum</th>         
+        <td>{{ course.forum=='t' ? 'Yes' : 'No' }}</td>         
+    </tr>
     <tr>
         <th>Portfolio</th>         
         <td>{{ course.portfolio=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>
+    </tr>    
     <tr>
         <th>Portfolio Set</th>         
         <td>{% if portset %}{{ portset.name}}{% else %}No portfolio set designated{% endif %}</td>         
