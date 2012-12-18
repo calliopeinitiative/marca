@@ -231,7 +231,7 @@ class CalendarController extends Controller
      * @Route("/{courseid}/{id}/delete", name="calendar_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -253,7 +253,7 @@ class CalendarController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('calendar'));
+        return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,)));
     }
 
     private function createDeleteForm($id)
