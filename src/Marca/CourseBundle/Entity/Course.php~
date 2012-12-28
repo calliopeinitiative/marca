@@ -164,8 +164,9 @@ class Course
     /**
      * Inverse Side
      *
-     * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markupset", inversedBy="course")
-    **/
+     * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markupset", mappedBy="course")
+     * @ORM\JoinTable(name="course_markupset")
+    */
     protected $markupsets;
 
     /**
@@ -182,7 +183,6 @@ class Course
         $this->projectDefault = new ArrayCollection();
         $this->teams = new ArrayCollection();
         $this->parents = new ArrayCollection();
-        $this->markupsets = new ArrayCollection();
     } 
     
    /**
@@ -822,38 +822,5 @@ class Course
     public function getParents()
     {
         return $this->parents;
-    }
-
-    /**
-     * Add markupsets
-     *
-     * @param Marca\DocBundle\Entity\Markupset $markupsets
-     * @return Course
-     */
-    public function addMarkupset(\Marca\DocBundle\Entity\Markupset $markupsets)
-    {
-        $this->markupsets[] = $markupsets;
-    
-        return $this;
-    }
-
-    /**
-     * Remove markupsets
-     *
-     * @param Marca\DocBundle\Entity\Markupset $markupsets
-     */
-    public function removeMarkupset(\Marca\DocBundle\Entity\Markupset $markupsets)
-    {
-        $this->markupsets->removeElement($markupsets);
-    }
-
-    /**
-     * Get markupsets
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getMarkupsets()
-    {
-        return $this->markupsets;
     }
 }

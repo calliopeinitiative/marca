@@ -80,8 +80,13 @@ class DocController extends Controller
         
         $em = $this->getEm();
         $user = $this->getUser();
-
-        $markupsets = $user->getMarkupsets();
+        $course = $this->getCourse();
+        
+        $privatemarkupsets = $em->getRepository('MarcaDocBundle:Markupset')->findPrivateMarkupSets($user);
+        $coursemarkupsets = $course->getMarkupsets();
+        $coursemarkupsets = $coursemarkupsets->toArray();
+        $markupsets = array_merge($privatemarkupsets, $coursemarkupsets);
+       
         $fileid = '0';
         
         $doc = new Doc();
@@ -168,8 +173,13 @@ class DocController extends Controller
         
         $em = $this->getEm();
         $user = $this->getUser();
-
-        $markupsets = $user->getMarkupsets();
+        $course = $this->getCourse();
+        
+        $privatemarkupsets = $em->getRepository('MarcaDocBundle:Markupset')->findPrivateMarkupSets($user);
+        $coursemarkupsets = $course->getMarkupsets();
+        $coursemarkupsets = $coursemarkupsets->toArray();
+        $markupsets = array_merge($privatemarkupsets, $coursemarkupsets);
+        
         $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $reviewed_body = $reviewed_file->getDoc()->getBody();
         $doc = new Doc();
@@ -199,10 +209,14 @@ class DocController extends Controller
         
         $em = $this->getEm();
         $user = $this->getUser();
+        $course = $this->getCourse();
 
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
         $file = $doc->getFile();
-        $markupsets = $user->getMarkupsets();
+        $privatemarkupsets = $em->getRepository('MarcaDocBundle:Markupset')->findPrivateMarkupSets($user);
+        $coursemarkupsets = $course->getMarkupsets();
+        $coursemarkupsets = $coursemarkupsets->toArray();
+        $markupsets = array_merge($privatemarkupsets, $coursemarkupsets);
         
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');

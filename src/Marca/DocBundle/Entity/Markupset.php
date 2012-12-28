@@ -54,8 +54,7 @@ class Markupset
        
    /**
     * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markup", mappedBy="markupset")
-    * @ORM\JoinTable(name="markup_markupset")
-    */
+    **/
     protected $markup; 
     
     /**
@@ -68,9 +67,10 @@ class Markupset
     /**
      * Inverse Side
      *
-     * @ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="tagset")
-    */
-    private $course;
+     * @ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="markupset")
+     *  
+    **/
+    protected $courses;
     
     /**
      * Get id
@@ -113,6 +113,7 @@ class Markupset
         $this->markup = new \Doctrine\Common\Collections\ArrayCollection();
         $this->course = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -202,7 +203,7 @@ class Markupset
      */
     public function addCourse(\Marca\CourseBundle\Entity\Course $course)
     {
-        $this->course[] = $course;
+        $this->courses[] = $course;
     
         return $this;
     }
@@ -214,7 +215,7 @@ class Markupset
      */
     public function removeCourse(\Marca\CourseBundle\Entity\Course $course)
     {
-        $this->course->removeElement($course);
+        $this->courses->removeElement($course);
     }
 
     /**
@@ -222,9 +223,9 @@ class Markupset
      *
      * @return Doctrine\Common\Collections\Collection 
      */
-    public function getCourse()
+    public function getCourses()
     {
-        return $this->course;
+        return $this->courses;
     }
     
     public function isOwner($user)
