@@ -39,14 +39,14 @@ class Calendar
     /**
      * @var date $endDate
      *
-     * @ORM\Column(name="endDate", type="date")
+     * @ORM\Column(name="endDate", type="date", nullable=true)
      */
     private $endDate;
 
     /**
      * @var time $endTime
      *
-     * @ORM\Column(name="endTime", type="time")
+     * @ORM\Column(name="endTime", type="time", nullable=true)
      */
     private $endTime;
 

@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class MarkupsetRepository extends EntityRepository
 {
+    public function findPrivateMarkupSets($user){
+        return $this->getEntityManager()
+                ->createQuery('SELECT m from MarcaDocBundle:Markupset m JOIN m.users u WHERE u.id = ?1 AND m.shared = 0')->setParameter('1', $user->getId())->getResult();
+    }
+            
+    
 }

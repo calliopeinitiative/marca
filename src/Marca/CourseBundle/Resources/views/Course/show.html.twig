@@ -75,7 +75,11 @@
      <tr>
         <th>Tagset</th>         
         <td>{% for tagset in tagsets %}{{ tagset.name}}{% endfor %}</td>         
-    </tr>   
+    </tr>
+    <tr>
+        <th>Markup Sets</th>
+        <td>{% for markupset in course.markupsets %}{{ markupset.name}}, {% endfor %}</td>
+    </tr>
     
     
 </tbody>

@@ -5,12 +5,15 @@ namespace Marca\CourseBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Marca\DocBundle\Entity\MarkupsetRepository;
 
 class CourseType extends AbstractType
 {
      
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $course = $options['data'];
+        $userid = $course->getUser()->getId();
         $builder
             ->add('name')
             ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'property'=>'termName', ))
@@ -28,8 +31,12 @@ class CourseType extends AbstractType
             ->add('zine', 'hidden')
             ->add('portStatus', 'hidden')
             ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select tag sets for Projects','attr' => array('class' => 'checkbox'),)) 
-                
-        ;
+            ->add('markupsets','entity', array('class'=>'MarcaDocBundle:Markupset', 'query_builder' => function(MarkupsetRepository $mr) use ($userid){
+            $qb = $mr->createQueryBuilder('MarcaDocBundle:Markupset');
+            $qb->select('m')->from('Marca\DocBundle\Entity\Markupset', 'm')->innerJoin('m.users', 'u')->where('u.id = ?1')->setParameter('1', $userid);
+            return $qb;
+            }
+            ,'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select markup sets for Projects','attr' => array('class' => 'checkbox'),));
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
