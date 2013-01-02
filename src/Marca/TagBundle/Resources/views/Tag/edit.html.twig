@@ -2,11 +2,36 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
-{% form_theme edit_form 'MarcaHomeBundle:Form:fields.html.twig' %}
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
+<script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+{% endblock %}
 
 {% block content %}
+<script language="javascript">
+    $(document).ready(function()
+    {
+    $("#marca_tagbundle_tagtype_color").spectrum({
+    preferredFormat: "name",
+    showPaletteOnly: true,
+    showInput: true,
+    color: '{{tag.color}}',
+    palette: [
+        ['royalblue', 'seagreen', 'slateblue','darkorange'],
+        ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
+        ['orange', 'cadetblue', 'tomato','blueviolet']        
+    ]
+    });
+    });
+</script>
+
+
 <div class="row">   
-<div class="span4"> 
+<div class="span6"> 
     <legend>Labels</legend>
 <form class="form" action="{{ path('tag_update', { 'id': tag.id }) }}" method="post" {{ form_enctype(edit_form) }}>
      {{ form_errors(edit_form) }}
