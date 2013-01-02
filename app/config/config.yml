@@ -17,6 +17,7 @@ framework:
     session: ~
     default_locale: %locale%  
     trust_proxy_headers: false
+    trusted_proxies: ~
 
 # Twig Configuration
 twig:
@@ -68,7 +69,7 @@ fos_user:
     registration:
         form:
             type: marca_user_registration
-            handler: marca_user.form.handler.registration
+            #handler: marca_user.form.handler.registration
         confirmation:
             enabled:    true
     from_email:

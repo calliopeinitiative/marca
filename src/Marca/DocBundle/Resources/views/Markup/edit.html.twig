@@ -19,12 +19,14 @@
     $(document).ready(function()
     {
     $("#marca_docbundle_markuptype_color").spectrum({
+    preferredFormat: "name",
     showPaletteOnly: true,
-    color: '8db14f',
+    showInput: true,
+    color: '{{markup.color}}',
     palette: [
-        ['8db14f', 'ffe362', '4fb1a9'],
-        ['4f78b1', '764fb1', 'b14f8b'],
-        ['b14f4f', 'b1754f', '4fb1af']
+        ['royalblue', 'seagreen', 'slateblue','darkorange'],
+        ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
+        ['orange', 'cadetblue', 'tomato','blueviolet']        
     ]
     });
     });

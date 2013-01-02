@@ -3,10 +3,7 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-timepicker-addon.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
 {% endblock %}
 
@@ -19,23 +16,18 @@
     $(document).ready(function()
     {
     $("#marca_docbundle_markuptype_color").spectrum({
+    preferredFormat: "name",
     showPaletteOnly: true,
-    color: '8db14f',
+    showInput: true,
+    color: '{{markup.color}}',
     palette: [
-        ['8db14f', 'ffe362', '4fb1a9'],
-        ['4f78b1', '764fb1', 'b14f8b'],
-        ['b14f4f', 'b1754f', '4fb1af']
+        ['royalblue', 'seagreen', 'slateblue','darkorange'],
+        ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
+        ['orange', 'cadetblue', 'tomato','blueviolet']        
     ]
     });
     });
 </script>
-
-
-<div class="row">
-<div class="span6  well"> 
-<a class="btn btn-info" href="{{ path('markup') }}">List</a>
-</div> 
-</div>
   
 <div class="row">
 <div class="span6  well">  

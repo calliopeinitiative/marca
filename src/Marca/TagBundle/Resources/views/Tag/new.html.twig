@@ -2,7 +2,33 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
+<script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+{% endblock %}
+
 {% block content %}
+<script language="javascript">
+    $(document).ready(function()
+    {
+    $("#marca_tagbundle_tagtype_color").spectrum({
+    preferredFormat: "name",
+    showPaletteOnly: true,
+    showInput: true,
+    color: '{{tag.color}}',
+    palette: [
+        ['royalblue', 'seagreen', 'slateblue','darkorange'],
+        ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
+        ['orange', 'cadetblue', 'tomato','blueviolet']        
+    ]
+    });
+    });
+</script>
+
 <div class="span6 well"> 
 <form action="{{ path('tag_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
