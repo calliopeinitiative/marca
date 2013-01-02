@@ -15,6 +15,6 @@
              <li><legend>Calendar</legend></li>
              <a class="btn btn-primary" href="{{ course_path('calendar_new')  }}" >Create<i class="icon-pencil icon-white"></i></a>
              <li><a class="" href="{{ course_path('calendar') }}">Agenda</a></li>
-             <li><a class="" href="{{ course_path('calendar_display') }}">Month</a></li>
+             <li><a class="" href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Month</a></li>
 {% endblock %}  
 

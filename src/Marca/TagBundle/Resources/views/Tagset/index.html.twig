@@ -5,22 +5,23 @@
 {% block content %}
 <legend>Labels</legend>
 <div class="row">
-    <div class="span4">
+    <div class="span8">
         <a class='btn btn-primary' href="{{ path('tagset_new') }}">New Label set</a>
    </div> 
 </div>
 
 <div class="row">
-<div class="span4">
+
     {% for tagset in tagsets%}
+    <div class="span8 well">
     <strong>{{ tagset.name }}</strong> {% if tagset.isOwner(app.user.username) %}<a class='btn btn-primary btn-mini  pull-right' href="{{ path('tag_new') }}">Add Label</a><a class="btn btn-primary btn-mini pull-right" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit</a> {% endif %} 
     <table class="table">
     {% for tag in tagset.tag %}
             <tr><td><span class="label {{ tag.color }}">{{ tag.name }}</span></td><td>{% if tagset.isOwner(app.user.username) %}<a class="btn btn-primary btn-mini  pull-right" href="{{ path('tag_edit', { 'id': tag.id }) }}">Edit</a>{% endif %}</td></tr>
     {% endfor %}
-    </table>        
+    </table> 
+    </div>
     {% endfor %}
 
-</div>
 </div>
 {% endblock %}

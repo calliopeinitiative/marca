@@ -31,22 +31,23 @@ class CalendarController extends Controller
         $em = $this->getEm();
         $course = $this->getCourse();
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
+        $gotodate = date("Y-m-d");
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
         $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),10);
         
-        return array('calendar' => $calendar);
+        return array('calendar' => $calendar, 'gotodate' => $gotodate);
     }
     
     
     /**
      * Lists all Calendar entities.
      *
-     * @Route("/{courseid}/display", name="calendar_display")
+     * @Route("/{courseid}/{gotodate}/display", name="calendar_display")
      * @Template()
      */
-    public function displayAction()
+    public function displayAction($gotodate)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -55,7 +56,7 @@ class CalendarController extends Controller
         $course = $this->getCourse();
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
 
-        return array('calendar' => $calendar);
+        return array('calendar' => $calendar, 'gotodate' => $gotodate);
     }    
 
     /**
@@ -137,15 +138,18 @@ class CalendarController extends Controller
         $calendar->setUser($user);
         $calendar->setCourse($course);
         $request = $this->getRequest();
+        $postData = $request->request->get('marca_calendarbundle_calendartype');
+        $startDate = strtotime($postData['startDate']);
+        $gotodate = date("Y-m-d", $startDate);
         $form    = $this->createForm(new CalendarType(), $calendar);
         $form->bindRequest($request);
-
+        
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($calendar);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,)));
+            return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,'gotodate'=> $gotodate,)));
             
         }
 
@@ -208,14 +212,16 @@ class CalendarController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
-
+        $postData = $request->request->get('marca_calendarbundle_calendartype');
+        $startDate = strtotime($postData['startDate']);
+        $gotodate = date("Y-m-d", $startDate);
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($calendar);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,)));
+            return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,'gotodate'=> $gotodate,)));
         }
 
         return array(

@@ -8,12 +8,12 @@
 <tbody>
     {% for calendar in calendar %}
     <tr>                
-        <td style="width:20%">{% if calendar.startDate %}{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}{% endif%}</td>               
+        <td class='span2'>{% if calendar.startDate %}{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}{% endif%}</td>               
            
-        <td style="width:20%;{% if calendar.color != '' %}background: {{calendar.color}}{% endif%}">{{ calendar.title }}</td>        
-        <td style="width:40%">{{ calendar.description|raw }}</td>             
-        <td style="width:20%">
-            <a class="btn btn-primary" href="{{ course_path('calendar_edit', { 'id': calendar.id }) }}">Edit</a>
+        <td class='span2 {{calendar.color}}'>{{ calendar.title }}</td>        
+        <td class='span5'>{{ calendar.description|raw }}</td>             
+        <td class='span2'>
+            {% if calendar.isOwner(app.user.username) %}<a class="btn btn-primary" href="{{ course_path('calendar_edit', { 'id': calendar.id }) }}">Edit</a>{% endif %}
        </td>       
     </tr>
     
