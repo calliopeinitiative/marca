@@ -38,7 +38,7 @@ class Markupset
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
-    private $description = '<p></p>'; 
+    private $description; 
 
     /**
     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")

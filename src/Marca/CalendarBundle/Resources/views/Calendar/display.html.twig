@@ -12,8 +12,12 @@
 
 {% block content %}
 <script language="javascript">
-$(document).ready(function() {
-    $('#calendar').fullCalendar({
+$(document).ready(function() {  
+{% set gotoyear = gotodate|date('Y') %}
+{% set gotomonth = gotodate|date('m') -1 %}        
+
+$('#calendar').fullCalendar(
+    {
         header: 
             {
               left:   'title',
@@ -27,6 +31,7 @@ $(document).ready(function() {
             title  : '{{ calendar.title }}',
             color  : '{{ calendar.color }}',
             start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date(' H:i:s') }}',
+            {% if calendar.isOwner(app.user.username) %}url :  '{{ course_path('calendar_edit', { 'id': calendar.id }) }}',{% endif %}
             allDay : false,
             textColor: 'black',
         },
@@ -34,7 +39,8 @@ $(document).ready(function() {
        {% endfor %} 
        ]
        
-    })
+    });
+$('#calendar').fullCalendar( "gotoDate", {{gotoyear}},  {{gotomonth}} );    
 });
 </script>
 <div class="span9 well">

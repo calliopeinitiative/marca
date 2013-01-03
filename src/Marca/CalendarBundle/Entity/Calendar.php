@@ -328,4 +328,14 @@ class Calendar
     {
         return $this->color;
     }
+    
+    public function isOwner($user)
+    {
+        if($user == $this->user){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }    
 }
