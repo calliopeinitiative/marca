@@ -40,6 +40,28 @@ class CalendarController extends Controller
         return array('calendar' => $calendar, 'gotodate' => $gotodate);
     }
     
+    /**
+     * Lists all Calendar entities.
+     *
+     * @Route("/{courseid}/upcoming", name="calendar_upcoming")
+     * @Template("MarcaCalendarBundle:Calendar:index.html.twig")
+     */
+    public function upcomingAction()
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        
+        $em = $this->getEm();
+        $course = $this->getCourse();
+        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseStart($course);
+        $gotodate = date("Y-m-d");
+        
+        //pagination for files
+        $paginator = $this->get('knp_paginator');
+        $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),10);
+        
+        return array('calendar' => $calendar, 'gotodate' => $gotodate);
+    }
     
     /**
      * Lists all Calendar entities.
