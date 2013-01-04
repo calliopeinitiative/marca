@@ -4,10 +4,17 @@
 
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/fullcalendar.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-timepicker-addon.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
 {% endblock %}
 
 {% block stylesheets %}
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/fullcalendar.css') }}">
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -18,6 +25,11 @@ $(document).ready(function() {
 
 $('#calendar').fullCalendar(
     {
+        dayClick: function(date, allDay, jsEvent, view) {
+
+        $('#myModal').modal()
+
+    },
         header: 
             {
               left:   'title',
@@ -25,13 +37,13 @@ $('#calendar').fullCalendar(
               right:  'today month,agendaWeek,agendaDay,prev,next'
              },
        events: [
-       {% for calendar in calendar %}
+       {% for calendar in events %}
     
         {
             title  : '{{ calendar.title }}',
             color  : '{{ calendar.color }}',
             start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date(' H:i:s') }}',
-            {% if calendar.isOwner(app.user.username) %}url :  '{{ course_path('calendar_edit', { 'id': calendar.id }) }}',{% endif %}
+            {% if calendar.isOwner(app.user.username) %}url :  '{{ course_path('calendar_edit', { 'id': calendar.id, 'gotodate': gotodate }) }}',{% endif %}
             allDay : false,
             textColor: 'black',
         },
@@ -40,9 +52,61 @@ $('#calendar').fullCalendar(
        ]
        
     });
-$('#calendar').fullCalendar( "gotoDate", {{gotoyear}},  {{gotomonth}} );    
+$('#calendar').fullCalendar( "gotoDate", {{gotoyear}},  {{gotomonth}} ); 
+
+$('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {height:100, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+toolbar : [
+['Undo','RemoveFormat','Bold','Italic','Link','Unlink','Outdent','Indent','JustifyLeft','JustifyCenter','JustifyRight'],
+],} );
+$( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
+showButtonPanel: true,
+});
+$( '#marca_calendarbundle_calendartype_startTime' ).timepicker({
+showButtonPanel: true,
+ampm: false,
+});
+$( '#marca_calendarbundle_calendartype_endDate' ).datepicker({
+showButtonPanel: true,
+});
+$( '#marca_calendarbundle_calendartype_endTime' ).timepicker({
+showButtonPanel: true,
+ampm: false,
+});
+$("#marca_calendarbundle_calendartype_color").spectrum({
+    preferredFormat: "name",
+    showPaletteOnly: true,
+    showInput: true,
+    color: 'royalblue',
+    palette: [
+        ['royalblue', 'seagreen', 'slateblue','darkorange'],
+        ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
+        ['orange', 'cadetblue', 'tomato','blueviolet']        
+    ]
+});
+$('#calendar_new').click(function() {
+  $('#myModal').modal()
+});
 });
 </script>
+
+ 
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">New Event</h3>
+  </div>
+  <form action="{{ course_path('calendar_create') }}" method="post" {{ form_enctype(form) }}>
+  <div class="modal-body">
+    {{ form_widget(form) }}
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    <button class="btn btn-primary" type="submit">Create</button>
+  </div>
+  </form>        
+</div>
+
 <div class="span9 well">
         <div id='calendar'></div>
 </div>
