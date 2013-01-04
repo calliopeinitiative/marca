@@ -13,7 +13,7 @@
         <td class='span2 {{calendar.color}}'>{{ calendar.title }}</td>        
         <td class='span5'>{{ calendar.description|raw }}</td>             
         <td class='span2'>
-            {% if calendar.isOwner(app.user.username) %}<a class="btn btn-primary" href="{{ course_path('calendar_edit', { 'id': calendar.id }) }}">Edit</a>{% endif %}
+            {% if calendar.isOwner(app.user.username) %}<a class="btn btn-primary" href="{{ course_path('calendar_edit', { 'id': calendar.id,'gotodate': calendar.startdate|date('Y-m-d')}) }}">Edit</a>{% endif %}
        </td>       
     </tr>
     

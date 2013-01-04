@@ -76,9 +76,22 @@ class CalendarController extends Controller
         
         $em = $this->getEm();
         $course = $this->getCourse();
-        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
+        $events = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
+        
+        $startTime = $course->getTime();
+        $startDate = date_create();
+        
+        // for modal new event 
+        $calendar = new Calendar();
+        $calendar->setDescription('<p> </p>');
+        $calendar->setStartTime($startTime);
+        $calendar->setEndTime($startTime);
+        $calendar->setStartDate($startDate);
+        $calendar->setEndDate($startDate);
+        
+        $form   = $this->createForm(new CalendarType(), $calendar);
 
-        return array('calendar' => $calendar, 'gotodate' => $gotodate);
+        return array('events' => $events, 'gotodate' => $gotodate, 'form'   => $form->createView(),);
     }    
 
     /**
@@ -184,16 +197,17 @@ class CalendarController extends Controller
     /**
      * Displays a form to edit an existing Calendar entity.
      *
-     * @Route("/{courseid}/{id}/edit", name="calendar_edit")
+     * @Route("/{courseid}/{id}/{gotodate}/edit", name="calendar_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($id, $gotodate)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-
+        $course = $this->getCourse();
+        $events = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
 
         if (!$calendar) {
@@ -204,6 +218,8 @@ class CalendarController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
+            'events' => $events,
+            'gotodate' => $gotodate,
             'calendar'      => $calendar,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -213,17 +229,18 @@ class CalendarController extends Controller
     /**
      * Edits an existing Calendar entity.
      *
-     * @Route("/{courseid}/{id}/update", name="calendar_update")
+     * @Route("/{courseid}/{id}/{gotodate}/update", name="calendar_update")
      * @Method("post")
      * @Template("MarcaCalendarBundle:Calendar:edit.html.twig")
      */
-    public function updateAction($id,$courseid)
+    public function updateAction($id,$courseid,$gotodate)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-
+        $course = $this->getCourse();
+        $events = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
 
         if (!$calendar) {
@@ -247,6 +264,8 @@ class CalendarController extends Controller
         }
 
         return array(
+            'events' => $events,
+            'gotodate' => $gotodate,
             'calendar'      => $calendar,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -256,10 +275,10 @@ class CalendarController extends Controller
     /**
      * Deletes a Calendar entity.
      *
-     * @Route("/{courseid}/{id}/delete", name="calendar_delete")
+     * @Route("/{courseid}/{id}/{gotodate}/delete", name="calendar_delete")
      * @Method("post")
      */
-    public function deleteAction($id, $courseid)
+    public function deleteAction($id, $courseid, $gotodate)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -281,7 +300,7 @@ class CalendarController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,)));
+        return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid, 'gotodate' => $gotodate)));
     }
 
     private function createDeleteForm($id)
