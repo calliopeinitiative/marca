@@ -13,8 +13,9 @@
 
 {% block sidebar %} 
              <li><legend>Calendar</legend></li>
-             <a class="btn btn-primary" href="{{ course_path('calendar_new')  }}" >Create<i class="icon-pencil icon-white"></i></a>
-             <li><a class="" href="{{ course_path('calendar') }}">Agenda</a></li>
+             <a id='calendar_new' class="btn btn-primary" href="javascript:void(0);" >Create<i class="icon-pencil icon-white"></i></a>
+             <li><a class="" href="{{ course_path('calendar_upcoming') }}">Upcoming</a></li>
+             <li><a class="" href="{{ course_path('calendar') }}">Term</a></li>
              <li><a class="" href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Month</a></li>
 {% endblock %}  
 

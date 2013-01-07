@@ -127,6 +127,10 @@ form label.checkbox {clear:right;display:block;padding-top: .5em; }
   -moz-border-radius-bottomright: 4px;
 }
 
+#myModal .modal-body {
+    max-height: 800px;
+}
+
 /* 
    Doc displays
 */
