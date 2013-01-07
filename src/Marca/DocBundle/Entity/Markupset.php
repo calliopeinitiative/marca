@@ -67,7 +67,7 @@ class Markupset
     /**
      * Inverse Side
      *
-     * @ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="markupset")
+     * @ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Course")
      *  
     **/
     protected $courses;

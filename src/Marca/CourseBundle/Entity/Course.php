@@ -172,7 +172,7 @@ class Course
      *      min = "1",
      *      minMessage = "You must specify at least one markup set."
      * )
-     * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markupset", inversedBy="course")
+     * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markupset")
     **/
     protected $markupsets;
 

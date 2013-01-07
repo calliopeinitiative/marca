@@ -5,10 +5,8 @@ jQuery(function($) {
     element: "#userWelcome",
     placement: "left",
     title: "Welcome to Marca!",
-    content: "We hope you enjoy Marca. This is your "
-    + "name, right? Check out our repo on "
-    + "<a href='http://github.com/calliopeinitiative/marca' target='_blank'>"
-    + "GitHub.<\/a> Let's get started.",
+    content: "We hope you enjoy Marca. "
+    + "Let's get started.",
     options: {
       labels: {next: "Let's go!", end: "Stop tour"}
     }
@@ -27,7 +25,7 @@ jQuery(function($) {
   if ( tour.ended() ) {
     $('<div class="alert">\
       <button class="close" data-dismiss="alert">×</button>\
-      You ended the demo tour. <a href="" class="restart">Restart the demo tour.</a>\
+      You ended the demo tour. <a href="" class="restart">Restart the tour.</a>\
       </div>').prependTo(".content").alert();
   }
 
