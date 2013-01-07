@@ -24,7 +24,7 @@ class FileRepository extends EntityRepository
        else {$scopeQuery = '';};
        if($project == 'recent') {
          return $this->getEntityManager()
-            ->createQuery('SELECT f, p, d, t, r  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d  LEFT JOIN f.tag t LEFT JOIN f.reviews r LEFT JOIN f.course c LEFT JOIN c.parents n WHERE f.course = ?1 AND p.resource = ?3 AND f.reviewed IS NULL AND (f.user = ?2'.$scopeQuery.') ORDER BY f.updated DESC')
+            ->createQuery('SELECT f, p, d, t, r  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d  LEFT JOIN f.tag t LEFT JOIN f.reviews r WHERE f.course = ?1 AND p.resource = ?3 AND f.reviewed IS NULL AND (f.user = ?2'.$scopeQuery.') ORDER BY f.updated DESC')
                 ->setParameter('1',$course)->setParameter('2',$user)->setParameter('3',$resource)->getResult(); 
        } else {
           return $this->getEntityManager()
