@@ -2,7 +2,7 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.17.custom.min.js') }}"></script> 
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
 <script src="{{ asset('bundles/marcahome/js/jquery-ui-timepicker-addon.js') }}"></script>
 {% endblock %}
 {% block stylesheets %}
@@ -14,40 +14,52 @@ $(document).ready(function()
 {
 $( '#marca_coursebundle_coursetype_time' ).timepicker({
 showButtonPanel: true,
-ampm: true,
+ampm: false,
 });
 });
 </script>
 
-
-
-<legend>Course Settings</legend>   
+<div class="span8 well"> 
+<legend>Course Settings</legend>     
 <span class='alert alert-info'>You may edit these settings at any time.</span>
+</div>
+
 <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate"> 
     {{ form_errors(form) }}
         
-
-    <div class="span4">           
+    {{ form_errors(form) }}
+            <div class="span4 well">
             {{ form_row (form.name) }}    
             {{ form_row (form.term) }}
             {{ form_row (form.time) }}
-            {{ form_row (form.parents) }} 
             {{ form_row (form.portset) }} 
-            {{ form_row (form.tagset) }}          
-      </div>      
-      <div class="span4">      
             {{ form_row (form.enroll) }} 
             {{ form_row (form.post) }} 
             {{ form_row (form.multicult) }} 
-            {{ form_row (form.studentForum) }} 
+            {{ form_row (form.studentForum) }}         
+            </div> 
+    
+            <div class="span4 well"> 
             {{ form_row (form.notes) }}  
             {{ form_row (form.forum) }} 
             {{ form_row (form.journal) }} 
             {{ form_row (form.portfolio) }} 
             {{ form_row (form.zine) }} 
+            </div>
+    
+            <div class="span4 well">
+            {{ form_row (form.parents) }} 
+            </div> 
+      
+            <div class="span4 well">        
+            {{ form_row (form.tagset) }}
+            </div> 
+ 
+            <div class="span4 well">
             {{ form_rest(form) }}    
-      </div> 
-      <div class="span10">
+            </div> 
+        
+      <div class="span8 well">
       <button class="btn btn-primary" type="submit">Create</button><a style="margin-left: 1em;" class="btn" href="{{ path('course') }}">Cancel</a> 
      </div>
 </form>     

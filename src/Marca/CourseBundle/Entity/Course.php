@@ -3,6 +3,7 @@
 namespace Marca\CourseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -25,6 +26,7 @@ class Course
 
     /**
      * @var string $name
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
@@ -42,6 +44,8 @@ class Course
 
     /**
      * @var time $time
+     * @Assert\Time()
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="time", type="time")
      */
@@ -164,6 +168,10 @@ class Course
     /**
      * Inverse Side
      *
+     * @Assert\Count(
+     *      min = "1",
+     *      minMessage = "You must specify at least one markup set."
+     * )
      * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markupset", inversedBy="course")
     **/
     protected $markupsets;
@@ -186,6 +194,10 @@ class Course
     } 
     
    /**
+     * @Assert\Count(
+     *      min = "1",
+     *      minMessage = "You must specify at least one set of labels."
+     * )
      * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tagset", inversedBy="course")
      * @ORM\JoinTable(name="course_tagset",
      *      joinColumns={@ORM\JoinColumn(name="Course_id", referencedColumnName="id")},
