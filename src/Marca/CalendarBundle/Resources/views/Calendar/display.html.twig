@@ -30,6 +30,9 @@ $('#calendar').fullCalendar(
         $('#myModal').modal()
 
     },
+        eventMouseover: function( event, jsEvent, view ) {
+        
+    },
         header: 
             {
               left:   'title',
@@ -42,14 +45,15 @@ $('#calendar').fullCalendar(
             title  : '{{ calendar.title| escape('js') }}',
             color  : '{{ calendar.color }}',
             start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date(' H:i:s') }}',
-            {% if calendar.isOwner(app.user.username) %}url :  '{{ course_path('calendar_edit', { 'id': calendar.id, 'gotodate': gotodate }) }}',{% endif %}
+            {% if calendar.isOwner(app.user.username) %}url :  '{{ course_path('calendar_edit', { 'id': calendar.id, 'gotodate': gotodate }) }}',{% endif %}   
             allDay : false,
             textColor: 'black',
+            description: '{{ calendar.description| escape('js') }}',
         },
 
        {% endfor %} 
-       ]
-       
+       ], 
+       eventMouseover: function( event, jsEvent, view ) {  },
     });
 $('#calendar').fullCalendar( "gotoDate", {{gotoyear}},  {{gotomonth}} ); 
 

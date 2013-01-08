@@ -93,13 +93,14 @@ $('#myModal').modal();
     <form action="{{ course_path('calendar_update', { 'id': calendar.id, 'gotodate': gotodate }) }}" method="post" {{ form_enctype(edit_form) }}> 
        
     {{ form_widget(edit_form) }}      
-    <button class="btn btn-primary margin-top" type="submit">Update</button>
-    
+    <button class="btn btn-primary margin-top " type="submit">Update</button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
     </form>
+        
     <form id='calendar_delete' action="{{ course_path('calendar_delete', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post">
             {{ form_widget(delete_form) }}  
-    <button class="btn btn-warning" type="submit">Delete</button>
-    <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    <button class="btn btn-warning pull-right" type="submit">Delete</button>
+    
     </form>      
 </div>
 </div>
