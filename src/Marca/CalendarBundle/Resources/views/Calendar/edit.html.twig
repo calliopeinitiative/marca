@@ -48,10 +48,9 @@ $('#calendar').fullCalendar(
     });
 $('#calendar').fullCalendar( "gotoDate", {{gotoyear}},  {{gotomonth}} ); 
 
-$('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {height:100, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+$('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {removePlugins: 'elementspath',height:100, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
 toolbar : [
-['Bold','Italic','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
-'BulletedList','Image','RemoveFormat'],
+['Bold','Italic','Link','Unlink','NumberedList','BulletedList','RemoveFormat'],
 ],} );
 $( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
 showButtonPanel: true,

@@ -38,9 +38,8 @@ $('#calendar').fullCalendar(
              },
        events: [
        {% for calendar in events %}
-    
         {
-            title  : '{{ calendar.title }}',
+            title  : '{{ calendar.title| escape('js') }}',
             color  : '{{ calendar.color }}',
             start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date(' H:i:s') }}',
             {% if calendar.isOwner(app.user.username) %}url :  '{{ course_path('calendar_edit', { 'id': calendar.id, 'gotodate': gotodate }) }}',{% endif %}
