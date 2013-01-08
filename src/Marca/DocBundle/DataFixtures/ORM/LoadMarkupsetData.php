@@ -100,6 +100,7 @@ class LoadMarkupsetData extends AbstractFixture implements OrderedFixtureInterfa
         $manager->persist($markup13);
         $manager->persist($markup14);
         
+       
         $manager->flush();
         
            

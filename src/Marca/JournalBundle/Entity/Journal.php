@@ -4,6 +4,7 @@ namespace Marca\JournalBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Marca\JournalBundle\Entity\Journal
@@ -24,6 +25,7 @@ class Journal
 
     /**
      * @var string $title
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="title", type="string", length=255)
      */
@@ -31,6 +33,7 @@ class Journal
 
     /**
      * @var text $body
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="body", type="text")
      */

@@ -95,7 +95,7 @@ $('#calendar_new').click(function() {
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">New Event</h3>
   </div>
-  <form action="{{ course_path('calendar_create') }}" method="post" {{ form_enctype(form) }}>
+  <form action="{{ course_path('calendar_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
   <div class="modal-body">
     {{ form_widget(form) }}
   </div>
