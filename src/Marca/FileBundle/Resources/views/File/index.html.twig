@@ -45,7 +45,7 @@ Recent Files</a></li>
 {% elseif file.url %}<i class="icon-adjust"></i> <a href="{{ file.url}}" target="_blank">{{ file.name }}</a>
 {% elseif file.ext == 'odt' %}<i class="icon-file"></i> <a href="{{ course_path('file_display', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name }}</a>  <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="icon-download"></i></a>
 {% else %}
-<i class="icon-file"></i> <a href="{{ course_path('file_display', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name }}</a>
+<i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name }}</a>
 {% endif %}
 
 {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}

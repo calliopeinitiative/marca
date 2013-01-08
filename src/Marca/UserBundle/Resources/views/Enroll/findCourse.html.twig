@@ -4,8 +4,8 @@
 
 {% block content %}
 
-<div class="span8 well"><legend>To enroll in a course, enter your instructor's last name.</legend>
-
+<div class="span8 well"><legend>Enroll</legend>
+    <div class='alert alert-info'>To enroll in a course, enter your instructor's last name.</div> 
 <form action="{{ path('enroll_list') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>

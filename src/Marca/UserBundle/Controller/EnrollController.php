@@ -59,6 +59,12 @@ class EnrollController extends Controller
        $lastname = $postData['lastname'];
        $em = $this->getEm(); 
        $courses = $em->getRepository('MarcaCourseBundle:Course')->findCourseByLastname($lastname);
+       
+        //pagination
+        $paginator = $this->get('knp_paginator');
+        $courses = $paginator->paginate($courses,$this->get('request')->query->get('page', 1),10);
+        
+        
        return array(
             'courses' => $courses,'form'   => $form->createView(),
         );
