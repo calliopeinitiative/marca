@@ -5,11 +5,12 @@
 {% block content %}
 <div class="span8 well"> 
 
-    <legend>Roll</legend>
+    <legend>Roll</legend><a class="btn btn-mini btn-info" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh</a>
+    
     <table class="table table-condensed"><tbody>  
     {% for roll in roll %}
     <tr>
-        <td>{{ roll.lastname }}, {{ roll.firstname }}</td> 
+        <td>{{ roll.lastname|capitalize }}, {{ roll.firstname|capitalize }}</td> 
         <td>{% if roll.role == 2 %}Instructor{% elseif roll.role == 3 %}TA{% else %}Student{% endif %}</td>
         <td> {% if roll.role == 0 %} PENDING 
             <a class="btn btn-mini btn-primary" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>{% endif %}
