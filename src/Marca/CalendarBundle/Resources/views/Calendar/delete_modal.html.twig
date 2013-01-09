@@ -17,7 +17,8 @@
 </tbody>
 </table>
     <form id='calendar_delete' action="{{ course_path('calendar_delete', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post">
-            {{ form_widget(delete_form) }}  
+            {{ form_widget(delete_form) }} 
+    <button type="button" class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>        
     <button class="btn btn-danger pull-right" type="submit">Confirm Delete</button>
     </form>          
 </div>
