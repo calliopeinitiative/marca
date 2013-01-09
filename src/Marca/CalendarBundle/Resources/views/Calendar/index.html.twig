@@ -2,18 +2,48 @@
 
 {% extends 'MarcaCalendarBundle::layout.html.twig' %}
 
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-timepicker-addon.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+{% endblock %}
+
+
 {% block content %}
+<script language="javascript">
+$(document).ready(function() {       
+$('#calendar_new').click(function(){
+  $('#calendar_modal').load('{{ course_path('calendar_new_modal') }}');
+  $('#calendar_modal').modal();
+});
+{% for calendar in calendar %}
+$('#calendar_edit{{calendar.id}}').click(function(){
+  $('#calendar_modal').load('{{ course_path('calendar_edit_modal', { 'id': calendar.id, 'gotodate': gotodate }) }}');
+  $('#calendar_modal').modal();
+});
+{% endfor %}
+});
+</script>
+
+
 <div class="span9 well">
 <table class="table">   
 <tbody>
     {% for calendar in calendar %}
     <tr>                
-        <td class='span2'>{% if calendar.startDate %}{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}{% endif%}</td>               
+        <td class='span2'>{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}</td>               
            
         <td class='span2 {{calendar.color}}'>{{ calendar.title }}</td>        
         <td class='span5'>{{ calendar.description|raw }}</td>             
         <td class='span2'>
-            {% if calendar.isOwner(app.user.username) %}<a class="btn btn-primary" href="{{ course_path('calendar_edit', { 'id': calendar.id,'gotodate': calendar.startdate|date('Y-m-d')}) }}">Edit</a>{% endif %}
+            {% if calendar.isOwner(app.user.username) %}<a id='calendar_edit{{calendar.id}}' class="btn btn-primary btn-small" href="javascript:void(0);">Edit</a>{% endif %}
        </td>       
     </tr>
     
@@ -25,5 +55,9 @@
     {{ calendar.render()|raw }}
 </div>
         
+</div>
+
+{# Modal #}
+<div id="calendar_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
 </div>
 {% endblock %}

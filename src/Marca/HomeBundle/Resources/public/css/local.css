@@ -72,7 +72,8 @@ a:hover {color: #006DCC;text-decoration: underline;}
 .inline li {display: inline;}
 .table th, .table td {padding:4px;line-height: 25px;}
 .checkbox {margin-left: 1em;}
-
+.fc-event-title {cursor: pointer;cursor: hand;}
+.fc-event-time {cursor: pointer;cursor: hand;}
 
 form label.radio {clear:right;display:block;padding-top: .5em;}
 form label.checkbox {clear:right;display:block;padding-top: .5em; }

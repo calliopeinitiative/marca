@@ -1,0 +1,29 @@
+{# Marca/CalendarBundle/Resources/views/Calendar/show_modal.html.twig #}
+
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">{{ calendar.title }}</h3>
+</div>
+ 
+<div class="modal-body"> 
+<table class="table">
+<tbody> 
+    <tr>
+        <td class='{{calendar.color}}'>{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}</td>
+    </tr>                           
+    <tr>       
+        <td>{{ calendar.description|raw }}</td>         
+    </tr>         
+</tbody>
+</table>
+    <form id='calendar_delete' action="{{ course_path('calendar_delete', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post">
+            {{ form_widget(delete_form) }} 
+    <button type="button" class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>        
+    <button class="btn btn-danger pull-right" type="submit">Confirm Delete</button>
+    </form>          
+</div>
+
+
+
+
+
