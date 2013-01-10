@@ -55,7 +55,6 @@ border-radius:4px;
 border:1px solid rgba(0, 0, 0, 0.05);
 box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
 background-color: #f5f5f5;
-padding:19px;
 }
 .cke_skin_BootstrapCK-Skin span.cke_browser_webkit,.cke_skin_BootstrapCK-Skin span.cke_browser_gecko18{
 display:block;
