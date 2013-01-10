@@ -78,6 +78,7 @@ a:hover {color: #006DCC;text-decoration: underline;}
 form label.radio {clear:right;display:block;padding-top: .5em;}
 form label.checkbox {clear:right;display:block;padding-top: .5em; }
 
+form ul li {list-style: none;}
 
 .pagination span {
   display: inline;
