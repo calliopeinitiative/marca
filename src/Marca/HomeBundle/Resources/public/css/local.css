@@ -80,6 +80,19 @@ form label.checkbox {clear:right;display:block;padding-top: .5em; }
 
 form ul li {list-style: none;}
 
+
+/* TB Modal adjustments */
+#calendar_modal {
+    /* SET THE WIDTH OF THE MODAL */
+    margin: -350px 0 0 -280px;/* CHANGE MARGINS TO ACCOMODATE THE NEW WIDTH (original = margin: -250px 0 0 -280px;) */
+}
+#calendar_modal .modal-body {
+    max-height: 800px;
+}
+#calendar_modal .modal-footer {
+    margin-bottom: -25px;
+}
+
 .pagination span {
   display: inline;
 }
