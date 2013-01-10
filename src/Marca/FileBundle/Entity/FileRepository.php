@@ -25,7 +25,7 @@ class FileRepository extends EntityRepository
        elseif($scope == 'byuser' and $role != 2) {$user = $byuser; $scopeQuery = ' AND f.access = 1';}
        else {$scopeQuery = '';};
        
-       if ($tag != 0) {$tagQuery = '';} else {$tagQuery = ' OR t.id != 0';}
+       if ($tag != 0) {$tagQuery = '';} else {$tagQuery = ' OR t.id != 0 OR t.id is NULL';}
             
        if($project == 'recent') {
          return $this->getEntityManager()
