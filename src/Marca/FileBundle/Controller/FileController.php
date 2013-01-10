@@ -35,11 +35,13 @@ class FileController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
+        
         $em = $this->getEm();
         $user = $this->getUser();
+        $role = $this->getCourseRole();
         $byuser = $course = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser);
+        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser, $role);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -51,34 +53,7 @@ class FileController extends Controller
         return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 
             'tags' => $tags, 'course' => $course, 'roll' => $roll);
     }  
-       
-      /**
-     * Lists all File entities by Project.
-     *
-     * @Route("/{courseid}/{project}/{tag}/{scope}/{resource}/{userid}/list_by_tag", name="file_tag_list")
-     * @Template("MarcaFileBundle:File:index.html.twig")
-     */
-    public function indexByTagAction($project, $scope, $courseid, $tag, $resource,$userid)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
-        $resource ='f';
-        $em = $this->getEm();
-        $user = $this->getUser();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-
-        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByTag($project, $user, $scope, $course, $tag);
-        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        
-        //pagination for files
-        $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),10);
-
-        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'tags' => $tags, 'course' => $course, 'roll' => $roll);
-    }     
+           
     
     /**
      * Finds and displays a File entity.
