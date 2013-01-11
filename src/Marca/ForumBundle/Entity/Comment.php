@@ -4,6 +4,7 @@ namespace Marca\ForumBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo; 
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Marca\ForumBundle\Entity\Comment
@@ -24,6 +25,7 @@ class Comment
 
     /**
      * @var text $body
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="body", type="text")
      */

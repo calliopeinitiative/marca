@@ -3,7 +3,8 @@
 namespace Marca\ForumBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo; 
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Marca\ForumBundle\Entity\Reply
@@ -15,6 +16,7 @@ class Reply
 {
     /**
      * @var integer $id
+     * 
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -24,6 +26,7 @@ class Reply
 
     /**
      * @var text $body
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="body", type="text")
      */
