@@ -22,9 +22,9 @@
     <i class="icon-pencil icon-white"></i>
   </a>
   <ul class="dropdown-menu">
-    <li><a href="{{ course_path('doc_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'view': 'app' }) }}">Document<i class="icon-pencil"></i></a></li>
+        <li><a href="{{ course_path('file_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'doc' }) }}">Document<i class="icon-adjust"></i></a></li>
     <li><a href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}">Upload<i class="icon-upload"></i></a></li>  
-    <li><a href="{{ course_path('file_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Link<i class="icon-adjust"></i></a></li> 
+    <li><a href="{{ course_path('file_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'link' }) }}">Link<i class="icon-adjust"></i></a></li> 
   </ul>
 </div>
 {% endif %}
@@ -34,10 +34,10 @@
 {% if app.request.get('resource')=='0' %}
 
 <li class="margin-top {% if app.request.get('scope')=='mine' %}active{% endif %}">
-     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'resource': app.request.get('resource'), 'tag': '0', 'userid': app.request.get('userid') }) }}">My Files</a>
+     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
 </li>
 <li class="{% if app.request.get('scope')=='all' %}active{% endif %}">
-     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': app.request.get('resource'), 'tag': '0', 'userid': app.request.get('userid')}) }}">All Files</a>
+     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">All Files</a>
 </li>
 {% endif %}
 

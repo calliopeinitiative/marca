@@ -27,19 +27,21 @@ class LinkType extends AbstractType
                 return $er->createQueryBuilder('p')
                 ->where('p.course = :course')
                 ->setParameter('course', $courseid)        
-                ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'label'  => 'Select Project', 'expanded' => true,'attr' => array('class' => 'inline'),)) 
-                ->add('tag', 'entity', array('class' => 'MarcaTagBundle:Tag','property'=>'name','query_builder' => 
+                ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'multiple'=>false,'label'  => 'Select Project', 'attr' => array('class' => 'inline'),)) 
+              ->add('tag', 'entity', array('class' => 'MarcaTagBundle:Tag','property'=>'name','query_builder' => 
                   function(\Marca\TagBundle\Entity\TagRepository $er) use ($options) {
                   $courseid = $options['courseid'] ;  
                   return $er->createQueryBuilder('t')
                         ->join("t.tagset", 's')
                         ->join("s.course", 'c')
                         ->where('c.id = :course')
+                        ->andWhere('t.id!=3') 
+                        ->andWhere('t.id!=5')  
                         ->setParameter('course', $courseid)        
                         ->orderBy('c.name', 'ASC');
                 }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Select Labels', 'attr' => array('class' => 'inline'),
               ))  
-             ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'inline'),))           
+             ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'inline'),))           
             ;
     }
     

@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
 use Marca\FileBundle\Form\LinkType;
+use Marca\FileBundle\Form\DocType;
 use Marca\FileBundle\Form\UploadType;
 use Marca\TagBundle\Entity\Tagset;
 use Marca\DocBundle\Entity\Doc;
@@ -86,24 +87,38 @@ class FileController extends Controller
     /**
      * Displays a form to create a new File entity for a LINK listing.
      *
-     * @Route("/{courseid}/{resource}/{tag}/new", name="file_new")
+     * @Route("/{courseid}/{resource}/{tag}/{type}/new", name="file_new")
      * @Template()
      */
-    public function newAction($courseid)
+    public function newAction($courseid,$resource, $tag, $type)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
-        $file = new File();
+
         $em = $this->getEm();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
         $options = array('courseid' => $courseid);
+        
+        $file = new File();
+        $file->setProject($project);
+        if ($type == 'link') {
+        $file->setName('New Link');
+        $file->setUrl('http://newlink.edu');
         $form   = $this->createForm(new LinkType($options), $file);
+        }
+        elseif ($type == 'doc') {
+        $file->setName('New Document'); 
+        $form   = $this->createForm(new DocType($options), $file);
+        }
 
         return array(
             'file'      => $file,
+            'resource'      => $resource,
+            'tag'      => $tag,
+            'type'      => $type,
             'tags'        => $tags,
             'roll'        => $roll,
             'course' => $course,
@@ -115,11 +130,11 @@ class FileController extends Controller
     /**
      * Creates a new File entity.
      *
-     * @Route("/{courseid}/create", name="file_create")
+     * @Route("/{courseid}/{resource}/{tag}/{type}/create", name="file_create")
      * @Method("post")
      * @Template("MarcaFileBundle:File:new.html.twig")
      */
-    public function createAction($courseid)
+    public function createAction($courseid,$resource, $tag, $type)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -128,6 +143,7 @@ class FileController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $file->setUser($user);
         $file->setCourse($course);
@@ -141,18 +157,37 @@ class FileController extends Controller
         {$resource = '0';}
         $form    = $this->createForm(new FileType($options), $file);
         $form->bindRequest($request);
+        if ($type == 'doc') {
+        $doc  = new Doc();    
+        $doc->setFile($file); 
+        $doc->setBody('<p>new doc</p>'); 
+        }
 
         if ($form->isValid()) {
             $em = $this->getEm();
             $em->persist($file);
+            if ($type == 'doc') {
+            $em->persist($doc);
+            }
             $em->flush();
-
-        return $this->redirect($this->generateUrl('file_show', array('courseid'=> $courseid,'id'=> $file->getId(),'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource)));
             
+        if ($type == 'link') {
+        return $this->redirect($this->generateUrl('file_show', array('courseid'=> $courseid,'id'=> $file->getId(),'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource)));
+        }
+        elseif ($type == 'doc') {
+        return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $doc->getId(),'view'=>'app')));
+        }
+        
         }
 
         return array(
-            'file' => $file,
+            'file'      => $file,
+            'resource'      => $resource,
+            'tag'      => $tag,
+            'type'      => $type,
+            'tags'        => $tags,
+            'roll'        => $roll,
+            'course' => $course,
             'form'   => $form->createView()
         );
     }
@@ -321,7 +356,7 @@ class FileController extends Controller
          $user = $this->getUser();
          $userid = $user->getId();
          $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-
+         $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
          $options = array('courseid' => $courseid);
          
          $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
@@ -329,6 +364,8 @@ class FileController extends Controller
          $file = new File();
          $file->setUser($user);
          $file->setCourse($course);
+         $file->setName('New Upload');
+         $file->setProject($project);
          $form = $this->createForm(new UploadType($options), $file);
          
         $request = $this->getRequest();

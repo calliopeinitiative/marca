@@ -68,41 +68,6 @@ class DocController extends Controller
     }
 
     /**
-     * Displays a form to create a new Doc entity.
-     *
-     * @Route("/{courseid}/{view}/new", name="doc_new")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
-        $user = $this->getUser();
-        $course = $this->getCourse();
-        
-        $privatemarkupsets = $em->getRepository('MarcaDocBundle:Markupset')->findPrivateMarkupSets($user);
-        $coursemarkupsets = $course->getMarkupsets();
-        $coursemarkupsets = $coursemarkupsets->toArray();
-        $markupsets = array_merge($privatemarkupsets, $coursemarkupsets);
-       
-        $fileid = '0';
-        
-        $doc = new Doc();
-        $doc->setBody('<p></p>');
-
-        $form   = $this->createForm(new DocType(), $doc);
-
-        return array(
-            'doc' => $doc,
-            'fileid' => $fileid,
-            'markupsets'      => $markupsets,
-            'form'   => $form->createView()
-        );
-    }
-
-    /**
      * Creates a new Doc entity.
      *
      * @Route("/{courseid}/{fileid}/{resource}/{view}/create", name="doc_create")
@@ -175,10 +140,7 @@ class DocController extends Controller
         $user = $this->getUser();
         $course = $this->getCourse();
         
-        $privatemarkupsets = $em->getRepository('MarcaDocBundle:Markupset')->findPrivateMarkupSets($user);
-        $coursemarkupsets = $course->getMarkupsets();
-        $coursemarkupsets = $coursemarkupsets->toArray();
-        $markupsets = array_merge($privatemarkupsets, $coursemarkupsets);
+        $markupsets = $course->getMarkupsets();
         
         $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $reviewed_body = $reviewed_file->getDoc()->getBody();

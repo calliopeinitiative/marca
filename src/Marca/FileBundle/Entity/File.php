@@ -71,6 +71,7 @@ class File
     
     /**
      * @var string $name
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="name", type="string", length=255)
      */

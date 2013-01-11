@@ -2,10 +2,19 @@
 
 {% extends 'MarcaFileBundle::layout.html.twig' %}
 
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
+{% endblock %}
+
 {% block content %}
+<script language="javascript"> 
+$(document).ready(function() {
+$(' form div ul li').addClass('alert alert-error');
+});
+</script>
 <div class="row">
 <div class="span6 well"> 
-<form action="{{ course_path('file_create') }}" method="post" {{ form_enctype(form) }}  novalidate="novalidate">            
+<form action="{{ course_path('file_create',{'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': app.request.get('type')}) }}" method="post" {{ form_enctype(form) }}  novalidate="novalidate">            
      {{ form_errors(form) }}   
         <legend>File listing</legend>
         <ul class="unstyled">
