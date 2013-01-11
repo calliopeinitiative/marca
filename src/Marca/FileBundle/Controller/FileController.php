@@ -160,7 +160,7 @@ class FileController extends Controller
         if ($type == 'doc') {
         $doc  = new Doc();    
         $doc->setFile($file); 
-        $doc->setBody('<p>new doc</p>'); 
+        $doc->setBody('<p></p>'); 
         }
 
         if ($form->isValid()) {
