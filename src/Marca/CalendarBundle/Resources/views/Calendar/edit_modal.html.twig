@@ -1,0 +1,61 @@
+{# Marca/CalendarBundle/Resources/views/Calendar/edit_modal.html.twig #}
+
+{#Modal #}
+
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">Update Event</h3>
+</div>
+<form action="{{ course_path('calendar_update', { 'id': calendar.id, 'gotodate': gotodate }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate"> 
+<div class="modal-body"> 
+{{ form_widget(edit_form) }} 
+</div>
+
+<div class="modal-footer"> 
+<a id='calendar_delete' class="btn pull-left" href="javascript:void(0);">Delete</a>
+<button class="btn btn-primary pull-right" type="submit">Update</button> 
+</div>
+</form>
+
+<script language="javascript"> 
+$(document).ready(function()
+{
+if(CKEDITOR.instances["marca_calendarbundle_calendartype_description"]) {
+delete CKEDITOR.instances["marca_calendarbundle_calendartype_description"];
+};
+$('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {removePlugins: 'elementspath',height:50, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+toolbar : [
+['Bold','Italic','Link','Unlink','NumberedList','BulletedList','RemoveFormat'],
+],} );
+$( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
+showButtonPanel: true,
+});
+$( '#marca_calendarbundle_calendartype_startTime' ).timepicker({
+showButtonPanel: true,
+ampm: false,
+});
+$( '#marca_calendarbundle_calendartype_endDate' ).datepicker({
+showButtonPanel: true,
+});
+$( '#marca_calendarbundle_calendartype_endTime' ).timepicker({
+showButtonPanel: true,
+ampm: false,
+});
+$("#marca_calendarbundle_calendartype_color").spectrum({
+preferredFormat: "name",
+showPaletteOnly: true,
+showInput: true,
+color: '{{calendar.color}}',
+palette: [
+['royalblue', 'seagreen', 'slateblue','darkorange'],
+['darkmagenta', 'darkslategrey', 'teal','firebrick'],
+['orange', 'cadetblue', 'tomato','blueviolet']
+]
+});
+$('#calendar_delete').click(function(){
+  $('#calendar_modal').load('{{ course_path('calendar_delete_modal', { 'id': calendar.id, 'gotodate': gotodate }) }}');
+  $('#calendar_modal').modal();
+});
+
+});
+</script>

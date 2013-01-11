@@ -48,7 +48,7 @@ $('#calendar').fullCalendar(
     });
 $('#calendar').fullCalendar( "gotoDate", {{gotoyear}},  {{gotomonth}} ); 
 
-$('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {removePlugins: 'elementspath',height:100, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+$('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {removePlugins: 'elementspath',height:50, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
 toolbar : [
 ['Bold','Italic','Link','Unlink','NumberedList','BulletedList','RemoveFormat'],
 ],} );
@@ -78,36 +78,41 @@ $("#marca_calendarbundle_calendartype_color").spectrum({
     ]
 });
 $('#myModal').modal();
+$("#confirm_delete").click(function() {
+
+});
 });
 </script>
 
 
-<!-- Modal -->
+{#  Modal #}
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">Update Event</h3>
-  </div>
+</div>
 
-<div class="modal-body"> 
-    <form action="{{ course_path('calendar_update', { 'id': calendar.id, 'gotodate': gotodate }) }}" method="post" {{ form_enctype(edit_form) }}> 
-       
-    {{ form_widget(edit_form) }}      
-    <button class="btn btn-primary margin-top " type="submit">Update</button>
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-    </form>
+<div class="modal-body">         
+<form action="{{ course_path('calendar_update', { 'id': calendar.id, 'gotodate': gotodate }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate"> 
+ 
+    {{ form_widget(edit_form) }} 
+
+<div id='update_submit'>             
+    <button class="btn btn-primary" type="submit">Update</button> 
+</div>
+</form>  
         
+<div id='delete_submit' style='margin-top:-3.5em'> 
     <form id='calendar_delete' action="{{ course_path('calendar_delete', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post">
             {{ form_widget(delete_form) }}  
     <button class="btn btn-warning pull-right" type="submit">Delete</button>
-    
     </form>      
+</div>
 </div>
 </div>
 
 <div class="span9 well">
         <div id='calendar'></div>
 </div>
-
 
 {% endblock %}

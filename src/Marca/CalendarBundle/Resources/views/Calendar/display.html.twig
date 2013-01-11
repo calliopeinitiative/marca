@@ -19,19 +19,26 @@
 
 {% block content %}
 <script language="javascript">
-$(document).ready(function() {  
-{% set gotoyear = gotodate|date('Y') %}
-{% set gotomonth = gotodate|date('m') -1 %}        
-
+$(document).ready(function() {       
 $('#calendar').fullCalendar(
     {
         dayClick: function(date, allDay, jsEvent, view) {
-
-        $('#myModal').modal()
-
+          $('#calendar_modal').load('{{ course_path('calendar_new_modal') }}');
+          $('#calendar_modal').modal();
     },
-        eventMouseover: function( event, jsEvent, view ) {
-        
+        eventClick: function(calEvent, jsEvent, view) {
+        if (calEvent.isOwner == 'yes') {   
+        var route = "{{ course_path('calendar_edit_modal', { 'id': "event_id", 'gotodate': "event_gotodate" }) }}";        
+        route = route.replace("event_id", calEvent.id);
+        route = route.replace("event_gotodate", calEvent.gotodate)
+        }
+        else {
+        var route = "{{ course_path('calendar_show_modal', { 'id': "event_id", 'gotodate': "event_gotodate" }) }}";        
+        route = route.replace("event_id", calEvent.id);
+        route = route.replace("event_gotodate", calEvent.gotodate)
+    }
+        $('#calendar_modal').load(route);
+        $('#calendar_modal').modal();
     },
         header: 
             {
@@ -44,73 +51,38 @@ $('#calendar').fullCalendar(
         {
             title  : '{{ calendar.title| escape('js') }}',
             color  : '{{ calendar.color }}',
-            start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date(' H:i:s') }}',
-            {% if calendar.isOwner(app.user.username) %}url :  '{{ course_path('calendar_edit', { 'id': calendar.id, 'gotodate': gotodate }) }}',{% endif %}   
+            start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date(' H:i:s') }}', 
             allDay : false,
             textColor: 'black',
             description: '{{ calendar.description| escape('js') }}',
+            id: '{{ calendar.id }}',
+            gotodate: {{gotodate}},
+            isOwner: {% if calendar.isOwner(app.user.username) %}'yes'{%else%}'no'{%endif%}
         },
-
        {% endfor %} 
        ], 
        eventMouseover: function( event, jsEvent, view ) {  },
     });
+{# Go to month #}    
+{% set gotoyear = gotodate|date('Y') %}
+{% set gotomonth = gotodate|date('m') -1 %}     
 $('#calendar').fullCalendar( "gotoDate", {{gotoyear}},  {{gotomonth}} ); 
+$('#calendar_new').click(function(){
+  $('#calendar_modal').load('{{ course_path('calendar_new_modal') }}');
+  $('#calendar_modal').modal();
+});
 
-$('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {height:100, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
-toolbar : [
-['Undo','RemoveFormat','Bold','Italic','Link','Unlink','Outdent','Indent','JustifyLeft','JustifyCenter','JustifyRight'],
-],} );
-$( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
-showButtonPanel: true,
-});
-$( '#marca_calendarbundle_calendartype_startTime' ).timepicker({
-showButtonPanel: true,
-ampm: false,
-});
-$( '#marca_calendarbundle_calendartype_endDate' ).datepicker({
-showButtonPanel: true,
-});
-$( '#marca_calendarbundle_calendartype_endTime' ).timepicker({
-showButtonPanel: true,
-ampm: false,
-});
-$("#marca_calendarbundle_calendartype_color").spectrum({
-    preferredFormat: "name",
-    showPaletteOnly: true,
-    showInput: true,
-    color: 'royalblue',
-    palette: [
-        ['royalblue', 'seagreen', 'slateblue','darkorange'],
-        ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
-        ['orange', 'cadetblue', 'tomato','blueviolet']        
-    ]
-});
-$('#calendar_new').click(function() {
-  $('#myModal').modal()
-});
 });
 </script>
 
- 
-<!-- Modal -->
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">New Event</h3>
-  </div>
-  <form action="{{ course_path('calendar_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-  <div class="modal-body">
-    {{ form_widget(form) }}
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Cancel</button>
-    <button class="btn btn-primary" type="submit">Create</button>
-  </div>
-  </form>        
-</div>
 
+{# Calendar #}
 <div class="span9 well">
         <div id='calendar'></div>
+</div>
+
+ 
+{# Modal #}
+<div id="calendar_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
 </div>
 {% endblock %}
