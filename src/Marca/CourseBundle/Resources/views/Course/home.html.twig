@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="span4 well">
+<div class="span5 well">
 <legend>{{ course.name }}</legend> {{ course.time|date('g:i A') }} {{ course.user.firstname }} {{ course.user.lastname }}
 <hr/>
 <legend>Calendar</legend>  
@@ -12,7 +12,7 @@
 <tbody>
 {% for calendar in calendar %}
 <tr><td style="{% if calendar.color != '' %}background: {{calendar.color}}{% endif%}">{% if calendar.startDate %}{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}{% endif%}</td></tr> 
-<tr><td>{{ calendar.title }}</td></tr>   
+<tr><td><strong>{{ calendar.title }}</strong></td></tr>   
 <tr><td>{{ calendar.description|raw }}</td></tr>                  
 {% endfor %}
 </tbody>
@@ -23,7 +23,7 @@
 </div>
 </div>
 
-<div class="span4 well">
+<div class="span3 well">
 <legend>Announcements  
     {% if course.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ path('announce_edit', { 'courseid': course.id }) }}">Edit</a>{% endif %}</legend>  
 <p>{{ course.announcement|raw }}</p>

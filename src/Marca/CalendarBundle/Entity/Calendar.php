@@ -65,7 +65,6 @@ class Calendar
 
     /**
      * @var text $description
-     * @Assert\NotBlank()
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */

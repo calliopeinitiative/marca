@@ -73,13 +73,14 @@ class JournalController extends Controller
      * @Route("/{courseid}/{id}/show", name="journal_show")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction($courseid, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         
         if (!$journal) {
             throw $this->createNotFoundException('Unable to find Journal entity.');
@@ -88,7 +89,8 @@ class JournalController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         return array(
             'journal'      => $journal,
-            'delete_form' => $deleteForm->createView(),        );
+            'delete_form' => $deleteForm->createView(), 
+            'roll' => $roll      );
     }
 
     /**
@@ -97,10 +99,13 @@ class JournalController extends Controller
      * @Route("/{courseid}/new", name="journal_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
+        
+        $em = $this->getEm();
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         
         $journal = new Journal();
         $journal->setBody('<p></p>');
@@ -109,7 +114,8 @@ class JournalController extends Controller
         
         return array(
             'journal' => $journal,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'roll' => $roll 
         );
     }
 
@@ -126,6 +132,7 @@ class JournalController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $user = $this->getUser();
         
         $course = $this->getCourse();
@@ -148,7 +155,8 @@ class JournalController extends Controller
 
         return array(
             'journal' => $journal,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'roll' => $roll
         );
     }
 
@@ -158,13 +166,14 @@ class JournalController extends Controller
      * @Route("/{courseid}/{id}/edit", name="journal_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($courseid, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
 
         $em = $this->getEm();
         $user = $this->getUser();
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
 
@@ -182,6 +191,7 @@ class JournalController extends Controller
             'journal'      => $journal,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'roll' => $roll
         );
     }
 
@@ -192,14 +202,14 @@ class JournalController extends Controller
      * @Method("post")
      * @Template("MarcaJournalBundle:Journal:edit.html.twig")
      */
-    public function updateAction($id,$courseid)
+    public function updateAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         if (!$journal) {
             throw $this->createNotFoundException('Unable to find Journal entity.');
@@ -223,6 +233,7 @@ class JournalController extends Controller
             'journal'      => $journal,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'roll' => $roll
         );
     }
 
@@ -232,12 +243,14 @@ class JournalController extends Controller
      * @Route("/{courseid}/{id}/delete", name="journal_delete")
      * @Method("post")
      */
-    public function deleteAction($id,$courseid)
+    public function deleteAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $user = $this->getUser();
+        $em = $this->getEm();
+        $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
         
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();

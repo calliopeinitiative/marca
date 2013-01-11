@@ -24,7 +24,7 @@ class CommentController extends Controller
      * @Route("/{courseid}/{forumid}/{parentid}/new", name="comment_new")
      * @Template()
      */
-    public function newAction($forumid,$parentid)
+    public function newAction($forumid,$courseid,$parentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -37,6 +37,7 @@ class CommentController extends Controller
 
         return array(
             'forumid' => $forumid,
+            'parentid' => $parentid,
             'comment' => $comment,
             'form'   => $form->createView()
         );
@@ -45,11 +46,11 @@ class CommentController extends Controller
     /**
      * Creates a new Comment entity.
      *
-     * @Route("/{courseid}/{forumid}/create", name="comment_create")
+     * @Route("/{courseid}/{forumid}/{parentid}/create", name="comment_create")
      * @Method("post")
      * @Template("MarcaForumBundle:Comment:new.html.twig")
      */
-    public function createAction($forumid,$courseid)
+    public function createAction($forumid,$courseid,$parentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -75,6 +76,8 @@ class CommentController extends Controller
         }
 
         return array(
+            'forumid' => $forumid,
+            'parentid' => $parentid,
             'comment' => $comment,
             'form'   => $form->createView()
         );

@@ -84,7 +84,7 @@ class FileController extends Controller
     }
 
     /**
-     * Displays a form to create a new File entity.
+     * Displays a form to create a new File entity for a LINK listing.
      *
      * @Route("/{courseid}/{resource}/{tag}/new", name="file_new")
      * @Template()
@@ -397,6 +397,9 @@ class FileController extends Controller
                       case "doc":
                       $response->headers->set('Content-Type', 'application/msword');
                       break;
+                      case "docx":
+                      $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+                      break;                  
                       case "ppt":
                       $response->headers->set('Content-Type', 'application/mspowerpoint');
                       break;

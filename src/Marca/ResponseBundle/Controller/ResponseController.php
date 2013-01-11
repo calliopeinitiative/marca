@@ -184,6 +184,9 @@ class ResponseController extends Controller
 
         return array(
             'response'      => $response,
+            'source' => $source,
+            'sourceid' => $sourceid,
+            'view' => $view,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
