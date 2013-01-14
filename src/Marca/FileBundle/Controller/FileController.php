@@ -28,7 +28,7 @@ class FileController extends Controller
     /**
      * Lists all File entities by Project.
      *
-     * @Route("/{courseid}/{project}/{tag}/{scope}/{resource}/{userid}/list", name="file_list")
+     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/list", name="file_list")
      * @Template("MarcaFileBundle:File:index.html.twig")
      */
     public function indexByProjectAction($project, $scope, $courseid, $tag, $resource,$userid)
@@ -83,6 +83,30 @@ class FileController extends Controller
 
         return array('file' => $file,'projects' => $projects, 'active_project' => '0', 'tags' => $tags, 'course' => $course, 'roll' => $roll);
     }
+    
+    
+    /**
+     * Finds and displays a File entity.
+     *
+     * @Route("/{courseid}/{id}/show_modal", name="file_show_modal")
+     * @Template("MarcaFileBundle:File:show_modal.html.twig")
+     */
+    public function showModalAction($id, $courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        
+        $em = $this->getEm();
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+
+        if (!$file) {
+            throw $this->createNotFoundException('Unable to find File entity.');
+        }
+
+
+        return array('file' => $file);
+    }
+    
 
     /**
      * Displays a form to create a new File entity for a LINK listing.

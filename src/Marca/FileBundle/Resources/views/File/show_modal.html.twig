@@ -1,24 +1,11 @@
-{# Marca/FileBundle/Resources/views/File/show.html.twig #}
+{# Marca/FileBundle/Resources/views/File/show_modal.html.twig #}
 
-{% extends 'MarcaFileBundle::layout.html.twig' %}
-
-{% block content %}
-<div class="span9 well">  
-  
-<ul class="nav nav-pills">
-
-<li class="">
-<a href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': '0','resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': '0' }) }}">
-<strong>Recent Files</strong></a></li>
-
-{% for project in projects %}
-<li class="{% if active_project == project.id %}active{% endif %} ">
-<a class="" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': '0', 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': '0' }) }}">
-<strong>{{ project.name }}</strong></a></li>
-{% endfor %}
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">{{ file.name }}</h3>
+</div>
  
-</ul>
-
+<div class="modal-body">
 <table class="table">
 <tbody>
 
@@ -47,7 +34,7 @@
 </tr>
 
 <tr>
-<td>{% if file.isOwner(app.user.username) %}<a class="" href="{{ course_path('file_edit', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Edit listing</a>{% endif%}</td>    
+<td>{#{% if file.isOwner(app.user.username) %}<a class="" href="{{ course_path('file_edit', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Edit listing</a>{% endif%}#}</td>    
 <td>{% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>{% endif%}</td>
 <td>{{ file.responses |length }} Response(s)</td>
 
@@ -56,9 +43,4 @@
 
 </tbody>
 </table>
-  
-
-
-
 </div>
-{% endblock %}

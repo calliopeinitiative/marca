@@ -80,9 +80,9 @@ Last updated on {{doc.updated|date('M d Y,   g:i a')}}
 {% if app.request.get('view') == 'window' %}
 <a id="close_window" title="Will close the current window or tab" class="btn btn-warning btn-small" href="javascript:void(0);">Close</a>
 {% elseif file.project.resource == 'true' %}
-<a class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
+<a class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
 {% else %}
-<a class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+<a class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
 {% endif %}
 
 {# Notes #}
