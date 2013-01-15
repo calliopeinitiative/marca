@@ -22,6 +22,6 @@ class ForumRepository extends EntityRepository
     public function findForumDesc($id)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT f FROM MarcaForumBundle:Forum f JOIN f.comments c JOIN c.replies r WHERE f.id = ?1 ORDER BY f.updated DESC')->setParameter('1',$id)->getSingleResult();
+            ->createQuery('SELECT f FROM MarcaForumBundle:Forum f LEFT JOIN f.comments c LEFT JOIN c.replies r WHERE f.id = ?1 ORDER BY f.updated DESC')->setParameter('1',$id)->getSingleResult();
     }      
 }
