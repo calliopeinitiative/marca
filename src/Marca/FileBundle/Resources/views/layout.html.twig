@@ -11,6 +11,8 @@
 {% endblock %}
 
 {% block sidebar %}
+
+
 <li><legend>{% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}</legend></li>
 
 
@@ -22,9 +24,9 @@
     <i class="icon-pencil icon-white"></i>
   </a>
   <ul class="dropdown-menu">
-    <li><a href="{{ course_path('doc_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'view': 'app' }) }}">Document<i class="icon-pencil"></i></a></li>
+        <li><a href="{{ course_path('file_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'doc' }) }}">Document<i class="icon-edit"></i></a></li>
     <li><a href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}">Upload<i class="icon-upload"></i></a></li>  
-    <li><a href="{{ course_path('file_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Link<i class="icon-adjust"></i></a></li> 
+    <li><a href="{{ course_path('file_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'link' }) }}">Link<i class="icon-adjust"></i></a></li> 
   </ul>
 </div>
 {% endif %}
@@ -34,28 +36,32 @@
 {% if app.request.get('resource')=='0' %}
 
 <li class="margin-top {% if app.request.get('scope')=='mine' %}active{% endif %}">
-     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">My Files</a>
+     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
 </li>
 <li class="{% if app.request.get('scope')=='all' %}active{% endif %}">
-     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid')}) }}">All Files</a>
+     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">All Files</a>
 </li>
 {% endif %}
 
-<li class="dropdown">
-   <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">Roll<b class="caret"></b></a>
+{% if app.request.get('resource')=='0' %}
+<li class="dropdown {% if app.request.get('scope')=='byuser' %}active{% endif %}">
+   <a href="#" role="button" class="dropdown-toggle " data-toggle="dropdown" id="dLabel">Roll<b class="caret"></b></a>
        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
            {% for roll in roll %}
-           <li><a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'byuser', 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 
+           <li><a id="{{loop.index}}" href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 
            {% endfor %}
+           {#  add jquery next previous #}
        </ul>
  </li>
+{% endif %}
  
 {# if for resources (No tags for resources)  #}
 {% if app.request.get('resource')=='0' %}
 
     <ul class="nav nav-list">
+        <li><a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}"><span class="label">All Labels</span></a></li>
     {% for tag in tags %}
-      <li><a href="{{ course_path('file_tag_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}"><span class="label {{ tag.color }}">{{ tag.name }}</span></a></li>
+      <li><a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}"><span class="label {{ tag.color }}">{{ tag.name }}</span></a></li>
     {% endfor %}
     </ul> 
 

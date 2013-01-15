@@ -53,7 +53,7 @@ $("#marca_calendarbundle_calendartype_color").spectrum({
 </script>
 
 <div class="span8 well"> 
-<form action="{{ course_path('calendar_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ course_path('calendar_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
     {{ form_widget(form) }}
     <div>
         <button class="btn btn-primary" type="submit">Create</button>

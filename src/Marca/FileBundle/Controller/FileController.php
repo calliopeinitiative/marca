@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
 use Marca\FileBundle\Form\LinkType;
+use Marca\FileBundle\Form\DocType;
 use Marca\FileBundle\Form\UploadType;
 use Marca\TagBundle\Entity\Tagset;
 use Marca\DocBundle\Entity\Doc;
@@ -27,7 +28,7 @@ class FileController extends Controller
     /**
      * Lists all File entities by Project.
      *
-     * @Route("/{courseid}/{project}/{tag}/{scope}/{resource}/{userid}/list", name="file_list")
+     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/list", name="file_list")
      * @Template("MarcaFileBundle:File:index.html.twig")
      */
     public function indexByProjectAction($project, $scope, $courseid, $tag, $resource,$userid)
@@ -35,11 +36,13 @@ class FileController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
+        
         $em = $this->getEm();
         $user = $this->getUser();
+        $role = $this->getCourseRole();
         $byuser = $course = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser);
+        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser, $role);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -51,34 +54,7 @@ class FileController extends Controller
         return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 
             'tags' => $tags, 'course' => $course, 'roll' => $roll);
     }  
-       
-      /**
-     * Lists all File entities by Project.
-     *
-     * @Route("/{courseid}/{project}/{tag}/{scope}/{resource}/{userid}/list_by_tag", name="file_tag_list")
-     * @Template("MarcaFileBundle:File:index.html.twig")
-     */
-    public function indexByTagAction($project, $scope, $courseid, $tag, $resource,$userid)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
-        $resource ='f';
-        $em = $this->getEm();
-        $user = $this->getUser();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-
-        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByTag($project, $user, $scope, $course, $tag);
-        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        
-        //pagination for files
-        $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),10);
-
-        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 'tags' => $tags, 'course' => $course, 'roll' => $roll);
-    }     
+           
     
     /**
      * Finds and displays a File entity.
@@ -107,28 +83,66 @@ class FileController extends Controller
 
         return array('file' => $file,'projects' => $projects, 'active_project' => '0', 'tags' => $tags, 'course' => $course, 'roll' => $roll);
     }
-
+    
+    
     /**
-     * Displays a form to create a new File entity.
+     * Finds and displays a File entity.
      *
-     * @Route("/{courseid}/{resource}/{tag}/new", name="file_new")
-     * @Template()
+     * @Route("/{courseid}/{id}/show_modal", name="file_show_modal")
+     * @Template("MarcaFileBundle:File:show_modal.html.twig")
      */
-    public function newAction($courseid)
+    public function showModalAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
-        $file = new File();
+        $em = $this->getEm();
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+
+        if (!$file) {
+            throw $this->createNotFoundException('Unable to find File entity.');
+        }
+
+
+        return array('file' => $file);
+    }
+    
+
+    /**
+     * Displays a form to create a new File entity for a LINK listing.
+     *
+     * @Route("/{courseid}/{resource}/{tag}/{type}/new", name="file_new")
+     * @Template()
+     */
+    public function newAction($courseid,$resource, $tag, $type)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
         $em = $this->getEm();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
         $options = array('courseid' => $courseid);
+        
+        $file = new File();
+        $file->setProject($project);
+        if ($type == 'link') {
+        $file->setName('New Link');
+        $file->setUrl('http://newlink.edu');
         $form   = $this->createForm(new LinkType($options), $file);
+        }
+        elseif ($type == 'doc') {
+        $file->setName('New Document'); 
+        $form   = $this->createForm(new DocType($options), $file);
+        }
 
         return array(
             'file'      => $file,
+            'resource'      => $resource,
+            'tag'      => $tag,
+            'type'      => $type,
             'tags'        => $tags,
             'roll'        => $roll,
             'course' => $course,
@@ -140,11 +154,11 @@ class FileController extends Controller
     /**
      * Creates a new File entity.
      *
-     * @Route("/{courseid}/create", name="file_create")
+     * @Route("/{courseid}/{resource}/{tag}/{type}/create", name="file_create")
      * @Method("post")
      * @Template("MarcaFileBundle:File:new.html.twig")
      */
-    public function createAction($courseid)
+    public function createAction($courseid,$resource, $tag, $type)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -153,6 +167,7 @@ class FileController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $file->setUser($user);
         $file->setCourse($course);
@@ -166,18 +181,37 @@ class FileController extends Controller
         {$resource = '0';}
         $form    = $this->createForm(new FileType($options), $file);
         $form->bindRequest($request);
+        if ($type == 'doc') {
+        $doc  = new Doc();    
+        $doc->setFile($file); 
+        $doc->setBody('<p></p>'); 
+        }
 
         if ($form->isValid()) {
             $em = $this->getEm();
             $em->persist($file);
+            if ($type == 'doc') {
+            $em->persist($doc);
+            }
             $em->flush();
-
-        return $this->redirect($this->generateUrl('file_show', array('courseid'=> $courseid,'id'=> $file->getId(),'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource)));
             
+        if ($type == 'link') {
+        return $this->redirect($this->generateUrl('file_show', array('courseid'=> $courseid,'id'=> $file->getId(),'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource)));
+        }
+        elseif ($type == 'doc') {
+        return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $doc->getId(),'view'=>'app')));
+        }
+        
         }
 
         return array(
-            'file' => $file,
+            'file'      => $file,
+            'resource'      => $resource,
+            'tag'      => $tag,
+            'type'      => $type,
+            'tags'        => $tags,
+            'roll'        => $roll,
+            'course' => $course,
             'form'   => $form->createView()
         );
     }
@@ -346,7 +380,7 @@ class FileController extends Controller
          $user = $this->getUser();
          $userid = $user->getId();
          $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-
+         $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
          $options = array('courseid' => $courseid);
          
          $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
@@ -354,6 +388,8 @@ class FileController extends Controller
          $file = new File();
          $file->setUser($user);
          $file->setCourse($course);
+         $file->setName('New Upload');
+         $file->setProject($project);
          $form = $this->createForm(new UploadType($options), $file);
          
         $request = $this->getRequest();
@@ -422,6 +458,9 @@ class FileController extends Controller
                       case "doc":
                       $response->headers->set('Content-Type', 'application/msword');
                       break;
+                      case "docx":
+                      $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+                      break;                  
                       case "ppt":
                       $response->headers->set('Content-Type', 'application/mspowerpoint');
                       break;

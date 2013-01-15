@@ -4,6 +4,7 @@ namespace Marca\CalendarBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Marca\CalendarBundle\Entity\Calendar
@@ -24,6 +25,8 @@ class Calendar
 
     /**
      * @var date $startDate
+     * @Assert\NotBlank()
+     * @Assert\Date()
      *
      * @ORM\Column(name="startDate", type="date")
      */
@@ -31,6 +34,8 @@ class Calendar
 
     /**
      * @var time $startTime
+     * @Assert\NotBlank()
+     * @Assert\Time()
      *
      * @ORM\Column(name="startTime", type="time")
      */
@@ -52,6 +57,7 @@ class Calendar
 
     /**
      * @var string $title
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="title", type="string", length=255)
      */

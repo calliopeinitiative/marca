@@ -75,6 +75,7 @@ class ReplyController extends Controller
         }
 
         return array(
+            'commentid' => $commentid,
             'reply' => $reply,
             'form'   => $form->createView()
         );

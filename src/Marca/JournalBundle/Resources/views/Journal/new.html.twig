@@ -16,10 +16,11 @@ toolbar : [
 ['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
 'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
 ],} );
+$('form li').addClass('alert alert-error');
 });
 </script>
 <div class="span8 well"> 
-<form class="form" action="{{ course_path('journal_create') }}" method="post" {{ form_enctype(form) }}>
+<form class="form" action="{{ course_path('journal_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
      {{ form_errors(form) }}
          {{ form_row(form.title) }}
          {{ form_row(form.body) }}

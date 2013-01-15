@@ -4,6 +4,7 @@ namespace Marca\ResponseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Response
@@ -24,7 +25,7 @@ class Response
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="body", type="text")
      */
     private $body;

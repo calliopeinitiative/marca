@@ -3,17 +3,35 @@
 {% extends 'MarcaFileBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span9 well">  
+<script language="javascript">
+$(document).ready(function() { 
+{% for file in files%} 
+$('#file_{{file.id}}').click(function(){
+  $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id}) }}');
+  $('#file_modal').modal();
+});
+{% for file in file.reviews%} 
+$('#file_{{file.id}}').click(function(){
+  $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id}) }}');
+  $('#file_modal').modal();
+});
+{% endfor %}
+{% endfor %}
+});
+</script>
+
+<div class="span9 well"> 
+    
   
 <ul class="nav nav-pills">
 
 <li class="{% if active_project == 0 %}active{% endif %}">
-<a href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
+<a href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
 Recent Files</a></li>
 
 {% for project in projects %}
 <li class="{% if active_project == project.id %}active{% endif %} ">
-<a class="" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
+<a class="" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
 {{ project.name }}</a></li>
 {% endfor %}
  
@@ -62,7 +80,8 @@ Recent Files</a></li>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         {% if file.isOwner(app.user.username) %}<li><a class="" href="{{ course_path('file_edit', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Edit Listing</a></li>{% endif%}
         {% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<li><a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a></li>{% endif%}
-        <li><a href="{{ course_path('file_show', { 'id': file.id, 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">More Info</a></li>
+        {#<li><a href="{{ course_path('file_show', { 'id': file.id, 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">More Info</a></li>#}
+        <li><a id='file_{{file.id}}' href="javascript:void(0);" title='More info about this file'>More Info</a></li>
         </ul>
      </li>
 </ul>
@@ -90,7 +109,8 @@ Recent Files</a></li>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         {% if file.isOwner(app.user.username) %}<li><a class="" href="{{ course_path('file_edit', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Edit Listing</a></li>{% endif%}
         {% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<li><a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a></li>{% endif%}
-        <li><a href="{{ course_path('file_show', { 'id': file.id, 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">More Info</a></li>
+        {#<li><a href="{{ course_path('file_show', { 'id': file.id, 'project': 'recent', 'scope': app.request.get('scope'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">More Info</a></li>#}
+        <li><a id='file_{{file.id}}' href="javascript:void(0);" title='More info about this file'>More Info</a></li>
         </ul>
      </li>
 </ul>
@@ -113,6 +133,9 @@ No files match your request.
 {{ files.render()|raw }}
 </div>
 
-
+{# Modal #}
+<div id="file_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
+</div>
+    
 </div>
 {% endblock %}
