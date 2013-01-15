@@ -17,5 +17,11 @@ class ForumRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery('SELECT f FROM MarcaForumBundle:Forum f WHERE f.course = ?1')->setParameter('1',$course)->getResult();
-    }    
+    } 
+    
+    public function findForumDesc($id)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT f FROM MarcaForumBundle:Forum f JOIN f.comments c JOIN c.replies r WHERE f.id = ?1 ORDER BY f.updated DESC')->setParameter('1',$id)->getSingleResult();
+    }      
 }

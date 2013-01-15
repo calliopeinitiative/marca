@@ -7,12 +7,13 @@
 <div class="span9 well" >
 {% for forumEntry in forumEntries %}    
         <div class="page-header" >
-            <strong>{{ forumEntry.title }}</strong>
+            <strong>{{ forumEntry.title }}</strong>  
+             ({{ forumEntry.comments|length }} comment{% if forumEntry.comments|length !=1 %}s{% endif %})
             <span class="pull-right" >Created  {{ forumEntry.created|date('M d, Y h:i a') }}  / Modified  {{ forumEntry.updated|date('M d, Y h:i a') }}</span>
     </div>
 
          {{ forumEntry.body|raw }} 
-         <a class="btn btn-primary btn-mini" title="Open this discussion" href="{{ course_path('forum_show', { 'id': forumEntry.id }) }}">Open</a> 
+           <a class="btn btn-primary btn-mini" title="Open this discussion" href="{{ course_path('forum_show', { 'id': forumEntry.id }) }}">Open</a> 
          {% if forumEntry.user==app.user %}<a class="btn btn-primary btn-mini" title="Edit this discussion" href="{{ course_path('forum_edit', { 'id': forumEntry.id }) }}">Edit</a>{% endif%}
 
 {% else %}
