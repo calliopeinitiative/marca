@@ -53,7 +53,7 @@ class ForumController extends Controller
         
         $em = $this->getEm();
 
-        $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
+        $forum = $em->getRepository('MarcaForumBundle:Forum')->findForumDesc($id);
 
         if (!$forum) {
             throw $this->createNotFoundException('Unable to find Forum entity.');
@@ -61,9 +61,7 @@ class ForumController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
-            'forum'      => $forum,
-            'delete_form' => $deleteForm->createView(),        );
+        return array('forum'      => $forum,);
     }
 
     /**

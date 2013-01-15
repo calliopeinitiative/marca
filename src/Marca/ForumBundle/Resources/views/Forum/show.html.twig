@@ -6,7 +6,8 @@
 <div class="span9 well" >     
       <div class="page-header" >
           <strong>{{ forum.title }}</strong>
-          <span class='pull-right'>Created  {{ forum.created|date('M d, Y h:i a') }}  / Modified  {{ forum.updated|date('M d, Y h:i a') }} 
+          <span class='pull-right'> Created  {{ forum.created|date('M d, Y h:i a') }}  / Modified  {{ forum.updated|date('M d, Y h:i a') }}
+             
           <a class="btn btn-warning btn-mini" title="Close this discussion" href="{{ course_path('forum') }}">Close</a></span>
       </div>
          
@@ -18,6 +19,7 @@
 
 
    {% for comment in forum.comments%}
+         
      <div class="span8 pad1" style="border-top: 1px gray solid;margin-top: 1em;float:right;margin-right: 5em;">
          <div class="pull-left" >{{ comment.user.firstname }} {{ comment.user.lastname }}</div>
          <div class="pull-right" >
