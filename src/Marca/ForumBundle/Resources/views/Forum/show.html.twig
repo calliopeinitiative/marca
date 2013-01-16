@@ -5,10 +5,12 @@
 {% block content %}
 <div class="span9 well" >     
       <div class="page-header" >
-          <strong>{{ forum.title }}</strong>
-          <span class='pull-right'> Created  {{ forum.created|date('M d, Y h:i a') }}  / Modified  {{ forum.updated|date('M d, Y h:i a') }}
+          <strong><span class="forum_title">{{ forum.title }}</span></strong>
+          <span class="pull-right"><a class="btn btn-warning btn-mini" title="Close this discussion" href="{{ course_path('forum') }}">Close</a></span><br />
+          <span>by {{ forum.user.firstname }} {{ forum.user.lastname }}</span><br />
+          <span> Created  {{ forum.created|date('M d Y, h:ia') }}  / Updated  {{ forum.updated|date('M d Y, h:ia') }}
              
-          <a class="btn btn-warning btn-mini" title="Close this discussion" href="{{ course_path('forum') }}">Close</a></span>
+          
       </div>
          
          <div class="span8" >{{ forum.body|raw }}  </div>       
@@ -21,9 +23,9 @@
    {% for comment in forum.comments%}
          
      <div class="span8 pad1" style="border-top: 1px gray solid;margin-top: 1em;float:right;margin-right: 5em;">
-         <div class="pull-left" >{{ comment.user.firstname }} {{ comment.user.lastname }}</div>
+         <div class="pull-left" >{{ comment.user.firstname }} {{ comment.user.lastname }} says:</div>
          <div class="pull-right" >
-          Created  {{ comment.created|date('M d, Y h:i a') }}  / Modified  {{ comment.updated|date('M d, Y h:i a') }} 
+          Created  {{ comment.created|date('M d Y, h:ia') }}  / Modified  {{ comment.updated|date('M d Y, h:ia') }} 
          </div>
              
          <div class="span7">{{ comment.body|raw }}</div>    
@@ -34,7 +36,7 @@
            <div class="span7 pad1" style="border-top: 1px gray solid;margin-top: 1em;float:right;">
            <div class="pull-left" >{{ reply.user.firstname }} {{ reply.user.lastname }}</div>
            <div class="pull-right" >
-           Created  {{ reply.created|date('M d, Y h:i a') }}  / Modified  {{ reply.updated|date('M d, Y h:i a') }} 
+           Created  {{ reply.created|date('M d Y, h:ia') }}  / Modified  {{ reply.updated|date('M d Y, h:ia') }} 
            </div>
              
            <div class="span7" >{{ reply.body|raw }}</div>    

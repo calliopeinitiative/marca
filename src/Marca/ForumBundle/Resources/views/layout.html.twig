@@ -12,11 +12,11 @@
 
 
 {% block sidebar %} 
-       <li><legend>Forum</legend></li>
+       <li><legend><a href="{{ course_path('forum') }}" title="Forum" id="forum_nav_title">Forum</a></legend></li>
        {% if is_granted('ROLE_INSTR') %}
              <a class='btn btn-primary' href="{{ course_path('forum_new') }}">Create<i class="icon-pencil icon-white"></i></a>
              {% endif %} 
-             <li><a href="{{ course_path('forum', { 'set': 0 }) }}">Discussions</a></li>
+             <li><a href="{{ course_path('forum', { 'set': 0 }) }}">All Discussions</a></li>
              
            
 {% endblock %}  

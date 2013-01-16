@@ -77,6 +77,12 @@ a:hover {color: #006DCC;text-decoration: underline;}
 
 form label.radio {clear:right;display:block;padding-top: .5em;}
 form label.checkbox {clear:right;display:block;padding-top: .5em; }
+#marca_forumbundle_forumtype_title {width:37em;}
+label.required {font-size:18px;margin-top:8px;}
+.forum_title {font-size:20px;}
+.forum_comments {margin-left:12px;}
+#forum_nav_title {color:#333333;}
+.margin-top {margin-top:8px;}
 
 form ul li {list-style: none;}
 
