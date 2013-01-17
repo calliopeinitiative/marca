@@ -25,7 +25,7 @@
      <div class="span8 pad1" style="border-top: 1px gray solid;margin-top: 1em;float:right;margin-right: 5em;">
          <div class="pull-left" >{{ comment.user.firstname }} {{ comment.user.lastname }} says:</div>
          <div class="pull-right" >
-          Created  {{ comment.created|date('M d Y, h:ia') }}  / Modified  {{ comment.updated|date('M d Y, h:ia') }} 
+          Created  {{ comment.created|date('M d Y, h:ia') }}  / Updated  {{ comment.updated|date('M d Y, h:ia') }} 
          </div>
              
          <div class="span7">{{ comment.body|raw }}</div>    
@@ -34,9 +34,9 @@
          
          {% for reply in comment.replies%}
            <div class="span7 pad1" style="border-top: 1px gray solid;margin-top: 1em;float:right;">
-           <div class="pull-left" >{{ reply.user.firstname }} {{ reply.user.lastname }}</div>
+           <div class="pull-left" >{{ reply.user.firstname }} {{ reply.user.lastname }} says:</div>
            <div class="pull-right" >
-           Created  {{ reply.created|date('M d Y, h:ia') }}  / Modified  {{ reply.updated|date('M d Y, h:ia') }} 
+           Created  {{ reply.created|date('M d Y, h:ia') }}  / Updated  {{ reply.updated|date('M d Y, h:ia') }} 
            </div>
              
            <div class="span7" >{{ reply.body|raw }}</div>    
