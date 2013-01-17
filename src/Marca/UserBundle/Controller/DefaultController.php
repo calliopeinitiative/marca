@@ -39,6 +39,22 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/course_select_modal", name="course_select_modal")
+     * @Template("MarcaUserBundle:Default:course_select_modal.html.twig")
+     */
+    public function courseSelectAction()
+    {
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $username = $user->getFirstname().' '.$user->getLastname();
+        $session = $this->get('session'); 
+        $session->set('username', $username); 
+        $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($user);
+        
+        return array('user' => $user,'courses' => $courses);
+    }    
+    
+    /**
      * Finds and displays a User profile.
      *
      * @Route("/show", name="user_show")

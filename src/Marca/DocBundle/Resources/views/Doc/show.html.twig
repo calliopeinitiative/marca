@@ -41,7 +41,6 @@ $('#close_window').click(function(){
 {# Doc header #}
 <legend>{{file.name}}</legend></li>    
 Last updated on {{doc.updated|date('M d Y,   g:i a')}}
-{% if file.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ course_path('file_edit', { 'id': file.id, 'resource': 'f', 'tag': '0' }) }}">Rename</a>{% endif%}
 
 
 {# Doc display #}

@@ -55,66 +55,34 @@ class FileController extends Controller
             'tags' => $tags, 'course' => $course, 'roll' => $roll);
     }  
            
-    
+ 
     /**
      * Finds and displays a File entity.
      *
-     * @Route("/{courseid}/{id}/{project}/{tag}/{scope}/{resource}/{userid}/show", name="file_show")
-     * @Template()
-     */
-    public function showAction($id, $courseid)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
-        $resource ='f';
-        $em = $this->getEm();
-        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-        $user = $this->getUser();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-
-        if (!$file) {
-            throw $this->createNotFoundException('Unable to find File entity.');
-        }
-
-
-        return array('file' => $file,'projects' => $projects, 'active_project' => '0', 'tags' => $tags, 'course' => $course, 'roll' => $roll);
-    }
-    
-    
-    /**
-     * Finds and displays a File entity.
-     *
-     * @Route("/{courseid}/{id}/show_modal", name="file_show_modal")
+     * @Route("/{courseid}/{id}/{resource}/show_modal", name="file_show_modal")
      * @Template("MarcaFileBundle:File:show_modal.html.twig")
      */
     public function showModalAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
+        $this->restrictAccessTo($allowed);    
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-
+        $deleteForm = $this->createDeleteForm($id);
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
         }
-
-
-        return array('file' => $file);
+        return array('file' => $file, 'delete_form' => $deleteForm->createView(),);
     }
     
-
+       
     /**
      * Displays a form to create a new File entity for a LINK listing.
      *
-     * @Route("/{courseid}/{resource}/{tag}/{type}/new", name="file_new")
-     * @Template()
+     * @Route("/{courseid}/{resource}/{tag}/{type}/new_modal", name="file_new_modal")
+     * @Template("MarcaFileBundle:File:new_modal.html.twig")
      */
-    public function newAction($courseid,$resource, $tag, $type)
+    public function newModalAction($courseid, $resource, $tag, $type)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -149,8 +117,9 @@ class FileController extends Controller
             'form'   => $form->createView()
         );
     }
-       
+    
 
+    
     /**
      * Creates a new File entity.
      *
@@ -196,7 +165,7 @@ class FileController extends Controller
             $em->flush();
             
         if ($type == 'link') {
-        return $this->redirect($this->generateUrl('file_show', array('courseid'=> $courseid,'id'=> $file->getId(),'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource)));
+        return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'id'=> $file->getId(),'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource, 'user'=>'0')));
         }
         elseif ($type == 'doc') {
         return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $doc->getId(),'view'=>'app')));
@@ -215,14 +184,15 @@ class FileController extends Controller
             'form'   => $form->createView()
         );
     }
+    
 
     /**
      * Displays a form to edit an existing File entity.
      *
-     * @Route("/{courseid}/{resource}/{tag}/{id}/edit", name="file_edit")
-     * @Template()
+     * @Route("/{courseid}/{resource}/{tag}/{id}/edit_modal", name="file_edit_modal")
+     * @Template("MarcaFileBundle:File:edit_modal.html.twig")
      */
-    public function editAction($id, $courseid)
+    public function editModalAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -251,7 +221,6 @@ class FileController extends Controller
             $editForm = $this->createForm(new LinkType($options), $file);
         }
 
-        $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'file'      => $file,
@@ -259,10 +228,10 @@ class FileController extends Controller
             'roll'        => $roll,
             'course' => $course,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
-
+    
+    
     /**
      * Edits an existing File entity.
      *
@@ -281,6 +250,7 @@ class FileController extends Controller
         $options = array('courseid' => $courseid);
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
@@ -290,7 +260,6 @@ class FileController extends Controller
         } 
 
         $editForm   = $this->createForm(new FileType($options), $file);
-        $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
         $postData = $request->get('marca_filebundle_filetype');
@@ -307,15 +276,15 @@ class FileController extends Controller
             $em->persist($file);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('file_show', array('id'=> $id,'courseid'=> $courseid,'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0','resource'=>$resource)));
+            return $this->redirect($this->generateUrl('file_list', array('id'=> $id,'courseid'=> $courseid,'scope'=>'mine','project'=>'recent', 'tag'=>'0', 'userid'=>'0','resource'=>$resource, 'user'=>'0')));
         }
 
         return array(
             'file'      => $file,
             'tags'        => $tags,
+            'roll'        => $roll,
             'course' => $course,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -354,7 +323,7 @@ class FileController extends Controller
             $em->flush();
         }
 
-       return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>'recent', 'tag'=>'0', 'userid'=>'0','resource'=>$resource)));
+       return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>'recent', 'tag'=>'0', 'userid'=>'0','resource'=>$resource, 'user'=>'0')));
     }
 
     private function createDeleteForm($id)
@@ -369,7 +338,7 @@ class FileController extends Controller
      * Uploads a file with a Document entity.
      *
      * @Route("/{courseid}/{resource}/{tag}/upload", name="file_upload")
-     * @Template()
+     * @Template("MarcaFileBundle:File:upload.html.twig")
      */    
      public function uploadAction($courseid, $resource)
      {
@@ -405,7 +374,7 @@ class FileController extends Controller
                  $em = $this->getEm();
                  $em->persist($file);
                  $em->flush(); 
-                 return $this->redirect($this->generateUrl('file_show', array('courseid'=> $courseid,'id'=> $file->getId(),'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0','resource'=>$resource)));
+                 return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'id'=> $file->getId(),'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0','resource'=>$resource, 'user'=>'0')));
              }
              
          }

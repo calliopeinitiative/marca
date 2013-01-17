@@ -10,6 +10,7 @@
 <script src="{{ asset('bundles/marcahome/js/bootstrap-tour.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/welcome-tour.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery.cookie.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/jquery.form.js') }}"></script>
 {% include '::external.html.twig' %}
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/bootstrap.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/bootstrap-responsive.css') }}">
@@ -28,6 +29,7 @@
 </head>
 <body>
 
+    
 {% if app.request.get('view') != 'window' %}
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
@@ -92,6 +94,11 @@
 {% endif %}
 
 </div><!-- /container --> 
+
+{# Modal #}
+<div id="base_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
+</div>
+
 
 </body>
 </html>

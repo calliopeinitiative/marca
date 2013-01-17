@@ -1,21 +1,10 @@
-{# Marca/FileBundle/Resources/views/File/new.html.twig #}
+{# Marca/FileBundle/Resources/views/File/new_modal.html.twig #}
 
-{% extends 'MarcaFileBundle::layout.html.twig' %}
-
-{% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
-{% endblock %}
-
-{% block content %}
 <script language="javascript"> 
 $(document).ready(function() {
-$('#file_modal').modal();    
 $(' form div ul li ul li').addClass('alert alert-error');
 });
 </script>
-
-{# Modal #}
-<div id="file_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -38,6 +27,4 @@ $(' form div ul li ul li').addClass('alert alert-error');
     <button class="btn btn-primary" type="submit">Create</button>
   </div>
 </form> 
-</div>
 
-{% endblock %}

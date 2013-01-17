@@ -1,17 +1,14 @@
-{# Marca/FileBundle/Resources/views/File/edit.html.twig #}
+{# Marca/FileBundle/Resources/views/File/edit_modal.html.twig #}
 
-{% extends 'MarcaFileBundle::layout.html.twig' %}
-
-{% block content %}
 <script language="javascript"> 
 $(document).ready(function() {
-$('form ul li div ul li').addClass('alert alert-error');
-$('#file_modal').modal();
+$('#file_show_{{file.id}}').click(function(){
+  $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}');
+  $('#file_modal').modal();
+});
 });
 </script>
 
-{# Modal #}
-<div id="file_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">    
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">Edit Listing</h3>
@@ -33,7 +30,4 @@ $('#file_modal').modal();
     <button class="btn btn-primary pull-right" type="submit">Update</button>  
   </div>
 </form> 
-</div>
 
-
-{% endblock %}

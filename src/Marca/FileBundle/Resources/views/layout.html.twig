@@ -11,8 +11,19 @@
 {% endblock %}
 
 {% block sidebar %}
-
-
+<script language="javascript">
+$(document).ready(function()
+{    
+$('#file_new_doc').click(function(){
+  $('#file_modal').load('{{ course_path('file_new_modal', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'doc' }) }}');
+  $('#file_modal').modal();
+});
+$('#file_new_link').click(function(){
+  $('#file_modal').load('{{ course_path('file_new_modal', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'link' }) }}');
+  $('#file_modal').modal();
+});
+});
+</script>
 <li><legend>{% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}</legend></li>
 
 
@@ -24,9 +35,9 @@
     <i class="icon-pencil icon-white"></i>
   </a>
   <ul class="dropdown-menu">
-        <li><a href="{{ course_path('file_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'doc' }) }}">Document<i class="icon-edit"></i></a></li>
-    <li><a href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}">Upload<i class="icon-upload"></i></a></li>  
-    <li><a href="{{ course_path('file_new', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'link' }) }}">Link<i class="icon-adjust"></i></a></li> 
+    <li><a id='file_new_doc' title='Create new document' tabindex='1' href='javascript:void(0);'>Document<i class="icon-edit"></i></a></li>
+    <li><a id='file_new_upload' title='Upload document' tabindex='1' href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}">Upload<i class="icon-upload"></i></a></li>  
+    <li><a id='file_new_link' title='Create new link' tabindex='1' href="javascript:void(0);">Link<i class="icon-adjust"></i></a></li>
   </ul>
 </div>
 {% endif %}
@@ -36,16 +47,16 @@
 {% if app.request.get('resource')=='0' %}
 
 <li class="margin-top {% if app.request.get('scope')=='mine' %}active{% endif %}">
-     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
+     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
 </li>
 <li class="{% if app.request.get('scope')=='all' %}active{% endif %}">
-     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">All Files</a>
+     <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">All Files</a>
 </li>
 {% endif %}
 
 {% if app.request.get('resource')=='0' %}
 <li class="dropdown {% if app.request.get('scope')=='byuser' %}active{% endif %}">
-   <a href="#" role="button" class="dropdown-toggle " data-toggle="dropdown" id="dLabel">Roll<b class="caret"></b></a>
+   <a href="javascript:void(0);" role="button" class="dropdown-toggle " data-toggle="dropdown" id="dLabel">Roll<b class="caret"></b></a>
        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
            {% for roll in roll %}
            <li><a id="{{loop.index}}" href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 

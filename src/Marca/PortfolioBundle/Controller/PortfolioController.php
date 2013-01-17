@@ -127,6 +127,7 @@ class PortfolioController extends Controller
         $em = $this->getEm();
         $options = array('courseid' => $courseid);
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         if (!$portfolio) {
             throw $this->createNotFoundException('Unable to find Portfolio entity.');
@@ -137,6 +138,7 @@ class PortfolioController extends Controller
 
         return array(
             'portfolio'      => $portfolio,
+            'roll'=>$roll,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
