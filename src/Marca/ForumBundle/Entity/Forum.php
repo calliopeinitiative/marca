@@ -52,6 +52,7 @@ class Forum
     
      /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="forum")
+     * @ORM\OrderBy({"created" = "DESC"})
      */
     protected $comments;
     

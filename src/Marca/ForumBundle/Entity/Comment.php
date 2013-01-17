@@ -38,6 +38,7 @@ class Comment
     
     /**
     * @ORM\OneToMany(targetEntity="Marca\ForumBundle\Entity\Reply", mappedBy="comment")
+    * @ORM\OrderBy({"created" = "DESC"})
     */
     protected $replies;     
     
