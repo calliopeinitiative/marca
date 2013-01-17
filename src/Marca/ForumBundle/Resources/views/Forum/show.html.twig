@@ -7,7 +7,7 @@
       <div class="page-header" >
           <strong><span class="forum_title">{{ forum.title }}</span></strong>
           <span class="pull-right"><a class="btn btn-warning btn-mini" title="Close this discussion" href="{{ course_path('forum') }}">Close</a></span><br />
-          <span>by {{ forum.user.firstname }} {{ forum.user.lastname }}</span><br />
+          <span>by {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}</span><br />
           <span> Created  {{ forum.created|date('M d Y, h:ia') }}  / Updated  {{ forum.updated|date('M d Y, h:ia') }}
              
           
@@ -23,7 +23,7 @@
    {% for comment in forum.comments%}
          
      <div class="span8 pad1" style="border-top: 1px gray solid;margin-top: 1em;float:right;margin-right: 5em;">
-         <div class="pull-left" >{{ comment.user.firstname }} {{ comment.user.lastname }} says:</div>
+         <div class="pull-left" >{{ comment.user.firstname|capitalize }} {{ comment.user.lastname|capitalize }} says:</div>
          <div class="pull-right" >
           Created  {{ comment.created|date('M d Y, h:ia') }}  / Updated  {{ comment.updated|date('M d Y, h:ia') }} 
          </div>
@@ -34,7 +34,7 @@
          
          {% for reply in comment.replies%}
            <div class="span7 pad1" style="border-top: 1px gray solid;margin-top: 1em;float:right;">
-           <div class="pull-left" >{{ reply.user.firstname }} {{ reply.user.lastname }} says:</div>
+           <div class="pull-left" >{{ reply.user.firstname|capitalize }} {{ reply.user.lastname|capitalize }} says:</div>
            <div class="pull-right" >
            Created  {{ reply.created|date('M d Y, h:ia') }}  / Updated  {{ reply.updated|date('M d Y, h:ia') }} 
            </div>
