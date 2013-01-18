@@ -42,6 +42,9 @@ class RollController extends Controller
      */
     public function courseRollAction($courseid)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $full_roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -74,6 +77,9 @@ class RollController extends Controller
      */
     public function showAction($id, $courseid)
     {
+        $allowed = array(self::ROLE_STUDENT, self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);

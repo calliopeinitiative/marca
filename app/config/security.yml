@@ -40,8 +40,12 @@ security:
         - { path: ^/term/, role: ROLE_USER }
         - { path: ^/roll/, role: ROLE_USER }
         - { path: ^/project/, role: ROLE_USER }
-        - { path: ^/markup/, role: ROLE_USER }
-        - { path: ^/portset/, role: ROLE_USER }
+        - { path: ^/markup/, role: ROLE_INSTR }
+        - { path: ^/markupset/, role: ROLE_INSTR }
+        - { path: ^/portset/, role: ROLE_INSTR }
+        - { path: ^/portitem/, role: ROLE_INSTR }
+        - { path: ^/tag/, role: ROLE_INSTR }
+        - { path: ^/tagset/, role: ROLE_INSTR }
         - { path: ^/team/, role: ROLE_USER }
 
     role_hierarchy:
