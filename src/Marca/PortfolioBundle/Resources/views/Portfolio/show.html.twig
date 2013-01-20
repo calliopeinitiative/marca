@@ -18,7 +18,7 @@
 {{ portfolio_doc.file.doc.body|raw }} 
 
 <div class="navigation">
-{{ portfolio_docs.render()|raw }}
+    {{ knp_pagination_render(portfolio_docs) }}
 </div>        
 </div>
 

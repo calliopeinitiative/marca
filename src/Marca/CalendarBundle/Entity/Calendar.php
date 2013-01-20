@@ -34,8 +34,6 @@ class Calendar
 
     /**
      * @var time $startTime
-     * @Assert\NotBlank()
-     * @Assert\Time()
      *
      * @ORM\Column(name="startTime", type="time")
      */

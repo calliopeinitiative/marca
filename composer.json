@@ -8,8 +8,8 @@
         "php": ">=5.3.3",
         "symfony/symfony": "2.1.*",
         "doctrine/orm": ">=2.2.3,<2.4-dev",
-        "doctrine/doctrine-bundle": "dev-master",
-        "twig/extensions": "1.0.*",
+        "doctrine/doctrine-bundle": "1.1.*",
+        "twig/extensions": "1.0.*@dev",
         "symfony/assetic-bundle": "2.1.*",
         "symfony/swiftmailer-bundle": "2.1.*",
         "symfony/monolog-bundle": "2.1.*",
@@ -18,11 +18,14 @@
         "sensio/generator-bundle": "2.1.*",
         "jms/security-extra-bundle": "1.2.*",
         "jms/di-extra-bundle": "1.1.*",
+        "kriswallsmith/assetic": "1.1.*@dev",
         "friendsofsymfony/user-bundle": "*",
         "stof/doctrine-extensions-bundle": "dev-master",
+        "doctrine/data-fixtures" : "dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
         "vich/uploader-bundle": "dev-master",
+        "knplabs/gaufrette": "0.2.*@dev",
         "knplabs/knp-gaufrette-bundle" : "dev-master"
     },
     "scripts": {
@@ -39,13 +42,10 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ]
     },
-    "config": {
-        "bin-dir": "bin"
-    },
-    "minimum-stability": "dev",
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
         "symfony-assets-install": "symlink"
     }
 }
+
