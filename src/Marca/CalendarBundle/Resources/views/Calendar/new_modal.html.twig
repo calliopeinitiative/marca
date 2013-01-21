@@ -27,17 +27,11 @@ toolbar : [
 $( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
 showButtonPanel: true,
 });
-$( '#marca_calendarbundle_calendartype_startTime' ).timepicker({
-showButtonPanel: true,
-ampm: false,
-});
+$( '#marca_calendarbundle_calendartype_startTime' ).timepicker(({ 'timeFormat': 'H:i' }));
 $( '#marca_calendarbundle_calendartype_endDate' ).datepicker({
 showButtonPanel: true,
 });
-$( '#marca_calendarbundle_calendartype_endTime' ).timepicker({
-showButtonPanel: true,
-ampm: false,
-});
+$( '#marca_calendarbundle_calendartype_endTime' ).timepicker(({ 'timeFormat': 'H:i' }));
 $("#marca_calendarbundle_calendartype_color").spectrum({
     preferredFormat: "name",
     showPaletteOnly: true,
