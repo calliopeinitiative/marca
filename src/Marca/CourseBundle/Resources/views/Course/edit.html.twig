@@ -5,20 +5,18 @@
 
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-timepicker-addon.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
 {% endblock %}
 {% block stylesheets %}
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
 {% endblock %}
 
 {% block content %}
 <script language="javascript"> 
 $(document).ready(function()
 {
-$( '#marca_coursebundle_coursetype_time' ).timepicker({
-showButtonPanel: true,
-ampm: false,
-});
+$( '#marca_coursebundle_coursetype_time' ).timepicker(({ 'timeFormat': 'H:i' }));
 $('form li').addClass('alert alert-error');
 });
 </script>
