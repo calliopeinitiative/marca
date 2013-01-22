@@ -26,9 +26,9 @@
             
                 <div class="accordion-group">
                 <div class='accordion-heading'>
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#{{markupset.name}}">{{ markupset.name }}</a>
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#markup_{{markupset.id}}">{{ markupset.name }}</a>
                 </div>
-                <div id="{{markupset.name}}" class=" accordion-body collapse">
+                <div id="markup_{{markupset.id}}" class=" accordion-body collapse">
                 <div class="accordion-inner">
                     
                 {% for markup in markupset.markup %}
