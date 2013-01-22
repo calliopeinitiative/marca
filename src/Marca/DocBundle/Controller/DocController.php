@@ -175,10 +175,7 @@ class DocController extends Controller
 
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
         $file = $doc->getFile();
-        $privatemarkupsets = $em->getRepository('MarcaDocBundle:Markupset')->findPrivateMarkupSets($user);
-        $coursemarkupsets = $course->getMarkupsets();
-        $coursemarkupsets = $coursemarkupsets->toArray();
-        $markupsets = array_merge($privatemarkupsets, $coursemarkupsets);
+        $markupsets = $course->getMarkupsets();
         
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
