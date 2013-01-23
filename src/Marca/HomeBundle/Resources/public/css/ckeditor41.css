@@ -54,10 +54,10 @@ img, input, textarea
 .eDoc_note {color:blue;background:white; border:white 1px solid;padding-left:4px;padding-right: 2px;}
 .eDoc_highlight {background:#FFFFD3;}
 .eDoc_error {background:#bcd85f;padding:1px;}
-.eDoc_hanging_indent {text-indent:-0.5in; margin-left:0.5in;line-height: 200%;font-size:small;}
-.eDoc_paragraph_indent {text-indent:0.5in; line-height: 200%;font-size:small;}
-.eDoc_single_space {line-height: 100%;font-size:small;}
-.eDoc_double_space {line-height: 200%;font-size:small;}
+.eDoc_hanging_indent {text-indent:-0.5in; margin-left:0.5in;line-height: 200%;}
+.eDoc_paragraph_indent {text-indent:0.5in; line-height: 200%;}
+.eDoc_single_space {line-height: 100%;}
+.eDoc_double_space {line-height: 200%;}
 .context {background:#b6e4ff;padding:1px;}
 .author {background:#ffd8b6;padding:1px;}
 .topic {background:#bfb6ff;padding:1px;}
