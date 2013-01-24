@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="span8 well">
-    <legend>Teams for {{course.name}}</legend>
+    <legend><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Teams</legend>
 
     <ul class="unstyled"> 
     {% for team in teams %}

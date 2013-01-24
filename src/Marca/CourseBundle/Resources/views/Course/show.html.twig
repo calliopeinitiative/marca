@@ -7,7 +7,7 @@
 
 <div class="row">
 <div class="span4 well">  
-<legend>{{ course.name }}</legend>    
+<legend><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a>  Settings</legend>    
 <table class="table table-bordered table-condensed table-striped">
 <thead><th colspan="2">Settings</td></thead>    
 <tbody>          
