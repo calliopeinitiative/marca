@@ -10,13 +10,18 @@ $('#course_select').click(function(){
 });
 </script>
 
-<li><a id='course_select' href="javascript:void(0);">{% if app.session.get('course') %}{{ app.session.get('course') }}{% else %}Course Home{% endif %}</a></li>
-<li><a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Resources</a></li>
+<li>
+<a title='Course Home' href="{{ course_path('course_home')}}">{% if app.session.get('course') %}{{ app.session.get('course') }}{% else %}Course Home{% endif %}</a>
+</li>
+<li style='margin-left: -2.5em;'>
+<a title='Change Course' id='course_select' href="javascript:void(0);"><i class="icon-plus icon-white"></i></a>
+</li>
+<li><a  title='Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Resources</a></li>
 <li><a href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Projects</a></li>
-<li><a href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Calendar</a></li>
-<li><a href="{{ course_path('journal') }}">Journal</a></li>
-<li><a href="{{ course_path('forum') }}">Forum</a></li>
-{% if app.session.get('portSwitch')=='true'%}<li><a href="{{ course_path('portfolio') }}">Portfolio</a></li>{%endif%}
+<li><a  title='Course Calendar' href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Calendar</a></li>
+<li><a  title='Course Journal' href="{{ course_path('journal') }}">Journal</a></li>
+<li><a  title='Course Forum' href="{{ course_path('forum') }}">Forum</a></li>
+{% if app.session.get('portSwitch')=='true'%}<li><a  title='Course Portfolio' href="{{ course_path('portfolio') }}">Portfolio</a></li>{%endif%}
 
 
 
