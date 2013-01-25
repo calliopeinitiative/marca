@@ -39,7 +39,7 @@ class LinkType extends AbstractType
                         ->andWhere('t.id!=5')  
                         ->setParameter('course', $courseid)        
                         ->orderBy('c.name', 'ASC');
-                }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Select Labels', 'attr' => array('class' => 'inline'),
+                }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Select Labels', 'attr' => array('class' => 'checkbox'),
               ))  
              ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'inline'),))           
             ;

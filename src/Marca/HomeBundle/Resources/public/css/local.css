@@ -71,7 +71,6 @@ a:hover {color: #006DCC;text-decoration: underline;}
 .note { width: 150px; height: 150px; padding: 0.5em; background: yellow;}
 .inline li {display: inline;}
 .table th, .table td {padding:4px;line-height: 25px;}
-.checkbox {margin-left: 1em;}
 .fc-event-title {cursor: pointer;cursor: hand;}
 .fc-event-time {cursor: pointer;cursor: hand;}
 
