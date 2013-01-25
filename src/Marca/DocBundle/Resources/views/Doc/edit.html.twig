@@ -15,7 +15,7 @@ $(document).ready(function()
 {
 $('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins: 'elementspath', extraPlugins:'autogrow', autoGrow_maxHeight : 700, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
 toolbar : [
-['Styles','Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
+['Styles','Bold','Italic','Underline','Font','FontSize','JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor','Link','Unlink','NumberedList',
 'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat']
 ],} );
 $('#backup_alert').toggle();
@@ -29,11 +29,11 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 
 <ul class="nav nav-tabs">
     <li><legend>{{file.name}}</legend></li>    
-    <li class="nav-header">Last updated on {{doc.updated|date('M d Y,   g:i a')}}</li>
+    <li class="nav-header">Updated {{doc.updated|date('M d Y,   g:i a')}}</li>
     <li><span id='backup_alert' class='alert alert-info'>Backing up work</span></li>
 </ul>
 
-<form id="doc_form" action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
+<form id="doc_form" class="fixed-height" action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
 <div class="span8">         
 
     {{ form_errors(edit_form) }}

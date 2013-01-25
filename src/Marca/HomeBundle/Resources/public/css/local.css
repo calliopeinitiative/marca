@@ -17,8 +17,10 @@
 /* 
   Local mods for Twitter Bootstrap
 */
-body {background: url('../img/mosaic.png')}
+html, body {height:100%}
+body {background: url('../img/mosaic.png');}
 .centered {text-align: right;color:blue;}
+.center { float: none; margin-left: auto; margin-right: auto; }
 .background {background: #F2F2F2}
 .navbar .brand {margin-left:0px;}
 .navbar-inner {background:#373737;}
@@ -27,7 +29,7 @@ body {background: url('../img/mosaic.png')}
 -webkit-box-shadow:0px 0px 15px rgba(0,0,0,.5);  
 box-shadow: 0px 0px 15px rgba(0,0,0,.5);}
 .navbar-inner .container {margin-left:auto;margin-right:auto;}
-.page-header {margin-top:20px;}
+.page-header {margin-top:15px;margin-bottom:25px;}
 .subnav-fixed {margin-top: -20px;}
 .icon-white {margin-left:12px;}	
 .nav-list .btn-primary {width:7em;margin-left:0;margin-bottom:.7em;}
@@ -79,10 +81,13 @@ form label.checkbox {clear:right;display:block;padding-top: .5em; }
 #marca_forumbundle_forumtype_title {width:37em;}
 label.required {font-size:18px;margin-top:8px;}
 .inline label {font-size:18px;margin-top:8px;}
-.forum_title {font-size:20px;}
+.forum_title,.journal-title {font-size:24px;}
 .forum_comments {margin-left:12px;}
 #forum_nav_title {color:#333333;}
 .margin-top {margin-top:8px;}
+.journal-body p, .forum-body p, .doc-body p {font-size: 18px;line-height: 27px;margin-bottom:27px;}
+.journal-body {margin-bottom:60px;}
+.responses {font-size:18px;}
 
 form ul li {list-style: none;}
 

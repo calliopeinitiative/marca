@@ -39,21 +39,25 @@ $('#close_window').click(function(){
 </script>
 
 {# Doc header #}
-<legend>{{file.name}}</legend></li>    
-Last updated on {{doc.updated|date('M d Y,   g:i a')}}
+<div class="span11 center">
+<legend>{{file.name}}</legend>
+</li>    
+Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}}
 
 
 {# Doc display #}
 <div class="row margin-top clear">
-<div class="span8 doc border pad">          
+<div class="span7 well pad">          
+<div class="doc-body">
 {{ doc.body|raw }}
+</div>
         
 <a class="btn btn-info btn-small pull-right" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view') }) }}">Respond</a>        
 </div>
  
 {# Doc tools #}        
 <div class="span3">         
-<div class="span3 well doc" style='position:fixed; margin-left: -1em;'>  
+<div class="span3 well" style='position:fixed; margin-left: -1em;'>  
 <div class='cell clear'>
     
     {# Markup #}
@@ -98,19 +102,21 @@ Last updated on {{doc.updated|date('M d Y,   g:i a')}}
         
         
 {# Responses #}
-<div class="span8 doc border pad"> 
-{% for response in file.responses %}
 {% if loop.first %}    
+{% for response in file.responses %}
+<div class="span7 well pad"> 
 <div class="page-header" >
-<strong>Responses</strong>
+<span class="responses">Responses</span>
 </div>       
 {% endif %}      
 <div class="divider cell clear ">
-<strong>By {{ response.user.firstname}} {{ response.user.lastname}}</strong>
+<span class="response-poster">{{ response.user.firstname}} {{ response.user.lastname}} says:</response>
 {% if response.isOwner(app.user.username) %}
 <a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view')  }) }}">Edit</a>
 {% endif %}
-{{ response.body|raw }}                
+<div class="span6 pad1">
+{{ response.body|raw }} 
+</div>               
 </div>   
 {% endfor %}    
             
@@ -118,5 +124,5 @@ Last updated on {{doc.updated|date('M d Y,   g:i a')}}
 </div>
 
 
-    
+</div>    
 {% endblock %}
