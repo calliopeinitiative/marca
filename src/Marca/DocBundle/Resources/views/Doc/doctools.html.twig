@@ -1,11 +1,10 @@
 {# Marca/DocBundle/Resources/views/Doc/doctools.html.twig #}
 {# INSERT NOTE #}
 
-<div class='clear'>
+<div class="span3 well doc" style="">
 <a href="javascript:void(0)" class="" tabindex="1" onclick="$('#insert_note_tools').toggle()" title="Toggle Insert Note">Insert Note</a>
-</div>
 
-<div class='' id='insert_note_tools'>
+<div class='hide' id='insert_note_tools'>
 <div class=''>
 <form id='note_insert_form' name='note_insert_form'>
 <textarea  class='span3' id="insert_value" name="html_insert" tabindex="1"></textarea>
@@ -13,9 +12,9 @@
 </form>     
 </div>
 </div>
+</div>
 
-
-<div class = "accordion" id="markup" style='width:100%; margin-top: 1em;'>
+<div class = "accordion span3 well doc" id="markup" style='width:100%'>
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#collapseOne">Markup Tags</a>

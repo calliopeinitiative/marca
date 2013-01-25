@@ -20,6 +20,7 @@ var color = color;
 var marked = nEditor.getSelection().getNative();
 var markup = CKEDITOR.dom.element.createFromHtml('<span title="'+ tag + '" class="'+ tag + ' markup ' + color +'">' + nEditor.getSelection().getNative() + ' </span>');
 nEditor.insertElement( markup );
+
 }
 function note()
 {
@@ -30,7 +31,7 @@ if ( nEditor.mode == 'wysiwyg' )
 var hightlight = CKEDITOR.dom.element.createFromHtml('<span class="eDoc_highlight ' + note_id + '">' + nEditor.getSelection().getNative() + ' </span>');
 nEditor.insertElement( hightlight );
 var note = CKEDITOR.dom.element.createFromHtml( '<span class="eDoc_note ' + note_id + '"> '+ document.getElementById('insert_value').value + ' </span>');
-nEditor.insertElement( note );$( "form#note_insert_form" )[ 0 ].reset();
+nEditor.insertElement( note );$('#insert_value').val('');
 }
 else
 alert( 'You must be on WYSIWYG mode!' );
