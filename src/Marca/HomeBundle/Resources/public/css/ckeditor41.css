@@ -6,7 +6,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 body
 {
 	/* Font */
-	font-size: 14px;line-height: 200%;;margin-bottom:27px;
+        font-family: Verdana, sans-serif;
+	font-size: 14px;line-height: 200%;margin-bottom:27px;
 
 	/* Text color */
 	color: #000;
