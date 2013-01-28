@@ -39,7 +39,7 @@ $('#close_window').click(function(){
 </script>
 
 {# Doc header #}
-<div class="span11 center">
+<div class="span12 center">
 <legend>{{file.name}}</legend>
 </li>    
 Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}}
@@ -47,7 +47,7 @@ Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y,
 
 {# Doc display #}
 <div class="row margin-top clear">
-<div class="span7 well pad">          
+<div class="span8 well pad">          
 <div class="doc-body">
 {{ doc.body|raw }}
 </div>
@@ -102,8 +102,9 @@ Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y,
         
         
 {# Responses #}
-{% if loop.first %}    
+   
 {% for response in file.responses %}
+{% if loop.first %}         
 <div class="span7 well pad"> 
 <div class="page-header" >
 <span class="responses">Responses</span>

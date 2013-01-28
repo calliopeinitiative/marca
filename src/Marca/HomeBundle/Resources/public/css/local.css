@@ -82,12 +82,12 @@ form label.checkbox {clear:right;display:block;padding-top: .5em; }
 label.required {font-size:18px;margin-top:8px;}
 .inline label {font-size:18px;margin-top:8px;}
 .forum_title,.journal-title {font-size:24px;}
-.forum_comments {margin-left:12px;}
+.forum_comments {margin-left:14px;}
 #forum_nav_title {color:#333333;}
 .margin-top {margin-top:8px;}
-.journal-body p, .forum-body p, .doc-body p {font-size: 18px;line-height: 27px;margin-bottom:27px;}
+.journal-body p, .forum-body p, .doc-body p {font-size: 14px;line-height: 200%;margin-bottom:27px;}
 .journal-body {margin-bottom:60px;}
-.responses {font-size:18px;}
+.responses {font-size:14px;}
 
 form ul li {list-style: none;}
 
