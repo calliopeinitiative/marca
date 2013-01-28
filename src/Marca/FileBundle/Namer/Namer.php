@@ -18,9 +18,8 @@ class Namer implements NamerInterface
      */
     function name($obj, $field)
     {
-        $file = $obj->getFile();
-        $extension = $file->guessExtension();
+        $file = $obj->getFile()->getClientOriginalName();
 
-        return uniqid('', true).'.'.$extension;
+        return uniqid('', true).'.'.$file;
     }
 }

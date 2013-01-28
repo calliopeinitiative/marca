@@ -395,9 +395,11 @@ class FileController extends Controller
         
              $em = $this->getEm();
              $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+             $name = $file->getName();
              $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
              $path = $helper->asset($file, 'file');
              $ext = $file->getExt();
+             $filename = $name.'.'.$ext;
 		
 		$response = new Response();
 		
@@ -405,39 +407,51 @@ class FileController extends Controller
                 switch ($ext) {
                       case "png":
                       $response->headers->set('Content-Type', 'image/png');
+                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
                       break;
                       case "gif":
                       $response->headers->set('Content-Type', 'image/gif');
+                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');    
                       break;
                       case "jpeg":
                       $response->headers->set('Content-Type', 'image/jpeg');
+                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');     
                       break;
                       case "jpg":
                       $response->headers->set('Content-Type', 'image/jpeg');
+                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');     
                       break;
                       case "odt":
                       $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.text');
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
                       break;
                       case "ods":
                       $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet');
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
                       break;
                       case "odp":
                       $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.presentation');
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
                       break;
                       case "doc":
-                      $response->headers->set('Content-Type', 'application/msword');
+                      $response->headers->set('Content-Type', 'application/vnd.msword');
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
                       break;
                       case "docx":
                       $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
                       break;                  
                       case "ppt":
-                      $response->headers->set('Content-Type', 'application/mspowerpoint');
+                      $response->headers->set('Content-Type', 'application/vnd.mspowerpoint');
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
                       break;
                       case "xls":
-                      $response->headers->set('Content-Type', 'application/x-msexcel');
+                      $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
                       break;                  
                       case "pdf":
                       $response->headers->set('Content-Type', 'application/pdf');
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');   
                       break;
                       default:
                       $response->headers->set('Content-Type', 'application/octet-stream');    
@@ -449,7 +463,7 @@ class FileController extends Controller
 		return $response;
 	} 
         
-        
+         
  
    /**
      * Finds and displays an XSL transformation of a File entity.
