@@ -1,41 +1,58 @@
-{# Marca/DocBundle/Resources/views/Markupset/index.html.twig #}
+{# Marca/DocBundle/Resources/views/Markupset/show.html.twig #}
+
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
+<legend>Markup</legend>
 
-<div class="span2">
-<a class="btn btn-info" href="{{ path('markupset') }}">List</a>
-<a class="btn btn-primary" href="{{ path('markupset_edit', { 'id': entity.id }) }}">Edit</a>
- 
-</div>       
-  
-<div class="span1">        
-<form action="{{ path('markupset_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
-</form>
+<div class="row">
+<div class="span8">
+      <div class="btn-toolbar">
+      <a class="btn btn-primary btn-small" href="{{ path('markupset') }}">List All Markup Sets</a>    
+      <a class="btn btn-primary btn-small" href="{{ path('markupset_new') }}">Create Markup Set</a>
+      <a class="btn btn-primary  btn-small" href="{{ path('find_markupset') }}"> Import Markup Set</a>
+      </div>
+</div> 
 </div>
-  
 
-        
+<div class="row">
+<div class="accordion" id="markup_accordian"> 
+    
+  <div class="accordion-group span9">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#markup_accordian" href="#collapse">
+        {{ markupset.name }}
+      </a>
+            
+    </div>
+    <div id="collapse" class="accordion-body collapse in">
+      <div class="accordion-inner">
+          
+           <table class="table">
+           <tr>
+           <td colspan="5">
+           {% if markupset.isOwner(app.user.username) %}
+           <a class="btn btn-primary btn-mini" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit Markup Set</a> 
+           <a class='btn btn-primary btn-mini' href="{{ path('markup_new', { 'set_id' : markupset.getid}) }}">Create Markup Tag</a>
+           <a class='btn btn-primary btn-mini' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Add Tags from Other Sets</a>
+           {% endif %} 
+           </td>
+           </tr>
+           {% for markup in markupset.markup %}
+            <tr><td style='width:10%'><span class="label {{ markup.color }}" style='color:black;'>{{ markup.name }}</span></td>
+            <td style='width:30%'>{% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% else %}No URL{% endif %}</td>
+            <td  style='width:50%' colspan=2>{{ markup.mouseover }}</td>
+            <td style='width:10%'>{% if markupset.isOwner(app.user.username) %}<a class="btn btn-primary btn-mini  pull-right" href="{{ path('markup_edit', { 'id': markup.id, 'set_id': markupset.id  }) }}">Edit</a>{% endif %}</td></tr>        
+           {% endfor %}
+           </table>
+          
+    </div>
+    </div>
+  </div> 
+    
+</div>
 
-<div class="span6">    
-<table class="table table-bordered table-condensed table-striped">
-<tbody>        
-    <tr>
-        <th>Id</th>         
-        <td>{{ entity.id }}</td>         
-    </tr>        
-    <tr>
-        <th>Name</th>         
-        <td>{{ entity.name }}</td>         
-    </tr>        
-    <tr>
-        <th>Shared</th>         
-        <td>{{ entity.shared }}</td>         
-    </tr>  
-</tbody>
-</table>
-</div>          
+</div>
 {% endblock %}
+

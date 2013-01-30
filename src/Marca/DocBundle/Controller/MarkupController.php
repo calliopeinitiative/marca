@@ -105,7 +105,7 @@ class MarkupController extends Controller
             $em->persist($markup);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('markupset'));
+            return $this->redirect($this->generateUrl('markupset_show', array('id' => $set_id)));
             
         }
 
@@ -118,10 +118,10 @@ class MarkupController extends Controller
     /**
      * Displays a form to edit an existing Markup entity.
      *
-     * @Route("/{id}/edit", name="markup_edit")
+     * @Route("/{set_id}/{id}/edit", name="markup_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($id, $set_id)
     {
         $em = $this->getEm();
 
@@ -146,11 +146,11 @@ class MarkupController extends Controller
     /**
      * Edits an existing Markup entity.
      *
-     * @Route("/{id}/update", name="markup_update")
+     * @Route("/{set_id}/{id}/update", name="markup_update")
      * @Method("post")
      * @Template("MarcaDocBundle:Markup:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($id, $set_id)
     {
         $em = $this->getEm();
 
@@ -173,7 +173,7 @@ class MarkupController extends Controller
             $em->persist($markup);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('markupset'));
+            return $this->redirect($this->generateUrl('markupset_show', array('id' => $set_id)));
         }
 
         return array(

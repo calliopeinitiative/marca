@@ -72,6 +72,7 @@ a:hover {color: #006DCC;text-decoration: underline;}
 .toggle {display:none;}
 .note { width: 150px; height: 150px; padding: 0.5em; background: yellow;}
 .inline li {display: inline;}
+.inline {display: inline;}
 .table th, .table td {padding:4px;line-height: 25px;}
 .fc-event-title {cursor: pointer;cursor: hand;}
 .fc-event-time {cursor: pointer;cursor: hand;}
@@ -79,8 +80,8 @@ a:hover {color: #006DCC;text-decoration: underline;}
 form label.radio {clear:right;display:block;padding-top: .5em;}
 form label.checkbox {clear:right;display:block;padding-top: .5em; }
 #marca_forumbundle_forumtype_title {width:37em;}
-label.required {font-size:18px;margin-top:8px;}
-.inline label {font-size:18px;margin-top:8px;}
+label.required {font-size:14px;margin-top:8px;}
+.inline label {font-size:14px;margin-top:8px;}
 .forum_title,.journal-title {font-size:24px;}
 .forum_comments {margin-left:14px;}
 #forum_nav_title {color:#333333;}

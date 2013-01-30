@@ -17,12 +17,11 @@
 <div class = "accordion span3 well doc" id="markup" style='width:100%'>
     <div class="accordion-group">
         <div class="accordion-heading">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#collapseOne">Markup Tags</a>
+           <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#collapseOne">Markup Tags</a>
             </div>
-        <div id="collapseOne" class="accordion-body collapse">    
+             <div id="collapseOne" class="accordion-body collapse">    
 
                 {% for markupset in markupsets%}
-            
                 <div class="accordion-group">
                 <div class='accordion-heading'>
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#markup_{{markupset.id}}">{{ markupset.name }}</a>
@@ -31,19 +30,16 @@
                 <div class="accordion-inner">
                     
                 {% for markup in markupset.markup %}
-                 <a href="javascript:{{markup.function}}('{{markup.value}}','{{markup.color}}')" class="label label-info" tabindex="1" title="Submit entry"><span class="label {{ markup.color }}">{{ markup.name }}</span></a></li> 
-                {% endfor %} 
+                 <a href="javascript:{{markup.function}}('{{markup.id}}', '{{markup.value}}','{{markup.color}}')" tabindex="1" title="Submit entry"><span style='color:black;' class="label {{ markup.color }}">{{ markup.name }}</span></a></li> 
+                {% endfor %}  
                 
                 </div>
-                </div>
-                        
-                 </div>
-            
+                </div>                  
+                </div>          
                 {% endfor %}
               
         </div>
      </div>
-    
 </div>   
 
 {# EMBED 

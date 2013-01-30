@@ -41,18 +41,13 @@ class MarkupsetController extends Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
+        $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
 
-        $entity = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
-
-        if (!$entity) {
+        if (!$markupset) {
             throw $this->createNotFoundException('Unable to find Markupset entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        );
+        return array('markupset'=> $markupset,);
     }
 
     /**

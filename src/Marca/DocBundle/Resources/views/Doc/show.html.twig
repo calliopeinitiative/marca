@@ -27,9 +27,11 @@ var span_append = '<span class="hide eDoc_super">' + span_number + '</span>';
 $(this).append(span_append); 
 });
 
-$('.markup').mouseover(function (){ 
-var name = '#' + $(this).attr('title');    
-$('.popup').hide();$(name).show();
+{# display with title attr now deprecated #}
+$('.markup').mouseover(function (){    
+var name = '#' + $(this).attr('title');   
+var id = "[data-id='" + $(this).attr('data-id') + "']"; 
+$('.popup').hide();$(name).show();$(id).show();
 });
 $('#close_window').click(function(){
     window.close();
@@ -63,11 +65,11 @@ Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y,
     {# Markup #}
     {% for markupset in markupsets%}
     {% for markup in markupset.markup %}
-    <div id='{{ markup.value }}' class='popup hide'>
-            <span  class="label {{ markup.color }} ">{{ markup.name }}</span>
+    <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popup hide'>
+            <span  class="label {{ markup.color }} " style='color:black;'>{{ markup.name }}</span>
             <br/>
             {{ markup.mouseover }}
-            {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">URL</a>{% endif %}<hr/>
+            {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}<hr/>
     </div>        
 {% endfor %} 
 {% endfor %}
@@ -78,7 +80,10 @@ Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y,
 <div class='cell clear'>
 {% if doc.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %} 
 
+{# Don't show Review button if it is a review #}
+{% if file.reviewed|length == 0 %}
 <a class="btn btn-info btn-small" href="{{ course_path('doc_review', { 'fileid': file.id,'view': app.request.get('view'),'resource': '0' }) }}">Review</a>
+{% endif %}
 
 {% if app.request.get('view') == 'window' %}
 <a id="close_window" title="Will close the current window or tab" class="btn btn-warning btn-small" href="javascript:void(0);">Close</a>

@@ -21,22 +21,23 @@
     showInput: true,
     color: 'royalblue',
     palette: [
-        ['royalblue', 'seagreen', 'slateblue','darkorange'],
+        ['darkseagreen', 'cadetblue', 'chartreuse','darkorange'],
+        ['royalblue', 'seagreen', 'slateblue','coral'],
         ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
         ['orange', 'cadetblue', 'tomato','blueviolet']        
     ]
     });
     });
 </script>
-  
+
+<legend>Markup Tag</legend>  
+
 <div class="row">
 <div class="span6  well">  
     
 <form action="{{ path('markup_create', { 'set_id': set_id }) }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Submit</button>
-    </div>
+        <button class="btn btn-primary btn-small" type="submit">Submit</button>
 </form>       
 </div>
 </div>

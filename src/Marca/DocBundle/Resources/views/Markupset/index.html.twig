@@ -8,36 +8,53 @@
 <div class="row">
 <div class="span8">
       <div class="btn-toolbar">
-      <a class="btn btn-primary" href="{{ path('markupset_new') }}">Create New Markup Set</a>
-      <a class="btn btn-primary" href="{{ path('find_markupset') }}"> Import a Shared Markup Set</a>
+      <a class="btn btn-primary btn-small" href="{{ path('markupset_new') }}">Create Markup Set</a>
+      <a class="btn btn-primary  btn-small" href="{{ path('find_markupset') }}"> Import Markup Set</a>
       </div>
 </div> 
 </div>
 
 <div class="row">
-
-
-    {% for markupset in markupsets%}
-    <div class="span8 well">
-    <strong>{{ markupset.name }}</strong> {% if markupset.isOwner(app.user.username) %}<a class="btn btn-primary btn-mini pull-right" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit This Markup Set</a> {% endif %} 
-    <table class="table">
-    {% for markup in markupset.markup %}
-            <tr><td><span class="label {{ markup.color }}">{{ markup.name }}</span></td>
-                <td>{% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">URL</a>{% else %}No URL{% endif %}</td><td colspan=2>{{ markup.mouseover }}</td>
-                <td>{% if markupset.isOwner(app.user.username) %}<a class="btn btn-primary btn-mini  pull-right" href="{{ path('markup_edit', { 'id': markup.id }) }}">Edit</a>{% endif %}</td></tr>
-            
-    {% endfor %}
-    </table>
-    {% if markupset.isOwner(app.user.username) %}
-    <div class ="btn-toolbar pull-right">
-    <a class='btn btn-primary btn-mini' href="{{ path('markup_new', { 'set_id' : markupset.getid}) }}">Create Markup Tag</a>
-    <a class='btn btn-primary btn-mini' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Add tags to this set</a>
+<div class="accordion" id="markup_accordian">
+    
+{% for markupset in markupsets%}    
+    
+  <div class="accordion-group span9">
+    <div class="accordion-heading  pad1">
+      <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#markup_accordian" href="#collapse{{loop.index}}">
+        {{ markupset.name }}
+      </a>
+      <a class="btn btn-primary btn-mini pull-right" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit</a>       
     </div>
-    {% endif %}
-
+    <div id="collapse{{loop.index}}" class="accordion-body collapse">
+      <div class="accordion-inner">
+          
+           <table class="table">
+           <tr>
+           <td colspan="5">
+           {% if markupset.isOwner(app.user.username) %}
+           
+           <a class='btn btn-primary btn-mini' href="{{ path('markup_new', { 'set_id' : markupset.getid}) }}">Add Tag</a>
+           <a class='btn btn-primary btn-mini' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Inport Tags</a>
+           {% endif %} 
+           </td>
+           </tr>
+           {% for markup in markupset.markup %}
+            <tr><td style='width:10%'><span class="label {{ markup.color }}" style='color:black;'>{{ markup.name }}</span></td>
+            <td style='width:30%'>{% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% else %}No URL{% endif %}</td>
+            <td  style='width:50%' colspan=2>{{ markup.mouseover }}</td>
+            <td style='width:10%'>{% if markupset.isOwner(app.user.username) %}<a class="btn btn-primary btn-mini  pull-right" href="{{ path('markup_edit', { 'id': markup.id, 'set_id': markupset.id }) }}">Edit</a>{% endif %}</td></tr>        
+           {% endfor %}
+           </table>
+          
     </div>
-    {% endfor %}
+    </div>
+  </div>
 
+    
+{% endfor %}    
+    
+</div>
 
 </div>
 {% endblock %}
