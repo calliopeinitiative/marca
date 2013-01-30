@@ -43,11 +43,11 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 
 </div>
 
-<div class="span3">
-<div class="span3 well doc" style="">
+<div class="span3 well">
+
     <input class="btn btn-primary btn-small" type="submit" id="doc_save" value="Save"/>
     <a class="btn btn-warning btn-small" href="{{ course_path('doc_show', { 'id': doc.id, 'view': app.request.get('view') }) }}">Cancel</a>
-</div>    
+<hr/>   
 {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 </div>         
 </div> 

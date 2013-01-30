@@ -65,9 +65,8 @@ class Markupset
     private $shared=0;      
     
     /**
-     * Inverse Side
      *
-     * @ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Course")
+     * @ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="markupsets")
      *  
     **/
     protected $courses;
@@ -111,7 +110,6 @@ class Markupset
     public function __construct()
     {
         $this->markup = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->course = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
     }

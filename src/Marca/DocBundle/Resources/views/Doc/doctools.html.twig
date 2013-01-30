@@ -1,7 +1,7 @@
 {# Marca/DocBundle/Resources/views/Doc/doctools.html.twig #}
 {# INSERT NOTE #}
 
-<div class="span3 well doc" style="">
+
 <a href="javascript:void(0)" class="" tabindex="1" onclick="$('#insert_note_tools').toggle()" title="Toggle Insert Note">Insert Note</a>
 
 <div class='hide' id='insert_note_tools'>
@@ -12,9 +12,9 @@
 </form>     
 </div>
 </div>
-</div>
+<hr/>
 
-<div class = "accordion span3 well doc" id="markup" style='width:100%'>
+<div class = "accordion" id="markup" style='margin:-1em; width:110%;'>
     <div class="accordion-group">
         <div class="accordion-heading">
            <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#collapseOne">Markup Tags</a>
@@ -23,7 +23,7 @@
 
                 {% for markupset in markupsets%}
                 <div class="accordion-group">
-                <div class='accordion-heading'>
+                <div class='accordion-heading'  >
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#markup_{{markupset.id}}">{{ markupset.name }}</a>
                 </div>
                 <div id="markup_{{markupset.id}}" class=" accordion-body collapse">

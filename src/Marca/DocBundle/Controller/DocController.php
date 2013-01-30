@@ -43,16 +43,16 @@ class DocController extends Controller
      * @Route("/{courseid}/{id}/{view}/show", name="doc_show")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction($id,$courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-
+        $course = $this->getCourse();
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
         $file = $doc->getFile();
-        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findAll();
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
 
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
@@ -63,7 +63,7 @@ class DocController extends Controller
         return array(
             'doc'      => $doc,
             'file'        => $file,
-            'markupsets' => $markupsets,
+            'markup' => $markup,
             'delete_form' => $deleteForm->createView(),        );
     }
 
@@ -84,7 +84,7 @@ class DocController extends Controller
         $em = $this->getEm();
         $tag = '0';
 
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $course = $this->getCourse();
         $project = $em->getRepository('MarcaCourseBundle:Project')->findOneByCourse($courseid);
         $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
 
