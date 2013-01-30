@@ -81,7 +81,7 @@ Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y,
 
 {# Don't show Review button if it is a review #}
 {% if file.reviewed|length == 0 %}
-<a class="btn btn-info btn-small" href="{{ course_path('doc_review', { 'fileid': file.id,'view': app.request.get('view'),'resource': '0' }) }}">Review</a>
+<a class="btn btn-small" href="{{ course_path('doc_review', { 'fileid': file.id,'view': app.request.get('view'),'resource': '0' }) }}">Review</a>
 {% endif %}
 
 {% if app.request.get('view') == 'window' %}
@@ -89,11 +89,11 @@ Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y,
 {% elseif file.project.resource == 'true' %}
 <a class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
 {% else %}
-<a class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+<a class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
 {% endif %}
 
 {# Notes #}
-<a class="btn btn-info btn-small" href="javascript:void(0);" 
+<a class="btn btn-small" href="javascript:void(0);" 
  onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
 
 </div>
