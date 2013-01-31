@@ -6,7 +6,7 @@
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-timepicker-addon.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
 
 {% endblock %}
@@ -14,12 +14,17 @@
 {% block stylesheets %}
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
 {% endblock %}
 
 {% block content %}
+{% set set_date = app.request.get('set_date')|date("m/d/Y")%}
+
 <script language="javascript"> 
 $(document).ready(function()
 {
+$('#marca_calendarbundle_calendartype_startDate').val('{{set_date}}');
+    
 $('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {removePlugins: 'elementspath',height:100, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
 toolbar : [
 ['Bold','Italic','Link','Unlink','NumberedList','BulletedList','RemoveFormat'],
@@ -27,17 +32,11 @@ toolbar : [
 $( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
 showButtonPanel: true,
 });
-$( '#marca_calendarbundle_calendartype_startTime' ).timepicker({
-showButtonPanel: true,
-ampm: false,
-});
+$( '#marca_calendarbundle_calendartype_startTime' ).timepicker(({ 'timeFormat': 'H:i' }));
 $( '#marca_calendarbundle_calendartype_endDate' ).datepicker({
 showButtonPanel: true,
 });
-$( '#marca_calendarbundle_calendartype_endTime' ).timepicker({
-showButtonPanel: true,
-ampm: false,
-});
+$( '#marca_calendarbundle_calendartype_endTime' ).timepicker(({ 'timeFormat': 'H:i' }));
 $("#marca_calendarbundle_calendartype_color").spectrum({
     preferredFormat: "name",
     showPaletteOnly: true,
@@ -55,9 +54,10 @@ $("#marca_calendarbundle_calendartype_color").spectrum({
 <div class="span8 well"> 
 <form action="{{ course_path('calendar_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
     {{ form_widget(form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Create</button>
-    </div>
+        <div class='margin-top'>
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <a class="btn" href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Cancel</a>
+        </div>
 </form>
 </div>
 {% endblock %}

@@ -3,69 +3,35 @@
 {% extends 'MarcaCalendarBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/fullcalendar.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-timepicker-addon.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
 {% endblock %}
 {% block stylesheets %}
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/fullcalendar.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
 {% endblock %}
 {% block content %}
 <script language="javascript"> 
 $(document).ready(function()
 {
 {% set gotoyear = gotodate|date('Y') %}
-{% set gotomonth = gotodate|date('m') -1 %}        
-
-$('#calendar').fullCalendar(
-    {
-        header: 
-            {
-              left:   'title',
-              center: '',
-              right:  'today month,agendaWeek,agendaDay,prev,next'
-             },
-       events: [
-       {% for calendar in events %}
-    
-        {
-            title  : '{{ calendar.title }}',
-            color  : '{{ calendar.color }}',
-            start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date(' H:i:s') }}',
-            {% if calendar.isOwner(app.user.username) %}url :  '{{ course_path('calendar_edit', { 'id': calendar.id, 'gotodate':gotodate }) }}',{% endif %}
-            allDay : false,
-            textColor: 'black',
-        },
-
-       {% endfor %} 
-       ]
-       
-    });
-$('#calendar').fullCalendar( "gotoDate", {{gotoyear}},  {{gotomonth}} ); 
-
-$('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {removePlugins: 'elementspath',height:50, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+{% set gotomonth = gotodate|date('m') -1 %}    
+$('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {removePlugins: 'elementspath',height:100, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
 toolbar : [
 ['Bold','Italic','Link','Unlink','NumberedList','BulletedList','RemoveFormat'],
 ],} );
 $( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
 showButtonPanel: true,
 });
-$( '#marca_calendarbundle_calendartype_startTime' ).timepicker({
-showButtonPanel: true,
-ampm: false,
-});
+$( '#marca_calendarbundle_calendartype_startTime' ).timepicker(({ 'timeFormat': 'H:i' }));
 $( '#marca_calendarbundle_calendartype_endDate' ).datepicker({
 showButtonPanel: true,
 });
-$( '#marca_calendarbundle_calendartype_endTime' ).timepicker({
-showButtonPanel: true,
-ampm: false,
-});
+$( '#marca_calendarbundle_calendartype_endTime' ).timepicker(({ 'timeFormat': 'H:i' }));
 $("#marca_calendarbundle_calendartype_color").spectrum({
     preferredFormat: "name",
     showPaletteOnly: true,
@@ -77,42 +43,26 @@ $("#marca_calendarbundle_calendartype_color").spectrum({
         ['orange', 'cadetblue', 'tomato','blueviolet']        
     ]
 });
-$('#myModal').modal();
-$("#confirm_delete").click(function() {
-
-});
 });
 </script>
 
+<div class="span8 well"> 
+<form action="{{ course_path('calendar_update', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+    {{ form_widget(edit_form) }}
+    <div class='margin-top'>
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <a class="btn" href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Cancel</a>
+    </div>
+</form>
 
-{#  Modal #}
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Update Event</h3>
-</div>
-
-<div class="modal-body">         
-<form action="{{ course_path('calendar_update', { 'id': calendar.id, 'gotodate': gotodate }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate"> 
- 
-    {{ form_widget(edit_form) }} 
-
-<div id='update_submit'>             
-    <button class="btn btn-primary" type="submit">Update</button> 
-</div>
-</form>  
         
-<div id='delete_submit' style='margin-top:-3.5em'> 
-    <form id='calendar_delete' action="{{ course_path('calendar_delete', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post">
-            {{ form_widget(delete_form) }}  
-    <button class="btn btn-warning pull-right" type="submit">Delete</button>
-    </form>      
-</div>
-</div>
-</div>
+<form id='calendar_delete' action="{{ course_path('calendar_delete', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post">
+            {{ form_widget(delete_form) }}
+    <div class='delete_button'>    
+    <button class="btn btn-danger pull-right" type="submit">Delete</button>
+    </div>
+</form>      
+</div> 
 
-<div class="span9 well">
-        <div id='calendar'></div>
-</div>
 
 {% endblock %}

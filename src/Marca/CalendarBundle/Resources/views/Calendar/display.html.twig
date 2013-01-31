@@ -21,25 +21,32 @@
 {% block content %}
 <script language="javascript">
 $(document).ready(function() {       
-$('#calendar').fullCalendar(
-    {
+$('#calendar').fullCalendar(   
+    {      
         dayClick: function(date, allDay, jsEvent, view) {
-          $('#calendar_modal').load('{{ course_path('calendar_new_modal') }}');
-          $('#calendar_modal').modal();
-    },
+        {% if is_granted('ROLE_INSTR') %}    
+        var format_date = $.datepicker.formatDate('yy-mm-dd', date)   
+        var route = "{{ course_path('calendar_new', {'set_date': "event_gotodate" }) }}"; 
+        route = route.replace("event_gotodate", format_date);   
+        window.location.href = route;  
+        {% endif %}
+    }, 
         eventClick: function(calEvent, jsEvent, view) {
         if (calEvent.isOwner == 'yes') {   
-        var route = "{{ course_path('calendar_edit_modal', { 'id': "event_id", 'gotodate': "event_gotodate" }) }}";        
+        var route = "{{ course_path('calendar_edit', { 'id': "event_id", 'gotodate': "event_gotodate" }) }}";        
         route = route.replace("event_id", calEvent.id);
-        route = route.replace("event_gotodate", calEvent.gotodate)
+        route = route.replace("event_gotodate", calEvent.gotodate);
+        window.location.href = route; 
         }
         else {
         var route = "{{ course_path('calendar_show_modal', { 'id': "event_id", 'gotodate': "event_gotodate" }) }}";        
         route = route.replace("event_id", calEvent.id);
-        route = route.replace("event_gotodate", calEvent.gotodate)
-    }
+        route = route.replace("event_gotodate", calEvent.gotodate);
         $('#calendar_modal').load(route);
         $('#calendar_modal').modal();
+    }
+        
+        
     },
         header: 
             {
@@ -68,11 +75,6 @@ $('#calendar').fullCalendar(
 {% set gotoyear = gotodate|date('Y') %}
 {% set gotomonth = gotodate|date('m') -1 %}     
 $('#calendar').fullCalendar( "gotoDate", {{gotoyear}},  {{gotomonth}} ); 
-$('#calendar_new').click(function(){
-  $('#calendar_modal').load('{{ course_path('calendar_new_modal') }}');
-  $('#calendar_modal').modal();
-});
-
 });
 </script>
 

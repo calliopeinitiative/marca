@@ -21,13 +21,11 @@
 <script language="javascript">
 $(document).ready(function() {       
 $('#calendar_new').click(function(){
-  $('#calendar_modal').load('{{ course_path('calendar_new_modal') }}');
-  $('#calendar_modal').modal();
+  window.location.href = "{{ course_path('calendar_new', {'set_date': "now"|date("Y-m-d")} ) }}";  
 });
 {% for calendar in calendar %}
 $('#calendar_edit{{calendar.id}}').click(function(){
-  $('#calendar_modal').load('{{ course_path('calendar_edit_modal', { 'id': calendar.id, 'gotodate': gotodate }) }}');
-  $('#calendar_modal').modal();
+  window.location.href = "{{ course_path('calendar_edit', { 'id': calendar.id, 'gotodate': gotodate }) }}";  
 });
 {% endfor %}
 });

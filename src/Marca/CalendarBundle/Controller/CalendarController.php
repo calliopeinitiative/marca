@@ -31,7 +31,7 @@ class CalendarController extends Controller
         $em = $this->getEm();
         $course = $this->getCourse();
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
-        $gotodate = date("Y-m-d");
+        $gotodate = \date("Y-m-d");
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
@@ -54,7 +54,7 @@ class CalendarController extends Controller
         $em = $this->getEm();
         $course = $this->getCourse();
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseStart($course);
-        $gotodate = date("Y-m-d");
+        $gotodate = \date("Y-m-d");
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
@@ -148,7 +148,7 @@ class CalendarController extends Controller
     /**
      * Displays a form to create a new Calendar entity.
      *
-     * @Route("/{courseid}/new", name="calendar_new")
+     * @Route("/{courseid}/{set_date}/new", name="calendar_new")
      * @Template()
      */
     public function newAction($courseid)
@@ -395,7 +395,7 @@ class CalendarController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
+        $gotodate = \date("Y-m-d");
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 

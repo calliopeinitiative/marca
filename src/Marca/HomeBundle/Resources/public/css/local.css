@@ -90,6 +90,7 @@ label.required {font-size:14px;margin-top:8px;}
 .journal-body p, .forum-body p, .doc-body p {font-size: 14px;line-height: 200%;margin-bottom:27px;}
 .journal-body {margin-bottom:60px;}
 .responses {font-size:14px;}
+.delete_button {margin-top: -3.5em;}
 
 form ul li {list-style: none;}
 
