@@ -15,7 +15,7 @@ class JournalRepository extends EntityRepository
   public function findJournalRecent($user, $course)
     {  
        return $this->getEntityManager()
-               ->createQuery('SELECT j from MarcaJournalBundle:Journal j WHERE j.user = ?1 AND j.course = ?2 ORDER BY j.updated DESC')
+               ->createQuery('SELECT j from MarcaJournalBundle:Journal j WHERE j.user = ?1 AND j.course = ?2 ORDER BY j.created DESC')
                ->setParameters(array('1' => $user, '2' => $course))->getResult();
     }
 }
