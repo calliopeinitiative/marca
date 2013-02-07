@@ -26,7 +26,8 @@
         "knplabs/knp-paginator-bundle": "dev-master",
         "vich/uploader-bundle": "dev-master",
         "knplabs/gaufrette": "0.2.*@dev",
-        "knplabs/knp-gaufrette-bundle" : "dev-master"
+        "knplabs/knp-gaufrette-bundle" : "dev-master",
+        "knplabs/knp-components" : "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
