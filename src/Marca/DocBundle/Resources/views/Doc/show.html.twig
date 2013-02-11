@@ -36,6 +36,10 @@ $('.popup').hide();$(name).show();$(id).show();
 $('#close_window').click(function(){
     window.close();
 });
+$('#new_review').click(function(){
+  $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}');
+  $('#file_modal').modal();
+});
 
 });
 </script>
@@ -81,7 +85,7 @@ Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y,
 
 {# Don't show Review button if it is a review #}
 {% if file.reviewed|length == 0 %}
-<a class="btn btn-small" href="{{ course_path('doc_review', { 'fileid': file.id,'view': app.request.get('view'),'resource': '0' }) }}">Review</a>
+<a id="new_review" class="btn btn-primary btn-small" href="javascript:void(0)">Review</a>
 {% endif %}
 
 {% if app.request.get('view') == 'window' %}
@@ -128,6 +132,9 @@ Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y,
 </div>         
 </div>
 
+{# Modal #}
+<div id="file_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
+</div>
 
 </div>    
 {% endblock %}

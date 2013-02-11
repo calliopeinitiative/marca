@@ -79,10 +79,10 @@ class FileController extends Controller
     /**
      * Displays a form to create a new File entity for a LINK listing.
      *
-     * @Route("/{courseid}/{resource}/{tag}/{type}/new_modal", name="file_new_modal")
+     * @Route("/{courseid}/{resource}/{tag}/{type}/{fileid}/new_modal", defaults={ "fileid" = 0 }, name="file_new_modal")
      * @Template("MarcaFileBundle:File:new_modal.html.twig")
      */
-    public function newModalAction($courseid, $resource, $tag, $type)
+    public function newModalAction($courseid, $resource, $tag, $type, $fileid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -100,12 +100,6 @@ class FileController extends Controller
         $file->setName('New Link');
         $file->setUrl('http://newlink.edu');
         $form   = $this->createForm(new LinkType($options), $file);
-        }
-        elseif ($type == 'doc') {
-        $file->setName('New Document'); 
-        $form   = $this->createForm(new DocType($options), $file);
-        }
-
         return array(
             'file'      => $file,
             'resource'      => $resource,
@@ -116,6 +110,37 @@ class FileController extends Controller
             'course' => $course,
             'form'   => $form->createView()
         );
+        }
+        elseif ($type == 'doc') {
+        $file->setName('New Document'); 
+        $form   = $this->createForm(new DocType($options), $file);
+        return array(
+            'file'      => $file,
+            'resource'      => $resource,
+            'tag'      => $tag,
+            'type'      => $type,
+            'tags'        => $tags,
+            'roll'        => $roll,
+            'course' => $course,
+            'form'   => $form->createView()
+        );
+        }
+        elseif ($type == 'review'){
+           $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+           $file->setName('Review');
+           $form   = $this->createForm(new DocType($options), $file);
+           return array(
+                'file'      => $file,
+                'resource'      => $resource,
+                'tag'      => $tag,
+                'fileid' => $fileid,
+                'type'      => $type,
+                'tags'        => $tags,
+                'roll'        => $roll,
+                'course' => $course,
+                'form'   => $form->createView()
+            );  
+        }
     }
     
 
@@ -123,11 +148,11 @@ class FileController extends Controller
     /**
      * Creates a new File entity.
      *
-     * @Route("/{courseid}/{resource}/{tag}/{type}/create", name="file_create")
+     * @Route("/{courseid}/{resource}/{tag}/{type}/{fileid}/create", defaults={ "fileid" = 0 }, name="file_create")
      * @Method("post")
      * @Template("MarcaFileBundle:File:new.html.twig")
      */
-    public function createAction($courseid,$resource, $tag, $type)
+    public function createAction($courseid,$resource, $tag, $type, $fileid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -155,11 +180,18 @@ class FileController extends Controller
         $doc->setFile($file); 
         $doc->setBody('<p></p>'); 
         }
-
+        elseif ($type == 'review'){
+            $doc = new Doc();
+            $doc->setFile($file);
+            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+            $file->setReviewed($reviewed_file);
+            $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
+            $doc->setBody($reviewed_file->getDoc()->getBody());
+        }
         if ($form->isValid()) {
             $em = $this->getEm();
             $em->persist($file);
-            if ($type == 'doc') {
+            if ($type == 'doc' || $type == 'review') {
             $em->persist($doc);
             }
             $em->flush();
@@ -167,7 +199,7 @@ class FileController extends Controller
         if ($type == 'link') {
         return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'id'=> $file->getId(),'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource, 'user'=>'0')));
         }
-        elseif ($type == 'doc') {
+        elseif ($type == 'doc' || $type == 'review') {
         return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $doc->getId(),'view'=>'app')));
         }
         
