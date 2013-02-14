@@ -44,12 +44,29 @@ $('#new_review').click(function(){
 });
 </script>
 
-{# Doc header #}
+
 <div class="span12 center">
 <h3>{{file.name}}</h3>
  
 Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}}
+<span class="margin-left">
+{% if doc.isOwner(app.user.username) %}<a title="Edit this document" class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %} 
 
+{# Don't show Review button if it is a review #}
+{% if file.reviewed|length == 0 %}
+<a title="Create a copy of this document for peer review" id="new_review" class="btn btn-primary btn-small" href="javascript:void(0)">Review</a>
+{% endif %}
+
+{% if app.request.get('view') == 'window' %}
+<a title="Close the current window or tab" id="close_window"  class="btn btn-warning btn-small" href="javascript:void(0);">Close</a>
+{% elseif file.project.resource == 'true' %}
+<a  title="Close this document" class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
+{% else %}
+<a title="Close this document" class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+{% endif %}
+<a title="Show the notes in the margin" class="btn btn-small" href="javascript:void(0);" 
+ onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
+</span>
 
 {# Doc display #}
 <div class="row margin-top clear">
@@ -75,45 +92,16 @@ Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y,
 {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}<hr/>
 </div>        
 {% endfor %} 
-
-   
 </div> 
-
-{# Doc edit button #}
-<div class='cell clear'>
-{% if doc.isOwner(app.user.username) %}<a title="Edit this document" class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %} 
-
-{# Don't show Review button if it is a review #}
-{% if file.reviewed|length == 0 %}
-<a title="Create a copy of this document for peer review" id="new_review" class="btn btn-primary btn-small" href="javascript:void(0)">Review</a>
-{% endif %}
-
-{% if app.request.get('view') == 'window' %}
-<a title="Close the current window or tab" id="close_window"  class="btn btn-warning btn-small" href="javascript:void(0);">Close</a>
-{% elseif file.project.resource == 'true' %}
-<a  title="Close this document" class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
-{% else %}
-<a title="Close this document" class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
-{% endif %}
-
-
-
-{# Notes #}
-<a title="Show the notes in the margin" class="btn btn-small" href="javascript:void(0);" 
- onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
-
-</div>
 
 <div id='notes_container' class='divider cell clear hide'>
 <h4>Notes</h4> 
 </div> 
  
 {# Responses #}
-   
 {% for response in file.responses %}
 {% if loop.first %}         
 <div class='cell clear'>
-<hr/>
 <h4>Responses</h4>     
 {% endif %}      
 <div class="divider cell clear ">
