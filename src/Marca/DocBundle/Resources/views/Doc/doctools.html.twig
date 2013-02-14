@@ -1,27 +1,37 @@
 {# Marca/DocBundle/Resources/views/Doc/doctools.html.twig #}
 {# INSERT NOTE #}
 
+<div id='doctools' class="span3 well" style='position:fixed; margin-left: -1em;'>  
+<div  class='cell clear'>
+<div class='' id='insert_note_tools'>
 
-<a href="javascript:void(0)" class="" tabindex="1" onclick="$('#insert_note_tools').toggle()" title="Toggle Insert Note">Insert Note</a>
-
-<div class='hide' id='insert_note_tools'>
-<div class=''>
 <form id='note_insert_form' name='note_insert_form'>
 <textarea  class='span3' id="insert_value" name="html_insert" tabindex="1"></textarea>
-<a id='note_insert_submit' href="javascript:void(0)" class="label label-info" tabindex="1" title="Submit entry">Insert</a>
+<a id='note_insert_submit' href="javascript:void(0)" class="label label-info" tabindex="1" title="Submit entry">Insert Note</a>
 </form>     
-</div>
+
 </div>
 <hr/>
 
-<div class = "accordion" id="markup" style='margin:-1em; width:110%;'>
+<div class=''>
+{% for markupset in markupsets%}
+{% if loop.first %}
+{% for markup in markupset.markup  %}
+                 <a href="javascript:{{markup.function}}('{{markup.id}}', '{{markup.value}}','{{markup.color}}')" tabindex="1" title="Submit entry"><span style='color:black;' class="label {{ markup.color }}">{{ markup.name }}</span></a></li> 
+{% endfor %}  
+{% endif %}
+{% endfor %}
+</div>
+<hr/>
+<div class = "accordion" id="markup" style='margin:-1em; width:100%;'>
     <div class="accordion-group">
         <div class="accordion-heading">
-           <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#collapseOne">Markup Tags</a>
+           <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#collapseOne">All Markup Tags</a>
             </div>
              <div id="collapseOne" class="accordion-body collapse">    
 
                 {% for markupset in markupsets%}
+                {% if not loop.first %}
                 <div class="accordion-group">
                 <div class='accordion-heading'  >
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#markup_{{markupset.id}}">{{ markupset.name }}</a>
@@ -35,12 +45,15 @@
                 
                 </div>
                 </div>                  
-                </div>          
+                </div> 
+                {% endif %} 
                 {% endfor %}
               
         </div>
      </div>
 </div>   
+</div>
+</div>
 
 {# EMBED 
 

@@ -16,6 +16,11 @@ class MarkupsetRepository extends EntityRepository
         return $this->getEntityManager()
                 ->createQuery('SELECT m from MarcaDocBundle:Markupset m JOIN m.users u WHERE u.id = ?1 AND m.shared = 0')->setParameter('1', $user->getId())->getResult();
     }
+    
+    public function findMarkupSetsByUser($user){
+        return $this->getEntityManager()
+                ->createQuery('SELECT m from MarcaDocBundle:Markupset m JOIN m.users u WHERE u.id = ?1 ORDER BY m.sortorder')->setParameter('1', $user->getId())->getResult();
+    }    
             
     
 }

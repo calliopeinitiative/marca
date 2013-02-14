@@ -65,7 +65,7 @@ class File
 
     /**
      * @ORM\ManyToOne(targetEntity="File", inversedBy="reviews")
-     * @ORM\JoinColumn(name="reviewed_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="reviewed_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $reviewed;
     

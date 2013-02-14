@@ -62,7 +62,14 @@ class Markupset
      *
      * @ORM\Column(name="shared", type="integer", nullable=true)
      */
-    private $shared=0;      
+    private $shared=0;   
+    
+    /**
+     * @var integer $sortorder
+     *
+     * @ORM\Column(name="sortorder", type="integer", nullable=true)
+     */
+    private $sortorder=0;      
     
     /**
      *
@@ -312,5 +319,28 @@ class Markupset
             return 0;
         }
         return($a->shared > $b->shared) ? +1 : -1;
+    }
+
+    /**
+     * Set sortorder
+     *
+     * @param integer $sortorder
+     * @return Markupset
+     */
+    public function setSortorder($sortorder)
+    {
+        $this->sortorder = $sortorder;
+    
+        return $this;
+    }
+
+    /**
+     * Get sortorder
+     *
+     * @return integer 
+     */
+    public function getSortorder()
+    {
+        return $this->sortorder;
     }
 }

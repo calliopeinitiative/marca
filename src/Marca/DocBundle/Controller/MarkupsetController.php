@@ -27,8 +27,8 @@ class MarkupsetController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $user = $this->getUser();
         
-        //$markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findAll();
-        $markupsets = $user->getMarkupsets();
+        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findMarkupSetsByUser($user);
+        //$markupsets = $user->getMarkupsets();
         return array('markupsets' => $markupsets);
     }
 

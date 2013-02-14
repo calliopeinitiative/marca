@@ -140,7 +140,7 @@ class DocController extends Controller
         $user = $this->getUser();
         $course = $this->getCourse();
         
-        $markupsets = $course->getMarkupsets();
+        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findMarkupSetsByUser($user);
         
         $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $reviewed_body = $reviewed_file->getDoc()->getBody();
@@ -175,7 +175,7 @@ class DocController extends Controller
 
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
         $file = $doc->getFile();
-        $markupsets = $course->getMarkupsets();
+        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findMarkupSetsByUser($user);
         
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');

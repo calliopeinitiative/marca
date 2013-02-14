@@ -19,6 +19,10 @@ $('#file_{{file.id}}').click(function(){
   $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'index'}) }}');
   $('#file_modal').modal();
 });
+$('.edit_{{file.id}}').click(function(){
+  $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}');
+  $('#file_modal').modal();
+});
 {% endfor %}
 {% endfor %}
 });
@@ -111,6 +115,7 @@ Recent Files</a></li>
     <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         {% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<li><a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a></li>{% endif%}
+        {% if file.isOwner(app.user.username) %}<li><a class='edit_{{file.id}}' href="javascript:void(0);">Edit Listing</a></li>{% endif%}
         <li><a id='file_{{file.id}}' href="javascript:void(0);" title='More info about this file'>More Info</a></li>
         </ul>
      </li>
