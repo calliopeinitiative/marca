@@ -84,6 +84,7 @@ Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y,
 <div  class='cell clear'>
     
 {# Markup #}
+
 {% for markup in markup %}
 <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popup hide'>
 <span  class="label {{ markup.color }} " style='color:black;'>{{ markup.name }}</span>
@@ -92,6 +93,7 @@ Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y,
 {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}<hr/>
 </div>        
 {% endfor %} 
+   
 </div> 
 
 <div id='notes_container' class='divider cell clear hide'>
