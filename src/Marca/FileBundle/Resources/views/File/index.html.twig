@@ -28,23 +28,39 @@ $('.edit_{{file.id}}').click(function(){
 });
 </script>
 
-<div class="span9 well"> 
-    
-  
-<ul class="nav nav-pills">
-
+<div class="span9">  
+<ul class="nav nav-pills  well">
 <li class="{% if active_project == 0 %}active{% endif %}">
 <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
 Recent Files</a></li>
-
 {% for project in projects %}
 <li class="{% if active_project == project.id %}active{% endif %} ">
 <a class="" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
 {{ project.name }}</a></li>
 {% endfor %}
- 
-</ul>
+</ul>  
 
+        
+<ul class="breadcrumb well">
+<li> 
+{% if app.request.get('scope')=='mine' and app.request.get('resource')=='0' %}My Files
+{% elseif app.request.get('scope')=='all' and app.request.get('resource')=='0' %}All Files
+{% elseif app.request.get('scope')=='all' or app.request.get('scope')=='byuser' and app.request.get('resource')=='0' %}
+Files by {{ byuser.firstname }} {{ byuser.lastname }}
+{% endif %}
+<span class="divider">/</span>
+</li>
+<li>
+{% if app.request.get('tag')!='0' and app.request.get('resource')=='0' %}
+<span class="label {{ tag.color }}">{{ tag.name }}</span>
+{% else %}
+<span class="label">All Labels</span>
+{% endif %}
+</li>
+</ul>        
+</div>
+
+<div class="span9 well"> 
 <table class="table">
 {% for file in files%}
 {# list headings #}        

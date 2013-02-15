@@ -45,6 +45,7 @@ class FileController extends Controller
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser, $role);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
+        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         
         //pagination for files
@@ -52,7 +53,7 @@ class FileController extends Controller
         $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),15);
 
         return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 
-            'tags' => $tags, 'course' => $course, 'roll' => $roll);
+            'tags' => $tags, 'tag' => $tag, 'byuser' => $byuser, 'course' => $course, 'roll' => $roll);
     }  
            
  
