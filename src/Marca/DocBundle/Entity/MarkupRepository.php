@@ -15,7 +15,7 @@ class MarkupRepository extends EntityRepository
     public function findMarkupByUser($user)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT m from MarcaDocBundle:Markup m WHERE m.user = ?1 ORDER BY m.name')->setParameter('1',$user)->getResult();
+            ->createQuery('SELECT m from MarcaDocBundle:Markup m JOIN m.markupset s WHERE s.owner = ?1 ORDER BY m.name')->setParameter('1',$user)->getResult();
     }
     
      public function findMarkupByCourse($course)
