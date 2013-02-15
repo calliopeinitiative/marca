@@ -56,10 +56,12 @@ $('form li').addClass('alert alert-error');
             <div class="span4 well">        
             {{ form_row (edit_form.tagset) }}
             </div> 
- 
-            <div class="span4 well">
-            {{ form_rest(edit_form) }}    
+    
+            <div class="span4 well">    
+            {{ form_row (edit_form.markupsets) }}
             </div> 
+ 
+            {{ form_rest(edit_form) }}    
       <div class="span8 well"> 
       <button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn btn-warning" href="{{ path('course') }}">Cancel</a>
       </div>

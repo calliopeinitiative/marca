@@ -50,10 +50,11 @@ class DocController extends Controller
         
         $em = $this->getEm();
         $course = $this->getCourse();
+        $owner = $course->getUser();
         $user = $this->getUser();
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
         $file = $doc->getFile();
-        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByUser($user);
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByOwner($owner);
 
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');

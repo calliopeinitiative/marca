@@ -12,10 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class MarkupRepository extends EntityRepository
 {
-    public function findMarkupByUser($user)
+    public function findMarkupByOwner($owner)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT m from MarcaDocBundle:Markup m JOIN m.markupset s WHERE s.owner = ?1 ORDER BY m.name')->setParameter('1',$user)->getResult();
+            ->createQuery('SELECT m from MarcaDocBundle:Markup m JOIN m.markupset s WHERE s.owner = ?1 ORDER BY m.name')->setParameter('1',$owner)->getResult();
     }
     
      public function findMarkupByCourse($course)

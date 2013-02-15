@@ -32,10 +32,12 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 <div class="span8">
     <h3>{{file.name}}</h3> 
     <span>Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}}</span>
-    <span id='backup_alert' class='alert alert-info margin-left'>Backing up work</span>
+    
     
     <input class="btn btn-primary btn-small margin-left" type="submit" id="doc_save" value="Save"/>
     <a class="btn btn-small" href="{{ course_path('doc_show', { 'id': doc.id, 'view': app.request.get('view') }) }}">Cancel</a> 
+    
+    <span id='backup_alert' class='alert alert-info margin-left'>Backing up work</span>
 </div>
 
 <div class="span8 margin-top">         

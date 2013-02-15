@@ -73,12 +73,12 @@
         <td>{{ course.portStatus=='t' ? 'Yes' : 'No' }}</td>         
     </tr>
      <tr>
-        <th>Tagset</th>         
-        <td>{% for tagset in tagsets %}{{ tagset.name}}{% endfor %}</td>         
+        <th>Label Sets</th>         
+        <td>{% for tagset in tagsets %}{{ tagset.name}}{% if not loop.last %}, {% endif %}{% endfor %}</td>         
     </tr>
     <tr>
         <th>Markup Sets</th>
-        <td>{% for markupset in course.markupsets %}{{ markupset.name}}, {% endfor %}</td>
+        <td>{% for markupset in course.markupsets %}{{ markupset.name}}{% if not loop.last %}, {% endif %}{% endfor %}</td>
     </tr>
     
     
