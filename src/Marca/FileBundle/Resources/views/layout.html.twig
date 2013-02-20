@@ -54,20 +54,18 @@ $('#file_new_link').click(function(){
 </li>
 {% endif %}
 
+{# roll for find by user  #}
 {% if app.request.get('resource')=='0' %}
 <li class="dropdown {% if app.request.get('scope')=='byuser' %}active{% endif %}">
    <a href="javascript:void(0);" role="button" class="dropdown-toggle " data-toggle="dropdown" id="dLabel">Roll<b class="caret"></b></a>
        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
            {% for roll in roll %}
-           <li><a id="{{loop.index}}" href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 
+           <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 
            {% endfor %}
-           {#  add jquery next previous #}
        </ul>
  </li>
 {% endif %}
  
-{# if for resources (No tags for resources)  #}
-{% if app.request.get('resource')=='0' %}
 
     <ul class="nav nav-list">
         <li><a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}"><span class="label">All Labels</span></a></li>
@@ -76,7 +74,6 @@ $('#file_new_link').click(function(){
     {% endfor %}
     </ul> 
 
- {% endif %} 
 
 
 {% endblock %}  

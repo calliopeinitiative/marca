@@ -25,6 +25,7 @@ $('.edit_{{file.id}}').click(function(){
 });
 {% endfor %}
 {% endfor %}
+
 });
 </script>
 
@@ -45,18 +46,33 @@ Recent Files</a></li>
 <li> 
 {% if app.request.get('scope')=='mine' and app.request.get('resource')=='0' %}My Files
 {% elseif app.request.get('scope')=='all' and app.request.get('resource')=='0' %}All Files
-{% elseif app.request.get('scope')=='all' or app.request.get('scope')=='byuser' and app.request.get('resource')=='0' %}
-Files by {{ byuser.firstname }} {{ byuser.lastname }}
+{% elseif byuser %}
+Files by {{ byuser.firstname }} {{ byuser.lastname }} 
+
+{# next previous users on roll #} 
+<li class='pull-right'>
+{% for roll in roll %}
+{% if loop.index == app.request.get('user') + 1 %}  
+<span style='margin-right:3em;'></span>        
+<a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}<i class="icon-chevron-right"></i></a>
 {% endif %}
-<span class="divider">/</span>
-</li>
-<li>
+{% if loop.index == app.request.get('user') - 1 %}
+<a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}"><i class="icon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
+{% endif %}
+{% endfor %}
+</li> 
+{% endif %}
+
+<li  class='margin-left'>
 {% if app.request.get('tag')!='0' and app.request.get('resource')=='0' %}
 <span class="label {{ tag.color }}">{{ tag.name }}</span>
 {% else %}
 <span class="label">All Labels</span>
 {% endif %}
 </li>
+
+
+           
 </ul>        
 </div>
 
