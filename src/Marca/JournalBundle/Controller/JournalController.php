@@ -45,7 +45,7 @@ class JournalController extends Controller
     /**
      * Lists all Journal entities.
      *
-     * @Route("/{courseid}/{userid}/journal_by_user", name="journal_user")
+     * @Route("/{courseid}/{userid}/{user}/journal_by_user", name="journal_user")
      * @Template("MarcaJournalBundle:Journal:index.html.twig")
      */
     public function indexByUserAction($courseid, $userid)
@@ -64,7 +64,7 @@ class JournalController extends Controller
         $paginator = $this->get('knp_paginator');
         $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', 1),5);
         
-        return array('journal' => $journal, 'roll' => $roll);
+        return array('journal' => $journal, 'roll' => $roll, 'user' => $user);
     }    
 
     /**

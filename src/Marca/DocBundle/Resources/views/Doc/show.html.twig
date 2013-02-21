@@ -40,7 +40,9 @@ $('#new_review').click(function(){
   $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}');
   $('#file_modal').modal();
 });
-
+var string = $(".doc-body").text();
+var count = string.split(" ");
+$("#word-count").text(count.length);
 });
 </script>
 
@@ -48,7 +50,7 @@ $('#new_review').click(function(){
 <div class="span12 center">
 <h3>{{file.name}}</h3>
  
-Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}}
+Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}} / Word count: <span id="word-count"></span>
 <span class="margin-left">
 {% if doc.isOwner(app.user.username) %}<a title="Edit this document" class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %} 
 

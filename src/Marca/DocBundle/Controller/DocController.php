@@ -52,6 +52,8 @@ class DocController extends Controller
         $course = $this->getCourse();
 
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
+        $text = $doc->getBody();
+        $count = str_word_count($text);
         $file = $doc->getFile();
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
 
@@ -63,6 +65,7 @@ class DocController extends Controller
 
         return array(
             'doc'      => $doc,
+            'count'=> $count,
             'file'        => $file,
             'markup' => $markup,
             'delete_form' => $deleteForm->createView(),        );
