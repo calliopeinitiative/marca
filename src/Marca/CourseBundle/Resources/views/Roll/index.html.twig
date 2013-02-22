@@ -7,6 +7,8 @@
 
     <legend><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Roll</legend><a class="btn btn-mini btn-info" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh</a>
     
+    {% if course.hasPendingStudents %}<a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{% endif %}
+
     <table class="table table-condensed"><tbody>  
     {% for roll in roll %}
     <tr>
@@ -27,7 +29,7 @@
     
     {{ knp_pagination_render(roll) }}
 
-    {% if course.hasPendingStudents %}<a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{% endif %}
+    
     
            
 </div>
