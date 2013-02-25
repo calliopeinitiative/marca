@@ -46,17 +46,19 @@ Recent Files</a></li>
 <li> 
 {% if app.request.get('scope')=='mine' and app.request.get('resource')=='0' %}My Files
 {% elseif app.request.get('scope')=='all' and app.request.get('resource')=='0' %}All Files
+{# hide if peer review #}
+{% elseif app.request.get('tag')=='3' and app.request.get('resource')=='0' %}
 {% elseif byuser %}
 Files by {{ byuser.firstname }} {{ byuser.lastname }} 
 
-{# next previous users on roll #} 
+{# next previous users on roll; hidden if peer review #} 
 <li class='pull-right'>
 {% for roll in roll %}
-{% if loop.index == app.request.get('user') + 1 %}  
+{% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}  
 <span style='margin-right:3em;'></span>        
 <a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}<i class="icon-chevron-right"></i></a>
 {% endif %}
-{% if loop.index == app.request.get('user') - 1 %}
+{% if loop.index == app.request.get('user') - 1 and app.request.get('tag')!='3' %}
 <a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}"><i class="icon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
 {% endif %}
 {% endfor %}

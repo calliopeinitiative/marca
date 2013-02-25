@@ -66,14 +66,14 @@ $('#file_new_link').click(function(){
  </li>
 {% endif %}
  
-
-    <ul class="nav nav-list">
+{# labels for find by label  #}
+<ul class="nav nav-list">
         <li><a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}"><span class="label">All Labels</span></a></li>
     {% for tag in tags %}
       <li><a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}"><span class="label {{ tag.color }}">{{ tag.name }}</span></a></li>
     {% endfor %}
-    </ul> 
-
+      
+</ul> 
 
 
 {% endblock %}  
