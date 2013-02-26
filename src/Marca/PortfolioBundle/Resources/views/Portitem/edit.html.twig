@@ -18,26 +18,24 @@ toolbar : [
 ],} );
 });
 </script>
-<div class="row">
-<div class="span6 well">
+<div class="span9 well">
+<legend>Portfolios</legend> 
 <form class="form" action="{{ path('portitem_delete', { 'id': portitem.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>
 </div>   
-</div>        
-<div class="row">
-<div class="span6">    
+      
+<div class="span9 well">
 <form action="{{ path('portitem_update', { 'id': portitem.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_errors(edit_form) }}
-        <legend>Portfolio</legend>
             {{ form_row(edit_form.name) }}
             {{ form_row(edit_form.description) }}
     {{ form_rest(edit_form) }}
     <div>
-        <button class="btn" type="submit">Update</button>
+        <button class="btn btn-primary" type="submit">Update</button>
     </div>
 </form>
 </div>
-</div>        
+       
 {% endblock %}

@@ -3,7 +3,7 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span8 well"> 
+<div class="span9 well"> 
 
     <legend><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Roll</legend><a class="btn btn-mini btn-info" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh</a>
     

@@ -3,21 +3,19 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<legend>Label Sets</legend>
 
-<div class="row">
-<div class="span4 well">
-    <a class="btn btn-info" href="{{ path('tagset') }}">List Label sets</a>
+
+<div class="span9 well">
+    <legend>Label Sets</legend>
 </div> 
-</div>
-<div class="row">
-<div class="span4 well" > 
+
+<div class="span9 well" > 
 <form action="{{ path('tagset_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Create</button>
+    <div class="margin-top">
+        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ path('tagset') }}">Cancel</a>
     </div>
 </form>
 </div>
-</div>        
+      
 {% endblock %}

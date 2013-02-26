@@ -66,7 +66,14 @@ class Tag
      *
      * @ORM\Column(name="shared", type="integer", nullable=true)
      */
-    private $shared=0;      
+    private $shared=0;    
+    
+    /**
+     * @var integer $systemtag
+     *
+     * @ORM\Column(name="systemtag", type="integer", nullable=true)
+     */
+    private $systemtag=0;      
 
    /**
     * @ORM\ManyToMany(targetEntity="Marca\TagBundle\Entity\Tagset", inversedBy="tag")
@@ -250,4 +257,6 @@ class Tag
     {
         return $this->shared;
     }
+
+
 }

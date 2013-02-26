@@ -42,7 +42,7 @@ class RollController extends Controller
      */
     public function courseRollAction($courseid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR);
+        $allowed = array(self::ROLE_STUDENT, self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();

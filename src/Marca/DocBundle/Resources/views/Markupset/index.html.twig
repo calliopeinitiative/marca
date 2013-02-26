@@ -3,28 +3,24 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
+<div class="span9 well">
 <legend>Markup</legend>
-
-<div class="row">
-<div class="span8">
-      <div class="btn-toolbar">
       <a class="btn btn-primary btn-small" href="{{ path('markupset_new') }}">Create Markup Set</a>
       <a class="btn btn-primary  btn-small" href="{{ path('find_markupset') }}"> Import Markup Set</a>
-      </div>
 </div> 
-</div>
 
-<div class="row">
+
+
 <div class="accordion" id="markup_accordian">
-    
+  
 {% for markupset in markupsets%}    
-    
-  <div class="accordion-group span9">
-    <div class="accordion-heading  pad05">
+ <div class="accordion-group span8 well">     
+
+    <div class="accordion-heading">
       <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#markup_accordian" href="#collapse{{loop.index}}">
         {{ markupset.name }}
       </a>
-      <a class="btn btn-primary btn-mini pull-right" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit</a>       
+      <a class="btn btn-primary btn-small pull-right" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit</a>       
     </div>
     <div id="collapse{{loop.index}}" class="accordion-body collapse">
       <div class="accordion-inner">
@@ -34,8 +30,8 @@
            <td colspan="5">
            {% if markupset.isOwner(app.user.username) %}
            
-           <a class='btn btn-primary btn-mini' href="{{ path('markup_new', { 'set_id' : markupset.getid}) }}">Add Tag</a>
-           <a class='btn btn-primary btn-mini' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Inport Tags</a>
+           <a class='btn btn-primary btn-small' href="{{ path('markup_new', { 'set_id' : markupset.getid}) }}">Add Tag</a>
+           <a class='btn btn-primary btn-small' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Inport Tags</a>
            {% endif %} 
            </td>
            </tr>
@@ -43,18 +39,17 @@
             <tr><td style='width:10%'><span class="label {{ markup.color }}" style='color:black;'>{{ markup.name }}</span></td>
             <td style='width:30%'>{% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% else %}No URL{% endif %}</td>
             <td  style='width:50%' colspan=2>{{ markup.mouseover }}</td>
-            <td style='width:10%'>{% if markupset.isOwner(app.user.username) %}<a class="btn btn-primary btn-mini  pull-right" href="{{ path('markup_edit', { 'id': markup.id, 'set_id': markupset.id }) }}">Edit</a>{% endif %}</td></tr>        
+            <td style='width:10%'>{% if markupset.isOwner(app.user.username) %}<a class="btn btn-primary btn-small  pull-right" href="{{ path('markup_edit', { 'id': markup.id, 'set_id': markupset.id }) }}">Edit</a>{% endif %}</td></tr>        
            {% endfor %}
            </table>
           
     </div>
     </div>
-  </div>
 
-    
+</div>    
 {% endfor %}    
     
-</div>
+
 
 </div>
 {% endblock %}

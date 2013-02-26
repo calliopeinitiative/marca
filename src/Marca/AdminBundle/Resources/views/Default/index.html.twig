@@ -3,16 +3,22 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-
+<div class="span9 well">
+<legend>Permissions</legend>
+</div>
+<div class="span9 well">
+<table class="table">   
+<tbody>    
 {% for user in users %}
-<ul>
-    <li>
-       {{user.lastname}}, {{user.firstname}}
-       <a href="{{ path('user_admin', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Permissions</a>
-    </li>
-</ul>
+        <tr>
+            <td>{{user.lastname}}, {{user.firstname}}</td>
+            <td><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+            <td><a href="{{ path('user_admin', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Permissions</a></td>
+       </tr>
 {% endfor %}
-
+</tbody>
+</table>
+</div>
 <div class="navigation">
     {{ knp_pagination_render(users) }}
 </div>

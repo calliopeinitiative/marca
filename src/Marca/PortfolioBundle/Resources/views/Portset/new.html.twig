@@ -18,22 +18,19 @@ toolbar : [
 ],} );
 });
 </script>
-<div class="row">   
-<div class="span6 well"> 
-<a class="btn btn-info" href="{{ path('portset') }}">List Portfolio Sets</a>
+<div class="span9 well">
+<legend>Portfolios</legend> 
 </div> 
-</div>        
-<div class="row">   
-<div class="span6 well"> 
+      
+<div class="span9 well">
 <form class="form" action="{{ path('portset_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
             {{ form_row(form.name) }}
             {{ form_row(form.description) }}
     {{ form_rest(form) }}
     <div>
-        <button class="btn btn-primary" type="submit">Create</button>
+        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ path('portset') }}">Cancel</a>
     </div>
 </form>
-</div>
-</div>        
+</div>       
 {% endblock %}

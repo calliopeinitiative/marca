@@ -3,9 +3,10 @@
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span8 well"> 
-
+<div class="span9 well"> 
     <legend>Roll</legend>
+</div>    
+<div class="span9 well">    
     <table class="table table-condensed"><tbody>  
     {% for roll in roll %}
     <tr>
@@ -16,11 +17,10 @@
     </tbody>
      </table>
     
-    {{ knp_pagination_render(roll) }}
-  
-           
+{{ knp_pagination_render(roll) }}           
 </div>
-<div class="span8 well">
+       
+<div class="span9 well">
 <a class="" target="_blank" href="mailto:{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}</a>
 </div>
 

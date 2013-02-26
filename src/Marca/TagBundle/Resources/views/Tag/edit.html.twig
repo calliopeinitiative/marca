@@ -29,17 +29,18 @@
     });
 </script>
 
+<div class="span9 well">
+    <legend>Label Sets</legend>
+</div> 
 
-<div class="row">   
-<div class="span6"> 
-    <legend>Labels</legend>
+<div class="span9 well">
 <form class="form" action="{{ path('tag_update', { 'id': tag.id }) }}" method="post" {{ form_enctype(edit_form) }}>
      {{ form_errors(edit_form) }}
             {{ form_row(edit_form.name) }}
             {{ form_row(edit_form.color) }}
             {{ form_row(edit_form.tagset) }} 
     {{ form_rest(edit_form) }}
-    <div class="submit">
+    <div class="margin-top">
         <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('tagset') }}">Cancel</a> 
     </div>
 </form>

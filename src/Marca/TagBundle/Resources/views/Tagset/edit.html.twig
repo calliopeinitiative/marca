@@ -3,19 +3,19 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<legend>Label Sets</legend>
+<div class="span9 well">
+    <legend>Label Sets</legend>
+</div> 
 
-<div class="row"> 
-<div class="span4 well">  
+<div class="span9 well">
     
 <form action="{{ path('tagset_update', { 'id': tagset.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         {{ form_errors(edit_form) }}
 
            {{ form_row(edit_form.name) }}
-        </table>   
     
     {{ form_rest(edit_form) }}
-    <div>
+    <div class='margin-top'>
         <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('tagset') }}">Cancel</a> 
     </div>
 </form>
@@ -25,5 +25,5 @@
             <button class="btn btn-danger" type="submit">Delete</button>
 </form>
 </div>
-</div>        
+     
 {% endblock %}

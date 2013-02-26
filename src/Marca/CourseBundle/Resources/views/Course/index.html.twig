@@ -6,20 +6,22 @@
 <div class="span9  well">
        <legend>Courses</legend>
       <a class="btn btn-primary" href="{{ path('course_new') }}">New Course</a>
-
-<table class="table">
-   
+</div>
+<div class="span9  well">      
+<table class="table">   
 <tbody>
     {% for course in courses %}
     <tr> 
         <td>{{ course.name }} {{ course.time|date('h:i a') }}</td> 
-        <td><a class="btn btn-primary" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>
-        <a class="btn btn-primary" href="{{ path('roll', { 'courseid': course.id }) }}">Roll</a>
-        <a class="btn btn-primary" href="{{ path('teams', { 'courseid': course.id }) }}">Teams</a></td>     
+        <td class="">
+        <a class="btn btn-primary btn-small pull-right" href="{{ path('teams', { 'courseid': course.id }) }}">Teams</a>
+        <a class="btn btn-primary btn-small pull-right" href="{{ path('roll', { 'courseid': course.id }) }}">Roll</a>
+        <a class="btn btn-primary btn-small pull-right" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a> 
+        </td>
     </tr>
     
     {% endfor %}
-    </tbody>
+</tbody>
 </table>
 </div>
 
