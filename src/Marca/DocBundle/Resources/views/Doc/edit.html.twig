@@ -13,9 +13,10 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins: 'elementspath', extraPlugins:'autogrow', autoGrow_maxHeight : 700, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
+$('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins: 'elementspath', autoGrow_maxHeight : 660, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
 toolbar : [
-['Styles','Bold','Italic','Underline','Strike','Font','FontSize','JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor','Link','Unlink','NumberedList','BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat']
+['Styles','Bold','Italic','Underline','Strike','Font','FontSize','JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor','Link','Unlink','NumberedList','BulletedList','Outdent','Indent','RemoveFormat'],
+['Image','oembed','SpecialChar']
 ],} );
 $('#backup_alert').toggle();
 

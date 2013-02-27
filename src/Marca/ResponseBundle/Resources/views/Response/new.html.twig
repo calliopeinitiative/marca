@@ -11,7 +11,7 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_responsebundle_responsetype_body').ckeditor( function() {}, {height:300, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+$('#marca_responsebundle_responsetype_body').ckeditor( function() {}, {removePlugins: 'elementspath', height:200,
 toolbar : [
 ['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
 'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
@@ -20,13 +20,13 @@ $('form li').addClass('alert alert-error');
 });
 </script>
 
-<div class="span8 well"> 
+<div class="span9 well"> 
 <form action="{{ course_path('response_create', { 'source': source, 'sourceid': sourceid,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
          {{ form_row(form.body) }}
          {{ form_rest(form) }}
         <button class="btn btn-primary" type="submit">Create</button>
-        <a class="btn btn-warning" href="{{ course_path(source, { 'id': sourceid,'view': app.request.get('view') }) }}">Cancel</a> 
+        <a class="btn" href="{{ course_path(source, { 'id': sourceid,'view': app.request.get('view') }) }}">Cancel</a> 
 </form>
           
 </div>

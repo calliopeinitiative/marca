@@ -11,7 +11,7 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_forumbundle_forumtype_body').ckeditor( function() {}, {height:200, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
+$('#marca_forumbundle_forumtype_body').ckeditor( function() {}, {removePlugins: 'elementspath', height:200,
 toolbar : [
 ['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
 'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
@@ -20,7 +20,7 @@ $('form li').addClass('alert alert-error');
 });
 </script>
 
-<div class="span8 well">    
+<div class="span9 well">    
 <form class="form" action="{{ course_path('forum_update', { 'id': forum.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
      {{ form_errors(edit_form) }}
          {{ form_row(edit_form.title) }}

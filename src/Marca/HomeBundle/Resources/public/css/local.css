@@ -38,7 +38,6 @@ box-shadow: 0px 0px 15px rgba(0,0,0,.5);}
 .caret {margin-top: .5em}
 .cell {float:left}
 .doc {background-color: white; border-color: gray;}
-form.form div {padding:.5em;}
 label.inline {display:block;clear:both;width:100%;}
 div.inline input {display:inline;}
 div.inline label {display:inline;padding:.5em;}
