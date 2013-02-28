@@ -6,7 +6,7 @@
 <div class="span9 well" >     
       <div class="page-header" >
           <strong><span class="forum_title">{{ forum.title }}</span></strong>
-          <span class="pull-right"><a class="btn btn-warning btn-mini" title="Close this discussion" href="{{ course_path('forum') }}">Close</a></span><br />
+          <span class="pull-right"><a class="btn" title="Close this discussion" href="{{ course_path('forum') }}">Close</a></span><br />
           <span>by {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}</span><br />
           <span> Created  {{ forum.created|date('M d Y, h:ia') }}  / Updated  {{ forum.updated|date('M d Y, h:ia') }}
              
