@@ -33,11 +33,15 @@ var name = '#' + $(this).attr('title');
 var id = "[data-id='" + $(this).attr('data-id') + "']"; 
 $('.popover').hide();$(name).show();$(id).show();
 });
-$('.markup').mouseout(function (){$('.popover').hide();});
+
+$('.popover-close').click(function(){
+$('.popover').hide();
+});
 
 $('#close_window').click(function(){
     window.close();
 });
+
 $('#new_review').click(function(){
   $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}');
   $('#file_modal').modal();
@@ -83,7 +87,8 @@ $("#word-count").text(count.length);
         
 {# Markup #}
 {% for markup in markup %}
-<div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover hide' style='position:fixed; left:500px; top:50px;padding:2em;'>
+<div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover hide'>
+<button type="button" class="close popover-close" aria-hidden="true">×</button>
 <span  class="label {{ markup.color }} " style='color:black;'>{{ markup.name }}</span>
 <br/>
 {{ markup.mouseover }}

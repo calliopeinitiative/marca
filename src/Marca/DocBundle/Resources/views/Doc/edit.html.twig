@@ -13,7 +13,7 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins: 'elementspath', autoGrow_maxHeight : 660, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
+$('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins: 'elementspath', autoGrow_maxHeight : 700, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
 toolbar : [
 ['Styles','Bold','Italic','Underline','Strike','Font','FontSize','JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor','Link','Unlink','NumberedList','BulletedList','Outdent','Indent','RemoveFormat'],
 ['Image','oembed','SpecialChar']
@@ -31,10 +31,8 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 <form id="doc_form" class="fixed-height" action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
 
 <div class="span8">
-    <h3>{{file.name}}</h3> 
-    <span>Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}}</span>
-    
-    
+    <h3  class='inline'>{{file.name}}</h3> 
+    <span>Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}}</span>   
     <input class="btn btn-primary btn-small margin-left" type="submit" id="doc_save" value="Save"/>
     <a class="btn btn-small" href="{{ course_path('doc_show', { 'id': doc.id, 'view': app.request.get('view') }) }}">Cancel</a> 
     
@@ -49,11 +47,10 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
     {{ form_rest(edit_form) }}    
 
 </div>
-
-{# Doc tools #}        
+     
               
 {# Doc tools #}        
-<div class="span3" style='margin-top:-6em'>         
+<div class="span3" style=''>         
 <div id='doctools' class="span3 well" style='position:fixed;'>  
 <div  class='cell clear' style='width: 99%'>
 {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
