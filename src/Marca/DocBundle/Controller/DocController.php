@@ -341,6 +341,55 @@ class DocController extends Controller
             ->getForm()
         ;
     }
-  
+    
+ 
+    /**
+     * Creates HTML for printing
+     *
+     * @Route("/{courseid}/{id}/print", name="doc_print")
+     * @Template("MarcaDocBundle:Doc:pdf.html.twig")
+     */
+    public function htmlPrintAction($id)
+    {    
+        $ip = $this->get('request')->getClientIp();
+        if ($ip != '::1')
+        {throw $this->createNotFoundException('Access Denied');}
+        else   
+        {
+        $em = $this->getEm();
+        $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id); 
+
+        if (!$doc) {
+            throw $this->createNotFoundException('Unable to find Doc entity.');
+        }
+
+        return array('doc' => $doc);
+        };
+    }
+    
+    
+    /**
+     * Creates a pdf of a Doc for printing.
+     *
+     * @Route("/{courseid}/{id}/pdf", name="doc_pdf")
+     */    
+    public function createPdfAction($id,$courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        $em = $this->getEm();
+        $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
+        $name = $doc->getFile()->getName();
+        $filename = 'attachment; filename="'.$name.'.pdf"';
+        
+        $pageUrl = $this->generateUrl('doc_print', array('id'=> $id,'courseid'=> $courseid),  true); // use absolute path!
+
+        return new Response(
+        $this->get('knp_snappy.pdf')->getOutput($pageUrl),
+          200,
+        array('Content-Type'=> 'application/force-download', 'Content-Disposition'  => $filename )
+         );
+    }
+    
 
 }
