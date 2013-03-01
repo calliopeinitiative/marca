@@ -66,8 +66,11 @@ $("#word-count").text(count.length);
 {% if file.reviewed|length == 0 %}
 <a title="Create a copy of this document for peer review" id="new_review" class="btn btn-small" href="javascript:void(0)">Review</a>
 {% endif %}
-<a class="btn btn-small" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view') }) }}">Respond</a>  
+<a class="btn btn-small" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view') }) }}">Respond</a>
+
+{#
 <a title="Print this document" class="btn btn-small" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>
+#}
 
 <a title="Show the notes in the margin" class="btn btn-small" href="javascript:void(0);" 
  onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
