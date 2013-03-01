@@ -49,7 +49,7 @@ Recent Files</a></li>
 {# hide if peer review #}
 {% elseif app.request.get('tag')=='3' and app.request.get('resource')=='0' %}
 {% elseif byuser %}
-Files by {{ byuser.firstname }} {{ byuser.lastname }} 
+Files by {{ byuser.firstname }} {{ byuser.lastname }}
 
 {# next previous users on roll; hidden if peer review #} 
 <li class='pull-right'>
@@ -72,7 +72,7 @@ Files by {{ byuser.firstname }} {{ byuser.lastname }}
 <span class="label">All Labels</span>
 {% endif %}
 </li>
-         
+<li class='pull-right'>{{ count }} file(s) found</li>         
 </ul>  
         
 </div>

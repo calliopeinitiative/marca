@@ -58,8 +58,9 @@ class FileController extends Controller
         //pagination for files
         $paginator = $this->get('knp_paginator');
         $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),15);
+        $count = $files->getTotalItemCount();
 
-        return array('files' => $files, 'projects' => $projects, 'active_project' => $project, 
+        return array('files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project, 
             'tags' => $tags, 'systemtags' => $systemtags, 'tag' => $tag, 'byuser' => $byuser, 'course' => $course, 'roll' => $roll);
     }  
            
