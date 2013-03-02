@@ -1,5 +1,5 @@
 {# Marca/DocBundle/Resources/views/Doc/pdf.html.twig #}
-
+{% if ip != '::1' %}
 <html>
 <head>   
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/bootstrap.css') }}">
@@ -21,4 +21,4 @@ body {background: #fff }
 </div> 
    
 </html>
-
+{%endif%}
