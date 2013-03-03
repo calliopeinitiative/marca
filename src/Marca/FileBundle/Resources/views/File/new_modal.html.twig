@@ -15,11 +15,11 @@ $(' form div ul li ul li').addClass('alert alert-error');
  <div class="modal-body">
       {{ form_errors(form) }} 
 
-            <div class="pad1">{{ form_row (form.name) }} </div>
-            <div class="pad1">{{ form_row (form.url) }} </div>
-            <div class="pad1">{{ form_row (form.project) }} </div> 
-            <div class="pad1">{{ form_row (form.tag) }} </div> 
-            <div class="pad1">{{ form_row (form.access) }} </div> 
+            <div class="label-margin-bottom">{{ form_row (form.name) }} </div>
+            <div class="label-margin-bottom">{{ form_row (form.url) }} </div>
+            <div class="label-margin-bottom">{{ form_row (form.project) }} </div> 
+            <div class="label-margin-bottom">{{ form_row (form.tag) }} </div> 
+            <div>{{ form_row (form.access) }} </div> 
 
         {{ form_rest(form) }}  
   </div>

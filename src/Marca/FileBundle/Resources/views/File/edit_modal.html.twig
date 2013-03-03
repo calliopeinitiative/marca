@@ -17,11 +17,11 @@ $('#file_show_{{file.id}}').click(function(){
   <div class="modal-body">
       {{ form_errors(edit_form) }} 
 
-            <div class="pad1">{{ form_row (edit_form.name) }} </div>
-            <div class="pad1">{{ form_row (edit_form.url) }} </div>
-            <div class="pad1">{{ form_row (edit_form.project) }} </div> 
-            <div class="pad1">{{ form_row (edit_form.tag) }} </div> 
-            <div class="pad1">{{ form_row (edit_form.access) }} </div> 
+            <div class="label-margin-bottom">{{ form_row (edit_form.name) }} </div>
+            <div class="label-margin-bottom">{{ form_row (edit_form.url) }} </div>
+            <div class="label-margin-bottom">{{ form_row (edit_form.project) }} </div> 
+            <div class="label-margin-bottom">{{ form_row (edit_form.tag) }} </div> 
+            <div>{{ form_row (edit_form.access) }} </div> 
 
         {{ form_rest(edit_form) }}  
   </div>

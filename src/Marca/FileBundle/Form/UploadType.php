@@ -26,7 +26,7 @@ class UploadType extends AbstractType
                 return $er->createQueryBuilder('p')
                 ->where('p.course = :course')
                 ->setParameter('course', $courseid)        
-                ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'label'  => 'Select Project', 'expanded' => true,'attr' => array('class' => 'inline'),)) 
+                ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'label'  => 'Project', 'expanded' => true,'attr' => array('class' => 'inline'),)) 
                 ->add('tag', 'entity', array('class' => 'MarcaTagBundle:Tag','property'=>'name','query_builder' => 
                   function(\Marca\TagBundle\Entity\TagRepository $er) use ($options) {
                   $courseid = $options['courseid'] ;  
@@ -36,7 +36,7 @@ class UploadType extends AbstractType
                         ->where('c.id = :course')
                         ->setParameter('course', $courseid)        
                         ->orderBy('c.name', 'ASC');
-                }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Select Labels', 'attr' => array('class' => 'checkbox'),
+                }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Labels', 'attr' => array('class' => 'checkbox'),
               ))  
              ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'inline'),))  
              ->add('file')           

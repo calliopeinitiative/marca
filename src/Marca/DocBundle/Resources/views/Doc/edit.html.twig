@@ -28,7 +28,7 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 });
 </script>
 
-<div class="span12 center" style='margin-top:-2em'>
+<div class="span12 center" style='margin-top:-2.5em'>
 <form id="doc_form" class="" action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
 
 <div class="span8">

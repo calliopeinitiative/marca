@@ -56,7 +56,12 @@ dl.dl-horizontal dd p {display:inline}
 
 
 .label {font-weight: normal;}
-.label {font-weight: normal;}
+label.required:first-child{font-weight:bold;}
+#file_modal .modal-footer {padding:6px 15px 6px;}
+label.required[for=marca_filebundle_filetype_url] {text-transform:uppercase;}
+input#marca_filebundle_filetype_name,input#marca_filebundle_filetype_url {padding-bottom:0;margin-bottom:0;}
+.label-margin-bottom{margin-bottom:15px;}
+.modal-header {margin-bottom:-15px;}
 
 a {color: #006DCC;text-decoration: none;}
 a:hover {color: #006DCC;text-decoration: underline;}
@@ -67,7 +72,7 @@ a:hover {color: #006DCC;text-decoration: underline;}
 .pad-left {padding-left: 3em}
 .margin-left {margin-left: 1em}
 .margin-top {margin-top: 1em}
-.margin-bottom {margin-top: 1em}
+.margin-bottom {margin-bottom: 1em}
 .toggle {display:none;}
 .note { width: 150px; height: 150px; padding: 0.5em; background: yellow;}
 .inline li {display: inline;}
