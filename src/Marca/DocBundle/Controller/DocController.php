@@ -352,10 +352,6 @@ class DocController extends Controller
     public function htmlPrintAction($id)
     {    
         $ip = $this->get('request')->getClientIp();
-        if ($ip != '::1')
-        {throw $this->createNotFoundException('Access Denied');}
-        else   
-        {
         $em = $this->getEm();
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id); 
 
@@ -363,8 +359,7 @@ class DocController extends Controller
             throw $this->createNotFoundException('Unable to find Doc entity.');
         }
 
-        return array('doc' => $doc);
-        };
+        return array('doc' => $doc, 'ip' => $ip);
     }
     
     
