@@ -13,11 +13,11 @@
 <script language="javascript"> 
 $(document).ready(function()
 {   
-var winheight = $(document).height() * .75;
+var winheight = $(document).height() * .70;
 $('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins: 'elementspath, autogrow', height: winheight, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
 toolbar : [
 ['Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor'],['Link','Unlink','NumberedList','BulletedList','Outdent','Indent','RemoveFormat'],
-['Image','oembed','SpecialChar']
+['Image','oembed']
 ],} );
 $('#backup_alert').toggle();
 
@@ -28,19 +28,19 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 });
 </script>
 
-<div class="span12 center" style='margin-top:-2.5em'>
+<div class="span12 center" style='margin-top:-.78em;'>
 <form id="doc_form" class="" action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
 
-<div class="span8">
+<div class="span12 center" style="margin-top:1em;">
     <h3  class='inline'>{{file.name}}</h3>     
-    <span class="pull-right">
+    <span class="pull-right" style="margin-top:8px;">
     <span id='backup_alert' class='alert alert-info margin-left'>Backing up work</span>    
     <input class="btn btn-primary btn-small margin-left" type="submit" id="doc_save" value="Save"/>
     <a class="btn btn-small" href="{{ course_path('doc_show', { 'id': doc.id, 'view': app.request.get('view') }) }}">Cancel</a>
     </span>
 </div>
 
-<div id='doc-gui' class="span8 margin-top">         
+<div id='doc-gui' class="span8 margin-top" style="margin-bottom:1em;margin-left:0;">         
 
     {{ form_errors(edit_form) }}
     {{ form_errors(edit_form.body) }}
@@ -51,7 +51,7 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
      
               
 {# Doc tools #}        
-<div class="span3" style=''>         
+<div class="span3" style='margin-left:4em;'>         
 <div id='doctools' class="span3 well" style='position:fixed;'>  
 <div  class='cell clear' style='width: 99%'>
 {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}

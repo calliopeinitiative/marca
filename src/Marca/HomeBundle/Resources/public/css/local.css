@@ -8,6 +8,8 @@
 /* 
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
+
+
 .footer {margin-top: 3em;padding-top: 1em;border-top: grey solid 1px}
 
 .pad {min-height: 20px;  padding: 19px;  margin-bottom: 20px;}
@@ -32,6 +34,7 @@ box-shadow: 0px 0px 15px rgba(0,0,0,.5);}
 .page-header {margin-top:15px;margin-bottom:25px;}
 .subnav-fixed {margin-top: -20px;}
 .icon-white {margin-left:12px;}	
+.navbar-icon {margin-left: -2.5em;}
 .nav-list .btn-primary {width:7em;margin-left:0;margin-bottom:.7em;}
 .nav-list .btn-group button {width:9em;margin-left:0;margin-bottom:.7em;}
 .nav-list li a {width:7em;margin-left:0}
@@ -53,6 +56,15 @@ dl.dl-horizontal dd p {display:inline}
 .nav-list .active > a {background-color:#006DCC;}
 .nav-pills .active > a {background-color:#006DCC;}
 .navbar .brand {color: #fff;text-shadow: none;}
+
+@media (min-width: 980px) and (max-width: 1199px) {
+  .navbar .nav > li > a {
+      padding:10px;
+  }
+  .navbar-icon {
+      margin-left:-1.8em;
+  }
+}
 
 
 .label {font-weight: normal;}
@@ -155,7 +167,8 @@ form ul li {list-style: none;}
 
 #doctools {
     overflow:auto;
-    height: 80%;
+    height: 78.5%;
+    margin-top:6px;
 }
 
 .popover {position:fixed; left:60%; top:50px;padding:2em;}

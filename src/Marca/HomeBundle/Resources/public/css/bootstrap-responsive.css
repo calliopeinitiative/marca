@@ -988,6 +988,7 @@
   }
   .nav-collapse .nav > li > a {
     margin-bottom: 2px;
+    padding: 10px !important;
   }
   .nav-collapse .nav > .divider-vertical {
     display: none;
