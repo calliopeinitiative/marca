@@ -1,6 +1,7 @@
 {# Marca/DocBundle/Resources/views/Doc/doctools.html.twig #}
 
-
+<div id="docTabContent" class="tab-content">
+<div class="tab-pane fade in active" id="docMarkup">
 {# INSERT NOTE #}
 <form id='note_insert_form' name='note_insert_form'>
 <textarea  class='span3' id="insert_value" name="html_insert" tabindex="0"></textarea>
@@ -22,7 +23,7 @@
 
 
 <hr/>
-<div class = "accordion" id="markup" style='margin:-1em; width:110%;'>
+<div class = "accordion" id="markup">
     <div class="accordion-group">
         <div class="accordion-heading">
            <a class="accordion-toggle" data-toggle="collapse" data-parent="markup" href="#collapseOne">All Markup Tags</a>
@@ -83,3 +84,28 @@ Place the cursor where you'd like to place your slides or video, paste in the em
 <a id='insert_rubric_link' href="javascript:void(0)" class="label label-info" tabindex="1" title="Insert Grading Rubric">Insert Grading Rubric</a>
 </div>
 #}
+</div> <!--End docMarkup-->
+
+<div class="tab-pane fade" id="docFeedback">
+Feedback goes here.
+</div> <!--End docFeedback-->
+
+<div class="tab-pane fade" id="docInfo">
+<h5>Author</h5>
+{{ file.user.firstname }} {{ file.user.lastname }}
+<h5>Document Name</h5>
+{{ file.name }}
+{% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
+{% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
+{% endif %}
+<h5>Project</h5>
+{% if file.project.name %}{{ file.project.name }}{% endif%}
+<h5>Created:</h5>
+{{ file.created|date('M d Y, g:i a') }}</td>
+<h5>Updated:</h5>
+{{ file.updated|date('M d Y, g:i a') }}
+<h5>Labels</h5>
+{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
+</div> <!--End docInfo-->
+
+</div>

@@ -53,8 +53,15 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 {# Doc tools #}        
 <div class="span3" >         
 <div id='doctools' class="span3 well" style='position:fixed;'>  
-<div  class='cell clear' style='width: 99%'>
+<div  class='cell clear'>
+<div id="docTab">
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#docMarkup" data-toggle="tab">Markup</a></li>
+  <li><a href="#docFeedback" data-toggle="tab">Feedback</a></li>
+  <li><a href="#docInfo" data-toggle="tab">Info</a></li>
+</ul>
 {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
+</div><!--end docTab -->
 </div> 
 </div>
 </div>
