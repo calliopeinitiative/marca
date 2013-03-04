@@ -67,14 +67,12 @@ $("#word-count").text(count.length);
 {% if file.reviewed|length == 0 %}
 <a title="Create a copy of this document for peer review" id="new_review" class="btn btn-small" href="javascript:void(0)">Review</a>
 {% endif %}
-<a class="btn btn-small" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view') }) }}">Respond</a>
+
 
 {#
 <a title="Print this document" class="btn btn-small" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>
 #}
 
-<a title="Show the notes in the margin" class="btn btn-small" href="javascript:void(0);" 
- onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" tabindex="11" title="Show Notes">Notes</a>
 
 {% if app.request.get('view') == 'window' %}
 <a title="Close the current window or tab" id="close_window"  class="btn btn-warning btn-small" href="javascript:void(0);">Close</a>
@@ -95,33 +93,44 @@ $("#word-count").text(count.length);
 </div>
  
 {# Doc tools #}        
-<div class="span3" style=''>         
-<div id='doctools' class="span3 well" style='position:fixed; margin-left: -1em;'>  
-
-<div id='notes_container' class='divider cell clear hide'>
-<h4>Notes</h4> 
+<div class="span3"> 
+<div id='doctools' class="span3 well" style='position:fixed; margin-left: -1em; margin-top: -.1em;'>   
+    
+<div id="docTab">
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#docFeedback" data-toggle="tab">Feedback</a></li>
+  <li><a href="#docNotes" onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" data-toggle="tab">Notes</a></li>
+</ul>    
+    
+<div id="docTabContent" class="tab-content">
+<div class="tab-pane fade" id="docNotes"> 
+<div id='notes_container' class=''>
 </div> 
- 
+</div> 
+        
+<div class="tab-pane fade in active" id="docFeedback">
 {# Responses #}
-{% for response in file.responses %}
-{% if loop.first %}         
-<div class='cell clear'>
-<h4>Responses</h4>     
-{% endif %}      
-<div class="divider cell clear ">
-<span class="response-poster">{{ response.user.firstname}} {{ response.user.lastname}} says:</response>
+<a class="btn btn-primary btn-small" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view') }) }}">Offer Feedback</a>  <hr/>      
+{% for response in file.responses %}    
+<div>
+    <h5 class='inline'>{{ response.user.firstname}} {{ response.user.lastname}} says:</h5>
 {% if response.isOwner(app.user.username) %}
 <a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view')  }) }}">Edit</a>
 {% endif %}
-<div class="cell clear">
+<div class="divider">
 {{ response.body|raw }} 
 </div>               
-</div>   
-{% endfor %}         
+</div> 
+{% else %} No one has has offered feedback.       
+{% endfor %} 
+
+    
 </div>       
 </div>       
-</div>         
+</div> 
+
 </div>
+</div>{# end of Doc tools #}
 
 
 {# Markup #}

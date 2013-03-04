@@ -11,7 +11,7 @@ $('#course_select').click(function(){
 </script>
 
 <li>
-<a title='Course Home' href="{{ course_path('course_home')}}">{% if app.session.get('course') %}{{ app.session.get('course') }}{% else %}Course Home{% endif %}</a>
+<a title='Course Home' href="{{ course_path('course_home')}}">{% if app.session.get('course') %}{{ app.session.get('course')|slice(0, 15) }}{% else %}Course Home{% endif %}</a>
 </li>
 <li class="navbar-icon">
 <a title='Change Course' id='course_select' href="javascript:void(0);"><i class="icon-list icon-white"></i></a>

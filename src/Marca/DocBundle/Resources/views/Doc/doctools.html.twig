@@ -1,5 +1,11 @@
 {# Marca/DocBundle/Resources/views/Doc/doctools.html.twig #}
-
+<div id="docTab">
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#docMarkup" data-toggle="tab">Markup</a></li>
+  <li><a href="#docFeedback" data-toggle="tab">Feedback</a></li>
+  <li><a href="#docInfo" data-toggle="tab">Info</a></li>
+</ul>
+        
 <div id="docTabContent" class="tab-content">
 <div class="tab-pane fade in active" id="docMarkup">
 {# INSERT NOTE #}
@@ -54,41 +60,22 @@
 </div>   
 
 
-{# EMBED 
-
-<div class='cell clear divider'>
-<a href="javascript:void(0)" class="" tabindex="1" onclick="$('#embed_tools').toggle()" title="Embed Slides or Video">Embed Slides or Video</a>
-</div>
-
-<div id='embed_tools' class='hide clear'>
-
-<div class='cell alert alert-info'>
-Place the cursor where you'd like to place your slides or video, paste in the embed code, and click <em>Embed.</em>
-</div>
-
-
-<div class='cell'>
-<form id='embed_insert_form' name='note_insert_form'>
-<textarea id="embed_value" name="embed_insert" tabindex="1"></textarea>
-</form>
-</div>
-
-<div class='cell'>
-<a id='embed_insert_submit' href="javascript:void(0)" class="label label-info" tabindex="1" title="Submit entry">Embed</a>
-</div>
-</div>
-
-
-
-<div class='cell clear divider'>
-<a id='insert_rubric_link' href="javascript:void(0)" class="label label-info" tabindex="1" title="Insert Grading Rubric">Insert Grading Rubric</a>
-</div>
-#}
-</div> <!--End docMarkup-->
+</div> {# End docMarkup #}
 
 <div class="tab-pane fade" id="docFeedback">
-Feedback goes here.
-</div> <!--End docFeedback-->
+{% for response in file.responses %}    
+<div>
+    <h5 class='inline'>{{ response.user.firstname}} {{ response.user.lastname}} says:</h5>
+{% if response.isOwner(app.user.username) %}
+<a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view')  }) }}">Edit</a>
+{% endif %}
+<div class="divider">
+{{ response.body|raw }} 
+</div>               
+</div> 
+{% else %} No one has has offered feedback.       
+{% endfor %} 
+</div> {# End docFeedback #}
 
 <div class="tab-pane fade" id="docInfo">
 <h5>Author</h5>
@@ -101,11 +88,13 @@ Feedback goes here.
 <h5>Project</h5>
 {% if file.project.name %}{{ file.project.name }}{% endif%}
 <h5>Created:</h5>
-{{ file.created|date('M d Y, g:i a') }}</td>
+{{ file.created|date('M d Y, g:i a') }}
 <h5>Updated:</h5>
 {{ file.updated|date('M d Y, g:i a') }}
 <h5>Labels</h5>
 {% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
-</div> <!--End docInfo-->
+</div> {# End docInfo #}
 
 </div>
+        
+</div>{# end docTab  #}        

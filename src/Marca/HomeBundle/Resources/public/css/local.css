@@ -114,7 +114,7 @@ form ul li {list-style: none;}
 #file_modal .modal-footer {
     margin-bottom: -25px;
 }
-
+#markup {width:100%;}
 
 .pagination span {
   display: inline;
