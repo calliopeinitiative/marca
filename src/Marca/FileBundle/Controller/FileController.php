@@ -61,7 +61,7 @@ class FileController extends Controller
         $count = $files->getTotalItemCount();
 
         return array('files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project, 
-            'tags' => $tags, 'systemtags' => $systemtags, 'tag' => $tag, 'byuser' => $byuser, 'course' => $course, 'roll' => $roll);
+            'tags' => $tags, 'systemtags' => $systemtags, 'tag' => $tag, 'byuser' => $byuser, 'course' => $course, 'roll' => $roll, 'role'=> $role);
     }  
            
  
@@ -88,7 +88,7 @@ class FileController extends Controller
     /**
      * Displays a form to create a new File entity for a LINK listing.
      *
-     * @Route("/{courseid}/{resource}/{tag}/{type}/{fileid}/new_modal", defaults={ "fileid" = 0 }, name="file_new_modal")
+     * @Route("/{courseid}/{resource}/{tag}/{type}/{fileid}/new_modal", name="file_new_modal")
      * @Template("MarcaFileBundle:File:new_modal.html.twig")
      */
     public function newModalAction($courseid, $resource, $tag, $type, $fileid)
@@ -142,7 +142,6 @@ class FileController extends Controller
                 'file'      => $file,
                 'resource'      => $resource,
                 'tag'      => $tag,
-                'fileid' => $fileid,
                 'type'      => $type,
                 'tags'        => $tags,
                 'roll'        => $roll,
@@ -150,6 +149,21 @@ class FileController extends Controller
                 'form'   => $form->createView()
             );  
         }
+        elseif ($type == 'saveas'){
+           $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+           $file->setName('SaveAs Document');
+           $form   = $this->createForm(new DocType($options), $file);
+           return array(
+                'file'      => $file,
+                'resource'      => $resource,
+                'tag'      => $tag,
+                'type'      => $type,
+                'tags'        => $tags,
+                'roll'        => $roll,
+                'course' => $course,
+                'form'   => $form->createView()
+            );  
+        }        
     }
     
 
@@ -197,10 +211,16 @@ class FileController extends Controller
             $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
             $doc->setBody($reviewed_file->getDoc()->getBody());
         }
+        elseif ($type == 'saveas'){
+            $doc = new Doc();
+            $doc->setFile($file);
+            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+            $doc->setBody($reviewed_file->getDoc()->getBody());
+        }        
         if ($form->isValid()) {
             $em = $this->getEm();
             $em->persist($file);
-            if ($type == 'doc' || $type == 'review') {
+            if ($type == 'doc' || $type == 'review' || $type == 'saveas') {
             $em->persist($doc);
             }
             $em->flush();
@@ -208,7 +228,7 @@ class FileController extends Controller
         if ($type == 'link') {
         return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'id'=> $file->getId(),'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource, 'user'=>'0')));
         }
-        elseif ($type == 'doc' || $type == 'review') {
+        elseif ($type == 'doc' || $type == 'review' || $type == 'saveas') {
         return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $doc->getId(),'view'=>'app')));
         }
         
@@ -392,6 +412,7 @@ class FileController extends Controller
          $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
          $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
          $options = array('courseid' => $courseid);
+         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
          
          $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
          $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -420,7 +441,7 @@ class FileController extends Controller
              
          }
 
-    return array('form' => $form->createView(),'tags'  => $tags,'roll'  => $roll,'course' => $course,);
+    return array('form' => $form->createView(),'tags'  => $tags, 'systemtags'  => $systemtags, 'roll'  => $roll,'course' => $course,);
      } 
  
     /**
@@ -519,8 +540,10 @@ class FileController extends Controller
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $doc = new Doc();
         $doc->setFile($file);
-        
-        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findAll();
+        $course = $this->getCourse();
+        $role = $this->getCourseRole();
+
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
         
         $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
         $odtfile = $helper->asset($file, 'file');
@@ -536,8 +559,9 @@ class FileController extends Controller
             $em->flush();
             return array(
             'doc'      => $doc,
+            'role'      => $role,    
             'file'        => $file,
-            'markupsets' => $markupsets,
+            'markup' => $markup,
              );
           
 

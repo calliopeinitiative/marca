@@ -42,8 +42,12 @@ $('#close_window').click(function(){
     window.close();
 });
 
-$('#new_review').click(function(){
+$('#new_review, #new_grade').click(function(){
   $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}');
+  $('#file_modal').modal();
+});
+$('#new_saveas').click(function(){
+  $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '0', 'type': 'saveas', 'fileid': file.id }) }}');
   $('#file_modal').modal();
 });
 var string = $(".doc-body").text();
@@ -60,27 +64,32 @@ $("#word-count").text(count.length);
 <span class="margin-left">Word count: <span id="word-count"></span></span>
 {# Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}} / Word count: <span id="word-count"></span> #}
 <span class="pull-right" style='margin-right:3em'>
-
+<div class="btn-group">
 {% if doc.isOwner(app.user.username) %}<a title="Edit this document" class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %} 
 
 {# Don't show Review button if it is a review #}
 {% if file.reviewed|length == 0 %}
-<a title="Create a copy of this document for peer review" id="new_review" class="btn btn-small" href="javascript:void(0)">Review</a>
+<a title="Create a copy of this document for peer review" id="new_review" class="btn btn-small" href="javascript:void(0)">Peer Review</a>
+{% if role == 2 %}
+<a title="Create a copy of this document for peer review" id="new_grade" class="btn btn-small" href="javascript:void(0)">Instructor Review</a>
 {% endif %}
-
-
+{% endif %}
+{% if doc.isOwner(app.user.username) %}
+<a title="Create a copy of this document" id="new_saveas" class="btn btn-small" href="javascript:void(0)">SaveAs</a>
+{% endif %}
 {#
 <a title="Print this document" class="btn btn-small" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>
 #}
 
 
 {% if app.request.get('view') == 'window' %}
-<a title="Close the current window or tab" id="close_window"  class="btn btn-warning btn-small" href="javascript:void(0);">Close</a>
+<a title="Close the current window or tab" id="close_window"  class="btn btn-small" href="javascript:void(0);">Close</a>
 {% elseif file.project.resource == 'true' %}
-<a  title="Close this document" class="btn btn-warning btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
+<a  title="Close this document" class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
 {% else %}
 <a title="Close this document" class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
 {% endif %}
+</div>
 </span>
 
 {# Doc display #}

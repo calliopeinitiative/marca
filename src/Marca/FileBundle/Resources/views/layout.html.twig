@@ -15,11 +15,11 @@
 $(document).ready(function()
 {    
 $('#file_new_doc').click(function(){
-  $('#file_modal').load('{{ course_path('file_new_modal', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'doc' }) }}');
+  $('#file_modal').load('{{ course_path('file_new_modal', { 'fileid':'0','resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'doc' }) }}');
   $('#file_modal').modal();
 });
 $('#file_new_link').click(function(){
-  $('#file_modal').load('{{ course_path('file_new_modal', { 'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'link' }) }}');
+  $('#file_modal').load('{{ course_path('file_new_modal', { 'fileid':'0','resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'link' }) }}');
   $('#file_modal').modal();
 });
 });

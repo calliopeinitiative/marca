@@ -50,6 +50,7 @@ class DocController extends Controller
         
         $em = $this->getEm();
         $course = $this->getCourse();
+        $role = $this->getCourseRole();
 
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
         $text = $doc->getBody();
@@ -65,69 +66,13 @@ class DocController extends Controller
 
         return array(
             'doc'      => $doc,
+            'role'      => $role,
             'count'=> $count,
             'file'        => $file,
             'markup' => $markup,
             'delete_form' => $deleteForm->createView(),        );
     }
-
-    /**
-     * Creates a new Doc entity.
-     *
-     * @Route("/{courseid}/{fileid}/{resource}/{view}/create", name="doc_create")
-     * @Method("post")
-     * @Template("MarcaDocBundle:Doc:new.html.twig")
-     */
-    public function createAction($courseid, $resource, $view, $fileid)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
-        $user = $this->getUser();
-        $em = $this->getEm();
-        $tag = '0';
-
-        $course = $this->getCourse();
-        $project = $em->getRepository('MarcaCourseBundle:Project')->findOneByCourse($courseid);
-        $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
-
-              
-        $file = new File();
-        $file->setName('New Document');
-        $file->setUser($user);
-        $file->setProject($project);
-        $file->setCourse($course);
-        if ($fileid != 0) {
-            $file->setReviewed($reviewed_file);
-            $file->setName('Review');
-            $tagid = 3;
-            $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tagid);
-            $file->addTag($tag);
-        }
-        
-        $doc  = new Doc();    
-        $doc->setFile($file); 
-        $request = $this->getRequest();
-        $form    = $this->createForm(new DocType(), $doc);
-        $form->bindRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getEm();
-            $em->persist($file);
-            $em->persist($doc);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('doc_show', array('id' => $doc->getId(), 'courseid'=> $courseid, 'view' => $view)));
-            
-        }
-
-        return array(
-            'doc' => $doc,
-            'form'   => $form->createView()
-        );
-    }
-    
+  
   
     /**
      * Displays a form to create a new Doc entity.
