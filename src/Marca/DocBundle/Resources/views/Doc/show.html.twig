@@ -77,9 +77,8 @@ $("#word-count").text(count.length);
 {% if doc.isOwner(app.user.username) %}
 <a title="Create a copy of this document" id="new_saveas" class="btn btn-small" href="javascript:void(0)">SaveAs</a>
 {% endif %}
-{#
 <a title="Print this document" class="btn btn-small" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>
-#}
+
 
 
 {% if app.request.get('view') == 'window' %}
