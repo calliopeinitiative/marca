@@ -29,20 +29,24 @@ $('.edit_{{file.id}}').click(function(){
 });
 </script>
 
-<div class="span9">  
-<ul class="nav nav-pills  well">
+{# Project navigation #} 
+<div id='project_nav' class="span9 well">  
+<ul id='project_nav_pills' class="nav nav-pills">
 <li class="{% if active_project == 0 %}active{% endif %}">
 <a href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-Recent Files</a></li>
+Recent Files</a>
+</li>
 {% for project in projects %}
 <li class="{% if active_project == project.id %}active{% endif %} ">
 <a class="" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-{{ project.name }}</a></li>
+{{ project.name }}</a>
+</li>
 {% endfor %}
 </ul>  
-
-        
-<ul class="breadcrumb well">
+</div>
+{# Breadcrumbs #}  
+<div id='project_breadcrumbs' class="span9 well">      
+<ul class="breadcrumb" style='margin:0px;'>
 <li> 
 {% if app.request.get('scope')=='mine' and app.request.get('resource')=='0' %}My Files
 {% elseif app.request.get('scope')=='all' and app.request.get('resource')=='0' %}All Files
@@ -50,8 +54,19 @@ Recent Files</a></li>
 {% elseif app.request.get('tag')=='3' and app.request.get('resource')=='0' %}
 {% elseif byuser %}
 Files by {{ byuser.firstname }} {{ byuser.lastname }}
+{% endif %}
+</li>
+<li  class='margin-left'>
+{% if app.request.get('tag')!='0' and app.request.get('resource')=='0' %}
+<span class="label {{ tag.color }}">{{ tag.name }}</span>
+{% else %}
+<span class="label">All Labels</span>
+{% endif %}
+</li>
+<li class='margin-left'>{{ count }} file(s) found</li>  
 
 {# next previous users on roll; hidden if peer review #} 
+{% if byuser %}
 <li class='pull-right'>
 {% for roll in roll %}
 {% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}  
@@ -65,16 +80,7 @@ Files by {{ byuser.firstname }} {{ byuser.lastname }}
 </li> 
 {% endif %}
 
-<li  class='margin-left'>
-{% if app.request.get('tag')!='0' and app.request.get('resource')=='0' %}
-<span class="label {{ tag.color }}">{{ tag.name }}</span>
-{% else %}
-<span class="label">All Labels</span>
-{% endif %}
-</li>
-<li class='pull-right'>{{ count }} file(s) found</li>         
-</ul>  
-        
+</ul>         
 </div>
 
 <div class="span9 well"> 

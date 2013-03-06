@@ -115,6 +115,9 @@ form ul li {list-style: none;}
     margin-bottom: -25px;
 }
 #markup {width:100%;}
+#project_nav {padding:5px;padding-left: 20px;padding-right: 20px;margin-bottom:5px;}
+#project_breadcrumbs {padding:0px;padding-left: 20px;padding-right: 20px;}
+#project_nav_pills {padding:0px;margin-bottom:0px;}
 
 .pagination span {
   display: inline;
