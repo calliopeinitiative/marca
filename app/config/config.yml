@@ -112,6 +112,6 @@ vich_uploader:
 knp_snappy:
     pdf:
         enabled:    true
-        binary:     %kernel.root_dir%/../../marca/vendor/google/wkhtmltopdf-i386/wkhtmltopdf-i386
+        binary:     %wkhtmltopdf_path%
         options:    []          
   
