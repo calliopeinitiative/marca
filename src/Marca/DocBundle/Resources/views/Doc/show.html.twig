@@ -86,7 +86,13 @@ $("#word-count").text(count.length);
 {% elseif file.project.resource == 'true' %}
 <a  title="Close this document" class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
 {% else %}
-<a title="Close this document" class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+    {% if app.session.get('referrer')%}
+    <a title="Close this document" class="btn btn-small" href="{{app.session.get('referrer')}} ">Close</a>    
+    {%else%}    
+    <a title="Close this document" class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+    {%endif%}
+    
+
 {% endif %}
 </div>
 </span>

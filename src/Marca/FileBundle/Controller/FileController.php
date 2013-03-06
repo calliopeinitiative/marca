@@ -35,7 +35,9 @@ class FileController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
+        $session = $this->get('session'); 
+        $request = $this->getRequest();
+        $session->set('referrer', $request->getRequestUri());
         
         $em = $this->getEm();
         $user = $this->getUser();
