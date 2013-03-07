@@ -171,14 +171,14 @@ form ul li {list-style: none;}
 }
 
 
-.popover {position:fixed; left:60%; top:50px;padding:2em;}
+.popover {position:fixed; left:40%; top:135px;padding:2em;}
 
 /* 
    Doc displays
 */
 
-.eDoc_note {color:blue;background:white; border:#e3e3e3 1px solid;margin-left:-1px;margin-right: 4px;padding:2px 2px 2px 6px;}
-.eDoc_highlight {background:#FFFFD3;padding:2px 2px 2px 6px;}
+.eDoc_note {color:blue;background:white; border:#e3e3e3 1px solid;border-radius: 0px 4px 4px 0px;margin-left:-1px;margin-right: 4px;padding:2px 2px 2px 6px;}
+.eDoc_highlight {background:#FFFFD3;padding:2px 2px 2px 6px;border:#e3e3e3 1px solid;border-radius: 4px 0px 0px 4px;}
 .eDoc_error {background:#bcd85f;padding:1px;}
 .eDoc_hanging_indent {text-indent:-0.5in; margin-left:0.5in;line-height: 200%;}
 .eDoc_paragraph_indent {text-indent:0.5in; line-height: 200%;}
