@@ -14,6 +14,10 @@ $('.edit_{{file.id}}').click(function(){
   $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}');
   $('#file_modal').modal();
 });
+$('#new_review, #new_grade').click(function(){
+  $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}');
+  $('#file_modal').modal();
+});
 {% for file in file.reviews%} 
 $('#file_{{file.id}}').click(function(){
   $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'index'}) }}');
@@ -53,7 +57,7 @@ Recent Files</a>
 {# hide if peer review #}
 {% elseif app.request.get('tag')=='3' and app.request.get('resource')=='0' %}
 {% elseif byuser %}
-Files by {{ byuser.firstname }} {{ byuser.lastname }}
+Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 {% endif %}
 </li>
 <li  class='margin-left'>
@@ -71,10 +75,10 @@ Files by {{ byuser.firstname }} {{ byuser.lastname }}
 {% for roll in roll %}
 {% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}  
 <span style='margin-right:3em;'></span>        
-<a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}<i class="icon-chevron-right"></i></a>
+<a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname|title}} {{roll.lastname|title}}<i class="icon-chevron-right"></i></a>
 {% endif %}
 {% if loop.index == app.request.get('user') - 1 and app.request.get('tag')!='3' %}
-<a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}"><i class="icon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
+<a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}"><i class="icon-chevron-left"></i>{{roll.firstname|title}} {{roll.lastname|title}}</a>
 {% endif %}
 {% endfor %}
 </li> 
@@ -115,7 +119,7 @@ Files by {{ byuser.firstname }} {{ byuser.lastname }}
 
 {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
 </td>
-<td>{% if (app.request.get('scope')=='all' or app.request.get('scope')=='byuser') and app.request.get('resource')=='0' %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif%}</td>
+<td>{% if (app.request.get('scope')=='all' or app.request.get('scope')=='byuser') and app.request.get('resource')=='0' %}{{ file.user.firstname|title }} {{ file.user.lastname|title }}{% endif%}</td>
 <td>{% if app.request.get('project')=='recent' %}<strong>{{ file.project.name }}</strong>{% endif %}</td>
 <td>{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
 
@@ -127,6 +131,10 @@ Files by {{ byuser.firstname }} {{ byuser.lastname }}
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         {% if file.isOwner(app.user.username) %}<li><a class='edit_{{file.id}}' href="javascript:void(0);">Edit Listing</a></li>{% endif%}
         {% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<li><a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a></li>{% endif%}
+        <li><a title="Create a copy of this document for peer review" id="new_review"  href="javascript:void(0)">New Peer Review</a></li>
+        {% if role == 2 %}
+        <li><a title="Create a copy of this document for peer review" id="new_grade" href="javascript:void(0)">New Instructor Review</a></li>
+        {% endif %}
         <li><a id='file_{{file.id}}' href="javascript:void(0);" title='More info about this file'>More Info</a></li>
         </ul>
      </li>
@@ -141,7 +149,7 @@ Files by {{ byuser.firstname }} {{ byuser.lastname }}
 {% if file.isOwner(app.user.username) or review.isOwner(app.user.username) or review.access==1 or role==2 %} 
 <tr style="background:#FAF9C8;"> 
 <td colspan="2" style="padding-left:3em;"> 
-<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}">Review by {{ review.user.firstname }} {{ review.user.lastname }}</a>
+<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}">Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
  <a target ='_blank' href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'window' }) }}"><i class="icon-share-alt"></i></a>
 {% if review.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
 </td>
