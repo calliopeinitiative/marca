@@ -54,6 +54,14 @@ var string = $(".doc-body").text();
 var count = string.split(" ");
 $("#word-count").text(count.length);
 
+
+$('.doc-body').css('height', function(index) {
+  return $(window).height() * .62;
+});
+$('#doctools').css('height', function(index) {
+  return $(window).height() * .77;
+});
+
 });
 </script>
 
@@ -99,7 +107,7 @@ $("#word-count").text(count.length);
 
 {# Doc display #}
 <div class="row margin-top clear">
-<div class="span8 well pad">          
+<div id='doc-display' class="span8 well pad">          
 <div class="doc-body">
 {{ doc.body|raw }}     
 </div>
@@ -108,7 +116,7 @@ $("#word-count").text(count.length);
  
 {# Doc tools #}        
 <div class="span3"> 
-<div id='doctools' class="span3 well" style='position:fixed; margin-left: -1em; margin-top: -.1em;'>   
+<div id='doctools' class="span3 well" style=''>   
     
 <div id="docTab">
 <ul class="nav nav-tabs">

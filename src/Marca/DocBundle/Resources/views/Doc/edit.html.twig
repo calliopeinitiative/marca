@@ -21,6 +21,9 @@ toolbar : [
 ],} );
 $('#backup_alert').toggle();
 
+
+
+
 var editor = $('#marca_docbundle_doctype_body').ckeditorGet();
 
 var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (buffer==1) {editor.resetDirty(); $.post("{{ course_path('doc_ajax', { 'id': doc.id }) }}", {test:$('#marca_docbundle_doctype_body').val()}, function(data){
