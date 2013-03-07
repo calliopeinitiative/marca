@@ -54,12 +54,15 @@ var string = $(".doc-body").text();
 var count = string.split(" ");
 $("#word-count").text(count.length);
 
+$('#doc-display').css('height', function(index) {
+  return $(window).height()* .82;
+});
 
 $('.doc-body').css('height', function(index) {
-  return $(window).height() * .62;
+  return $(window).height() * .65;
 });
 $('#doctools').css('height', function(index) {
-  return $(window).height() * .77;
+  return $(window).height() * .82;
 });
 
 });
@@ -107,7 +110,7 @@ $('#doctools').css('height', function(index) {
 
 {# Doc display #}
 <div class="row margin-top clear">
-<div id='doc-display' class="span8 well pad">          
+<div id='doc-display' class="span8 well">          
 <div class="doc-body">
 {{ doc.body|raw }}     
 </div>
@@ -116,7 +119,7 @@ $('#doctools').css('height', function(index) {
  
 {# Doc tools #}        
 <div class="span3"> 
-<div id='doctools' class="span3 well" style=''>   
+<div id='doctools' class="span3 well" style='margin-top: -.1em;'>   
     
 <div id="docTab">
 <ul class="nav nav-tabs">
@@ -172,6 +175,6 @@ $('#doctools').css('height', function(index) {
 </div>
 
 </div> 
-
+</div>
 
 {% endblock %}
