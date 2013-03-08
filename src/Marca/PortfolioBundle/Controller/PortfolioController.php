@@ -32,7 +32,7 @@ class PortfolioController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $portset = $course->getPortset();
-        $portfolio = $course = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
+        $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
         return array('portfolio' =>$portfolio, 'portset' => $portset, 'roll'=> $roll);
     }
     
@@ -51,8 +51,7 @@ class PortfolioController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $portset = $course->getPortset();
-        $portfolio = $course = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
+        $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
@@ -60,6 +59,57 @@ class PortfolioController extends Controller
         
         return array('portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,);
     }
+    
+    /**
+     * Finds and displays a Portfolio entity.
+     *
+     * @Route("/{courseid}/{project}/find", name="portfolio_find")
+     * @Template()
+     */
+    public function findAction($project, $courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $session = $this->get('session'); 
+        $request = $this->getRequest();
+        $session->set('port_referrer', $request->getRequestUri());
+        
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $role = $this->getCourseRole();
+        $resource = 'false';
+        $course = $this->getCourse();
+
+        $files = $em->getRepository('MarcaFileBundle:File')->findFilesForPort($project, $user, $course);
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
+
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        
+        //pagination for files
+        $paginator = $this->get('knp_paginator');
+        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),15);
+        $count = $files->getTotalItemCount();
+
+        return array('files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project, 'course' => $course, 'roll' => $roll, 'role'=> $role);
+    }   
+    
+    /**
+     * Finds and displays a Portfolio entity.
+     *
+     * @Route("/{courseid}/{id}/show_modal", name="portfolio_show_modal")
+     * @Template("MarcaPortfolioBundle:Portfolio:show_modal.html.twig")
+     */
+    public function showModalAction($id)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);     
+        $em = $this->getEm();
+        $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
+        $deleteForm = $this->createDeleteForm($id);
+            
+        return array('portfolio' =>$portfolio,'delete_form' => $deleteForm->createView(),);
+    }    
     
     /**
      * Finds and displays a Portfolio entity.

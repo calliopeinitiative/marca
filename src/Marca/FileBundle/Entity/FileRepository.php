@@ -41,6 +41,27 @@ class FileRepository extends EntityRepository
 
     }
 
+/**
+ * First users files with shared access for portfolio
+ */
+  public function findFilesForPort($project, $user, $course)
+    {
+            
+       if($project == 'recent') {
+         return $this->getEntityManager()
+            ->createQuery('SELECT f, p, d, t, r  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d  LEFT JOIN f.tag t LEFT JOIN f.reviews r 
+                WHERE f.course = ?1 AND p.resource = false AND f.reviewed IS NULL AND f.user = ?2 AND f.access = 1  ORDER BY f.updated DESC')
+                ->setParameter('1',$course)->setParameter('2',$user)->getResult(); 
+       } else {
+          return $this->getEntityManager()
+            ->createQuery('SELECT f, p, d, t, r  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d  LEFT JOIN f.tag t LEFT JOIN f.reviews r 
+                WHERE f.project = ?1 AND f.reviewed IS NULL AND f.user = ?2 AND f.access = 1  ORDER BY  f.updated DESC')
+                ->setParameter('1',$project)->setParameter('2',$user)->getResult();
+       };
+
+    }
+    
+    
    public function findPeerReviewFiles ($project, $user, $scope, $course, $tag, $resource, $byuser, $role)
     { 
        
