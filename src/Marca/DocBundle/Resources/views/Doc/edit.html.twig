@@ -16,8 +16,8 @@ $(document).ready(function()
 var winheight = $(document).height() * .72;
 $('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins: 'elementspath, autogrow', height: winheight, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
 toolbar : [
-['Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor'],['Link','Unlink','NumberedList','BulletedList','Outdent','Indent','RemoveFormat'],
-['Image','oembed']
+['Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight'],['TextColor','BGColor'],['Link','Unlink'],
+['NumberedList','BulletedList'],['Outdent','Indent'],['Image','oembed'],['Undo','Redo'],['RemoveFormat']
 ],} );
 $('#backup_alert').toggle();
 
