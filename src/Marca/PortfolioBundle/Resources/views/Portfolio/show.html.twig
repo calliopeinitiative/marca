@@ -20,14 +20,33 @@ $('#doctools').css('height', function(index) {
 </script>  
 
 <div class="span12 center">
-   
+ 
+<div class="span12">    
 {% for portfolio in portfolio %}
 {% if loop.first %}<h3 class='inline' style='margin-left:1em'>{{ portfolio.user.firstname }} {{ portfolio.user.lastname }}'s Portfolio</h3>{% endif %} 
+{% else %}
+<h3 class='inline' style='margin-left:1em'>Portfolio</h3>
 {% endfor %}
-                              
+
+<div class="inline pull-right" style='margin-top:1em;margin-right: 4em'>
+{% for roll in roll %}
+{% if loop.index == app.request.get('user') + 1 %}  
+<a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
+{{roll.firstname}} {{roll.lastname}}<i class="icon-chevron-right"></i></a>
+{% endif %}
+{% if loop.index == app.request.get('user') - 1%}
+<a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
+<i class="icon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}<span style='margin-right:2em;'></span> 
+</a>{% endif %}
+{% endfor %}
+</div>
+</div>
+                        
 {% for portfolio_doc in portfolio_docs %}
-<div class="navigation pull-right" style='margin-top:-1em;margin-right:1em'>
+<div class="span8" style='margin-top:-4em;'>
+<div class="pull-right"'>    
 {{ knp_pagination_render(portfolio_docs) }}
+</div>
 </div>
 
         

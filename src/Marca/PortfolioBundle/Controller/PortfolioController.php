@@ -51,13 +51,14 @@ class PortfolioController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
         $portfolio_docs = $paginator->paginate($portfolio,$this->get('request')->query->get('page', 1),1);
         
-        return array('portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,);
+        return array('portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll);
     }
     
     /**
@@ -114,7 +115,7 @@ class PortfolioController extends Controller
     /**
      * Finds and displays a Portfolio entity.
      *
-     * @Route("/{courseid}/{userid}/portfolio_by _user", name="portfolio_user")
+     * @Route("/{courseid}/{userid}/{user}/portfolio_byuser", name="portfolio_user")
      * @Template("MarcaPortfolioBundle:Portfolio:show.html.twig")
      */
     public function portByUserAction($courseid, $userid)
@@ -125,6 +126,7 @@ class PortfolioController extends Controller
         $em = $this->getEm();
         $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $portset = $course->getPortset();
         $portfolio = $course = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
         
@@ -132,7 +134,7 @@ class PortfolioController extends Controller
         $paginator = $this->get('knp_paginator');
         $portfolio_docs = $paginator->paginate($portfolio,$this->get('request')->query->get('page', 1),1);
         
-        return array('portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,);
+        return array('portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll);
     }    
 
     /**

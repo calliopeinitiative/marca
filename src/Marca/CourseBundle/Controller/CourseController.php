@@ -44,11 +44,14 @@ class CourseController extends Controller
     public function homeAction($courseid)
     {
         $em = $this->getEm();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->findOneById($courseid);
+        $user = $this->getUser();
+        $course = $this->getCourse();
         $session = $this->get('session'); 
         $session->clear();
         $session->set('portSwitch', $course->getPortfolio()); 
-        $session->set('course', $course->getName());
+        $session->set('course', $course->getName());        
+        $username = $user->getFirstname().' '.$user->getLastname();
+        $session->set('username', $username); 
 
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseStart($course);
         $paginator = $this->get('knp_paginator');
