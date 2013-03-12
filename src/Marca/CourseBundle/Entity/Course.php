@@ -173,6 +173,7 @@ class Course
      *      minMessage = "You must specify at least one markup set."
      * )
      * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markupset", inversedBy="courses")
+     * @ORM\OrderBy({"sortorder" = "ASC"})
     **/
     protected $markupsets;
 
