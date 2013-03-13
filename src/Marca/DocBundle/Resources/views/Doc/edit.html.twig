@@ -36,9 +36,9 @@ var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (bu
 <form id="doc_form" class="" action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
 
 <div class="span12 center" style="margin-top:1em;width:92%">
-    <h3  class='inline'>{{file.name}}</h3>     
+    <h3  class='inline' style="margin-left:-4%;">{{file.name}}</h3>     
     <span class="pull-right" style="margin-top:8px;margin-right:2.7%;">
-    <span id='backup_alert' class='alert alert-info margin-left'>Backing up work</span> 
+    <span id='backup_alert' class='alert alert-info margin-left' style="padding:8px;margin-right:12px;">Backing up work</span> 
     <div class="btn-group">
     <input class="btn btn-primary btn-small margin-left" type="submit" id="doc_save" value="Save"/>
     <a class="btn btn-small" href="{{ course_path('doc_show', { 'id': doc.id, 'view': app.request.get('view') }) }}">Cancel</a>
