@@ -34,9 +34,6 @@ $('.edit_{{file.id}}').click(function(){
 </script>
 
 {# Project navigation #} 
-
-
-
 <div id='project_nav' class="span9 well">  
 
 {% if app.request.get('resource')=='0' %}
@@ -47,7 +44,7 @@ $('.edit_{{file.id}}').click(function(){
 {# roll for find by user  #}
 {% if app.request.get('resource')=='0' %}
    <a href="javascript:void(0);" class="dropdown-toggle btn btn-small {% if app.request.get('scope')=='byuser' %}active btn-info{% endif %} " data-toggle="dropdown" id="dLabel">Files By Author<b class="caret" style="margin-left:6px;"></b></a>
-       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+       <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
            {% for roll in roll %}
            <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 
            {% endfor %}
@@ -56,8 +53,6 @@ $('.edit_{{file.id}}').click(function(){
 
 </span>
 {% endif %}
-
-
 
 <span class="btn-group" style="margin-bottom:6px;margin-top:4px;margin-left:10px;">
 <a class="btn btn-small {% if active_project == 0 %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
@@ -73,17 +68,19 @@ Recent Files</a>
 </ul>  
 </span>
 
-<span style="margin-bottom:6px;margin-top:4px;margin-left:10px;">
-<a href="javascript:void(0);" class="btn btn-small dropdown-toggle" data-toggle="dropdown" id="dLabel">Label<b class="caret" style="margin-left:6px;"></b></a>
+<span class="btn-group" style="margin-bottom:6px;margin-top:4px;margin-left:10px;">
+<a href="javascript:void(0);" class="btn btn-small dropdown-toggle {% if app.request.get('tag')!='0' %}active btn-info{% endif %}" data-toggle="dropdown" id="dLabel">Label<b class="caret" style="margin-left:6px;"></b></a>
 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-    <li>Label 1</li>
-<li>Label 2</li>
-<li>Label 3</li>  
+<li><a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}"><span class="label">All Labels</span></a></li>
+{% for tag in tags %}
+<li><a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}"><span class="label {{ tag.color }}">{{ tag.name }}</span></a></li>
+{% endfor %}
+{% for tag in systemtags %}
+<li><a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}"><span class="label {{ tag.color }}">{{ tag.name }}</span></a></li>
+{% endfor %}           
 </ul> 
-
 </span>
-
-
+    
 </div>
 
 
@@ -99,9 +96,13 @@ Recent Files</a>
 Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 {% endif %}
 </li>
+{% for project in projects %}
+{% if active_project == project.id %}
 <li  class='margin-left'>
-Active Project Name
-</li>
+ {{ project.name }}
+</li>        
+{% endif %}
+{% endfor %}
 <li  class='margin-left'>
 {% if app.request.get('tag')!='0' and app.request.get('resource')=='0' %}
 <span class="label {{ tag.color }}">{{ tag.name }}</span>
