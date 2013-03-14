@@ -34,23 +34,62 @@ $('.edit_{{file.id}}').click(function(){
 </script>
 
 {# Project navigation #} 
+
+
+
 <div id='project_nav' class="span9 well">  
-<ul id='project_nav_pills' class="nav nav-pills">
-<li class="{% if active_project == 0 %}active{% endif %}">
-<a href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
+
+{% if app.request.get('resource')=='0' %}
+<span class="btn-group" style="margin-bottom:6px;margin-top:4px;">
+<a class="btn btn-small {% if app.request.get('scope')=='mine' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
+<a class="btn btn-small {% if app.request.get('scope')=='all' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">All Files</a>
+
+{# roll for find by user  #}
+{% if app.request.get('resource')=='0' %}
+   <a href="javascript:void(0);" class="dropdown-toggle btn btn-small {% if app.request.get('scope')=='byuser' %}active btn-info{% endif %} " data-toggle="dropdown" id="dLabel">Files By Author<b class="caret" style="margin-left:6px;"></b></a>
+       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+           {% for roll in roll %}
+           <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 
+           {% endfor %}
+       </ul>
+{% endif %}
+
+</span>
+{% endif %}
+
+
+
+<span class="btn-group" style="margin-bottom:6px;margin-top:4px;margin-left:10px;">
+<a class="btn btn-small {% if active_project == 0 %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
 Recent Files</a>
-</li>
+<a href="javascript:void(0);" class="btn btn-small dropdown-toggle {% if active_project > 0 %}active btn-info{% endif %} " data-toggle="dropdown" id="dLabel">Project<b class="caret" style="margin-left:6px;"></b></a>
+<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+<li>
 {% for project in projects %}
-<li class="{% if active_project == project.id %}active{% endif %} ">
 <a class="" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
 {{ project.name }}</a>
-</li>
 {% endfor %}
+</li>
 </ul>  
+</span>
+
+<span style="margin-bottom:6px;margin-top:4px;margin-left:10px;">
+<a href="javascript:void(0);" class="btn btn-small dropdown-toggle" data-toggle="dropdown" id="dLabel">Label<b class="caret" style="margin-left:6px;"></b></a>
+<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    <li>Label 1</li>
+<li>Label 2</li>
+<li>Label 3</li>  
+</ul> 
+
+</span>
+
+
 </div>
+
+
 {# Breadcrumbs #}  
 <div id='project_breadcrumbs' class="span9 well">      
-<ul class="breadcrumb" style='margin:0px;'>
+<ul class="breadcrumb" style='margin:0px;padding-left:6px;'>
 <li> 
 {% if app.request.get('scope')=='mine' and app.request.get('resource')=='0' %}My Files
 {% elseif app.request.get('scope')=='all' and app.request.get('resource')=='0' %}All Files
@@ -59,6 +98,9 @@ Recent Files</a>
 {% elseif byuser %}
 Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 {% endif %}
+</li>
+<li  class='margin-left'>
+Active Project Name
 </li>
 <li  class='margin-left'>
 {% if app.request.get('tag')!='0' and app.request.get('resource')=='0' %}
