@@ -2,10 +2,7 @@
 
 <script language="javascript"> 
 $(document).ready(function() {
-$('#file_show_{{file.id}}').click(function(){
-  $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}');
-  $('#file_modal').modal();
-});
+
 });
 </script>
 
@@ -26,8 +23,7 @@ $('#file_show_{{file.id}}').click(function(){
         {{ form_rest(edit_form) }}  
   </div>
   <div class="modal-footer">
-    <a id='file_show_{{file.id}}' href='javascript:void(0);' class="btn pull-left">Delete</a>
-    <button class="btn btn-primary pull-right" type="submit">Update</button>  
+    <button class="btn btn-primary pull-left" type="submit">Update</button>  
   </div>
 </form> 
 

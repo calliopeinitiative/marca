@@ -13,8 +13,8 @@
 <script language="javascript"> 
 $(document).ready(function()
 {   
-var winheight = $(document).height() * .72;
-$('#marca_docbundle_doctype_body').ckeditor( function() {}, {removePlugins: 'elementspath, autogrow', height: winheight, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
+var winheight = $(document).height() * .70;
+$('#marca_docbundle_doctype_body').ckeditor( function() {}, {disableNativeSpellChecker:false, removePlugins: 'elementspath, autogrow', height: winheight, stylesSet:'marca_styles',contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}', 
 toolbar : [
 ['Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight'],['TextColor','BGColor'],['Link','Unlink'],
 ['NumberedList','BulletedList'],['Outdent','Indent'],['Image','oembed'],['Undo','Redo'],['RemoveFormat']
@@ -22,7 +22,7 @@ toolbar : [
 $('#backup_alert').toggle();
 
 $('#doctools').css('height', function(index) {
-  return $(window).height() * .79;
+  return $(window).height() * .77;
 });
 
 var editor = $('#marca_docbundle_doctype_body').ckeditorGet();

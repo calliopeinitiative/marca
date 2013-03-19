@@ -125,6 +125,7 @@ $('#doctools').css('height', function(index) {
 <ul class="nav nav-tabs">
   <li class="active"><a href="#docFeedback" data-toggle="tab">Feedback</a></li>
   <li><a href="#docNotes" onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" data-toggle="tab">Notes</a></li>
+  <li><a href="#docInfo" data-toggle="tab">Info</a></li>
 </ul>    
     
 <div id="docTabContent" class="tab-content">
@@ -147,10 +148,27 @@ $('#doctools').css('height', function(index) {
 </div>               
 </div> 
 {% else %} No one has has offered feedback.       
-{% endfor %} 
-
-    
-</div>       
+{% endfor %}    
+</div> 
+        
+<div class="tab-pane fade" id="docInfo">
+<h5>Author</h5>
+{{ file.user.firstname }} {{ file.user.lastname }}
+<h5>Document Name</h5>
+{{ file.name }}
+{% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
+{% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
+{% endif %}
+<h5>Project</h5>
+{% if file.project.name %}{{ file.project.name }}{% endif%}
+<h5>Created:</h5>
+{{ file.created|date('M d Y, g:i a') }}
+<h5>Updated:</h5>
+{{ file.updated|date('M d Y, g:i a') }}
+<h5>Labels</h5>
+{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
+</div> {# End docInfo #}
+        
 </div>       
 </div> 
 

@@ -18,6 +18,10 @@ $('#new_grade_{{file.id}}').click(function(){
   $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}');
   $('#file_modal').modal();
 });
+$('#file_show_{{file.id}}').click(function(){
+  $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}');
+  $('#file_modal').modal();
+});
 {% for file in file.reviews%} 
 $('#file_{{file.id}}').click(function(){
   $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'index'}) }}');
@@ -25,6 +29,10 @@ $('#file_{{file.id}}').click(function(){
 });
 $('.edit_{{file.id}}').click(function(){
   $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}');
+  $('#file_modal').modal();
+});
+$('#file_show_{{file.id}}').click(function(){
+  $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}');
   $('#file_modal').modal();
 });
 {% endfor %}
@@ -170,12 +178,13 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
     <li class="dropdown">
     <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        {% if file.isOwner(app.user.username) %}<li><a class='edit_{{file.id}}' href="javascript:void(0);">Edit Listing</a></li>{% endif%}
+        {% if file.isOwner(app.user.username) %}<li><a class='edit_{{file.id}}' href="javascript:void(0);">File Settings</a></li>{% endif%}
         {% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<li><a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a></li>{% endif%}
         {% if role == 2 %}
         <li><a title="Create a copy of this document for peer review" id="new_grade_{{file.id}}" href="javascript:void(0)">New Instructor Review</a></li>
         {% endif %}
         <li><a id='file_{{file.id}}' href="javascript:void(0);" title='More info about this file'>More Info</a></li>
+        {% if file.isOwner(app.user.username) %}<li><a id='file_show_{{file.id}}' href='javascript:void(0);' class="">Delete</a></li>{% endif%}
         </ul>
      </li>
 </ul>
@@ -204,8 +213,9 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
     <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         {% if review.isOwner(app.user.username) and review.access==1 and app.request.get('resource')=='0' %}<li><a class="" href="{{ course_path('portfolio_new', { 'fileid': review.id }) }}">Add to Portfolio</a></li>{% endif%}
-        {% if review.isOwner(app.user.username) %}<li><a class='edit_{{review.id}}' href="javascript:void(0);">Edit Listing</a></li>{% endif%}
+        {% if review.isOwner(app.user.username) %}<li><a class='edit_{{review.id}}' href="javascript:void(0);">File Settings</a></li>{% endif%}
         <li><a id='file_{{review.id}}' href="javascript:void(0);" title='More info about this file'>More Info</a></li>
+        {% if review.isOwner(app.user.username) %}<li><a id='file_show_{{review.id}}' href='javascript:void(0);' class="">Delete</a></li>{% endif%}
         </ul>
      </li>
 </ul>
