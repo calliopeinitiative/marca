@@ -24,7 +24,7 @@ class LoadMarkupsetData implements FixtureInterface
     public function load(ObjectManager $manager)
     {
 
-$id =1;
+$id =2;
 $user = $manager->getRepository('MarcaUserBundle:User')->findOneById($id);
 
 
