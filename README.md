@@ -21,7 +21,7 @@ Documentation
 Symfony Bundles Included
 
 
-Twitter Bootstrap Implementation
+Twitter Bootstrap
 
 JQuery
 
