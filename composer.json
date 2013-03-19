@@ -28,23 +28,9 @@
         "knplabs/gaufrette": "0.2.*@dev",
         "knplabs/knp-gaufrette-bundle" : "dev-master",
         "knplabs/knp-components" : "dev-master",
-        "knplabs/knp-snappy-bundle": "dev-master",
-        "google/wkhtmltopdf-i386": "0.11.0-RC1"
+        "knplabs/knp-snappy-bundle": "dev-master"
     },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "google/wkhtmltopdf-i386",
-                "version": "0.11.0-RC1",
-                "dist": {
-                    "url": "http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.11.0_rc1-static-i386.tar.bz2",
-                    "type": "tar"
-                }
-            }
-        }
-    ],
-    "scripts": {
+   "scripts": {
         "post-install-cmd": [
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",

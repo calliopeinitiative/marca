@@ -17,7 +17,14 @@ $('#course_select').click(function(){
 <a title='Change Course' id='course_select' href="javascript:void(0);"><i class="icon-list icon-white"></i></a>
 </li>
 <li><a  title='Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Resources</a></li>
-<li><a title='Course Projects' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Projects</a></li>
+<li>
+    {% if app.session.get('referrer')%}
+    <a title='Course Projects' href="{{app.session.get('referrer')}} ">Projects</a>    
+    {%else%}    
+    <a title='Course Projects' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Projects</a>
+    {%endif%}
+
+</li>
 <li><a  title='Course Calendar' href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Calendar</a></li>
 <li><a  title='Course Journal' href="{{ course_path('journal') }}">Journal</a></li>
 <li><a  title='Course Forum' href="{{ course_path('forum') }}">Forum</a></li>

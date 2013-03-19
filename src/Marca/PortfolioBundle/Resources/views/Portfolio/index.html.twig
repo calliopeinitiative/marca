@@ -3,6 +3,17 @@
 {% extends 'MarcaPortfolioBundle::layout.html.twig' %}
 
 {% block content %}
+<script language="javascript">
+$(document).ready(function() { 
+{% for portfolio in portfolio %} 
+$('#port_{{portfolio.id}}').click(function(){
+  $('#port_modal').load('{{ course_path('portfolio_show_modal', { 'id': portfolio.id}) }}');
+  $('#port_modal').modal();
+});
+{% endfor %}
+});
+</script>
+
 <div class="row">        
 <div class="span9 well">
     <div class=""><legend>{{ portset.name }}</legend></div>
@@ -25,11 +36,11 @@
              <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
              {% endif %}
              ({{portfolio.portitem.name}})
-             <a class="btn btn-primary btn-mini" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Edit</a>
-             <a class="btn btn-warning btn-mini" href="{{ course_path('portfolio_show', { 'id': portfolio.id }) }}">Remove</a>
+             <a class="btn btn-primary btn-small" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Edit</a>
+             <a class="btn btn-small" id='port_{{portfolio.id}}' href="javascript:void(0);" title='Remove from portfolio'>Remove</a>
                      
             </dd>  
-        {% endfor %} 
+        {% endfor %}
             
         {% endfor %} 
      </dl>
@@ -37,4 +48,7 @@
 </div>        
 </div>  
 
+{# Modal #}
+<div id="port_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
+</div>
 {% endblock %}

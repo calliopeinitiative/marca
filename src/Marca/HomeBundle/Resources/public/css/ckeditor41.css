@@ -53,8 +53,8 @@ img, input, textarea
    cursor: default;
 }
 
-.eDoc_note {color:blue;background:white; border:white 1px solid;padding-left:4px;padding-right: 2px;}
-.eDoc_highlight {background:#FFFFD3;}
+.eDoc_note {color:blue;background:white; border:#e3e3e3 1px solid;border-radius: 0px 4px 4px 0px;margin-left:-1px;margin-right: 4px;padding:2px 2px 2px 6px;}
+.eDoc_highlight {background:#FFFFD3;padding:2px 2px 2px 6px;border:#e3e3e3 1px solid;border-radius: 4px 0px 0px 4px;}
 .eDoc_error {background:#bcd85f;padding:1px;}
 .eDoc_hanging_indent {text-indent:-0.5in; margin-left:0.5in;line-height: 200%;}
 .eDoc_paragraph_indent {text-indent:0.5in; line-height: 200%;}
@@ -84,6 +84,12 @@ img, input, textarea
 .pathos {background:#FCFC7C;color:#000;padding:1px;}
 .logos {background:#C8B613;color:#000;padding:1px;}
 .highlight {background:#FFFFD3}
+.markup  {
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+          padding: 2px 4px;
+}
 
 
 .aliceblue {background:#f0f8ff;}

@@ -34,7 +34,7 @@ var id = "[data-id='" + $(this).attr('data-id') + "']";
 $('.popover').hide();$(name).show();$(id).show();
 });
 
-$('.popover-close').click(function(){
+$('.popover-close, .doc-body').click(function(){
 $('.popover').hide();
 });
 
@@ -54,6 +54,17 @@ var string = $(".doc-body").text();
 var count = string.split(" ");
 $("#word-count").text(count.length);
 
+$('#doc-display').css('height', function(index) {
+  return $(window).height()* .79;
+});
+
+$('.doc-body').css('height', function(index) {
+  return $(window).height() * .65;
+});
+$('#doctools').css('height', function(index) {
+  return $(window).height() * .79;
+});
+
 });
 </script>
 
@@ -61,7 +72,7 @@ $("#word-count").text(count.length);
 <div class="span12 center">
 
 <h3 class='inline'>{{file.name}}</h3>
-<span class="margin-left">Word count: <span id="word-count"></span></span>
+<span class="margin-left"><span id="word-count"></span> words</span>
 {# Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}} / Word count: <span id="word-count"></span> #}
 <span class="pull-right" style='margin-right:3em'>
 <div class="btn-group">
@@ -77,9 +88,8 @@ $("#word-count").text(count.length);
 {% if doc.isOwner(app.user.username) %}
 <a title="Create a copy of this document" id="new_saveas" class="btn btn-small" href="javascript:void(0)">SaveAs</a>
 {% endif %}
-{#
 <a title="Print this document" class="btn btn-small" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>
-#}
+
 
 
 {% if app.request.get('view') == 'window' %}
@@ -87,14 +97,20 @@ $("#word-count").text(count.length);
 {% elseif file.project.resource == 'true' %}
 <a  title="Close this document" class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
 {% else %}
-<a title="Close this document" class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+    {% if app.session.get('referrer')%}
+    <a title="Close this document" class="btn btn-small" href="{{app.session.get('referrer')}} ">Close</a>    
+    {%else%}    
+    <a title="Close this document" class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+    {%endif%}
+    
+
 {% endif %}
 </div>
 </span>
 
 {# Doc display #}
 <div class="row margin-top clear">
-<div class="span8 well pad">          
+<div id='doc-display' class="span8 well">          
 <div class="doc-body">
 {{ doc.body|raw }}     
 </div>
@@ -103,7 +119,7 @@ $("#word-count").text(count.length);
  
 {# Doc tools #}        
 <div class="span3"> 
-<div id='doctools' class="span3 well" style='position:fixed; margin-left: -1em; margin-top: -.1em;'>   
+<div id='doctools' class="span3 well" style='margin-top: -.1em;'>   
     
 <div id="docTab">
 <ul class="nav nav-tabs">
@@ -159,6 +175,6 @@ $("#word-count").text(count.length);
 </div>
 
 </div> 
-
+</div>
 
 {% endblock %}

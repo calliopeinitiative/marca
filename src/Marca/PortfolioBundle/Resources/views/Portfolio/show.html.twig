@@ -3,80 +3,97 @@
 {% extends 'MarcaPortfolioBundle::port_layout.html.twig' %}
 
 {% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('#doc-display').css('height', function(index) {
+  return $(window).height()* .79;
+});
 
-{# Doc header #}
+$('.doc-body').css('height', function(index) {
+  return $(window).height() * .65;
+});
+$('#doctools').css('height', function(index) {
+  return $(window).height() * .79;
+});
+ });
+</script>  
+
+<div class="span12 center">
+ 
+<div class="span12">    
+{% for portfolio in portfolio %}
+{% if loop.first %}<h3 class='inline' style='margin-left:1em'>{{ portfolio.user.firstname }} {{ portfolio.user.lastname }}'s Portfolio</h3>{% endif %} 
+{% else %}
+<h3 class='inline' style='margin-left:1em'>Portfolio</h3>
+{% endfor %}
+
+<div class="inline pull-right" style='margin-top:1em;margin-right: 4em'>
+{% for roll in roll %}
+{% if loop.index == app.request.get('user') + 1 %}  
+<a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
+{{roll.firstname}} {{roll.lastname}}<i class="icon-chevron-right"></i></a>
+{% endif %}
+{% if loop.index == app.request.get('user') - 1%}
+<a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
+<i class="icon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}<span style='margin-right:2em;'></span> 
+</a>{% endif %}
+{% endfor %}
+</div>
+</div>
+                        
 {% for portfolio_doc in portfolio_docs %}
-{% if portfolio_doc.file.doc %}
-<div class="span11"> 
-<legend>{{portfolio_doc.file.name}}</legend> 
+<div class="span8" style='margin-top:-4em;'>
+<div class="pull-right"'>    
+{{ knp_pagination_render(portfolio_docs) }}
+</div>
 </div>
 
-
+        
 {# Doc display #}
-
-<div class="span8 doc border pad">   
+<div id='doc-display' class="span8 well">          
+<div class="doc-body">    
+{% if portfolio_doc.file.doc %}    
 {{ portfolio_doc.file.doc.body|raw }} 
-
-<div class="navigation">
-    {{ knp_pagination_render(portfolio_docs) }}
-</div>        
-</div>
-
-{% else %} 
-
-<legend>{{portfolio_doc.file.name}}</legend>   
-
-{# Doc display #}
-
-<div class="span8 doc border pad"> 
-{% if portfolio_doc.file.url %}
+{% elseif portfolio_doc.file.url %}
 Please click link to to view.        
 <i class="icon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>        
 {% else %}        
 Please download this file to view.
 <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
-{% endif %} 
-<div class="navigation">
-{{ portfolio_docs.render()|raw }}
+{% endif %}        
+</div>              
 </div>
-</div>
-
-{% endif %} 
+{% else %}
+<div id='doc-display' class="span8 well">          
+<div class="doc-body">
+There are no files in this portfolio.    
+</div>              
+</div>    
 {% endfor %} 
 
 {# Doc tools #}        
-<div class="span3">         
-<div class="span3 well doc" style='position:fixed; margin-left: -1em;'>  
-<div class='cell clear'>
-   
-
+<div class="span3"> 
+<div id='doctools' class="span3 well" style='margin-top: -.1em;'>   
 <dl>
-        {% for portfolio in portfolio %}
-         {% if loop.first %}<div class=""><legend>{{ portfolio.user.firstname }} {{ portfolio.user.lastname }}'s Portfolio</legend>
-         
-         </div>{% endif %}
-            <dd class="pad05">
+        {% for portfolio in portfolio %} 
+            <dd class="pad5">
+             {{portfolio.portitem.name}}
+             </dd> 
+            <dd class="pad5">
              {% if portfolio.file.doc %}<i class="icon-edit"></i> 
              <a href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a> 
              {% elseif portfolio.file.url %}<i class="icon-adjust"></i> <a href="{{ portfolio.file.url}}" target="_blank">{{ portfolio.file.name }}</a>
              {% else %}
              <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
-             {% endif %}
-             </dd> 
-             <dd class="">
-             ({{portfolio.portitem.name}}) 
-             </dd>
-             
-            
+             {% endif %}<i class="icon-share-alt"></i>
+             </dd>    
         {% endfor %} 
-        <a class="btn btn-warning btn-small pull-right" href="{{ course_path('portfolio') }}">Close</a>     
+            
 </dl>
-
-
-    
+<a class="btn btn-small" href="{{ course_path('portfolio') }}">Close</a>        
 </div>        
 </div>
 </div>
-
 
 {% endblock %}
