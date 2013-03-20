@@ -3,8 +3,6 @@
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
 {% block content %}
-      
-<div class="row">
 <div class="span8 well">
 
 <legend>{{ profile.firstname }} {{ profile.lastname }}  </legend>
@@ -21,7 +19,14 @@
 </ul>
 
 <p>{{ profile.bio|raw }}</p>
-
 </div>
-</div>  
+
+<div class="span8 well">
+    <ul>
+        <li>Forums:  {{ countForums|length}}</li>  
+        <li>Comments:  {{ countComments|length}}</li>
+        <li>Replies:  {{ countReplies|length}}</li>  
+        <li>Total:  {{ countForums|length + countComments|length + countReplies|length }}</li>  
+    </ul>
+</div>
 {% endblock %}

@@ -12,7 +12,7 @@
     <table class="table table-condensed"><tbody>  
     {% for roll in roll %}
     <tr>
-        <td>{{ roll.lastname|capitalize }}, {{ roll.firstname|capitalize }}</td> 
+        <td><a class="" href="{{ course_path('course_roll_profile', { 'id': roll.id }) }}">{{ roll.lastname|capitalize }}, {{ roll.firstname|capitalize }}</a></td> 
         <td>{% if roll.role == 2 %}Instructor{% elseif roll.role == 3 %}TA{% else %}Student{% endif %}</td>
         <td> {% if roll.role == 0 %} PENDING 
             <a class="btn btn-mini btn-primary" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>{% endif %}

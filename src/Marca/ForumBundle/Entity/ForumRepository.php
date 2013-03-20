@@ -23,5 +23,11 @@ class ForumRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery('SELECT f FROM MarcaForumBundle:Forum f LEFT JOIN f.comments c LEFT JOIN c.replies r WHERE f.id = ?1 ORDER BY f.updated DESC')->setParameter('1',$id)->getSingleResult();
-    }      
+    } 
+    
+    public function countForumsByUser($user)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT f.id FROM MarcaForumBundle:Forum f WHERE f.user = ?1')->setParameter('1',$user)->getResult();
+    }     
 }

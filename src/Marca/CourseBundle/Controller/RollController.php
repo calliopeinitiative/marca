@@ -25,8 +25,8 @@ class RollController extends Controller
     public function indexAction($courseid)
     {
         $em = $this->getEm();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $course = $this->getCourse();
+        $roll = $this->getRoll();
         $paginator = $this->get('knp_paginator');
         $roll = $paginator->paginate($roll,$this->get('request')->query->get('page',1),20);
         
@@ -46,8 +46,8 @@ class RollController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $full_roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $course = $this->getCourse();
+        $full_roll = $this->getRoll();
         $paginator = $this->get('knp_paginator');
         $roll = $paginator->paginate($full_roll,$this->get('request')->query->get('page',1),20);
         
@@ -63,10 +63,14 @@ class RollController extends Controller
     public function courseRollProfileAction($courseid,$id)
     {
         $em = $this->getEm();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $user = $this->getUser();
+        $course = $this->getCourse();
         $profile = $em->getRepository('MarcaCourseBundle:Roll')->findRollUser($id);
+        $countForums = $em->getRepository('MarcaForumBundle:Forum')->countForumsByUser($user);
+        $countComments = $em->getRepository('MarcaForumBundle:Comment')->countCommentsByUser($user);        
+        $countReplies = $em->getRepository('MarcaForumBundle:Reply')->countRepliesByUser($user);
 
-        return array('profile' => $profile, 'course' => $course);
+        return array('profile' => $profile, 'course' => $course, 'countForums'=>$countForums, 'countComments'=>$countComments, 'countReplies'=>$countReplies);
     }     
 
     /**
@@ -81,7 +85,7 @@ class RollController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $course = $this->getCourse();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
 
         if (!$roll) {

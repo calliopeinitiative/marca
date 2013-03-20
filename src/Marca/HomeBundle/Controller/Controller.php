@@ -44,6 +44,20 @@ class Controller extends SymfonyController
         }
         return $course;
     } 
+
+    /**
+     *
+     * @return \Marca\CourseBundle\Entity\Roll
+     */   
+    public function getRoll() {
+        $request = $this->getRequest();
+        $courseid = $request->attributes->get('courseid');
+        $roll = $this->getEm()->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        if (!$roll) {
+            throw $this->createNotFoundException('Unable to find Roll entity');
+        }
+        return $roll;
+    } 
     
     /**
      *@return string 
