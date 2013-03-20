@@ -63,7 +63,8 @@ class RollController extends Controller
     public function courseRollProfileAction($courseid,$id)
     {
         $em = $this->getEm();
-        $user = $em->getRepository('MarcaUserBundle:User')->find($id);
+        $userid = $em->getRepository('MarcaCourseBundle:Roll')->findUserByRoll($id);
+        $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $course = $this->getCourse();
         $profile = $em->getRepository('MarcaCourseBundle:Roll')->findRollUser($id);
         $countForums = $em->getRepository('MarcaForumBundle:Forum')->countForumsByUser($user);
