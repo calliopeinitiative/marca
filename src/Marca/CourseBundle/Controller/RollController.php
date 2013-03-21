@@ -3,11 +3,11 @@
 namespace Marca\CourseBundle\Controller;
 
 use Marca\HomeBundle\Controller\Controller;
+use Marca\CourseBundle\roll\Roll;
+use Marca\CourseBundle\Form\RollType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\CourseBundle\roll\Roll;
-use Marca\CourseBundle\Form\RollType;
 
 /**
  * Roll controller.
@@ -22,13 +22,13 @@ class RollController extends Controller
      * @Route("/{courseid}/", name="roll")
      * @Template()
      */
-    public function indexAction($courseid)
+    public function indexAction()
     {
-        $em = $this->getEm();
         $course = $this->getCourse();
-        $roll = $this->getRoll();
+        $courseRoll = $this->getRoll();
+        
         $paginator = $this->get('knp_paginator');
-        $roll = $paginator->paginate($roll,$this->get('request')->query->get('page',1),20);
+        $roll = $paginator->paginate($courseRoll,$this->get('request')->query->get('page',1),20);
         
         return array('roll' => $roll, 'course' => $course);
     }
@@ -40,12 +40,11 @@ class RollController extends Controller
      * @Route("/{courseid}/course_roll", name="course_roll")
      * @Template("MarcaCourseBundle:Course:roll.html.twig")
      */
-    public function courseRollAction($courseid)
+    public function courseRollAction()
     {
         $allowed = array(self::ROLE_STUDENT, self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         
-        $em = $this->getEm();
         $course = $this->getCourse();
         $full_roll = $this->getRoll();
         $paginator = $this->get('knp_paginator');
@@ -57,21 +56,25 @@ class RollController extends Controller
     /**
      * Lists Profile
      *
-     * @Route("/{courseid}/{id}/course_roll_profile", name="course_roll_profile")
+     * @Route("/{courseid}/{rollid}/{user}/course_roll_profile", name="course_roll_profile")
      * @Template("MarcaCourseBundle:Course:profile.html.twig")
      */
-    public function courseRollProfileAction($courseid,$id)
+    public function courseRollProfileAction($rollid)
     {
         $em = $this->getEm();
-        $userid = $em->getRepository('MarcaCourseBundle:Roll')->findUserByRoll($id);
+        $userid = $em->getRepository('MarcaCourseBundle:Roll')->findUserByRoll($rollid);
         $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $course = $this->getCourse();
-        $profile = $em->getRepository('MarcaCourseBundle:Roll')->findRollUser($id);
-        $countForums = $em->getRepository('MarcaForumBundle:Forum')->countForumsByUser($user);
-        $countComments = $em->getRepository('MarcaForumBundle:Comment')->countCommentsByUser($user);        
-        $countReplies = $em->getRepository('MarcaForumBundle:Reply')->countRepliesByUser($user);
+        $roll = $this->getRoll();
+        $role = $this->getCourseRole();
+        $profile = $em->getRepository('MarcaCourseBundle:Roll')->findRollUser($rollid);
+        $countForums = $em->getRepository('MarcaForumBundle:Forum')->countForumsByUser($user,$course);
+        $countComments = $em->getRepository('MarcaForumBundle:Comment')->countCommentsByUser($user,$course);        
+        $countReplies = $em->getRepository('MarcaForumBundle:Reply')->countRepliesByUser($user,$course);
+        $countJournals = $em->getRepository('MarcaJournalBundle:Journal')->countJournalsByUser($user,$course);
+        $countFiles = $em->getRepository('MarcaFileBundle:File')->countFilesByUser($user,$course);
 
-        return array('profile' => $profile, 'course' => $course, 'countForums'=>$countForums, 'countComments'=>$countComments, 'countReplies'=>$countReplies);
+        return array('user'=> $user, 'role' => $role, 'roll' => $roll, 'profile' => $profile, 'course' => $course, 'countForums'=>$countForums, 'countComments'=>$countComments, 'countReplies'=>$countReplies, 'countJournals'=>$countJournals,'countFiles'=>$countFiles);
     }     
 
     /**
@@ -80,7 +83,7 @@ class RollController extends Controller
      * @Route("/{courseid}/{id}/show", name="roll_show")
      * @Template()
      */
-    public function showAction($id, $courseid)
+    public function showAction($id)
     {
         $allowed = array(self::ROLE_STUDENT, self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);

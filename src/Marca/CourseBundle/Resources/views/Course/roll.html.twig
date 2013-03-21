@@ -10,7 +10,7 @@
     <table class="table table-condensed"><tbody>  
     {% for roll in roll %}
     <tr>
-        <td><a class="" href="{{ course_path('course_roll_profile', { 'id': roll.id }) }}">{{ roll.lastname|capitalize }}, {{ roll.firstname|capitalize }}</a></td>  
+        <td><a class="" href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}, {{ roll.firstname|capitalize }}</a></td>  
         <td><a class="" target="_blank" href="mailto:{{ roll.email }}">{{ roll.email }}</a></td>
     </tr>
     {% endfor %}

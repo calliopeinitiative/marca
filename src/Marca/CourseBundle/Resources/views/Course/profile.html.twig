@@ -3,7 +3,31 @@
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span8 well">
+
+<div class="span9"> 
+<ul class="breadcrumb well">
+<li> 
+{{ profile.firstname }} {{ profile.lastname }}'s Profile
+</li>
+
+{# next previous users on roll #} 
+<li class='pull-right'>
+{% for roll in roll %}
+{% if loop.index == app.request.get('user') + 1 %}  
+<span style='margin-right:3em;'></span>        
+<a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}<i class="icon-chevron-right"></i></a>
+{% endif %}
+
+{% if loop.index == app.request.get('user') - 1 %}
+<a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}"><i class="icon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
+{% endif %}
+{% endfor %}
+</li> 
+</ul>
+</div>
+
+
+<div class="span9 well">
 
 <legend>{{ profile.firstname }} {{ profile.lastname }}  </legend>
 <p><a class="" target="_blank" href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
@@ -21,6 +45,7 @@
 <p>{{ profile.bio|raw }}</p>
 </div>
 
+{% if user == app.user.username or role == 2 %}
 <div class="span8 well">
     <ul>
         <li>Forums:  {{ countForums|length}}</li>  
@@ -28,5 +53,12 @@
         <li>Replies:  {{ countReplies|length}}</li>  
         <li>Total:  {{ countForums|length + countComments|length + countReplies|length }}</li>  
     </ul>
+    <ul>
+        <li>Journal entries:  {{ countJournals|length}}</li>  
+    </ul>
+    <ul>
+        <li>Files:  {{ countFiles|length}}</li>  
+    </ul>         
 </div>
+{% endif%}
 {% endblock %}

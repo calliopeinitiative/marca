@@ -12,10 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class CommentRepository extends EntityRepository
 {
-    public function countCommentsByUser($user)
+    public function countCommentsByUser($user, $course)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT f.id FROM MarcaForumBundle:Comment f WHERE f.user = ?1')->setParameter('1',$user)->getResult();
+            ->createQuery('SELECT c.id FROM MarcaForumBundle:Comment c JOIN c.forum f  WHERE c.user = ?1 AND f.course = ?2')
+                ->setParameters(array('1' => $user, '2' => $course))->getResult();
     } 
     
 }

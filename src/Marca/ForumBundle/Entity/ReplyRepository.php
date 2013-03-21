@@ -12,10 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class ReplyRepository extends EntityRepository
 {
-    public function countRepliesByUser($user)
+    public function countRepliesByUser($user,$course)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT f.id FROM MarcaForumBundle:Reply f WHERE f.user = ?1')->setParameter('1',$user)->getResult();
+            ->createQuery('SELECT r.id FROM MarcaForumBundle:Reply r JOIN r.comment c JOIN c.forum f WHERE r.user = ?1 AND f.course = ?2')
+                ->setParameters(array('1' => $user, '2' => $course))->getResult();
     } 
     
 }

@@ -84,5 +84,12 @@ class FileRepository extends EntityRepository
          return $this->getEntityManager()
             ->createQuery('DELETE MarcaFileBundle:File f WHERE f.id = ?1')
                 ->setParameter('1',$id)->getResult(); 
-    }   
+    } 
+    
+    public function countFilesByUser($user, $course)
+    {
+       return $this->getEntityManager()
+               ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.user = ?1 AND f.course = ?2')
+               ->setParameters(array('1' => $user, '2' => $course))->getResult();
+    }     
 }
