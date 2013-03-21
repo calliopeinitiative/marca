@@ -48,10 +48,10 @@
 {% if user == app.user.username or role == 2 %}
 <div class="span8 well">
     <ul>
-        <li>Forums:  {{ countForums|length}}</li>  
-        <li>Comments:  {{ countComments|length}}</li>
-        <li>Replies:  {{ countReplies|length}}</li>  
-        <li>Total:  {{ countForums|length + countComments|length + countReplies|length }}</li>  
+        <li>Forums:  {{ countForums|length}}  (class average: {{ countCourseForums|length //roll|length}})</li>  
+        <li>Comments:  {{ countComments|length}}  (class average: {{ countCourseComments|length//roll|length}})</li>
+        <li>Replies:  {{ countReplies|length}}  (class average: {{ countCourseReplies|length//roll|length}})</li>  
+        <li>Total:  {{ countForums|length + countComments|length + countReplies|length }}  (class average: {{ (countCourseForums|length + countCourseComments|length +countCourseReplies|length) //roll|length }})</li>  
     </ul>
     <ul>
         <li>Journal entries:  {{ countJournals|length}}</li>  

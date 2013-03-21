@@ -18,5 +18,11 @@ class CommentRepository extends EntityRepository
             ->createQuery('SELECT c.id FROM MarcaForumBundle:Comment c JOIN c.forum f  WHERE c.user = ?1 AND f.course = ?2')
                 ->setParameters(array('1' => $user, '2' => $course))->getResult();
     } 
-    
+
+    public function countCommentsByCourse($course)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT c.id FROM MarcaForumBundle:Comment c JOIN c.forum f  WHERE f.course = ?1')
+                ->setParameter('1',$course)->getResult();
+    }     
 }

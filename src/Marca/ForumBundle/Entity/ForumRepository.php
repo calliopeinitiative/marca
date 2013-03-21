@@ -30,5 +30,12 @@ class ForumRepository extends EntityRepository
         return $this->getEntityManager()
             ->createQuery('SELECT f.id FROM MarcaForumBundle:Forum f WHERE f.user = ?1 AND f.course = ?2')
                 ->setParameters(array('1' => $user, '2' => $course))->getResult();
+    }
+    
+    public function countForumsByCourse($course)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT f.id FROM MarcaForumBundle:Forum f WHERE f.course = ?1')
+                ->setParameter('1',$course)->getResult();
     }     
 }
