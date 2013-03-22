@@ -76,9 +76,11 @@ class RollController extends Controller
         $countCourseReplies = $em->getRepository('MarcaForumBundle:Reply')->countRepliesByCourse($course);
         
         $countJournals = $em->getRepository('MarcaJournalBundle:Journal')->countJournalsByUser($user,$course);
+        $countCourseJournals = $em->getRepository('MarcaJournalBundle:Journal')->countJournalsByCourse($course);
         $countFiles = $em->getRepository('MarcaFileBundle:File')->countFilesByUser($user,$course);
+        $countCourseFiles = $em->getRepository('MarcaFileBundle:File')->countFilesByCourse($course);
 
-        return array('user'=> $user, 'role' => $role, 'roll' => $roll, 'profile' => $profile, 'course' => $course, 'countForums'=>$countForums, 'countComments'=>$countComments, 'countReplies'=>$countReplies, 'countCourseForums'=>$countCourseForums, 'countCourseComments'=>$countCourseComments, 'countCourseReplies'=>$countCourseReplies,'countJournals'=>$countJournals,'countFiles'=>$countFiles);
+        return array('user'=> $user, 'role' => $role, 'roll' => $roll, 'profile' => $profile, 'course' => $course, 'countForums'=>$countForums, 'countComments'=>$countComments, 'countReplies'=>$countReplies, 'countCourseForums'=>$countCourseForums, 'countCourseComments'=>$countCourseComments, 'countCourseReplies'=>$countCourseReplies,'countJournals'=>$countJournals,'countCourseJournals'=>$countCourseJournals,'countFiles'=>$countFiles,'countCourseFiles'=>$countCourseFiles);
     }     
 
     /**

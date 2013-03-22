@@ -24,5 +24,12 @@ class JournalRepository extends EntityRepository
        return $this->getEntityManager()
                ->createQuery('SELECT j from MarcaJournalBundle:Journal j WHERE j.user = ?1 AND j.course = ?2')
                ->setParameters(array('1' => $user, '2' => $course))->getResult();
+    }  
+
+  public function countJournalsByCourse($course)
+    {  
+       return $this->getEntityManager()
+               ->createQuery('SELECT j from MarcaJournalBundle:Journal j WHERE j.course = ?1')
+               ->setParameters(array('1' => $course))->getResult();
     }    
 }

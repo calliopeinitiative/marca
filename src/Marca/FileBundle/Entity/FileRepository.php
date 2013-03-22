@@ -91,5 +91,12 @@ class FileRepository extends EntityRepository
        return $this->getEntityManager()
                ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.user = ?1 AND f.course = ?2')
                ->setParameters(array('1' => $user, '2' => $course))->getResult();
+    } 
+    
+    public function countFilesByCourse($course)
+    {
+       return $this->getEntityManager()
+               ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.course = ?1')
+               ->setParameters(array('1' => $course))->getResult();
     }     
 }

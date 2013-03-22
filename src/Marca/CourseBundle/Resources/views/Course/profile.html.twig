@@ -54,10 +54,10 @@
         <li>Total:  {{ countForums|length + countComments|length + countReplies|length }}  (class average: {{ (countCourseForums|length + countCourseComments|length +countCourseReplies|length) //roll|length }})</li>  
     </ul>
     <ul>
-        <li>Journal entries:  {{ countJournals|length}}</li>  
+        <li>Journal entries:  {{ countJournals|length}} (class average: {{ countCourseJournals|length //roll|length}})</li>  
     </ul>
     <ul>
-        <li>Files:  {{ countFiles|length}}</li>  
+        <li>Files:  {{ countFiles|length}} (class average: {{ countCourseFiles|length //roll|length}})</li>  
     </ul>         
 </div>
 {% endif%}
