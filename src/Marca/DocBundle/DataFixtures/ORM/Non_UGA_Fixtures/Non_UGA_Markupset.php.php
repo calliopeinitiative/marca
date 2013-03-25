@@ -169,7 +169,7 @@ $markup66= $this->createMarkup('Be concise', $user, 'coral', 'be_concise', $mark
 
 $markup67= $this->createMarkup('Needs more explanation', $user, 'coral', 'needs_more_explanation', $markupset5, 'http://writingcommons.org/style/description', 'Provide more detail to help your audience understand the point here.');
 
-$markup68= $this->createMarkup('Passive voice ineffective', $user, 'coral', 'http://www.cws.illinois.edu/workshop/writers/activevoice/', 'Avoid overuse of "to be" verbs. Choose clear subjects and strong action verbs instead.');
+$markup68= $this->createMarkup('Passive voice ineffective', $user, 'coral', 'passive', $markupset5, 'http://www.cws.illinois.edu/workshop/writers/activevoice/', 'Avoid overuse of "to be" verbs. Choose clear subjects and strong action verbs instead.');
 
 $markup69= $this->createMarkup('Use possessive', $user, 'coral', 'use_possessive', $markupset5, 'http://owl.english.purdue.edu/owl/resource/621/01/', "The possessive is needed here to convey an ownership relation. Create the possessive of nouns by adding an apostrophe + 's' (e.g., 'the dog's bone,' 'Jane's shoe'). Pronouns have distinct forms (e.g., 'his,' 'its,' 'hers,' 'their').");
 
