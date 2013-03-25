@@ -1,3 +1,8 @@
+marca_assessment:
+    resource: "@MarcaAssessmentBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 marca_response:
     resource: "@MarcaResponseBundle/Controller/"
     type:     annotation
