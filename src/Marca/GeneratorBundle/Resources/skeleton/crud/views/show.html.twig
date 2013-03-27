@@ -7,23 +7,23 @@
 {% include 'views/others/record_actions.html.twig' %}
         
 
-<div class="span6">    
-<table class="table table-bordered table-condensed table-striped">
-<tbody>
+<div class="span9 well">
+<legend></legend> 
+</div>
+
+<div class="span9 well">
 {%- for field, metadata in fields %}
         
-    <tr>
-        <th>{{ field|capitalize }}</th>
+        {{ field|capitalize }}
         
         {%- if metadata.type in ['date', 'datetime'] %}
-        <td>{{ '{{ entity.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}' }}</td>{%- else %}
+        {{ '{{ entity.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}' }}{%- else %}
          
-        <td>{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</td>
+        {{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}
         {%- endif %}
          
-    </tr>
+    
 {%- endfor %}  
-</tbody>
-</table>
+
 </div>          
 {{ "{% endblock %}" }}

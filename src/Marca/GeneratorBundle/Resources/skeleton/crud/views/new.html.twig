@@ -2,15 +2,31 @@
 
 {{ "{% extends '"~ bundlename ~"' %}" }}
 
+{{ "{% block javascripts %}" }}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+{{ "{% endblock %}" }}
+
 {{ "{% block content %}" }}
+<script language="javascript"> 
+$(document).ready(function()
+{
+
+});
+</script>
+
 {% set hide_edit, hide_delete = true, true %}
 {% include 'views/others/record_actions.html.twig' %}
 
-<div class="span6 well"> 
+<div class="span9 well">
+<legend></legend> 
+</div> 
+
+<div class="span9 well"> 
 <form action="{{ "{{ path('"~ route_name_prefix ~"_create') }}" }}" method="post" {{ "{{ form_enctype(form) }}" }}>
     {{ "{{ form_widget(form) }}" }}
     <div>
-        <button class="btn" type="submit">Create</button>
+        <button class="btn" type="submit">Create</button><a class="btn" href="">Cancel</a>
     </div>
 </form>
 </div>
