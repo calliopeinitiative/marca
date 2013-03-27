@@ -1,0 +1,36 @@
+{# Marca/AssessmentBundle/Resources/views/Assessmentset/show.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block content %}
+
+<div class="span9 well">
+<legend>Assessment</legend> 
+<a class="btn" href="{{ path('assessmentset') }}">List Assessment Sets</a>
+
+
+
+</div>
+
+<div class="span9 well">                    
+<strong>{{ assessmentset.name }} </strong> 
+<a class="btn btn-primary pull-right" href="{{ path('objective_new', { 'assessmentsetid': assessmentset.id }) }}">Add Learning Objective</a>
+     
+<div class="row">         
+{{ assessmentset.description }}  
+</div>
+
+{% for objective in assessmentset.objectives %}
+<div class="span8">             
+        <strong>{{ objective.objective }}</strong>      
+        {{ objective.description }}
+        <a class="btn btn-primary pull-right" href="{{ path('objective_edit', { 'id': objective.id }) }}">Edit</a>     
+</div>
+{% endfor %}
+
+<form class="margin-top pull-right" action="{{ path('assessmentset_delete', { 'id': assessmentset.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn" type="submit">Delete Assessment Set</button>
+</form>
+</div>          
+{% endblock %}

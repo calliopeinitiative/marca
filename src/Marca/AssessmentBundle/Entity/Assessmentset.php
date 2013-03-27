@@ -31,9 +31,14 @@ class Assessmentset
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
+    
+    /**
+    * @ORM\OneToMany(targetEntity="Marca\AssessmentBundle\Entity\Objective", mappedBy="assessmentset")
+    */
+    protected $objectives;     
 
 
     /**
@@ -90,5 +95,45 @@ class Assessmentset
     public function getDescription()
     {
         return $this->description;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->objectives = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add objectives
+     *
+     * @param \Marca\AssessmentBundle\Entity\Objective $objectives
+     * @return Assessmentset
+     */
+    public function addObjective(\Marca\AssessmentBundle\Entity\Objective $objectives)
+    {
+        $this->objectives[] = $objectives;
+    
+        return $this;
+    }
+
+    /**
+     * Remove objectives
+     *
+     * @param \Marca\AssessmentBundle\Entity\Objective $objectives
+     */
+    public function removeObjective(\Marca\AssessmentBundle\Entity\Objective $objectives)
+    {
+        $this->objectives->removeElement($objectives);
+    }
+
+    /**
+     * Get objectives
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getObjectives()
+    {
+        return $this->objectives;
     }
 }

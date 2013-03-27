@@ -31,12 +31,12 @@ class Objective
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Assessmentset", inversedBy="objective")
+    * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Assessmentset", inversedBy="objectives")
     */
     protected $assessmentset;      
 

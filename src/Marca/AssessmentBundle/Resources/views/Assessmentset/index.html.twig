@@ -1,0 +1,25 @@
+{# Marca/AssessmentBundle/Resources/views/Assessmentset/index.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="span9 well">
+<legend>Assessment</legend>     
+      <a class="btn" href="{{ path('assessmentset_new') }}">New Assessment Set</a>
+</div>
+
+
+
+{% for assessmentset in assessmentsets %}
+<div class="span9 well">             
+        <strong>{{ assessmentset.name }}</strong>      
+        {{ assessmentset.description }}
+        <a class="btn btn-primary pull-right" href="{{ path('assessmentset_edit', { 'id': assessmentset.id }) }}">Edit</a>
+        <a class="btn btn-primary pull-right" href="{{ path('assessmentset_show', { 'id': assessmentset.id }) }}">Open</a>
+        
+        
+       
+</div>
+{% endfor %}
+
+{% endblock %}
