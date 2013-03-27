@@ -1,0 +1,44 @@
+{# Marca/AssessmentBundle/Resources/views/Scaleitem/edit.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block javascripts %}
+
+{% endblock %}
+
+{% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+
+});
+</script>
+
+<div class="span2">
+<a class="btn btn-info" href="{{ path('scaleitem') }}">List</a>
+ 
+</div>       
+  
+<div class="span1">        
+<form action="{{ path('scaleitem_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger" type="submit">Delete</button>
+</form>
+</div>
+  
+
+
+<div class="span9 well">
+<legend>Portfolios</legend> 
+</div>
+
+<div class="span9 well">
+        <form action="{{ path('scaleitem_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+            {{ form_widget(edit_form) }}
+        <div>
+            <button class="btn" type="submit">Edit</button>
+        </div>
+        </form>
+</div>
+
+{% endblock %}

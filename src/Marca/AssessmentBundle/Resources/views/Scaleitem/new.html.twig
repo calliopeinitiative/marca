@@ -1,0 +1,30 @@
+{# Marca/AssessmentBundle/Resources/views/Scaleitem/new.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block javascripts %}
+
+{% endblock %}
+
+{% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+
+});
+</script>
+
+
+<div class="span9 well">
+<legend>Scales</legend> 
+</div> 
+
+<div class="span9 well"> 
+<form action="{{ path('scaleitem_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <div>
+        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ path('scale') }}">Cancel</a>
+    </div>
+</form>
+</div>
+{% endblock %}

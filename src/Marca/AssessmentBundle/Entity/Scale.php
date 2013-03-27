@@ -31,7 +31,7 @@ class Scale
     /**
      * @var integer
      *
-     * @ORM\Column(name="type", type="integer")
+     * @ORM\Column(name="type", type="integer", nullable=true)
      */
     private $type;
     
@@ -40,6 +40,11 @@ class Scale
     */
     protected $objective;      
 
+    
+    /**
+    * @ORM\OneToMany(targetEntity="Marca\AssessmentBundle\Entity\Scaleitem", mappedBy="scale")
+    */
+    protected $scaleitems;    
 
     /**
      * Get id
@@ -118,5 +123,45 @@ class Scale
     public function getObjective()
     {
         return $this->objective;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->scaleitems = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add scaleitems
+     *
+     * @param \Marca\AssessmentBundle\Entity\Scaleitem $scaleitems
+     * @return Scale
+     */
+    public function addScaleitem(\Marca\AssessmentBundle\Entity\Scaleitem $scaleitems)
+    {
+        $this->scaleitems[] = $scaleitems;
+    
+        return $this;
+    }
+
+    /**
+     * Remove scaleitems
+     *
+     * @param \Marca\AssessmentBundle\Entity\Scaleitem $scaleitems
+     */
+    public function removeScaleitem(\Marca\AssessmentBundle\Entity\Scaleitem $scaleitems)
+    {
+        $this->scaleitems->removeElement($scaleitems);
+    }
+
+    /**
+     * Get scaleitems
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getScaleitems()
+    {
+        return $this->scaleitems;
     }
 }

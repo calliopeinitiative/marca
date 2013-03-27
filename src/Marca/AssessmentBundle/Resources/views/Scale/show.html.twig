@@ -1,0 +1,27 @@
+{# Marca/AssessmentBundle/Resources/views/Scale/index.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="span9 well">
+<legend>Scales</legend>
+<a class="btn" href="{{ path('assessmentset') }}">List Assessment Sets</a>
+<a class="btn" href="{{ path('scale') }}">List Scales</a>
+</div>
+
+<div class="span9 well">                
+    <h3 class="inline">{{ scale.name }}</h3> 
+    <a class="btn btn-primary pull-right" href="{{ path('scaleitem_new') }}">Add Scale item</a> 
+    <hr/>
+
+{% for scaleitem in scale.scaleitems %}
+<div class="span8">             
+        <div class="row"><strong>{{ scaleitem.name }}</strong>
+        <a class="btn btn-primary btn-small pull-right" href="{{ path('scaleitem_edit', { 'id': scaleitem.id }) }}">Edit</a>  
+        </div>  
+        <div class="row">{{ scaleitem.value }}</div>
+</div>
+{% endfor %}    
+             
+</div>          
+{% endblock %}

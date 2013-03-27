@@ -7,24 +7,23 @@
 <div class="span9 well">
 <legend>Assessment</legend> 
 <a class="btn" href="{{ path('assessmentset') }}">List Assessment Sets</a>
+<a class="btn" href="{{ path('scale') }}">List Scales</a>
 
 
 
 </div>
 
 <div class="span9 well">                    
-<strong>{{ assessmentset.name }} </strong> 
+<h3 class="inline">{{ assessmentset.name }}</h3>{{ assessmentset.description }}  
 <a class="btn btn-primary pull-right" href="{{ path('objective_new', { 'assessmentsetid': assessmentset.id }) }}">Add Learning Objective</a>
-     
-<div class="row">         
-{{ assessmentset.description }}  
-</div>
+<hr/>     
 
 {% for objective in assessmentset.objectives %}
 <div class="span8">             
-        <strong>{{ objective.objective }}</strong>      
-        {{ objective.description }}
-        <a class="btn btn-primary pull-right" href="{{ path('objective_edit', { 'id': objective.id }) }}">Edit</a>     
+        <div class="row"><strong>{{ objective.objective }}</strong>
+        <a class="btn btn-primary btn-small pull-right" href="{{ path('objective_edit', { 'id': objective.id }) }}">Edit</a>  
+        </div>  
+        <div class="row">{{ objective.description }}</div>
 </div>
 {% endfor %}
 
