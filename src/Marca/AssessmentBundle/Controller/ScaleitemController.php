@@ -2,7 +2,7 @@
 
 namespace Marca\AssessmentBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -57,16 +57,17 @@ class ScaleitemController extends Controller
     /**
      * Displays a form to create a new Scaleitem entity.
      *
-     * @Route("/new", name="scaleitem_new")
+     * @Route("/{scaleid}/new", name="scaleitem_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($scaleid)
     {
         $scaleitem = new Scaleitem();
         $form   = $this->createForm(new ScaleitemType(), $scaleitem);
 
         return array(
             'scaleitem' => $scaleitem,
+            'scaleid' => $scaleid,
             'form'   => $form->createView()
         );
     }
@@ -74,13 +75,17 @@ class ScaleitemController extends Controller
     /**
      * Creates a new Scaleitem entity.
      *
-     * @Route("/create", name="scaleitem_create")
+     * @Route("/{scaleid}/create", name="scaleitem_create")
      * @Method("post")
      * @Template("MarcaAssessmentBundle:Scaleitem:new.html.twig")
      */
-    public function createAction()
+    public function createAction($scaleid)
     {
+        $em = $this->getEm();
+        $scale = $em->getRepository('MarcaAssessmentBundle:Scale')->find($scaleid);
+        
         $scaleitem  = new Scaleitem();
+        $scaleitem->setScale($scale);
         $request = $this->getRequest();
         $form    = $this->createForm(new ScaleitemType(), $scaleitem);
         $form->bindRequest($request);
@@ -90,12 +95,13 @@ class ScaleitemController extends Controller
             $em->persist($scaleitem);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('scaleitem_show', array('id' => $scaleitem->getId())));
+            return $this->redirect($this->generateUrl('scale_show', array('id' => $scaleid)));
             
         }
 
         return array(
             'scaleitem' => $scaleitem,
+            'scaleid' => $scaleid,
             'form'   => $form->createView()
         );
     }

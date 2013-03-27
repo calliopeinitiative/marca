@@ -68,8 +68,8 @@ class ObjectiveController extends Controller
 
         return array(
             'objective' => $objective,
-            'form'   => $form->createView(),
-            'assessmentsetid' => $assessmentsetid
+            'assessmentsetid' => $assessmentsetid,
+            'form'   => $form->createView()
         );
     }
 
@@ -102,6 +102,7 @@ class ObjectiveController extends Controller
 
         return array(
             'objective' => $objective,
+            'assessmentsetid' => $assessmentsetid,
             'form'   => $form->createView()
         );
     }
