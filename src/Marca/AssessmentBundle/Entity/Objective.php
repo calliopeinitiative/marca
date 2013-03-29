@@ -39,7 +39,11 @@ class Objective
     * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Assessmentset", inversedBy="objectives")
     */
     protected $assessmentset;      
-
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Scale", inversedBy="objective")
+    */
+    protected $scale;       
 
     /**
      * Get id
@@ -118,5 +122,28 @@ class Objective
     public function getAssessmentset()
     {
         return $this->assessmentset;
+    }
+
+    /**
+     * Set scale
+     *
+     * @param \Marca\AssessmentBundle\Entity\Scale $scale
+     * @return Objective
+     */
+    public function setScale(\Marca\AssessmentBundle\Entity\Scale $scale = null)
+    {
+        $this->scale = $scale;
+    
+        return $this;
+    }
+
+    /**
+     * Get scale
+     *
+     * @return \Marca\AssessmentBundle\Entity\Scale 
+     */
+    public function getScale()
+    {
+        return $this->scale;
     }
 }

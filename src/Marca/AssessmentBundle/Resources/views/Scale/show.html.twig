@@ -5,8 +5,7 @@
 {% block content %}
 <div class="span9 well">
 <legend>Scales</legend>
-<a class="btn" href="{{ path('assessmentset') }}">List Assessment Sets</a>
-<a class="btn" href="{{ path('scale') }}">List Scales</a>
+<a class="btn" href="{{ path('assessmentset') }}">List Assessment Sets and Scales</a>
 </div>
 
 <div class="span9 well">                
@@ -16,10 +15,9 @@
 
 {% for scaleitem in scale.scaleitems %}
 <div class="span8">             
-        <div class="row"><strong>{{ scaleitem.name }}</strong>
+        <div class="row"><strong>{{ scaleitem.name }}</strong>  (value::{{ scaleitem.value }})
         <a class="btn btn-primary btn-small pull-right" href="{{ path('scaleitem_edit', { 'id': scaleitem.id, 'scaleid':scale.id }) }}">Edit</a>  
         </div>  
-        <div class="row">{{ scaleitem.value }}</div>
 </div>
 {% endfor %}    
              

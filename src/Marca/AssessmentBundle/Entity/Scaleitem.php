@@ -36,7 +36,7 @@ class Scaleitem
     private $value;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Scale", inversedBy="scaleitem")
+    * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Scale", inversedBy="scaleitems")
     */
     protected $scale;     
 

@@ -27,8 +27,8 @@ class AssessmentsetController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $assessmentsets = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->findAll();
-
-        return array('assessmentsets' => $assessmentsets);
+        $scales = $em->getRepository('MarcaAssessmentBundle:Scale')->findAll();
+        return array('assessmentsets' => $assessmentsets, 'scales' => $scales);
     }
 
     /**

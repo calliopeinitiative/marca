@@ -7,15 +7,13 @@
 
 
 <div class="span9 well">
-<legend><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a></legend> 
-Created: {{ course.created|date('Y-m-d H:i:s') }} /     
-Updated:{{ course.updated|date('Y-m-d H:i:s') }}
+<legend><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Settings</legend> 
 </div> 
     
     
 
-<div class="span4 well">  
-<legend>Settings</legend>    
+<div class="span4 well">
+<legend>Basics</legend>    
 <table class="table"> 
 <tbody>          
     <tr>
@@ -43,30 +41,37 @@ Updated:{{ course.updated|date('Y-m-d H:i:s') }}
     <tr>
         <th>Associated Course(s)</th>         
         <td>{% for course in course.parents %}{{ course.name }}</br>{% else %}No associated courses{% endfor %}</td>         
-    </tr>    
-    <tr>
-        <th colspan="2">Tools</th>              
     </tr>
-    {# hidden for now  
+    </tr>
+
+     <tr>
+        <th>Label Sets</th>         
+        <td>{% for tagset in tagsets %}{{ tagset.name}}{% if not loop.last %}, {% endif %}{% endfor %}</td>         
+    </tr>
     <tr>
-        <th>Notes</th>         
-        <td>{{ course.notes=='t' ? 'Yes' : 'No' }}</td>         
-    </tr> 
-    #}       
+        <th>Markup Sets</th>
+        <td>{% for markupset in course.markupsets %}{{ markupset.name}}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+    </tr>     
+</tbody>
+</table>
+    
+<legend>Tools</legend>
+<table class="table"> 
+    <tbody>
     <tr>
         <th>Journal</th>         
         <td>{{ course.journal=='t' ? 'Yes' : 'No' }}</td>         
     </tr>
-    {# hidden for now  
-    <tr>
-        <th>Zine</th>         
-        <td>{{ course.zine=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>  
-    #}  
     <tr>
         <th>Forum</th>         
         <td>{{ course.forum=='t' ? 'Yes' : 'No' }}</td>         
     </tr>
+</tbody>
+</table>
+
+<legend>Portfolio</legend>
+<table class="table"> 
+    <tbody>
     <tr>
         <th>Portfolio</th>         
         <td>{{ course.portfolio=='t' ? 'Yes' : 'No' }}</td>         
@@ -76,22 +81,15 @@ Updated:{{ course.updated|date('Y-m-d H:i:s') }}
         <td>{% if portset %}{{ portset.name}}{% else %}No portfolio set designated{% endif %}</td>         
     </tr> 
     <tr>
+        <th>Portfolio Assessment</th>         
+        <td>{{ course.portStatus }}</td>         
+    </tr>     
+    <tr>
         <th>Portfolio editing open</th>         
         <td>{{ course.portStatus=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>
-     <tr>
-        <th>Label Sets</th>         
-        <td>{% for tagset in tagsets %}{{ tagset.name}}{% if not loop.last %}, {% endif %}{% endfor %}</td>         
-    </tr>
-    <tr>
-        <th>Markup Sets</th>
-        <td>{% for markupset in course.markupsets %}{{ markupset.name}}{% if not loop.last %}, {% endif %}{% endfor %}</td>
-    </tr>
-    
-    
-</tbody>
+    </tr>   
+    </tbody>
 </table>
-
 
 <div class="span2">
 <a class="btn btn-primary" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit</a>
@@ -193,7 +191,15 @@ Updated:{{ course.updated|date('Y-m-d H:i:s') }}
     </table>
            
 </div>
-  
+
+    
+    
+<div class="span9 well">
+Created: {{ course.created|date('Y-m-d H:i:s') }} /     
+Updated:{{ course.updated|date('Y-m-d H:i:s') }}
+</div> 
+    
+    
 </div>
         
 {% endblock %}

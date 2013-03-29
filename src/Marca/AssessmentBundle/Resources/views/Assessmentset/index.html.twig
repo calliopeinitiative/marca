@@ -4,23 +4,32 @@
 
 {% block content %}
 <div class="span9 well">
-<legend>Assessment</legend>     
-      <a class="btn" href="{{ path('assessmentset_new') }}">New Assessment Set</a>
-      <a class="btn" href="{{ path('scale') }}">List Scales</a>
+<legend>Assessment</legend>           
 </div>
 
 
-
-{% for assessmentset in assessmentsets %}
-<div class="span9 well">             
-        <strong>{{ assessmentset.name }}</strong>      
-        {{ assessmentset.description }}
-        <a class="btn btn-primary btn-small pull-right" href="{{ path('assessmentset_edit', { 'id': assessmentset.id }) }}">Edit</a>
-        <a class="btn btn-primary btn-small pull-right" href="{{ path('assessmentset_show', { 'id': assessmentset.id }) }}">Open</a>
-        
-        
-       
-</div>
+<div class="span4 well"> 
+<h4>Assessment Sets</h4>    
+<a class="btn" href="{{ path('assessmentset_new') }}">New Assessment Set</a> 
+<hr/>
+{% for assessmentset in assessmentsets %}           
+<strong>{{ assessmentset.name }}</strong>      
+{{ assessmentset.description }}
+<a class="btn btn-small pull-right" href="{{ path('assessmentset_edit', { 'id': assessmentset.id }) }}">Edit</a>
+<a class="btn btn-small pull-right" href="{{ path('assessmentset_show', { 'id': assessmentset.id }) }}">Open</a> 
+<hr/>
 {% endfor %}
+</div>
 
+<div class="span4 well"> 
+<h4>Assessment Scales</h4>     
+<a class="btn" href="{{ path('scale_new') }}">New Scale</a> 
+<hr/>
+{% for scale in scales %}           
+<strong>{{ scale.name }}</strong>      
+<a class="btn btn-small pull-right" href="{{ path('scale_edit', { 'id': scale.id }) }}">Edit</a>
+<a class="btn btn-small pull-right" href="{{ path('scale_show', { 'id': scale.id }) }}">Open</a> 
+<hr/>
+{% endfor %}
+</div>
 {% endblock %}

@@ -13,6 +13,7 @@ class ObjectiveType extends AbstractType
         $builder
             ->add('objective')
             ->add('description')
+            ->add('scale','entity', array('class'=>'MarcaAssessmentBundle:Scale', 'property'=>'name','expanded'=>false,'multiple'=>false, 'label' => 'Select a Scale for this Objective',))     
         ;
     }
 

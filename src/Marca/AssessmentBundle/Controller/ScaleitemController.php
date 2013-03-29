@@ -141,9 +141,12 @@ class ScaleitemController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $scaleitem = $em->getRepository('MarcaAssessmentBundle:Scaleitem')->find($id);
+        $scaleid = $scaleitem->getScale()->getId();
+
+
 
         if (!$scaleitem) {
             throw $this->createNotFoundException('Unable to find Scaleitem entity.');
@@ -160,7 +163,7 @@ class ScaleitemController extends Controller
             $em->persist($scaleitem);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('scaleitem_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('scale_show', array('id' => $scaleid)));
         }
 
         return array(

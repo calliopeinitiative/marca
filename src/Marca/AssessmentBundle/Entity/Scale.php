@@ -36,7 +36,7 @@ class Scale
     private $type;
     
     /**
-    * @ORM\OneToOne(targetEntity="Marca\AssessmentBundle\Entity\Objective", inversedBy="scale")
+    * @ORM\OneToMany(targetEntity="Marca\AssessmentBundle\Entity\Objective", mappedBy="scale")
     */
     protected $objective;      
 
