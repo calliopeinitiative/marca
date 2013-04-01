@@ -74,7 +74,8 @@ There are no files in this portfolio.
 
 {# Doc tools #}        
 <div class="span3"> 
-<div id='doctools' class="span3 well" style='margin-top: -.1em;'>   
+<div id='doctools' class="span3 well" style='margin-top: -.1em;'> 
+<a class="btn btn-small pull-right" href="{{ course_path('portfolio') }}">Close</a>     
 <dl>
         {% for portfolio in portfolio %} 
             <dd class="pad5">
@@ -91,7 +92,33 @@ There are no files in this portfolio.
         {% endfor %} 
             
 </dl>
-<a class="btn btn-small" href="{{ course_path('portfolio') }}">Close</a>        
+
+
+{#
+{% for objective in assessmentset.objectives %}         
+<strong class='margin-top'>{{ objective.objective }}</strong><br/>
+{% for scaleitem in objective.scale.scaleitems %}
+{{ scaleitem.name }}
+{% endfor %}
+{% endfor %}
+#}
+<hr/>                    
+<h4>{{ assessmentset.name }}</h4>
+
+
+{% for ratingset in ratingset %}
+<h4>Rating by {{ ratingset.user.firstname }}  {{ ratingset.user.lastname }}</h4>
+
+{% for rating in ratingset.ratings %} 
+<strong class='margin-top'>{{ rating.objective.objective }}</strong>
+{% for scaleitem in rating.objective.scale.scaleitems %}{% if scaleitem.value == rating.value %}{{ scaleitem.name }}{%endif%}{% endfor %}<br/>
+{% endfor %}
+{% if loop.last %}
+<a class="btn btn-primary" href="{{ course_path('rating_new', {'userid':app.request.get('userid'),'user':app.request.get('user')}) }}">Edit Rating</a>
+{% endif %}
+{%else%}
+<a class="btn btn-primary" href="{{ course_path('rating_new', {'userid':app.request.get('userid'),'user':app.request.get('user')}) }}">New Rating</a>
+{% endfor %}
 </div>        
 </div>
 </div>

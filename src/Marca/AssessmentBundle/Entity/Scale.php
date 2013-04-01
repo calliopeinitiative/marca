@@ -164,4 +164,27 @@ class Scale
     {
         return $this->scaleitems;
     }
+
+    /**
+     * Add objective
+     *
+     * @param \Marca\AssessmentBundle\Entity\Objective $objective
+     * @return Scale
+     */
+    public function addObjective(\Marca\AssessmentBundle\Entity\Objective $objective)
+    {
+        $this->objective[] = $objective;
+    
+        return $this;
+    }
+
+    /**
+     * Remove objective
+     *
+     * @param \Marca\AssessmentBundle\Entity\Objective $objective
+     */
+    public function removeObjective(\Marca\AssessmentBundle\Entity\Objective $objective)
+    {
+        $this->objective->removeElement($objective);
+    }
 }

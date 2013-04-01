@@ -23,39 +23,44 @@ $( '#marca_coursebundle_coursetype_time' ).timepicker(({ 'timeFormat': 'H:i' }))
 </div>
 
 <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate"> 
-    {{ form_errors(form) }}
-        
-    {{ form_errors(form) }}
-            <div class="span4 well">
+            {{ form_errors(form) }}
+            <div class="span3 well">
             {{ form_row (form.name) }}    
             {{ form_row (form.term) }}
             {{ form_row (form.time) }}
-            {{ form_row (form.portset) }} 
+
             {{ form_row (form.enroll) }} 
             {{ form_row (form.post) }} 
             {{ form_row (form.multicult) }} 
             {{ form_row (form.studentForum) }}         
             </div> 
     
-            <div class="span4 well"> 
+            <div class="span3 well">
+            {{ form_row (form.portfolio) }}     
+            {{ form_row (form.portset) }}
+            {{ form_row (form.assessmentset) }}         
+            </div>    
+    
+            <div class="span3 well"> 
             {{ form_row (form.notes) }}  
             {{ form_row (form.forum) }} 
-            {{ form_row (form.journal) }} 
-            {{ form_row (form.portfolio) }} 
+            {{ form_row (form.journal) }}            
             {{ form_row (form.zine) }} 
             </div>
     
-            <div class="span4 well">
+            <div class="span3 well">
             {{ form_row (form.parents) }} 
             </div> 
       
-            <div class="span4 well">        
+            <div class="span3 well">        
             {{ form_row (form.tagset) }}
             </div> 
- 
-            <div class="span4 well">
-            {{ form_rest(form) }}    
+    
+            <div class="span3 well">    
+            {{ form_row (form.markupsets) }}
             </div> 
+ 
+            {{ form_rest(form) }}    
         
       <div class="span8 well">
       <button class="btn btn-primary" type="submit">Create</button><a style="margin-left: 1em;" class="btn" href="{{ path('course') }}">Cancel</a> 

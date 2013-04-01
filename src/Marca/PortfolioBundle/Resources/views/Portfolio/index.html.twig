@@ -14,7 +14,7 @@ $('#port_{{portfolio.id}}').click(function(){
 });
 </script>
 
-<div class="row">        
+      
 <div class="span9 well">
     <div class=""><legend>{{ portset.name }}</legend></div>
      <dl class="dl-vertical">
@@ -43,10 +43,24 @@ $('#port_{{portfolio.id}}').click(function(){
         {% endfor %}
             
         {% endfor %} 
-     </dl>
-    
-</div>        
+     </dl>  
 </div>  
+
+<div class="span9 well">                    
+<h4 class="inline">{{ assessmentset.name }}</h4>{{ assessmentset.description }}  
+<hr/>     
+
+{% for objective in assessmentset.objectives %}
+<div class="span8">             
+        <div class="row"><strong>{{ objective.objective }}</strong>
+        </div>  
+        <div class="row">{{ objective.description }}</div>
+        <div class="row"><strong>{{ objective.scale.name }}</strong>:  
+         {% for scaleitem in objective.scale.scaleitems %}<span class="margin-left">{{ scaleitem.name }} (value:{{ scaleitem.value }})</span>  {% endfor %}</div>
+         <hr/>
+</div>
+{% endfor %}
+</div>
 
 {# Modal #}
 <div id="port_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     

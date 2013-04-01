@@ -33,7 +33,9 @@ class PortfolioController extends Controller
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $portset = $course->getPortset();
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
-        return array('portfolio' =>$portfolio, 'portset' => $portset, 'roll'=> $roll);
+        $assessmentset_id = $course->getAssessmentset()->getId();
+        $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->find($assessmentset_id);
+        return array('portfolio' =>$portfolio, 'portset' => $portset, 'roll'=> $roll, 'assessmentset'=> $assessmentset);
     }
     
 
@@ -50,19 +52,22 @@ class PortfolioController extends Controller
         
         $em = $this->getEm();
         $user = $this->getUser();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $course = $this->getCourse();
+        $rater = $this->getUser();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
+        $assessmentset = $course->getAssessmentset();
+        $ratingset = $em->getRepository('MarcaAssessmentBundle:Ratingset')->ratingsetByUser($user,$course,$rater);
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
         $portfolio_docs = $paginator->paginate($portfolio,$this->get('request')->query->get('page', 1),1);
         
-        return array('portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll);
+        return array('portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll,'assessmentset'=> $assessmentset,'ratingset'=> $ratingset);
     }
     
     /**
-     * Finds and displays a Portfolio entity.
+     * Finds and displays files to be included in the portfolio
      *
      * @Route("/{courseid}/{project}/find", name="portfolio_find")
      * @Template()
@@ -96,7 +101,7 @@ class PortfolioController extends Controller
     }   
     
     /**
-     * Finds and displays a Portfolio entity.
+     * Finds and displays a Portfolio entity for remove confirm.
      *
      * @Route("/{courseid}/{id}/show_modal", name="portfolio_show_modal")
      * @Template("MarcaPortfolioBundle:Portfolio:show_modal.html.twig")
@@ -125,16 +130,18 @@ class PortfolioController extends Controller
         
         $em = $this->getEm();
         $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $course = $this->getCourse();
+        $rater = $this->getUser();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        $portset = $course->getPortset();
-        $portfolio = $course = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
+        $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
+        $assessmentset = $course->getAssessmentset();
+        $ratingset = $em->getRepository('MarcaAssessmentBundle:Ratingset')->ratingsetByUser($user,$course,$rater);
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
         $portfolio_docs = $paginator->paginate($portfolio,$this->get('request')->query->get('page', 1),1);
         
-        return array('portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll);
+        return array('portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll,'assessmentset'=> $assessmentset, 'ratingset' => $ratingset);
     }    
 
     /**

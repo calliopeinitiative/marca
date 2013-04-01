@@ -82,7 +82,7 @@
     </tr> 
     <tr>
         <th>Portfolio Assessment</th>         
-        <td>{{ course.portStatus }}</td>         
+        <td>{% if course.assessmentset %}{{ course.assessmentset.name }}{% else %}No portfolio assessment designated{% endif %}</td>         
     </tr>     
     <tr>
         <th>Portfolio editing open</th>         

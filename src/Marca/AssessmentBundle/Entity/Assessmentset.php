@@ -38,7 +38,12 @@ class Assessmentset
     /**
     * @ORM\OneToMany(targetEntity="Marca\AssessmentBundle\Entity\Objective", mappedBy="assessmentset")
     */
-    protected $objectives;     
+    protected $objectives;  
+    
+    /**
+    * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="assessmentset")
+    */
+    protected $course;     
 
 
     /**
@@ -135,5 +140,38 @@ class Assessmentset
     public function getObjectives()
     {
         return $this->objectives;
+    }
+
+    /**
+     * Add course
+     *
+     * @param \Marca\CourseBundle\Entity\Course $course
+     * @return Assessmentset
+     */
+    public function addCourse(\Marca\CourseBundle\Entity\Course $course)
+    {
+        $this->course[] = $course;
+    
+        return $this;
+    }
+
+    /**
+     * Remove course
+     *
+     * @param \Marca\CourseBundle\Entity\Course $course
+     */
+    public function removeCourse(\Marca\CourseBundle\Entity\Course $course)
+    {
+        $this->course->removeElement($course);
+    }
+
+    /**
+     * Get course
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCourse()
+    {
+        return $this->course;
     }
 }

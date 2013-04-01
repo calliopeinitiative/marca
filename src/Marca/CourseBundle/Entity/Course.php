@@ -68,7 +68,14 @@ class Course
     /**
     * @ORM\ManyToOne(targetEntity="Marca\PortfolioBundle\Entity\Portset", inversedBy="course")
     */
-    protected $portset;   
+    protected $portset;  
+    
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Assessmentset", inversedBy="course")
+    */
+    protected $assessmentset; 
+    
 
     /**
      * @var boolean $multicult
@@ -868,5 +875,28 @@ class Course
     public function getMarkupsets()
     {
         return $this->markupsets;
+    }
+
+    /**
+     * Set assessmentset
+     *
+     * @param \Marca\AssessmentBundle\Entity\Assessmentset $assessmentset
+     * @return Course
+     */
+    public function setAssessmentset(\Marca\AssessmentBundle\Entity\Assessmentset $assessmentset = null)
+    {
+        $this->assessmentset = $assessmentset;
+    
+        return $this;
+    }
+
+    /**
+     * Get assessmentset
+     *
+     * @return \Marca\AssessmentBundle\Entity\Assessmentset 
+     */
+    public function getAssessmentset()
+    {
+        return $this->assessmentset;
     }
 }

@@ -30,9 +30,15 @@ class Rating
     private $value;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Scaleitem", inversedBy="rating")
+    * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Objective")
     */
-    protected $scaleitem;     
+    protected $objective;
+         
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Ratingset", inversedBy="ratings")
+    */
+    protected $ratingset; 
+    
     
     /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -127,26 +133,52 @@ class Rating
         return $this->updated;
     }
 
+
     /**
-     * Set scaleitem
+     * Set objective
      *
-     * @param \Marca\AssessmentBundle\Entity\Scaleitem $scaleitem
+     * @param \Marca\AssessmentBundle\Entity\Objective $objective
      * @return Rating
      */
-    public function setScaleitem(\Marca\AssessmentBundle\Entity\Scaleitem $scaleitem = null)
+    public function setObjective(\Marca\AssessmentBundle\Entity\Objective $objective = null)
     {
-        $this->scaleitem = $scaleitem;
+        $this->objective = $objective;
     
         return $this;
     }
 
     /**
-     * Get scaleitem
+     * Get objective
      *
-     * @return \Marca\AssessmentBundle\Entity\Scaleitem 
+     * @return \Marca\AssessmentBundle\Entity\Objective 
      */
-    public function getScaleitem()
+    public function getObjective()
     {
-        return $this->scaleitem;
+        return $this->objective;
+    }
+   
+
+
+    /**
+     * Set ratingset
+     *
+     * @param \Marca\AssessmentBundle\Entity\Ratingset $ratingset
+     * @return Rating
+     */
+    public function setRatingset(\Marca\AssessmentBundle\Entity\Ratingset $ratingset = null)
+    {
+        $this->ratingset = $ratingset;
+    
+        return $this;
+    }
+
+    /**
+     * Get ratingset
+     *
+     * @return \Marca\AssessmentBundle\Entity\Ratingset 
+     */
+    public function getRatingset()
+    {
+        return $this->ratingset;
     }
 }

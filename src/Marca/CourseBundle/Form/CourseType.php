@@ -34,6 +34,7 @@ class CourseType extends AbstractType
             ->add('journal', 'checkbox', array('label'  => 'Use the Journal','attr' => array('class' => 'checkbox inline'),))
             ->add('portfolio', 'checkbox', array('label'  => 'Use the Portfolio','attr' => array('class' => 'checkbox inline'),))
             ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'property'=>'name','expanded'=>false,'multiple'=>false, 'label' => 'Select the Portfolio Set',)) 
+            ->add('assessmentset','entity', array('class'=>'MarcaAssessmentBundle:Assessmentset', 'property'=>'name','expanded'=>false,'multiple'=>false, 'label' => 'Select the Assessment Set for the Portfolio',))                    
             ->add('zine', 'hidden')
             ->add('portStatus', 'hidden')
             ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select label sets for Projects','attr' => array('class' => 'checkbox'),)) 

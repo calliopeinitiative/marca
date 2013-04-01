@@ -1,0 +1,22 @@
+
+{% extends 'BorrowersHomeBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="span9 well">
+<legend></legend>     
+      <a class="btn btn-primary" href="{{ path('rating_new') }}">New</a>
+</div>
+
+
+
+{% for entity in entities %}
+<div class="span9 well">        
+        <a href="{{ path('rating_show', { 'id': entity.id }) }}">{{ entity.id }}</a>        
+        {{ entity.value }}        
+       {% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif%}        
+       {% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif%}<a class="btn" href="{{ path('rating_show', { 'id': entity.id }) }}">show</a><a class="btn" href="{{ path('rating_edit', { 'id': entity.id }) }}">edit</a>
+       
+</div>
+{% endfor %}
+
+{% endblock %}
