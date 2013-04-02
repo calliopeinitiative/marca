@@ -28,13 +28,13 @@ $(document).ready(function()
         </ul> 
         {{ form_rest(edit_form) }}        
         <div>
-            <button class="btn" type="submit">Edit</button>
+            <button class="btn btn-primary" type="submit">Update</button>
         </div>
         </form>
         
         <form action="{{ course_path('ratingset_delete', { 'id': entity.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
+            <button class="btn" type="submit">Delete</button>
         </form>
 </div>
 

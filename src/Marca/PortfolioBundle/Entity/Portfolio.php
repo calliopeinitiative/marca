@@ -47,7 +47,12 @@ class Portfolio
     /**
     * @ORM\ManyToOne(targetEntity="Marca\PortfolioBundle\Entity\Portitem")
     */
-    protected $portitem;    
+    protected $portitem; 
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="Marca\PortfolioBundle\Entity\Portfolioset", inversedBy="portfolioitems")
+    */
+    protected $portfolioset;     
     
 
     /**
@@ -158,5 +163,28 @@ class Portfolio
     public function getPortitem()
     {
         return $this->portitem;
+    }
+
+    /**
+     * Set portfolioset
+     *
+     * @param \Marca\PortfolioBundle\Entity\Portfolioset $portfolioset
+     * @return Portfolio
+     */
+    public function setPortfolioset(\Marca\PortfolioBundle\Entity\Portfolioset $portfolioset = null)
+    {
+        $this->portfolioset = $portfolioset;
+    
+        return $this;
+    }
+
+    /**
+     * Get portfolioset
+     *
+     * @return \Marca\PortfolioBundle\Entity\Portfolioset 
+     */
+    public function getPortfolioset()
+    {
+        return $this->portfolioset;
     }
 }

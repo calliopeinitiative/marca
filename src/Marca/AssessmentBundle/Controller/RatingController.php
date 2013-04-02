@@ -71,6 +71,7 @@ class RatingController extends Controller
         $objectives = $course->getAssessmentset()->getObjectives();
         $cnt = count($objectives);
         $ratingset = new Ratingset();
+        //ratingset user is the owner of the portfolio
         $ratingset->setUser($user);
         $ratingset->setRater($rater);
         $ratingset->setCourse($course);

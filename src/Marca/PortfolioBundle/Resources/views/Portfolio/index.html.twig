@@ -4,13 +4,15 @@
 
 {% block content %}
 <script language="javascript">
-$(document).ready(function() { 
-{% for portfolio in portfolio %} 
+$(document).ready(function() {
+
+{% for portfolio in portfolioset.portfolioitems %} 
 $('#port_{{portfolio.id}}').click(function(){
   $('#port_modal').load('{{ course_path('portfolio_show_modal', { 'id': portfolio.id}) }}');
   $('#port_modal').modal();
 });
 {% endfor %}
+
 });
 </script>
 
@@ -22,12 +24,11 @@ $('#port_{{portfolio.id}}').click(function(){
             <dt class="pad05 divider">
              {{portitem.name}}
             </dt>
-            
             <dd>
              {{portitem.description|raw}}
             </dd>          
 
-            {% for portfolio in portfolio if portfolio.portitem.name==portitem.name %}
+            {% for portfolio in portfolioset.portfolioitems if portfolio.portitem.name==portitem.name %}
             <dd class="pad05 ">
              {% if portfolio.file.doc %}<i class="icon-edit"></i> 
              <a href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a> 
@@ -35,13 +36,12 @@ $('#port_{{portfolio.id}}').click(function(){
              {% else %}
              <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
              {% endif %}
-             ({{portfolio.portitem.name}})
-             <a class="btn btn-primary btn-small" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Edit</a>
-             <a class="btn btn-small" id='port_{{portfolio.id}}' href="javascript:void(0);" title='Remove from portfolio'>Remove</a>
-                     
-            </dd>  
-        {% endfor %}
-            
+             <a class="btn btn-mini pull-right" id='port_{{portfolio.id}}' href="javascript:void(0);" title='Remove from portfolio'>Remove</a>  
+             <a class="btn btn-primary btn-mini pull-right" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Edit</a>
+     
+             </dd>  
+            {% endfor %}
+
         {% endfor %} 
      </dl>  
 </div>  

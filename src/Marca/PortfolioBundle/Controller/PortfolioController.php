@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\PortfolioBundle\Entity\Portfolio;
 use Marca\PortfolioBundle\Form\PortfolioType;
+use Marca\PortfolioBundle\Entity\Portfolioset;
 
 /**
  * Portfolio controller.
@@ -26,16 +27,24 @@ class PortfolioController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
+
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $portset = $course->getPortset();
-        $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
+        $portfolioset = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
+        if (!$portfolioset) {
+            $portfolioset = new Portfolioset(); 
+            $portfolioset->setCourse($course);
+            $portfolioset->setUser($user);
+            $em->persist($portfolioset);
+            $em->flush(); 
+        }
+        
         $assessmentset_id = $course->getAssessmentset()->getId();
         $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->find($assessmentset_id);
-        return array('portfolio' =>$portfolio, 'portset' => $portset, 'roll'=> $roll, 'assessmentset'=> $assessmentset);
+        return array('portfolioset' =>$portfolioset, 'portset' => $portset, 'roll'=> $roll, 'assessmentset'=> $assessmentset);
     }
     
 
@@ -159,6 +168,7 @@ class PortfolioController extends Controller
         $user = $this->getUser();
         $course = $this->getCourse();
         $portset = $course->getPortset();
+        $portfolioset = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
         $file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $portitem = $portset->getPortitem()->first();
         $portfolio = new Portfolio();
@@ -166,6 +176,7 @@ class PortfolioController extends Controller
         $portfolio->setUser($user);
         $portfolio->setCourse($course);
         $portfolio->setPortitem($portitem);
+        $portfolio->setPortfolioset($portfolioset);
         $em->persist($portfolio);
         $em->flush();       
         return $this->redirect($this->generateUrl('portfolio_edit', array('id' => $portfolio->getId(),'courseid' => $courseid)));
