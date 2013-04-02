@@ -61,11 +61,12 @@ class RatingController extends Controller
      * @Route("/{courseid}/{userid}/{user}/new", name="rating_new")
      * @Template()
      */
-    public function newAction($courseid, $userid)
+    public function newAction($courseid, $userid, $user)
     {
         $em = $this->getEm();
         $course = $this->getCourse();
         $rater =  $this->getUser();
+        $next_port = $user;
         $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $objectives = $course->getAssessmentset()->getObjectives();
         $cnt = count($objectives);
@@ -87,7 +88,7 @@ class RatingController extends Controller
         }
         $em->persist($ratingset);
         $em->flush();
-        return $this->redirect($this->generateUrl('portfolio_user', array('courseid' => $courseid, 'userid' => $userid, 'user'=> $user )));
+        return $this->redirect($this->generateUrl('portfolio_user', array('courseid' => $courseid, 'userid' => $userid, 'user'=> $next_port )));
     }
 
 
