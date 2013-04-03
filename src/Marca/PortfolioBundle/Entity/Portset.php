@@ -175,4 +175,24 @@ class Portset
     {
         $this->portitem[] = $portitem;
     }
+
+    /**
+     * Remove course
+     *
+     * @param \Marca\CourseBundle\Entity\Course $course
+     */
+    public function removeCourse(\Marca\CourseBundle\Entity\Course $course)
+    {
+        $this->course->removeElement($course);
+    }
+
+    /**
+     * Remove portitem
+     *
+     * @param \Marca\PortfolioBundle\Entity\Portitem $portitem
+     */
+    public function removePortitem(\Marca\PortfolioBundle\Entity\Portitem $portitem)
+    {
+        $this->portitem->removeElement($portitem);
+    }
 }

@@ -38,11 +38,23 @@ class Portfolioset
     */
     protected $course;
     
+    /**
+     * @var boolean $port_default
+     *
+     * @ORM\Column(name="port_default", type="boolean")
+     */
+    private $port_default = true;    
+    
     
     /**
     * @ORM\OneToMany(targetEntity="Marca\PortfolioBundle\Entity\Portfolio", mappedBy="portfolioset")
     */
-    protected $portfolioitems;      
+    protected $portfolioitems;
+    
+    /**
+    * @ORM\OneToMany(targetEntity="Marca\AssessmentBundle\Entity\Ratingset", mappedBy="portfolioset")
+    */
+    protected $ratingsets;     
 
 
     /**
@@ -163,4 +175,72 @@ class Portfolioset
     {
         return $this->portfolioitems;
     }
+
+    /**
+     * Add ratingsets
+     *
+     * @param \Marca\AssessmentBundle\Entity\Ratingset $ratingsets
+     * @return Portfolioset
+     */
+    public function addRatingset(\Marca\AssessmentBundle\Entity\Ratingset $ratingsets)
+    {
+        $this->ratingsets[] = $ratingsets;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ratingsets
+     *
+     * @param \Marca\AssessmentBundle\Entity\Ratingset $ratingsets
+     */
+    public function removeRatingset(\Marca\AssessmentBundle\Entity\Ratingset $ratingsets)
+    {
+        $this->ratingsets->removeElement($ratingsets);
+    }
+
+    /**
+     * Get ratingsets
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRatingsets()
+    {
+        return $this->ratingsets;
+    }
+
+
+
+    /**
+     * Set port_default
+     *
+     * @param boolean $portDefault
+     * @return Portfolioset
+     */
+    public function setPortDefault($portDefault)
+    {
+        $this->port_default = $portDefault;
+    
+        return $this;
+    }
+
+    /**
+     * Get port_default
+     *
+     * @return boolean 
+     */
+    public function getPortDefault()
+    {
+        return $this->port_default;
+    }
+    
+    public function isOwner($user)
+    {
+        if($user == $this->user){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }    
 }

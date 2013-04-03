@@ -33,8 +33,14 @@ class PortfolioController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $portset = $course->getPortset();
-        $portfolioset = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
-        if (!$portfolioset) {
+        
+        //find default portfolio
+        $portfoliosets = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
+        //select the first in the array
+        $portfolioset = reset($portfoliosets);
+        
+        // if there is no portfolio for this user in this class, create one
+        if (!$portfoliosets) {
             $portfolioset = new Portfolioset(); 
             $portfolioset->setCourse($course);
             $portfolioset->setUser($user);
@@ -47,33 +53,6 @@ class PortfolioController extends Controller
         return array('portfolioset' =>$portfolioset, 'portset' => $portset, 'roll'=> $roll, 'assessmentset'=> $assessmentset);
     }
     
-
-    /**
-     * Finds and displays a Portfolio entity.
-     *
-     * @Route("/{courseid}/show", name="portfolio_show")
-     * @Template()
-     */
-    public function showAction($courseid)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
-        $user = $this->getUser();
-        $course = $this->getCourse();
-        $rater = $this->getUser();
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
-        $assessmentset = $course->getAssessmentset();
-        $ratingset = $em->getRepository('MarcaAssessmentBundle:Ratingset')->ratingsetByUser($user,$course,$rater);
-        
-        //pagination for files
-        $paginator = $this->get('knp_paginator');
-        $portfolio_docs = $paginator->paginate($portfolio,$this->get('request')->query->get('page', 1),1);
-        
-        return array('portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll,'assessmentset'=> $assessmentset,'ratingset'=> $ratingset);
-    }
     
     /**
      * Finds and displays files to be included in the portfolio
@@ -138,19 +117,35 @@ class PortfolioController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-        $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+        if ($userid == '0')
+        {$user = $this->getUser();$userid = $user->getId();}
+        else 
+        {$user = $em->getRepository('MarcaUserBundle:User')->find($userid);}
+        
         $course = $this->getCourse();
+        $role = $this->getCourseRole();
         $rater = $this->getUser();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findByUser($user,$course);
+        
+        //find default portfolio
+        $portfoliosets = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
+        //select the first in the array
+        $portfolioset = reset($portfoliosets);
+
         $assessmentset = $course->getAssessmentset();
-        $ratingset = $em->getRepository('MarcaAssessmentBundle:Ratingset')->ratingsetByUser($user,$course,$rater);
         
-        //pagination for files
+        //pagination for portfolio file is there is a portfolio present
         $paginator = $this->get('knp_paginator');
+        if ($portfoliosets)
+        {
+        $portfolio = $portfolioset->getPortfolioitems();
+        $portfoliosetid = $portfolioset->getId();
         $portfolio_docs = $paginator->paginate($portfolio,$this->get('request')->query->get('page', 1),1);
+        $ratingset = $em->getRepository('MarcaAssessmentBundle:Ratingset')->ratingsetsByPortfolioset($portfolioset);
+        }
+        else {$portfolio = '';$portfolio_docs = ''; $portfoliosetid = '0';$ratingset = '';}
         
-        return array('portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll,'assessmentset'=> $assessmentset, 'ratingset' => $ratingset);
+        return array('portfoliosetid' => $portfoliosetid,'portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll,'assessmentset'=> $assessmentset, 'ratingset' => $ratingset,'userid'=>$userid, 'role' => $role);
     }    
 
     /**
@@ -168,7 +163,12 @@ class PortfolioController extends Controller
         $user = $this->getUser();
         $course = $this->getCourse();
         $portset = $course->getPortset();
-        $portfolioset = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
+
+        //find default portfolio
+        $portfoliosets = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
+        //select the first in the array
+        $portfolioset = reset($portfoliosets);
+        
         $file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $portitem = $portset->getPortitem()->first();
         $portfolio = new Portfolio();

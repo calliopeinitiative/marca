@@ -12,10 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class RatingsetRepository extends EntityRepository
 {
-    public function ratingsetByUser($user,$course,$rater)
+    public function ratingsetsByPortfolioset($portfolioset)
     {
        return $this->getEntityManager()
-               ->createQuery('SELECT r from MarcaAssessmentBundle:Ratingset r WHERE r.course = ?1 AND r.user = ?2 AND r.rater = ?3')
-               ->setParameters(array('1' => $course,'2' => $user,'3' => $rater))->getResult();
+               ->createQuery('SELECT r from MarcaAssessmentBundle:Ratingset r WHERE r.portfolioset = ?1')
+               ->setParameters(array('1' => $portfolioset))->getResult();
     }
 }

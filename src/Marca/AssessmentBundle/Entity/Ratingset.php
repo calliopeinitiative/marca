@@ -38,7 +38,12 @@ class Ratingset
     protected $rater; 
     
     /**
-    * @ORM\OneToMany(targetEntity="Marca\AssessmentBundle\Entity\Rating", mappedBy="ratingset")
+    * @ORM\ManyToOne(targetEntity="Marca\PortfolioBundle\Entity\Portfolioset", inversedBy="ratingsets")
+    */
+    protected $portfolioset; 
+    
+    /**
+    * @ORM\OneToMany(targetEntity="Marca\AssessmentBundle\Entity\Rating", mappedBy="ratingset", cascade={"remove", "persist"})
     */
     protected $ratings;     
     
@@ -220,5 +225,28 @@ class Ratingset
     public function getRater()
     {
         return $this->rater;
+    }
+
+    /**
+     * Set portfolioset
+     *
+     * @param \Marca\PortfolioBundle\Entity\Portfolioset $portfolioset
+     * @return Ratingset
+     */
+    public function setPortfolioset(\Marca\PortfolioBundle\Entity\Portfolioset $portfolioset = null)
+    {
+        $this->portfolioset = $portfolioset;
+    
+        return $this;
+    }
+
+    /**
+     * Get portfolioset
+     *
+     * @return \Marca\PortfolioBundle\Entity\Portfolioset 
+     */
+    public function getPortfolioset()
+    {
+        return $this->portfolioset;
     }
 }

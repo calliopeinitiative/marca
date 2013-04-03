@@ -2,10 +2,11 @@
 
 namespace Marca\AssessmentBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Marca\AssessmentBundle\Entity\Rating;
 use Marca\AssessmentBundle\Entity\Ratingset;
 use Marca\AssessmentBundle\Form\RatingsetType;
 
@@ -16,88 +17,44 @@ use Marca\AssessmentBundle\Form\RatingsetType;
  */
 class RatingsetController extends Controller
 {
-    /**
-     * Lists all Ratingset entities.
-     *
-     * @Route("/", name="ratingset")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $entities = $em->getRepository('MarcaAssessmentBundle:Ratingset')->findAll();
-
-        return array('entities' => $entities);
-    }
 
     /**
-     * Finds and displays a Ratingset entity.
+     * Displays a form to create a new Rating entity.
      *
-     * @Route("/{id}/show", name="ratingset_show")
+     * @Route("/{courseid}/{userid}/{user}/{portfoliosetid}/new", name="ratingset_new")
      * @Template()
      */
-    public function showAction($id)
+    public function newAction($courseid, $userid, $user, $portfoliosetid)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $entity = $em->getRepository('MarcaAssessmentBundle:Ratingset')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Ratingset entity.');
+        $em = $this->getEm();
+        $course = $this->getCourse();
+        $rater =  $this->getUser();
+        $next_port = $user;
+        $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+        $portfolioset = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->find($portfoliosetid);
+        $objectives = $course->getAssessmentset()->getObjectives();
+        $cnt = count($objectives);
+        $ratingset = new Ratingset();
+        //ratingset user is the owner of the portfolio
+        $ratingset->setUser($user);
+        $ratingset->setRater($rater);
+        $ratingset->setCourse($course);
+        $ratingset->setPortfolioset($portfolioset);
+        
+        for ($i = 0; $i < $cnt; $i++) { 
+        $objective = $objectives[$i]; 
+        $scale = $objective->getScale();
+        $scaleitems = $scale->getScaleitems();
+        $scaleitem = $scaleitems[1];
+        $rating = new Rating(); 
+        $rating->setRatingset($ratingset);
+        $rating->setObjective($objective);
+        $rating->setScaleitem($scaleitem);
+        $em->persist($rating);        
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        );
-    }
-
-    /**
-     * Displays a form to create a new Ratingset entity.
-     *
-     * @Route("/new", name="ratingset_new")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new Ratingset();
-        $form   = $this->createForm(new RatingsetType(), $entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView()
-        );
-    }
-
-    /**
-     * Creates a new Ratingset entity.
-     *
-     * @Route("/create", name="ratingset_create")
-     * @Method("post")
-     * @Template("MarcaAssessmentBundle:Ratingset:new.html.twig")
-     */
-    public function createAction()
-    {
-        $entity  = new Ratingset();
-        $request = $this->getRequest();
-        $form    = $this->createForm(new RatingsetType(), $entity);
-        $form->bindRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('ratingset_show', array('id' => $entity->getId())));
-            
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView()
-        );
+        $em->persist($ratingset);
+        $em->flush();
+        return $this->redirect($this->generateUrl('ratingset_edit', array('id' => $ratingset->getId(),'courseid' => $courseid, 'userid' => $userid, 'user'=> $next_port )));
     }
 
     /**
@@ -110,17 +67,17 @@ class RatingsetController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('MarcaAssessmentBundle:Ratingset')->find($id);
+        $ratingset = $em->getRepository('MarcaAssessmentBundle:Ratingset')->find($id);
 
-        if (!$entity) {
+        if (!$ratingset) {
             throw $this->createNotFoundException('Unable to find Ratingset entity.');
         }
 
-        $editForm = $this->createForm(new RatingsetType(), $entity);
+        $editForm = $this->createForm(new RatingsetType(), $ratingset);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'ratingset'      => $ratingset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -167,10 +124,10 @@ class RatingsetController extends Controller
     /**
      * Deletes a Ratingset entity.
      *
-     * @Route("/{id}/delete", name="ratingset_delete")
+     * @Route("/{courseid}/{userid}/{user}/{id}/delete", name="ratingset_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($courseid,$id,$userid,$user)
     {
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -189,7 +146,7 @@ class RatingsetController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('ratingset'));
+          return $this->redirect($this->generateUrl('portfolio_user', array('courseid' => $courseid, 'userid' => $userid,'user' => $user)));
     }
 
     private function createDeleteForm($id)

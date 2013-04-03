@@ -15,13 +15,13 @@
              <li><legend>Portfolio</legend></li>
              <a class='btn btn-primary' href="{{ course_path('portfolio_find', { 'project': 'recent', 'scope': 'mine', 'resource': '0', 'tag': '0', 'userid': '0','user':'0' }) }}">Create<i class="icon-pencil icon-white"></i></a>
              <li><a href="{{ course_path('portfolio') }}">List Portfolio</a></li>
-             <li><a href="{{ course_path('portfolio_show') }}">View Portfolio</a></li>
+             <li><a href="{{ course_path('portfolio_user', { 'userid': '0', 'user': '0' }) }}">View Portfolio</a></li>
              
             <li class="dropdown">
                 <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">Roll<b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         {% for roll in roll %}
-                        <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': '0' }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 
+                        <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 
                         {% endfor %}
                     </ul>
               </li>

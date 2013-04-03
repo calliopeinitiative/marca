@@ -167,4 +167,14 @@ class Portitem
     {
         return $this->file;
     }
+
+    /**
+     * Remove file
+     *
+     * @param \Marca\FileBundle\Entity\File $file
+     */
+    public function removeFile(\Marca\FileBundle\Entity\File $file)
+    {
+        $this->file->removeElement($file);
+    }
 }

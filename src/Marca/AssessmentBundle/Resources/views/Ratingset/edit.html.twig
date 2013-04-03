@@ -19,11 +19,13 @@ $(document).ready(function()
 </div>
 
 <div class="span9 well">
-        <form action="{{ course_path('ratingset_update', { 'id': entity.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}" method="post" {{ form_enctype(edit_form) }}>
+        <form action="{{ course_path('ratingset_update', { 'id': ratingset.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}" method="post" {{ form_enctype(edit_form) }}>
         {{ form_errors(edit_form) }}    
         <ul class="">    
         {% for rating in edit_form.ratings %}
-            <li>{{ form_row(rating.value) }}</li>
+                <li><strong>{{ ratingset.ratings[loop.index-1].objective.objective }}</strong><br/>
+                {{ ratingset.ratings[loop.index-1].objective.description }}
+                {{ form_row(rating.scaleitem) }}</li>
         {% endfor %}
         </ul> 
         {{ form_rest(edit_form) }}        
@@ -32,7 +34,7 @@ $(document).ready(function()
         </div>
         </form>
         
-        <form action="{{ course_path('ratingset_delete', { 'id': entity.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}" method="post">
+        <form action="{{ course_path('ratingset_delete', { 'id': ratingset.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn" type="submit">Delete</button>
         </form>

@@ -15,7 +15,8 @@ class PortfoliosetRepository extends EntityRepository
     public function findByUser($user,$course)
     {  
        return $this->getEntityManager()
-               ->createQuery('SELECT s,p from MarcaPortfolioBundle:Portfolioset s JOIN s.portfolioitems p WHERE s.user = ?1 AND s.course = ?2')
-               ->setParameter('1',$user)->setParameter('2',$course)->getSingleResult();
-    }  
+               ->createQuery('SELECT p from MarcaPortfolioBundle:Portfolioset p  WHERE p.user = ?1 AND p.course = ?2 AND p.port_default=TRUE')
+               ->setParameter('1',$user)->setParameter('2',$course)->setMaxResults(1)->getResult();
+    } 
+         
 }
