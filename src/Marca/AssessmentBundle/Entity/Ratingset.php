@@ -21,6 +21,26 @@ class Ratingset
      */
     private $id;
     
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="grade", type="integer", nullable=true)
+     */
+    private $grade = 0;    
+    
+    /**
+     * @var text $notesforstudent
+     *
+     * @ORM\Column(name="notesforstudent", type="text", nullable=true)
+     */
+    private $notesforstudent;
+
+     /**
+     * @var text $notesforreviewer
+     *
+     * @ORM\Column(name="notesforreviewer", type="text", nullable=true)
+     */
+    private $notesforreviewer;
     
     /**
     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")
@@ -249,4 +269,83 @@ class Ratingset
     {
         return $this->portfolioset;
     }
+
+    /**
+     * Set grade
+     *
+     * @param integer $grade
+     * @return Ratingset
+     */
+    public function setGrade($grade)
+    {
+        $this->grade = $grade;
+    
+        return $this;
+    }
+
+    /**
+     * Get grade
+     *
+     * @return integer 
+     */
+    public function getGrade()
+    {
+        return $this->grade;
+    }
+
+    /**
+     * Set notesforstudent
+     *
+     * @param string $notesforstudent
+     * @return Ratingset
+     */
+    public function setNotesforstudent($notesforstudent)
+    {
+        $this->notesforstudent = $notesforstudent;
+    
+        return $this;
+    }
+
+    /**
+     * Get notesforstudent
+     *
+     * @return string 
+     */
+    public function getNotesforstudent()
+    {
+        return $this->notesforstudent;
+    }
+
+    /**
+     * Set notesforreviewer
+     *
+     * @param string $notesforreviewer
+     * @return Ratingset
+     */
+    public function setNotesforreviewer($notesforreviewer)
+    {
+        $this->notesforreviewer = $notesforreviewer;
+    
+        return $this;
+    }
+
+    /**
+     * Get notesforreviewer
+     *
+     * @return string 
+     */
+    public function getNotesforreviewer()
+    {
+        return $this->notesforreviewer;
+    }
+    
+    public function isOwner($rater)
+    {
+        if($rater == $this->rater){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }    
 }

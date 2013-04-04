@@ -12,6 +12,7 @@ class Controller extends SymfonyController
     const ROLE_STUDENT=1;
     const ROLE_INSTRUCTOR=2;
     const ROLE_TA=3;
+    const ROLE_PORTREVIEW=4;    
     
     /**
      *

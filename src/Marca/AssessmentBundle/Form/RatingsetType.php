@@ -14,8 +14,12 @@ class RatingsetType extends AbstractType
             ->add('ratings', 'collection', array(
                 'type'   => new RatingType(),
                 'options'  => array(
-                'required'  => false
-    ),));
+                'required'  => false),))            
+            ->add('grade')
+            ->add('grade','integer', array('label'  => 'Grade (must be an integer)','attr' => array('class' => 'inline'),))                
+            ->add('notesforstudent','textarea', array('label'  => 'Notes for the student','attr' => array('class' => 'inline'),))  
+            ->add('notesforreviewer','textarea', array('label'  => 'Notes for the reviewer','attr' => array('class' => 'inline'),))                   
+            ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

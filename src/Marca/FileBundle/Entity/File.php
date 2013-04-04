@@ -397,16 +397,6 @@ class File
         return $this->portitem;
     }
     
-    public function isOwner($user)
-    {
-        if($user == $this->user){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
     /**
      * Remove tag
      *
@@ -539,4 +529,15 @@ class File
     {
         return $this->reviewed;
     }
+    
+    public function isOwner($user)
+    {
+        if($user == $this->user){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
 }

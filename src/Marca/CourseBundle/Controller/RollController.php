@@ -303,7 +303,7 @@ class RollController extends Controller
         
          $em = $this->getEm();
          $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
-         if ($role == 1 ){ $newRole= self::ROLE_STUDENT;} elseif ($role == 2) {$newRole= self::ROLE_INSTRUCTOR;} else {$newRole= self::ROLE_TA;}
+         if ($role == 1 ){ $newRole= self::ROLE_STUDENT;} elseif ($role == 2) {$newRole= self::ROLE_INSTRUCTOR;} elseif ($role == 4) {$newRole= self::ROLE_PORTREVIEW;}  else {$newRole= self::ROLE_TA;}
          $roll->setRole($newRole);
          $em->persist($roll);
          $em->flush();

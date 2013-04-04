@@ -94,36 +94,52 @@ There are no files in this portfolio.
 </dl>
 
 
-{#
-{% for objective in assessmentset.objectives %}         
-<strong class='margin-top'>{{ objective.objective }}</strong><br/>
-{% for scaleitem in objective.scale.scaleitems %}
-{{ scaleitem.name }}
-{% endfor %}
-{% endfor %}
-#}
-<hr/> 
 {# hide ratings is there is no portfolio #}
 {% if portfoliosetid != 0 %}
-{% if userid == app.user.id or role == 2 %}
-<h5>{{ assessmentset.name }}</h5>
+{% if userid == app.user.id or role == 2 or role == 4 %}
 
 {% for ratingset in ratingset %}
-<h5>Rating by {{ ratingset.rater.firstname }}  {{ ratingset.rater.lastname }}</h5>
 
+<hr/>
+<h5>Rating by {{ ratingset.rater.firstname }}  {{ ratingset.rater.lastname }}</h5>
 
 {% for rating in ratingset.ratings %} 
 <strong class='margin-top'>{{ rating.objective.objective }}</strong>
 {{ rating.scaleitem.name }}<br/>
 {% endfor %}
-{% if loop.last and role == 2 %}
+
+<h5>Notes for student:</h5>
+{{ ratingset.notesforstudent }}
+{% if role == 2 or role == 4 %}
+<h5>Notes for Reviewer:</h5>
+{{ ratingset.notesforreviewer }}
+<h5>Grade:</h5>
+{{ ratingset.grade }}
+{% endif %}
+<br/>
+
+{% if ratingset.isOwner(app.user.username) %}
 <a class="btn btn-primary margin-top btn-small" href="{{ course_path('ratingset_edit', {'id':ratingset.id, 'userid':app.request.get('userid'), 'user':app.request.get('user')}) }}">Edit Rating</a>
 {% endif %}
-{%else%}
-{% if role == 2 %}
+{% endfor %}
+
+{% for ratingset in ratingset if ratingset.isOwner(app.user.username) %} 
+{% else %}
+{% if role == 2 or role == 4 %}
+<hr/>
 <a class="btn btn-primary margin-top btn-small" href="{{ course_path('ratingset_new', {'portfoliosetid':portfoliosetid,'userid':userid,'user':app.request.get('user')}) }}">New Rating</a>
 {% endif %}
 {% endfor %}
+
+{% if (role == 2 or role == 4) and ratingset|length > 1 %}
+{% set sumratings = 0 %}
+{% set countratings = ratingset|length %}
+{% for ratingset in ratingset %}
+  {% set sumratings = sumratings + ratingset.grade %}
+{% endfor %}
+<h5>Average Grade: {{  sumratings / countratings }}</h5>
+{% endif %}
+
 {% endif %}
 {% endif %}
 </div>        

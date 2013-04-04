@@ -25,7 +25,7 @@ class PortfolioController extends Controller
      */
     public function indexAction($courseid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT, self::ROLE_PORTREVIEW);
         $this->restrictAccessTo($allowed);
 
         $em = $this->getEm();
@@ -113,7 +113,7 @@ class PortfolioController extends Controller
      */
     public function portByUserAction($courseid, $userid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT, self::ROLE_PORTREVIEW);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();

@@ -13,13 +13,14 @@
     {% for roll in roll %}
     <tr>
         <td><a class="" href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}, {{ roll.firstname|capitalize }}</a></td> 
-        <td>{% if roll.role == 2 %}Instructor{% elseif roll.role == 3 %}TA{% else %}Student{% endif %}</td>
+        <td>{% if roll.role == 2 %}Instructor{% elseif roll.role == 3 %}TA{% elseif roll.role == 4 %}Portfolio Review{% else %}Student{% endif %}</td>
         <td> {% if roll.role == 0 %} PENDING 
             <a class="btn btn-mini btn-primary" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>{% endif %}
             Change role to: 
             <a class="btn btn-mini btn-primary" href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'1'}) }}">Student</a>
             <a class="btn btn-mini btn-primary" href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'3'}) }}">TA</a>
             <a class="btn btn-mini btn-primary" href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'2'}) }}">Instructor</a>
+            <a class="btn btn-mini btn-primary" href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'4'}) }}">Portfolio Review</a>
             <a class="btn btn-mini btn-warning" href="{{ path('roll_show', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a></td>
     
     </tr>
