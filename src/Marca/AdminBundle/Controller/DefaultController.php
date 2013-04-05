@@ -5,6 +5,7 @@ namespace Marca\AdminBundle\Controller;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Marca\UserBundle\Entity\User;
 use FOS\UserBundle\Entity\UserManager;
 
@@ -25,13 +26,46 @@ class DefaultController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $users = $em->getRepository('MarcaUserBundle:User')->findUsersAlphaOrder();
+        
+        $form = $this->createFormBuilder(new User())
+            ->add('lastname','text', array('label'  => 'Start of name, username, or email','attr' => array('class' => 'inline'),))
+            ->getForm();
+        
         //pagination
         $paginator = $this->get('knp_paginator');
         $users = $paginator->paginate($users,$this->get('request')->query->get('page', 1),25);
         
-        return array('user' => $user,'users' => $users);
+        return array('user' => $user,'users' => $users, 'form'=>$form->createView());
     }
     
+ 
+    /**
+     * Find user by name,email, or username
+     * @Route("/find", name="admin_find")
+     * @Template("MarcaAdminBundle:Default:index.html.twig")
+     * @Method("post")
+     */
+    public function findAction()
+    {
+        $em = $this->getEm();
+        $user = $this->getUser();
+        
+        $request = $this->get('request');
+        $postData = $request->request->get('form');
+        $name = $postData['lastname'];
+        
+        $users = $em->getRepository('MarcaUserBundle:User')->findUsersByName($name);
+        
+        $form = $this->createFormBuilder(new User())
+            ->add('lastname','text', array('label'  => 'Start of name, username, or email','attr' => array('class' => 'inline'),))
+            ->getForm();
+                
+        //pagination
+        $paginator = $this->get('knp_paginator');
+        $users = $paginator->paginate($users,$this->get('request')->query->get('page', 1),25);
+        
+        return array('user' => $user,'users' => $users, 'form'=>$form->createView());
+    }
     
      /**
      * Finds Users
