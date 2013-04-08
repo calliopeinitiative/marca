@@ -3,6 +3,8 @@
 namespace Marca\NoteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Marca\NoteBundle\Entity\Note
@@ -31,56 +33,51 @@ class Note
     /**
      * @var text $description
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
      * @var integer $color
      *
-     * @ORM\Column(name="color", type="integer")
+     * @ORM\Column(name="color", type="integer", nullable=true)
      */
     private $color;
 
     /**
      * @var integer $sortOrder
      *
-     * @ORM\Column(name="sortOrder", type="integer")
+     * @ORM\Column(name="sortOrder", type="integer", nullable=true)
      */
     private $sortOrder;
 
     /**
-     * @var text $citation
-     *
-     * @ORM\Column(name="citation", type="text")
-     */
-    private $citation;
-
-    /**
-     * @var text $quotations
-     *
-     * @ORM\Column(name="quotations", type="text")
-     */
-    private $quotations;
-
-    /**
-     * @var integer $noteType
-     *
-     * @ORM\Column(name="noteType", type="integer")
-     */
-    private $noteType;
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")
+    */
+    protected $user;    
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="note")
-    * @ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")
+    * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course")
     */
     protected $course;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Roll", inversedBy="note")
-     * @ORM\JoinColumn(name="roll_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Roll")
      */
     protected $roll;
+    
+    /**
+    * @ORM\Column(type="datetime", nullable=true)
+    * @Gedmo\Timestampable(on="create")
+    */
+    protected $created;
+    
+    
+    /**
+    * @ORM\Column(type="datetime", nullable=true)
+    * @Gedmo\Timestampable(on="update")
+    */
+    protected $updated;    
 
     /**
      * Get id
@@ -173,46 +170,6 @@ class Note
     }
 
     /**
-     * Set citation
-     *
-     * @param text $citation
-     */
-    public function setCitation($citation)
-    {
-        $this->citation = $citation;
-    }
-
-    /**
-     * Get citation
-     *
-     * @return text 
-     */
-    public function getCitation()
-    {
-        return $this->citation;
-    }
-
-    /**
-     * Set quotations
-     *
-     * @param text $quotations
-     */
-    public function setQuotations($quotations)
-    {
-        $this->quotations = $quotations;
-    }
-
-    /**
-     * Get quotations
-     *
-     * @return text 
-     */
-    public function getQuotations()
-    {
-        return $this->quotations;
-    }
-
-    /**
      * Set noteType
      *
      * @param integer $noteType
@@ -270,5 +227,74 @@ class Note
     public function getRoll()
     {
         return $this->roll;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Marca\UserBundle\Entity\User $user
+     * @return Note
+     */
+    public function setUser(\Marca\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Marca\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return Note
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     * @return Note
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+    
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime 
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 }

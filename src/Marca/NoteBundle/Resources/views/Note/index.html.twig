@@ -1,18 +1,43 @@
-{# Marca/CourseBundle/Resources/views/Note/index.html.twig #}
+
 {% extends 'MarcaNoteBundle::layout.html.twig' %}
+
 {% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('.note_body').hide(); 
+$('#note_page').css('height', function(index) {
+  return $(window).height()* .82;
+});
+$('#note_sub, #note_list').css('height', function(index) {
+  return $(window).height()* .78;
+});
+{% for note in notes %}
+{% if loop.first %}$('#note_body{{loop.index}}').show();{% endif %}      
+$('#note_anchor{{loop.index}}').click(function(){
+    $('.note_body').hide();$('#note_body{{loop.index}}').show();
+});        
+{% endfor %}        
+});
+</script>
 
-
-<div class="note_board">
-
-<div id="note1" class="note">
-	<p>Drag me around</p>
+<div id="note_page" class="span9 well" style="padding-right:0;padding-left:0">
+<div id="note_list" class="span4">
+<table class="table table-hover"> 
+{% for note in notes %} 
+        <tr>
+            <td><a class="" href="javascript:void(0);" id="note_anchor{{loop.index}}">{{ note.title }}</a></td>
+            <td><a class="btn btn-small btn-primary" href="{{ course_path('note_edit', { 'id': note.id }) }}">Edit</a></td>
+        </tr>
+{% endfor %} 
+</table>               
 </div>
-    
-<div id="note2" class="note">
-	<p>Drag me around, too</p>
+
+<div id="note_sub" class="span4 well"> 
+{% for note in notes %} 
+        
+        <span class="note_body" id="note_body{{loop.index}}">{{ note.description|raw }} </span>
+{% endfor %}        
 </div>
-
-</div><!-- End demo -->
-
+</div>
 {% endblock %}

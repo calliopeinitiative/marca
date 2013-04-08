@@ -7,20 +7,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\NoteBundle\Entity\Note;
-//use Marca\NoteBundle\Form\NoteType;
-use Symfony\Component\HttpFoundation\Response;
+use Marca\NoteBundle\Form\NoteType;
 
 /**
  * Note controller.
  *
- * @Route("notes")
+ * @Route("/note")
  */
 class NoteController extends Controller
 {
     /**
-     * Lists all Calendar entities.
+     * Lists all Note entities.
      *
-     * @Route("/{courseid}", name="notes")
+     * @Route("/{courseid}/", name="note")
      * @Template()
      */
     public function indexAction()
@@ -28,18 +27,183 @@ class NoteController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
-        $notes = $em->getRepository('MarcaNoteBundle:Note')->findByRoll($roll);
-        return array ('notes' => $notes);
+        
+        $notes = $em->getRepository('MarcaNoteBundle:Note')->findNotes($user, $course);
+
+        return array('notes' => $notes);
     }
-    
+
     /**
-     * Displays form to create a New Note
-     * @Route("/{courseid}/new", name="new_note")
+     * Finds and displays a Note entity.
+     *
+     * @Route("/{courseid}/{id}/show", name="note_show")
+     * @Template()
+     */
+    public function showAction($id)
+    {
+        $em = $this->getEm();
+
+        $note = $em->getRepository('MarcaNoteBundle:Note')->find($id);
+
+        if (!$note) {
+            throw $this->createNotFoundException('Unable to find Note note.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'note'      => $note,
+            'delete_form' => $deleteForm->createView(),        );
+    }
+
+    /**
+     * Displays a form to create a new Note entity.
+     *
+     * @Route("/{courseid}/new", name="note_new")
+     * @Template()
      */
     public function newAction()
     {
-        $note = new Note;
-        return array('note' => $note);
+        $note = new Note();
+        $form   = $this->createForm(new NoteType(), $note);
+
+        return array(
+            'note' => $note,
+            'form'   => $form->createView()
+        );
+    }
+
+    /**
+     * Creates a new Note entity.
+     *
+     * @Route("/{courseid}/create", name="note_create")
+     * @Method("post")
+     * @Template("MarcaNoteBundle:Note:new.html.twig")
+     */
+    public function createAction($courseid)
+    {
+        $note  = new Note();
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $course = $this->getCourse();
+        $note->setUser($user);
+        $note->setCourse($course);
+        $request = $this->getRequest();
+        $form    = $this->createForm(new NoteType(), $note);
+        $form->bindRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getEm();
+            $em->persist($note);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('note', array('courseid' => $courseid)));
+            
+        }
+
+        return array(
+            'note' => $note,
+            'form'   => $form->createView()
+        );
+    }
+
+    /**
+     * Displays a form to edit an existing Note entity.
+     *
+     * @Route("/{courseid}/{id}/edit", name="note_edit")
+     * @Template()
+     */
+    public function editAction($id)
+    {
+        $em = $this->getEm();
+
+        $note = $em->getRepository('MarcaNoteBundle:Note')->find($id);
+
+        if (!$note) {
+            throw $this->createNotFoundException('Unable to find Note entity.');
+        }
+
+        $editForm = $this->createForm(new NoteType(), $note);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'note'      => $note,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+     * Edits an existing Note entity.
+     *
+     * @Route("/{courseid}/{id}/update", name="note_update")
+     * @Method("post")
+     * @Template("MarcaNoteBundle:Note:edit.html.twig")
+     */
+    public function updateAction($id, $courseid)
+    {
+        $em = $this->getEm();
+
+        $note = $em->getRepository('MarcaNoteBundle:Note')->find($id);
+
+        if (!$note) {
+            throw $this->createNotFoundException('Unable to find Note.');
+        }
+
+        $editForm   = $this->createForm(new NoteType(), $note);
+        $deleteForm = $this->createDeleteForm($id);
+
+        $request = $this->getRequest();
+
+        $editForm->bindRequest($request);
+
+        if ($editForm->isValid()) {
+            $em->persist($note);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('note', array('courseid' => $courseid)));
+        }
+
+        return array(
+            'note'      => $note,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+     * Deletes a Note entity.
+     *
+     * @Route("/{courseid}/{id}/delete", name="note_delete")
+     * @Method("post")
+     */
+    public function deleteAction($id, $courseid)
+    {
+        $form = $this->createDeleteForm($id);
+        $request = $this->getRequest();
+
+        $form->bindRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getEm();
+            $note = $em->getRepository('MarcaNoteBundle:Note')->find($id);
+
+            if (!$note) {
+                throw $this->createNotFoundException('Unable to find Note entity.');
+            }
+
+            $em->remove($note);
+            $em->flush();
+        }
+
+            return $this->redirect($this->generateUrl('note', array('courseid' => $courseid)));
+    }
+
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder(array('id' => $id))
+            ->add('id', 'hidden')
+            ->getForm()
+        ;
     }
 }

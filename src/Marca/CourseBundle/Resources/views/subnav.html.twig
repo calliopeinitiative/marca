@@ -28,6 +28,7 @@ $('#course_select').click(function(){
 <li><a  title='Course Calendar' href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Calendar</a></li>
 <li><a  title='Course Journal' href="{{ course_path('journal') }}">Journal</a></li>
 <li><a  title='Course Forum' href="{{ course_path('forum') }}">Forum</a></li>
+<li><a  title='Course Notes' href="{{ course_path('note') }}">Notes</a></li>
 {% if app.session.get('portSwitch')=='true'%}<li><a  title='Course Portfolio' href="{{ course_path('portfolio') }}">Portfolio</a></li>{%endif%}
 
 
