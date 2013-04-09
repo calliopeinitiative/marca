@@ -180,7 +180,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         {% if file.isOwner(app.user.username) %}<li><a class='edit_{{file.id}}' href="javascript:void(0);">File Settings</a></li>{% endif%}
         {% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<li><a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a></li>{% endif%}
-        {% if role == 2 %}
+        {% if role == 2 and file.doc %}
         <li><a title="Create a copy of this document for peer review" id="new_grade_{{file.id}}" href="javascript:void(0)">New Instructor Review</a></li>
         {% endif %}
         <li><a id='file_{{file.id}}' href="javascript:void(0);" title='More info about this file'>More Info</a></li>

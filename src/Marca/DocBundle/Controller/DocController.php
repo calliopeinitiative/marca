@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response; 
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Marca\DocBundle\Entity\Doc;
 use Marca\DocBundle\Entity\Autosave;
 use Marca\DocBundle\Form\DocType;
@@ -50,16 +51,23 @@ class DocController extends Controller
         
         $em = $this->getEm();
         $course = $this->getCourse();
+        $user = $this->getUser();
         $role = $this->getCourseRole();
 
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
         $text = $doc->getBody();
         $count = str_word_count($text);
         $file = $doc->getFile();
+        $file_owner = $file->getUser();
+        $file_access = $file->getAccess();
+        
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
 
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
+        }
+        else if ($file_owner != $user && $file_access==0 )  {
+            throw new AccessDeniedException();
         }
 
         $deleteForm = $this->createDeleteForm($id);
