@@ -66,7 +66,7 @@ class DocController extends Controller
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
         }
-        else if ($file_owner != $user && $file_access==0 )  {
+        else if ($file_owner != $user && $file_access==0 && $role != 2 )  {
             throw new AccessDeniedException();
         }
 
