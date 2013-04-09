@@ -27,7 +27,10 @@ security:
         - { path: ^/home, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /print, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
-        - { path: ^/term/, role: ROLE_ADMIN }        
+        - { path: ^/assessmentset/, role: ROLE_ADMIN }
+        - { path: ^/objective/, role: ROLE_ADMIN }
+        - { path: ^/scale/, role: ROLE_ADMIN }
+        - { path: ^/scaleitem/, role: ROLE_ADMIN }
         - { path: ^/user_profile/, role: ROLE_USER }
         - { path: ^/journal/, role: ROLE_USER }
         - { path: ^/forum/, role: ROLE_USER }
@@ -41,6 +44,7 @@ security:
         - { path: ^/term/, role: ROLE_USER }
         - { path: ^/roll/, role: ROLE_USER }
         - { path: ^/project/, role: ROLE_USER }
+        - { path: ^/note/, role: ROLE_USER }
         - { path: ^/markup/, role: ROLE_INSTR }
         - { path: ^/markupset/, role: ROLE_INSTR }
         - { path: ^/portset/, role: ROLE_INSTR }

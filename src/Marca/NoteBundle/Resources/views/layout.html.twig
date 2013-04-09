@@ -1,13 +1,9 @@
 {# Marca/NoteBundle/Resources/views/layout.html.twig #}
 
 {% extends '::base.html.twig' %}
-{% block javascripts %}
-{% javascripts '@MarcaHomeBundle/Resources/public/js/*' 
-'@MarcaNoteBundle/Resources/public/notes.js'
-%}
-<script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}
-{% endblock %}
+{% block title %}Marca | Notes{% endblock %}
+{% block javascripts %}{% endblock %}
+{% block stylesheets %}{% endblock %}
 
 {% block subnav %}
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
@@ -15,7 +11,5 @@
 
 {% block sidebar %}
     <li><legend>Notes</legend></li>
-    {% if is_granted('ROLE_USER') %}
-    <li><a href="{{ course_path('new_note') }}">New Note</a></li>
-    {% endif %}
+    <li><a href="{{ course_path('note_new') }}">New Note</a></li>
 {% endblock %}

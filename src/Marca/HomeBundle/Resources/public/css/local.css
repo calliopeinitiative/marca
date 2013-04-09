@@ -109,6 +109,8 @@ label.required {font-size:14px;margin-top:8px;}
 .journal-body {margin-bottom:60px;}
 .responses {font-size:14px;}
 .delete_button {margin-top: -3.5em;}
+#note_sub {overflow:auto;margin-bottom: 0px;}
+#note_list {overflow:auto;margin-bottom: 0px;}
 
 form ul li {list-style: none;}
 

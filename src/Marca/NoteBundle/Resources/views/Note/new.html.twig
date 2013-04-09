@@ -1,0 +1,29 @@
+
+{% extends 'MarcaNoteBundle::layout.html.twig' %}
+
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('#marca_notebundle_notetype_description').ckeditor( function() {}, {disableNativeSpellChecker:false,removePlugins: 'elementspath', height:300, 
+toolbar : [
+['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
+'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
+],} );
+});
+</script>
+
+<div class="span9 well"> 
+<form action="{{ course_path('note_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <div>
+        <button class="btn" type="submit">Create</button><a class="btn" href="{{ course_path('note') }}">Cancel</a>
+    </div>
+</form>
+</div>
+{% endblock %}
