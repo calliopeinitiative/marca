@@ -24,11 +24,9 @@
 $(document).ready(function()
 {
 $('#marca_calendarbundle_calendartype_startDate').val('{{set_date}}');
-    
-$('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {removePlugins: 'elementspath', height:100,
-toolbar : [
-['Bold','Italic','Link','Unlink','NumberedList','BulletedList','RemoveFormat'],
-],} );
+CKEDITOR.replace( 'marca_calendarbundle_calendartype_description',  {
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
+} );
 $( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
 showButtonPanel: true,
 });
@@ -54,10 +52,8 @@ $("#marca_calendarbundle_calendartype_color").spectrum({
 <div class="span8 well"> 
 <form action="{{ course_path('calendar_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
     {{ form_widget(form) }}
-        <div class='margin-top'>
         <button class="btn btn-primary" type="submit">Submit</button>
         <a class="btn" href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Cancel</a>
-        </div>
 </form>
 </div>
 {% endblock %}

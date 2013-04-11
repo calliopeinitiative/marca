@@ -4,18 +4,15 @@
 
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
 {% endblock %}
 
 {% block content %}
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_journalbundle_journaltype_body').ckeditor( function() {}, {disableNativeSpellChecker:false,removePlugins: 'elementspath', height:300, 
-toolbar : [
-['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
-'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
-],} );
+CKEDITOR.replace( 'marca_journalbundle_journaltype_body',  {
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
+} );
 $('form li').addClass('alert alert-error');
 });
 </script>
@@ -26,13 +23,13 @@ $('form li').addClass('alert alert-error');
          {{ form_row(edit_form.title) }}
          {{ form_row(edit_form.body) }}
     {{ form_rest(edit_form) }}
-        <button class="btn btn-primary" type="submit">Update</button>
+        <button class="btn btn-primary" type="submit">Update</button><a class='btn' href="{{ course_path('journal') }}">Cancel</a>
 </form>
         
        
 <form action="{{ course_path('journal_delete', { 'id': journal.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
+            <button class="btn btn-delete" type="submit">Delete</button>
 </form>
        
 </div>

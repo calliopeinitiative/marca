@@ -20,10 +20,9 @@ $(document).ready(function()
 {
 {% set gotoyear = gotodate|date('Y') %}
 {% set gotomonth = gotodate|date('m') -1 %}    
-$('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {removePlugins: 'elementspath', height:100,
-toolbar : [
-['Bold','Italic','Link','Unlink','NumberedList','BulletedList','RemoveFormat'],
-],} );
+CKEDITOR.replace( 'marca_calendarbundle_calendartype_description',  {
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
+} );
 $( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
 showButtonPanel: true,
 });
@@ -49,18 +48,14 @@ $("#marca_calendarbundle_calendartype_color").spectrum({
 <div class="span8 well"> 
 <form action="{{ course_path('calendar_update', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
     {{ form_widget(edit_form) }}
-    <div class='margin-top'>
         <button class="btn btn-primary" type="submit">Submit</button>
         <a class="btn" href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Cancel</a>
-    </div>
 </form>
 
         
 <form id='calendar_delete' action="{{ course_path('calendar_delete', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post">
-            {{ form_widget(delete_form) }}
-    <div class='delete_button'>    
-    <button class="btn btn-danger pull-right" type="submit">Delete</button>
-    </div>
+            {{ form_widget(delete_form) }}  
+    <button class="btn btn-delete" type="submit">Delete</button>
 </form>      
 </div> 
 

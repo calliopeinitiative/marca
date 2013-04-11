@@ -4,18 +4,15 @@
 
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
 {% endblock %}
 
 {% block content %}
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_forumbundle_commenttype_body').ckeditor( function() {}, {disableNativeSpellChecker:false,removePlugins: 'elementspath', height:200,
-toolbar : [
-['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
-'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
-],} );
+CKEDITOR.replace( 'marca_forumbundle_commenttype_body',  {
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
+} );
 $('form li').addClass('alert alert-error');
 });
 </script>  

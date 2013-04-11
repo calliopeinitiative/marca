@@ -3,18 +3,15 @@
 
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
 {% endblock %}
 
 {% block content %}
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_notebundle_notetype_description').ckeditor( function() {}, {disableNativeSpellChecker:false,removePlugins: 'elementspath', height:300, 
-toolbar : [
-['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
-'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
-],} );
+CKEDITOR.replace( 'marca_notebundle_notetype_description',  {
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
+} );
 });
 </script>
 
@@ -27,13 +24,13 @@ toolbar : [
         <form action="{{ course_path('note_update', { 'id': note.id }) }}" method="post" {{ form_enctype(edit_form) }}>
             {{ form_widget(edit_form) }}
         <div>
-            <button class="btn btn-primary" type="submit">Edit</button>
+            <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ course_path('note') }}">Cancel</a>
         </div>
         </form>
         
         <form action="{{ course_path('note_delete', { 'id': note.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button class="btn delete_button pull-right" type="submit">Delete</button>
+            <button class="btn btn-delete" type="submit">Delete</button>
         </form>
 </div>
 

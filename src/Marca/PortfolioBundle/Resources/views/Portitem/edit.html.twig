@@ -4,26 +4,20 @@
 
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
 {% endblock %}
 
 {% block content %}
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_portfoliobundle_portitemtype_description').ckeditor( function() {}, {removePlugins: 'elementspath', height:200,
-toolbar : [
-['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
-'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
-],} );
+CKEDITOR.replace( 'marca_portfoliobundle_portitemtype_description',  {
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
+} );
 });
 </script>
 <div class="span9 well">
 <legend>Portfolios</legend> 
-<form class="form" action="{{ path('portitem_delete', { 'id': portitem.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
-</form>
+
 </div>   
       
 <div class="span9 well">
@@ -36,6 +30,10 @@ toolbar : [
         <button class="btn btn-primary" type="submit">Update</button>
     </div>
 </form>
+<form class="form" action="{{ path('portitem_delete', { 'id': portitem.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn delete_button pull-right" type="submit">Delete</button>
+</form>        
 </div>
        
 {% endblock %}

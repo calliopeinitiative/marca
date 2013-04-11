@@ -3,6 +3,7 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
 {% endblock %}
@@ -13,7 +14,7 @@
 
 {% block content %}
 <script language="javascript">
-    $(document).ready(function()
+$(document).ready(function()
     {
     $("#marca_docbundle_markuptype_color").spectrum({
     preferredFormat: "name",
@@ -27,13 +28,16 @@
         ['orange', 'cadetblue', 'tomato','blueviolet']        
     ]
     });
-    });
+    CKEDITOR.replace( 'marca_docbundle_markuptype_mouseover',  {
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
+} );
+});
 </script>
 
 <legend>Markup Tag</legend>  
 
 <div class="row">
-<div class="span6  well">  
+<div class="span9  well">  
     
 <form action="{{ path('markup_create', { 'set_id': set_id }) }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}

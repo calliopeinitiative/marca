@@ -108,7 +108,7 @@ label.required {font-size:14px;margin-top:8px;}
 .journal-body p, .forum-body p, .doc-body p {font-size: 14px;line-height: 200%;margin-bottom:27px;}
 .journal-body {margin-bottom:60px;}
 .responses {font-size:14px;}
-.delete_button {margin-top: -3.5em;}
+.btn-delete {margin-top: -3.5em; float: right; }
 #note_sub {overflow:auto;margin-bottom: 0px;}
 #note_list {overflow:auto;margin-bottom: 0px;}
 

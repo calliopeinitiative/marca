@@ -4,23 +4,21 @@
 
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
 {% endblock %}
 
 {% block content %}
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_userbundle_usertype_bio').ckeditor( function() {}, {height:300, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
-toolbar : [
-['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
-'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
-],} );
+CKEDITOR.replace( 'marca_userbundle_usertype_bio',  {
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}',
+    height: 300,
+} );
 });
 </script>
 
-<div class="row">
-<div class="span8">
+
+<div class="span9 well">
 
 
     <form class="form" action="{{ path('user_update', { 'id': user.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
@@ -38,5 +36,5 @@ toolbar : [
 
               
 </div>
-</div>        
+    
 {% endblock %}

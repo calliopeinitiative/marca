@@ -11,11 +11,9 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_portfoliobundle_portsettype_description').ckeditor( function() {}, {removePlugins: 'elementspath', height:200,
-toolbar : [
-['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
-'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
-],} );
+CKEDITOR.replace( 'marca_portfoliobundle_portsettype_description',  {
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
+} );
 });
 </script>
 <div class="span9 well">

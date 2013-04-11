@@ -11,20 +11,15 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_portfoliobundle_portsettype_description').ckeditor( function() {}, {removePlugins: 'elementspath', height:200,
-toolbar : [
-['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
-'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
-],} );
+CKEDITOR.replace( 'marca_portfoliobundle_portsettype_description',  {
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
+} );
 });
 </script>
 <div class="span9 well">
 <legend>Portfolios</legend> 
 
-<form class="form" action="{{ path('portset_delete', { 'id': portset.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
-</form>
+
 </div>
        
 <div class="span9 well">   
@@ -37,6 +32,10 @@ toolbar : [
         <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('portset') }}">Cancel</a>
     </div>
 </form>
+<form class="form" action="{{ path('portset_delete', { 'id': portset.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn delete_button pull-right" type="submit">Delete</button>
+</form>        
 </div>
       
 {% endblock %}

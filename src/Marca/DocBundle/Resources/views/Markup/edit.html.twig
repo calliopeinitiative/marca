@@ -4,9 +4,7 @@
 
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-timepicker-addon.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
 {% endblock %}
 
@@ -16,7 +14,7 @@
 
 {% block content %}
 <script language="javascript">
-    $(document).ready(function()
+$(document).ready(function()
     {
     $("#marca_docbundle_markuptype_color").spectrum({
     preferredFormat: "name",
@@ -30,24 +28,27 @@
         ['orange', 'cadetblue', 'tomato','blueviolet']        
     ]
     });
-    });
+    CKEDITOR.replace( 'marca_docbundle_markuptype_mouseover',  {
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
+} );
+});
 </script>
 
 <legend>Markup Tag</legend>  
 
 <div class="row">
-<div class="span6 well">  
+<div class="span9 well">  
     
 <form class="form" action="{{ path('markup_update', { 'id': markup.id, 'set_id': app.request.get('set_id')}) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_errors(edit_form) }}
             {{ form_widget(edit_form) }}
     {{ form_rest(edit_form) }}
-        <button class="btn btn-primary btn-small" type="submit">Update</button><a class="btn" href="{{ path('markupset') }}">Cancel</a> 
+        <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('markupset') }}">Cancel</a> 
 </form> 
 <div>
 <form action="{{ path('markup_delete', { 'id': markup.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-        <button class="btn btn-danger  btn-small" type="submit">Delete</button>
+        <button class="btn btn-delete" type="submit">Delete</button>
 </form>  
 </div>
 </div>
