@@ -40,7 +40,7 @@ class Portitem
      *
      * @ORM\Column(name="sortorder", type="integer", nullable=true)
      */
-    private $sortorder;
+    private $sortorder = 1;
     
     /**
     * @ORM\ManyToOne(targetEntity="Marca\PortfolioBundle\Entity\Portset", inversedBy="portitem")

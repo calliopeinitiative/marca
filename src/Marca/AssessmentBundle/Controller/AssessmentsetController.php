@@ -90,7 +90,7 @@ class AssessmentsetController extends Controller
             $em->persist($assessmentset);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('assessmentset_show', array('id' => $assessmentset->getId())));
+            return $this->redirect($this->generateUrl('assessmentset'));
             
         }
 
@@ -154,7 +154,7 @@ class AssessmentsetController extends Controller
             $em->persist($assessmentset);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('assessmentset_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('assessmentset'));
         }
 
         return array(

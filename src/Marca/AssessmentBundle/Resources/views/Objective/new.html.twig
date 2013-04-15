@@ -28,7 +28,7 @@ CKEDITOR.replace( 'marca_assessmentbundle_objectivetype_description',  {
 <form action="{{ path('objective_create', {'assessmentsetid':assessmentsetid}) }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>
-        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="">Cancel</a>
+        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ path('assessmentset_show', {'id':assessmentsetid}) }}">Cancel</a>
     </div>
 </form>
 </div>

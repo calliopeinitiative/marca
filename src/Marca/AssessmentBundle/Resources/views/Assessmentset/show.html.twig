@@ -10,25 +10,25 @@
 </div>
 
 <div class="span9 well">                    
-<h4 class="inline">{{ assessmentset.name }}</h4>{{ assessmentset.description }}  
-<a class="btn btn-primary pull-right" href="{{ path('objective_new', { 'assessmentsetid': assessmentset.id }) }}">Add Learning Objective</a>
+<h4>{{ assessmentset.name }}</h4>
+{{ assessmentset.description|raw }}  
+
 <hr/>     
 
 {% for objective in assessmentset.objectives %}
 <div class="span8">             
-        <div class="row"><strong>{{ objective.objective }}</strong>
+    <div class="row"><h5 class='inline'>{{ objective.objective|raw }}</h5>
         <a class="btn btn-primary btn-small pull-right" href="{{ path('objective_edit', { 'id': objective.id }) }}">Edit</a>  
         </div>  
-        <div class="row">{{ objective.description }}</div>
+        <div class="row">{{ objective.description|raw }}</div>
         <div class="row"><strong>{{ objective.scale.name }}</strong>:  
          {% for scaleitem in objective.scale.scaleitems %}<span class="margin-left">{{ scaleitem.name }} (value:{{ scaleitem.value }})</span>  {% endfor %}</div>
          <hr/>
 </div>
 {% endfor %}
 
-<form class="margin-top pull-right" action="{{ path('assessmentset_delete', { 'id': assessmentset.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn" type="submit">Delete Assessment Set</button>
-</form>
+
+<a class="btn btn-primary " href="{{ path('objective_new', { 'assessmentsetid': assessmentset.id }) }}">Add Learning Objective</a>
+
 </div>          
 {% endblock %}

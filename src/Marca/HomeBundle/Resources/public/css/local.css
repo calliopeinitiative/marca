@@ -112,6 +112,11 @@ label.required {font-size:14px;margin-top:8px;}
 #note_sub {overflow:auto;margin-bottom: 0px;}
 #note_list {overflow:auto;margin-bottom: 0px;}
 
+
+td.active {  color: #333333;
+  background-color: #e6e6e6;
+}
+
 form ul li {list-style: none;}
 
 /* TB Modal adjustments */

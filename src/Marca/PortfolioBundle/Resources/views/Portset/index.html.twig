@@ -13,8 +13,8 @@
 
 {% for portset in portsets %}
 <div class="span9 well">
-        <h4>{{ portset.name }}</h4>
-        <a class="btn btn-primary btn-small pull-right" href="{{ path('portset_show', { 'id': portset.id }) }}">Show</a><a class="btn btn-primary btn-small pull-right" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit</a>
+        <h4><a class="" href="{{ path('portset_show', { 'id': portset.id }) }}">{{ portset.name }}</a></h4>
+        <a class="btn btn-primary btn-small pull-right" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit</a>
         {{ portset.description|raw }}
 </div>
 {% endfor %}

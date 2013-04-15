@@ -64,6 +64,8 @@ class ObjectiveController extends Controller
     {
         
         $objective = new Objective();
+        $objective->setDescription('<p></p>');
+        $objective->setObjective('<p></p>');
         $form   = $this->createForm(new ObjectiveType(), $objective);
 
         return array(
@@ -187,7 +189,7 @@ class ObjectiveController extends Controller
         if ($form->isValid()) {
             $em = $this->getEm();
             $objective = $em->getRepository('MarcaAssessmentBundle:Objective')->find($id);
-
+            $assessmentsetid = $objective->getAssessmentset()->getId();
             if (!$objective) {
                 throw $this->createNotFoundException('Unable to find Objective entity.');
             }
@@ -196,7 +198,7 @@ class ObjectiveController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('objective'));
+        return $this->redirect($this->generateUrl('assessmentset_show', array('id' => $assessmentsetid)));
     }
 
     private function createDeleteForm($id)

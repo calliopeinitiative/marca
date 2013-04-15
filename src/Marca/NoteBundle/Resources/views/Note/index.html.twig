@@ -13,11 +13,12 @@ $('#note_sub, #note_list').css('height', function(index) {
   return $(window).height()* .78;
 });
 {% for note in notes %}
-{% if loop.first %}$('#note_body{{loop.index}}').show();{% endif %}      
+{% if loop.first %}$('#note_body{{loop.index}}').show();$('#note_td{{loop.index}}').addClass('active');{% endif %}      
 $('#note_anchor{{loop.index}}').click(function(){
-    $('.note_body').hide();$('#note_body{{loop.index}}').show();
+    $('.note_body').hide();$('#note_body{{loop.index}}').show();$('td.active').removeClass('active');$('#note_td{{loop.index}}').addClass('active');
 });        
-{% endfor %}        
+{% endfor %}  
+
 });
 </script>
 
@@ -26,17 +27,17 @@ $('#note_anchor{{loop.index}}').click(function(){
 <table class="table table-hover"> 
 {% for note in notes %} 
         <tr>
-            <td><a class="" href="javascript:void(0);" id="note_anchor{{loop.index}}">{{ note.title }}</a></td>
-            <td><a class="btn btn-small btn-primary" href="{{ course_path('note_edit', { 'id': note.id }) }}">Edit</a></td>
+            <td id="note_td{{loop.index}}" class="notes"><a  href="javascript:void(0);" id="note_anchor{{loop.index}}">{{ note.title }}</a></td>
         </tr>
 {% endfor %} 
 </table>               
 </div>
 
 <div id="note_sub" class="span4 well"> 
-{% for note in notes %} 
-        
-        <span class="note_body" id="note_body{{loop.index}}">{{ note.description|raw }} </span>
+{% for note in notes %}        
+        <span class="note_body" id="note_body{{loop.index}}">{{ note.description|raw }} 
+        <a class="btn btn-small btn-primary" href="{{ course_path('note_edit', { 'id': note.id }) }}">Edit</a>
+        </span>
 {% endfor %}        
 </div>
 </div>

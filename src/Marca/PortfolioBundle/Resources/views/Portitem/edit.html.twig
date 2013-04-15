@@ -27,12 +27,12 @@ CKEDITOR.replace( 'marca_portfoliobundle_portitemtype_description',  {
             {{ form_row(edit_form.description) }}
     {{ form_rest(edit_form) }}
     <div>
-        <button class="btn btn-primary" type="submit">Update</button>
+        <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('portset_show', { 'id': portitem.portset.id }) }}">Cancel</a>
     </div>
 </form>
 <form class="form" action="{{ path('portitem_delete', { 'id': portitem.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button class="btn delete_button pull-right" type="submit">Delete</button>
+            <button class="btn btn-delete" type="submit">Delete</button>
 </form>        
 </div>
        

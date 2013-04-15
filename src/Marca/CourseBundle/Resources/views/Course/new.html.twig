@@ -14,12 +14,12 @@
 $(document).ready(function()
 {
 $( '#marca_coursebundle_coursetype_time' ).timepicker(({ 'timeFormat': 'H:i' }));
+$('form li').addClass('alert alert-error');
 });
 </script>
 
 <div class="span8 well"> 
 <legend>Course Settings</legend>     
-<span class='alert alert-info'>You may edit these settings at any time.</span>
 </div>
 
 <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate"> 
