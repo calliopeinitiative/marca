@@ -31,7 +31,7 @@ $('#doctools').css('height', function(index) {
   return $(window).height() * .77;
 });
 
-var editor = $('#marca_docbundle_doctype_body').ckeditorGet();
+var editor = CKEDITOR.instances.marca_docbundle_doctype_body;
 
 var intervalID = setInterval(function(){var buffer = editor.checkDirty(); if (buffer==1) {editor.resetDirty(); $.post("{{ course_path('doc_ajax', { 'id': doc.id }) }}", {test:$('#marca_docbundle_doctype_body').val()}, function(data){
     alert(data.test)});$('#backup_alert').fadeIn();$('#backup_alert').delay(2000).fadeOut();}}, 5000);
