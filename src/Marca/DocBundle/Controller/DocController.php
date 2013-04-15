@@ -59,6 +59,8 @@ class DocController extends Controller
         $count = str_word_count($text);
         $file = $doc->getFile();
         $file_owner = $file->getUser();
+        $review_file = $file->getReviewed();
+        if ($review_file) {$review_owner = $review_file->getUser();} else {$review_owner = $file_owner;}
         $file_access = $file->getAccess();
         
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
@@ -66,7 +68,7 @@ class DocController extends Controller
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
         }
-        else if ($file_owner != $user && $file_access==0 && $role != 2 )  {
+        else if ($file_owner != $user && $review_owner != $user && $file_access==0 && $role != 2 )  {
             throw new AccessDeniedException();
         }
 
