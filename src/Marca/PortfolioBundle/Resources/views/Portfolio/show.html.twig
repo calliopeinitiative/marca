@@ -104,7 +104,7 @@ There are no files in this portfolio.
 <h5>Rating by {{ ratingset.rater.firstname }}  {{ ratingset.rater.lastname }}</h5>
 
 {% for rating in ratingset.ratings %} 
-<strong class='margin-top'>{{ rating.objective.objective }}</strong>
+<strong class='margin-top'>{{ rating.objective.objective|raw }}</strong>
 {{ rating.scaleitem.name }}<br/>
 {% endfor %}
 

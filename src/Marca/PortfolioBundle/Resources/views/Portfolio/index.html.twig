@@ -18,7 +18,7 @@ $('#port_{{portfolio.id}}').click(function(){
 
       
 <div class="span4 well">
-    <div class=""><h3>{{ portset.name }}</h3></div>
+    <h3>{{ portset.name }}</h3>{{ portset.description|raw }} 
      <dl class="dl-vertical">
         {% for portitem in portset.portitem %}
             <dt class="pad05 divider">
@@ -47,14 +47,14 @@ $('#port_{{portfolio.id}}').click(function(){
 </div>  
 
 <div class="span4 well">                    
-<h3>{{ assessmentset.name }}</h3>{{ assessmentset.description }}  
+<h3>{{ assessmentset.name }}</h3>{{ assessmentset.description|raw }}  
 <hr/>     
 
 {% for objective in assessmentset.objectives %}
 <div class="span3">             
-        <div class="row"><strong>{{ objective.objective }}</strong>
+        <div class="row"><strong>{{ objective.objective|raw }}</strong>
         </div>  
-        <div class="row">{{ objective.description }}</div>
+        <div class="row">{{ objective.description|raw }}</div>
          <hr/>
 </div>
 {% endfor %}

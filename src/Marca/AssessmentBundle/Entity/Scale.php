@@ -33,7 +33,7 @@ class Scale
      *
      * @ORM\Column(name="type", type="integer", nullable=true)
      */
-    private $type;
+    private $type = 1;
     
     /**
     * @ORM\OneToMany(targetEntity="Marca\AssessmentBundle\Entity\Objective", mappedBy="scale")

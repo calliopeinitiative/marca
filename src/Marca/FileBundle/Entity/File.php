@@ -111,9 +111,9 @@ class File
     protected $tag;  
     
    /**
-    * @ORM\ManyToMany(targetEntity="Marca\PortfolioBundle\Entity\Portitem", inversedBy="file")
+    * @ORM\OneToMany(targetEntity="Marca\PortfolioBundle\Entity\Portfolio", mappedBy="file")
     */
-    protected $portitem;  
+    protected $portfolio;  
 
     /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -377,25 +377,6 @@ class File
         return pathinfo($filename, PATHINFO_EXTENSION);
     }    
     
-    /**
-     * Add portitem
-     *
-     * @param Marca\PortfolioBundle\Entity\Portitem $portitem
-     */
-    public function addPortitem(\Marca\PortfolioBundle\Entity\Portitem $portitem)
-    {
-        $this->portitem[] = $portitem;
-    }
-
-    /**
-     * Get portitem
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getPortitem()
-    {
-        return $this->portitem;
-    }
     
     /**
      * Remove tag
@@ -407,15 +388,6 @@ class File
         $this->tag->removeElement($tag);
     }
 
-    /**
-     * Remove portitem
-     *
-     * @param Marca\PortfolioBundle\Entity\Portitem $portitem
-     */
-    public function removePortitem(\Marca\PortfolioBundle\Entity\Portitem $portitem)
-    {
-        $this->portitem->removeElement($portitem);
-    }
 
     /**
      * Add responses
@@ -540,4 +512,37 @@ class File
         }
     }
     
+
+    /**
+     * Add portfolio
+     *
+     * @param \Marca\PortfolioBundle\Entity\Portfolio $portfolio
+     * @return File
+     */
+    public function addPortfolio(\Marca\PortfolioBundle\Entity\Portfolio $portfolio)
+    {
+        $this->portfolio[] = $portfolio;
+    
+        return $this;
+    }
+
+    /**
+     * Remove portfolio
+     *
+     * @param \Marca\PortfolioBundle\Entity\Portfolio $portfolio
+     */
+    public function removePortfolio(\Marca\PortfolioBundle\Entity\Portfolio $portfolio)
+    {
+        $this->portfolio->removeElement($portfolio);
+    }
+
+    /**
+     * Get portfolio
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPortfolio()
+    {
+        return $this->portfolio;
+    }
 }

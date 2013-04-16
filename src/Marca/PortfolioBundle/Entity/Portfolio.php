@@ -40,7 +40,7 @@ class Portfolio
     protected $course;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File")
+    * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="portfolio")
     */
     protected $file;   
     

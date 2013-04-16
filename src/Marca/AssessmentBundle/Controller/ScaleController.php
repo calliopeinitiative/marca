@@ -154,7 +154,7 @@ class ScaleController extends Controller
             $em->persist($scale);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('scale_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('scale_show', array('id' => $id)));
         }
 
         return array(

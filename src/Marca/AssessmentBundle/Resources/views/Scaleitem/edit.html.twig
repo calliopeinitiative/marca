@@ -23,7 +23,7 @@ $(document).ready(function()
         <form action="{{ path('scaleitem_update', { 'id': scaleitem.id }) }}" method="post" {{ form_enctype(edit_form) }}>
             {{ form_widget(edit_form) }}
         <div>
-            <button class="btn btn-primary" type="submit">Edit</button><a class="btn" href="{{ path('scale_show', { 'id':scaleitem.scale.id }) }}">Cancel</a>
+            <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('scale_show', { 'id':scaleitem.scale.id }) }}">Cancel</a>
         </div>
         </form>
         

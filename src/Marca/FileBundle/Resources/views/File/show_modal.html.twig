@@ -21,31 +21,40 @@
 {% endif %}
 
 {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
+
+{% if app.request.get('scope')=='all' and app.request.get('resource')=='0' %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif%}
+{% if file.project.name %}<strong>{{ file.project.name }}</strong>{% endif%}
 </td>
-<td>{% if app.request.get('scope')=='all' and app.request.get('resource')=='0' %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif%}</td>
-<td>{% if file.project.name %}<strong>{{ file.project.name }}</strong>{% endif%}</td>
 </tr>
 
 
 <tr>
-<td>Created:  {{ file.created|date('M d Y, g:i a') }}</td>
-<td>Modified:  {{ file.updated|date('M d Y, g:i a') }}</td>
-<td>{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
+<td>
+Created:  {{ file.created|date('M d Y, g:i a') }}
+Modified:  {{ file.updated|date('M d Y, g:i a') }}
+{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
+</td>
+</tr>
+
+<tr>
+<td>
+{{ file.responses |length }} Response(s)
+</td>
 </tr>
 
 <tr>
 <td>
 {% if app.request.get('source')=='edit_modal' %}
-    <form action="{{ course_path('file_delete', { 'id': file.id, 'resource': app.request.get('resource') }) }}" method="post">
+<form action="{{ course_path('file_delete', { 'id': file.id, 'resource': app.request.get('resource') }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Confirm Delete</button>
-    </form> 
+ </form>       
 {% endif%}        
-</td>    
-<td>{% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>{% endif%}</td>
-<td>{{ file.responses |length }} Response(s)</td>
-
+{% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>{% endif%}
+</td>
 </tr>
+
+
 
 
 </tbody>

@@ -23,8 +23,8 @@ $(document).ready(function()
         {{ form_errors(edit_form) }}    
         <ul class="">    
         {% for rating in edit_form.ratings %}
-                <li><strong>{{ ratingset.ratings[loop.index-1].objective.objective }}</strong><br/>
-                {{ ratingset.ratings[loop.index-1].objective.description }}
+                <li><strong>{{ ratingset.ratings[loop.index-1].objective.objective|raw }}</strong><br/>
+                {{ ratingset.ratings[loop.index-1].objective.description|raw }}
                 {{ form_row(rating.scaleitem) }}</li>
         {% endfor %}
         </ul> 

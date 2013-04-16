@@ -189,6 +189,7 @@ class ScaleitemController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
             $scaleitem = $em->getRepository('MarcaAssessmentBundle:Scaleitem')->find($id);
+            $scaleid = $scaleitem->getScale()->getId();
 
             if (!$scaleitem) {
                 throw $this->createNotFoundException('Unable to find Scaleitem entity.');
@@ -198,7 +199,7 @@ class ScaleitemController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('scaleitem'));
+        return $this->redirect($this->generateUrl('scale_show', array('id' => $scaleid)));
     }
 
     private function createDeleteForm($id)
