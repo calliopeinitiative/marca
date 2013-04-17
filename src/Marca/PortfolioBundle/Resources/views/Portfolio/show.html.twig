@@ -17,8 +17,9 @@ $('#doctools').css('height', function(index) {
   return $(window).height() * .79;
 });
 
+{% if not app.request.get('page') %}$('#port_td1').addClass('active');{% endif %}  
 {% for portfolio in portfolio %} 
-{% if app.request.get('page')==loop.index %}$('#port_td{{loop.index}}').addClass('active');{% else%}$('#port_td1').addClass('active');{% endif %}             
+{% if app.request.get('page')==loop.index %}$('#port_td{{loop.index}}').addClass('active');{% endif %}             
 {% endfor %} 
 
 

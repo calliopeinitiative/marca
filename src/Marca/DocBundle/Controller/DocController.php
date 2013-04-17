@@ -328,9 +328,21 @@ class DocController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         $em = $this->getEm();
+        $user = $this->getUser();
+        $role = $this->getCourseRole();
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
-        $name = $doc->getFile()->getName();
+        $file = $doc->getFile();
+        $file_owner = $file->getUser();
+        $review_file = $file->getReviewed();
+        if ($review_file) {$review_owner = $review_file->getUser();} else {$review_owner = $file_owner;}
+        $file_access = $file->getAccess();
+        
+        $name = $file->getName();
         $filename = 'attachment; filename="'.$name.'.pdf"';
+        
+        if ($file_owner != $user && $review_owner != $user && $file_access==0 && $role != 2 )  {
+            throw new AccessDeniedException();
+        }
         
         $pageUrl = $this->generateUrl('doc_print', array('id'=> $id,'courseid'=> $courseid),  true); // use absolute path!
 
