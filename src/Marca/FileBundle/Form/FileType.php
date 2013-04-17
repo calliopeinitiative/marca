@@ -24,9 +24,12 @@ class FileType extends AbstractType
              ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
                 function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
                 $courseid = $options['courseid'] ;
+                $resource = $options['resource'] ;
                 return $er->createQueryBuilder('p')
                 ->where('p.course = :course')
-                ->setParameter('course', $courseid)        
+                ->andWhere('p.resource = :resource')        
+                ->setParameter('course', $courseid)  
+                ->setParameter('resource', $resource)        
                 ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'label'  => 'Select Project', 'expanded' => true,'attr' => array('class' => 'inline'),)) 
              ->add('tag', 'entity', array('class' => 'MarcaTagBundle:Tag','property'=>'name','query_builder' => 
                   function(\Marca\TagBundle\Entity\TagRepository $er) use ($options) {

@@ -35,6 +35,7 @@ $('#file_show_{{file.id}}').click(function(){
 
 {# Project navigation #} 
 <div id='project_nav' class="span9 well">  
+    
 {# Mine All #} 
 {% if app.request.get('resource')=='0' %}
 <span class="btn-group" style="margin-bottom:6px;margin-top:4px;">
@@ -57,7 +58,7 @@ $('#file_show_{{file.id}}').click(function(){
 <span class="btn-group" style="margin-bottom:6px;margin-top:4px;margin-left:10px;">
 <a class="btn btn-small {% if active_project == 0 %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
 Recent Files</a>
-<a href="javascript:void(0);" class="btn btn-small dropdown-toggle {% if active_project > 0 %}active btn-info{% endif %} " data-toggle="dropdown" id="dLabel">Project<b class="caret" style="margin-left:6px;"></b></a>
+<a href="javascript:void(0);" class="btn btn-small dropdown-toggle {% if active_project > 0 %}active btn-info{% endif %} " data-toggle="dropdown" id="dLabel">{% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}<b class="caret" style="margin-left:6px;"></b></a>
 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 <li>
 {% for project in projects %}

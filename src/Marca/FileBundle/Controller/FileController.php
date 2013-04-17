@@ -105,7 +105,7 @@ class FileController extends Controller
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
-        $options = array('courseid' => $courseid);
+        $options = array('courseid' => $courseid, 'resource'=> $resource);
         
         $file = new File();
         $file->setProject($project);
@@ -192,7 +192,7 @@ class FileController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $file->setUser($user);
         $file->setCourse($course);
-        $options = array('courseid' => $courseid);
+        $options = array('courseid' => $courseid, 'resource'=> $resource);
         $request = $this->getRequest();
         $postData = $request->get('marca_filebundle_filetype');
         $project = $postData['project'];
@@ -257,7 +257,7 @@ class FileController extends Controller
      * @Route("/{courseid}/{resource}/{tag}/{id}/edit_modal", name="file_edit_modal")
      * @Template("MarcaFileBundle:File:edit_modal.html.twig")
      */
-    public function editModalAction($id, $courseid)
+    public function editModalAction($id, $courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -265,7 +265,7 @@ class FileController extends Controller
         
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $options = array('courseid' => $courseid);
+        $options = array('courseid' => $courseid, 'resource'=> $resource);
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $url = $file->getUrl();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
@@ -300,11 +300,11 @@ class FileController extends Controller
     /**
      * Edits an existing File entity.
      *
-     * @Route("/{courseid}/{id}/update", name="file_update")
+     * @Route("/{courseid}/{resource}/{id}/update", name="file_update")
      * @Method("post")
      * @Template("MarcaFileBundle:File:edit.html.twig")
      */
-    public function updateAction($id,$courseid)
+    public function updateAction($id,$courseid,$resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -312,7 +312,7 @@ class FileController extends Controller
         
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $options = array('courseid' => $courseid);
+        $options = array('courseid' => $courseid, 'resource'=> $resource);
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -415,7 +415,7 @@ class FileController extends Controller
          $userid = $user->getId();
          $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
          $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
-         $options = array('courseid' => $courseid);
+         $options = array('courseid' => $courseid, 'resource'=> $resource);
          $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
          
          $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);

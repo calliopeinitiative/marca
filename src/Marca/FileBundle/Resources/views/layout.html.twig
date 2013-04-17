@@ -26,9 +26,11 @@ $('#file_new_link').click(function(){
 </script>
 <li><legend>{% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}</legend></li>
 
-
+{% if app.request.attributes.get('_route') == 'file_list'%}
+{# check to see if projects are in the current course  #}
+{% for project in projects if project.course.id == app.request.get('courseid') %}
 {# if for resources (only instructor can post to resources)  #}
-{% if app.request.get('resource')=='0' or course.isOwner(app.user.username) %}
+{% if (app.request.get('resource')=='0' or course.isOwner(app.user.username)) and loop.first %}
 <div class="btn-group">
   <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
     Create
@@ -41,6 +43,13 @@ $('#file_new_link').click(function(){
   </ul>
 </div>
 {% endif %}
+{% else %}
+{% endfor %}
+{% endif %}
+
+
+
+
 
 
 {% endblock %}  

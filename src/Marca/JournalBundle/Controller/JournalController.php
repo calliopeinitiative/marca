@@ -31,6 +31,7 @@ class JournalController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();
+        $role = $this->getCourseRole();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course);
@@ -39,7 +40,7 @@ class JournalController extends Controller
         $paginator = $this->get('knp_paginator');
         $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', 1),5);
         
-        return array('journal' => $journal, 'roll' => $roll);
+        return array('journal' => $journal, 'roll' => $roll, 'role' => $role);
     }
     
     /**
@@ -56,6 +57,7 @@ class JournalController extends Controller
         $em = $this->getEm();
         $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $course = $this->getCourse();
+        $role = $this->getCourseRole();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course);
@@ -64,7 +66,7 @@ class JournalController extends Controller
         $paginator = $this->get('knp_paginator');
         $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', 1),5);
         
-        return array('journal' => $journal, 'roll' => $roll, 'user' => $user);
+        return array('journal' => $journal, 'roll' => $roll, 'user' => $user, 'role' => $role);
     }    
 
     /**
