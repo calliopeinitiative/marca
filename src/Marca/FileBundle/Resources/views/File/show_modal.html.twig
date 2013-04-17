@@ -11,52 +11,27 @@
 
 <tr>
 <td> 
-{# different functions for different file types #}    
-{% if file.doc %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">{{ file.name }}</a>
- <a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}"><i class="icon-share-alt"></i></a>
-{% elseif file.url %}<i class="icon-adjust"></i> <a href="{{ file.url}}" target="_blank">{{ file.name }}</a>
-{% elseif file.ext == 'odt' %}<i class="icon-file"></i> <a href="{{ course_path('file_display', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name }}</a>  <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="icon-download"></i></a>
-{% else %}
-<i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="View {{ file.name }}" >{{ file.name }}</a>
-{% endif %}
-
-{% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
-
-{% if app.request.get('scope')=='all' and app.request.get('resource')=='0' %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif%}
 {% if file.project.name %}<strong>{{ file.project.name }}</strong>{% endif%}
+{% for tag in file.tag %}<span class="margin-left label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
 </td>
 </tr>
-
 
 <tr>
 <td>
 Created:  {{ file.created|date('M d Y, g:i a') }}
-Modified:  {{ file.updated|date('M d Y, g:i a') }}
-{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
+<span class='margin-left'>Modified:  {{ file.updated|date('M d Y, g:i a') }}</span>
 </td>
 </tr>
 
-<tr>
-<td>
-{{ file.responses |length }} Response(s)
-</td>
-</tr>
-
-<tr>
-<td>
+</tbody>
+</table>       
+       
+</div>
+<div class="modal-footer">
 {% if app.request.get('source')=='edit_modal' %}
 <form action="{{ course_path('file_delete', { 'id': file.id, 'resource': app.request.get('resource') }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Confirm Delete</button>
  </form>       
-{% endif%}        
-{% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>{% endif%}
-</td>
-</tr>
-
-
-
-
-</tbody>
-</table>
-</div>
+{% endif%}      
+</div> 

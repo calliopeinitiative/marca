@@ -4,18 +4,15 @@
 
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
 {% endblock %}
 
 {% block content %}
  <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_responsebundle_responsetype_body').ckeditor( function() {}, {removePlugins: 'elementspath', height:200,
-toolbar : [
-['Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
-'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
-],} );
+CKEDITOR.replace( 'marca_responsebundle_responsetype_body',  {
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
+} );
 $('form li').addClass('alert alert-error');
 });
 </script>    
@@ -29,7 +26,7 @@ $('form li').addClass('alert alert-error');
         
         <form action="{{ course_path('response_delete', { 'id': response.id, 'source': source, 'sourceid': sourceid,'view': app.request.get('view') }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
+            <button class="btn btn-delete" type="submit">Delete</button>
         </form>    
     </div>
 

@@ -16,7 +16,13 @@ $('.doc-body').css('height', function(index) {
 $('#doctools').css('height', function(index) {
   return $(window).height() * .79;
 });
- });
+
+{% for portfolio in portfolio %} 
+{% if app.request.get('page')==loop.index %}$('#port_td{{loop.index}}').addClass('active');{% else%}$('#port_td1').addClass('active');{% endif %}             
+{% endfor %} 
+
+
+});
 </script>  
 
 <div class="span12 center">
@@ -76,22 +82,22 @@ There are no files in this portfolio.
 <div class="span3"> 
 <div id='doctools' class="span3 well" style='margin-top: -.1em;'> 
 <a class="btn btn-small pull-right" href="{{ course_path('portfolio') }}">Close</a>     
-<dl>
+<table class="table table-hover"> 
         {% for portfolio in portfolio %} 
-            <dd class="pad5">
-             {{portfolio.portitem.name}}
-             </dd> 
-            <dd class="pad5">
+        <tr>
+        <td id="port_td{{loop.index}}" class="port">
+             {{portfolio.portitem.name}}:  
+
              {% if portfolio.file.doc %}<i class="icon-edit"></i> 
-             <a href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a> 
+             <a class='active' href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a> 
              {% elseif portfolio.file.url %}<i class="icon-adjust"></i> <a href="{{ portfolio.file.url}}" target="_blank">{{ portfolio.file.name }}</a>
              {% else %}
              <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
              {% endif %}<i class="icon-share-alt"></i>
-             </dd>    
+             </td>
+            </tr>
         {% endfor %} 
-            
-</dl>
+</table>
 
 
 {# hide ratings is there is no portfolio #}
