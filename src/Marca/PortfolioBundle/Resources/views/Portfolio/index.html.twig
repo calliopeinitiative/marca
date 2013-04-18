@@ -37,7 +37,7 @@ $('#port_{{portfolio.id}}').click(function(){
              <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
              {% endif %}
              <a class="btn btn-mini pull-right" id='port_{{portfolio.id}}' href="javascript:void(0);" title='Remove from portfolio'>Remove</a>  
-             <a class="btn btn-primary btn-mini pull-right" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Edit</a>
+             <a class="btn btn-primary btn-mini pull-right" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Change</a>
      
              </dd>  
             {% endfor %}

@@ -148,8 +148,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 
 {# main list of files #}
 <tr>
-<td> 
-   
+<td>  
 {# different functions for different file types #}    
 {% if file.doc %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">{{ file.name|slice(0, 25) }}</a>
  <a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}"><i class="icon-share-alt"></i></a>
@@ -161,8 +160,6 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 
 {% if file.access==1 %} <span class="label label-success margin-left" data-toggle="tooltip" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
 {% if file.portfolio|length !=0 %} <span class="label label-info" data-toggle="tooltip" title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
-{% if file.responses|length !=0 %} <span class="label darkgoldenrod"  data-toggle="tooltip" title="Someone has offered you some feedback on your document.">Feedback</span>{% endif %}
-
 </td>
 <td>{% if (app.request.get('scope')=='all' or app.request.get('scope')=='byuser') and app.request.get('resource')=='0' %}{{ file.user.firstname|title }} {{ file.user.lastname|title }}{% endif%}</td>
 <td>{% if app.request.get('project')=='recent' %}<strong>{{ file.project.name }}</strong>{% endif %}</td>
@@ -175,7 +172,6 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
     <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         {% if file.isOwner(app.user.username) %}<li><a class='edit_{{file.id}}' href="javascript:void(0);">File Settings</a></li>{% endif%}
-        {% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' and file.portfolio|length == 0 %}<li><a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a></li>{% endif%}
         {% if role == 2 and file.doc %}
         <li><a title="Create a copy of this document for peer review" id="new_grade_{{file.id}}" href="javascript:void(0)">New Instructor Review</a></li>
         {% endif %}
@@ -209,7 +205,6 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
     <li class="dropdown">
     <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        {% if review.isOwner(app.user.username) and review.access==1 and app.request.get('resource')=='0' %}<li><a class="" href="{{ course_path('portfolio_new', { 'fileid': review.id }) }}">Add to Portfolio</a></li>{% endif%}
         {% if review.isOwner(app.user.username) %}<li><a class='edit_{{review.id}}' href="javascript:void(0);">File Settings</a></li>{% endif%}
         {% if review.isOwner(app.user.username) and file.portfolio|length == 0 %}<li><a id='file_show_{{review.id}}' href='javascript:void(0);' class="">Delete</a></li>{% endif%}
         </ul>
