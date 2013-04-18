@@ -93,7 +93,9 @@ var CKBUILDER_CONFIG = {
 		'richcombo' : 1,
 		'listblock' : 1,
 		'menubutton' : 1,
-		'mediaembed' : 1
+		'mediaembed' : 1,
+		'wordcount' : 1,
+		'tableresize' : 1
 	},
 	languages : {
 		'en' : 1,
