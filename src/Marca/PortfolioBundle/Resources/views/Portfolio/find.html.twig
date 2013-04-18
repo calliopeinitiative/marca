@@ -27,7 +27,7 @@ Recent Files</a>
 
 <div class="span9 well"> 
 <table class="table">
-{% for file in files%}
+{% for file in files if  file.portfolio|length ==0 %}
 {# list headings #}        
 {% if loop.first %}        
 <thead>
@@ -69,7 +69,7 @@ Recent Files</a>
 </tr>
 
 {# peer reviews #}
-{% for review in file.reviews%}  
+{% for review in file.reviews if  review.portfolio|length ==0 %}  
 {# show if parent is owner or if the review is shared or if the user is instructor #}
 {% if file.isOwner(app.user.username) or review.isOwner(app.user.username) or review.access==1 or role==2 %} 
 <tr style="background:#FAF9C8;"> 
