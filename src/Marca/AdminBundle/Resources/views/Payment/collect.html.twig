@@ -1,0 +1,17 @@
+{# Marca/AdminBundle/Resources/views/Payment/collect.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block content %}
+<script language="javascript">
+$(document).ready(function()
+{ 
+  $('#transaction_modal').load('{{ path('transaction_modal')}}');
+  $('#transaction_modal').modal();
+});
+</script>
+
+
+<div id="transaction_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
+</div>
+{% endblock %}

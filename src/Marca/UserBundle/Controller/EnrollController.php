@@ -76,11 +76,18 @@ class EnrollController extends Controller
      */
     public function enrollCourseAction($courseid)
     {
-       $user = $this->getUser();
-       $course = $this->getCourse();
-       $em = $this->getEm(); 
-       $em->getRepository('MarcaCourseBundle:Roll')->enroll($course, $user);
-       return $this->redirect($this->generateUrl('user_home'));
+       if($this->container->getParameter('pay_to_enroll'))
+       {
+            return $this->redirect($this->generateUrl('payment'));
+       }
+       else
+       {
+            $user = $this->getUser();
+            $course = $this->getCourse();
+            $em = $this->getEm(); 
+            $em->getRepository('MarcaCourseBundle:Roll')->enroll($course, $user);
+            return $this->redirect($this->generateUrl('user_home'));
+       }
     }  
     
     

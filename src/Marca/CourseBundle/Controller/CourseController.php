@@ -30,7 +30,7 @@ class CourseController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getEm(); 
+        $em = $this->getEm();
         $user = $this->getUser();
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUser($user);
         return array('courses' => $courses);
