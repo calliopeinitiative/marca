@@ -1,0 +1,39 @@
+{# Marca/AdminBundle/Resources/views/Default/index.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% block content %}
+<script language="javascript">
+$(document).ready(function()
+{    
+$('#new_inst').click(function(){
+  $('#inst_modal').load('{{ path('inst_new_modal') }}');
+  $('#inst_modal').modal();
+});
+});
+</script>
+
+
+<div class="span9 well">
+<legend>Institutions</legend>
+
+<a class="btn btn-small btn-primary" id="new_inst" href="javascript:void(0);">Create New Institution</a>
+
+</div>
+<div class="span9 well">
+    <legend> Current Institutions</legend> 
+<table class="table">   
+<tbody>    
+{% for institution in institutions %}
+        <tr>
+            <td>{{institution.name}}</td>
+       </tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+{# Modal #}
+<div id="inst_modal" class="modal hide fade" tabindex="-1" role="dialog">     
+</div>
+
+{% endblock %}
