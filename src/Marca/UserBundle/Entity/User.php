@@ -96,6 +96,11 @@ class User extends BaseUser
      */
     private $share_email = false;
     
+    /**
+     * @ORM\Column(name="customer_id", type="string", length=255, nullable=true)
+     */
+    private $customer_id = null;
+    
     public function __construct()
     {
         parent::__construct();
@@ -469,4 +474,21 @@ class User extends BaseUser
         //return $this->markupsets;
     }
 
+     public function setCustomer_id($customer_id)
+    {
+        $this->customer_id = $customer_id;
+    
+        return $this;
+    }
+
+    /**
+     * Get photo
+     *
+     * @return string 
+     */
+    public function getCustomer_id()
+    {
+        return $this->customer_id;
+    }
+    
 }
