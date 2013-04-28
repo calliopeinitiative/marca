@@ -26,7 +26,9 @@ $('#new_inst').click(function(){
 {% for institution in institutions %}
         <tr>
             <td>{{institution.name}}</td>
-       </tr>
+            <td>{% if institution.PaymentType == 0 %}No Payment Required{% endif %}{% if institution.PaymentType == 1 %}Bookstore Payment{% endif %}{% if institution.PaymentType == 2 %}In App Payment{% endif %}{% if institution.PaymentType == 3 %}Bookstore and In App Payment{% endif %}</td>
+            <td>${{ institution.SemesterPrice / 100 }}</td>
+        </tr>
 {% endfor %}
 </tbody>
 </table>
