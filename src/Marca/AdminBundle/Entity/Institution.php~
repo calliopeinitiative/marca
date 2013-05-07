@@ -48,7 +48,7 @@ class Institution
     protected $users;
     
     /**
-     * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="Institution", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Marca\UserBundle\Entity\Course", mappedBy="Institution", cascade={"persist"})
      */
     protected $courses;
     
@@ -168,38 +168,5 @@ class Institution
     public function getUsers()
     {
         return $this->users;
-    }
-
-    /**
-     * Add courses
-     *
-     * @param \Marca\CourseBundle\Entity\Course $courses
-     * @return Institution
-     */
-    public function addCourse(\Marca\CourseBundle\Entity\Course $courses)
-    {
-        $this->courses[] = $courses;
-    
-        return $this;
-    }
-
-    /**
-     * Remove courses
-     *
-     * @param \Marca\CourseBundle\Entity\Course $courses
-     */
-    public function removeCourse(\Marca\CourseBundle\Entity\Course $courses)
-    {
-        $this->courses->removeElement($courses);
-    }
-
-    /**
-     * Get courses
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCourses()
-    {
-        return $this->courses;
     }
 }

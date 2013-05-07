@@ -49,17 +49,21 @@ $('form li').addClass('alert alert-error');
             </div>
     
             <div class="span3 well">
-            {{ form_row (form.parents) }} 
+            {{ form_row (form.institution) }}
             </div> 
-      
+        
+            <div class="span3 well">
+            {{ form_row (form.parents) }}
+            </div>
+        
             <div class="span3 well">        
             {{ form_row (form.tagset) }}
             </div> 
     
             <div class="span3 well">    
             {{ form_row (form.markupsets) }}
+            
             </div> 
- 
             {{ form_rest(form) }}    
         
       <div class="span8 well">

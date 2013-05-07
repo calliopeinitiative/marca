@@ -43,7 +43,12 @@
         <td>{% for course in course.parents %}{{ course.name }}</br>{% else %}No associated courses{% endfor %}</td>         
     </tr>
     </tr>
-
+    
+    <tr>
+        <th>Institution</th>
+        <td>{{ course.institution.name }}</td>
+    </tr>
+    
      <tr>
         <th>Label Sets</th>         
         <td>{% for tagset in tagsets %}{{ tagset.name}}{% if not loop.last %}, {% endif %}{% endfor %}</td>         

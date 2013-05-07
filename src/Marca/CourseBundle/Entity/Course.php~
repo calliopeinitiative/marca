@@ -905,27 +905,4 @@ class Course
     {
         return $this->assessmentset;
     }
-
-    /**
-     * Set institution
-     *
-     * @param \Marca\AdminBundle\Entity\Institution $institution
-     * @return Course
-     */
-    public function setInstitution(\Marca\AdminBundle\Entity\Institution $institution = null)
-    {
-        $this->institution = $institution;
-    
-        return $this;
-    }
-
-    /**
-     * Get institution
-     *
-     * @return \Marca\AdminBundle\Entity\Institution 
-     */
-    public function getInstitution()
-    {
-        return $this->institution;
-    }
 }

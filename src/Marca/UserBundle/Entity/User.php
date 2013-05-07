@@ -101,6 +101,12 @@ class User extends BaseUser
      */
     private $customer_id = null;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="user", cascade={"persist"})
+     * @ORM\JoinColumn(name="institution_id", referencedColumnName="id")
+     */
+    protected $institution; 
+    
     public function __construct()
     {
         parent::__construct();
@@ -491,4 +497,50 @@ class User extends BaseUser
         return $this->customer_id;
     }
     
+
+    /**
+     * Set customer_id
+     *
+     * @param string $customerId
+     * @return User
+     */
+    public function setCustomerId($customerId)
+    {
+        $this->customer_id = $customerId;
+    
+        return $this;
+    }
+
+    /**
+     * Get customer_id
+     *
+     * @return string 
+     */
+    public function getCustomerId()
+    {
+        return $this->customer_id;
+    }
+
+    /**
+     * Set institution
+     *
+     * @param \Marca\AdminBundle\Entity\Institution $institution
+     * @return User
+     */
+    public function setInstitution(\Marca\AdminBundle\Entity\Institution $institution = null)
+    {
+        $this->institution = $institution;
+    
+        return $this;
+    }
+
+    /**
+     * Get institution
+     *
+     * @return \Marca\AdminBundle\Entity\Institution 
+     */
+    public function getInstitution()
+    {
+        return $this->institution;
+    }
 }
