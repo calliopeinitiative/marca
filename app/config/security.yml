@@ -9,7 +9,7 @@ security:
             id: fr3d_ldap.security.user.provider
 
         fos_userbundle:
-            id: fos_user.user_manager
+            id: fos_user.user_provider.username
 
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
@@ -19,8 +19,8 @@ security:
             pattern: ^/
             fr3d_ldap:  ~
             form_login:
-                always_use_default_target_path: true
-                default_target_path: /user/home            
+                csrf_provider: form.csrf_provider
+                default_target_path: /user/home          
             logout:
                 path:   /logout
                 target: /home
