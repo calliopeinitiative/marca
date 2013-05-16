@@ -23,6 +23,8 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    globals:
+      application_name:       %app_name%
 
 # Assetic Configuration
 assetic:
@@ -137,5 +139,4 @@ knp_snappy:
         binary:     %wkhtmltopdf_path%
         options:    [] 
         
-
   

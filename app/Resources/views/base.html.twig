@@ -43,7 +43,7 @@
           
             
             {% if is_granted('ROLE_USER') %}
-            <a class="brand" href="{{ path('user_home') }}" title="Marca Homepage">Marca</a> 
+            <a class="brand" href="{{ path('user_home') }}" title="{{ application_name }} Homepage">{{ application_name }}</a> 
             <div class="nav-collapse">
             <ul class="nav">  
             {% block subnav %}{% endblock %} 
@@ -60,7 +60,7 @@
             </ul>
             </div><!-- /nav-collapse -->
             {% else %}
-            <a class="brand" href="{{ path('home') }}" title="Marca Homepage">Marca</a>
+            <a class="brand" href="{{ path('home') }}" title="{{ application_name }} Homepage">{{ application_name }}</a>
             <ul class="nav pull-right">
             <li> <a class='active' title="Login" href="{{ path('fos_user_security_login') }}">Login</a></li>
             </ul>
