@@ -25,6 +25,7 @@ $('form li').addClass('alert alert-error');
 <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate"> 
             {{ form_errors(form) }}
             <div class="span3 well">
+            {{ form_row (form.institution) }}    
             {{ form_row (form.name) }}    
             {{ form_row (form.term) }}
             {{ form_row (form.time) }}
@@ -48,9 +49,6 @@ $('form li').addClass('alert alert-error');
             {{ form_row (form.zine) }} 
             </div>
     
-            <div class="span3 well">
-            {{ form_row (form.institution) }}
-            </div> 
         
             <div class="span3 well">
             {{ form_row (form.parents) }}

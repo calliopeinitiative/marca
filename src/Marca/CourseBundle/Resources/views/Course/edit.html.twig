@@ -31,6 +31,7 @@ $('form li').addClass('alert alert-error');
         
             {{ form_errors(edit_form) }}
             <div class="span3 well">
+            {{ form_row (edit_form.institution) }}
             {{ form_row (edit_form.name) }}    
             {{ form_row (edit_form.term) }}
             {{ form_row (edit_form.time) }}

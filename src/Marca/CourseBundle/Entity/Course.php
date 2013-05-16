@@ -191,7 +191,7 @@ class Course
     private $pendingFlag = false; 
     
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="course", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="courses", cascade={"persist"})
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id")
      */
     protected $institution; 

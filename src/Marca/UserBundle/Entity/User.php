@@ -128,7 +128,7 @@ class User extends BaseUser implements LdapUserInterface
     private $customer_id = null;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="user", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="users", cascade={"persist"})
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id")
      */
     protected $institution; 

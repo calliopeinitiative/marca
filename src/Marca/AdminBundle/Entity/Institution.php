@@ -43,12 +43,12 @@ class Institution
     private $semester_price;
     
     /**
-     * @ORM\OneToMany(targetEntity="Marca\UserBundle\Entity\User", mappedBy="Institution", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Marca\UserBundle\Entity\User", mappedBy="institution", cascade={"persist"})
      */
     protected $users;
     
     /**
-     * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="Institution", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="institution", cascade={"persist"})
      */
     protected $courses;
     
