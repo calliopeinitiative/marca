@@ -1,13 +1,6 @@
 # app/config/security.yml
 security:
     providers:
-        chain_provider:
-            chain:
-                providers: [fos_userbundle, fr3d_ldapbundle]
-
-        fr3d_ldapbundle:
-            id: fr3d_ldap.security.user.provider
-
         fos_userbundle:
             id: fos_user.user_provider.username
 
@@ -17,10 +10,10 @@ security:
     firewalls:
         main:
             pattern: ^/
-            fr3d_ldap:  ~
             form_login:
+                provider: fos_userbundle
                 csrf_provider: form.csrf_provider
-                default_target_path: /user/home          
+                default_target_path: /user/home            
             logout:
                 path:   /logout
                 target: /home

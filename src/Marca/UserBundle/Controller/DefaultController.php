@@ -24,6 +24,10 @@ class DefaultController extends Controller
     {
         $em = $this->getEm();
         $user = $this->getUser();
+        $id = $user->getId();
+        if ($user->getLastname()==''){
+            return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
+        }
         $username = $user->getFirstname().' '.$user->getLastname();
         $session = $this->get('session'); 
         $session->set('username', $username); 
