@@ -64,8 +64,8 @@ swiftmailer:
 
 fr3d_ldap:
     client:
-        host:                eds.uga.edu
-        port:                636    # Optional
+        host:                %ldap_host%
+        port:                %ldap_port%
 #       username:            foo    # Optional
 #       password:            bar    # Optional
 #       bindRequiresDn:      true   # Optional
@@ -78,9 +78,8 @@ fr3d_ldap:
         baseDn: ou=users,o=uga
         filter: (&(ObjectClass=Person))
         attributes:          # Specify ldap attributes mapping [ldap attribute, user object method]
-           - { ldap_attr: uid,  user_method: setUsername } # Default
-#           - { ldap_attr: cn,   user_method: setUsername }     # Optional
-#           - { ldap_attr: ...,  user_method: ... }         # Optional
+           - { ldap_attr: uid,  user_method: setUsername }
+           - { ldap_attr: mail,   user_method: setEmail } 
     service:
         user_manager: fos_user.user_manager          # Overrides default user manager
 

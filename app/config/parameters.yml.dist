@@ -15,7 +15,10 @@ parameters:
     mailer_encryption:  xxxx
     from_email:        xxxx
 
+    ldap_host:         xxx.xxx.xxx
+    ldap_port:         xxx
+
     locale:            xxxx
-    secret:            xxxxX
+    secret:            xxxx
 
 

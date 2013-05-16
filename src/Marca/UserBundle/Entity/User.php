@@ -5,6 +5,7 @@ namespace Marca\UserBundle\Entity;
 
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use FR3D\LdapBundle\Model\LdapUserInterface;
 
@@ -45,15 +46,17 @@ class User extends BaseUser implements LdapUserInterface
        
     /**
      * @var string $lastname
+     * @Assert\NotBlank()
      *
-     * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
+     * @ORM\Column(name="lastname", type="string", length=255, nullable=false)
      */
     private $lastname;
 
     /**
      * @var string $firstname
+     * @Assert\NotBlank()
      *
-     * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
+     * @ORM\Column(name="firstname", type="string", length=255, nullable=false)
      */
     private $firstname;
     
