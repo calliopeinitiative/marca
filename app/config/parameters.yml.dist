@@ -20,5 +20,6 @@ parameters:
 
     locale:            xxxx
     secret:            xxxx
+    app_name:          XXXXX
 
 
