@@ -9,16 +9,35 @@
 </div>
 
 
-<div class="span9 well">
-    {% for tagset in tagsets%}
-    
-    <strong>{{ tagset.name }}</strong> {% if tagset.isOwner(app.user.username) %}<a class='btn btn-primary btn-small  pull-right' href="{{ path('tag_new') }}">Add Label</a><a class="btn btn-primary  btn-small pull-right" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit</a> {% endif %} 
-    <table class="table">
-    {% for tag in tagset.tag %}
+<div class="accordion" id="markup_accordian">
+  
+{% for tagset in tagsets%}   
+ <div class="accordion-group span8 well">     
+
+    <div class="accordion-heading">
+      <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#tag_accordian" href="#collapse{{loop.index}}">
+        {{ tagset.name }}
+      </a> {% if tagset.shared==1 %}Shared{% elseif tagset.shared==2 %}Default{%endif%}
+      {% if tagset.isOwner(app.user.username) %}{% if tagset.isOwner(app.user.username) %}<a class='btn btn-primary btn-small  pull-right' href="{{ path('tag_new') }}">Add Label</a><a class="btn btn-primary  btn-small pull-right" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit</a> {% endif %} {% endif %}       
+    </div>
+    <div id="collapse{{loop.index}}" class="accordion-body collapse">
+      <div class="accordion-inner">
+          
+           <table class="table">
+           {% for tag in tagset.tag %}
             <tr><td><span class="label {{ tag.color }}">{{ tag.name }}</span></td><td>{% if tagset.isOwner(app.user.username) %}<a class="btn btn-primary  btn-small pull-right" href="{{ path('tag_edit', { 'id': tag.id }) }}">Edit</a>{% endif %}</td></tr>
-    {% endfor %}
-    </table> 
+           {% endfor %}
+           </table>
+          
+    </div>
+    </div>
+
+</div>    
+{% endfor %}    
     
-    {% endfor %}
+
+
 </div>
+
+
 {% endblock %}

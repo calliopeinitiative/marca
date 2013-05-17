@@ -13,6 +13,7 @@ class PortsetType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
+            ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes', 2 => 'Default'),'required'  => true,'label'  => 'Share your Portfolio set?', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))    
         ;
     }
     

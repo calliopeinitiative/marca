@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class PortsetRepository extends EntityRepository
 {
+    
+   public function findDefault(){
+        return $this->getEntityManager()
+                ->createQuery('SELECT p from MarcaPortfolioBundle:Portset p  WHERE p.shared = 2')->getSingleResult();
+    }   
 }

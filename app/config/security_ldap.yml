@@ -38,6 +38,7 @@ security:
         - { path: ^/objective/, role: ROLE_ADMIN }
         - { path: ^/scale/, role: ROLE_ADMIN }
         - { path: ^/scaleitem/, role: ROLE_ADMIN }
+        - { path: ^/page/, role: ROLE_ADMIN }
         - { path: ^/user_profile/, role: ROLE_USER }
         - { path: ^/journal/, role: ROLE_USER }
         - { path: ^/forum/, role: ROLE_USER }

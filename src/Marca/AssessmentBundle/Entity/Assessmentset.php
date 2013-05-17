@@ -36,6 +36,13 @@ class Assessmentset
     private $description;
     
     /**
+     * @var integer $shared
+     *
+     * @ORM\Column(name="shared", type="integer", nullable=true)
+     */
+    private $shared=0;      
+    
+    /**
     * @ORM\OneToMany(targetEntity="Marca\AssessmentBundle\Entity\Objective", mappedBy="assessmentset")
     */
     protected $objectives;  
@@ -173,5 +180,28 @@ class Assessmentset
     public function getCourse()
     {
         return $this->course;
+    }
+
+    /**
+     * Set shared
+     *
+     * @param integer $shared
+     * @return Assessmentset
+     */
+    public function setShared($shared)
+    {
+        $this->shared = $shared;
+    
+        return $this;
+    }
+
+    /**
+     * Get shared
+     *
+     * @return integer 
+     */
+    public function getShared()
+    {
+        return $this->shared;
     }
 }

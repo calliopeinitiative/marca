@@ -13,6 +13,7 @@ class AssessmentsetType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
+            ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes', 2 => 'Default'),'required'  => true,'label'  => 'Share your Assessment set?', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))   
         ;
     }
 

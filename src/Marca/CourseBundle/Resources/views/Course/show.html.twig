@@ -7,7 +7,8 @@
 
 
 <div class="span9 well">
-<legend><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Settings</legend> 
+<legend><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a>  Settings</legend> 
+<a href="{{ path('course_home',{'courseid':course.id}) }}">Enter {{course.name}} now.</a> 
 </div> 
     
     
@@ -57,12 +58,6 @@
         <th>Markup Sets</th>
         <td>{% for markupset in course.markupsets %}{{ markupset.name}}{% if not loop.last %}, {% endif %}{% endfor %}</td>
     </tr>     
-</tbody>
-</table>
-    
-<legend>Tools</legend>
-<table class="table"> 
-    <tbody>
     <tr>
         <th>Journal</th>         
         <td>{{ course.journal=='t' ? 'Yes' : 'No' }}</td>         

@@ -12,7 +12,7 @@ class TagsetType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes'),'required'  => true,'label'  => 'Share your Label sets?', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))   
+            ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes', 2 => 'Default'),'required'  => true,'label'  => 'Share your Label sets?', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))   
         ;
     }
     

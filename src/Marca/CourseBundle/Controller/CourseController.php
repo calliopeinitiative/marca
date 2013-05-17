@@ -108,9 +108,21 @@ class CourseController extends Controller
         if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
         throw new AccessDeniedException();
         }
+        $em = $this->getEm();
+        $tagset = $em->getRepository('MarcaTagBundle:Tagset')->findDefault();
+        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findDefault();
+        $portset = $em->getRepository('MarcaPortfolioBundle:Portset')->findDefault();  
+        $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->findDefault();         
         $course = new Course();
         $course->setUser($user);
-        
+        $course->setPortset($portset); 
+        $course->setAssessmentset($assessmentset);        
+        foreach ($tagset as &$tagset) {
+        $course->addTagset($tagset);    
+        };
+        foreach ($markupsets as &$markupset) {
+        $course->addMarkupset($markupset);    
+        };
         
         $form   = $this->createForm(new CourseType($options), $course);
 
@@ -119,6 +131,7 @@ class CourseController extends Controller
             'form'   => $form->createView()
         );
     }
+      
 
     /**
      * Creates a new Course entity.

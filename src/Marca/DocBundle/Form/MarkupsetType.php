@@ -14,7 +14,7 @@ class MarkupsetType extends AbstractType
             ->add('name')
             ->add('description')  
             ->add('sortorder')     
-            ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes'),'required'  => true,'label'  => 'Share your  Markup Set', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))   
+            ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes', 2 => 'Default'),'required'  => true,'label'  => 'Share your  Markup Set', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))   
         ;
     }
 

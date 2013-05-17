@@ -34,6 +34,13 @@ class Portset
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
+    
+    /**
+     * @var integer $shared
+     *
+     * @ORM\Column(name="shared", type="integer", nullable=true)
+     */
+    private $shared=0;      
 
     /**
     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")
@@ -194,5 +201,28 @@ class Portset
     public function removePortitem(\Marca\PortfolioBundle\Entity\Portitem $portitem)
     {
         $this->portitem->removeElement($portitem);
+    }
+
+    /**
+     * Set shared
+     *
+     * @param integer $shared
+     * @return Portset
+     */
+    public function setShared($shared)
+    {
+        $this->shared = $shared;
+    
+        return $this;
+    }
+
+    /**
+     * Get shared
+     *
+     * @return integer 
+     */
+    public function getShared()
+    {
+        return $this->shared;
     }
 }

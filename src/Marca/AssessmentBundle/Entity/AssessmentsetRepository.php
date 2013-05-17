@@ -13,5 +13,10 @@ use Doctrine\ORM\EntityRepository;
 class AssessmentsetRepository extends EntityRepository
 {
 
+    public function findDefault(){
+        return $this->getEntityManager()
+                ->createQuery('SELECT a from MarcaAssessmentBundle:Assessmentset a  WHERE a.shared = 2')->getSingleResult();
+    }    
+    
     
 }

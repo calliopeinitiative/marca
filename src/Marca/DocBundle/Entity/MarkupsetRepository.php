@@ -25,6 +25,11 @@ class MarkupsetRepository extends EntityRepository
     public function findMarkupSetsByOwner($owner){
         return $this->getEntityManager()
                 ->createQuery('SELECT m from MarcaDocBundle:Markupset m JOIN m.users u WHERE u.id = ?1 ORDER BY m.sortorder')->setParameter('1', $owner->getId())->getResult();
-    }   
+    } 
+    
+    public function findDefault(){
+        return $this->getEntityManager()
+                ->createQuery('SELECT m from MarcaDocBundle:Markupset m  WHERE m.shared = 2')->getResult();
+    }    
     
 }

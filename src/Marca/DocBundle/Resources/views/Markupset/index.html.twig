@@ -18,9 +18,9 @@
 
     <div class="accordion-heading">
       <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#markup_accordian" href="#collapse{{loop.index}}">
-        {{ markupset.name }}
-      </a>
-      <a class="btn btn-primary btn-small pull-right" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit</a>       
+        {{ markupset.name }} 
+      </a> {% if markupset.shared==1 %}Shared{% elseif markupset.shared==2 %}Default{%endif%}
+      {% if markupset.isOwner(app.user.username) %}<a class="btn btn-primary btn-small pull-right" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit</a> {% endif %}       
     </div>
     <div id="collapse{{loop.index}}" class="accordion-body collapse">
       <div class="accordion-inner">
@@ -31,7 +31,7 @@
            {% if markupset.isOwner(app.user.username) %}
            
            <a class='btn btn-primary btn-small' href="{{ path('markup_new', { 'set_id' : markupset.getid}) }}">Add Tag</a>
-           <a class='btn btn-primary btn-small' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Inport Tags</a>
+           <a class='btn btn-primary btn-small' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Import Tags</a>
            {% endif %} 
            </td>
            </tr>

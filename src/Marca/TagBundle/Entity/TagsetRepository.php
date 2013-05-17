@@ -31,5 +31,12 @@ class TagsetRepository extends EntityRepository
                ->createQuery('SELECT t from MarcaTagBundle:Tag t WHERE t.systemtag = 1')
                ->getResult();
     }
+
+    public function findDefault()
+    {  
+       return $this->getEntityManager()
+               ->createQuery('SELECT t from MarcaTagBundle:Tagset t WHERE t.shared = 2')
+               ->getResult();
+    }
     
 }
