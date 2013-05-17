@@ -4,36 +4,37 @@
 
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
 {% endblock %}
 
 {% block content %}
 <script language="javascript"> 
 $(document).ready(function()
 {
-$('#marca_homebundle_pagetype_body').ckeditor( function() {}, {height:600, skin: 'BootstrapCK-Skin',forcePasteAsPlainText : true,
-toolbar : [
-['Source','Bold','Italic','Underline','Font','FontSize','TextColor','BGColor','Link','Unlink','NumberedList',
-'BulletedList','Outdent','Indent','Image','SpecialChar','RemoveFormat'],
-],} );
+var winheight = $(document).height() * .50;
+
+CKEDITOR.replace( 'marca_homebundle_pagetype_body',  {
+    height: winheight,
+    stylesSet: 'marca_styles',
+    toolbar : [
+    ['Source','Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight'],['TextColor','BGColor'],['Link','Unlink'],
+    ['NumberedList','BulletedList'],['Outdent','Indent'],['Image','MediaEmbed'],['Undo','Redo'],['RemoveFormat']
+    ],
+    contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}',
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
+} );
 });
 </script>
-<div class="row-fluid">     
-  
-<div class="span1">        
-<form action="{{ path('page_delete', { 'id': page.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
-</form>
-</div>
+
   
 </div>
-<div class="row-fluid">    
+<div class="span9 well">    
 <form action="{{ path('page_update', { 'id': page.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}
-    <div>
-        <button class="btn" type="submit">Edit</button>
-    </div>
+        <button class="btn btn-primary" type="submit">Update</button><a class='btn' href="{{ path('page') }}">Cancel</a>
 </form>
+<form action="{{ path('page_delete', { 'id': page.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-delete" type="submit">Delete</button>
+</form>        
 </div>
 {% endblock %}

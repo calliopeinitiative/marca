@@ -1,30 +1,22 @@
 {# Marca/HomeBundle/Resources/views/Page/index.html.twig #}
 
-{% extends 'MarcaHomeBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-   <div class="span4">
-      <a class="btn btn-primary" href="{{ path('page_new') }}">New</a>
-   </div>
-</div> 
+<div class="span9 well">
+<legend>Pages</legend>
+      <a class="btn btn-primary" href="{{ path('page_new') }}">New Page</a>
+</div>
 
-<div class="row-fluid">
-<div class="span6">
-<table class="table table-bordered table-condensed table-striped">
-<thead>
-    <tr>        
-        <th>Id</th>        
-        <th>Body</th>        
-        <th>Actions</th>
-    </tr>
-</thead>    
+
+<div class="span9 well">
+<table class="table">  
 <tbody>
     {% for page in pages %}
-    <tr>        
-        <td><a href="{{ path('page_show', { 'id': page.id }) }}">{{ page.id }}</a></td>        
-        <td>{{ page.body }}</td>        
-        <td><div class="btn-group"><a class="btn" href="{{ path('page_show', { 'id': page.id }) }}">show</a><a class="btn" href="{{ path('page_edit', { 'id': page.id }) }}">edit</a></div>
+    <tr>               
+        <td>{{ page.title }}</td> 
+        <td>{% if page.homepage==1%}Displayed on homepage{% endif %}</td> 
+        <td><a class="btn" href="{{ path('page_show', { 'id': page.id }) }}">show</a><a class="btn btn-primary" href="{{ path('page_edit', { 'id': page.id }) }}">edit</a>
 
 </td>       
     </tr>

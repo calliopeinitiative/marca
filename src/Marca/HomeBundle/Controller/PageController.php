@@ -63,7 +63,7 @@ class PageController extends Controller
     public function newAction()
     {
         $page = new Page();
-        $page->setBody('<div class="container-fluid"><div class="row-fluid"><div class="span4">Left</hr></div><div class="span4">Center</hr></div><div class="span4">Right</hr></div></div></div>');
+        $page->setBody('<p></p>');
         $form   = $this->createForm(new PageType(), $page);
 
         return array(

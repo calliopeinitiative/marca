@@ -19,6 +19,10 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return array();
+        $em = $this->getEm();
+
+        $pages = $em->getRepository('MarcaHomeBundle:Page')->findAll();
+
+        return array('pages' => $pages);
     }
 }
