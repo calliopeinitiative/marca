@@ -16,7 +16,7 @@ class CourseType extends AbstractType
         $user = $course->getUser();
         $userid = $course->getUser()->getId();
         $builder
-            ->add('name')
+            ->add('name', 'text', array('label'=>'Course Name'))
             ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'property'=>'termName', ))
             ->add('parents','entity', array('class'=> 'MarcaCourseBundle:Course', 'query_builder' => function(\Marca\CourseBundle\Entity\CourseRepository $cr) use             ($user){
             $qb = $cr->createQueryBuilder('MarcaCourseBundle:Course');
@@ -24,7 +24,7 @@ class CourseType extends AbstractType
             return $qb;
             }
             ,'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select associated courses','required' => false,)) 
-            ->add('time', 'time', array('widget' => 'single_text')) 
+            ->add('time', 'time', array('widget' => 'single_text','label'=>'Course Time')) 
             ->add('enroll','checkbox', array('label'  => 'Allow students to enroll','attr' => array('class' => 'checkbox inline'),))
             ->add('post', 'checkbox', array('label'  => 'Allow student to post documents','attr' => array('class' => 'checkbox inline'),))
             ->add('multicult', 'hidden') 
