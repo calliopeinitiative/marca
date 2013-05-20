@@ -8,8 +8,7 @@
 
 
 {% block sidebar %}
-       <li><legend>Home</legend></li>
-       {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+       {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") and ldap_auth!='yes' %}
              <li><a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a></li>
        {% endif %}      
        {% if is_granted('ROLE_USER') %}

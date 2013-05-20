@@ -25,6 +25,7 @@ twig:
     strict_variables: %kernel.debug%
     globals:
       application_name:       %app_name%
+      ldap_auth:              %ldap%
 
 # Assetic Configuration
 assetic:

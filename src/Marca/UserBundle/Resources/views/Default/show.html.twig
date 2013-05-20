@@ -25,8 +25,9 @@
    
 
 <a class="btn btn-primary" title="Edit Profile" href="{{ path('user_edit', { 'id': user.id }) }}">Edit Profile</a>
-
+{% if ldap_auth!='yes' %}
 <a class="btn btn-primary" title="Change Password" href="{{ path('fos_user_change_password') }}">Change Password</a>
+{% endif %}
 </div>
 </div>  
 {% endblock %}
