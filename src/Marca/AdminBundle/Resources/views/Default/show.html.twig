@@ -9,6 +9,8 @@
     <li>{% for role in user.roles %}{{ role }} {% endfor %}</li>
     <li><a href="{{ path('user_promote', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Promote Instr.</a></li>
     <li><a href="{{ path('user_demote', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Demote Instr.</a></li>
+    <li><a href="{{ path('user_promote', { 'username': user.username, 'role': 'ROLE_ADMIN' }) }}">Promote Admin.</a></li>
+    <li><a href="{{ path('user_demote', { 'username': user.username, 'role': 'ROLE_ADMIN' }) }}">Demote Admin.</a></li>    
 </ul>
 
 {% endblock %}
