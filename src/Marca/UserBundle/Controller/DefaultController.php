@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\UserBundle\Entity\User;
 use Marca\UserBundle\Form\UserType;
+use Marca\UserBundle\Form\NewuserType;
 
 /**
  * Enroll controller.
@@ -90,8 +91,12 @@ class DefaultController extends Controller
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
-
-        $editForm = $this->createForm(new UserType(), $user);
+        if (strlen($user->getLastname())==0 or strlen($user->getFirstname())==0) {
+            $editForm = $this->createForm(new NewuserType(), $user);
+        }
+        else {
+            $editForm = $this->createForm(new UserType(), $user);
+        }
 
         return array(
             'user'      => $user,
@@ -126,7 +131,7 @@ class DefaultController extends Controller
             $em->persist($user);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('user_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('user_show'));
         }
 
         return array(
