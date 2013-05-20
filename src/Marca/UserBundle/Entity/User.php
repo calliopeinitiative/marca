@@ -46,6 +46,7 @@ class User extends BaseUser implements LdapUserInterface
        
     /**
      * @var string $lastname
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
      */
@@ -53,6 +54,7 @@ class User extends BaseUser implements LdapUserInterface
 
     /**
      * @var string $firstname
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      */
