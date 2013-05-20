@@ -1,3 +1,7 @@
+default:
+    pattern:  /
+    defaults: { _controller: MarcaHomeBundle:Default:index }
+
 marca_assessment:
     resource: "@MarcaAssessmentBundle/Controller/"
     type:     annotation
