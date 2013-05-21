@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Marca\CourseBundle\Entity\Course
  *
- * @ORM\Table()
+ * @ORM\Table(name="course")
  * @ORM\Entity(repositoryClass="Marca\CourseBundle\Entity\CourseRepository")
  */
 class Course

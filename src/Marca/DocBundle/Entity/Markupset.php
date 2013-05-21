@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Marca\DocBundle\Entity\Markupset
  *
- * @ORM\Table()
+ * @ORM\Table(name="markupset")
  * @ORM\Entity(repositoryClass="Marca\DocBundle\Entity\MarkupsetRepository")
  */
 class Markupset

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Scale
  *
- * @ORM\Table()
+ * @ORM\Table(name="scale")
  * @ORM\Entity(repositoryClass="Marca\AssessmentBundle\Entity\ScaleRepository")
  */
 class Scale

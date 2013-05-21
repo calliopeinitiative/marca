@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Marca\JournalBundle\Entity\Journal
  *
- * @ORM\Table()
+ * @ORM\Table(name="journal")
  * @ORM\Entity(repositoryClass="Marca\JournalBundle\Entity\JournalRepository")
  */
 class Journal

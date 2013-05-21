@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
 * Marca\CourseBundle\Entity\Roll
 *
-* @ORM\Table()
+* @ORM\Table(name="roll")
 * @ORM\Entity(repositoryClass="Marca\CourseBundle\Entity\RollRepository")
 */
 class Roll

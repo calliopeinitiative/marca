@@ -7,7 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Ratingset
  *
- * @ORM\Table()
+ * @ORM\Table(name="ratingset")
  * @ORM\Entity(repositoryClass="Marca\AssessmentBundle\Entity\RatingsetRepository")
  */
 class Ratingset

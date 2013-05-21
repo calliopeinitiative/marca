@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Marca\PortfolioBundle\Entity\Portset
  *
- * @ORM\Table()
+ * @ORM\Table(name="portset")
  * @ORM\Entity(repositoryClass="Marca\PortfolioBundle\Entity\PortsetRepository")
  */
 class Portset

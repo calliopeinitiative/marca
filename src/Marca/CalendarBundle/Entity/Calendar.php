@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Marca\CalendarBundle\Entity\Calendar
  *
- * @ORM\Table()
+ * @ORM\Table(name="calendar")
  * @ORM\Entity(repositoryClass="Marca\CalendarBundle\Entity\CalendarRepository")
  */
 class Calendar

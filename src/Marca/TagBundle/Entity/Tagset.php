@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Marca\TagBundle\Entity\Tagset
  *
- * @ORM\Table()
+ * @ORM\Table(name="tagset")
  * @ORM\Entity(repositoryClass="Marca\TagBundle\Entity\TagsetRepository")
  */
 class Tagset

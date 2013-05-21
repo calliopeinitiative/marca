@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Marca\CourseBundle\Entity\Term
  *
- * @ORM\Table()
+ * @ORM\Table(name="term")
  * @ORM\Entity
  */
 class Term

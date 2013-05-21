@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Marca\TagBundle\Entity\Tag
  *
- * @ORM\Table()
+ * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="Marca\TagBundle\Entity\TagRepository")
  */
 class Tag

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Assessmentset
  *
- * @ORM\Table()
+ * @ORM\Table(name="assessmentset")
  * @ORM\Entity(repositoryClass="Marca\AssessmentBundle\Entity\AssessmentsetRepository")
  */
 class Assessmentset

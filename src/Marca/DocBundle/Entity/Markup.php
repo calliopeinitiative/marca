@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Marca\DocBundle\Entity\Markup
  *
- * @ORM\Table()
+ * @ORM\Table(name="markup")
  * @ORM\Entity(repositoryClass="Marca\DocBundle\Entity\MarkupRepository")
  */
 class Markup

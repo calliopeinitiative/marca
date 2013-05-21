@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Institution
  *
- * @ORM\Table()
+ * @ORM\Table(name="institution")
  * @ORM\Entity
  */
 class Institution

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Marca\CourseBundle\Entity\Project
  *
- * @ORM\Table()
+ * @ORM\Table(name="project")
  * @ORM\Entity(repositoryClass="Marca\CourseBundle\Entity\ProjectRepository")
  */
 class Project

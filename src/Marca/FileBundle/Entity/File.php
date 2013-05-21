@@ -11,7 +11,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * Marca\FileBundle\Entity\File
  *
- * @ORM\Table()
+ * @ORM\Table(name="file")
  * @ORM\Entity(repositoryClass="Marca\FileBundle\Entity\FileRepository")
  * @Vich\Uploadable
  */

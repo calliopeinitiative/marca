@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Marca\DocBundle\Entity\Doc
  *
- * @ORM\Table()
+ * @ORM\Table(name="doc")
  * @ORM\Entity(repositoryClass="Marca\DocBundle\Entity\DocRepository")
  */
 class Doc
