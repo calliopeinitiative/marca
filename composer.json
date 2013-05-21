@@ -27,7 +27,6 @@
         "vich/uploader-bundle": "dev-master",
         "knplabs/gaufrette": "0.2.*@dev",
         "knplabs/knp-gaufrette-bundle" : "dev-master",
-        "knplabs/knp-components" : "dev-master",
         "knplabs/knp-snappy-bundle": "dev-master",
         "fr3d/ldap-bundle": "1.6.*"
     },
