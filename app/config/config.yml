@@ -127,8 +127,8 @@ vich_uploader:
     storage: vich_uploader.storage.file_system
     mappings:
         property_file:
-            uri_prefix: %kernel.root_dir%/../uploads/files # uri prefix to resource
-            upload_destination: %kernel.root_dir%/../uploads/files # gaufrette storage fs id, required
+            uri_prefix: %upload_path%   # uri prefix to resource
+            upload_destination: %upload_path%   # gaufrette storage fs id, required
             namer: namer.upload_file # specify a file namer service id for this entity, null default
             directory_namer: directory_namer.upload_file # specify a directory namer service id for this entity, null default
             delete_on_remove: true # determines whether to delete file upon removal of entity
