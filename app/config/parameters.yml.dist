@@ -23,4 +23,6 @@ parameters:
     app_name:          XXXXX
     ldap:              no
 
+    upload_path:       %kernel.root_dir%/../uploads/files
+
 

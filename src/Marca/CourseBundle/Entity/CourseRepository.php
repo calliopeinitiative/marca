@@ -17,8 +17,8 @@ class CourseRepository extends EntityRepository
        $lastname = strtolower($lastname);
        $lastname = $lastname.'%';
         return $this->getEntityManager()
-            ->createQuery("SELECT u.lastname,u.firstname,c.name,c.time,c.id from MarcaCourseBundle:Roll r JOIN r.user u JOIN r.course c
-                WHERE c.enroll=True AND r.role=2 AND LOWER(u.lastname) LIKE ?1 ORDER BY c.name")->setParameter('1',$lastname)->getResult();
+            ->createQuery("SELECT u.lastname,u.firstname,c.name,c.time,c.id from MarcaCourseBundle:Roll r JOIN r.user u JOIN r.course c JOIN c.term t
+                WHERE c.enroll=True AND r.role=2 AND t.status > 0 AND LOWER(u.lastname) LIKE ?1 ORDER BY c.name")->setParameter('1',$lastname)->getResult();
     }
    
     
@@ -31,12 +31,18 @@ class CourseRepository extends EntityRepository
     public function findEnrolledCourses($user)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT c from MarcaCourseBundle:Course c JOIN c.roll r WHERE r.user = ?1 and r.role > 0 ORDER BY c.name')->setParameter('1',$user)->getResult();
+            ->createQuery('SELECT c from MarcaCourseBundle:Course c JOIN c.roll r JOIN c.term t WHERE r.user = ?1 AND r.role > 0 AND t.status > 0 ORDER BY c.name')->setParameter('1',$user)->getResult();
     } 
     
     public function findPendingCourses($user)
     {
         return $this->getEntityManager()
             ->createQuery('SELECT c from MarcaCourseBundle:Course c JOIN c.roll r WHERE r.user = ?1 and r.role = 0 ORDER BY c.name')->setParameter('1',$user)->getResult();
-    }    
+    } 
+    
+    public function findUserCourseIds($user)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT c.id from MarcaCourseBundle:Course c JOIN c.roll r WHERE r.user = ?1')->setParameter('1',$user)->getResult();
+    }     
 }

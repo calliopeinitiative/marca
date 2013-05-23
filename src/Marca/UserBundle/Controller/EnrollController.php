@@ -32,12 +32,19 @@ class EnrollController extends Controller
      */
     public function findCourseAction()
     {
+        $em = $this->getEm();
+        $current_user = $this->getUser();
+        $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($current_user);
+        $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($current_user);
+ 
         $user = new User();
         $form = $this->createFormBuilder($user)
             ->add('lastname')
             ->getForm();
 
         return array(
+            'courses'=>$courses,
+            'pending'=>$pending,
             'user' => $user,
             'form'   => $form->createView()
         );
@@ -49,6 +56,13 @@ class EnrollController extends Controller
      */
     public function listCourseAction()
     {
+        $em = $this->getEm();
+        $current_user = $this->getUser();
+        $current_user_id = $current_user->getId();
+        $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($current_user);
+        $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($current_user);
+        $courseids = $em->getRepository('MarcaCourseBundle:Course')->findUserCourseIds($current_user);
+        
         $user = new User();
         $form = $this->createFormBuilder($user)
             ->add('lastname')
@@ -58,15 +72,16 @@ class EnrollController extends Controller
        $postData = $request->request->get('form');
        $lastname = $postData['lastname'];
        $em = $this->getEm(); 
-       $courses = $em->getRepository('MarcaCourseBundle:Course')->findCourseByLastname($lastname);
+       $possible_courses = $em->getRepository('MarcaCourseBundle:Course')->findCourseByLastname($lastname);
        
-        //pagination
-        $paginator = $this->get('knp_paginator');
-        $courses = $paginator->paginate($courses,$this->get('request')->query->get('page', 1),10);
         
         
        return array(
-            'courses' => $courses,'form'   => $form->createView(),
+           'courses'=>$courses,
+           'pending'=>$pending,
+           'courseids'=>$courseids,
+           'possible_courses' => $possible_courses,
+           'form'   => $form->createView(),
         );
     }     
     
