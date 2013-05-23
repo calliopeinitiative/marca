@@ -129,7 +129,7 @@ class User extends BaseUser implements LdapUserInterface
     
     /**
      * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="users", cascade={"persist"})
-     * @ORM\JoinColumn(name="institution_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $institution; 
     

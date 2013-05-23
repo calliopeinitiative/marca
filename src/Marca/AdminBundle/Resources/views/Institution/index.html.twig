@@ -12,6 +12,15 @@ $('#new_inst').click(function(){
 });
 </script>
 
+{% if newInstitution %}
+<script language="javascript">
+$(document).ready(function()
+{ 
+  $('#term_modal').load('{{ path('term_new_modal', {'instId':newInstitution}) }}');  
+  $('#term_modal').modal();
+});
+</script>
+{% endif %}
 
 <div class="span9 well">
 <legend>Institutions</legend>
@@ -24,10 +33,23 @@ $('#new_inst').click(function(){
 <table class="table">   
 <tbody>    
 {% for institution in institutions %}
-        <tr>
+        <tr id = "default{{institution.id}}">
             <td>{{institution.name}}</td>
             <td>{% if institution.PaymentType == 0 %}No Payment Required{% endif %}{% if institution.PaymentType == 1 %}Bookstore Payment{% endif %}{% if institution.PaymentType == 2 %}In App Payment{% endif %}{% if institution.PaymentType == 3 %}Bookstore and In App Payment{% endif %}</td>
             <td>${{ institution.SemesterPrice / 100 }}</td>
+            <td> 
+                <button class = "btn btn-danger btn-mini" onclick="$('#confirm{{institution.id}}').toggle();$('#default{{institution.id}}').toggle()" type="submit">Delete</button>
+            </td>
+        </tr>
+        <tr id = "confirm{{institution.id}}" class="toggle">
+            <td>{{institution.name}}</td>
+            <td><strong>WARNING!! Deleteing an Institution may make courses and users associated with the institution UNUSABLE!! Are you sure?</strong></td>
+            <td>
+                <form action="{{ path('institution_delete', {'id':institution.id}) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger btn-mini" type="submit">Delete</button>
+            </form>
+            </td>
         </tr>
 {% endfor %}
 </tbody>
@@ -37,5 +59,10 @@ $('#new_inst').click(function(){
 {# Modal #}
 <div id="inst_modal" class="modal hide fade" tabindex="-1" role="dialog">     
 </div>
+
+<div id="term_modal" class="modal hide fade" tabindex="-2" role="dialog">     
+Hello?
+</div>
+
 
 {% endblock %}

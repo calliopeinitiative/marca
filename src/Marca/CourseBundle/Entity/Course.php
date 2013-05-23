@@ -33,8 +33,9 @@ class Course
     private $name;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Term")
-    */
+    * @ORM\ManyToOne(targetEntity="Term", inversedBy="courses", cascade={"persist"})
+     * @ORM\JoinColumn(name="term_id", referencedColumnName="id", onDelete="SET NULL")
+     */
     protected $term;
     
     /**
@@ -191,8 +192,8 @@ class Course
     private $pendingFlag = false; 
     
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="courses", cascade={"persist"})
-     * @ORM\JoinColumn(name="institution_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="courses", cascade={"detach"})
+     * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $institution; 
     

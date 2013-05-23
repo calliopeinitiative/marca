@@ -15,17 +15,19 @@
 <thead>
     <tr>             
         <th>Term</th>        
-        <th>Termname</th>        
-        <th>Status</th>        
+        <th>Term ID Number (UGA)</th>        
+        <th>Status</th>
+        <th>Institution</th>
         <th>Actions</th>
     </tr>
 </thead>    
 <tbody>
     {% for term in terms %}
     <tr>            
-        <td>{{ term.term }}</td>        
         <td>{{ term.termName }}</td>        
-        <td>{{ term.status }}</td>        
+        <td>{{ term.term }}</td>        
+        <td>{% if term.status == 0 %}Inactive{% endif %}{% if term.status == 1 %}Active{% endif %}{% if term.status == 2 %}Continuing{% endif %}</td>        
+        <td>{{ term.Institution.name }}
         <td><a class="btn btn-primary btn-small" href="{{ path('term_edit', { 'id': term.id }) }}">Edit</a></td>       
     </tr>
     

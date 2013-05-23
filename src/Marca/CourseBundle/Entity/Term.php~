@@ -12,10 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Term
 {
-    const STATUS_INACTIVE=0;
-    const STATUS_ACTIVE=1;
-    const STATUS_CONTINUING=2;
-    
     /**
      * @var integer $id
      *
@@ -30,7 +26,7 @@ class Term
      *
      * @ORM\Column(name="term", type="string", length=255)
      */
-    private $term = 0;
+    private $term;
 
     /**
      * @var string $termName
@@ -47,8 +43,8 @@ class Term
     private $status;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="terms", cascade={"remove"})
-     * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="terms", cascade={"persist"})
+     * @ORM\JoinColumn(name="institution_id", referencedColumnName="id")
      */
     protected $institution; 
 
@@ -121,28 +117,5 @@ class Term
     public function getStatus()
     {
         return $this->status;
-    }
-
-    /**
-     * Set institution
-     *
-     * @param \Marca\AdminBundle\Entity\Institution $institution
-     * @return Term
-     */
-    public function setInstitution(\Marca\AdminBundle\Entity\Institution $institution = null)
-    {
-        $this->institution = $institution;
-    
-        return $this;
-    }
-
-    /**
-     * Get institution
-     *
-     * @return \Marca\AdminBundle\Entity\Institution 
-     */
-    public function getInstitution()
-    {
-        return $this->institution;
     }
 }

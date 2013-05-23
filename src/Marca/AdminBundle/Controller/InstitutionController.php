@@ -9,24 +9,28 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Marca\UserBundle\Entity\User;
 use Marca\AdminBundle\Entity\Institution;
 use FOS\UserBundle\Entity\UserManager;
+use Marca\CourseBundle\Entity\Term;
+use Marca\CourseBundle\Form\TermType;
 use Marca\AdminBundle\Form\InstitutionType;
 
 /**
  * Allows Admins to setup and manage information about the educational institutions using an install of Marca
  *
- * @route("/institution", name="institution")
+ * @route("/institution")
  */
 class InstitutionController extends Controller {
    
     /**
      * @Route("/", name="institution")
+     * @Route("/{id}/index", name="institution2")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($id = null)
     {
         $em = $this->getEm();
         $institutions = $em->getRepository('MarcaAdminBundle:Institution')->findAll();
-        return array('institutions' => $institutions);
+        $deleteForm = $this->createDeleteForm(0);
+        return array('institutions' => $institutions, 'newInstitution' => $id,'delete_form' => $deleteForm->createView());
     }
     
     /**
@@ -56,10 +60,49 @@ class InstitutionController extends Controller {
         if ($form->isValid()){
             $em->persist($institution);
             $em->flush();
-            return $this->redirect($this->generateUrl('institution'));
+            return $this->redirect($this->generateUrl('institution2', array('id' => $institution->getId())));
         }
         return array('form' => $form->createView(), 'institution' => $institution);
     }
-}
 
+ /**
+     * Deletes an Institution entity.
+     *
+     * @Route("/delete/{id}", name="institution_delete")
+     * @Method("post")
+     */
+    public function deleteAction($id)
+    {
+        
+        $em = $this->getEm();
+        $institution = $em->getRepository('MarcaAdminBundle:Institution')->find($id);
+        $form = $this->createDeleteForm($id);
+        $request = $this->getRequest();
+        
+        $form->bindRequest($request);
+
+        if ($form->isValid()) {
+            
+
+            if (!$institution) {
+                throw $this->createNotFoundException('Unable to find Institution entity.');
+            }
+
+            $em->remove($institution);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('institution'));
+    }
+
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder(array('id' => $id))
+            ->add('id', 'hidden')
+            ->getForm()
+        ;
+    }
+
+    
+}
 

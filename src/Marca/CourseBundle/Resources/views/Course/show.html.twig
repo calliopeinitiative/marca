@@ -47,7 +47,13 @@
     
     <tr>
         <th>Institution</th>
-        <td>{{ course.institution.name }}</td>
+        <td>
+            {% if course.institution == NULL %}
+                No institution is set for this course, please edit the course to set one
+            {% else %}
+            {{ course.institution.name }}
+            {% endif %}
+        </td>
     </tr>
     
      <tr>

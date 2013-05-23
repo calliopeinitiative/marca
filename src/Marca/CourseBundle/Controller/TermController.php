@@ -71,6 +71,29 @@ class TermController extends Controller
             'form'   => $form->createView()
         );
     }
+    
+    /**
+     * Displays a modal form to create a new Term entity.
+     *
+     * @Route("/{instId}/new_modal", name="term_new_modal")
+     * @Template("MarcaCourseBundle:Term:new_modal.html.twig")
+     */
+    public function newModalAction($instId)
+    {
+        
+        $term = new Term();
+        $em = $this->getEm();
+        $institution = $em->getRepository('MarcaAdminBundle:Institution')->find($instId);
+        $term->setInstitution($institution);
+        //One is active status, someday we have to figure out how to get that constant in the controller
+        $term->setStatus(1);
+        $form   = $this->createForm(new TermType(), $term);
+
+        return array(
+            'term' => $term,
+            'form'   => $form->createView()
+        );
+    }
 
     /**
      * Creates a new Term entity.

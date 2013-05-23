@@ -208,37 +208,4 @@ class Institution
     {
         return $this->courses;
     }
-
-    /**
-     * Add terms
-     *
-     * @param \Marca\CourseBundle\Entity\Term $terms
-     * @return Institution
-     */
-    public function addTerm(\Marca\CourseBundle\Entity\Term $terms)
-    {
-        $this->terms[] = $terms;
-    
-        return $this;
-    }
-
-    /**
-     * Remove terms
-     *
-     * @param \Marca\CourseBundle\Entity\Term $terms
-     */
-    public function removeTerm(\Marca\CourseBundle\Entity\Term $terms)
-    {
-        $this->terms->removeElement($terms);
-    }
-
-    /**
-     * Get terms
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTerms()
-    {
-        return $this->terms;
-    }
 }
