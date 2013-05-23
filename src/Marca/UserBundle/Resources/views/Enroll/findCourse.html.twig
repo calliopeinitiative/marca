@@ -4,10 +4,45 @@
 
 {% block content %}
 
-<div class="span9 well"><legend>Enroll</legend></div>
+{% if pending %}
+<div class="span9 well">
+<h1 class='verysmall'>Courses Pending</h1>     
+<div class='alert alert-info'>Enrollment pending.  Please check back soon.
+                  <a class='btn btn-primary btn-mini pull-right' href="{{ path('user_home') }}">Check now</a></div>
+<table class="table">
+<tbody>
+    {% for course in pending %}
+        <tr>
+            <td>{{ course.name }}</td>
+            <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
+            <td>{{ course.time|date('h:i a') }}</td>
+        </tr>
+    {% endfor %}   
+    </tbody>
+</table>
+</div> 
+{% endif %}
+
+{% if courses %}
+<div class="span9 well">
+<h1 class='verysmall'>Courses Enrolled</h1>  
+<div class='alert alert-success'>Click course name to enter it.</div>
+<table class="table">
+<tbody>
+    {% for course in courses %}
+        <tr>
+            <td><a class="" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></td>
+            <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
+            <td>{{ course.time|date('h:i a') }}</td>
+        </tr>
+     {% endfor %}   
+    </tbody>
+</table>
+</div> 
+{% endif %} 
 
 <div class="span9 well">
-    <div class='alert alert-info'>To enroll in a course, enter your instructor's last name.</div> 
+    <div class='alert alert-info'>Enter your instructor's last name to find her or his course.</div> 
 <form action="{{ path('enroll_list') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>

@@ -4,44 +4,42 @@
 
 {% block content %}
 
-<div class="span9 well" id="userCourses">
-
-<table class="table">
-{% if courses or pending %}    
-        <thead><tr><td colspan="3"><legend>Courses</legend></td></tr></thead>
-{% endif %}
-<tbody>
-    {% if pending %}
-      <tr><td colspan="3"><div class='alert alert-info'>Enrollment pending.  Please check back soon.
+{% if pending %}
+<div class="span9 well">
+<h1 class='verysmall'>Courses Pending</h1>     
+<div class='alert alert-info'>Enrollment pending.  Please check back soon.
                   <a class='btn btn-primary btn-mini pull-right' href="{{ path('user_home') }}">Check now</a></div>
-    {% endif %}
+<table class="table">
+<tbody>
     {% for course in pending %}
         <tr>
             <td>{{ course.name }}</td>
             <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
             <td>{{ course.time|date('h:i a') }}</td>
         </tr>
-     
     {% endfor %}   
+    </tbody>
+</table>
+</div> 
+{% endif %}
+
+{% if courses %}
+<div class="span9 well">
+<h1 class='verysmall'>Courses Enrolled</h1>  
+<div class='alert alert-success'>Click course name to enter it.</div>
+<table class="table">
+<tbody>
     {% for course in courses %}
         <tr>
             <td><a class="" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></td>
             <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
             <td>{{ course.time|date('h:i a') }}</td>
         </tr>
-    {% else %}
-        <tr><td colspan="3"><div class='alert alert-info'>To enroll in a course, enter your instructor's last name.</div>
-        <form action="{{ path('enroll_list') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-         <div>
-        <button class="btn btn-primary" type="submit">Find Course</button>
-        </div>
-        </form>
-        </td></tr>
-    {% endfor %}
+     {% endfor %}   
     </tbody>
 </table>
-</div>
+</div> 
+{% endif %} 
 
 
 {% endblock %}

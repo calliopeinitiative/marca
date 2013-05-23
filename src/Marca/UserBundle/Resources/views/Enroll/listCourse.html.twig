@@ -3,36 +3,75 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span8 well">
-    {% if courses %}
-    <div class='alert alert-info'>Select the course in which you wish to enroll.  Be sure to check the time.</div>
-    {% else %}
-    <div class='alert alert-warning'>No courses were found.  Please check the name and try again.</div>
-    {% endif %}
-<table class="table">    
+
+{% if pending %}
+<div class="span9 well">
+<h1 class='verysmall'>Courses Pending</h1>     
+<div class='alert alert-info'>Enrollment pending.  Please check back soon.
+                  <a class='btn btn-primary btn-mini pull-right' href="{{ path('user_home') }}">Check now</a></div>
+<table class="table">
+<tbody>
+    {% for course in pending %}
+        <tr>
+            <td>{{ course.name }}</td>
+            <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
+            <td>{{ course.time|date('h:i a') }}</td>
+        </tr>
+    {% endfor %}   
+    </tbody>
+</table>
+</div> 
+{% endif %}
+
+{% if courses %}
+<div class="span9 well">
+<h1 class='verysmall'>Courses Enrolled</h1>  
+<div class='alert alert-success'>Click course name to enter it.</div>
+<table class="table">
 <tbody>
     {% for course in courses %}
         <tr>
+            <td><a class="" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></td>
+            <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
+            <td>{{ course.time|date('h:i a') }}</td>
+        </tr>
+     {% endfor %}   
+    </tbody>
+</table>
+</div> 
+{% endif %}       
+  
+
+<div class="span9 well">
+<h1 class='verysmall'>Courses Found</h1>   
+<table class="table">
+<tbody>
+    {% for course in possible_courses %}
+            {% for exiting_course in courseids if exiting_course.id == course.id %}
+            {%else%}
+            <tr>
             <td>{{ course.name }}</td>
             <td>{{ course.lastname }}, {{ course.firstname }}</td>
             <td>{{ course.time|date('h:i a') }}</td>
             <td>
-            <a class="btn btn-primary" title="Enroll in this course" href="{{ path('enroll_enroll', { 'courseid': course.id } ) }}">Enroll</a>
+            <a class="btn btn-primary" title="Enroll in this course" href="{{ path('enroll_enroll', { 'courseid': course.id } ) }}">Enroll</a> 
             </td>
-        </tr>
-    {% else %}
-    <form action="{{ path('enroll_list') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Find Course</button>
-    </div>
-    </form>    
+            </tr>
+            {% endfor %}
     {% endfor %}
     </tbody>
 </table>
+</div>   
+
+<div class="span9 well">
+<div class='alert alert-info'>Enter your instructor's last name to find her or his course.</div>
+        <form action="{{ path('enroll_list') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+         <div>
+        <button class="btn btn-primary" type="submit">Find Course</button>
+        </div>
+        </form>
+
 </div>
 
-<div class="navigation">
-    {{ knp_pagination_render(courses) }}
-</div>
 {% endblock %}
