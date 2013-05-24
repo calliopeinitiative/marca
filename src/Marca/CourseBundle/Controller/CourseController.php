@@ -104,20 +104,22 @@ class CourseController extends Controller
     {
         
         $user = $this->getUser();
+        $institution = $user->getInstitution();
         //any instructor can create a new course, so give all instructors access
         if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
         throw new AccessDeniedException();
         }
         $em = $this->getEm();
-        $tagset = $em->getRepository('MarcaTagBundle:Tagset')->findDefault();
+        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findDefault();
         $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findDefault();
         $portset = $em->getRepository('MarcaPortfolioBundle:Portset')->findDefault();  
         $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->findDefault();         
         $course = new Course();
         $course->setUser($user);
+        $course->setInstitution($institution);
         $course->setPortset($portset); 
         $course->setAssessmentset($assessmentset);        
-        foreach ($tagset as &$tagset) {
+        foreach ($tagsets as &$tagset) {
         $course->addTagset($tagset);    
         };
         foreach ($markupsets as &$markupset) {
@@ -145,9 +147,11 @@ class CourseController extends Controller
         
         $em = $this->getEm();
         $user = $this->getUser();
-               
+        $institution = $user->getInstitution();
+        
         $course  = new Course();
         $course->setUser($user);
+        $course->setInstitution($institution);
         $request = $this->getRequest();
         $form    = $this->createForm(new CourseType($options), $course);
         $form->bindRequest($request);
