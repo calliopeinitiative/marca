@@ -43,6 +43,9 @@ class CourseController extends Controller
      */
     public function homeAction($courseid)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();

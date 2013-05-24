@@ -33,7 +33,7 @@ class Course
     private $name;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Term", inversedBy="courses", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="Term", cascade={"persist"})
      * @ORM\JoinColumn(name="term_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $term;
