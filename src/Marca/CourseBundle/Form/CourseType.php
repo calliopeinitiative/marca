@@ -24,7 +24,7 @@ class CourseType extends AbstractType
             $qb->select('t')->from('Marca\CourseBundle\Entity\Term', 't')->innerJoin('t.institution', 'i')->innerJoin('i.users', 'u')->where('u.id = ?1')->setParameter('1', $userid);
             return $qb;
             }
-            ,'property'=>'termName', 'label' => 'Select Term',))   
+            ,'property'=>'termName','expanded'=>true,'multiple'=>false, 'label' => 'Select Term','attr' => array('class' => 'checklist'),))   
             ->add('parents','entity', array('class'=> 'MarcaCourseBundle:Course', 'query_builder' => function(\Marca\CourseBundle\Entity\CourseRepository $cr) use             ($user){
             $qb = $cr->createQueryBuilder('MarcaCourseBundle:Course');
             $qb->select('c')->from('MarcaCourseBundle:Course', 'c')->where('c.user = ?1')->setParameter('1', $user);
