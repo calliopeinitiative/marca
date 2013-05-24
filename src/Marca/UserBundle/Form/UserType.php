@@ -15,7 +15,7 @@ class UserType extends AbstractType
             ->add('lastname', 'hidden')    
             ->add('photo', 'text', array('label'  => 'Photo URL','attr' => array('class' => 'span5'),))
             ->add('bio', 'textarea', array('label'  => 'Tell us a little about youself.',))
-            ->add('institution', 'entity', array('class'=>'MarcaAdminBundle:Institution','property'=>'name', 'label'=>'Select Your Institution'))        
+            ->add('institution', 'entity', array('class'=>'MarcaAdminBundle:Institution','property'=>'name', 'label'=>'Your Institution', 'disabled'=>true))        
         ;
     }
     
