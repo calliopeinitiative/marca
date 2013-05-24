@@ -97,6 +97,7 @@ a:hover {color: #006DCC;text-decoration: underline;}
 
 form label.radio {clear:right;display:block;padding-top: .5em;}
 form label.checkbox {clear:right;display:block;padding-top: .5em; }
+div.radio label {clear:right;display:block;}
 #marca_forumbundle_forumtype_title {width:37em;}
 label.required {font-size:14px;margin-top:8px;}
 .inline label {font-size:14px;margin-top:8px;}

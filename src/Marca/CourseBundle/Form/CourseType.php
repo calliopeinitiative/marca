@@ -24,13 +24,13 @@ class CourseType extends AbstractType
             $qb->select('t')->from('Marca\CourseBundle\Entity\Term', 't')->innerJoin('t.institution', 'i')->innerJoin('i.users', 'u')->where('u.id = ?1')->setParameter('1', $userid);
             return $qb;
             }
-            ,'property'=>'termName','expanded'=>true,'multiple'=>false, 'label' => 'Select Term','attr' => array('class' => 'checklist'),))   
+            ,'property'=>'termName','expanded'=>true,'multiple'=>false, 'label' => 'Select Term','attr' => array('class' => 'radio'),))   
             ->add('parents','entity', array('class'=> 'MarcaCourseBundle:Course', 'query_builder' => function(\Marca\CourseBundle\Entity\CourseRepository $cr) use             ($user){
             $qb = $cr->createQueryBuilder('MarcaCourseBundle:Course');
             $qb->select('c')->from('MarcaCourseBundle:Course', 'c')->where('c.user = ?1')->setParameter('1', $user);
             return $qb;
             }
-            ,'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select associated courses','required' => false,)) 
+            ,'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select associated courses','required' => true,'attr' => array('class' => 'checkbox'),)) 
             ->add('time', 'time', array('widget' => 'single_text','label'=>'Course Time')) 
             ->add('enroll','checkbox', array('label'  => 'Allow students to enroll','attr' => array('class' => 'checkbox inline'),))
             ->add('post', 'checkbox', array('label'  => 'Allow student to post documents','attr' => array('class' => 'checkbox inline'),))
