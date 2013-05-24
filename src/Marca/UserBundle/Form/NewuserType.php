@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class NewuserType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -15,6 +16,7 @@ class NewuserType extends AbstractType
             ->add('lastname', 'text', array('label'  => 'Lastname','attr' => array('class' => 'span5'),))    
             ->add('photo', 'text', array('label'  => 'Photo URL','attr' => array('class' => 'span5'),))
             ->add('bio', 'textarea', array('label'  => 'Tell us a little about youself.',))
+            ->add('institution', 'entity', array('class'=>'MarcaAdminBundle:Institution','property'=>'name', 'label'=>'Select Your Institution'))    
         ;
     }
     
