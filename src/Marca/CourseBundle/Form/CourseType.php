@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Marca\DocBundle\Entity\MarkupsetRepository;
+use Marca\TagBundle\Entity\TagsetRepository;
+use Marca\CourseBundle\Entity\TermRepository;
 
 class CourseType extends AbstractType
 {
@@ -16,8 +18,13 @@ class CourseType extends AbstractType
         $user = $course->getUser();
         $userid = $course->getUser()->getId();
         $builder
-            ->add('name', 'text', array('label'=>'Course Name'))
-            ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'property'=>'termName', ))
+            ->add('name', 'text', array('label'=>'Course Name'))               
+            ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'query_builder' => function(TermRepository $tr) use ($userid){
+            $qb = $tr->createQueryBuilder('MarcaCourseBundle:Term');
+            $qb->select('t')->from('Marca\CourseBundle\Entity\Term', 't')->innerJoin('t.institution', 'i')->innerJoin('i.users', 'u')->where('u.id = ?1')->setParameter('1', $userid);
+            return $qb;
+            }
+            ,'property'=>'termName', 'label' => 'Select Term',))   
             ->add('parents','entity', array('class'=> 'MarcaCourseBundle:Course', 'query_builder' => function(\Marca\CourseBundle\Entity\CourseRepository $cr) use             ($user){
             $qb = $cr->createQueryBuilder('MarcaCourseBundle:Course');
             $qb->select('c')->from('MarcaCourseBundle:Course', 'c')->where('c.user = ?1')->setParameter('1', $user);
@@ -36,12 +43,17 @@ class CourseType extends AbstractType
             ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'property'=>'name','expanded'=>false,'multiple'=>false, 'label' => 'Select the Portfolio Set',)) 
             ->add('assessmentset','entity', array('class'=>'MarcaAssessmentBundle:Assessmentset', 'property'=>'name','expanded'=>false,'multiple'=>false, 'label' => 'Select the Assessment Set for the Portfolio',))                    
             ->add('zine', 'hidden')
-            ->add('institution', 'entity', array('class'=>'MarcaAdminBundle:Institution','property'=>'name', 'label'=>'Your Institution', 'disabled' => true))
-            ->add('portStatus', 'hidden')
-            ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select label sets for Projects','attr' => array('class' => 'checkbox'),)) 
+            ->add('institution', 'entity', array('class'=>'MarcaAdminBundle:Institution','property'=>'name', 'label'=>'Your Institution', 'disabled'=>true))
+            ->add('portStatus', 'hidden')         
+            ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'query_builder' => function(TagsetRepository $tr) use ($userid){
+            $qb = $tr->createQueryBuilder('MarcaTagBundle:Tagset');
+            $qb->select('t')->from('Marca\TagBundle\Entity\Tagset', 't')->innerJoin('t.user', 'u')->where('u.id = ?1')->orWhere('t.shared = 2')->setParameter('1', $userid);
+            return $qb;
+            }
+            ,'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select label sets for Projects','attr' => array('class' => 'checkbox'),))                              
             ->add('markupsets','entity', array('class'=>'MarcaDocBundle:Markupset', 'query_builder' => function(MarkupsetRepository $mr) use ($userid){
             $qb = $mr->createQueryBuilder('MarcaDocBundle:Markupset');
-            $qb->select('m')->from('Marca\DocBundle\Entity\Markupset', 'm')->innerJoin('m.users', 'u')->where('u.id = ?1')->setParameter('1', $userid);
+            $qb->select('m')->from('Marca\DocBundle\Entity\Markupset', 'm')->innerJoin('m.users', 'u')->where('u.id = ?1')->orWhere('m.shared = 2')->setParameter('1', $userid);
             return $qb;
             }
             ,'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select markup sets for Projects','attr' => array('class' => 'checkbox'),));
