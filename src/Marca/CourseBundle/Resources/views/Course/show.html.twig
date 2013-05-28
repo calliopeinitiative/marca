@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="span9 well">
-<h1 class='verysmall'><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a></h1> 
+<h1 class='small'><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a></h1> 
 <a class="btn" href="{{ path('course_home',{'courseid':course.id}) }}">Enter {{course.name}}</a> 
 <a class="btn" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit Course Settings </a>
 <a class="btn" href="{{ path('roll', { 'courseid': course.id }) }}">Manage Roll</a>
@@ -37,7 +37,7 @@ Updated:{{ course.updated|date('Y-m-d H:i:s') }}
 <hr/>  
 <li><strong>Portfolio: </strong> {{ course.portfolio=='t' ? 'Yes' : 'No' }}</li>
 <li><strong>Portfolio set:</strong>{% if portset %}{{ portset.name}}{% else %}No portfolio set designated{% endif %}</li>
-<li><strong>Portfolio Assessment: </strong> {% if course.assessmentset %}{{ course.assessmentset.name }}{% else %}No portfolio assessment designated{% endif %}/li>
+<li><strong>Portfolio Assessment: </strong> {% if course.assessmentset %}{{ course.assessmentset.name }}{% else %}No portfolio assessment designated{% endif %}</li>
 <li><strong>Portfolio editing open: </strong>{{ course.portStatus=='t' ? 'Yes' : 'No' }}   </li>  
 <hr/>
 <li><strong>Associated Courses:</strong>  {% for course in course.parents %}{{ course.name }}</br>{% else %}No associated courses{% endfor %} </li> 
