@@ -33,7 +33,8 @@ class Course
     private $name;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Term", cascade={"persist"})
+     * @Assert\NotBlank()
+     * @ORM\ManyToOne(targetEntity="Term", cascade={"persist"})
      * @ORM\JoinColumn(name="term_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $term;

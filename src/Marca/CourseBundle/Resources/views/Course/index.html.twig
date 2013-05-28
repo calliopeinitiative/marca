@@ -4,26 +4,21 @@
 
 {% block content %}
 <div class="span9  well">
-       <legend>Courses</legend>
+<h1 class='verysmall'>Course Settings</h1>  
       <a class="btn btn-primary" href="{{ path('course_new') }}">New Course</a>
-</div>
-<div class="span9  well">      
-<table class="table">   
+<hr/> 
+<div class='alert alert-success'>Click course name to adjust settings.</div>
+<table class="table">
 <tbody>
     {% for course in courses %}
-    <tr> 
-        <td>{{ course.name }} {{ course.time|date('h:i a') }}</td> 
-        <td class="">
-        <a class="btn btn-primary btn-small pull-right" href="{{ path('teams', { 'courseid': course.id }) }}">Teams</a>
-        <a class="btn btn-primary btn-small pull-right" href="{{ path('roll', { 'courseid': course.id }) }}">Roll</a>
-        <a class="btn btn-primary btn-small pull-right" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a> 
-        </td>
-    </tr>
-    
-    {% endfor %}
-</tbody>
+        <tr>
+            <td><a class="" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">{{ course.name }} {{ course.time|date('h:i a') }}</a></td>
+            <td>{{ course.time|date('h:i a') }}</td>
+        </tr>
+     {% endfor %}   
+    </tbody>
 </table>
-</div>
+</div> 
 
 
  

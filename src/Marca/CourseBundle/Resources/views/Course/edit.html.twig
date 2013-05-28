@@ -24,26 +24,27 @@ $('form li').addClass('alert alert-error');
 <form class="form" action="{{ path('course_update', { 'courseid': course.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">   
         
             {{ form_errors(edit_form) }}
+    
             <div class="span9 well">
-                <legend>Essential settings</legend>
+            <h1 class='verysmall'>Essential settings</h1>
             <div class="span3 ">{{ form_row (edit_form.name) }}</div>   
-            <div class="span3 ">{{ form_row (edit_form.time) }}</div>    
+            <div class="span3 ">{{ form_row (edit_form.time) }}</div>  
+            <div class="span2 ">{{ form_row (edit_form.term) }}</div> 
             </div>
         
             <div class="span9 well">
-                <legend>Addtional settings</legend>
+            <h1 class='verysmall'>Addtional settings</h1>
             <div class="span3 ">
-            {{ form_row (edit_form.institution) }}
-            {{ form_row (edit_form.term) }}        
-            {{ form_row (edit_form.enroll) }} 
-            {{ form_row (edit_form.post) }} 
-            {{ form_row (edit_form.multicult) }} 
-            {{ form_row (edit_form.studentForum) }}         
             {{ form_row (edit_form.notes) }}  
             {{ form_row (edit_form.forum) }} 
             {{ form_row (edit_form.journal) }}            
             {{ form_row (edit_form.zine) }} 
-            {{ form_row (edit_form.tagset) }}        
+        
+            <hr/>
+            {{ form_row (edit_form.enroll) }} 
+            {{ form_row (edit_form.post) }} 
+            {{ form_row (edit_form.studentForum) }} 
+            {{ form_row (edit_form.institution) }} 
             </div>    
 
     
@@ -51,14 +52,19 @@ $('form li').addClass('alert alert-error');
             {{ form_row (edit_form.portfolio) }}     
             {{ form_row (edit_form.portset) }}
             {{ form_row (edit_form.assessmentset) }}                     
+            </div> 
+                
+            <div class="span2 "> 
+            {{ form_row (edit_form.tagset) }}     
             {{ form_row (edit_form.markupsets) }}
             {{ form_row (edit_form.parents) }}        
-            </div> 
+            </div>                 
             </div> 
  
-            {{ form_rest(edit_form) }}    
-      <div class="span8 well"> 
-      <button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn" href="{{ path('course') }}">Cancel</a>
+            {{ form_rest(edit_form) }}  
+    
+      <div class="span9 well"> 
+      <button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn" href="{{ path('course_show', { 'courseid': course.id }) }}">Cancel</a>
       </div>
 </form>
 </div>

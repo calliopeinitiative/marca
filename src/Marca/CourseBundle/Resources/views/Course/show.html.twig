@@ -3,174 +3,119 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span10">
-
 
 <div class="span9 well">
-<legend><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a>  Settings</legend> 
-<a href="{{ path('course_home',{'courseid':course.id}) }}">Enter {{course.name}} now.</a> 
-</div> 
-    
-    
-
-<div class="span4 well">
-<legend>Basics</legend>    
-<table class="table"> 
-<tbody>          
-    <tr>
-        <th>Time</th>         
-        <td>{{ course.time|date('h:i a') }}</td>         
-    </tr>           
-    <tr>
-        <th>Enrollment open</th>         
-        <td>{{ course.enroll=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>        
-    <tr>
-        <th>Student can post</th>         
-        <td>{{ course.post=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>
-    {# hidden for now  
-    <tr>
-        <th>Multicultural Archive</th>         
-        <td>{{ course.multicult=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>  
-    #}               
-    <tr>
-        <th>Student may start forum threads</th>         
-        <td>{{ course.studentForum=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>
-    <tr>
-        <th>Associated Course(s)</th>         
-        <td>{% for course in course.parents %}{{ course.name }}</br>{% else %}No associated courses{% endfor %}</td>         
-    </tr>
-    </tr>
-    
-    <tr>
-        <th>Institution</th>
-        <td>
-            {% if course.institution == NULL %}
-                No institution is set for this course, please edit the course to set one
-            {% else %}
-            {{ course.institution.name }}
-            {% endif %}
-        </td>
-    </tr>
-    
-     <tr>
-        <th>Label Sets</th>         
-        <td>{% for tagset in tagsets %}{{ tagset.name}}{% if not loop.last %}, {% endif %}{% endfor %}</td>         
-    </tr>
-    <tr>
-        <th>Markup Sets</th>
-        <td>{% for markupset in course.markupsets %}{{ markupset.name}}{% if not loop.last %}, {% endif %}{% endfor %}</td>
-    </tr>     
-    <tr>
-        <th>Journal</th>         
-        <td>{{ course.journal=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>
-    <tr>
-        <th>Forum</th>         
-        <td>{{ course.forum=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>
-</tbody>
-</table>
-
-<legend>Portfolio</legend>
-<table class="table"> 
-    <tbody>
-    <tr>
-        <th>Portfolio</th>         
-        <td>{{ course.portfolio=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>    
-    <tr>
-        <th>Portfolio Set</th>         
-        <td>{% if portset %}{{ portset.name}}{% else %}No portfolio set designated{% endif %}</td>         
-    </tr> 
-    <tr>
-        <th>Portfolio Assessment</th>         
-        <td>{% if course.assessmentset %}{{ course.assessmentset.name }}{% else %}No portfolio assessment designated{% endif %}</td>         
-    </tr>     
-    <tr>
-        <th>Portfolio editing open</th>         
-        <td>{{ course.portStatus=='t' ? 'Yes' : 'No' }}</td>         
-    </tr>   
-    </tbody>
-</table>
-
-<div class="span2">
-<a class="btn btn-primary" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit</a>
-</div> 
-    
-        
-<div class="span1">        
+<h1 class='verysmall'><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a></h1> 
+<a class="btn" href="{{ path('course_home',{'courseid':course.id}) }}">Enter {{course.name}}</a> 
+<a class="btn" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit Course Settings </a>
+<a class="btn" href="{{ path('roll', { 'courseid': course.id }) }}">Manage Roll</a>
+<a class="btn" href="{{ path('teams', { 'courseid': course.id }) }}">Manage Teams</a>
 <form action="{{ path('course_delete', { 'courseid': course.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
+{{ form_widget(delete_form) }}
+<button class="btn btn-delete" type="submit">Delete</button>
 </form>
+Created: {{ course.created|date('Y-m-d H:i:s') }} /     
+Updated:{{ course.updated|date('Y-m-d H:i:s') }}
+</div> 
+    
+       
+<div class="span4 well">
+<h1 class='verysmall'>Course Settings</h1> 
+<ul class="unstyled">
+<li><strong>Time:</strong> {{ course.time|date('h:i a') }}</li>  
+<li><strong>Term:</strong> {{ course.term.termName }}</li> 
+<hr/> 
+<li><strong>Notes tool:</strong>  {{ course.notes=='t' ? 'Yes' : 'No' }}</li> 
+<li><strong>Forum tool:</strong>  {{ course.forum=='t' ? 'Yes' : 'No' }}</li>
+<li><strong>Journal tool:</strong>  {{ course.journal=='t' ? 'Yes' : 'No' }}</li>          
+<hr/>        
+
+<li><strong>Enrollment open:</strong>  {{ course.enroll=='t' ? 'Yes' : 'No' }}</li> 
+<li><strong>Student can post files: </strong> {{ course.post=='t' ? 'Yes' : 'No' }}</li> 
+<li><strong>Student can start forum threads:</strong>  {{ course.studentForum=='t' ? 'Yes' : 'No' }}</li> 
+
+<hr/>  
+<li><strong>Portfolio: </strong> {{ course.portfolio=='t' ? 'Yes' : 'No' }}</li>
+<li><strong>Portfolio set:</strong>{% if portset %}{{ portset.name}}{% else %}No portfolio set designated{% endif %}</li>
+<li><strong>Portfolio Assessment: </strong> {% if course.assessmentset %}{{ course.assessmentset.name }}{% else %}No portfolio assessment designated{% endif %}/li>
+<li><strong>Portfolio editing open: </strong>{{ course.portStatus=='t' ? 'Yes' : 'No' }}   </li>  
+<hr/>
+<li><strong>Associated Courses:</strong>  {% for course in course.parents %}{{ course.name }}</br>{% else %}No associated courses{% endfor %} </li> 
+<li><strong>Label Sets: </strong> {% for tagset in tagsets %}{{ tagset.name}}{% if not loop.last %}, {% endif %}{% endfor %} </li>
+<li><strong>Markup Sets:</strong> {% for markupset in course.markupsets %}{{ markupset.name}}{% if not loop.last %}, {% endif %}{% endfor %}  </li>
+<hr/> 
+<li><strong>Institution:</strong>  {% if course.institution == NULL %}
+No institution is set for this course, please edit the course to set one
+{% else %}
+{{ course.institution.name }}
+{% endif %}
+</li>
+</ul>    
 </div>
-
-
-</div>        
+     
 
 <div class="span4 well"> 
 
-        <legend>Projects</legend>
-    <table class="table table-condensed table-striped">
+
+<h1 class='verysmall'> Projects and Resources</h1>
+<a class="btn btn-small" href="{{ path('project_new', {'courseid': course.id}) }}">New Project/Resource</a>
+<h2 class='verysmall'>Projects</h2>
+<table class="table table-condensed table-striped">
     <tbody>  
     {% for project in projects  %}{% if project.resource == 0  %}
-            
+
     <tr id="delete{{project.id}}">
         <th>{{ project.name }}{{ project.resource }}</th>         
-        <td><a class="btn btn-mini btn-primary" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>  
+        <td><a class="btn btn-mini" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>  
         <td>
-        <button class="btn btn-danger btn-mini" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button> 
+        <button class="btn btn-mini" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button> 
         </td>   
         <td>
-            <a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-chevron-up"></i></a>
-            <a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-chevron-down"></i></a>
+<a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-chevron-up"></i></a>
+<a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-chevron-down"></i></a>
         </td>
     </tr>
      <tr id="confirm{{project.id}}" class="toggle">
         <th>{{ project.name }}</th>         
         <td>
-            <form action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger btn-mini" type="submit">Delete</button>
-            </form>
+<form action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
+{{ form_widget(delete_form) }}
+<button class="btn btn-mini" type="submit">Delete</button>
+</form>
         </td>  
         <td>
-        <button  class="btn btn-info" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Cancel</button> 
+        <button  class="btn " onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Cancel</button> 
         </td>       
     </tr>   
     {% endif %}{% endfor %}
      </tbody>
     </table>   
 
-    <legend>Resources</legend>
+<h2 class='verysmall'>Resources</h2>
     <table class="table table-condensed table-striped">
     <tbody>  
     {% for project in projects  %}{% if project.resource == 1  %}        
     <tr id="delete{{project.id}}">
         <th>{{ project.name }}</th>         
-        <td><a class="btn btn-mini btn-primary" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>  
+        <td><a class="btn btn-mini" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>  
         <td>
-        <button class="btn btn-danger btn-mini" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button> 
+        <button class="btn btn-mini" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button> 
         </td>   
         <td>
-            <a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-chevron-up"></i></a>
-            <a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-chevron-down"></i></a>
+<a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-chevron-up"></i></a>
+<a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-chevron-down"></i></a>
         </td>
     </tr>
      <tr id="confirm{{project.id}}" class="toggle">
         <th>{{ project.name }}</th>         
         <td>
-            <form action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
-            </form>
+<form action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
+{{ form_widget(delete_form) }}
+<button class="btn btn-small" type="submit">Delete</button>
+</form>
         </td>  
         <td>
-        <button  class="btn btn-info" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Cancel</button> 
+        <button  class="btn btn-small" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Cancel</button> 
         </td>       
     </tr>   
     {% endif %}{% endfor %}
@@ -181,10 +126,10 @@
     <hr/> 
     
 
-        <div class='span2'><a class="btn btn-primary" href="{{ path('project_new', {'courseid': course.id}) }}">New Project/Resource</a></div>
 
     
-    <legend>Associated Resources</legend>
+<h2 class='verysmall'>Associated Resources</h2>
+Resources from an associated course
     <table class="table table-condensed table-striped">
     <tbody>  
     {% for project in parentProjects  %}{% if project.resource == 1  %}        
@@ -198,12 +143,6 @@
            
 </div>
 
-    
-    
-<div class="span9 well">
-Created: {{ course.created|date('Y-m-d H:i:s') }} /     
-Updated:{{ course.updated|date('Y-m-d H:i:s') }}
-</div> 
     
     
 </div>

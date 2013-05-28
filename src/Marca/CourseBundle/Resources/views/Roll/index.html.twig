@@ -5,25 +5,28 @@
 {% block content %}
 <div class="span9 well"> 
 
-    <legend><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Roll</legend>
+    <h1 class='verysmall'><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Roll</h1>
     
-    <a href="{{ path('course_home',{'courseid':course.id}) }}">Enter {{course.name}} now.</a>
-    <a class="btn btn-mini pull-right" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh this list</a>
-    {% if course.hasPendingStudents %}<a class="btn btn-primary btn-mini" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{% endif %}
-
-    <table class="table table-condensed"><tbody>  
+    <a class="btn" href="{{ path('course_home',{'courseid':course.id}) }}">Enter {{course.name}} now.</a>
+    <a class="btn" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh this list</a>
+    {% if course.hasPendingStudents %}<a class="btn " href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{% endif %}
+    <a class="btn" href="{{ path('course_show', { 'courseid': course.id }) }}">Course Settings </a>
+    <hr/>
+    <table class="table table-condensed">
+        <thead><tr><th>Name</th><th>Role</th><th>Change Role</th></tr></thead>
+    <tbody>  
     {% for roll in roll %}
     <tr>
         <td><a class="" href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}, {{ roll.firstname|capitalize }}</a></td> 
         <td>{% if roll.role == 2 %}Instructor{% elseif roll.role == 3 %}TA{% elseif roll.role == 4 %}Portfolio Review{% else %}Student{% endif %}</td>
         <td> {% if roll.role == 0 %} PENDING 
-            <a class="btn btn-mini" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>{% endif %}
+            <a class="btn btn-small" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>{% endif %}
             Change role to: 
-            <a class="btn btn-mini btn-primary" href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'1'}) }}">Student</a>
-            <a class="btn btn-mini btn-primary" href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'3'}) }}">TA</a>
-            <a class="btn btn-mini btn-primary" href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'2'}) }}">Instructor</a>
-            <a class="btn btn-mini btn-primary" href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'4'}) }}">Portfolio Review</a>
-            <a class="btn btn-mini" href="{{ path('roll_show', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a></td>
+            <a class="btn btn-small " href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'1'}) }}">Student</a>
+            <a class="btn btn-small " href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'3'}) }}">TA</a>
+            <a class="btn btn-small " href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'2'}) }}">Instructor</a>
+            <a class="btn btn-small " href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'4'}) }}">Portfolio Review</a>
+            <a class="btn btn-small" href="{{ path('roll_show', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a></td>
     
     </tr>
     {% endfor %}

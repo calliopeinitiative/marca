@@ -116,12 +116,14 @@ class CourseController extends Controller
         $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findDefault();
         $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findDefault();
         $portset = $em->getRepository('MarcaPortfolioBundle:Portset')->findDefault();  
-        $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->findDefault();         
+        $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->findDefault(); 
+        $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault();  
         $course = new Course();
         $course->setUser($user);
         $course->setInstitution($institution);
         $course->setPortset($portset); 
-        $course->setAssessmentset($assessmentset);        
+        $course->setAssessmentset($assessmentset);  
+        $course->setTerm($term);
         foreach ($tagsets as &$tagset) {
         $course->addTagset($tagset);    
         };

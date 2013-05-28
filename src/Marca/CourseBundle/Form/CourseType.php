@@ -17,14 +17,15 @@ class CourseType extends AbstractType
         $course = $options['data'];
         $user = $course->getUser();
         $userid = $course->getUser()->getId();
+        $institutionid = $user->getInstitution()->getId();
         $builder
             ->add('name', 'text', array('label'=>'Course Name'))               
-            ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'query_builder' => function(TermRepository $tr) use ($userid){
+            ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'query_builder' => function(TermRepository $tr) use ($institutionid){
             $qb = $tr->createQueryBuilder('MarcaCourseBundle:Term');
-            $qb->select('t')->from('Marca\CourseBundle\Entity\Term', 't')->innerJoin('t.institution', 'i')->innerJoin('i.users', 'u')->where('u.id = ?1')->setParameter('1', $userid);
+            $qb->select('t')->from('Marca\CourseBundle\Entity\Term', 't')->innerJoin('t.institution', 'i')->where('i.id = ?1')->setParameter('1', $institutionid);
             return $qb;
             }
-            ,'property'=>'termName','expanded'=>true,'multiple'=>false, 'label' => 'Select Term','attr' => array('class' => 'radio'),))   
+            ,'property'=>'termName','expanded'=>true,'multiple'=>false, 'label' => 'Term','attr' => array('class' => 'radio'),))   
             ->add('parents','entity', array('class'=> 'MarcaCourseBundle:Course', 'query_builder' => function(\Marca\CourseBundle\Entity\CourseRepository $cr) use             ($user){
             $qb = $cr->createQueryBuilder('MarcaCourseBundle:Course');
             $qb->select('c')->from('MarcaCourseBundle:Course', 'c')->where('c.user = ?1')->setParameter('1', $user);
@@ -34,7 +35,6 @@ class CourseType extends AbstractType
             ->add('time', 'time', array('widget' => 'single_text','label'=>'Course Time')) 
             ->add('enroll','checkbox', array('label'  => 'Allow students to enroll','attr' => array('class' => 'checkbox inline'),))
             ->add('post', 'checkbox', array('label'  => 'Allow student to post documents','attr' => array('class' => 'checkbox inline'),))
-            ->add('multicult', 'hidden') 
             ->add('studentForum', 'checkbox', array('label'  => 'Allow student to start Forum  threads','attr' => array('class' => 'checkbox inline'),))
             ->add('notes', 'hidden')
             ->add('forum', 'checkbox', array('label'  => 'Use the Forum','attr' => array('class' => 'checkbox inline'),))  

@@ -21,25 +21,25 @@ $('form li').addClass('alert alert-error');
 <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate"> 
             {{ form_errors(form) }}
             <div class="span9 well">
-                <legend>Essential Settings</legend>
+            <legend>Essential settings</legend>
             <div class="span3 ">{{ form_row (form.name) }}</div>   
-            <div class="span3 ">{{ form_row (form.time) }}</div>    
+            <div class="span3 ">{{ form_row (form.time) }}</div>  
+            <div class="span2 ">{{ form_row (form.term) }}</div> 
             </div>
         
             <div class="span9 well">
-                <legend>Additional Settings</legend>
+            <legend>Addtional settings</legend>
             <div class="span3 ">
-            {{ form_row (form.institution) }}
-            {{ form_row (form.term) }}        
-            {{ form_row (form.enroll) }} 
-            {{ form_row (form.post) }} 
-            {{ form_row (form.multicult) }} 
-            {{ form_row (form.studentForum) }}         
             {{ form_row (form.notes) }}  
             {{ form_row (form.forum) }} 
             {{ form_row (form.journal) }}            
             {{ form_row (form.zine) }} 
-            {{ form_row (form.tagset) }}        
+        
+            <hr/>
+            {{ form_row (form.enroll) }} 
+            {{ form_row (form.post) }} 
+            {{ form_row (form.studentForum) }} 
+            {{ form_row (form.institution) }} 
             </div>    
 
     
@@ -47,9 +47,13 @@ $('form li').addClass('alert alert-error');
             {{ form_row (form.portfolio) }}     
             {{ form_row (form.portset) }}
             {{ form_row (form.assessmentset) }}                     
+            </div> 
+                
+            <div class="span2 "> 
+            {{ form_row (form.tagset) }}     
             {{ form_row (form.markupsets) }}
             {{ form_row (form.parents) }}        
-            </div> 
+            </div>                 
             </div>        
             {{ form_rest(form) }}    
         

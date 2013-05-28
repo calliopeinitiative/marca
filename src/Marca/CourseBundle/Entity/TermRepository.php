@@ -12,4 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class TermRepository extends EntityRepository
 {
+       public function findDefault(){
+        return $this->getEntityManager()
+                ->createQuery('SELECT t from MarcaCourseBundle:Term t  WHERE t.status = 1')->setMaxResults(1)->getSingleResult();
+    } 
 }
