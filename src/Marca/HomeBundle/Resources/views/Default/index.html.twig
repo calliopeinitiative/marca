@@ -8,13 +8,15 @@
 <div class="span8">
     <legend>Welcome to {{ application_name }}</legend>  
 </div>
-        
-{% if ldap_auth!='yes' %}        
+             
 <div class="span4"> 
-<p><a class="btn btn-primary" title="Get an Account" href="{{ path('fos_user_registration_register') }}" >Get an Account</a>
+<p>
+    {% if ldap_auth!='yes' %}   
+        <a class="btn btn-primary" title="Get an Account" href="{{ path('fos_user_registration_register') }}" >Get an Account</a>
+    {% endif %}    
     <a class="btn btn-primary" title="Get an Account" href="{{ path('fos_user_security_login') }}" >Login</a></p>
 </div>
-{% endif %}        
+        
 </div>
 
 <div class="row-fluid">
