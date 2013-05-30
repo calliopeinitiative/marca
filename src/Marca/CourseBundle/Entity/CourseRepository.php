@@ -40,6 +40,12 @@ class CourseRepository extends EntityRepository
             ->createQuery('SELECT c from MarcaCourseBundle:Course c JOIN c.roll r WHERE r.user = ?1 and r.role = 0 ORDER BY c.name')->setParameter('1',$user)->getResult();
     } 
     
+    public function findArchivedCourses($user)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT c from MarcaCourseBundle:Course c JOIN c.roll r JOIN c.term t WHERE r.user = ?1 AND r.role > 0 AND t.status = 0 ORDER BY c.name')->setParameter('1',$user)->getResult();
+    }     
+    
     public function findUserCourseIds($user)
     {
         return $this->getEntityManager()

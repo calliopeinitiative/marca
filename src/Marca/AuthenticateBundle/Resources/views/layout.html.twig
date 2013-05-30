@@ -2,8 +2,14 @@
 
 {% block content %}
 <div class="row">
+<div class="span5">  
+<h1 class="verysmall">Welcome to {{ application_name }}</h1> 
+</div>
+
+
+    
+    
 <div class="span3 well">
-<legend>Welcome to {{ application_name }}</legend> 
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
 <a href="{{ path('fos_user_security_logout') }}">
@@ -19,6 +25,10 @@
 
 {% block fos_user_content %}
 {% endblock fos_user_content %}
+
+{% if not is_granted("IS_AUTHENTICATED_REMEMBERED") and ldap_auth!='yes' %}
+<a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a>
+{% endif %} 
 </div>
 </div>
 {% endblock %}

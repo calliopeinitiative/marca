@@ -35,13 +35,30 @@ class DefaultController extends Controller
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($user);
         $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($user);
         
-        $userfind = new User();
-        $form = $this->createFormBuilder($userfind)
-            ->add('lastname')
-            ->getForm();
         
-        return array('user' => $user,'courses' => $courses, 'pending' => $pending, 'form'   => $form->createView());
+        return array('user' => $user,'courses' => $courses, 'pending' => $pending,);
     }
+    
+    /**
+     * @Route("/archive", name="user_archive")
+     * @Template("MarcaUserBundle:Default:index.html.twig")
+     */
+    public function archiveAction()
+    {
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $id = $user->getId();
+        if ($user->getLastname()==''){
+            return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
+        }
+        $username = $user->getFirstname().' '.$user->getLastname();
+        $session = $this->get('session'); 
+        $session->set('username', $username); 
+        $courses = $em->getRepository('MarcaCourseBundle:Course')->findArchivedCourses($user);
+        $pending = '';       
+        
+        return array('user' => $user,'courses' => $courses, 'pending' => $pending,);
+    }    
     
     /**
      * @Route("/course_select_modal", name="course_select_modal")

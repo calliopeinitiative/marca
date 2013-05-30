@@ -27,11 +27,9 @@ var span_append = '<span class="hide eDoc_super">' + span_number + '</span>';
 $(this).append(span_append); 
 });
 
-{# display with title attr now deprecated #}
-$('.markup').mouseover(function (){    
-var name = '#' + $(this).attr('title');   
+$('.markup').mouseover(function (){     
 var id = "[data-id='" + $(this).attr('data-id') + "']"; 
-$('.popover').hide();$(name).show();$(id).show();
+$('.popover').hide();$(id).show();
 });
 
 $('.popover-close, .doc-body').click(function(){
@@ -136,12 +134,12 @@ $('#doctools').css('height', function(index) {
         
 <div class="tab-pane fade in active" id="docFeedback">
 {# Responses #}
-<a class="btn btn-primary btn-small" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view') }) }}">Offer Feedback</a>  <hr/>      
+<a class="btn btn-small" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view') }) }}">Offer Feedback</a>  <hr/>      
 {% for response in file.responses %}    
 <div>
     <h5 class='inline'>{{ response.user.firstname}} {{ response.user.lastname}} says:</h5>
 {% if response.isOwner(app.user.username) %}
-<a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view')  }) }}">Edit</a>
+<a class="btn btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view')  }) }}">Edit</a>
 {% endif %}
 <div class="divider">
 {{ response.body|raw }} 
@@ -183,8 +181,8 @@ $('#doctools').css('height', function(index) {
 <button type="button" class="close popover-close" aria-hidden="true">×</button>
 <span  class="label {{ markup.color }} " style='color:black;'>{{ markup.name }}</span>
 <br/>
-{{ markup.mouseover }}
-{% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}<hr/>
+{{ markup.mouseover|raw }}
+{% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}
 </div>        
 {% endfor %} 
 

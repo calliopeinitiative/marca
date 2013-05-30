@@ -55,11 +55,11 @@
                     </ul>
                  </li>
             </ul>
-            </div><!-- /nav-collapse -->
+            </div>
             {% else %}
             <a class="brand" href="{{ path('home') }}" title="{{ application_name }} Homepage">{{ application_name }}</a>
             <ul class="nav pull-right">
-            <li> <a class='active' title="Login" href="{{ path('fos_user_security_login') }}">Login</a></li>
+            {# <li> <a class='active' title="Login" href="{{ path('fos_user_security_login') }}">Login</a></li> #}
             </ul>
             {% endif %} 
              
@@ -67,9 +67,9 @@
                     
          
 
-      </div><!-- /container -->
-    </div><!-- /navbar-inner -->
-  </div><!-- /navbar -->    
+      </div>
+    </div>
+  </div>  
 {% endif %}
 <div class="container" id="mainContainer">
 
@@ -78,20 +78,17 @@
     <div class="span2">
      <ul class="nav nav-list">
     {{block('sidebar')}}
-    </div>  
-         
+    </div>          
     <div class="span10"> 
     {% block content %}          
     {% endblock %}
     </div>   
     </div>
 {% else %}
-
-    
     {{block('body')}}
 {% endif %}
 
-</div><!-- /container --> 
+</div>
 
 {# Modal #}
 <div id="base_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     

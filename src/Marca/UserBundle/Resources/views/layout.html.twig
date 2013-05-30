@@ -7,10 +7,7 @@
 {% block stylesheets %}{% endblock %}
 
 
-{% block sidebar %}
-       {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") and ldap_auth!='yes' %}
-             <li><a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a></li>
-       {% endif %}      
+{% block sidebar %}     
        {% if is_granted('ROLE_USER') %}
              <li><a href="{{ path('user_home') }}">Welcome</a>
              <li><a class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll</a></li>
