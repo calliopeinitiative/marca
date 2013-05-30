@@ -29,6 +29,10 @@ $('#note_anchor{{loop.index}}').click(function(){
         <tr>
             <td id="note_td{{loop.index}}" class="notes"><a  href="javascript:void(0);" id="note_anchor{{loop.index}}">{{ note.title }}</a></td>
         </tr>
+{%else%}
+        <tr>
+            <td class="notes">You don't have any notes yet.  Just click the create button to get started.</td>
+        </tr>        
 {% endfor %} 
 </table>               
 </div>
@@ -37,7 +41,7 @@ $('#note_anchor{{loop.index}}').click(function(){
 {% for note in notes %}        
         <span class="note_body" id="note_body{{loop.index}}">{{ note.description|raw }} 
         <a class="btn btn-small btn-primary" href="{{ course_path('note_edit', { 'id': note.id }) }}">Edit</a>
-        </span>
+        </span>       
 {% endfor %}        
 </div>
 </div>

@@ -30,7 +30,7 @@ class FileType extends AbstractType
                 ->andWhere('p.resource = :resource')        
                 ->setParameter('course', $courseid)  
                 ->setParameter('resource', $resource)        
-                ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'label'  => 'Select Project', 'expanded' => true,'attr' => array('class' => 'inline'),)) 
+                ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'label'  => 'Select', 'expanded' => true,'attr' => array('class' => 'inline'),)) 
              ->add('tag', 'entity', array('class' => 'MarcaTagBundle:Tag','property'=>'name','query_builder' => 
                   function(\Marca\TagBundle\Entity\TagRepository $er) use ($options) {
                   $courseid = $options['courseid'] ;  
