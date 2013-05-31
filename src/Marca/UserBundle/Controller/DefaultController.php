@@ -103,7 +103,7 @@ class DefaultController extends Controller
     {
         $em = $this->getEm();
 
-        $user = $this->getUser();
+        $user = $this->getUser();       
 
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -137,6 +137,13 @@ class DefaultController extends Controller
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
+        
+        $institution = $user->getInstitution();
+        
+        if (!$institution) {
+            $institution = $em->getRepository('MarcaAdminBundle:Institution')->findDefault();
+            $user->setInstitution($institution);
+        }        
 
         $editForm   = $this->createForm(new UserType(), $user);
 

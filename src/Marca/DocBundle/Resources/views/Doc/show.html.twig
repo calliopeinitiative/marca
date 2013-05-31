@@ -83,7 +83,7 @@ $('#doctools').css('height', function(index) {
 <a title="Create a copy of this document for peer review" id="new_grade" class="btn btn-small" href="javascript:void(0)">Instructor Review</a>
 {% endif %}
 {% endif %}
-{% if doc.isOwner(app.user.username) %}
+{% if doc.isOwner(app.user.username) or file.project.resource == 'true' %}
 <a title="Create a copy of this document" id="new_saveas" class="btn btn-small" href="javascript:void(0)">SaveAs</a>
 {% endif %}
 <a title="Print this document" class="btn btn-small" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>

@@ -6,14 +6,14 @@
 
 
 <div class="span9 well">
-<legend>Portfolios</legend> 
+<h1>Portfolios</h1> 
     <a class="btn btn-primary" href="{{ path('portset_new') }}">New Portfolio Set</a>
 </div>
 
 
 {% for portset in portsets %}
 <div class="span9 well">
-        <h4><a class="" href="{{ path('portset_show', { 'id': portset.id }) }}">{{ portset.name }}</a></h4>
+        <h1 class='inline'><a class="" href="{{ path('portset_show', { 'id': portset.id }) }}">{{ portset.name }}</a></h1> {% if portset.shared ==2 %}Default{%endif %}
         <a class="btn btn-primary btn-small pull-right" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit</a>
         {{ portset.description|raw }}
 </div>
