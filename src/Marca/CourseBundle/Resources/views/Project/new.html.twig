@@ -4,7 +4,8 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span6 well">
+<div class="span9 well">
+<h1>New Project/Resource</h1>     
 <form class="form" action="{{ path('project_create', { 'courseid': courseid }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
     {{ form_errors(form) }}   
         
@@ -12,7 +13,8 @@
         {{ form_row (form.resource) }} 
         
     {{ form_rest(form) }}           
-        <input type="submit"/>
-    </form>
+<button class="btn btn-primary margin-top" type="submit">Update</button>
+<a class="btn  margin-top" href="{{ path('course_show', { 'courseid': courseid }) }}">Cancel</a> 
+</form>
 </div>
 {% endblock %}

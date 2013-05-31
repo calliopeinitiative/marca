@@ -9,22 +9,22 @@
 
 {% block sidebar %}     
        {% if is_granted('ROLE_USER') %}
-             <li><a href="{{ path('user_home') }}">Welcome</a>
+             <li><a href="{{ path('user_home') }}">Courses</a>
              <li><a class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll</a></li>
 
        {% endif %}
        {% if is_granted('ROLE_INSTR') %}
              <li class="nav-header">Settings</li>
-             <li><a href="{{ path('course') }}">Courses</a></li>
-             <li><a href="{{ path('tagset') }}">Labels</a></li>
-             <li><a href="{{ path('markupset') }}">Markup</a></li>
+             <li><a href="{{ path('course') }}">Course Settings</a></li>
+             <li><a href="{{ path('tagset') }}">Manage Labels</a></li>
+             <li><a href="{{ path('markupset') }}">Manage Markup</a></li>
        {% endif %} 
        {% if is_granted('ROLE_ADMIN') %} 
              <li class="nav-header">Admin Settings</li>
              <li><a href="{{ path('portset') }}">Portfolios</a></li> 
              <li><a href="{{ path('assessmentset') }}">Assessment</a></li> 
              <li><a href="{{ path('term') }}">Terms</a></li>
-             <li><a href="{{ path('admin') }}">Permissions</a></li>
+             <li><a href="{{ path('admin') }}">User Admin</a></li>
              <li><a href="{{ path('institution') }}">Institutions</a></li>
              <li><a href="{{ path('page') }}">Pages</a></li>
        {% endif %}      

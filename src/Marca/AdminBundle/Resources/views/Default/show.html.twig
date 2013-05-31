@@ -3,14 +3,18 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-
-<ul>
-    <li>{{user.lastname}}, {{user.firstname}}</li>
-    <li>{% for role in user.roles %}{{ role }} {% endfor %}</li>
-    <li><a href="{{ path('user_promote', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Promote Instr.</a></li>
-    <li><a href="{{ path('user_demote', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Demote Instr.</a></li>
-    <li><a href="{{ path('user_promote', { 'username': user.username, 'role': 'ROLE_ADMIN' }) }}">Promote Admin.</a></li>
-    <li><a href="{{ path('user_demote', { 'username': user.username, 'role': 'ROLE_ADMIN' }) }}">Demote Admin.</a></li>    
+<div class="span9 well">
+<h1>User Information</h1> 
+<a class="btn btn-small btn-primary" href="{{ path('admin') }}">Find/List All User</a>
+<ul class='unstyled margin-top'>
+    <li><strong>Name:</strong> {{user.lastname}}, {{user.firstname}}</li>
+    <li><strong>Username:</strong> {{user.username}}</li>
+    <li><strong>Email:</strong> {{user.email}}</li>
+    <li><strong>Last login:</strong>  {{user.lastlogin|date('m/d/Y h:i a')}}</li>
+    <li><strong>Roles:</strong>  {% for role in user.roles %}{{ role }} {% endfor %}</li>
+    <li><a href="{{ path('user_promote', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Promote Instr.</a> / <a href="{{ path('user_demote', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Demote Instr.</a></li>
+    <li><a href="{{ path('user_promote', { 'username': user.username, 'role': 'ROLE_ADMIN' }) }}">Promote Admin.</a> / <a href="{{ path('user_demote', { 'username': user.username, 'role': 'ROLE_ADMIN' }) }}">Demote Admin.</a></li>    
 </ul>
+</div>
 
 {% endblock %}

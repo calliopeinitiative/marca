@@ -18,9 +18,8 @@
 <tbody>    
 {% for user in users %}
         <tr>
-            <td>{{user.lastname}}, {{user.firstname}}</td>
+            <td><a href="{{ path('user_admin', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">{{user.lastname}}, {{user.firstname}}</a></td>
             <td><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></td>
-            <td><a href="{{ path('user_admin', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Permissions</a></td>
        </tr>
 {% endfor %}
 </tbody>
