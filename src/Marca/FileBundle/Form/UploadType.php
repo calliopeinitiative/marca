@@ -29,7 +29,7 @@ class UploadType extends AbstractType
                 ->andWhere('p.resource = :resource')        
                 ->setParameter('course', $courseid)  
                 ->setParameter('resource', $resource)       
-                ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'multiple'=>false,'label'  => 'Project', 'attr' => array('class' => 'inline'),)) 
+                ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'multiple'=>false,'label'  => 'Select', 'attr' => array('class' => 'inline'),)) 
              ->add('tag', 'entity', array('class' => 'MarcaTagBundle:Tag','property'=>'name','query_builder' => 
                   function(\Marca\TagBundle\Entity\TagRepository $er) use ($options) {
                   $courseid = $options['courseid'] ;  
