@@ -30,7 +30,6 @@ h2 small {font-size:18px;font-weight:normal}
 .background {background: #F2F2F2}
 .navbar .brand {margin-left:0px;}
 .navbar-inner {background:#373737;}
-.sidebar {}
 ul.nav-list  {margin: 0 0 0 0;padding-left: 0;}
 #mainContainer {padding-top:60px;padding-left:15px;padding-right:15px;margin-left:auto;margin-right:auto;background:url('../img/whitewash.png');min-height:89%;
 -moz-box-shadow:0px 0px 15px rgba(0,0,0,.5);  
@@ -58,6 +57,9 @@ dl.dl-horizontal dd p {display:inline}
 
 
 .navbar .nav > li > a {color: #fff;text-shadow: none;}
+.navbar .nav > li > a:focus {color: #999;text-shadow: none; outline: thin dotted white;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;}
 .navbar .nav > li > a:hover {color: #999;}
 .nav-list .active > a {background-color:#006DCC;}
 .nav-pills .active > a {background-color:#006DCC;}
@@ -407,4 +409,37 @@ form ul li {list-style: none;}
 }
 ::-webkit-scrollbar-corner {
     background: #000;
+}
+
+/* 
+   Accessibility
+*/
+
+div#skipmenu{
+position:relative;
+}
+div#skipmenu a.skippy{
+position:absolute;
+top: -1000px;
+left:-1000px;
+height: 1px;
+width: 1px;
+overflow:hidden;
+}
+
+div#skipmenu a.skippy:active, div#skipmenu a.skippy:focus, div#skipmenu a.skippy:hover{
+position: absolute;
+top:auto;
+left:auto;
+height: 1em;
+font-size:1em;
+width:99%;  
+padding-bottom:15px;
+padding-top:10px;
+padding-right:10px;
+
+color: white;
+z-index:10000;
+text-align:right;
+background: #373737;
 }

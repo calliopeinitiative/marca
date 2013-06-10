@@ -5,9 +5,9 @@
 {% block content %}
 
 <div class="span9 well">
-<h1 class='small'><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a></h1> 
-<a class="btn" href="{{ path('course_home',{'courseid':course.id}) }}">Enter {{course.name}}</a> 
-<a class="btn" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit Course Settings </a>
+<h1><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a></h1> 
+ 
+<a class="btn btn-primary" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit Course Settings </a>
 <a class="btn" href="{{ path('roll', { 'courseid': course.id }) }}">Manage Roll</a>
 <a class="btn" href="{{ path('teams', { 'courseid': course.id }) }}">Manage Teams</a>
 <form action="{{ path('course_delete', { 'courseid': course.id }) }}" method="post">
@@ -20,7 +20,7 @@ Updated:{{ course.updated|date('Y-m-d H:i:s') }}
     
        
 <div class="span4 well">
-<h1 class='verysmall'>Course Settings</h1> 
+<h1>Course Settings</h1> 
 <ul class="unstyled">
 <li><strong>Time:</strong> {{ course.time|date('h:i a') }}</li>  
 <li><strong>Term:</strong> {{ course.term.termName }}</li> 

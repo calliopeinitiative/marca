@@ -5,11 +5,9 @@
 {% block content %}
 <div class="span9 well"> 
 
-    <h1 class='verysmall'><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Roll</h1>
-    
-    <a class="btn" href="{{ path('course_home',{'courseid':course.id}) }}">Enter {{course.name}} now.</a>
+    <h1><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Roll</h1>
+    {#{% if course.hasPendingStudents %}#}<a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{#{% endif %}#}
     <a class="btn" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh this list</a>
-    {% if course.hasPendingStudents %}<a class="btn " href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{% endif %}
     <a class="btn" href="{{ path('course_show', { 'courseid': course.id }) }}">Course Settings </a>
     <hr/>
     <table class="table table-condensed">

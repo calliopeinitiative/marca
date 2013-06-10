@@ -3,8 +3,9 @@
 
 {% block content %}
 <div class="span8 well">
-    <legend><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Teams</legend>
-
+    <h1><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Teams</h1>
+    <a class="btn" href="{{ path('course_show', { 'courseid': course.id }) }}">Course Settings </a>
+    <hr/>
     <ul class="unstyled"> 
     {% for team in teams %}
             <li  class="pad05"><strong>{{ team.name }}</strong> {{ team.description }} <a class="btn btn-mini btn-primary" href="{{ path('team_edit', { 'id': team.id,'courseid': course.id }) }}">Edit</a>

@@ -6,10 +6,11 @@
 
 {% if pending %}
 <div class="span9 well">
-<h1 class='verysmall'>Courses Pending</h1>     
+<h1>Courses Pending</h1>     
 <div class='alert alert-info'>Enrollment pending.  Please check back soon.
                   <a class='btn btn-primary btn-mini pull-right' href="{{ path('user_home') }}">Check now</a></div>
 <table class="table">
+<thead><tr><th>Course Name</th><th>Instructor</th><th>Time</th></tr></thead>    
 <tbody>
     {% for course in pending %}
         <tr>
@@ -25,13 +26,14 @@
 
 {% if courses %}
 <div class="span9 well">
-<h1 class='verysmall'>Courses Enrolled</h1>  
+<h1>Courses Enrolled</h1>  
 <div class='alert alert-success'>Click course name to enter it.</div>
 <table class="table">
+<thead><tr><th>Course Name</th><th>Instructor</th><th>Time</th></tr></thead>    
 <tbody>
     {% for course in courses %}
         <tr>
-            <td><a class="" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></td>
+            <td><a class="" title="Click to enter {{ course.name }}" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></td>
             <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
             <td>{{ course.time|date('h:i a') }}</td>
         </tr>

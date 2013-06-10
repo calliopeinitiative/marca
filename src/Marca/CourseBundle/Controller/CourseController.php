@@ -190,7 +190,7 @@ class CourseController extends Controller
         $project5 = new Project();
         $project5->setName('Readings');
         $project5->setSortOrder(5);
-        $project5->setResource('t');
+        $project5->setResource('true');
         $project5->setCourse($course);         
         
         $course->setProjectDefault($project1);
