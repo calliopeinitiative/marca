@@ -11,11 +11,12 @@
 {% endblock %}
 
 {% block sidebar %}
+<h1>Course Home </h1>
 <li class=""><a href="{{ course_path('course_home') }}">Home</a></li>
 <li class=""><a href="{{ course_path('course_roll') }}">Roll</a></li> 
 
 {% if is_granted('ROLE_INSTR') %}
-<li class="nav-header">Settings</li>
+<h2 class="nav-header">Settings</h2>
 <li><a href="{{ course_path('course_show') }}">Course Settings</a></li>
 <li><a href="{{ course_path('roll') }}">Manage Roll</a></li>
 <li><a href="{{ course_path('teams') }}">Manage Teams</a></li>          

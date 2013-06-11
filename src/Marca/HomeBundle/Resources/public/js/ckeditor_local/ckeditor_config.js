@@ -11,6 +11,6 @@ config.toolbar = [
 config.removePlugins = 'elementspath'
 config.allowedContent = true,
 config.disableNativeSpellChecker = false,
-config.height = 100;
+config.height = 200;
 ;
 };

@@ -105,7 +105,7 @@ class JournalController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
+        $role = $this->getCourseRole();
         $em = $this->getEm();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         
@@ -117,7 +117,8 @@ class JournalController extends Controller
         return array(
             'journal' => $journal,
             'form'   => $form->createView(),
-            'roll' => $roll 
+            'roll' => $roll,
+            'role' => $role
         );
     }
 

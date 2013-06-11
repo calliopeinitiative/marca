@@ -7,7 +7,8 @@
 {% block stylesheets %}{% endblock %}
 
 
-{% block sidebar %}     
+{% block sidebar %}
+<h1>Home </h1>
        {% if is_granted('ROLE_USER') %}
              <li><a title="Click to list your current or pending courses" href="{{ path('user_home') }}">Courses</a>
              <li><a title="Click to enroll in a new course" class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll</a></li>

@@ -24,7 +24,7 @@ $('#file_new_link').click(function(){
 });
 });
 </script>
-<li><legend>{% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}</legend></li>
+<h1>{% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}</h1>
 
 {% if app.request.attributes.get('_route') == 'file_list'%}
 {# check to see if projects are in the current course  #}
@@ -36,10 +36,10 @@ $('#file_new_link').click(function(){
     Create
     <i class="icon-pencil icon-white"></i>
   </a>
-  <ul class="dropdown-menu" style="min-width:140px;">
-    <li><a id='file_new_doc' title='Create new document' tabindex='1' href='javascript:void(0);' style="margin-right:0px;">Document<span class="pull-right"><i class="icon-edit"></i></span></a></li>
-    <li><a id='file_new_upload' title='Upload document' tabindex='1' href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}" style="margin-right:0px;">Upload<span class="pull-right"><i class="icon-upload"></i></span></a></li>  
-    <li><a id='file_new_link' title='Create new link' tabindex='1' href="javascript:void(0);" style="margin-right:0px;">Link<span class="pull-right"><i class="icon-adjust"></i></span></a></li>
+  <ul class="dropdown-menu">
+    <li><a id='file_new_doc' title='Create new document' href='javascript:void(0);'><i class="icon-edit"></i> Document</a></li>
+    <li><a id='file_new_upload' title='Upload document' href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}"><i class="icon-upload"></i> Upload</a></li>  
+    <li><a id='file_new_link' title='Create new link' href="javascript:void(0);"><i class="icon-adjust"></i> Link</a></li>
   </ul>
 </div>
 {% endif %}

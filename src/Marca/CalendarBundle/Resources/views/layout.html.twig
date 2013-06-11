@@ -12,15 +12,16 @@
 {% endblock %}
 
 {% block sidebar %} 
-             <li><legend>Calendar </legend></li>
+<h1>Calendar </h1>
 
 {% if app.request.get('_route') == 'calendar_new' or app.request.get('_route') == 'calendar_edit' %}
 {% else %}
              {% if is_granted('ROLE_INSTR') %}
              <a id='calendar_new' class="btn btn-primary" href="{{ course_path('calendar_new', {'set_date': "now"|date("Y-m-d")} ) }}" >Create<i class="icon-pencil icon-white"></i></a>{% endif %}
-             <li><a class="" href="{{ course_path('calendar_upcoming') }}">Upcoming</a></li>
-             <li><a class="" href="{{ course_path('calendar') }}">Term</a></li>
              <li><a class="" href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Month</a></li>
+             <li><a class="" href="{{ course_path('calendar_upcoming') }}">Upcoming Events</a></li>
+             <li><a class="" href="{{ course_path('calendar') }}">All Events</a></li>
+             
 {% endif %}
 {% endblock %}  
 

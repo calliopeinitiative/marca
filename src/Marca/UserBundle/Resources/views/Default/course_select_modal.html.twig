@@ -2,12 +2,14 @@
 
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-<h3 id="myModalLabel">Select course</h3>
+<h1 id="myModalLabel">Select Course</h1>
 </div>
  
 <div class="modal-body">
+<div class='alert alert-info'>Click course name to enter it.</div>    
 <table class="table">
 <tbody>
+<thead><th>Course</th><th>Instructor</th><th>Time</th></thead>
     {% for course in courses %}
         <tr>
             <td><a class="" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></td>
