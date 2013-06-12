@@ -30,7 +30,7 @@
          </span>
          </div>        
              
-         <div class="span8 pad  margin-bottom">{{ comment.body|raw }}</div>    
+         <div class="span7 pad  margin-bottom">{{ comment.body|raw }}</div>    
  
          
          {% for reply in comment.replies%}
@@ -44,7 +44,7 @@
            </span>
            </div>
                    
-           <div class="span7 pad margin-bottom" >{{ reply.body|raw }}</div>    
+           <div class="span6 pad margin-bottom" >{{ reply.body|raw }}</div>    
            
            </div>
         {% endfor %}                
