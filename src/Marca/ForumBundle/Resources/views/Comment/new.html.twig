@@ -16,13 +16,22 @@ CKEDITOR.replace( 'marca_forumbundle_commenttype_body',  {
 $('form li').addClass('alert alert-error');
 });
 </script>  
-  
-<div class="span9 well"> 
+
+<div class="span9 well" style="padding:0">     
+      <div class="well-header" >
+         <h2 class="inline">{{ parent.title }}</h2>      
+         <span class="margin-left">by {{ parent.user.firstname|capitalize }} {{ parent.user.lastname|capitalize }}</span>
+         <p>Created  {{ parent.created|date('M d Y, h:ia') }}  / Updated  {{ parent.updated|date('M d Y, h:ia') }}</p>
+      </div>       
+<div class="span7 pad margin-bottom" >{{ parent.body|raw }}  </div>       
+</div>
+     
+<div class="span9 well">
 <form action="{{ course_path('comment_create', { 'forumid': forumid, 'parentid': parentid }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
     {{ form_errors(form) }}
          {{ form_row(form.body) }}
     {{ form_rest(form) }}
-        <button class="btn btn-primary" type="submit">Submit</button><a class='btn' href="{{ course_path('forum', { 'set': 0 }) }}">Cancel</a>
+        <button class="btn btn-primary" type="submit">Submit</button><a class='btn' href="{{ course_path('forum_show', { 'id': parent.id }) }}">Cancel</a>
 </form>
 </div>
 {% endblock %}

@@ -25,6 +25,7 @@ $('#note_anchor{{loop.index}}').click(function(){
 <div id="note_page" class="span9 well" style="padding-right:0;padding-left:0">
 <div id="note_list" class="span4">
 <table class="table table-hover"> 
+    <thead><tr><th>Click note name to view</th></tr></thead>    
 {% for note in notes %} 
         <tr>
             <td id="note_td{{loop.index}}" class="notes"><a  href="javascript:void(0);" id="note_anchor{{loop.index}}">{{ note.title }}</a></td>

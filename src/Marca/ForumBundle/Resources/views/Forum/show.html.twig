@@ -26,7 +26,7 @@
          <span class="pull-right" >
           Created  {{ comment.created|date('M d Y, h:ia') }}  / Updated  {{ comment.updated|date('M d Y, h:ia') }}
           <a class="btn btn-small margin-left"  title="Reply to this comment" href="{{ course_path('reply_new', { 'commentid': comment.id  }) }}">Comment</a>
-         {% if comment.user==app.user %}<a class="btn btn-small"  title="Edit this comment" href="{{ course_path('comment_edit', { 'id': comment.id }) }}">Edit</a>{% endif%}
+         {% if comment.user==app.user %}<a class="btn btn-small"  title="Edit this comment" href="{{ course_path('comment_edit', { 'id': comment.id, 'parentid': forum.id }) }}">Edit</a>{% endif%}
          </span>
          </div>        
              
@@ -39,7 +39,7 @@
            <span class="pull-right" >
            Created  {{ reply.created|date('M d Y, h:ia') }}  / Updated  {{ reply.updated|date('M d Y, h:ia') }} 
            {% if reply.user==app.user %}
-           <a class="btn  btn-small margin-left"  title="Edit this reply" href="{{ course_path('reply_edit', { 'id': reply.id }) }}">Edit</a>  
+           <a class="btn  btn-small margin-left"  title="Edit this reply" href="{{ course_path('reply_edit', { 'id': reply.id, 'commentid': comment.id }) }}">Edit</a>  
            {% endif%}
            </span>
            </div>

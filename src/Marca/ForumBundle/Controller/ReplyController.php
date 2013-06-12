@@ -28,7 +28,9 @@ class ReplyController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
+       
+        $em = $this->getEm();
+        $comment = $em->getRepository('MarcaForumBundle:Comment')->find($commentid);        
         $reply = new Reply();
         $reply->setBody('<p></p>');
         $form   = $this->createForm(new ReplyType(), $reply);
@@ -36,6 +38,7 @@ class ReplyController extends Controller
 
         return array(
             'commentid' => $commentid,
+            'comment' => $comment,
             'reply' => $reply,
             'form'   => $form->createView()
         );
@@ -76,6 +79,7 @@ class ReplyController extends Controller
 
         return array(
             'commentid' => $commentid,
+            'comment' => $comment,
             'reply' => $reply,
             'form'   => $form->createView()
         );
@@ -84,15 +88,16 @@ class ReplyController extends Controller
     /**
      * Displays a form to edit an existing Reply entity.
      *
-     * @Route("/{courseid}/{id}/edit", name="reply_edit")
+     * @Route("/{courseid}/{commentid}/{id}/edit", name="reply_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($id,$commentid,$courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getDoctrine()->getEntityManager();
+        $comment = $em->getRepository('MarcaForumBundle:Comment')->find($commentid); 
         $user = $this->getUser();
 
         $reply = $em->getRepository('MarcaForumBundle:Reply')->find($id);
@@ -109,6 +114,7 @@ class ReplyController extends Controller
 
         return array(
             'reply'      => $reply,
+            'comment' => $comment,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -117,17 +123,17 @@ class ReplyController extends Controller
     /**
      * Edits an existing Reply entity.
      *
-     * @Route("/{courseid}/{id}/update", name="reply_update")
+     * @Route("/{courseid}/{commentid}/{id}/update", name="reply_update")
      * @Method("post")
      * @Template("MarcaForumBundle:Reply:edit.html.twig")
      */
-    public function updateAction($id, $courseid)
+    public function updateAction($id,$commentid,$courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getDoctrine()->getEntityManager();
-
+        $comment = $em->getRepository('MarcaForumBundle:Comment')->find($commentid); 
         $reply = $em->getRepository('MarcaForumBundle:Reply')->find($id);
 
         if (!$reply) {
@@ -150,6 +156,7 @@ class ReplyController extends Controller
 
         return array(
             'reply'      => $reply,
+            'comment' => $comment,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
