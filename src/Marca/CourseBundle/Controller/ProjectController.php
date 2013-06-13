@@ -57,10 +57,10 @@ class ProjectController extends Controller
     /**
      * Displays a form to create a new Project entity.
      *
-     * @Route("/{courseid}/new", name="project_new")
+     * @Route("/{courseid}/{resource}/new", name="project_new")
      * @Template()
      */
-    public function newAction($courseid)
+    public function newAction($courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
@@ -71,7 +71,7 @@ class ProjectController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $maxCourse = count($course->getProjects());
         $project = new Project();
-        $project->setName('New Project or Resource');
+        $project->setResource($resource);
         $project->setSortOrder($maxCourse + 1);
         $form   = $this->createForm(new ProjectType(), $project);
 
@@ -85,7 +85,7 @@ class ProjectController extends Controller
     /**
      * Creates a new Project entity.
      *
-     * @Route("/{courseid}/create", name="project_create")
+     * @Route("/{courseid}/{resource}/create", name="project_create")
      * @Method("post")
      * @Template("MarcaCourseBundle:Project:new.html.twig")
      */
@@ -119,6 +119,7 @@ class ProjectController extends Controller
 
         return array(
             'project' => $project,
+            'courseid' => $courseid,
             'form'   => $form->createView()
         );
     }

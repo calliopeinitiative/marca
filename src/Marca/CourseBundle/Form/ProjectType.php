@@ -13,7 +13,7 @@ class ProjectType extends AbstractType
         $builder
             ->add('name')
             ->add('sortOrder', 'hidden')
-            ->add('resource', 'choice', array('choices'   => array(true => 'Resource', false => 'Project'),'required'  => true,'label'  => ' ', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))
+            ->add('resource', 'choice', array('choices'   => array(true => 'Unit', false => 'Folder'),'required'  => true,'label'  => 'Change type:', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))
         ;
     }
     

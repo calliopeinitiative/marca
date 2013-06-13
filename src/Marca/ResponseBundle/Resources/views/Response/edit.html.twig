@@ -16,9 +16,22 @@ CKEDITOR.replace( 'marca_responsebundle_responsetype_body',  {
 $('form li').addClass('alert alert-error');
 });
 </script>    
-   
-    <div class="span8 well">  
-        <form action="{{ course_path('response_update', { 'id': response.id, 'source': source, 'sourceid': sourceid,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
+
+{% if journal %}
+<div class="span9 well">  
+<div class="span8 center"> 
+<h2><span class="journal-title">{{ journal.title }}</span></h2>
+<span>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }}</span>
+<hr/>
+<div class="journal-body">
+{{ journal.body|raw }}
+</div>
+</div>
+</div> 
+{%endif %}
+
+    <div class="span9 well">  
+        <form action="{{ course_path('response_update', { 'id': response.id, 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page') }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
             {{ form_widget(edit_form) }}  
             <button class="btn btn-primary" type="submit">Update</button>
             <a class="btn" href="{{ course_path(source, { 'id': sourceid,'view': app.request.get('view') }) }}">Cancel</a> 

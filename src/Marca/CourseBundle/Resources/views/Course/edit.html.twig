@@ -26,14 +26,14 @@ $('form li').addClass('alert alert-error');
             {{ form_errors(edit_form) }}
     
             <div class="span9 well">
-            <h1 class='verysmall'>Essential settings</h1>
+            <h2>Essential settings</h2>
             <div class="span3 ">{{ form_row (edit_form.name) }}</div>   
             <div class="span3 ">{{ form_row (edit_form.time) }}</div>  
             <div class="span2 ">{{ form_row (edit_form.term) }}</div> 
             </div>
         
             <div class="span9 well">
-            <h1 class='verysmall'>Additional settings</h1>
+            <h2>Additional settings</h2>
             <div class="span3 ">
             {{ form_row (edit_form.notes) }}  
             {{ form_row (edit_form.forum) }} 

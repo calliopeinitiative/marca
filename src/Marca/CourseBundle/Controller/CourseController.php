@@ -52,6 +52,9 @@ class CourseController extends Controller
         $session = $this->get('session'); 
         $session->clear();
         $session->set('portSwitch', $course->getPortfolio()); 
+        $session->set('notesSwitch', $course->getNotes()); 
+        $session->set('journalSwitch', $course->getJournal()); 
+        $session->set('forumSwitch', $course->getForum());         
         $session->set('course', $course->getName());        
         $username = $user->getFirstname().' '.$user->getLastname();
         $session->set('username', $username); 

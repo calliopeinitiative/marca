@@ -31,12 +31,12 @@ class CourseType extends AbstractType
             $qb->select('c')->from('MarcaCourseBundle:Course', 'c')->where('c.user = ?1')->setParameter('1', $user);
             return $qb;
             }
-            ,'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select associated courses','required' => true,'attr' => array('class' => 'checkbox'),)) 
+            ,'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select associated modules','required' => true,'attr' => array('class' => 'checkbox'),)) 
             ->add('time', 'time', array('widget' => 'single_text','label'=>'Course Time')) 
             ->add('enroll','checkbox', array('label'  => 'Allow students to enroll','attr' => array('class' => 'checkbox inline'),))
             ->add('post', 'checkbox', array('label'  => 'Allow student to post documents','attr' => array('class' => 'checkbox inline'),))
             ->add('studentForum', 'checkbox', array('label'  => 'Allow student to start Forum  threads','attr' => array('class' => 'checkbox inline'),))
-            ->add('notes', 'hidden')
+            ->add('notes', 'checkbox', array('label'  => 'Use the Notes tool','attr' => array('class' => 'checkbox inline'),)) 
             ->add('forum', 'checkbox', array('label'  => 'Use the Forum','attr' => array('class' => 'checkbox inline'),))  
             ->add('journal', 'checkbox', array('label'  => 'Use the Journal','attr' => array('class' => 'checkbox inline'),))
             ->add('portfolio', 'checkbox', array('label'  => 'Use the Portfolio','attr' => array('class' => 'checkbox inline'),))
@@ -56,7 +56,7 @@ class CourseType extends AbstractType
             $qb->select('m')->from('Marca\DocBundle\Entity\Markupset', 'm')->innerJoin('m.users', 'u')->where('u.id = ?1')->orWhere('m.shared = 2')->setParameter('1', $userid);
             return $qb;
             }
-            ,'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select markup sets for Projects','attr' => array('class' => 'checkbox'),));
+            ,'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select markup sets for Documents','attr' => array('class' => 'checkbox'),));
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
