@@ -16,10 +16,10 @@ $("#word-count").text(count.length);
 <div class="span9 well"> 
 <h2>Journal entries by {{ user.firstname }} {{ user.lastname }} </h2>  
 
-<div class="span6"  role="navigation" style="margin-top:-20px;">
+<div class="span5"  role="navigation" style="margin-top:-20px;">
     {{ knp_pagination_render(journal) }}
 </div> 
-<div class="span2  pull-right" role="navigation">
+<div class="span3  pull-right" role="navigation">
 {% if app.request.attributes.get('_route')=='journal_user' %} 
 {# next previous users on roll #} 
 

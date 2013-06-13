@@ -20,7 +20,7 @@ class JournalController extends Controller
     /**
      * Lists all Journal entities.
      *
-     * @Route("/{courseid}/{page}", name="journal", defaults={"page" = 1}))
+     * @Route("/{courseid}/{page}/list", name="journal", defaults={"page" = 1}))
      * @Template()
      */
     public function indexAction($courseid,$page)
