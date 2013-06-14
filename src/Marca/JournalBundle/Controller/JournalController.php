@@ -20,7 +20,7 @@ class JournalController extends Controller
     /**
      * Lists all Journal entities.
      *
-     * @Route("/{courseid}/{page}/list", name="journal", defaults={"page" = 1}))
+     * @Route("/{courseid}/{page}/{user}/list", name="journal", defaults={"page" = 1,"user" = 1}))
      * @Template()
      */
     public function indexAction($courseid,$page)
@@ -30,6 +30,7 @@ class JournalController extends Controller
         
         $em = $this->getEm();
         $user = $this->getUser();
+        $userid =$user->getId();
         $course = $this->getCourse();
         $role = $this->getCourseRole();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -40,7 +41,7 @@ class JournalController extends Controller
         $paginator = $this->get('knp_paginator');
         $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', $page),1);
         
-        return array('journal' => $journal, 'roll' => $roll, 'role' => $role, 'user' => $user);
+        return array('journal' => $journal, 'roll' => $roll, 'role' => $role, 'user' => $user, 'userid' => $userid);
     }
     
     /**

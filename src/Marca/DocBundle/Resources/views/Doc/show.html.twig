@@ -135,12 +135,12 @@ $('#doctools').css('height', function(index) {
 <div class="tab-pane fade in active" id="docFeedback" >
 {# Responses #}
 <div class="">        
-<a class="btn btn-small" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view') }) }}">Offer Feedback</a>     
+<a class="btn btn-small" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view'),'userid': doc.file.user.id }) }}">Offer Feedback</a>     
 </div>
 {% for response in file.responses %}    
 <div class="well-header" >{{ response.user.firstname}} {{ response.user.lastname}} says:
 {% if response.isOwner(app.user.username) %}
-<a class="btn btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view')  }) }}">Edit</a>
+<a class="btn btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view'),'userid': doc.file.user.id  }) }}">Edit</a>
 {% endif %}
 </div>
 <div class="pad">
