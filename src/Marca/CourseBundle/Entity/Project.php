@@ -4,6 +4,7 @@ namespace Marca\CourseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Marca\CourseBundle\Entity\Project
@@ -24,7 +25,7 @@ class Project
 
     /**
      * @var string $name
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;

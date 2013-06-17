@@ -5,8 +5,8 @@
 {% block content %}
 <div class="span9 well">
 <h1>Markup</h1>
-      <a class="btn btn-small" href="{{ path('markupset_new') }}">Create Markup Set</a>
-      <a class="btn btn-small" href="{{ path('find_markupset') }}"> Import Markup Set</a>   
+      <a class="btn" href="{{ path('markupset_new') }}">Create Markup Set</a>
+      <a class="btn" href="{{ path('find_markupset') }}">Import Markup Set</a>   
 </div> 
 
 <div class="span8 alert alert-info">
@@ -20,7 +20,7 @@ Click Markupset Name to see complete markup set.
 
     <div class="accordion-heading">
       <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#markup_accordian" href="#collapse{{loop.index}}">
-          <h2 class='verysmall inline'>{{ markupset.name }}</h2> 
+          <h2 class='inline'>{{ markupset.name }}</h2> 
       </a> {% if markupset.shared==1 %}Shared{% elseif markupset.shared==2 %}Default{%endif%} 
     </div>
     <div id="collapse{{loop.index}}" class="accordion-body collapse">

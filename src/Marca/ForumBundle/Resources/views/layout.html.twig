@@ -12,7 +12,7 @@
 
 
 {% block sidebar %} 
-       <li><legend><a href="{{ course_path('forum') }}" title="Forum" id="forum_nav_title">Forum</a></legend></li>
+       <h1>Forum</h1>
        {% if is_granted('ROLE_INSTR') %}
              <a class='btn btn-primary' href="{{ course_path('forum_new') }}">Create<i class="icon-pencil icon-white"></i></a>
              {% endif %} 

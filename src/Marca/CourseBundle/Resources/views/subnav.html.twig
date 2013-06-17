@@ -14,7 +14,7 @@ $('#course_select').click(function(){
 <a title='Course Home' href="{{ course_path('course_home')}}">{% if app.session.get('course') %}{{ app.session.get('course')|slice(0, 15) }}{% else %}Course Home{% endif %}</a>
 </li>
 <li class="navbar-icon">
-<a title='Change to another course' id='course_select' href="javascript:void(0);"><i class="icon-list icon-white"></i></a>
+<a title='Change to another course' id='course_select' href="javascript:void(0);"><i alt='Change to another course' class="icon-list icon-white"></i></a>
 </li>
 <li><a  title='Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Resources</a></li>
 <li>
@@ -26,9 +26,9 @@ $('#course_select').click(function(){
 
 </li>
 <li><a  title='Course Calendar' href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Calendar</a></li>
-<li><a  title='Course Journal' href="{{ course_path('journal') }}">Journal</a></li>
-<li><a  title='Course Forum' href="{{ course_path('forum') }}">Forum</a></li>
-<li><a  title='Course Notes' href="{{ course_path('note') }}">Notes</a></li>
+{% if app.session.get('journalSwitch')=='true'%}<li><a  title='Course Journal' href="{{ course_path('journal') }}">Journal</a></li>{%endif%}
+{% if app.session.get('forumSwitch')=='true'%}<li><a  title='Course Forum' href="{{ course_path('forum') }}">Forum</a></li>{%endif%}
+{% if app.session.get('notesSwitch')=='true'%}<li><a  title='Course Notes' href="{{ course_path('note') }}">Notes</a></li>{%endif%}
 {% if app.session.get('portSwitch')=='true'%}<li><a  title='Course Portfolio' href="{{ course_path('portfolio') }}">Portfolio</a></li>{%endif%}
 
 

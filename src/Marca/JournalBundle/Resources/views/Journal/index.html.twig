@@ -3,19 +3,29 @@
 {% extends 'MarcaJournalBundle::layout.html.twig' %}
 
 {% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+var string = $(".journal-body").text();
+var count = string.split(" ");
+$("#word-count").text(count.length);
+});
+</script>
 
-{% if app.request.attributes.get('_route')=='journal_user' %}
-<div class="span9"> 
-<ul class="breadcrumb well" role="navigation">
-<li> 
-Journal entries by {{ user.firstname }} {{ user.lastname }} 
-</li>
 
+<div class="span9 well"> 
+<h2>Journal entries by {{ user.firstname }} {{ user.lastname }} </h2>  
+
+<div class="span4"  role="navigation" style="margin-top:-20px;">
+    {{ knp_pagination_render(journal) }}
+</div> 
+<div class="span4  pull-right" role="navigation">
+{% if app.request.attributes.get('_route')=='journal_user' %} 
 {# next previous users on roll #} 
-<li class='pull-right'>
+
 {% for roll in roll %}
 {% if loop.index == app.request.get('user') + 1 %}  
-<span style='margin-right:3em;'></span>        
+<span style='margin-right:2em;'></span>        
 <a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_user', { 'userid': roll.userid, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}<i class="icon-chevron-right"></i></a>
 {% endif %}
 
@@ -23,24 +33,27 @@ Journal entries by {{ user.firstname }} {{ user.lastname }}
 <a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_user', { 'userid': roll.userid, 'user': loop.index }) }}"><i class="icon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
 {% endif %}
 {% endfor %}
-</li> 
-</ul>
-</div>
 {% endif %}
+</div>
+   
+</div>
+
 
 
 {% for journal in journal %}
 <div class="span9 well">  
 <div class="span8 center"> 
-<h2><span class="journal-title">{{ journal.title }}</span></h2>
+<h3>{{ journal.title }}</h3> 
+<span>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }} </span>
 <span class="pull-right">
+<span id="word-count"></span> word(s)    
 {% if journal.isOwner(app.user.username) %}
         <a class="btn btn-primary btn-small" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
 {% endif %} 
-        <a class="btn btn-info btn-small" href="{{ course_path('response_new', { 'sourceid': journal.id, 'source': 'journal','view': 'app' }) }}">Respond</a>
+        <a class="btn btn-info btn-small" href="{{ course_path('response_new',
+        { 'sourceid': journal.id, 'source': 'journal_user','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id }) }}">Respond</a>
 </span>         
-<br />
-<span>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }}</span>
+
 <hr/>
 <div class="journal-body">
 {{ journal.body|raw }}
@@ -50,29 +63,29 @@ Journal entries by {{ user.firstname }} {{ user.lastname }}
 <div class="span8 pull-right">
 {% for response in journal.responses %}    
             <div class="span7 well">
-                <strong>Response by {{ response.user.firstname}} {{ response.user.lastname}}</strong>
+                Response by {{ response.user.firstname}} {{ response.user.lastname}}<hr/>
                {{ response.body|raw }} 
                 {% if response.isOwner(app.user.username) %}
-                <a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': journal.id, 'source': 'journal','view': 'app' }) }}">Edit</a>
+                <a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', 
+                { 'id': response.id,'sourceid': journal.id, 'source': 'journal_user','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id  }) }}">Edit</a>
                 {% endif %}
             </div>   
 {% endfor %}    
             
 </div>        
 </div> 
-{% else %}   
+{% else %}  
+<div class="span9 well">  
+<div class="span8 center"> 
 {% if app.request.get('_route') == 'journal_user' %}  
 Sorry, no entries were found.
 {% else %}    
 You don’t have any journals yet. Why not <a href="{{ course_path('journal_new') }}">write one</a>?
 {% endif %}
-
-{% endfor %}
-
-<div class="span8" > 
-<div class="navigation">
-    {{ knp_pagination_render(journal) }}
 </div>              
 </div>
+{% endfor %}
+
+
 
 {% endblock %}

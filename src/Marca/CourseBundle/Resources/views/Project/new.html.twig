@@ -2,11 +2,20 @@
 
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
-
+{% block javascripts %}
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
+{% endblock %}
 {% block content %}
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('form li').addClass('alert alert-error');
+});
+</script>
+
 <div class="span9 well">
-<h1>New Project/Resource</h1>     
-<form class="form" action="{{ path('project_create', { 'courseid': courseid }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+<h2>New {% if project.resource==0%}Folder in Projects{%else%}Unit in Resources{%endif%}</h2>     
+<form class="form" action="{{ path('project_create', { 'courseid': courseid, 'resource':project.resource }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
     {{ form_errors(form) }}   
         
         {{ form_row (form.name) }}      

@@ -65,7 +65,7 @@ $('#doctools').css('height', function(index) {
 
 <div class="span12 center">
 
-<h3 class='inline'>{{file.name}}</h3>
+<h1 class='inline'>{{file.name}}</h1>
 <span class="margin-left"><span id="word-count"></span> words</span>
 {# Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}} / Word count: <span id="word-count"></span> #}
 <span class="pull-right" style='margin-right:3em'>
@@ -113,39 +113,42 @@ $('#doctools').css('height', function(index) {
  
 {# Doc tools #}        
 <div class="span3"> 
-<div id='doctools' class="span3 well" style='margin-top: -.1em;'>   
+<div id='doctools' class="span3 well" style='margin-top: -.1em; padding:0;background: white; '>   
     
 <div id="docTab">
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs" style="padding-left:3px;">
   <li class="active"><a href="#docFeedback" data-toggle="tab">Feedback</a></li>
   <li><a href="#docNotes" onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" data-toggle="tab">Notes</a></li>
   <li><a href="#docInfo" data-toggle="tab">Info</a></li>
 </ul>    
     
-<div id="docTabContent" class="tab-content">
+<div id="docTabContent" class="tab-content" style='margin-top: -10px;'>
 <div class="tab-pane fade" id="docNotes"> 
-<div id='notes_container' class=''>
+<div id='notes_container' class='pad'>
 </div> 
 </div> 
         
-<div class="tab-pane fade in active" id="docFeedback">
+<div class="tab-pane fade in active" id="docFeedback" >
 {# Responses #}
-<a class="btn btn-small" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view') }) }}">Offer Feedback</a>  <hr/>      
+<div class="">        
+<a class="btn btn-small" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view'),'userid': doc.file.user.id }) }}">Offer Feedback</a>     
+</div>
 {% for response in file.responses %}    
-<div>
-    <h5 class='inline'>{{ response.user.firstname}} {{ response.user.lastname}} says:</h5>
+<div class="well-header" >{{ response.user.firstname}} {{ response.user.lastname}} says:
 {% if response.isOwner(app.user.username) %}
-<a class="btn btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view')  }) }}">Edit</a>
+<a class="btn btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view'),'userid': doc.file.user.id  }) }}">Edit</a>
 {% endif %}
-<div class="divider">
+</div>
+<div class="pad">
 {{ response.body|raw }} 
 </div>               
-</div> 
-{% else %} No one has has offered feedback.       
+
+{% else %} 
+<div class="pad">No one has has offered feedback.</div>       
 {% endfor %}    
 </div> 
         
-<div class="tab-pane fade" id="docInfo">
+<div class="tab-pane fade pad" id="docInfo">
 <h5>Author</h5>
 {{ file.user.firstname }} {{ file.user.lastname }}
 <h5>Document Name</h5>

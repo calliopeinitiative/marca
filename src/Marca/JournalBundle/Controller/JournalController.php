@@ -20,16 +20,17 @@ class JournalController extends Controller
     /**
      * Lists all Journal entities.
      *
-     * @Route("/{courseid}/", name="journal")
+     * @Route("/{courseid}/{page}/{user}/list", name="journal", defaults={"page" = 1,"user" = 1}))
      * @Template()
      */
-    public function indexAction($courseid)
+    public function indexAction($courseid,$page)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
         $user = $this->getUser();
+        $userid =$user->getId();
         $course = $this->getCourse();
         $role = $this->getCourseRole();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -38,18 +39,18 @@ class JournalController extends Controller
         
         //pagination
         $paginator = $this->get('knp_paginator');
-        $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', 1),5);
+        $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', $page),1);
         
-        return array('journal' => $journal, 'roll' => $roll, 'role' => $role);
+        return array('journal' => $journal, 'roll' => $roll, 'role' => $role, 'user' => $user, 'userid' => $userid);
     }
     
     /**
      * Lists all Journal entities.
      *
-     * @Route("/{courseid}/{userid}/{user}/journal_by_user", name="journal_user")
+     * @Route("/{courseid}/{userid}/{user}/{page}/journal_by_user", name="journal_user", defaults={"page" = 1})
      * @Template("MarcaJournalBundle:Journal:index.html.twig")
      */
-    public function indexByUserAction($courseid, $userid)
+    public function indexByUserAction($courseid, $userid,$page)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
@@ -64,36 +65,10 @@ class JournalController extends Controller
         
         //pagination
         $paginator = $this->get('knp_paginator');
-        $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', 1),5);
+        $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', $page),1);
         
         return array('journal' => $journal, 'roll' => $roll, 'user' => $user, 'role' => $role);
     }    
-
-    /**
-     * Finds and displays a Journal entity.
-     *
-     * @Route("/{courseid}/{id}/show", name="journal_show")
-     * @Template()
-     */
-    public function showAction($courseid, $id)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
-        $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        
-        if (!$journal) {
-            throw $this->createNotFoundException('Unable to find Journal entity.');
-        }
-        
-        $deleteForm = $this->createDeleteForm($id);
-        return array(
-            'journal'      => $journal,
-            'delete_form' => $deleteForm->createView(), 
-            'roll' => $roll      );
-    }
 
     /**
      * Displays a form to create a new Journal entity.
@@ -133,7 +108,7 @@ class JournalController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
+        $role = $this->getCourseRole();        
         $em = $this->getEm();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $user = $this->getUser();
@@ -159,7 +134,8 @@ class JournalController extends Controller
         return array(
             'journal' => $journal,
             'form'   => $form->createView(),
-            'roll' => $roll
+            'roll' => $roll,
+            'role' => $role
         );
     }
 
@@ -173,7 +149,7 @@ class JournalController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-
+        $role = $this->getCourseRole(); 
         $em = $this->getEm();
         $user = $this->getUser();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -194,7 +170,8 @@ class JournalController extends Controller
             'journal'      => $journal,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'roll' => $roll
+            'roll' => $roll,
+            'role' => $role
         );
     }
 
@@ -209,7 +186,7 @@ class JournalController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
+        $role = $this->getCourseRole(); 
         $em = $this->getEm();
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -236,7 +213,8 @@ class JournalController extends Controller
             'journal'      => $journal,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'roll' => $roll
+            'roll' => $roll,
+            'role' => $role
         );
     }
 

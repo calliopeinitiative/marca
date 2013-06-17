@@ -17,14 +17,27 @@ $('form li').addClass('alert alert-error');
 });
 </script>
 
+{% if journal %}
+<div class="span9 well">  
+<div class="span8 center"> 
+<h2><span class="journal-title">{{ journal.title }}</span></h2>
+<span>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }}</span>
+<hr/>
+<div class="journal-body">
+{{ journal.body|raw }}
+</div>
+</div>
+</div> 
+{%endif %}
+
 <div class="span9 well"> 
-<form action="{{ course_path('response_create', { 'source': source, 'sourceid': sourceid,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ course_path('response_create', { 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user') }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
         {{ form_errors(form) }}
          {{ form_row(form.body) }}
          {{ form_rest(form) }}
         <button class="btn btn-primary" type="submit">Create</button>
-        <a class="btn" href="{{ course_path(source, { 'id': sourceid,'view': app.request.get('view') }) }}">Cancel</a> 
-</form>
+        <a class="btn" href="{{ course_path(source, { 'id': response.id, 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user'),'userid':app.request.get('userid') }) }}">Cancel</a> 
+        </form>
           
 </div>
 {% endblock %}

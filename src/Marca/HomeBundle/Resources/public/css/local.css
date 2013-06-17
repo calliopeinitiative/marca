@@ -25,6 +25,8 @@ h1 {font-size:26px;font-weight:normal}
 h1 small {font-size:20px;font-weight:normal}
 h2 {font-size:22px;font-weight:normal}
 h2 small {font-size:18px;font-weight:normal}
+h3 {font-size:20px;font-weight:normal}
+h3 small {font-size:16px;font-weight:normal}
 .centered {text-align: right;color:blue;}
 .center { float: none; margin-left: auto; margin-right: auto; }
 .background {background: #F2F2F2}
@@ -442,4 +444,32 @@ color: white;
 z-index:10000;
 text-align:right;
 background: #373737;
+}
+
+.well-header {
+padding: 9px 15px;
+border-bottom: 1px solid #eee;
+background-color: #F0F0F0;
+margin-top: 0;
+border-bottom: 1px solid #ddd;
+-webkit-border-radius: 6px 6px 0 0 ;
+-moz-border-radius: 6px 6px 0 0 ;
+border-radius: 6px 6px 0 0 ;
+-webkit-box-shadow: inset 0 1px 0 #ffffff;
+-moz-box-shadow: inset 0 1px 0 #ffffff;
+box-shadow: inset 0 1px 0 #ffffff;
+}
+
+.well-footer {
+padding: 14px 15px 15px;
+margin-bottom: 0;
+text-align: right;
+background-color: #F0F0F0;
+border-top: 1px solid #ddd;
+-webkit-border-radius: 0 0 6px 6px;
+-moz-border-radius: 0 0 6px 6px;
+border-radius: 0 0 6px 6px;
+-webkit-box-shadow: inset 0 1px 0 #ffffff;
+-moz-box-shadow: inset 0 1px 0 #ffffff;
+box-shadow: inset 0 1px 0 #ffffff;
 }

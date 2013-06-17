@@ -24,7 +24,7 @@ class Response
     private $id;
 
     /**
-     * @var string
+     * @var text
      * @Assert\NotBlank()
      * @ORM\Column(name="body", type="text")
      */

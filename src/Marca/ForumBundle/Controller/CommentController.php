@@ -29,15 +29,16 @@ class CommentController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
+        $em = $this->getEm();
+        $parent = $em->getRepository('MarcaForumBundle:Forum')->find($parentid);        
         $comment = new Comment();
-
-        $comment->setBody('<p></p>');
-        
+        $comment->setBody('<p></p>');        
         $form   = $this->createForm(new CommentType(), $comment);
 
         return array(
             'forumid' => $forumid,
             'parentid' => $parentid,
+            'parent' => $parent,
             'comment' => $comment,
             'form'   => $form->createView()
         );
@@ -56,6 +57,7 @@ class CommentController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
+        $parent = $em->getRepository('MarcaForumBundle:Forum')->find($parentid);   
         $forum = $em->getRepository('MarcaForumBundle:Forum')->find($forumid);
         $comment  = new Comment();
         $user = $this->getUser();     
@@ -78,6 +80,7 @@ class CommentController extends Controller
         return array(
             'forumid' => $forumid,
             'parentid' => $parentid,
+            'parent' => $parent,
             'comment' => $comment,
             'form'   => $form->createView()
         );
@@ -86,17 +89,17 @@ class CommentController extends Controller
     /**
      * Displays a form to edit an existing Comment entity.
      *
-     * @Route("/{courseid}/{id}/edit", name="comment_edit")
+     * @Route("/{courseid}/{parentid}/{id}/edit", name="comment_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($id,$courseid,$parentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getDoctrine()->getEntityManager();
         $user = $this->getUser();
-
+        $parent = $em->getRepository('MarcaForumBundle:Forum')->find($parentid);   
         $comment = $em->getRepository('MarcaForumBundle:Comment')->find($id);
 
         if (!$comment) {
@@ -111,6 +114,7 @@ class CommentController extends Controller
 
         return array(
             'comment'      => $comment,
+            'parent' => $parent,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -119,17 +123,17 @@ class CommentController extends Controller
     /**
      * Edits an existing Comment entity.
      *
-     * @Route("/{courseid}/{id}/update", name="comment_update")
+     * @Route("/{courseid}/{parentid}/{id}/update", name="comment_update")
      * @Method("post")
      * @Template("MarcaForumBundle:Comment:edit.html.twig")
      */
-    public function updateAction($id,$courseid)
+    public function updateAction($id,$courseid,$parentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getDoctrine()->getEntityManager();
-
+        $parent = $em->getRepository('MarcaForumBundle:Forum')->find($parentid);   
         $comment = $em->getRepository('MarcaForumBundle:Comment')->find($id);
 
         if (!$comment) {
@@ -152,6 +156,7 @@ class CommentController extends Controller
 
         return array(
             'comment'      => $comment,
+            'parent' => $parent,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
