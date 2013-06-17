@@ -40,10 +40,6 @@ $('#close_window').click(function(){
     window.close();
 });
 
-$('#new_review, #new_grade').click(function(){
-  $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}');
-  $('#file_modal').modal();
-});
 $('#new_saveas').click(function(){
   $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '0', 'type': 'saveas', 'fileid': file.id }) }}');
   $('#file_modal').modal();
@@ -78,9 +74,9 @@ $('#doctools').css('height', function(index) {
 
 {# Don't show Review button if it is a review #}
 {% if file.reviewed|length == 0 %}
-<a title="Create a copy of this document for peer review" id="new_review" class="btn btn-small" href="javascript:void(0)">Peer Review</a>
+<a title="Create a copy of this document for peer review" id="new_review" class="btn btn-small" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Peer Review</a>
 {% if role == 2 %}
-<a title="Create a copy of this document for peer review" id="new_grade" class="btn btn-small" href="javascript:void(0)">Instructor Review</a>
+<a title="Create a copy of this document for peer review" id="new_grade" class="btn btn-small" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
 {% endif %}
 {% endif %}
 {% if doc.isOwner(app.user.username) or file.project.resource == 'true' %}

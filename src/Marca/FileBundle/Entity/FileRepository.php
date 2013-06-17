@@ -93,6 +93,13 @@ class FileRepository extends EntityRepository
                ->setParameters(array('1' => $user, '2' => $course))->getResult();
     } 
     
+    public function findHidden($user, $course)
+    {
+       return $this->getEntityManager()
+               ->createQuery('SELECT f from MarcaFileBundle:File f WHERE f.user = ?1 AND f.course = ?2 AND f.access = 2' )
+               ->setParameters(array('1' => $user, '2' => $course))->getResult();
+    }     
+    
     public function countFilesByCourse($course)
     {
        return $this->getEntityManager()

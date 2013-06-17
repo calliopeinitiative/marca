@@ -13,6 +13,7 @@ use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
 use Marca\FileBundle\Form\LinkType;
 use Marca\FileBundle\Form\DocType;
+use Marca\FileBundle\Form\ReviewType;
 use Marca\FileBundle\Form\UploadType;
 use Marca\TagBundle\Entity\Tagset;
 use Marca\DocBundle\Entity\Doc;
@@ -88,6 +89,59 @@ class FileController extends Controller
         return array('file' => $file, 'delete_form' => $deleteForm->createView(),);
     }
     
+    /**
+     * Finds and displays a File entity.
+     *
+     * @Route("/{courseid}/{id}/toggle_release", name="file_toggle_release")
+     */
+    public function toggleReleaseAction($id)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed); 
+        $session = $this->getRequest()->getSession();
+        if (!$session){$uri='../../../file/1/recent/0/mine/0/0/0/list';}
+        else {
+        $uri = $session->get('referrer');
+        }
+        
+        $em = $this->getEm();
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        if ($file->getAccess()==2){$file->setAccess('0');}
+        else {$file->setAccess('2');}
+        $em->persist($file);
+        $em->flush();
+
+        return $this->redirect($uri);
+        
+    }
+    
+    /**
+     * Finds and displays a File entity.
+     *
+     * @Route("/{courseid}/release_all", name="file_release_all")
+     */
+    public function releaseAllAction($courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed); 
+        $session = $this->getRequest()->getSession();
+        if (!$session){$uri='../../../file/1/recent/0/mine/0/0/0/list';}
+        else {
+        $uri = $session->get('referrer');
+        }
+        $user = $this->getUser();
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $files = $em->getRepository('MarcaFileBundle:File')->findHidden($user,$course);
+        foreach($files as $file){
+           $file->setAccess('0');
+           $em->persist($file);
+         }
+         $em->flush();
+
+        return $this->redirect($uri);
+    }    
+    
        
     /**
      * Displays a form to create a new File entity for a LINK listing.
@@ -101,6 +155,7 @@ class FileController extends Controller
         $this->restrictAccessTo($allowed);
 
         $em = $this->getEm();
+        $user = $this->getUser();     
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
@@ -109,6 +164,8 @@ class FileController extends Controller
         
         $file = new File();
         $file->setProject($project);
+        $file->setUser($user);
+        $file->setCourse($course);
         if ($type == 'link') {
         $file->setName('New Link');
         $file->setUrl('http://newlink.edu');
@@ -141,18 +198,33 @@ class FileController extends Controller
         elseif ($type == 'review'){
            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
            $file->setName('Review');
-           $form   = $this->createForm(new DocType($options), $file);
-           return array(
-                'file'      => $file,
-                'resource'      => $resource,
-                'tag'      => $tag,
-                'type'      => $type,
-                'tags'        => $tags,
-                'roll'        => $roll,
-                'course' => $course,
-                'form'   => $form->createView()
-            );  
+           $doc = new Doc();
+           $doc->setFile($file);
+           $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+           $file->setReviewed($reviewed_file);
+           $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
+           $doc->setBody($reviewed_file->getDoc()->getBody());
+           $em->persist($doc);
+           $em->persist($file);
+           $em->flush();
+           return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $doc->getId(),'view'=>'app')));
         }
+        elseif ($type == 'instr_review'){
+           $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+           $file->setName('Review');
+           $file->setAccess('2');
+           $doc = new Doc();
+           $doc->setFile($file);
+           $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+           $file->setReviewed($reviewed_file);
+           $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
+           $file->setAccess('2');
+           $doc->setBody($reviewed_file->getDoc()->getBody());
+           $em->persist($doc);
+           $em->persist($file);
+           $em->flush();
+           return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $doc->getId(),'view'=>'app')));
+        }        
         elseif ($type == 'saveas'){
            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
            $file->setName('SaveAs Document');
@@ -208,13 +280,8 @@ class FileController extends Controller
         $doc->setBody('<p></p>'); 
         }
         elseif ($type == 'review'){
-            $doc = new Doc();
-            $doc->setFile($file);
-            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
-            $file->setReviewed($reviewed_file);
-            $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
-            $doc->setBody($reviewed_file->getDoc()->getBody());
-        }
+
+        }        
         elseif ($type == 'saveas'){
             $doc = new Doc();
             $doc->setFile($file);
@@ -224,7 +291,7 @@ class FileController extends Controller
         if ($form->isValid()) {
             $em = $this->getEm();
             $em->persist($file);
-            if ($type == 'doc' || $type == 'review' || $type == 'saveas') {
+            if ($type == 'doc' || $type == 'review'|| $type == 'instr_review' || $type == 'saveas') {
             $em->persist($doc);
             }
             $em->flush();
@@ -232,7 +299,7 @@ class FileController extends Controller
         if ($type == 'link') {
         return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'id'=> $file->getId(),'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource, 'user'=>'0')));
         }
-        elseif ($type == 'doc' || $type == 'review' || $type == 'saveas') {
+        elseif ($type == 'doc' || $type == 'review' || $type == 'instr_review' || $type == 'saveas') {
         return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $doc->getId(),'view'=>'app')));
         }
         
