@@ -9,26 +9,28 @@
 <div id="docTabContent" class="tab-content">
 <div class="tab-pane fade in active" id="docMarkup">
 {# INSERT NOTE #}
+       
 <form id='note_insert_form' name='note_insert_form'>
-<textarea  class='span3' id="insert_value" name="html_insert" tabindex="0"></textarea>
-<a id='note_insert_submit' href="javascript:void(0)" class="label label-info" tabindex="0.1" title="Submit entry">Insert Note</a>
+    <label for="insert_value" class="">Note</label> 
+<textarea  class='span3' id="insert_value" name="html_insert"></textarea>
+<a id='note_insert_submit' href="javascript:void(0)" class="label label-info"  title="Submit entry">Insert Note</a>
 </form>     
 
 
-
-<div class=''>
+<hr/>
+<div class="margin-top">
 {% for markupset in markupsets%}
 {% if loop.first %}
-        <h5>{{ markupset.name }}</h5>     
+<div>{{ markupset.name }}</div>     
 {% for markup in markupset.markup  %}
-                 <a href="javascript:{{markup.function}}('{{markup.id}}', '{{markup.value}}','{{markup.color}}')" tabindex="1" title="Submit entry"><span style='color:black;' class="label {{ markup.color }}">{{ markup.name }}</span></a></li> 
+<a href="javascript:{{markup.function}}('{{markup.id}}', '{{markup.value}}','{{markup.color}}')" title="Submit entry"><span style='color:black;' class="label {{ markup.color }}">{{ markup.name }}</span></a></li> 
 {% endfor %}  
 {% endif %}
 {% endfor %}
 </div>
-
-
 <hr/>
+
+
 <div class = "accordion" id="markup">
     <div class="accordion-group">
         <div class="accordion-heading">
@@ -46,7 +48,7 @@
                 <div class="accordion-inner">
                     
                 {% for markup in markupset.markup %}
-                 <a href="javascript:{{markup.function}}('{{markup.id}}', '{{markup.value}}','{{markup.color}}')" tabindex="1" title="Submit entry"><span style='color:black;' class="label {{ markup.color }}">{{ markup.name }}</span></a></li> 
+                 <a href="javascript:{{markup.function}}('{{markup.id}}', '{{markup.value}}','{{markup.color}}')" title="Submit entry"><span style='color:black;' class="label {{ markup.color }}">{{ markup.name }}</span></a></li> 
                 {% endfor %}  
                 
                 </div>
@@ -65,10 +67,7 @@
 <div class="tab-pane fade" id="docFeedback">
 {% for response in file.responses %}    
 <div>
-    <h5 class='inline'>{{ response.user.firstname}} {{ response.user.lastname}} says:</h5>
-{% if response.isOwner(app.user.username) %}
-<a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view')  }) }}">Edit</a>
-{% endif %}
+<h5 class='inline'>{{ response.user.firstname}} {{ response.user.lastname}} says:</h5>
 <div class="divider">
 {{ response.body|raw }} 
 </div>               

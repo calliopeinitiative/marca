@@ -507,7 +507,7 @@ class FileController extends Controller
                  $em = $this->getEm();
                  $em->persist($file);
                  $em->flush(); 
-                 return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'id'=> $file->getId(),'sort'=>'updated','scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0','resource'=>$resource, 'user'=>'0')));
+                 return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'id'=> $file->getId(),'sort'=>'updated','scope'=>'mine','project'=>'recent', 'tag'=>'0', 'userid'=>'0','resource'=>$resource, 'user'=>'0')));
              }
              
          }
@@ -596,15 +596,13 @@ class FileController extends Controller
 		return $response;
 	} 
         
-         
- 
    /**
      * Finds and displays an XSL transformation of a File entity.
      *
-     * @Route("/{courseid}/{id}/{view}/display", name="file_display")
+     * @Route("/{courseid}/{id}/{view}/view_odt", name="file_view_odt")
      * @Template("MarcaDocBundle:Doc:show.html.twig")
      */
-    public function displayAction($id)
+    public function viewOdtAction($id)
     {
         $em = $this->getEm();
         $user = $this->getUser();
@@ -626,6 +624,57 @@ class FileController extends Controller
 
             $html4doc = $this->odt2html($odtfile, $xsltfile)->render_inline_images()->get_html();
             $doc->setBody($html4doc);
+            return array(
+            'doc'      => $doc,
+            'role'      => $role,    
+            'file'        => $file,
+            'markup' => $markup,
+             );
+          
+
+    } 
+    
+    
+ 
+   /**
+     * Finds and displays an XSL transformation of a File entity.
+     *
+     * @Route("/{courseid}/{id}/{view}/convert_odt", name="file_convert_odt")
+     * @Template("MarcaDocBundle:Doc:show.html.twig")
+     */
+    public function convertOdtAction($id)
+    {
+        
+        $em = $this->getEm();
+        $org_file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $org_file_project = $org_file->getProject();
+        $org_file_access = $org_file->getAccess();
+        $org_file_name = $org_file->getName(). ' converted';
+        $user = $this->getUser();
+        $course = $this->getCourse();
+        $file  = new File();
+        $file->setUser($user);
+        $file->setCourse($course);
+        $file->setProject($org_file_project);
+        $file->setAccess($org_file_access);
+        $file->setName($org_file_name);
+        $doc = new Doc();
+        $doc->setFile($file);
+        $role = $this->getCourseRole();
+
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
+        
+        $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
+        $odtfile = $helper->asset($org_file, 'file');
+        $xsltfile = __DIR__.'/../../../../src/Marca/DocBundle/Resources/xsl/odt2html.xsl';
+
+        if (!$org_file) {
+            throw $this->createNotFoundException('Unable to find File entity.');
+        }
+
+            $html4doc = $this->odt2html($odtfile, $xsltfile)->render_inline_images()->get_html();
+            $doc->setBody($html4doc);
+            $em->persist($file);
             $em->persist($doc);
             $em->flush();
             return array(

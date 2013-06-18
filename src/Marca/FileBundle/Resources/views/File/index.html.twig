@@ -155,13 +155,27 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 {# main list of files #}
 <tr>
 <td>  
-{# different functions for different file types #}    
-{% if file.doc %}<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">{{ file.name|slice(0, 25) }}</a>
- <a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}"><i class="icon-share-alt"></i></a>
-{% elseif file.url %}<i class="icon-adjust"></i> <a href="{{ file.url}}" target="_blank">{{ file.name }}</a>
-{% elseif file.ext == 'odt' %}<i class="icon-file"></i> <a href="{{ course_path('file_display', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name }}</a>  <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="icon-download"></i></a>
-{% else %}
-<i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name }}</a>
+{# different functions for different file types #}        
+        
+{# ODT files #}         
+{% if file.doc %}     
+<span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
+<a class="margin-left" href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">{{ file.name|slice(0, 25) }}</a>
+<a title="Open this file in a new tab." target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}"><i class="icon-share-alt"></i></a>
+
+{# links #} 
+{% elseif file.url %}
+<span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
+<a class="margin-left" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>{{ file.name }}</a>
+
+{# ODT files #} 
+{% elseif file.ext == 'odt' %}
+<span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+<a class="margin-left" href="{{ course_path('file_view_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name }}</a>
+<a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="icon-download"></i></a>
+{% else %} 
+<span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+<a class="margin-left" href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name }}</a>
 {% endif %}
 
 {% if file.access==1 %} <span class="label label-success margin-left" data-toggle="tooltip" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
@@ -175,12 +189,17 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 <td>
 <ul class="nav files">
     <li class="dropdown">
-    <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">Settings<b class="caret"></b></a>
+    <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         {% if file.isOwner(app.user.username) %}<li><a class='edit_{{file.id}}' href="javascript:void(0);">Update File Settings</a></li>{% endif%}
+        {% if file.ext == 'odt' %}
+        <li><a href="{{ course_path('file_convert_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >Convert to HTML doc</a></li>
+        <li><a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" >Download File</a></li>
+        {% endif%}
         {% if role == 2 and file.doc %}
         <li><a title="Create a copy of this document for peer review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">New Instructor Review</a></li>
         {% endif %}
+        {% if file.doc %}<li><a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}">Open in a new tab</a></li>{% endif %}
         {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}
         <li><a id='file_show_{{file.id}}' href='javascript:void(0);' class="">Delete File</a></li>
         {% endif%}
@@ -197,10 +216,10 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 {% if (file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %} 
 <tr style="background:#FAF9C8;"> 
 <td colspan="2" style="padding-left:3em;"> 
-<i class="icon-edit"></i> <a href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}">Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
+<a href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}">Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
  <a target ='_blank' href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'window' }) }}"><i class="icon-share-alt"></i></a>
 {% if review.access==1 %} <span class="label label-success margin-left">Shared</span>
-{% elseif review.access==2 %}<span class="label label-inverse margin-left">Hidden</span> {% endif %}
+{% elseif review.access==2 %}<span title="This review is currently hidden from view." class="label label-inverse margin-left">Hidden</span> {% endif %}
 </td>
 
 <td></td>
@@ -210,7 +229,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 <td>
 <ul class="nav files">
     <li class="dropdown">
-    <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">Settings<b class="caret"></b></a>
+    <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         {% if review.isOwner(app.user.username) %}<li><a class='edit_{{review.id}}' href="javascript:void(0);">Update File Settings</a></li>{% endif%}
         {% if role==2 and review.isOwner(app.user.username) %}<li><a class='' href="{{ course_path('file_toggle_release', { 'id': review.id }) }}">{% if review.access==2 %}Release{% else %}Hide{% endif %} Review</a></li>{% endif%}

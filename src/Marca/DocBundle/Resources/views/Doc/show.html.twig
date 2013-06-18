@@ -64,14 +64,14 @@ $('#doctools').css('height', function(index) {
 
 
 <div class="span12 center">
-
+<a name="skip"></a>
 <h1 class='inline'>{{file.name}}</h1>
 <span class="margin-left"><span id="word-count"></span> words</span>
 {# Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}} / Word count: <span id="word-count"></span> #}
 <span class="pull-right" style='margin-right:3em'>
 <div class="btn-group">
+{% if app.request.get('_route') != 'file_view_odt' %}
 {% if doc.isOwner(app.user.username) %}<a title="Edit this document" class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %} 
-
 {# Don't show Review button if it is a review #}
 {% if file.reviewed|length == 0 %}
 <a title="Create a copy of this document for peer review" id="new_review" class="btn btn-small" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Peer Review</a>
@@ -83,7 +83,7 @@ $('#doctools').css('height', function(index) {
 <a title="Create a copy of this document" id="new_saveas" class="btn btn-small" href="javascript:void(0)">SaveAs</a>
 {% endif %}
 <a title="Print this document" class="btn btn-small" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>
-
+{% endif %}
 
 
 {% if app.request.get('view') == 'window' %}
@@ -113,6 +113,7 @@ $('#doctools').css('height', function(index) {
  
 {# Doc tools #}        
 <div class="span3"> 
+{% if app.request.get('_route') != 'file_view_odt' %}     
 <div id='doctools' class="span3 well" style='margin-top: -.1em; padding:0;background: white; '>   
     
 <div id="docTab">
@@ -127,7 +128,7 @@ $('#doctools').css('height', function(index) {
 <div id='notes_container' class='pad'>
 </div> 
 </div> 
-        
+       
 <div class="tab-pane fade in active" id="docFeedback" >
 {# Responses #}
 <div class="">        
@@ -171,6 +172,7 @@ $('#doctools').css('height', function(index) {
 </div> 
 
 </div>
+{% endif %}        
 </div>{# end of Doc tools #}
 
 

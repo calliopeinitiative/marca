@@ -146,6 +146,8 @@ form ul li {list-style: none;}
   display: inline;
 }
 
+.label-file {background:#3a87ad; width:2em;text-align: center}
+
 
 .pagination span {
   float: left;

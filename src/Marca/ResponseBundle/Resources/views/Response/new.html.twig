@@ -36,7 +36,11 @@ $('form li').addClass('alert alert-error');
          {{ form_row(form.body) }}
          {{ form_rest(form) }}
         <button class="btn btn-primary" type="submit">Create</button>
-        <a class="btn" href="{{ course_path(source, { 'id': response.id, 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user'),'userid':app.request.get('userid') }) }}">Cancel</a> 
+            {% if journal %}
+            <a class="btn" href="{{ course_path('journal_user', { 'id': response.id, 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user'),'userid':app.request.get('userid') }) }}">Cancel</a> 
+            {%else %}
+            <a class="btn" href="{{ course_path(source, { 'id': sourceid,'view': app.request.get('view') }) }}">Cancel</a>
+            {%endif %} 
         </form>
           
 </div>
