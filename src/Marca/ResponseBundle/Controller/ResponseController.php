@@ -24,7 +24,7 @@ class ResponseController extends Controller
      */
     public function newAction($source, $sourceid, $page)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR);
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $response = new Response();
@@ -60,7 +60,7 @@ class ResponseController extends Controller
     public function createAction($courseid, $source, $sourceid, $view, $page, $user)
     {
         
-        $allowed = array(self::ROLE_INSTRUCTOR);
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -131,7 +131,7 @@ class ResponseController extends Controller
      */
     public function editAction($id, $source, $sourceid, $view, $page)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR);
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -173,7 +173,7 @@ class ResponseController extends Controller
      */
     public function updateAction($id, $source, $sourceid, $courseid, $view, $page, $user)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR);
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -244,7 +244,7 @@ class ResponseController extends Controller
      */
     public function deleteAction($id, $courseid, $source, $sourceid, $view, $page,$user,$userid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR);
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $form = $this->createDeleteForm($id);
