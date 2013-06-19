@@ -135,7 +135,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 </ul>         
 </div>
 
-<div class="span9 well"> 
+<div id="file_list" class="span9 well"> 
 <table class="table">
 {% for file in files%}
 {# list headings #}        
@@ -160,22 +160,22 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 {# ODT files #}         
 {% if file.doc %}     
 <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
-<a class="margin-left" href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">{{ file.name|slice(0, 20) }}</a>
+<a class="" href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">{{ file.name|slice(0, 20) }}</a>
 <a title="Open this file in a new tab." target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}"><i class="icon-share-alt"></i></a>
 
 {# links #} 
 {% elseif file.url %}
 <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
-<a class="margin-left" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>{{ file.name|slice(0, 20) }}</a>
+<a class="" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>{{ file.name|slice(0, 20) }}</a>
 
 {# ODT files #} 
 {% elseif file.ext == 'odt' %}
 <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
-<a class="margin-left" href="{{ course_path('file_view_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name|slice(0, 20) }}</a>
+<a class="" href="{{ course_path('file_view_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name|slice(0, 20) }}</a>
 <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="icon-download"></i></a>
 {% else %} 
 <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
-<a class="margin-left" href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name|slice(0, 20) }}</a>
+<a class="" href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name|slice(0, 20) }}</a>
 {% endif %}
 
 {% if file.access==1 %} <span class="label label-success margin-left" data-toggle="tooltip" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
@@ -233,6 +233,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         {% if review.isOwner(app.user.username) %}<li><a class='edit_{{review.id}}' href="javascript:void(0);">Update File Settings</a></li>{% endif%}
         {% if role==2 and review.isOwner(app.user.username) %}<li><a class='' href="{{ course_path('file_toggle_release', { 'id': review.id }) }}">{% if review.access==2 %}Release{% else %}Hide{% endif %} Review</a></li>{% endif%}
+        {% if review.doc %}<li><a target ='_blank' href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'window' }) }}">Open in a new tab</a></li>{% endif %}
         {% if review.isOwner(app.user.username) and file.portfolio|length == 0 %}<li><a id='file_show_{{review.id}}' href='javascript:void(0);' class="">Delete File</a></li>{% endif%}
         </ul>
      </li>
