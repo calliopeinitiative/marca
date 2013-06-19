@@ -578,10 +578,18 @@ class FileController extends Controller
                       $response->headers->set('Content-Type', 'application/vnd.mspowerpoint');
                       $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
                       break;
+                      case "pptx":
+                      $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.presentationml.presentation');
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
+                      break;                  
                       case "xls":
                       $response->headers->set('Content-Type', 'application/vnd.ms-excel');
                       $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
-                      break;                  
+                      break;  
+                      case "xlsx":
+                      $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
+                      break;                   
                       case "pdf":
                       $response->headers->set('Content-Type', 'application/pdf');
                       $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');   

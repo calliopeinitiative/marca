@@ -16,10 +16,24 @@ class Namer implements NamerInterface
      * @param string $field The name of the uploadable field to generate a name for.
      * @return string The file name.
      */
-    function name($obj, $field)
+   
+    public function name($obj, $field)
     {
-        $file = $obj->getFile()->getClientOriginalName();
+        $refObj = new \ReflectionObject($obj);
 
-        return uniqid('', true).'.'.$file;
-    }
+        $refProp = $refObj->getProperty($field);
+        $refProp->setAccessible(true);
+
+        $file = $refProp->getValue($obj);
+        
+        $original_name = $file->getClientOriginalName();
+
+        $name = uniqid();
+        
+        $extension = pathinfo($original_name, PATHINFO_EXTENSION);
+
+        $name = sprintf('%s.%s', $name, $extension);
+
+        return $name;
+    }   
 }
