@@ -42,7 +42,7 @@ $('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay
             <td><a class="" title="Click to enter {{ course.name }}" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></td>
             <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
             <td>{{ course.time|date('h:i a') }}</td>
-            {% if course.isOwner(app.user.username) %}<td><a class="btn" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a></td>{% endif %} 
+            <td>{% if course.isOwner(app.user.username) %}<a class="btn" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}</td>
         </tr>
      {% endfor %}   
     </tbody>
