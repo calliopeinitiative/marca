@@ -18,7 +18,7 @@ $('#note_anchor{{loop.index}}').click(function(){
     $('.note_body').hide();$('#note_body{{loop.index}}').show();$('td.active').removeClass('active');$('#note_td{{loop.index}}').addClass('active');
 });        
 {% endfor %}  
-
+$('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay(500).animate({ borderColor: '#E3E3E3', borderWidth: '1px'  }, 2000); 
 });
 </script>
 
