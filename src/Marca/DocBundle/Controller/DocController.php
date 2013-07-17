@@ -172,12 +172,6 @@ class DocController extends Controller
             throw $this->createNotFoundException('Unable to find Doc entity.');
         }
         
-        $autosaveDoc = $doc->getAutosaveDoc();
-        if ($autosaveDoc){
-            $autosaveId = $autosaveDoc->getFile()->getId();
-            $em->remove($autosaveDoc);
-            $em->getRepository('MarcaFileBundle:File')->deleteEdoc($autosaveId);
-        }
         
         $editForm   = $this->createForm(new DocType(), $doc);
         $deleteForm = $this->createDeleteForm($id);
@@ -211,45 +205,18 @@ class DocController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-        $tagid = 5;
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
-        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tagid);
         
-        $request = $this->get('request');
-        $test = $request->request->get('test');
+        $request = $this->getRequest();
+        $test = $request->request->get('docBody');
         
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
         }
         
-        $file = $doc->getFile();
         
-        $autosaveDoc = $doc->getAutosaveDoc();
-        
-        if (!$autosaveDoc){
-            $autosaveDoc = new Doc();
-            $autosaveFile = new File();
-            $autosaveFile->setUser($file->getUser());
-            $autosaveFile->setCourse($file->getCourse());
-            $autosaveFile->setProject($file->getProject());
-            $autosaveFile->addTag($tag);
-            $currentTitle = $file->getName();
-            $autosaveFile->setName($currentTitle."_backup");
-            $autosaveDoc->setFile($autosaveFile);
-            $autosaveDoc->setBody($test);
-            
-            $em->persist($autosaveFile);
-            $em->persist($autosaveDoc);
-        
-            $doc->setAutosaveDoc($autosaveDoc);
-        
+            $doc->setBody($test);
             $em->persist($doc);
-        }
-        else{
-            $autosaveDoc->setBody($test);
-            $em->persist($autosaveDoc);
-            $em->persist($doc);
-        }
         
         $em->flush();
         

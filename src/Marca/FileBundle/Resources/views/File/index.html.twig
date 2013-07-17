@@ -143,7 +143,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 <thead>
 <th>Title</th>
 <th>{% if (app.request.get('scope')=='all' or app.request.get('scope')=='byuser') and app.request.get('resource')=='0' %}Owner{% endif %}</th>
-<th>{% if app.request.get('project')=='recent' %}Project{% endif %}</th>
+<th>{% if app.request.get('project')=='recent' %}{% if app.request.get('resource')=='1' %}Unit{% else %}Folder{% endif %}{% endif %}</th>
 <th>Labels</th>
 <th>{% if app.request.get('resource')=='0' %}Modified{% endif %}</th>
 <th></th>

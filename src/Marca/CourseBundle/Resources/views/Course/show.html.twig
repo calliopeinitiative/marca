@@ -4,18 +4,36 @@
 
 {% block content %}
 
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('a#cancel_delete').toggle();$('form#delete').toggle(); 
+$("a#confirm_delete").click(function() {
+$('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
+});    
+$("a#cancel_delete").click(function() {
+$('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
+}); 
+});
+</script>
+
+
 <div class="span9 well">
 <h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a></h2> 
- 
+
 <a class="btn btn-primary" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit Course Settings </a>
 <a class="btn" href="{{ path('roll', { 'courseid': course.id }) }}">Manage Roll</a>
 <a class="btn" href="{{ path('teams', { 'courseid': course.id }) }}">Manage Teams</a>
-<form action="{{ path('course_delete', { 'courseid': course.id }) }}" method="post">
+Created: {{ course.created|date('Y-m-d H:i:s') }} /  Updated:{{ course.updated|date('Y-m-d H:i:s') }} 
+
+<hr/>
+<a href='javascript:void(0);' id='confirm_delete' class="btn pull-right" type="submit">Delete</a>
+<a href='javascript:void(0);' id='cancel_delete' class="btn pull-right" type="submit">Cancel Delete</a>
+<form id='delete' action="{{ path('course_delete', { 'courseid': course.id }) }}" method="post">
 {{ form_widget(delete_form) }}
-<button class="btn btn-delete" type="submit">Delete</button>
+<button class="btn btn-warning pull-right" type="submit">Confirm Delete</button>
 </form>
-Created: {{ course.created|date('Y-m-d H:i:s') }} /     
-Updated:{{ course.updated|date('Y-m-d H:i:s') }}
+
 </div> 
     
        
