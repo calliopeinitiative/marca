@@ -80,14 +80,6 @@ class Course
     
 
     /**
-     * @var boolean $multicult
-     *
-     * @ORM\Column(name="multicult", type="boolean", nullable=true)
-     */
-    private $multicult = false;
-
-
-    /**
      * @var boolean $studentForum
      *
      * @ORM\Column(name="studentForum", type="boolean")
@@ -197,6 +189,13 @@ class Course
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $institution; 
+    
+    /**
+     * @var boolean $module
+     *
+     * @ORM\Column(name="module", type="boolean", nullable=true)
+     */
+    private $module = false;    
     
     public function __construct()
     {
@@ -929,5 +928,28 @@ class Course
     public function getInstitution()
     {
         return $this->institution;
+    }
+
+    /**
+     * Set module
+     *
+     * @param boolean $module
+     * @return Course
+     */
+    public function setModule($module)
+    {
+        $this->module = $module;
+    
+        return $this;
+    }
+
+    /**
+     * Get module
+     *
+     * @return boolean 
+     */
+    public function getModule()
+    {
+        return $this->module;
     }
 }
