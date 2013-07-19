@@ -11,15 +11,20 @@
 {% endblock %}
 
 {% block sidebar %}
-<h1>Course Home </h1>
+<h1>{% if app.session.get('module')== 0 %}Course{% else %}Module{% endif %} Home</h1>
 <li class=""><a href="{{ course_path('course_home') }}">Home</a></li>
-<li class=""><a href="{{ course_path('course_roll') }}">Roll</a></li> 
+{# condition for display if not module #}
+{% if app.session.get('module')== 0 %}<li class=""><a href="{{ course_path('course_roll') }}">Roll</a></li>{%endif%} 
 
 {% if is_granted('ROLE_INSTR') %}
 <h2 class="nav-header">Settings</h2>
-<li><a href="{{ course_path('course_show') }}">Course Settings</a></li>
-<li><a href="{{ course_path('roll') }}">Manage Roll</a></li>
-<li><a href="{{ course_path('teams') }}">Manage Teams</a></li>          
+<li><a href="{{ course_path('course_show') }}">{% if app.session.get('module')== 0 %}Course{% else %}Module{% endif %} Settings</a></li>
+{# condition for display if not module #}
+{% if app.session.get('module')== 0 %}<li><a href="{{ course_path('roll') }}">Manage Roll</a></li>{%endif%}
+
+{# Teams commented out until more fully developed 
+<li><a href="{{ course_path('teams') }}">Manage Teams</a></li>   
+#}       
 {% endif %} 
 {% endblock %} 
 

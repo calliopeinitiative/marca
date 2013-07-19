@@ -11,6 +11,7 @@ use Marca\CourseBundle\Entity\Roll;
 use Marca\UserBundle\Entity\Profile;
 use Marca\CourseBundle\Entity\Project;
 use Marca\CourseBundle\Form\CourseType;
+use Marca\CourseBundle\Form\ModuleType;
 use Marca\CourseBundle\Form\AnnounceType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -51,6 +52,7 @@ class CourseController extends Controller
         $course = $this->getCourse();
         $session = $this->get('session'); 
         $session->clear();
+        $session->set('module', $course->getModule());
         $session->set('portSwitch', $course->getPortfolio()); 
         $session->set('notesSwitch', $course->getNotes()); 
         $session->set('journalSwitch', $course->getJournal()); 
@@ -103,30 +105,40 @@ class CourseController extends Controller
     /**
      * Displays a form to create a new Course entity.
      *
-     * @Route("/new", name="course_new")
+     * @Route("/{type}/new", name="course_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($type)
     {
-        
+        //type 0 is a new course; type 1 is a module
+        $em = $this->getEm();
         $user = $this->getUser();
         $institution = $user->getInstitution();
         //any instructor can create a new course, so give all instructors access
         if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
         throw new AccessDeniedException();
         }
-        $em = $this->getEm();
+        $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution); 
+        if ($type==0)
+        {$name = 'New Course';}
+        else {$name = 'New Module';}
+        $time = new \DateTime('08:00');
+        
         $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findDefault();
         $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findDefault();
         $portset = $em->getRepository('MarcaPortfolioBundle:Portset')->findDefault();  
         $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->findDefault(); 
-        $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault();  
+        $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution);
+        
         $course = new Course();
         $course->setUser($user);
         $course->setInstitution($institution);
+        $course->setName($name);
+        $course->setTime($time);
         $course->setPortset($portset); 
         $course->setAssessmentset($assessmentset);  
         $course->setTerm($term);
+        $course->setModule($type);
         foreach ($tagsets as &$tagset) {
         $course->addTagset($tagset);    
         };
@@ -161,6 +173,7 @@ class CourseController extends Controller
         $course->setUser($user);
         $course->setInstitution($institution);
         $request = $this->getRequest();
+        $module = $request->request->get('module');
         $form    = $this->createForm(new CourseType($options), $course);
         $form->bindRequest($request);
         
@@ -170,6 +183,8 @@ class CourseController extends Controller
         $roll->setStatus(1);
         $roll->setCourse($course);
         
+        if ($module == 0)
+        {
         $project1 = new Project();
         $project1->setName('Paper 1');
         $project1->setSortOrder(1);
@@ -189,7 +204,7 @@ class CourseController extends Controller
         $project4->setName('Portfolio Prep');
         $project4->setSortOrder(4);
         $project4->setCourse($course); 
-        
+        }
         $project5 = new Project();
         $project5->setName('Readings');
         $project5->setSortOrder(5);
@@ -214,10 +229,13 @@ class CourseController extends Controller
             $em = $this->getEm();
             $em->persist($course);
             $em->persist($roll);
+            if ($module == 0)
+            {
             $em->persist($project1);
             $em->persist($project2);
             $em->persist($project3);
             $em->persist($project4);
+            }
             $em->persist($project5);
             $em->persist($project6);
             $em->persist($project7);            
@@ -232,7 +250,8 @@ class CourseController extends Controller
             'form'   => $form->createView()
         );
     }
-
+ 
+    
     /**
      * Displays a form to edit an existing Course entity.
      *
@@ -345,7 +364,7 @@ class CourseController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('course'));
+        return $this->redirect($this->generateUrl('user_home'));
     }
 
     private function createDeleteForm($id)
@@ -428,5 +447,29 @@ class CourseController extends Controller
             'course'      => $course,
             'edit_form'   => $editForm->createView(),
         );
+    }    
+    
+    
+    /**
+     * Edits an existing Course entity.
+     *
+     * @Route("/{courseid}/{setting}/toggle_module", name="toggle_module")
+     */
+    public function toggleModuleAction($courseid, $setting)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $module_setting = $course->getModule();
+        if($module_setting != $setting){
+            $course->setModule($setting);
+            $em->persist($course);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
+
     }    
 }

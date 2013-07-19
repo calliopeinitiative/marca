@@ -19,7 +19,7 @@ class CourseType extends AbstractType
         $userid = $course->getUser()->getId();
         $institutionid = $user->getInstitution()->getId();
         $builder
-            ->add('name', 'text', array('label'=>'Course Name'))               
+            ->add('name', 'text', array('label'=>'Name'))               
             ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'query_builder' => function(TermRepository $tr) use ($institutionid){
             $qb = $tr->createQueryBuilder('MarcaCourseBundle:Term');
             $qb->select('t')->from('Marca\CourseBundle\Entity\Term', 't')->innerJoin('t.institution', 'i')->where('i.id = ?1')->setParameter('1', $institutionid);
@@ -28,7 +28,7 @@ class CourseType extends AbstractType
             ,'property'=>'termName','expanded'=>true,'multiple'=>false, 'label' => 'Term','attr' => array('class' => 'radio'),))   
             ->add('parents','entity', array('class'=> 'MarcaCourseBundle:Course', 'query_builder' => function(\Marca\CourseBundle\Entity\CourseRepository $cr) use             ($user){
             $qb = $cr->createQueryBuilder('MarcaCourseBundle:Course');
-            $qb->select('c')->from('MarcaCourseBundle:Course', 'c')->where('c.user = ?1')->setParameter('1', $user);
+            $qb->select('c')->from('MarcaCourseBundle:Course', 'c')->where('c.user = ?1')->andWhere('c.module > 0')->setParameter('1', $user);
             return $qb;
             }
             ,'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select associated modules','required' => true,'attr' => array('class' => 'checkbox'),)) 

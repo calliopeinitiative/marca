@@ -15,6 +15,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Course
 {
+    const MODULE_NO=0;
+    const MODULE_YES=1;
+    const MODULE_SHARED=2;
+    
     /**
      * @var integer $id
      *
@@ -133,7 +137,7 @@ class Course
      *
      * @ORM\Column(name="portStatus", type="boolean")
      */
-    private $portStatus = 1;
+    private $portStatus = true;
     
     /**
      * @ORM\OneToOne(targetEntity="Marca\CourseBundle\Entity\Project")
@@ -193,9 +197,9 @@ class Course
     /**
      * @var boolean $module
      *
-     * @ORM\Column(name="module", type="boolean", nullable=true)
+     * @ORM\Column(name="module", type="integer", nullable=true)
      */
-    private $module = false;    
+    private $module = 0;    
     
     public function __construct()
     {
@@ -930,10 +934,12 @@ class Course
         return $this->institution;
     }
 
+
+
     /**
      * Set module
      *
-     * @param boolean $module
+     * @param integer $module
      * @return Course
      */
     public function setModule($module)
@@ -946,7 +952,7 @@ class Course
     /**
      * Get module
      *
-     * @return boolean 
+     * @return integer 
      */
     public function getModule()
     {

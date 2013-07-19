@@ -34,9 +34,10 @@ class DefaultController extends Controller
         $session->set('username', $username); 
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($user);
         $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($user);
+        $modules = $em->getRepository('MarcaCourseBundle:Course')->findModules($user);
         
         
-        return array('user' => $user,'courses' => $courses, 'pending' => $pending,);
+        return array('user' => $user,'courses' => $courses, 'pending' => $pending,'modules' => $modules);
     }
     
     /**

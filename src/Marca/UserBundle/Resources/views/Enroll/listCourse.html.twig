@@ -6,7 +6,7 @@
 
 {% if pending %}
 <div class="span9 well">
-<h1 class='verysmall'>Courses Pending</h1>     
+<h2 class='verysmall'>Courses Pending</h2>     
 <div class='alert alert-info'>Enrollment pending.  Please check back soon.
                   <a class='btn btn-primary btn-mini pull-right' href="{{ path('user_home') }}">Check now</a></div>
 <table class="table">
@@ -25,8 +25,8 @@
 
 {% if courses %}
 <div class="span9 well">
-<h1 class='verysmall'>Courses Enrolled</h1>  
-<div class='alert alert-success'>Click course name to enter it.</div>
+<h2 class='verysmall'>Courses Enrolled</h2>  
+<div class='alert alert-success'>Click name to enter it.</div>
 <table class="table">
 <tbody>
     {% for course in courses %}
@@ -43,7 +43,7 @@
   
 
 <div class="span9 well">
-<h1 class='verysmall'>Courses Found</h1>   
+<h2 class='verysmall'>Courses Found</h2>   
 <table class="table">
 <tbody>
     {% for course in possible_courses %}

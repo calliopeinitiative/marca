@@ -21,14 +21,14 @@ $('form li').addClass('alert alert-error');
 <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate"> 
             {{ form_errors(form) }}
             <div class="span9 well">
-            <legend>Essential settings</legend>
+            <h2>{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
             <div class="span3 ">{{ form_row (form.name) }}</div>   
-            <div class="span3 ">{{ form_row (form.time) }}</div>  
-            <div class="span2 ">{{ form_row (form.term) }}</div> 
+            <div class="span3 {% if course.module!=0 %}hide{%endif%}">{{ form_row (form.time) }}</div>  
+            <div class="span2 {% if course.module!=0 %}hide{%endif%}">{{ form_row (form.term) }}</div> 
             </div>
         
-            <div class="span9 well">
-            <legend>Additional settings</legend>
+            <div class="span9 well {% if course.module!=0 %}hide{%endif%}">
+            <h2>Additional settings</h2>
             <div class="span3 ">
             {{ form_row (form.notes) }}  
             {{ form_row (form.forum) }} 
@@ -52,7 +52,8 @@ $('form li').addClass('alert alert-error');
             <div class="span2 "> 
             {{ form_row (form.tagset) }}     
             {{ form_row (form.markupsets) }}
-            {{ form_row (form.parents) }}        
+            {{ form_row (form.parents) }}
+            {{ form_row (form.module) }}        
             </div>                 
             </div>        
             {{ form_rest(form) }}    

@@ -17,27 +17,26 @@ $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').to
 });
 </script>
 
-
-<div class="span9 well">
+<div class="span4 well">
 <h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a></h2> 
 
-<a class="btn btn-primary" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit Course Settings </a>
+<a class="btn btn-primary" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit Settings </a>
+{% if course.module == 0%}
 <a class="btn" href="{{ path('roll', { 'courseid': course.id }) }}">Manage Roll</a>
+{#  commented out until fully functional 
 <a class="btn" href="{{ path('teams', { 'courseid': course.id }) }}">Manage Teams</a>
-Created: {{ course.created|date('Y-m-d H:i:s') }} /  Updated:{{ course.updated|date('Y-m-d H:i:s') }} 
+#}
+{% endif %}
 
-<hr/>
-<a href='javascript:void(0);' id='confirm_delete' class="btn pull-right" type="submit">Delete</a>
-<a href='javascript:void(0);' id='cancel_delete' class="btn pull-right" type="submit">Cancel Delete</a>
-<form id='delete' action="{{ path('course_delete', { 'courseid': course.id }) }}" method="post">
-{{ form_widget(delete_form) }}
-<button class="btn btn-warning pull-right" type="submit">Confirm Delete</button>
-</form>
+{% if course.module != 1%}
+<a class="btn" href="{{ path('toggle_module', { 'courseid': course.id,'setting': 1  }) }}">Change to Module</a>
+{% elseif course.module == 1 %}
+<a class="btn" href="{{ path('toggle_module', { 'courseid': course.id,'setting': 0  }) }}">Change to Course</a>
+<a class="btn" href="{{ path('toggle_module', { 'courseid': course.id,'setting': 2  }) }}">Share Module</a>
+{% endif %}
 
-</div> 
-    
-       
-<div class="span4 well">
+{# Show/hide conditional for Modules #}
+{% if course.module == 0 %}       
 <h2>Settings</h2> 
 <ul class="unstyled">
 <li><strong>Time:</strong> {{ course.time|date('h:i a') }}</li>  
@@ -68,107 +67,107 @@ No institution is set for this course, please edit the course to set one
 {{ course.institution.name }}
 {% endif %}
 </li>
-</ul>    
+</ul>
+{% endif %}
+<hr/>
+<a href='javascript:void(0);' id='confirm_delete' class="btn pull-right" type="submit">Delete</a>
+<a href='javascript:void(0);' id='cancel_delete' class="btn pull-right" type="submit">Cancel</a>
+<form id='delete' action="{{ path('course_delete', { 'courseid': course.id }) }}" method="post">
+{{ form_widget(delete_form) }}
+<button class="btn btn-warning pull-right" type="submit">Confirm Delete</button>
+</form>
 </div>
-     
 
+{% if course.module == 0 %} 
 <div class="span4 well"> 
-
-
 <h2>Projects</h2>
-
 <h2>Folders</h2>
-<a class="btn btn-small" href="{{ path('project_new', {'courseid': course.id, 'resource':0}) }}">New Folder</a>
+<a class="btn btn-mini" href="{{ path('project_new', {'courseid': course.id, 'resource':0}) }}">New Folder</a>
 <table class="table table-condensed table-striped">
-    <tbody>  
-    {% for project in projects  %}{% if project.resource == 0  %}
-
-    <tr id="delete{{project.id}}">
-        <th>{{ project.name }}{{ project.resource }}</th>         
-        <td><a class="btn btn-mini" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>  
-        <td>
-        <button class="btn btn-mini" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button> 
-        </td>   
-        <td>
+<tbody>  
+{% for project in projects  %}{% if project.resource == 0  %}
+<tr id="delete{{project.id}}">
+<th>{{ project.name }}{{ project.resource }}</th>         
+<td><a class="btn btn-mini" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>  
+<td>
+<button class="btn btn-mini" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button> 
+</td>   
+<td>
 <a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-chevron-up"></i></a>
 <a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-chevron-down"></i></a>
-        </td>
-    </tr>
-     <tr id="confirm{{project.id}}" class="toggle">
-        <th>{{ project.name }}</th>         
-        <td>
-<form action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
+</td>
+</tr>
+<tr id="confirm{{project.id}}" class="toggle">
+<th>{{ project.name }}</th>         
+<td>
+<form class='inline' action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
 {{ form_widget(delete_form) }}
-<button class="btn btn-mini" type="submit">Delete</button>
+<button class="btn btn-mini btn-warning" type="submit">Confirm Delete</button>
 </form>
-        </td>  
-        <td>
-        <button  class="btn " onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Cancel</button> 
-        </td>       
-    </tr>   
-    {% endif %}{% endfor %}
-     </tbody>
-    </table>   
+</td>  
+<td colspan="2">
+<button  class="btn btn-mini" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Cancel</button> 
+</td>       
+</tr>   
+{% endif %}{% endfor %}
+</tbody>
+</table>   
 </div>
+{% endif %} 
 
 <div class="span4 well"> 
 <h2>Resources</h2>
 
 <h2>Units</h2>
-<a class="btn btn-small" href="{{ path('project_new', {'courseid': course.id, 'resource':1}) }}">New Unit</a>
-    <table class="table table-condensed table-striped">
-    <tbody>  
-    {% for project in projects  %}{% if project.resource == 1  %}        
-    <tr id="delete{{project.id}}">
-        <th>{{ project.name }}</th>         
-        <td><a class="btn btn-mini" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>  
-        <td>
-        <button class="btn btn-mini" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button> 
-        </td>   
-        <td>
+<a class="btn btn-mini" href="{{ path('project_new', {'courseid': course.id, 'resource':1}) }}">New Unit</a>
+<table class="table table-condensed table-striped">
+<tbody>  
+{% for project in projects  %}{% if project.resource == 1  %}        
+<tr id="delete{{project.id}}">
+<th>{{ project.name }}</th>         
+<td><a class="btn btn-mini" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>  
+<td><button class="btn btn-mini" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button></td>   
+<td>
 <a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-chevron-up"></i></a>
 <a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "icon-chevron-down"></i></a>
-        </td>
-    </tr>
-     <tr id="confirm{{project.id}}" class="toggle">
-        <th>{{ project.name }}</th>         
-        <td>
-<form action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
+</td>
+</tr>
+    
+<tr id="confirm{{project.id}}" class="toggle">
+<th>{{ project.name }}</th>         
+<td>
+<form class='inline' action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
 {{ form_widget(delete_form) }}
-<button class="btn btn-small" type="submit">Delete</button>
+<button class="btn btn-mini btn-warning" type="submit">Confirm Delete</button>
 </form>
-        </td>  
-        <td>
-        <button  class="btn btn-small" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Cancel</button> 
-        </td>       
-    </tr>   
-    {% endif %}{% endfor %}
+</td>  
+<td colspan="2">
+<button  class="btn btn-mini" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Cancel</button> 
+</td> 
+</tr>   
+{% endif %}{% endfor %}
+</tbody>
+</table>
     
-    </tbody>
-    </table>
-    
-    <hr/> 
+<hr/> 
     
 
 
-    
+{% if course.module == 0 %}     
 <h2>Modules</h2>
 Units from Modules.
     <table class="table table-condensed table-striped">
     <tbody>  
     {% for project in parentProjects  %}{% if project.resource == 1  %}        
     <tr>
-        <th>{{ project.name }}</th>         
+        <th>{{ project.course.name }}: {{ project.name }}</th>         
     </tr>   
     {% endif %}{% else %}<p>This course has no Modules.</p>{% endfor %}
     
     </tbody>
     </table>
-           
+ {% endif %}          
 </div>
 
-    
-    
-</div>
         
 {% endblock %}
