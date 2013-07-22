@@ -18,6 +18,7 @@ $(document).ready(function()
 <div class="modal-header">
     You need to pay for your class!
 </div>
+{% if paymenttype == 2 %}
 <div class="modal-body">
     <form action="{{ path('charge', {'courseid':courseid}) }}" method="post" novalidate="novalidate">
      <script language="javascript" src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
@@ -25,5 +26,14 @@ $(document).ready(function()
           data-amount="5000" data-description="One year's subscription"></script>
     </form>
 </div>
+{% endif %}
+{% if paymenttype == 1 %}
+    <div class="modal-body">
+    <form action="{{ path('coupon_validate', {'courseid':courseid}) }}" method="post" {{ form_enctype(coupon_form) }}>
+     {{ form_widget(coupon_form) }}
+     <button class = "btn btn-primary" type="submit">Submit Coupon</button>        
+    </form>
+    </div>
+{% endif %}
 </div>
 {% endblock %}
