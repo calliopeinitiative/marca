@@ -92,17 +92,25 @@ class EnrollController extends Controller
     public function enrollCourseAction($courseid)
     {
        $user = $this->getUser();
-       /*if($this->container->getParameter('pay_to_enroll') && !$user->getCustomer_id())
+       $course = $this->getCourse();
+       $coupon = $user->getCoupon();
+       if($coupon == NULL){
+           $validCoupon = FALSE;
+       }
+       elseif ($coupon->getTerm()->getStatus() == 1){
+           $validCoupon = TRUE;
+       }
+       else {
+           $validCoupon = FALSE;
+       }
+       if(($course->getInstitution()->getPaymentType() == 1 && $validCoupon == FALSE) || ($course->getInstitution()->getPaymentType() == 2 && $user->getCustomerId()))
        {
             return $this->redirect($this->generateUrl('payment', array('courseid'=>$courseid)));
        }
        else
-       {*/
-            $course = $this->getCourse();
             $em = $this->getEm(); 
             $em->getRepository('MarcaCourseBundle:Roll')->enroll($course, $user);
             return $this->redirect($this->generateUrl('user_home'));
-       //}
     }  
     
     

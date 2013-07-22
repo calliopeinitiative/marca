@@ -128,6 +128,12 @@ class User extends BaseUser implements LdapUserInterface
     private $customer_id = null;
     
     /**
+     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Coupon", inversedBy="user", cascade={"remove"})
+     * @ORM\JoinColumn(name="coupon_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $coupon;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="users", cascade={"persist"})
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -568,5 +574,28 @@ class User extends BaseUser implements LdapUserInterface
     public function getInstitution()
     {
         return $this->institution;
+    }
+
+    /**
+     * Set coupon
+     *
+     * @param \Marca\AdminBundle\Entity\Coupon $coupon
+     * @return User
+     */
+    public function setCoupon(\Marca\AdminBundle\Entity\Coupon $coupon = null)
+    {
+        $this->coupon = $coupon;
+    
+        return $this;
+    }
+
+    /**
+     * Get coupon
+     *
+     * @return \Marca\AdminBundle\Entity\Coupon 
+     */
+    public function getCoupon()
+    {
+        return $this->coupon;
     }
 }
