@@ -5,14 +5,38 @@ namespace Marca\UserBundle\Entity;
 
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use FR3D\LdapBundle\Model\LdapUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Marca\UserBundle\Entity\UserRepository")
  * @ORM\Table(name="marca_user")
  */
-class User extends BaseUser
+class User extends BaseUser implements LdapUserInterface
 {
+     /**
+     * Ldap Object Distinguished Name
+     * @var string $dn
+     */
+    private $dn;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setDn($dn)
+    {
+        $this->dn = $dn;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDn()
+    {
+        return $this->dn;
+    }
+    
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -22,6 +46,7 @@ class User extends BaseUser
        
     /**
      * @var string $lastname
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
      */
@@ -29,6 +54,7 @@ class User extends BaseUser
 
     /**
      * @var string $firstname
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      */
@@ -102,8 +128,14 @@ class User extends BaseUser
     private $customer_id = null;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="user", cascade={"persist"})
-     * @ORM\JoinColumn(name="institution_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Marce\AdminBundle\Entity\Coupon", inversedBy="user", cascade={"remove"})
+     * @ORM\JoinColumn(name="coupon_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $coupon;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="users", cascade={"persist"})
+     * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $institution; 
     
@@ -497,4 +529,50 @@ class User extends BaseUser
         return $this->customer_id;
     }
     
+
+    /**
+     * Set customer_id
+     *
+     * @param string $customerId
+     * @return User
+     */
+    public function setCustomerId($customerId)
+    {
+        $this->customer_id = $customerId;
+    
+        return $this;
+    }
+
+    /**
+     * Get customer_id
+     *
+     * @return string 
+     */
+    public function getCustomerId()
+    {
+        return $this->customer_id;
+    }
+
+    /**
+     * Set institution
+     *
+     * @param \Marca\AdminBundle\Entity\Institution $institution
+     * @return User
+     */
+    public function setInstitution(\Marca\AdminBundle\Entity\Institution $institution = null)
+    {
+        $this->institution = $institution;
+    
+        return $this;
+    }
+
+    /**
+     * Get institution
+     *
+     * @return \Marca\AdminBundle\Entity\Institution 
+     */
+    public function getInstitution()
+    {
+        return $this->institution;
+    }
 }

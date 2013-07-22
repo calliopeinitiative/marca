@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Marca\UserBundle\Entity\User;
+use Marca\AdminBundle\Entity\Coupon;
 use FOS\UserBundle\Entity\UserManager;
 
 /**
@@ -36,8 +37,17 @@ class PaymentController extends Controller{
     {
         
         $this->stripeConfig();
-        $publishableKey = $this->container->getParameter('stripe_publishable_key');
-        return array('publishableKey' => $publishableKey, 'courseid' => $courseid);;
+        $course=$this->getCourse();
+        if($course->getInstitution()->getPaymentType() == 2){
+            $publishableKey = $this->container->getParameter('stripe_publishable_key');
+            return array('publishableKey' => $publishableKey, 'courseid' => $courseid, 'paymenttype' => $course->getInstitution()->getPaymentType());
+        }
+        if($course->getInstitution()->getPaymentType()==1 || $course->getInstitution()->getPaymentType() == 3){
+            $coupon = new Coupon();
+            $coupon_form = $this->createFormBuilder($coupon)->add('code')->getForm();
+            return array('courseid'=>$courseid, 'paymenttype' => $course->getInstitution()->getPaymentType(), 'coupon_form' => $coupon_form->createView());
+        }
+        
     }
 
     
@@ -69,6 +79,52 @@ class PaymentController extends Controller{
         
         return $this->redirect($this->generateUrl('enroll_enroll', array('courseid'=>$courseid)));
     }
+
+    /**
+     * @Route("/coupon_validate/{courseid}", name="coupon_validate")
+     * 
+     */
+    public function couponValidateAction($courseid)
+    {
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $institution = $user->getInstitution();
+        
+        $termQuery = $em->createQuery(
+                'SELECT t 
+                 FROM MarcaCourseBundle:Term t
+                 WHERE t.institution = :institution
+                 AND t.status = 1'
+                )->setParameter('institution', $institution);
+        $term = $termQuery->getSingleResult();
+        $termId = $term->getId();
+        
+        $coupon = New Coupon(); 
+        $coupon_form = $this->createFormBuilder()->add('code')->getForm();
+        $request = $this->get('request');
+        $postData = $request->request->get('form');
+        $code = $postData['code'];
+        $codeQuery = $em->createQuery(
+                'SELECT c
+                 FROM MarcaAdminBundle:Coupon c
+                 WHERE c.term = :term
+                 AND c.code = :code')->setParameter('term', $term)->setParameter('code', $code);
+        try{ 
+            $validCode = $codeQuery->getSingleResult();
+        } catch (\Doctrine\Orm\NoResultException $e) {
+            $validCode = null;
+        }
+        if($validCode){
+            $user->setCoupon($validCode);
+            $validCode->setUser($user);
+            $em->persist($user);
+            $em->persist($validCode);
+            $em->flush();
+        }
+        return $this->redirect($this->generateUrl('enroll_enroll', array('courseid'=>$courseid)));
+    }
+    
+    
 }
 
 
