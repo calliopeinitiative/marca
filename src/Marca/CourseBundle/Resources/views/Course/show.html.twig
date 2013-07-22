@@ -18,8 +18,8 @@ $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').to
 </script>
 
 <div class="span4 well">
-<h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a></h2> 
-
+<h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> </h2> 
+{% if course.module == 2%}<div class='alert alert-success'>This module is shared with all instructors.</div>{% endif %}
 <a class="btn btn-primary" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit Settings </a>
 {% if course.module == 0%}
 <a class="btn" href="{{ path('roll', { 'courseid': course.id }) }}">Manage Roll</a>
@@ -28,8 +28,10 @@ $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').to
 #}
 {% endif %}
 
+
+
 {% if course.module != 1%}
-<a class="btn" href="{{ path('toggle_module', { 'courseid': course.id,'setting': 1  }) }}">Change to Module</a>
+<a class="btn" href="{{ path('toggle_module', { 'courseid': course.id,'setting': 1  }) }}">Change to {% if course.module == 2%}Private{% endif %} Module</a>
 {% elseif course.module == 1 %}
 <a class="btn" href="{{ path('toggle_module', { 'courseid': course.id,'setting': 0  }) }}">Change to Course</a>
 <a class="btn" href="{{ path('toggle_module', { 'courseid': course.id,'setting': 2  }) }}">Share Module</a>
