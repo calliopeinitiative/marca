@@ -33,58 +33,30 @@ $('#file_list').css('height', function(index) {
 </script>
 
 {# Project navigation #} 
-<div id='project_nav' class="span9 well" role="navigation">  
+
     
 {# Mine All Find #} 
 {% if app.request.get('resource')=='0' %}
+<div id='project_nav' class="span9 well" role="navigation">  
 <span class="btn-group" style="margin-bottom:6px;margin-top:4px;">
 <a class="btn btn-small {% if app.request.get('scope')=='mine' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
 <a class="btn btn-small {% if app.request.get('scope')=='all' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">All Files</a>
 
 {# Roll for Find by user  #}
 {% if app.request.get('resource')=='0' %}
-   <a href="javascript:void(0);" class="dropdown-toggle btn btn-small {% if app.request.get('scope')=='byuser' %}active btn-info{% endif %} " data-toggle="dropdown" id="dLabel">Files By Author<b class="caret" style="margin-left:6px;"></b></a>
+   <a href="javascript:void(0);" class="dropdown-toggle btn btn-small{% if app.request.get('scope')=='byuser' %}active btn-info  btn-small{% endif %} " data-toggle="dropdown" id="dLabel">Files By Author<b class="caret" style="margin-left:6px;"></b></a>
        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
            {% for roll in roll %}
            <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 
            {% endfor %}
        </ul>
 {% endif %}
+</span>
+   
+{% if role == '2' and app.request.get('resource')==0 %}<a class="btn btn-small margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>{% endif %}
 
-</span>
-{% endif %}
-{# Projects  Find #} 
-<span class="btn-group" style="margin-bottom:6px;margin-top:4px;margin-left:10px;">
-<a class="btn btn-small {% if active_project == 0 %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-All Files</a>
-<a href="javascript:void(0);" class="btn btn-small dropdown-toggle {% if active_project > 0 %}active btn-info{% endif %} " data-toggle="dropdown" id="dLabel">{% if app.request.get('resource')=='1' %}Units{% else %}Folders{% endif %}<b class="caret" style="margin-left:6px;"></b></a>
-<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-<li>
-{% for project in projects %}
-<a class="" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}</a>
-{% endfor %}
-</li>
-</ul>  
-</span>
-    
-{# Labels  Find #} 
-<span class="btn-group" style="margin-bottom:6px;margin-top:4px;margin-left:10px;">
-<a href="javascript:void(0);" class="btn btn-small dropdown-toggle {% if app.request.get('tag')!='0' %}active btn-info{% endif %}" data-toggle="dropdown" id="dLabel">Label<b class="caret" style="margin-left:6px;"></b></a>
-<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-<li><a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}"><span class="label">All Labels</span></a></li>
-{% for tag in tags %}
-<li><a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}"><span class="label {{ tag.color }}">{{ tag.name }}</span></a></li>
-{% endfor %}
-{% for tag in systemtags %}
-<li><a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}"><span class="label {{ tag.color }}">{{ tag.name }}</span></a></li>
-{% endfor %}           
-</ul> 
-</span>
-    
-    
-{% if role == '2' and app.request.get('resource')==0 %}<a class="btn btn-small margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>{% endif %}  
 </div>
+{% endif %}
 
 {# Breadcrumbs #}  
 <div id='project_breadcrumbs' class="span9 well" role="navigation">  
