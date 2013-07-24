@@ -19,6 +19,7 @@ class UploadType extends AbstractType
     {
         $options = $this->options;
         $builder
+             ->add('file') 
              ->add('name','text', array('attr' => array('class' => 'width30'),))
              ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
                 function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
@@ -41,8 +42,7 @@ class UploadType extends AbstractType
                         ->orderBy('c.name', 'ASC');
                 }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Labels', 'attr' => array('class' => 'checkbox'),
               ))  
-             ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'inline'),))  
-             ->add('file')           
+             ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'inline'),))                      
             ;
     }
     

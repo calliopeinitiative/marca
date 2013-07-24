@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="span9 well"> 
-    <legend>Roll</legend>
+    <h2>Roll</h2>
 </div>    
 <div class="span9 well">    
     <table class="table table-condensed"><tbody>  
@@ -19,8 +19,14 @@
     
 {{ knp_pagination_render(roll) }}           
 </div>
-       
+ 
 <div class="span9 well">
+<h3>Semicolon list of emails</h3>    
+<a class="" target="_blank" href="mailto:{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}; {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}; {% endif %}{% endfor %}</a>
+</div>
+
+<div class="span9 well">
+<h3>Comma list of emails</h3>    
 <a class="" target="_blank" href="mailto:{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}</a>
 </div>
 

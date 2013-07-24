@@ -39,8 +39,9 @@ $('#file_list').css('height', function(index) {
 {% if app.request.get('resource')=='0' %}
 <div id='project_nav' class="span9 well" role="navigation">  
 <span class="btn-group" style="margin-bottom:6px;margin-top:4px;">
-<a class="btn btn-small {% if app.request.get('scope')=='mine' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
-<a class="btn btn-small {% if app.request.get('scope')=='all' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">All Files</a>
+<a class="btn btn-small {% if app.request.get('scope')=='mine' and app.request.get('tag')!='3' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
+<a class="btn btn-small {% if app.request.get('tag')=='3' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '3', 'userid': '0' }) }}">My Reviews</a>
+<a class="btn btn-small {% if app.request.get('scope')=='all' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">Shared Files</a>
 
 {# Roll for Find by user  #}
 {% if app.request.get('resource')=='0' %}
@@ -66,7 +67,7 @@ $('#file_list').css('height', function(index) {
 <li  class="margin-left">
 <strong>
 {% if app.request.get('scope')=='mine' and app.request.get('resource')=='0' %}My Files
-{% elseif app.request.get('scope')=='all' and app.request.get('resource')=='0' %}All Files
+{% elseif app.request.get('scope')=='all' and app.request.get('resource')=='0' %}Shared Files
 {# hide if peer review #}
 {% elseif app.request.get('tag')=='3' and app.request.get('resource')=='0' %}
 {% elseif byuser %}
@@ -159,7 +160,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 <td>{% if app.request.get('project')=='recent' %}<strong>{% if app.request.get('resource')=='1' %}{{ file.project.course.name }}: {% endif %}{{ file.project.name }}</strong>{% endif %}</td>
 <td>{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
 
-<td>{% if app.request.get('resource')=='0' %}{% if file.doc %}{{ file.doc.updated|date('M d Y, g:i a') }}{% else %}{{ file.updated|date('M d Y, g:i a') }}{% endif %}{% endif %}</td>
+<td>{% if app.request.get('resource')=='0' %}{% if file.doc %}{{ file.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ file.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}</td>
 <td>
 <ul class="nav files">
     <li class="dropdown">
@@ -199,7 +200,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 <td></td>
 <td>{% for tag in review.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
 
-<td>{% if app.request.get('resource')=='0' %}{% if review.doc %}{{ review.doc.updated|date('M d Y, g:i a') }}{% else %}{{ review.updated|date('M d Y, g:i a') }}{% endif %}{% endif %}</td>
+<td>{% if app.request.get('resource')=='0' %}{% if review.doc %}{{ review.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ review.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}</td>
 <td>
 <ul class="nav files">
     <li class="dropdown">

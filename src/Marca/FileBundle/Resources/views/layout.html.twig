@@ -48,7 +48,7 @@ $('#file_new_link').click(function(){
 
 
 {# Projects  Find #}
-
+<h2 class="nav-header">{% if app.request.get('resource')=='1' %}Units{% else %}Folders{% endif %}</h2>
 <li><a class="{% if active_project == 0 %}active{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
 <i class="icon-folder-{% if active_project == 0 %}open{% else %}close{% endif %}"></i>        
 All {% if app.request.get('resource')=='0' %}Folders{%else%}Units{% endif %}</a></li>
@@ -64,21 +64,15 @@ All {% if app.request.get('resource')=='0' %}Folders{%else%}Units{% endif %}</a>
 
 
 {# Labels  Find #} 
-<div id='labels_nav' class="" style='margin-top:10px;' role="navigation"> 
-<li>
 
+<li>
+<h2 class="nav-header">Labels</h2>
 <a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}"><span class="label {% if app.request.get('tag')=='0' %} margin-left{% endif %}">All Labels</span></a></li>
 {% for tag in tags %}
-<li>
-    
+<li>    
 <a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}"><span class="label {{ tag.color }} {% if app.request.get('tag')== tag.id %}margin-left{% endif %} ">{{ tag.name }}</span></a></li>
 {% endfor %}
-{% for tag in systemtags %}
-<li>      
-<a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}"><span class="label {{ tag.color }} {% if app.request.get('tag')== tag.id %}margin-left{% endif %}">{{ tag.name }}</span></a></li>
-{% endfor %}           
-</div>
-
+ 
 {% endif %}
 
 

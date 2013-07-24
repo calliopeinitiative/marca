@@ -138,6 +138,8 @@ class CourseController extends Controller
         $course->setPortset($portset); 
         $course->setAssessmentset($assessmentset);  
         $course->setTerm($term);
+        if ($type!=0)
+        {$course->setEnroll(false);}
         $course->setModule($type);
         foreach ($tagsets as &$tagset) {
         $course->addTagset($tagset);    
