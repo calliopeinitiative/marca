@@ -41,7 +41,7 @@ class Page
     /**
      * @var boolean $homepage
      *
-     * @ORM\Column(name="homepage", type="boolean")
+     * @ORM\Column(name="homepage", type="boolean", nullable=true)
      */
     private $homepage = true;    
     
