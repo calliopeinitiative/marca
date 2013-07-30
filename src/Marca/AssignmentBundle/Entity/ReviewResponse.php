@@ -56,7 +56,25 @@ class ReviewResponse
      */
     private $responseInt;
 
-
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\DocBundle\Entity\Doc", cascade={"persist"})
+     * @ORM\JoinColumn(name="doc_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $reviewDoc;
+            
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $reviewer;   
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="PromptItem", cascade={"persist"})
+     * @ORM\JoinColumn(name="promptitem_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $reviewPrompt; 
+    
+    
     /**
      * Get id
      *
@@ -180,5 +198,74 @@ class ReviewResponse
     public function getResponseInt()
     {
         return $this->responseInt;
+    }
+
+    /**
+     * Set reviewDoc
+     *
+     * @param \Marca\DocBundle\Entity\Doc $reviewDoc
+     * @return ReviewResponse
+     */
+    public function setReviewDoc(\Marca\DocBundle\Entity\Doc $reviewDoc = null)
+    {
+        $this->reviewDoc = $reviewDoc;
+    
+        return $this;
+    }
+
+    /**
+     * Get reviewDoc
+     *
+     * @return \Marca\DocBundle\Entity\Doc 
+     */
+    public function getReviewDoc()
+    {
+        return $this->reviewDoc;
+    }
+
+    /**
+     * Set reviewer
+     *
+     * @param \Marca\UserBundle\Entity\User $reviewer
+     * @return ReviewResponse
+     */
+    public function setReviewer(\Marca\UserBundle\Entity\User $reviewer = null)
+    {
+        $this->reviewer = $reviewer;
+    
+        return $this;
+    }
+
+    /**
+     * Get reviewer
+     *
+     * @return \Marca\UserBundle\Entity\User 
+     */
+    public function getReviewer()
+    {
+        return $this->reviewer;
+    }
+
+    /**
+     * Set reviewPrompt
+     *
+     * @param \Marca\AssignmentBundle\Entity\PromptItem $reviewPrompt
+     * @return ReviewResponse
+     */
+    public function setReviewPrompt(\Marca\AssignmentBundle\Entity\PromptItem $reviewPrompt = null)
+    {
+        $this->reviewPrompt = $reviewPrompt;
+    
+        return $this;
+    }
+
+    /**
+     * Get reviewPrompt
+     *
+     * @return \Marca\AssignmentBundle\Entity\PromptItem 
+     */
+    public function getReviewPrompt()
+    {
+        return $this->reviewPrompt;
     }
 }
