@@ -1,0 +1,29 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     127.0.0.1
+    database_port:     null
+    database_name:     marca_db
+    database_user:     linzster
+    database_password: blade
+
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_port:       xxxx
+    mailer_sender_address: xxxx
+    mailer_user:       null
+    mailer_password:   null
+    mailer_encryption:  tls
+    wkhtmltopdf_path: /usr/local/bin/wkhtmltopdf-i386
+    from_email:        xxxx
+
+    ldap_host:         xxx.xxx.xxx
+    ldap_port:         xxx
+
+    locale:            en
+    secret:            ThisTokenIsNotSoSecretChangeIt
+    app_name:          XXXXX
+    ldap:              no
+
+    upload_path:       %kernel.root_dir%/../uploads/files
+
+

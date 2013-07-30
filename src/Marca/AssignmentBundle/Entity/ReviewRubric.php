@@ -3,6 +3,7 @@
 namespace Marca\AssignmentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * ReviewRubric
@@ -56,6 +57,34 @@ class ReviewRubric
      */
     private $shared;
 
+    /**
+     * @ORM\OneToMany(targetEntity="PromptItem", mappedBy="reviewrubric")
+     */
+    private $promptitems;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Project", cascade={"persist"})
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $project;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $user;
+    
+   /**
+    * @ORM\ManyToMany(targetEntity="Marca\DocBundle\Entity\Markupset")
+    * @ORM\JoinTable(name="reviewrubric_markupset", 
+    *       joinColumns={@ORM\JoinColumn(name="ReviewRubric_id", referencedColumnName="id")},
+    *       inverseJoinColumns={@ORM\JoinColumn(name="Markupset_id", referencedColumnName="id")})
+    */
+    private $markupsets;
+    
+    public function __construct() {
+        $this->promptitems=new ArrayCollection();
+    }
 
     /**
      * Get id
