@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Settings">
+    <option name="pluginEnabled" value="true" />
+    <option name="containerFiles">
+      <list>
+        <container_file path="app/cache/dev/appDevDebugProjectContainer.xml" />
+      </list>
+    </option>
+  </component>
+</project>
+
