@@ -38,9 +38,9 @@ class Review
 
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")
+    * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File")
     */
-    protected $user;    
+    protected $file;    
     
     /**
     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course")
@@ -180,29 +180,6 @@ class Review
     public function getUpdated()
     {
         return $this->updated;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \Marca\UserBundle\Entity\User $user
-     * @return Review
-     */
-    public function setUser(\Marca\UserBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-    
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Marca\UserBundle\Entity\User 
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
 
     /**
