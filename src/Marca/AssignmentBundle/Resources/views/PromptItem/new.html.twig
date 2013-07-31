@@ -1,3 +1,6 @@
+{% extends 'MarcaAssignmentBundle::layout.html.twig' %}
+
+{% block content %}
 <h1>PromptItem creation</h1>
 
 <form action="{{ path('promptitem_create') }}" method="post" {{ form_enctype(form) }}>
@@ -14,3 +17,4 @@
         </a>
     </li>
 </ul>
+{% endblock %}
