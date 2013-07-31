@@ -128,7 +128,7 @@ class User extends BaseUser implements LdapUserInterface
     private $customer_id = null;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Coupon", inversedBy="user", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Marca\AdminBundle\Entity\Coupon", mappedBy="user", cascade={"remove"})
      * @ORM\JoinColumn(name="coupon_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $coupon;

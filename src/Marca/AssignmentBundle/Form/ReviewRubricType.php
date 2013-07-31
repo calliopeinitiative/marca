@@ -16,6 +16,7 @@ class ReviewRubricType extends AbstractType
             ->add('description')
             ->add('instructions')
             ->add('keywords')
+            ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'Public'),'required'  => true,'label'  => 'Share your Rubric', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))   
         ;
     }
 

@@ -66,11 +66,11 @@ class ReviewRubricController extends Controller
      */
     public function newAction()
     {
-        $entity = new ReviewRubric();
-        $form   = $this->createForm(new ReviewRubricType(), $entity);
+        $reviewrubric = new ReviewRubric();
+        $form   = $this->createForm(new ReviewRubricType(), $reviewrubric);
 
         return array(
-            'entity' => $entity,
+            'reviewrubric' => $reviewrubric,
             'form'   => $form->createView(),
         );
     }
