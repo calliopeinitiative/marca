@@ -210,4 +210,116 @@ class ReviewRubric
     {
         return $this->shared;
     }
+
+    /**
+     * Add promptitems
+     *
+     * @param \Marca\AssignmentBundle\Entity\PromptItem $promptitems
+     * @return ReviewRubric
+     */
+    public function addPromptitem(\Marca\AssignmentBundle\Entity\PromptItem $promptitems)
+    {
+        $this->promptitems[] = $promptitems;
+    
+        return $this;
+    }
+
+    /**
+     * Remove promptitems
+     *
+     * @param \Marca\AssignmentBundle\Entity\PromptItem $promptitems
+     */
+    public function removePromptitem(\Marca\AssignmentBundle\Entity\PromptItem $promptitems)
+    {
+        $this->promptitems->removeElement($promptitems);
+    }
+
+    /**
+     * Get promptitems
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPromptitems()
+    {
+        return $this->promptitems;
+    }
+
+    /**
+     * Set project
+     *
+     * @param \Marca\CourseBundle\Entity\Project $project
+     * @return ReviewRubric
+     */
+    public function setProject(\Marca\CourseBundle\Entity\Project $project = null)
+    {
+        $this->project = $project;
+    
+        return $this;
+    }
+
+    /**
+     * Get project
+     *
+     * @return \Marca\CourseBundle\Entity\Project 
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Marca\UserBundle\Entity\User $user
+     * @return ReviewRubric
+     */
+    public function setUser(\Marca\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Marca\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Add markupsets
+     *
+     * @param \Marca\DocBundle\Entity\Markupset $markupsets
+     * @return ReviewRubric
+     */
+    public function addMarkupset(\Marca\DocBundle\Entity\Markupset $markupsets)
+    {
+        $this->markupsets[] = $markupsets;
+    
+        return $this;
+    }
+
+    /**
+     * Remove markupsets
+     *
+     * @param \Marca\DocBundle\Entity\Markupset $markupsets
+     */
+    public function removeMarkupset(\Marca\DocBundle\Entity\Markupset $markupsets)
+    {
+        $this->markupsets->removeElement($markupsets);
+    }
+
+    /**
+     * Get markupsets
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMarkupsets()
+    {
+        return $this->markupsets;
+    }
 }
