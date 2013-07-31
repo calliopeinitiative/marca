@@ -1,3 +1,8 @@
+{# Marca/AssignmentBundle/Resources/views/ReviewRubric/new.html.twig #}
+
+{% extends 'MarcaAssignmentBundle::layout.html.twig' %}
+
+{% block content %}
 <h1>ReviewResponse creation</h1>
 
 <form action="{{ path('reviewresponse_create') }}" method="post" {{ form_enctype(form) }}>
@@ -14,3 +19,4 @@
         </a>
     </li>
 </ul>
+{% endblock %}
