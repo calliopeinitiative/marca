@@ -1,29 +1,3 @@
-parameters:
-    database_driver:   pdo_mysql
-    database_host:     localhost
-    database_port:     null
-    database_name:     marca_db
-    database_user:     john
-    database_password: nahtan0j
 
-    mailer_transport:  smtp
-    mailer_host:       localhost
-    mailer_port:       25
-    mailer_sender_address: john@gomarca.com
-    mailer_user:       john
-    mailer_password:   nahtan0j
-    mailer_encryption:  tls
-    from_email:        john@gomarca.com
-
-    wkhtmltopdf_path:  /usr/local/bin/wkhtmltopdf-i386
-    ldap_host:         xxx.xxx.xxx
-    ldap_port:         xxx
-
-    locale:            en
-    secret:            1234jo23j4lk23n4lk
-    app_name:          StupidNotWorkingThing
-    ldap:              no
-
-    upload_path:       %kernel.root_dir%/../uploads/files
 
 
