@@ -1,3 +1,9 @@
+{% extends 'MarcaAssignmentBundle::layout.html.twig' %}
+
+
+
+
+{% block content %}
 <h1>ReviewRubric edit</h1>
 
 <form action="{{ path('reviewrubric_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
@@ -20,3 +26,4 @@
         </form>
     </li>
 </ul>
+{% endblock %}
