@@ -66,8 +66,11 @@ class ReviewResponseController extends Controller
      */
     public function newAction()
     {
+        $resource = 0;
+        $courseid = 1;
+        $options = array('courseid' => $courseid, 'resource'=> $resource);
         $entity = new ReviewResponse();
-        $form   = $this->createForm(new ReviewResponseType(), $entity);
+        $form   = $this->createForm(new ReviewResponseType($options), $entity);
 
         return array(
             'entity' => $entity,
