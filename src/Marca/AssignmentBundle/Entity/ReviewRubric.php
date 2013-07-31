@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * ReviewRubric
  *
- * @ORM\Table()
+ * @ORM\Table(name="reviewrubric")
  * @ORM\Entity(repositoryClass="Marca\AssignmentBundle\Entity\ReviewRubricRepository")
  */
 class ReviewRubric
