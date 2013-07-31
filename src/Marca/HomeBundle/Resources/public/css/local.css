@@ -44,7 +44,7 @@ box-shadow: 0px 0px 15px rgba(0,0,0,.5);}
 .navbar-icon {margin-left: -2.5em;}
 .nav-list .btn-primary {width:7em;margin-left:0;margin-bottom:.7em;}
 .nav-list .btn-group button {width:9em;margin-left:0;margin-bottom:.7em;}
-.nav-list li a {width:7em;margin-left:0}
+.nav-list li a {margin-left:0;margin-right:0;padding: 3px 3px;}
 .caret {margin-top: .5em}
 .cell {float:left}
 .doc {background-color: white; border-color: gray;}
@@ -194,6 +194,7 @@ form ul li {list-style: none;}
 .popover {position:fixed; left:40%; top:135px;padding:2em;}
 
 /* File list */
+#file_list { overflow:auto;  }
 #file_list table {font-size: 12px;}
 #file_list table td {padding:2px;}
 #file_list table td .label {font-size: 10px;}
