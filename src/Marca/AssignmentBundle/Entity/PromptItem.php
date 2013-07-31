@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PromptItem
  *
- * @ORM\Table()
+ * @ORM\Table('promptitem')
  * @ORM\Entity(repositoryClass="Marca\AssignmentBundle\Entity\PromptItemRepository")
  */
 class PromptItem
