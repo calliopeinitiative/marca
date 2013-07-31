@@ -50,17 +50,13 @@ class Review
     /**
     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")
     */
-    protected $rater; 
+    protected $reviewer; 
     
     /**
     * @ORM\ManyToOne(targetEntity="Marca\AssignmentBundle\Entity\ReviewRubric", inversedBy="reviews")
     */
     protected $reviewrubric; 
-    
-    /**
-    * @ORM\OneToMany(targetEntity="Marca\AssessmentBundle\Entity\Rating", mappedBy="ratingset", cascade={"remove", "persist"})
-    */
-    protected $ratings;     
+        
     
     /**
     * @ORM\Column(type="datetime", nullable=true)
@@ -232,27 +228,40 @@ class Review
         return $this->course;
     }
 
+
     /**
-     * Set rater
+     * Get reviewrubric
      *
-     * @param \Marca\UserBundle\Entity\User $rater
+     * @return \Marca\AssignmentBundle\Entity\ReviewRubric 
+     */
+    public function getReviewrubric()
+    {
+        return $this->reviewrubric;
+    }
+
+
+
+    /**
+     * Set reviewer
+     *
+     * @param \Marca\UserBundle\Entity\User $reviewer
      * @return Review
      */
-    public function setRater(\Marca\UserBundle\Entity\User $rater = null)
+    public function setReviewer(\Marca\UserBundle\Entity\User $reviewer = null)
     {
-        $this->rater = $rater;
+        $this->reviewer = $reviewer;
     
         return $this;
     }
 
     /**
-     * Get rater
+     * Get reviewer
      *
      * @return \Marca\UserBundle\Entity\User 
      */
-    public function getRater()
+    public function getReviewer()
     {
-        return $this->rater;
+        return $this->reviewer;
     }
 
     /**
@@ -266,48 +275,5 @@ class Review
         $this->reviewrubric = $reviewrubric;
     
         return $this;
-    }
-
-    /**
-     * Get reviewrubric
-     *
-     * @return \Marca\AssignmentBundle\Entity\ReviewRubric 
-     */
-    public function getReviewrubric()
-    {
-        return $this->reviewrubric;
-    }
-
-    /**
-     * Add ratings
-     *
-     * @param \Marca\AssessmentBundle\Entity\Rating $ratings
-     * @return Review
-     */
-    public function addRating(\Marca\AssessmentBundle\Entity\Rating $ratings)
-    {
-        $this->ratings[] = $ratings;
-    
-        return $this;
-    }
-
-    /**
-     * Remove ratings
-     *
-     * @param \Marca\AssessmentBundle\Entity\Rating $ratings
-     */
-    public function removeRating(\Marca\AssessmentBundle\Entity\Rating $ratings)
-    {
-        $this->ratings->removeElement($ratings);
-    }
-
-    /**
-     * Get ratings
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getRatings()
-    {
-        return $this->ratings;
     }
 }
