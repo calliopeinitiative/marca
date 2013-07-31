@@ -12,6 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PromptItem
 {
+    
+    const TYPE_SHORTTEXT = 0;
+    const TYPE_PARAGRAPHTEXT = 1;
+    const TYPE_SCALE = 2;
+    const TYPE_NORESPONSE = 3;
+    
+    
+    
+    
     /**
      * @var integer
      *

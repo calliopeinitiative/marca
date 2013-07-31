@@ -5,6 +5,7 @@ namespace Marca\AssignmentBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Marca\AssignmentBundle\MarcaAssignmentBundle\PromptItem;
 
 class PromptItemType extends AbstractType
 {
@@ -13,7 +14,7 @@ class PromptItemType extends AbstractType
         $builder
             ->add('prompt')
             ->add('helpText')
-            ->add('type', 'choice', array('choices'   => array(0 => 'Short Text', 1 => 'Paragraph Text', 2 => 'Scale', 3 => 'No Response'),'required'  => true,'label'  => 'Response Type', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))   
+            ->add('type', 'choice', array('choices'   => array(PromptItem::TYPE_SHORTTEXT => 'Short Text', PromptItem::TYPE_PARAGRAPHTEXT => 'Paragraph Text', PromptItem::TYPE_SCALE => 'Scale', PromptItem::TYPE_NORESPONSE => 'No Response'),'required'  => true,'label'  => 'Response Type', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))   
             ->add('scale','entity',array('class'=>'MarcaAssessmentBundle:Scale','property'=>'name'))
         ;
     }

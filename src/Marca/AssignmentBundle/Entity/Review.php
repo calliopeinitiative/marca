@@ -56,6 +56,11 @@ class Review
     * @ORM\ManyToOne(targetEntity="Marca\AssignmentBundle\Entity\ReviewRubric", inversedBy="reviews")
     */
     protected $reviewrubric; 
+    
+    /**
+    * @ORM\OneToMany(targetEntity="ReviewResponse", mappedBy="review")
+    */
+    protected $reviewresponses;      
         
     
     /**

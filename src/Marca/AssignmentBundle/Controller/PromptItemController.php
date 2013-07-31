@@ -71,13 +71,13 @@ class PromptItemController extends Controller
         $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($reviewrubricid);
         
         $promptitem = new PromptItem();
-        $promptitem->setReviewRubric($reviewrubric);
+
         $promptitem->setType(0);
         $form   = $this->createForm(new PromptItemType(), $promptitem);
 
         return array(
             'promptitem' => $promptitem,
-            'reviewrubricid' => $reviewrubricid,
+            'reviewrubric' => $reviewrubric,
             'form'   => $form->createView(),
         );
     }

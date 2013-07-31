@@ -74,6 +74,11 @@ class ReviewResponse
      */
     private $reviewPrompt; 
     
+    /**
+     * @ORM\ManyToOne(targetEntity="Review", inversedBy="reviewresponses")
+     */
+    private $review;     
+    
     
     /**
      * Get id
