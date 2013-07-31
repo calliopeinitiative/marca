@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ReviewResponse
  *
- * @ORM\Table()
+ * @ORM\Table('reviewresponse')
  * @ORM\Entity(repositoryClass="Marca\AssignmentBundle\Entity\ReviewResponseRepository")
  */
 class ReviewResponse
@@ -69,7 +69,7 @@ class ReviewResponse
     private $reviewer;   
     
     /**
-     * @ORM\ManyToOne(targetEntity="PromptItem", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="PromptItem", inversedBy="responses", cascade={"persist"})
      * @ORM\JoinColumn(name="promptitem_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $reviewPrompt; 

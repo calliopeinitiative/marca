@@ -51,10 +51,10 @@ class PromptItem
      /**
       * @ORM\OneToMany(targetEntity="ReviewResponse", mappedBy="promptitem")
       */
-    private $response;
+    private $responses;
     
     /**
-     * @ORM\ManyToOne(targetEntity="ReviewRubric", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="ReviewRubric", inversedBy="promptitems", cascade={"persist"})
      * @ORM\JoinColumn(name="reviewrubric_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $reviewRubric;
@@ -142,7 +142,7 @@ class PromptItem
      */
     public function __construct()
     {
-        $this->response = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->responses = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -176,7 +176,7 @@ class PromptItem
      */
     public function addResponse(\Marca\AssignmentBundle\Entity\ReviewResponse $response)
     {
-        $this->response[] = $response;
+        $this->responses[] = $response;
     
         return $this;
     }
@@ -188,7 +188,7 @@ class PromptItem
      */
     public function removeResponse(\Marca\AssignmentBundle\Entity\ReviewResponse $response)
     {
-        $this->response->removeElement($response);
+        $this->responses->removeElement($response);
     }
 
     /**
@@ -196,9 +196,9 @@ class PromptItem
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getResponse()
+    public function getResponses()
     {
-        return $this->response;
+        return $this->responses;
     }
 
     /**
