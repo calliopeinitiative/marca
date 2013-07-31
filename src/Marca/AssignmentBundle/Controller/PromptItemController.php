@@ -69,13 +69,15 @@ class PromptItemController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($reviewrubricid);
-
+        
         $promptitem = new PromptItem();
         $promptitem->setReviewRubric($reviewrubric);
+        $promptitem->setType(0);
         $form   = $this->createForm(new PromptItemType(), $promptitem);
 
         return array(
             'promptitem' => $promptitem,
+            'reviewrubricid' => $reviewrubricid,
             'form'   => $form->createView(),
         );
     }
@@ -83,26 +85,32 @@ class PromptItemController extends Controller
     /**
      * Creates a new PromptItem entity.
      *
-     * @Route("/create", name="promptitem_create")
+     * @Route("/{reviewrubricid}/create", name="promptitem_create")
      * @Method("POST")
      * @Template("MarcaAssignmentBundle:PromptItem:new.html.twig")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request,$reviewrubricid)
     {
-        $entity  = new PromptItem();
-        $form = $this->createForm(new PromptItemType(), $entity);
+        $em = $this->getDoctrine()->getManager();
+
+        $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($reviewrubricid);
+        
+        $promptitem = new PromptItem();
+        $promptitem->setReviewRubric($reviewrubric);
+       
+        $form = $this->createForm(new PromptItemType(), $promptitem);
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            $em->persist($promptitem);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('promptitem_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('reviewrubric_show', array('id' => $reviewrubricid)));
         }
 
         return array(
-            'entity' => $entity,
+            'promptitem' => $promptitem,
             'form'   => $form->createView(),
         );
     }

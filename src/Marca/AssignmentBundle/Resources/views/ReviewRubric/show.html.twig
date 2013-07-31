@@ -7,7 +7,7 @@
 {% block content %}
 <h1>ReviewRubric</h1>
 
-<table class="record_properties">
+<table class="table">
     <tbody>
         <tr>
             <th>Id</th>
@@ -35,7 +35,31 @@
         </tr>
     </tbody>
 </table>
-
+<h2>Prompts</h2>
+<table class="table">
+    <tbody>
+{%for promptitem in reviewrubric.promptitems%}
+        <tr>
+            <th>Id</th>
+            <td>{{ promptitem.id }}</td>
+        </tr>
+        <tr>
+            <th>Prompt</th>
+            <td>{{ promptitem.prompt }}</td>
+        </tr>
+        <tr>
+            <th>Helptext</th>
+            <td>{{ promptitem.helpText }}</td>
+        </tr>
+        <tr>
+            <th>Type</th>
+            <td>{{ promptitem.type }}</td>
+        </tr>
+{%else%}
+No prompt items
+{%endfor%}
+</tbody>
+</table>
 <ul class="record_actions">
     <li>
         <a href="{{ path('reviewrubric') }}">

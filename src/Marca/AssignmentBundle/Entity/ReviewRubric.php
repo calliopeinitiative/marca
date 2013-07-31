@@ -58,7 +58,7 @@ class ReviewRubric
     private $shared;
 
     /**
-     * @ORM\OneToMany(targetEntity="PromptItem", mappedBy="reviewrubric")
+     * @ORM\OneToMany(targetEntity="PromptItem", mappedBy="reviewRubric")
      */
     private $promptitems;
     

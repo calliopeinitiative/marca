@@ -31,7 +31,7 @@ class PromptItem
     /**
      * @var string
      *
-     * @ORM\Column(name="helpText", type="text")
+     * @ORM\Column(name="helpText", type="text", nullable=true)
      */
     private $helpText;
 
