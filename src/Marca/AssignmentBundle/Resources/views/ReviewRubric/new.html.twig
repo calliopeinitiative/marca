@@ -1,24 +1,22 @@
 {# Marca/AssignmentBundle/Resources/views/ReviewRubric/new.html.twig #}
 
-{% extends 'MarcaAssignmentBundle::layout.html.twig' %}
 
+    <script language="javascript">
+        $(document).ready(function() {
+            $(' form div ul li ul li').addClass('alert alert-error');
+        });
+    </script>
 
-
-{% block content %}
-<h1>ReviewRubric creation</h1>
-
-<form action="{{ path('reviewrubric_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <p>
-        <button type="submit">Create</button>
-    </p>
-</form>
-
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('reviewrubric') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
-{% endblock %}
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">New Rubric</h3>
+    </div>
+    <div class="modal-body">
+    <form action="{{ path('reviewrubric_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_errors(form) }}
+        {{ form_rest(form) }}
+    </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary pull-left" type="submit">Create</button>
+        </div>
+    </form>
