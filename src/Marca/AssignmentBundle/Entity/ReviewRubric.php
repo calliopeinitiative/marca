@@ -81,6 +81,12 @@ class ReviewRubric
     *       inverseJoinColumns={@ORM\JoinColumn(name="Markupset_id", referencedColumnName="id")})
     */
     private $markupsets;
+     
+    /**
+    * @ORM\OneToMany(targetEntity="Review", mappedBy="reviewrubric")
+    */
+    protected $reviews;
+    
     
     public function __construct() {
         $this->promptitems=new ArrayCollection();
