@@ -44,16 +44,16 @@ class ReviewRubricController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($id);
+        $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($id);
 
-        if (!$entity) {
+        if (!$reviewrubric) {
             throw $this->createNotFoundException('Unable to find ReviewRubric entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'reviewrubric'      => $reviewrubric,
             'delete_form' => $deleteForm->createView(),
         );
     }

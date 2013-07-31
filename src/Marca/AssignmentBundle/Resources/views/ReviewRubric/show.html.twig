@@ -11,27 +11,27 @@
     <tbody>
         <tr>
             <th>Id</th>
-            <td>{{ entity.id }}</td>
+            <td>{{ reviewrubric.id }}</td>
         </tr>
         <tr>
             <th>Name</th>
-            <td>{{ entity.name }}</td>
+            <td>{{ reviewrubric.name }}</td>
         </tr>
         <tr>
             <th>Description</th>
-            <td>{{ entity.description }}</td>
+            <td>{{ reviewrubric.description }}</td>
         </tr>
         <tr>
             <th>Instructions</th>
-            <td>{{ entity.instructions }}</td>
+            <td>{{ reviewrubric.instructions }}</td>
         </tr>
         <tr>
             <th>Keywords</th>
-            <td>{{ entity.keywords }}</td>
+            <td>{{ reviewrubric.keywords }}</td>
         </tr>
         <tr>
             <th>Shared</th>
-            <td>{{ entity.shared }}</td>
+            <td>{{ reviewrubric.shared }}</td>
         </tr>
     </tbody>
 </table>
@@ -43,15 +43,20 @@
         </a>
     </li>
     <li>
-        <a href="{{ path('reviewrubric_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('reviewrubric_edit', { 'id': reviewrubric.id }) }}">
             Edit
         </a>
     </li>
     <li>
-        <form action="{{ path('reviewrubric_delete', { 'id': entity.id }) }}" method="post">
+        <form action="{{ path('reviewrubric_delete', { 'id': reviewrubric.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button type="submit">Delete</button>
         </form>
+    </li>
+    <li>
+        <a class='btn btn-primary' href="{{ path('promptitem_new', {'reviewrubricid': reviewrubric.id}) }}">
+            Add a prompt
+        </a>
     </li>
 </ul>
 {% endblock %}

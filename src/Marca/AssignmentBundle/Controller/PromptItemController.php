@@ -61,16 +61,21 @@ class PromptItemController extends Controller
     /**
      * Displays a form to create a new PromptItem entity.
      *
-     * @Route("/new", name="promptitem_new")
+     * @Route("/{reviewrubricid}/new", name="promptitem_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($reviewrubricid)
     {
-        $entity = new PromptItem();
-        $form   = $this->createForm(new PromptItemType(), $entity);
+        $em = $this->getDoctrine()->getManager();
+
+        $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($reviewrubricid);
+
+        $promptitem = new PromptItem();
+        $promptitem->setReviewRubric($reviewrubric);
+        $form   = $this->createForm(new PromptItemType(), $promptitem);
 
         return array(
-            'entity' => $entity,
+            'promptitem' => $promptitem,
             'form'   => $form->createView(),
         );
     }

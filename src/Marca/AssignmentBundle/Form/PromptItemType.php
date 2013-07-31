@@ -13,9 +13,8 @@ class PromptItemType extends AbstractType
         $builder
             ->add('prompt')
             ->add('helpText')
-            ->add('type')
-            ->add('scale')
-            ->add('reviewRubric')
+            ->add('type', 'choice', array('choices'   => array(0 => 'Short Text', 1 => 'Paragraph Text', 2 => 'Scale', 3 => 'No Response'),'required'  => true,'label'  => 'Response Type', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))   
+            ->add('scale','entity',array('class'=>'MarcaAssessmentBundle:Scale','property'=>'name'))
         ;
     }
 
