@@ -79,11 +79,11 @@ class ReviewRubricController extends Controller
      * Creates a new ReviewRubric entity.
      *
      * @Route("/create", name="reviewrubric_create")
-     * @Method("POST")
-     * @Template("MarcaAssignmentBundle:ReviewRubric:new.html.twig")
+     * @Method("post")
      */
     public function createAction(Request $request)
     {
+        
         $entity  = new ReviewRubric();
         $form = $this->createForm(new ReviewRubricType(), $entity);
         $form->bind($request);

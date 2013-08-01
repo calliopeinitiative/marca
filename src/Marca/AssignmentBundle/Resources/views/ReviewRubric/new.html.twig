@@ -11,8 +11,8 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="myModalLabel">New Rubric</h3>
     </div>
-    <div class="modal-body">
     <form action="{{ path('reviewrubric_create') }}" method="post" {{ form_enctype(form) }}>
+     <div class="modal-body">   
         {{ form_errors(form) }}
         {{ form_rest(form) }}
     </div>
