@@ -53,7 +53,7 @@ class PromptItem
 
     /**
      * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Scale", cascade={"persist"})
-     * @ORM\JoinColumn(name="scale_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="scale_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
      */
     private $scale; 
      
