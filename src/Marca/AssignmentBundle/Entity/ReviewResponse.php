@@ -3,6 +3,7 @@
 namespace Marca\AssignmentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * ReviewResponse
@@ -22,39 +23,38 @@ class ReviewResponse
     private $id;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="timeCreated", type="datetime")
-     */
-    private $timeCreated;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="timeModified", type="datetime")
-     */
-    private $timeModified;
-
-    /**
      * @var string
      *
-     * @ORM\Column(name="responseText", type="text")
+     * @ORM\Column(name="responseText", type="text", nullable=true)
      */
     private $responseText;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="responseBool", type="boolean")
+     * @ORM\Column(name="responseBool", type="boolean", nullable=true)
      */
     private $responseBool;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="responseInt", type="integer")
+     * @ORM\Column(name="responseInt", type="integer", nullable=true)
      */
     private $responseInt;
+    
+    /**
+    * @ORM\Column(type="datetime", nullable=true)
+    * @Gedmo\Timestampable(on="create")
+    */
+    protected $created;
+    
+    
+    /**
+    * @ORM\Column(type="datetime", nullable=true)
+    * @Gedmo\Timestampable(on="update")
+    */
+    protected $updated;
 
     /**
      * @ORM\ManyToOne(targetEntity="Marca\DocBundle\Entity\Doc", cascade={"persist"})
@@ -77,7 +77,9 @@ class ReviewResponse
     /**
      * @ORM\ManyToOne(targetEntity="Review", inversedBy="reviewresponses")
      */
-    private $review;     
+    private $review; 
+    
+    
     
     
     /**
@@ -88,52 +90,6 @@ class ReviewResponse
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set timeCreated
-     *
-     * @param \DateTime $timeCreated
-     * @return ReviewResponse
-     */
-    public function setTimeCreated($timeCreated)
-    {
-        $this->timeCreated = $timeCreated;
-    
-        return $this;
-    }
-
-    /**
-     * Get timeCreated
-     *
-     * @return \DateTime 
-     */
-    public function getTimeCreated()
-    {
-        return $this->timeCreated;
-    }
-
-    /**
-     * Set timeModified
-     *
-     * @param \DateTime $timeModified
-     * @return ReviewResponse
-     */
-    public function setTimeModified($timeModified)
-    {
-        $this->timeModified = $timeModified;
-    
-        return $this;
-    }
-
-    /**
-     * Get timeModified
-     *
-     * @return \DateTime 
-     */
-    public function getTimeModified()
-    {
-        return $this->timeModified;
     }
 
     /**
@@ -272,5 +228,74 @@ class ReviewResponse
     public function getReviewPrompt()
     {
         return $this->reviewPrompt;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return ReviewResponse
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     * @return ReviewResponse
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+    
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime 
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Set review
+     *
+     * @param \Marca\AssignmentBundle\Entity\Review $review
+     * @return ReviewResponse
+     */
+    public function setReview(\Marca\AssignmentBundle\Entity\Review $review = null)
+    {
+        $this->review = $review;
+    
+        return $this;
+    }
+
+    /**
+     * Get review
+     *
+     * @return \Marca\AssignmentBundle\Entity\Review 
+     */
+    public function getReview()
+    {
+        return $this->review;
     }
 }
