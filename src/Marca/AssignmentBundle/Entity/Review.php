@@ -25,14 +25,14 @@ class Review
     /**
      * @var integer
      *
-     * @ORM\Column(name="grade", type="integer")
+     * @ORM\Column(name="grade", type="integer", nullable=true)
      */
     private $grade;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="notes", type="text")
+     * @ORM\Column(name="notes", type="text", nullable=true)
      */
     private $notes;
 

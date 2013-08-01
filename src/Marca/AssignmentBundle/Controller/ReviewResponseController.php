@@ -59,40 +59,6 @@ class ReviewResponseController extends Controller
         );
     }
 
-      /**
-     * Displays a form to create a new Review Response entity.
-     *
-     * @Route("/{courseid}/{fileid}/{reviewrubricid}/new", name="reviewresponse_new")
-     * @Template()
-     */
-    public function newAction($courseid, $reviewrubricid, $fileid)
-    {
-        $em = $this->getEm();
-        $course = $this->getCourse();
-        $reviewer =  $this->getUser();
-        $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($reviewrubricid);
-        $reviewfile = $em->getRepository('MarcaFileBundle:File')->find($fileid);
-        $promptitems = $reviewrubric->getPromptitems();
-        
-        $review = new Review(); 
-        $cnt = count($promptitems);
-        $review->setFile($reviewfile);
-        $review->setReviewer($reviewer);
-        $review->setCourse($course);
-        $review->setreviewrubric($reviewrubric);
-       
-        for ($i = 0; $i < $cnt; $i++) { 
-        $promptitem = $promptitems[$i]; 
-        $reviewresponse = new ReviewResponse(); 
-        $reviewresponse->setreviewPrompt($promptitem);
-        $em->persist($reviewresponse);        
-    }
-        $em->flush();
-        return $this->redirect($this->generateUrl('reviewresponse_edit', array('id' => $reviewresponse->getId())));
-    }
-    
-    
-
     /**
      * Displays a form to edit an existing ReviewResponse entity.
      *

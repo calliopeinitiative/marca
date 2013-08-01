@@ -11,14 +11,12 @@ class ReviewType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('reviewresponses', 'collection', array(
+                'type'   => new ReviewResponseType(),
+                'options'  => array(
+                'required'  => false),)) 
             ->add('grade')
             ->add('notes')
-            ->add('created')
-            ->add('updated')
-            ->add('file')
-            ->add('course')
-            ->add('reviewer')
-            ->add('reviewrubric')
         ;
     }
 
