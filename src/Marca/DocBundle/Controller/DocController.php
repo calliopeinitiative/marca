@@ -46,7 +46,7 @@ class DocController extends Controller
      */
     public function showAction($id,$courseid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -292,7 +292,7 @@ class DocController extends Controller
      */    
     public function createPdfAction($id,$courseid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         $em = $this->getEm();
         $user = $this->getUser();
