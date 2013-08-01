@@ -44,8 +44,10 @@ class CourseController extends Controller
      */
     public function homeAction($courseid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
+        
+
         
         $em = $this->getEm();
         $user = $this->getUser();
@@ -59,7 +61,12 @@ class CourseController extends Controller
         $session->set('forumSwitch', $course->getForum());         
         $session->set('course', $course->getName());        
         $username = $user->getFirstname().' '.$user->getLastname();
-        $session->set('username', $username); 
+        $session->set('username', $username);
+        $session->set('portReviewSwitch', $this->getCourseRole()); 
+        
+        if ($this->getCourseRole()== Roll::ROLE_PORTREVIEWER){
+            return $this->redirect($this->generateUrl('portfolio', array('courseid' => $courseid)));
+        };        
 
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseStart($course);
         $paginator = $this->get('knp_paginator');

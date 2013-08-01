@@ -9,7 +9,7 @@ $('#course_select').click(function(){
 });
 });
 </script>
-
+{% if app.session.get('portReviewSwitch')!= 4 %}
 <li>
 <a title='Course Home' href="{{ course_path('course_home')}}">{% if app.session.get('course') %}{{ app.session.get('course')|slice(0, 15) }}{% else %}Course Home{% endif %}</a>
 </li>
@@ -30,6 +30,7 @@ $('#course_select').click(function(){
 {% if app.session.get('journalSwitch')=='true' and app.session.get('module')== 0 %}<li><a  title='Course Journal' href="{{ course_path('journal') }}">Journal</a></li>{%endif%}
 {% if app.session.get('forumSwitch')=='true' and app.session.get('module')== 0 %}<li><a  title='Course Forum' href="{{ course_path('forum') }}">Forum</a></li>{%endif%}
 {% if app.session.get('notesSwitch')=='true' and app.session.get('module')== 0 %}<li><a  title='Course Notes' href="{{ course_path('note') }}">Notes</a></li>{%endif%}
+{%endif%}
 {% if app.session.get('portSwitch')=='true' and app.session.get('module')== 0 %}<li><a  title='Course Portfolio' href="{{ course_path('portfolio') }}">Portfolio</a></li>{%endif%}
 
 
