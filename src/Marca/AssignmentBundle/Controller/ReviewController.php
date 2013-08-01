@@ -102,17 +102,17 @@ class ReviewController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
+        $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
 
-        if (!$entity) {
+        if (!$review) {
             throw $this->createNotFoundException('Unable to find Review entity.');
         }
 
-        $editForm = $this->createForm(new ReviewType(), $entity);
+        $editForm = $this->createForm(new ReviewType(), $review);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'review'      => $review,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
