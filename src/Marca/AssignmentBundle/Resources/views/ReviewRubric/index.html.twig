@@ -7,38 +7,24 @@
 
 {% block content %}
 
-<h1>ReviewRubric list</h1>
+<h1>Available Review Rubrics</h1>
 
-<table class="records_list">
+<table class="table">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Description</th>
-            <th>Instructions</th>
             <th>Keywords</th>
-            <th>Shared</th>
-            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td><a href="{{ path('reviewrubric_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.name }}</td>
+            <td><a href="{{ path('reviewrubric_show', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
             <td>{{ entity.description }}</td>
-            <td>{{ entity.instructions }}</td>
             <td>{{ entity.keywords }}</td>
-            <td>{{ entity.shared }}</td>
-            <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('reviewrubric_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('reviewrubric_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+            <td>        
+                        <a href="{{ path('reviewrubric_edit', { 'id': entity.id }) }}" class="btn btn-small btn-primary">edit</a>
             </td>
         </tr>
     {% endfor %}
@@ -48,7 +34,7 @@
 <ul>
     <li>
         <a href="{{ path('reviewrubric_new') }}">
-            Create a new entry
+            Create a new rubric
         </a>
     </li>
 </ul>

@@ -25,14 +25,14 @@ class Review
     /**
      * @var integer
      *
-     * @ORM\Column(name="grade", type="integer")
+     * @ORM\Column(name="grade", type="integer", nullable=true)
      */
     private $grade;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="notes", type="text")
+     * @ORM\Column(name="notes", type="text", nullable=true)
      */
     private $notes;
 
@@ -257,5 +257,61 @@ class Review
         $this->reviewrubric = $reviewrubric;
     
         return $this;
+    }
+
+    /**
+     * Set file
+     *
+     * @param \Marca\FileBundle\Entity\File $file
+     * @return Review
+     */
+    public function setFile(\Marca\FileBundle\Entity\File $file = null)
+    {
+        $this->file = $file;
+    
+        return $this;
+    }
+
+    /**
+     * Get file
+     *
+     * @return \Marca\FileBundle\Entity\File 
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Add reviewresponses
+     *
+     * @param \Marca\AssignmentBundle\Entity\ReviewResponse $reviewresponses
+     * @return Review
+     */
+    public function addReviewresponse(\Marca\AssignmentBundle\Entity\ReviewResponse $reviewresponses)
+    {
+        $this->reviewresponses[] = $reviewresponses;
+    
+        return $this;
+    }
+
+    /**
+     * Remove reviewresponses
+     *
+     * @param \Marca\AssignmentBundle\Entity\ReviewResponse $reviewresponses
+     */
+    public function removeReviewresponse(\Marca\AssignmentBundle\Entity\ReviewResponse $reviewresponses)
+    {
+        $this->reviewresponses->removeElement($reviewresponses);
+    }
+
+    /**
+     * Get reviewresponses
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReviewresponses()
+    {
+        return $this->reviewresponses;
     }
 }

@@ -203,9 +203,6 @@ class Course
     
     /**
      * @ORM\ManyToMany(targetEntity="Marca\AssignmentBundle\Entity\ReviewRubric")
-     * @ORM\JoinTable(name="reviewrubric_course", 
-     *       joinColumns={@ORM\JoinColumn(name="ReviewRubric_id", referencedColumnName="id")},
-     *       inverseJoinColumns={@ORM\JoinColumn(name="Course_id", referencedColumnName="id")})
      */
     private $reviewrubrics;
     

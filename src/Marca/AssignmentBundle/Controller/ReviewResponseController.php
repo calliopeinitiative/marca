@@ -2,12 +2,13 @@
 
 namespace Marca\AssignmentBundle\Controller;
 
+use Marca\HomeBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\AssignmentBundle\Entity\ReviewResponse;
+use Marca\AssignmentBundle\Entity\Review;
 use Marca\AssignmentBundle\Form\ReviewResponseType;
 
 /**
@@ -58,71 +59,10 @@ class ReviewResponseController extends Controller
         );
     }
 
-      /**
-     * Displays a form to create a new Review Response entity.
-     *
-     * @Route("/{courseid}/{fileid}/{reviewrubricid}/new", name="reviewresponse_new")
-     * @Template()
-     */
-    public function newAction($courseid, $reviewrubricid, $fileid)
-    {
-        $em = $this->getEm();
-        $course = $this->getCourse();
-        $reviewer =  $this->getUser();
-        $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($reviewrubricid);
-        $reviewfile = $em->getRepository('MarcaFileBundle:File')->find($fileid);
-        $promptitems = $reviewrubric->getPromptitems();
-        
-        $review = new Review(); 
-        $cnt = count($promptitems);
-        $review->setFile($fileid);
-        $review->setReviewer($reviewer);
-        $review->setCourse($course);
-        $review->setreviewrubric($reviewrubric);
-       
-        for ($i = 0; $i < $cnt; $i++) { 
-        $promptitem = $promptitems[$i]; 
-        $reviewresponse = new ReviewResponse(); 
-        $reviewresponse->setreviewPrompt($promptitem);
-        $em->persist($reviewresponse);        
-    }
-        $em->flush();
-        return $this->redirect($this->generateUrl('reviewresponse_edit', array('id' => $reviewresponse->getId(),'courseid' => $courseid, 'user' => $reviewer)));
-    }
-    
-    
-    
-    /**
-     * Creates a new ReviewResponse entity.
-     *
-     * @Route("/create", name="reviewresponse_create")
-     * @Method("POST")
-     * @Template("MarcaAssignmentBundle:ReviewResponse:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $entity  = new ReviewResponse();
-        $form = $this->createForm(new ReviewResponseType(), $entity);
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('reviewresponse_show', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
     /**
      * Displays a form to edit an existing ReviewResponse entity.
      *
-     * @Route("/{docid}/{/{id}/edit", name="reviewresponse_edit")
+     * @Route("/{id}/edit", name="reviewresponse_edit")
      * @Template()
      */
     public function editAction($id)
