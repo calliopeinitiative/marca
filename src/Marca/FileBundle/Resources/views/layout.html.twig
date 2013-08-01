@@ -44,7 +44,7 @@ $('#file_new_link').click(function(){
     <li><a id='file_new_doc' title='Create new document' href='javascript:void(0);'><i class="icon-edit"></i> Document</a></li>
     <li><a id='file_new_upload' title='Upload document' href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}"><i class="icon-upload"></i> Upload</a></li>  
     <li><a id='file_new_link' title='Create new link' href="javascript:void(0);"><i class="icon-adjust"></i> Link</a></li>
-    <li><a id='file_new_rubric' title='Create new rubric' href="javascript:void(0);"><i class="icon-adjust"></i> Rubric</a></li>
+    {% if app.request.get('resource')!='0' %}<li><a id='file_new_rubric' title='Create new rubric' href="javascript:void(0);"><i class="icon-adjust"></i> Rubric</a></li>{% endif %}
   </ul>
 </div>
 {% endif %}

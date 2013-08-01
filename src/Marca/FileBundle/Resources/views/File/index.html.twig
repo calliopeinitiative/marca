@@ -83,7 +83,8 @@ All Files</a>
 </span>
     
     
-{% if role == '2' and app.request.get('resource')==0 %}<a class="btn btn-small margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>{% endif %}  
+{% if role == '2' and app.request.get('resource')==0 %}<a class="btn btn-small margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>{% endif %} 
+{% if role == '2' and app.request.get('resource')!=0 %}<a class="btn btn-small margin-left" href="{{ course_path('reviewrubric') }}">Review Rubrics</a>{% endif %}  
 </div>
 
 {# Breadcrumbs #}  
