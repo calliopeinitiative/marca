@@ -58,7 +58,7 @@ class PromptItem
     private $scale; 
      
      /**
-      * @ORM\OneToMany(targetEntity="ReviewResponse", mappedBy="promptitem")
+      * @ORM\OneToMany(targetEntity="ReviewResponse", mappedBy="reviewPrompt")
       */
     private $responses;
     
