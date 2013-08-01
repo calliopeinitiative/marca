@@ -63,10 +63,12 @@ class ReviewRubric
     private $promptitems;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Project", cascade={"persist"})
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Course")
+     * @ORM\JoinTable(name="reviewrubric_course", 
+     *       joinColumns={@ORM\JoinColumn(name="ReviewRubric_id", referencedColumnName="id")},
+     *       inverseJoinColumns={@ORM\JoinColumn(name="Course_id", referencedColumnName="id")})
      */
-    private $project;
+    private $courses;
     
     /**
      * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", cascade={"persist"})
