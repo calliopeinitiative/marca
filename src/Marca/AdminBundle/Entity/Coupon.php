@@ -30,7 +30,7 @@ class Coupon
     
 
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Term", inversedBy="coupon", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Term", inversedBy="coupons", cascade={"remove"})
      * @ORM\JoinColumn(name="term_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $term; 
