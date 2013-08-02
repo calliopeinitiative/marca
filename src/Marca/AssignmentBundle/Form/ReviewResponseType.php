@@ -14,6 +14,8 @@ class ReviewResponseType extends AbstractType
             ->add('responseText')
             ->add('responseBool')
             ->add('responseInt')
+            ->add('helpful', 'choice', array('choices'   => array(true => 'Yes', false => 'No'),'required'  => FALSE,'label'  => 'Was this helpful?', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))
+    
         ;
     }
 
