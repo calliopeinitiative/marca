@@ -163,10 +163,11 @@ class PromptItemController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            $rubricid=$entity->getReviewRubric()->getid();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('reviewrubric_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('reviewrubric_show', array('id' => $rubricid)));
         }
 
         return array(
