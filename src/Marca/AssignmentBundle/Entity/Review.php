@@ -76,8 +76,24 @@ class Review
     */
     protected $updated;    
     
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Scale")
+     */
+    protected $feedbackRating;
     
-
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="feedbackgrade", type="integer", nullable=true)
+     */
+    protected $feedbackGrade;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="feedbackcomment", type="string", length=750, nullable=true)
+     */
+    protected $feedbackComment;
     /**
      * Get id
      *
@@ -313,5 +329,74 @@ class Review
     public function getReviewresponses()
     {
         return $this->reviewresponses;
+    }
+
+    /**
+     * Set feedbackGrade
+     *
+     * @param integer $feedbackGrade
+     * @return Review
+     */
+    public function setFeedbackGrade($feedbackGrade)
+    {
+        $this->feedbackGrade = $feedbackGrade;
+    
+        return $this;
+    }
+
+    /**
+     * Get feedbackGrade
+     *
+     * @return integer 
+     */
+    public function getFeedbackGrade()
+    {
+        return $this->feedbackGrade;
+    }
+
+    /**
+     * Set feedbackComment
+     *
+     * @param string $feedbackComment
+     * @return Review
+     */
+    public function setFeedbackComment($feedbackComment)
+    {
+        $this->feedbackComment = $feedbackComment;
+    
+        return $this;
+    }
+
+    /**
+     * Get feedbackComment
+     *
+     * @return string 
+     */
+    public function getFeedbackComment()
+    {
+        return $this->feedbackComment;
+    }
+
+    /**
+     * Set feedbackRating
+     *
+     * @param \Marca\AssessmentBundle\Entity\Scale $feedbackRating
+     * @return Review
+     */
+    public function setFeedbackRating(\Marca\AssessmentBundle\Entity\Scale $feedbackRating = null)
+    {
+        $this->feedbackRating = $feedbackRating;
+    
+        return $this;
+    }
+
+    /**
+     * Get feedbackRating
+     *
+     * @return \Marca\AssessmentBundle\Entity\Scale 
+     */
+    public function getFeedbackRating()
+    {
+        return $this->feedbackRating;
     }
 }
