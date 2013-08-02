@@ -11,7 +11,8 @@ class ReviewResponseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('responseText')
+            ->add('responseShortText')
+            ->add('responseParagraphText')
             ->add('responseBool')
             ->add('responseInt')
         ;

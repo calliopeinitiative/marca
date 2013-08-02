@@ -17,12 +17,15 @@
                         <br/>
                         Help:  {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}
                         <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=0%} hide {%endif%}">
-                        {{ form_row(reviewresponse.responseText) }}
+                        {{ form_row(reviewresponse.responseShortText) }}
                         </div>
-                         <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=1%} hide {%endif%}">
+                        <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=1%} hide {%endif%}">
+                        {{ form_row(reviewresponse.responseParagraphText) }}
+                        </div>
+                         <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=2%} hide {%endif%}">
                         {{ form_row(reviewresponse.responseBool) }}
                         </div>
-                        <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=2%} hide {%endif%}">
+                        <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=3%} hide {%endif%}">
                         {{ form_row(reviewresponse.responseInt) }}
                         </div>
             </li>

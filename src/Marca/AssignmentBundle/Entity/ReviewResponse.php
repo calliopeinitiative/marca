@@ -25,9 +25,16 @@ class ReviewResponse
     /**
      * @var string
      *
-     * @ORM\Column(name="responseText", type="text", nullable=true)
+     * @ORM\Column(name="responseParagraphText", type="text", nullable=true)
      */
-    private $responseText;
+    private $responseParagraphText;
+    
+      /**
+     * @var string
+     *
+     * @ORM\Column(name="responseShortText", type="string", nullable=true)
+     */
+    private $responseShortText;
 
     /**
      * @var boolean
@@ -97,29 +104,6 @@ class ReviewResponse
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set responseText
-     *
-     * @param string $responseText
-     * @return ReviewResponse
-     */
-    public function setResponseText($responseText)
-    {
-        $this->responseText = $responseText;
-    
-        return $this;
-    }
-
-    /**
-     * Get responseText
-     *
-     * @return string 
-     */
-    public function getResponseText()
-    {
-        return $this->responseText;
     }
 
     /**
@@ -327,5 +311,51 @@ class ReviewResponse
     public function getHelpful()
     {
         return $this->helpful;
+    }
+
+    /**
+     * Set responseParagraphText
+     *
+     * @param string $responseParagraphText
+     * @return ReviewResponse
+     */
+    public function setResponseParagraphText($responseParagraphText)
+    {
+        $this->responseParagraphText = $responseParagraphText;
+    
+        return $this;
+    }
+
+    /**
+     * Get responseParagraphText
+     *
+     * @return string 
+     */
+    public function getResponseParagraphText()
+    {
+        return $this->responseParagraphText;
+    }
+
+    /**
+     * Set responseShortText
+     *
+     * @param string $responseShortText
+     * @return ReviewResponse
+     */
+    public function setResponseShortText($responseShortText)
+    {
+        $this->responseShortText = $responseShortText;
+    
+        return $this;
+    }
+
+    /**
+     * Get responseShortText
+     *
+     * @return string 
+     */
+    public function getResponseShortText()
+    {
+        return $this->responseShortText;
     }
 }
