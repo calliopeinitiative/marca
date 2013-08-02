@@ -1,43 +1,21 @@
-<h1>Review list</h1>
+{# Marca/FileBundle/Resources/views/File/index.html.twig #}
 
-<table class="records_list">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Grade</th>
-            <th>Notes</th>
-            <th>Created</th>
-            <th>Updated</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+{% extends 'MarcaAssignmentBundle::layout.html.twig' %}
+
+{% block content %}
+<h2>Reviews</h2>
+
+<table class="table">
     <tbody>
-    {% for entity in entities %}
+    {% for review in reviews %}
         <tr>
-            <td><a href="{{ path('review_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.grade }}</td>
-            <td>{{ entity.notes }}</td>
-            <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
-            <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif %}</td>
-            <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('review_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('review_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
+            <td>Review of {{review.file.name}}, created {{ review.created|date('Y-m-d H:i:s') }}</td>
+	    <td>by {{review.file.user.firstname}} {{review.file.user.lastname}}</td>
+            <td><a href="{{ path('review_show', { 'id': review.id }) }}">show</a></td>
+	    <td><a href="{{ path('review_edit', { 'id': review.id }) }}">edit</a></td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
+{% endblock %}
 
-<ul>
-    <li>
-        <a href="{{ path('review_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>

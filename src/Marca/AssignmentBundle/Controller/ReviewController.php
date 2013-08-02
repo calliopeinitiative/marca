@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\AssignmentBundle\Entity\Review;
+use Marca\FileBundle\Entity\File;
 use Marca\AssignmentBundle\Entity\ReviewResponse;
 use Marca\AssignmentBundle\Form\ReviewType;
 
@@ -21,17 +22,17 @@ class ReviewController extends Controller
     /**
      * Lists all Review entities.
      *
-     * @Route("/", name="review")
+     * @Route("/{fileid}/", name="review")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($fileid)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('MarcaAssignmentBundle:Review')->findAll();
+	$file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+        $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($fileid);
 
         return array(
-            'entities' => $entities,
+            'reviews' => $reviews,
         );
     }
 

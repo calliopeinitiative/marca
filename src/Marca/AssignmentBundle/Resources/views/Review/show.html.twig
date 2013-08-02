@@ -20,33 +20,25 @@
 
 {% endfor %}
 
-    <div class="span9 well">  
+    <div class="span6 well">  
         <h2>Grade</h2>
         {{ review.grade }}
     </div>
-    <div class="span9 well">  
+    <div class="span6 well">  
         <h2>Notes</h2>
         {{ review.notes }}
     </div>
     
 
-<ul class="record_actions">
-    <li>
-        <a class="btn" href="{{ path('review') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
+
         <a class="btn" href="{{ path('review_edit', { 'id': review.id }) }}">
             Edit
         </a>
-    </li>
-    <li>
+
         <form action="{{ path('review_delete', { 'id': review.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button type="submit">Delete</button>
         </form>
-    </li>
-</ul>
+
     </div>
 {% endblock %}

@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class ReviewRepository extends EntityRepository
 {
+  public function findReviewsByFile($file)
+    {  
+       return $this->getEntityManager()
+               ->createQuery('SELECT r from MarcaAssignmentBundle:Review r WHERE r.file = ?1 ORDER BY r.created DESC')
+               ->setParameters(array('1' => $file))->getResult();
+    }
 }

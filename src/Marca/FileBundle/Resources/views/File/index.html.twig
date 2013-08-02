@@ -203,8 +203,9 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
         <li><a title="Create a copy of this document for peer review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">New Instructor Review</a></li>
         {% endif %}
         {% if file.doc %}<li><a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}">Open in a new tab</a></li>{% endif %}
-        {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}
         <li><a href="{{ course_path('review_new', { 'fileid': file.id, 'reviewrubricid': '2' }) }}" title="" >Create Review</a></li>
+        <li><a href="{{ course_path('review', { 'fileid': file.id }) }}" title="" >Show Reviews</a></li>
+        {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}    
         <li><a id='file_show_{{file.id}}' href='javascript:void(0);' class="">Delete File</a></li>
         {% endif%}
         </ul>
