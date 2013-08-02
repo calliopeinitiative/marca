@@ -9,9 +9,14 @@
     <h1>Review</h1>
     <span>Created  {{ review.created|date('M d Y, h:ia') }}  / Updated  {{ review.updated|date('M d Y, h:ia') }} </span>
 </div>
-</div>
 
 {% for reviewresponse in review.reviewresponses %}
+ <div class="span8 pull-right well" style="padding:0">
+ {{ reviewresponse.responseShortText|raw }}
+ {{ reviewresponse.responseparagraphText|raw }}
+ {{ reviewresponse.responseBool|raw }}
+ {{ reviewresponse.responseInt|raw }}                        
+ </div>
 
 {% endfor %}
 
@@ -27,12 +32,12 @@
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('review') }}">
+        <a class="btn" href="{{ path('review') }}">
             Back to the list
         </a>
     </li>
     <li>
-        <a href="{{ path('review_edit', { 'id': review.id }) }}">
+        <a class="btn" href="{{ path('review_edit', { 'id': review.id }) }}">
             Edit
         </a>
     </li>
@@ -43,4 +48,5 @@
         </form>
     </li>
 </ul>
+    </div>
 {% endblock %}
