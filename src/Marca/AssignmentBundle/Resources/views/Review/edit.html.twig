@@ -3,15 +3,35 @@
 {% extends 'MarcaAssignmentBundle::layout.html.twig' %}
 
 {% block content %}
+<div class="span9 well">
 <h1>Review edit</h1>
 
 <form action="{{ path('review_update', { 'id': review.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
+    {{ form_errors(edit_form) }}
+     <ul class="">  
         {% for reviewresponse in edit_form.reviewresponses %}
-            <li><strong>{{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}</strong><br/>
+            <li>        {{ review.reviewresponses[loop.index-1].reviewPrompt.type }}
+                        <strong>
+                        {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
+                        </strong>
+                        <br/>
                         {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}
-                        {{ form_row(reviewresponse.responseText) }}</li>
+                        <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=0%} hide {%endif%}">
+                        {{ form_row(reviewresponse.responseText) }}
+                        </div>
+                         <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=1%} hide {%endif%}">
+                        {{ form_row(reviewresponse.responseBool) }}
+                        </div>
+                        <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=2%} hide {%endif%}">
+                        {{ form_row(reviewresponse.responseInt) }}
+                        </div>
+            </li>
+            <hr/>
         {% endfor %}
+            <li>{{ form_row(edit_form.grade) }}</li>
+            <li>{{ form_row(edit_form.notes) }}</li>
+     </ul>
+    {{ form_rest(edit_form) }} 
     <p>
         <button type="submit">Edit</button>
     </p>
@@ -30,4 +50,5 @@
         </form>
     </li>
 </ul>
+</div>
 {% endblock %}
