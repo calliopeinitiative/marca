@@ -14,6 +14,14 @@
                 $('#edit_modal').load('{{path('reviewrubric_edit',  { 'id': reviewrubric.id}) }}');
                 $('#edit_modal').modal();
             });
+            
+            {% for promptitem in reviewrubric.promptitems%}    
+    $('#edit_prompt_{{promptitem.id}}').click(function(){
+        $('#prompt_edit_modal').load('{{path('promptitem_edit',  { 'id': promptitem.id}) }}');
+        $('#prompt_edit_modal').modal();
+    });
+    {% endfor %}
+            
         });
 
 
@@ -41,7 +49,8 @@
 
 {%for promptitem in reviewrubric.promptitems%}
 <div class="well">
-        <p><strong>{{ promptitem.prompt }}</strong></p>
+       <span> <p><strong>{{ promptitem.prompt }}</strong></p></span>
+       <span class="pull-right"><a id='edit_prompt_{{promptitem.id}}' title='Edit prompt' href="javascript:void(0);" class="btn btn-small btn-primary">Edit</a></span>
         <p>{{ promptitem.helpText }}</p>
             <div style="margin-bottom:20px;">{% if promptitem.type==0 %}<input type="text" disabled=true />
                 {% elseif promptitem.type ==1 %}<textarea disabled=true rows="3" cols="80"></textarea>
@@ -62,6 +71,8 @@ No prompts yet--add one!
     {# Modal #}
 
     <div id="edit_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    </div>
+ <div id="prompt_edit_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     </div>
 
 {% endblock %}

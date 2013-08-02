@@ -1,28 +1,25 @@
-{% extends 'MarcaAssignmentBundle::layout.html.twig' %}
 
+<script language="javascript">
+        $(document).ready(function() {
+            $(' form div ul li ul li').addClass('alert alert-error');
+        });
+       
+    </script>
 
-{% block content %}
-
-<h1>PromptItem edit</h1>
-
-<form action="{{ path('promptitem_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-    <p>
-        <button type="submit">Edit</button>
-    </p>
-</form>
-
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('promptitem') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('promptitem_delete', { 'id': entity.id }) }}" method="post">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Edit Prompt</h3>
+    </div>
+    <form action="{{ path('promptitem_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} style="margin-bottom:0;">
+     <div class="modal-body">   
+        {{ form_widget(edit_form) }}
+    </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary pull-left" type="submit">Update</button>
+             <form action="{{ path('promptitem_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button type="submit">Delete</button>
         </form>
-    </li>
-</ul>
-{% endblock %}
+        </div>
+    </form>
+
