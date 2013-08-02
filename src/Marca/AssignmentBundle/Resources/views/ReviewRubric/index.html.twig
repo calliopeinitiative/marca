@@ -35,9 +35,7 @@
             <td><a href="{{ path('reviewrubric_show', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
             <td>{{ entity.description }}</td>
             <td>{{ entity.keywords }}</td>
-            <td>        
-                        <a id='file_edit_rubric_{{entity.id}}' title='Edit rubric' href="javascript:void(0);" class="btn btn-small btn-primary">edit</a>
-            </td>
+
         </tr>
     {% endfor %}
     </tbody>

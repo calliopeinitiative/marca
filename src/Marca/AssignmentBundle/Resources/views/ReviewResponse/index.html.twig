@@ -14,7 +14,8 @@
             <th>Id</th>
             <th>Timecreated</th>
             <th>Timemodified</th>
-            <th>Responsetext</th>
+            <th>ResponseShorttext</th>
+            <th>ResponseParagraphtext</th>
             <th>Responsebool</th>
             <th>Responseint</th>
             <th>Actions</th>
@@ -26,7 +27,8 @@
             <td><a href="{{ path('reviewresponse_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{% if entity.timeCreated %}{{ entity.timeCreated|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>{% if entity.timeModified %}{{ entity.timeModified|date('Y-m-d H:i:s') }}{% endif %}</td>
-            <td>{{ entity.responseText }}</td>
+            <td>{{ entity.responseShortText }}</td>
+            <td>{{ entity.responseParagraphText }}</td>
             <td>{{ entity.responseBool }}</td>
             <td>{{ entity.responseInt }}</td>
             <td>

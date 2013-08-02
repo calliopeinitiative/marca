@@ -166,7 +166,7 @@ class PromptItemController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('promptitem_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('reviewrubric_show', array('id' => $id)));
         }
 
         return array(
