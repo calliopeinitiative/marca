@@ -153,7 +153,7 @@ class ReviewRubricController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('reviewrubric', array('id' => $id)));
+            return $this->redirect($this->generateUrl('reviewrubric_show', array('id' => $id)));
         }
 
         return array(
