@@ -2,14 +2,16 @@
 
 namespace Marca\AssignmentBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
+//use Symfony\Component\HttpFoundation\Request;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\AssignmentBundle\Entity\Review;
 use Marca\AssignmentBundle\Entity\ReviewResponse;
+use Marca\AssignmentBundle\Entity\ReviewRubric;
 use Marca\AssignmentBundle\Form\ReviewType;
+use Marca\AssignmentBundle\Form\selectRubricType;
 
 /**
  * Review controller.
@@ -57,6 +59,34 @@ class ReviewController extends Controller
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
         );
+    }
+    
+    /**
+     * Display form to selects Review Rubric for new Reviews
+     * @Route("/{courseid}/{fileid}/selectrubric", name="selectrubric")
+     * @Template()
+     */
+    public function displaySelectAction($courseid, $fileid)
+    {
+        $rubric = new Review();
+        $select_form = $this->createFormBuilder($rubric)->add('reviewrubric', 'entity', array('class'=>'MarcaAssignmentBundle:ReviewRubric', 'property'=>'name'))->getForm();
+        return array('form'=>$select_form->createView(), 'courseid' => $courseid, 'fileid'=>$fileid);
+    }
+    
+    /**
+     * Display form to selects Review Rubric for new Reviews
+     * @Route("/{courseid}/{fileid}/assignrubric", name="assignrubric")
+     * @Template()
+     * @Method("POST")
+     */
+    public function assignAction($courseid, $fileid)
+    {
+        //$select_form = $this->createFormBuilder()->add('reviewrubric','entity', array('class'=>'MarcaAssignmentBundle:ReviewRubric', 'property'=>'name'))->getForm();
+        $request = $this->get('request');
+        $postData = $request->request->get('form');
+        $rubric = $postData['reviewrubric'];
+        //$rubricid = $rubric->getId();
+        return $this->redirect($this->generateUrl('review_new', array('courseid'=>$courseid, 'fileid'=>$fileid, 'reviewrubricid'=>$rubric)));
     }
 
       /**

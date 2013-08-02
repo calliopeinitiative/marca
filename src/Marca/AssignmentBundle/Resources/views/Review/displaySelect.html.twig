@@ -1,0 +1,15 @@
+{# empty Twig template #}
+
+<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Select Project</h3>
+    </div>
+    <form action="{{ path('assignrubric', {'courseid' : courseid, 'fileid': fileid}) }}" method="post" {{ form_enctype(form) }}>
+     <div class="modal-body">   
+        {{ form_errors(form) }}
+        {{ form_rest(form) }}
+    </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary pull-left" type="submit">Use This Rubric</button>
+        </div>
+    </form>
