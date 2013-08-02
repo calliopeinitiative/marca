@@ -523,7 +523,7 @@ class FileController extends Controller
      */     
     public function viewAction($id)
 	{
-             $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+             $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
              $this->restrictAccessTo($allowed);
         
              $em = $this->getEm();
