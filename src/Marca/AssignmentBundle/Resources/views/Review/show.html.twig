@@ -4,32 +4,26 @@
 
 {% block content %}
 
-<h1>Review</h1>
+<div class="span9 well">  
+<div class="span8 center"> 
+    <h1>Review</h1>
+    <span>Created  {{ review.created|date('M d Y, h:ia') }}  / Updated  {{ review.updated|date('M d Y, h:ia') }} </span>
+</div>
+</div>
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Grade</th>
-            <td>{{ entity.grade }}</td>
-        </tr>
-        <tr>
-            <th>Notes</th>
-            <td>{{ entity.notes }}</td>
-        </tr>
-        <tr>
-            <th>Created</th>
-            <td>{{ entity.created|date('Y-m-d H:i:s') }}</td>
-        </tr>
-        <tr>
-            <th>Updated</th>
-            <td>{{ entity.updated|date('Y-m-d H:i:s') }}</td>
-        </tr>
-    </tbody>
-</table>
+{% for reviewresponse in review.reviewresponses %}
+
+{% endfor %}
+
+    <div class="span9 well">  
+        <h2>Grade</h2>
+        {{ review.grade }}
+    </div>
+    <div class="span9 well">  
+        <h2>Notes</h2>
+        {{ review.notes }}
+    </div>
+    
 
 <ul class="record_actions">
     <li>
@@ -38,12 +32,12 @@
         </a>
     </li>
     <li>
-        <a href="{{ path('review_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('review_edit', { 'id': review.id }) }}">
             Edit
         </a>
     </li>
     <li>
-        <form action="{{ path('review_delete', { 'id': entity.id }) }}" method="post">
+        <form action="{{ path('review_delete', { 'id': review.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button type="submit">Delete</button>
         </form>

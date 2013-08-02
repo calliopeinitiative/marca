@@ -45,16 +45,16 @@ class ReviewController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
+        $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
 
-        if (!$entity) {
+        if (!$review) {
             throw $this->createNotFoundException('Unable to find Review entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'review'      => $review,
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -130,25 +130,25 @@ class ReviewController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
+        $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
 
-        if (!$entity) {
+        if (!$review) {
             throw $this->createNotFoundException('Unable to find Review entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ReviewType(), $entity);
+        $editForm = $this->createForm(new ReviewType(), $review);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($review);
             $em->flush();
 
             return $this->redirect($this->generateUrl('review_show', array('id' => $id)));
         }
 
         return array(
-            'entity'      => $entity,
+            'review'      => $review,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
