@@ -28,11 +28,17 @@
                         <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=3%} hide {%endif%}">
                         {{ form_row(reviewresponse.responseInt) }}
                         </div>
+                        <div class="well strong {%if 1==2%} hide {%endif%}">
+                        {{ form_row(reviewresponse.helpful) }}
+                        </div>
             </li>
             <hr/>
         {% endfor %}
             <li>{{ form_row(edit_form.grade) }}</li>
             <li>{{ form_row(edit_form.notes) }}</li>
+            <h2>Evaluate this review:</h2>
+            <li>{{ form_row(edit_form.feedbackGrade) }}</li>
+            <li>{{ form_row(edit_form.feedbackComment) }}</li>
      </ul>
     {{ form_rest(edit_form) }} 
     <p>

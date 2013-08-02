@@ -17,6 +17,8 @@ class ReviewType extends AbstractType
                 'required'  => false),)) 
             ->add('grade')
             ->add('notes')
+            ->add('feedbackGrade')
+            ->add('feedbackComment')    
         ;
     }
 
