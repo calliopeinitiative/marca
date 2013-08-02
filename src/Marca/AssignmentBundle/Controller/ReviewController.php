@@ -84,7 +84,8 @@ class ReviewController extends Controller
         for ($i = 0; $i < $cnt; $i++) { 
         $promptitem = $promptitems[$i]; 
         $reviewresponse = new ReviewResponse(); 
-        $reviewresponse->setreviewPrompt($promptitem);
+        $reviewresponse->setReviewPrompt($promptitem);
+        $reviewresponse->setReview($review);
         $em->persist($reviewresponse);        
     }
         $em->persist($review);

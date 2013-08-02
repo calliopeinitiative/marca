@@ -8,8 +8,7 @@
 <form action="{{ path('review_update', { 'id': review.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}
         {% for reviewresponse in edit_form.reviewresponses %}
-            <li><strong>{{ review.reviewresponses[loop.index-1].promptitem.prompt|raw }}</strong><br/>
-                        {{ review.reviewresponses[loop.index-1].promptitem.helptext|raw }}
+            <li>
                         {{ form_row(reviewresponse.responseText) }}</li>
         {% endfor %}
     <p>

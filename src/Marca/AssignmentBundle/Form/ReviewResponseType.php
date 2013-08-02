@@ -14,9 +14,6 @@ class ReviewResponseType extends AbstractType
             ->add('responseText')
             ->add('responseBool')
             ->add('responseInt')
-            ->add('reviewDoc')
-            ->add('reviewer')
-            ->add('reviewPrompt')
         ;
     }
 
