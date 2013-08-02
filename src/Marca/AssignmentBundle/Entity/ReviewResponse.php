@@ -55,6 +55,13 @@ class ReviewResponse
     * @Gedmo\Timestampable(on="update")
     */
     protected $updated;
+    
+    /**
+     * @var boolean
+     * 
+     * @ORM\Column(name="helpful", type="boolean", nullable=true)
+     */
+    protected $helpful;
 
     /**
      * @ORM\ManyToOne(targetEntity="Marca\DocBundle\Entity\Doc", cascade={"persist"})
@@ -297,5 +304,28 @@ class ReviewResponse
     public function getReview()
     {
         return $this->review;
+    }
+
+    /**
+     * Set helpful
+     *
+     * @param boolean $helpful
+     * @return ReviewResponse
+     */
+    public function setHelpful($helpful)
+    {
+        $this->helpful = $helpful;
+    
+        return $this;
+    }
+
+    /**
+     * Get helpful
+     *
+     * @return boolean 
+     */
+    public function getHelpful()
+    {
+        return $this->helpful;
     }
 }
