@@ -23,15 +23,15 @@
 
 
 {%for promptitem in reviewrubric.promptitems%}
-
+<div class="well">
         <p><strong>{{ promptitem.prompt }}</strong></p>
         <p>{{ promptitem.helpText }}</p>
             <div style="margin-bottom:20px;">{% if promptitem.type==0 %}<input type="text" disabled=true />
                 {% elseif promptitem.type ==1 %}<textarea disabled=true rows="3" cols="80"></textarea>
                 {% elseif promptitem.type ==2 %}{% for scaleitem in promptitem.scale.scaleitems %}
-                    <div class="row"><strong>{{ scaleitem.name }}</strong>  (value::{{ scaleitem.value }})
+                    <div style="margin-left:0px;" class="row"><strong>{{ scaleitem.name }}</strong>  (value::{{ scaleitem.value }})
                      </div>{% endfor %}
-    {% endif %}</div>
+    {% endif %}</div></div>
 
 {%else%}
 No prompts yet--add one!
