@@ -5,12 +5,27 @@
 
 
 {% block content %}
+
+    <script language="javascript">
+
+        $(document).ready(function()
+        {
+            $('#edit_rubric').click(function(){
+                $('#edit_modal').load('{{path('reviewrubric_edit',  { 'id': reviewrubric.id}) }}');
+                $('#edit_modal').modal();
+            });
+        });
+
+
+    </script>
+
+    <div class="well">
 <h1>{{ reviewrubric.name }}</h1>
     <span>{{ reviewrubric.description }}</span>
     <div class="pull-right">
-    <span ><a href="{{ path('reviewrubric_edit', { 'id': reviewrubric.id }) }}" class="btn btn-primary btn-small">
+    <span ><a id='edit_rubric' title='Edit rubric' href="javascript:void(0);" class="btn btn-primary btn-small">
             Edit
-        </a></span><span class="pull-right" <form action="{{ path('reviewrubric_delete', { 'id': reviewrubric.id }) }}" method="post">
+        </a></span><span class="pull-right margin-left" <form action="{{ path('reviewrubric_delete', { 'id': reviewrubric.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger btn-small"  type="submit">Delete</button>
         </form></span>
@@ -18,6 +33,8 @@
 <h3>Instructions</h3>
             <p>{{ reviewrubric.instructions }}</p >
         <p><strong>Keywords:</strong> {{ reviewrubric.keywords }}</p>
+
+    </div>
 
 <h2>Prompts</h2>
 
@@ -41,5 +58,10 @@ No prompts yet--add one!
         <a class='btn btn-primary' href="{{ path('promptitem_new', {'reviewrubricid': reviewrubric.id}) }}">
             Add a prompt
         </a>
+
+    {# Modal #}
+
+    <div id="edit_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    </div>
 
 {% endblock %}
