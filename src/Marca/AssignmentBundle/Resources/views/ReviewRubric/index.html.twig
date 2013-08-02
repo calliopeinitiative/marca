@@ -6,6 +6,18 @@
 
 
 {% block content %}
+<script language="javascript">
+ $(document).ready(function()
+{
+ {% for entity in entities%}    
+    $('#file_edit_rubric_{{entity.id}}').click(function(){
+        $('#edit_modal').load('{{path('reviewrubric_edit',  { 'id': entity.id}) }}');
+        $('#edit_modal').modal();
+    });
+    {% endfor %}
+});
+
+</script>
 
 <h1>Available Review Rubrics</h1>
 
@@ -24,18 +36,17 @@
             <td>{{ entity.description }}</td>
             <td>{{ entity.keywords }}</td>
             <td>        
-                        <a href="{{ path('reviewrubric_edit', { 'id': entity.id }) }}" class="btn btn-small btn-primary">edit</a>
+                        <a id='file_edit_rubric_{{entity.id}}' title='Edit rubric' href="javascript:void(0);" class="btn btn-small btn-primary">edit</a>
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 
-<ul>
-    <li>
-        <a href="{{ path('reviewrubric_new') }}">
-            Create a new rubric
-        </a>
-    </li>
-</ul>
+{# Modal #}
+<div id="file_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
+</div>
+<div id="edit_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
+</div>
+
 {% endblock %}

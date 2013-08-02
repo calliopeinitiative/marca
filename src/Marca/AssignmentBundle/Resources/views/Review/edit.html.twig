@@ -10,12 +10,12 @@
     {{ form_errors(edit_form) }}
      <ul class="">  
         {% for reviewresponse in edit_form.reviewresponses %}
-            <li>        {{ review.reviewresponses[loop.index-1].reviewPrompt.type }}
+            <li>        
                         <strong>
-                        {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
+                        Prompt:  {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
                         </strong>
                         <br/>
-                        {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}
+                        Help:  {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}
                         <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=0%} hide {%endif%}">
                         {{ form_row(reviewresponse.responseText) }}
                         </div>
