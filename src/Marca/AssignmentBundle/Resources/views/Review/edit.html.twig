@@ -39,9 +39,13 @@
         {% endfor %}
             <li>{{ form_row(edit_form.grade) }}</li>
             <li>{{ form_row(edit_form.notes) }}</li>
+            <div class="well strong {%if app.user.username==review.reviewer.username %} hide {%endif%}"> 
             <h2>Evaluate this review:</h2>
+            <ul
             <li>{{ form_row(edit_form.feedbackGrade) }}</li>
             <li>{{ form_row(edit_form.feedbackComment) }}</li>
+            </ul>
+            </div>
      </ul>
     {{ form_rest(edit_form) }} 
     <p>
