@@ -204,7 +204,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
         {% endif %}
         {% if file.doc %}<li><a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}">Open in a new tab</a></li>{% endif %}
         {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}
-        <li><a href="{{ course_path('review_new', { 'fileid': file.id, 'reviewrubricid': '2' }) }}" title="" >Create Review</a></li>
+        <li><a href="{{ course_path('selectrubric', { 'fileid': file.id }) }}" title="" >Create Review</a></li>
         <li><a id='file_show_{{file.id}}' href='javascript:void(0);' class="">Delete File</a></li>
         {% endif%}
         </ul>
