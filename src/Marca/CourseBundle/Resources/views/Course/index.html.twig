@@ -9,7 +9,7 @@
 <div class='alert alert-success'>Click name to adjust settings.</div>
 <h2>Courses</h2>
 
-<a class="btn btn-primary" href="{{ path('course_new') }}">New Course</a>
+    <a class="btn btn-primary" href="{{ path('course_new', {'type':'0'}) }}">New Course</a>
 
 <table class="table">
 <tbody>
@@ -25,7 +25,7 @@
 
 <div class='alert alert-info'>Modules are content repositories that can be included in courses.</div>
 
-<a class="btn" href="{{ path('course_new') }}">New Module</a>
+    <a class="btn" href="{{ path('course_new', {'type':'1'}) }}">New Module</a>
 <table class="table">
 <tbody>
     {% for course in courses if course.module!=0 %}

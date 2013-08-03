@@ -42,31 +42,11 @@ class DefaultController extends Controller
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($user);
         $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($user);
         $modules = $em->getRepository('MarcaCourseBundle:Course')->findModules($user);
+        $archive = $em->getRepository('MarcaCourseBundle:Course')->findArchivedCourses($user);
 
 
 
-        return array('user' => $user,'courses' => $courses, 'pending' => $pending,'modules' => $modules);
-    }
-
-    /**
-     * @Route("/archive", name="user_archive")
-     * @Template("MarcaUserBundle:Default:index.html.twig")
-     */
-    public function archiveAction()
-    {
-        $em = $this->getEm();
-        $user = $this->getUser();
-        $id = $user->getId();
-        if ($user->getLastname()==''){
-            return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
-        }
-        $username = $user->getFirstname().' '.$user->getLastname();
-        $session = $this->get('session');
-        $session->set('username', $username);
-        $courses = $em->getRepository('MarcaCourseBundle:Course')->findArchivedCourses($user);
-        $pending = '';
-
-        return array('user' => $user,'courses' => $courses, 'pending' => $pending,);
+        return array('user' => $user,'courses' => $courses, 'pending' => $pending,'modules' => $modules, 'archive' => $archive);
     }
 
     /**
