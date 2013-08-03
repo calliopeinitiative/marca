@@ -274,7 +274,7 @@ class FileController extends Controller
         if (!$resource)
         {$resource = '0';}
         $form    = $this->createForm(new FileType($options), $file);
-        $form->bindRequest($request);
+        $form->bind($request);
         if ($type == 'doc') {
         $doc  = new Doc();    
         $doc->setFile($file); 
@@ -437,7 +437,7 @@ class FileController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

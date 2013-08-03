@@ -90,7 +90,7 @@ class NoteController extends Controller
         $note->setCourse($course);
         $request = $this->getRequest();
         $form    = $this->createForm(new NoteType(), $note);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -182,7 +182,7 @@ class NoteController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

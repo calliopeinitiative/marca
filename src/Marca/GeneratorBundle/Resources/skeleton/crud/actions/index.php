@@ -9,7 +9,7 @@
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entities = $em->getRepository('{{ bundle }}:{{ entity }}')->findAll();
 

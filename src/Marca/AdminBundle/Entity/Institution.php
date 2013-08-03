@@ -41,7 +41,14 @@ class Institution
      * @ORM\Column(name="semester_price", type="integer")
      */
     private $semester_price;
-    
+
+    /**
+    +     * @var boolean $research
+    +     *
+    +     * @ORM\Column(name="research", type="boolean", nullable=true)
+    +     */
+    private $research = false;
+
     /**
      * @ORM\OneToMany(targetEntity="Marca\UserBundle\Entity\User", mappedBy="institution", cascade={"persist"})
      */
@@ -240,5 +247,28 @@ class Institution
     public function getTerms()
     {
         return $this->terms;
+    }
+
+    /**
+     * Set research
+     *
+     * @param boolean $research
+     * @return Institution
+     */
+    public function setResearch($research)
+    {
+        $this->research = $research;
+    
+        return $this;
+    }
+
+    /**
+     * Get research
+     *
+     * @return boolean 
+     */
+    public function getResearch()
+    {
+        return $this->research;
     }
 }

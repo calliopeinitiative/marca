@@ -14,8 +14,8 @@
 <tbody>
     {% for page in pages %}
     <tr>               
-        <td>{{ page.title }}</td> 
-        <td>{% if page.homepage==1%}Displayed on homepage{% endif %}</td> 
+        <td>{{ page.title }}</td>
+        <td>{% if page.type ==1 %}Research consent form{% else %}Display on Homepage{% endif %}</td>
         <td><a class="btn" href="{{ path('page_show', { 'id': page.id }) }}">show</a><a class="btn btn-primary" href="{{ path('page_edit', { 'id': page.id }) }}">edit</a>
 
 </td>       

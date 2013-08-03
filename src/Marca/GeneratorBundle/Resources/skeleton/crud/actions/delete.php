@@ -12,10 +12,10 @@
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $entity = $em->getRepository('{{ bundle }}:{{ entity }}')->find($id);
 
             if (!$entity) {

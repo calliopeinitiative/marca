@@ -9,7 +9,7 @@
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('{{ bundle }}:{{ entity }}')->find($id);
 

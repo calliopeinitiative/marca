@@ -28,7 +28,7 @@ class Controller extends SymfonyController
      * @return EntityManager
      */   
     public function getEm() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         return $em;
     }    
     
