@@ -54,7 +54,7 @@ class Project
     /**
      * @var boolean $coursehome
      *
-     * @ORM\Column(name="coursehome", type="boolean")
+     * @ORM\Column(name="coursehome", type="boolean", nullable=true)
      */
     private $coursehome = false;
 
