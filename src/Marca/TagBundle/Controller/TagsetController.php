@@ -86,7 +86,7 @@ class TagsetController extends Controller
         $tagset->setUser($user);
         $request = $this->getRequest();
         $form    = $this->createForm(new TagsetType(), $tagset);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -178,7 +178,7 @@ class TagsetController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

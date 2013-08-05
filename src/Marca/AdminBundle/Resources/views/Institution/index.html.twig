@@ -23,13 +23,13 @@ $(document).ready(function()
 {% endif %}
 
 <div class="span9 well">
-<legend>Institutions</legend>
+<h2>Institutions</h2>
 
 <a class="btn btn-small btn-primary" id="new_inst" href="javascript:void(0);">Create New Institution</a>
 
 </div>
 <div class="span9 well">
-    <legend> Current Institutions</legend> 
+    <h2> Current Institutions</h2>
 <table class="table">   
 <tbody>    
 {% for institution in institutions %}
@@ -37,6 +37,7 @@ $(document).ready(function()
             <td>{{institution.name}}</td>
             <td>{% if institution.PaymentType == 0 %}No Payment Required{% endif %}{% if institution.PaymentType == 1 %}Bookstore Payment{% endif %}{% if institution.PaymentType == 2 %}In App Payment{% endif %}{% if institution.PaymentType == 3 %}Bookstore and In App Payment{% endif %}</td>
             <td>${{ institution.SemesterPrice / 100 }}</td>
+            <td>{% if institution.research == true %}Research Consent{%endif%}</td>
             <td> 
                 <button class = "btn btn-danger btn-mini" onclick="$('#confirm{{institution.id}}').toggle();$('#default{{institution.id}}').toggle()" type="submit">Delete</button>
             </td>

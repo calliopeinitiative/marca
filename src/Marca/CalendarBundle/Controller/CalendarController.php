@@ -237,10 +237,10 @@ class CalendarController extends Controller
         $startDate = strtotime($postData['startDate']);
         $gotodate = date("Y-m-d", $startDate);
         $form    = $this->createForm(new CalendarType(), $calendar);
-        $form->bindRequest($request);
+        $form->bind($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($calendar);
             $em->flush();
 
@@ -399,10 +399,10 @@ class CalendarController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
 
             if (!$calendar) {

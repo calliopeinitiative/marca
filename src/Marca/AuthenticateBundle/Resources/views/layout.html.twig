@@ -1,13 +1,23 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
+{% block javascript %}
+
+{% endblock %}
+
 {% block content %}
+
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $("#_submit").addClass("btn btn-primary");
+        });
+    </script>
+
+
 <div class="row">
 <div class="span5">  
 <h2>Welcome to {{ application_name }}</h2> 
 </div>
-
-
-    
     
 <div class="span3 well">
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}

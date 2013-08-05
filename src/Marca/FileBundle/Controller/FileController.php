@@ -55,14 +55,14 @@ class FileController extends Controller
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser, $role);
         }
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($course);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($course);
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),100);
+        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),25);
         $count = $files->getTotalItemCount();
 
         return array('files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project, 
@@ -156,13 +156,14 @@ class FileController extends Controller
 
         $em = $this->getEm();
         $user = $this->getUser();     
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
         $options = array('courseid' => $courseid, 'resource'=> $resource);
         
         $file = new File();
+        if ($resource!=0){$file->setAccess(1);}
         $file->setProject($project);
         $file->setUser($user);
         $file->setCourse($course);
@@ -259,7 +260,7 @@ class FileController extends Controller
         $file  = new File();
         $em = $this->getEm();
         $user = $this->getUser();
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $file->setUser($user);
@@ -273,7 +274,7 @@ class FileController extends Controller
         if (!$resource)
         {$resource = '0';}
         $form    = $this->createForm(new FileType($options), $file);
-        $form->bindRequest($request);
+        $form->bind($request);
         if ($type == 'doc') {
         $doc  = new Doc();    
         $doc->setFile($file); 
@@ -335,7 +336,7 @@ class FileController extends Controller
         $options = array('courseid' => $courseid, 'resource'=> $resource);
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $url = $file->getUrl();
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
               
         if (!$file) {
@@ -381,7 +382,7 @@ class FileController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $options = array('courseid' => $courseid, 'resource'=> $resource);
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         if (!$file) {
@@ -436,7 +437,7 @@ class FileController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -485,9 +486,10 @@ class FileController extends Controller
          $options = array('courseid' => $courseid, 'resource'=> $resource);
          $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
          
-         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetIdByCourse($courseid);
+         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
          $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
          $file = new File();
+         if ($resource!=0){$file->setAccess(1);}
          $file->setUser($user);
          $file->setCourse($course);
          $file->setName('New Upload');
@@ -531,7 +533,7 @@ class FileController extends Controller
              $name = $file->getName();
              $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
              $path = $helper->asset($file, 'file');
-             $ext = $file->getExt();
+             $ext = strtolower($file->getExt());
              $filename = $name.'.'.$ext;
 		
 		$response = new Response();

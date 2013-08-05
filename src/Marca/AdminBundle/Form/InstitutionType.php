@@ -27,6 +27,7 @@ class InstitutionType extends AbstractType
                 'divisor' => 100,
                 'currency' => 'USD'
             ))
+            ->add('research')
         ;
     }
     

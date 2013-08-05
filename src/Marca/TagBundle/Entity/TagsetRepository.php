@@ -18,7 +18,7 @@ class TagsetRepository extends EntityRepository
             ->createQuery('SELECT t from MarcaTagBundle:Tagset t WHERE t.user = ?1 OR t.shared=1 ORDER BY t.shared,t.name')->setParameter('1',$user)->getResult();
     }
        
-    public function findTagsetIdByCourse($courseid)
+    public function findTagsetByCourse($courseid)
     {  
        return $this->getEntityManager()
                ->createQuery('SELECT t from MarcaTagBundle:Tag t JOIN t.tagset s JOIN s.course c WHERE c.id = ?1')

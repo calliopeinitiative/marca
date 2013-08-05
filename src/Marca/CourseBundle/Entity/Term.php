@@ -50,7 +50,13 @@ class Term
      * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Institution", inversedBy="terms", cascade={"remove"})
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected $institution; 
+    protected $institution;
+    
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\AdminBundle\Entity\Coupon", mappedBy="term", cascade={"persist"})
+     */
+    protected $coupons;    
 
 
     /**

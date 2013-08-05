@@ -72,9 +72,16 @@ class User extends BaseUser implements LdapUserInterface
      *
      * @ORM\Column(name="bio", type="text", nullable=true)
      */
-    private $bio = '<p></p>';      
-    
-     /**
+    private $bio = '<p></p>';
+
+    /**
+     * @var integer $research
+     *
+     * @ORM\Column(name="research", type="integer", nullable=true)
+     */
+    private $research = 0;
+
+    /**
      * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="user")
      */
     protected $course;
@@ -128,7 +135,7 @@ class User extends BaseUser implements LdapUserInterface
     private $customer_id = null;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Coupon", inversedBy="user", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="Marca\AdminBundle\Entity\Coupon", inversedBy="users", cascade={"remove"})
      * @ORM\JoinColumn(name="coupon_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $coupon;
@@ -597,5 +604,28 @@ class User extends BaseUser implements LdapUserInterface
     public function getCoupon()
     {
         return $this->coupon;
+    }
+
+    /**
+     * Set research
+     *
+     * @param integer $research
+     * @return User
+     */
+    public function setResearch($research)
+    {
+        $this->research = $research;
+    
+        return $this;
+    }
+
+    /**
+     * Get research
+     *
+     * @return integer 
+     */
+    public function getResearch()
+    {
+        return $this->research;
     }
 }

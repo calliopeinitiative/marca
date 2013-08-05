@@ -24,7 +24,7 @@ class MarkupsetController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $user = $this->getUser();
         
         $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findMarkupSetsByUser($user);
@@ -40,7 +40,7 @@ class MarkupsetController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
 
         if (!$markupset) {
@@ -82,13 +82,13 @@ class MarkupsetController extends Controller
         $markupset->setOwner($user);
         $request = $this->getRequest();
         $form    = $this->createForm(new MarkupsetType(), $markupset);
-        $form->bindRequest($request);
+        $form->bind($request);
         
         
         $entity  = new Markupset();
         $request = $this->getRequest();
         $form    = $this->createForm(new MarkupsetType(), $entity);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -113,7 +113,7 @@ class MarkupsetController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
 
@@ -140,7 +140,7 @@ class MarkupsetController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
 
@@ -180,10 +180,10 @@ class MarkupsetController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $entity = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
 
             if (!$entity) {
@@ -204,7 +204,7 @@ class MarkupsetController extends Controller
      */
     public function findMarkupsetAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $markupsets = $em->getRepository("MarcaDocBundle:Markupset")->findByShared(1);
 
         return array(

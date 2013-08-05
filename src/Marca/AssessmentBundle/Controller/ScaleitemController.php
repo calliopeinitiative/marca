@@ -24,7 +24,7 @@ class ScaleitemController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $scaleitems = $em->getRepository('MarcaAssessmentBundle:Scaleitem')->findAll();
 
@@ -39,7 +39,7 @@ class ScaleitemController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $scaleitem = $em->getRepository('MarcaAssessmentBundle:Scaleitem')->find($id);
 
@@ -88,10 +88,10 @@ class ScaleitemController extends Controller
         $scaleitem->setScale($scale);
         $request = $this->getRequest();
         $form    = $this->createForm(new ScaleitemType(), $scaleitem);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($scaleitem);
             $em->flush();
 
@@ -114,7 +114,7 @@ class ScaleitemController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $scaleitem = $em->getRepository('MarcaAssessmentBundle:Scaleitem')->find($id);
 
@@ -184,10 +184,10 @@ class ScaleitemController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $scaleitem = $em->getRepository('MarcaAssessmentBundle:Scaleitem')->find($id);
             $scaleid = $scaleitem->getScale()->getId();
 

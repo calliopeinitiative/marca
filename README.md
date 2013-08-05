@@ -1,8 +1,6 @@
-Dev Branch
-
-Marca Rebuild by Calliope Initiative 
+Marca Rebuild by Calliope Initiative
 ========================
-by Ron Balthazor, Sara Steger, Robin Wharton, John Weatherford, and Andy Famiglietti 
+by Ron Balthazor, Sara Steger, Robin Wharton, John Weatherford, Lindsey Harding, and Andy Famiglietti
 
 Marca is a web application designed especially for writers and can be used throughout the writing process, 
 from collecting research, to brainstorming, to drafting, through peer review, instructor grading and commenting, 
@@ -16,22 +14,6 @@ For more information about Calliope, please contact robin@calliopeinitiative.org
 
 Marca is built with Symfony (http://symfony.com/)
 
-
-Documentation
-========================
-
-Symfony Bundles Included
-
-
-Twitter Bootstrap
-
-JQuery
-
-
-Ckeditor
-
-
-Spectrum Colorpicker
 
 
 

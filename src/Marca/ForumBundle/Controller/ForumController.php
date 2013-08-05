@@ -105,7 +105,7 @@ class ForumController extends Controller
         $newForum->setCourse($course);
         $request = $this->getRequest();
         $form    = $this->createForm(new ForumType(), $newForum);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -211,7 +211,7 @@ class ForumController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

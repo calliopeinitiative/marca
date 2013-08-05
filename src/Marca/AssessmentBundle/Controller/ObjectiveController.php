@@ -91,7 +91,7 @@ class ObjectiveController extends Controller
         $objective->setAssessmentset($assessmentset);
         $request = $this->getRequest();
         $form    = $this->createForm(new ObjectiveType(), $objective);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -117,7 +117,7 @@ class ObjectiveController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $objective = $em->getRepository('MarcaAssessmentBundle:Objective')->find($id);
 
@@ -184,7 +184,7 @@ class ObjectiveController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
