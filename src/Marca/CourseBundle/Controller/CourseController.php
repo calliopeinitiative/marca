@@ -68,10 +68,11 @@ class CourseController extends Controller
             return $this->redirect($this->generateUrl('portfolio', array('courseid' => $courseid)));
         };        
 
+        $files = $em->getRepository('MarcaFileBundle:File')->findCoursehomeFiles($course);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseStart($course);
         $paginator = $this->get('knp_paginator');
         $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),5);
-        return array('course' => $course, 'calendar' => $calendar);
+        return array('course' => $course, 'calendar' => $calendar, 'files'=>$files);
     }    
 
     /**

@@ -9,10 +9,10 @@ $('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay
 });
 </script>
 <div class="span5 well">
-<h1>{{ course.name }}</h1> {{ course.time|date('g:i A') }} 
+<h2>{{ course.name }}</h2> {{ course.time|date('g:i A') }}
 {{ course.user.firstname }} {{ course.user.lastname }}
 <hr/>
-<h1>Calendar</h1>  
+<h2>Calendar</h2>
 <table class="table">
 <thead><th>Upcoming Events</th></thead>    
 <tbody>
@@ -31,9 +31,62 @@ $('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay
 
 {% if app.session.get('module')== 0 %}
 <div class="span3 well">
-<h1 class='inline'>Announcements</h1>   
+<h2>Announcements</h2>
 <p>{{ course.announcement|raw }}</p>
 {% if course.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ path('announce_edit', { 'courseid': course.id }) }}">Edit</a>{% endif %}
 </div>
 {%endif%}
+
+
+{% if files %}
+    <div id="file_list" class="span3 well">
+        <h2>Course Home Files</h2>
+        <table class="table">
+            {% for file in files%}
+                {# list headings #}
+                {% if loop.first %}
+                    <thead>
+                    <th>Title</th>
+                    <tbody>
+                {% endif %}
+
+                {# main list of files #}
+                <tr>
+                    <td>
+                        {# ODT files #}
+                        {% if file.doc %}
+                            <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
+                            <a title="Open this file in a new tab." target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}">{{ file.name }}<i class="icon-share-alt"></i></a>
+
+                            {# links #}
+                        {% elseif file.url %}
+                            <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
+                            <a class="" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
+
+                            {# ODT files #}
+                        {% elseif file.ext == 'odt' %}
+                            <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                            <a class="" href="{{ course_path('file_view_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
+                            <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="icon-download"></i></a>
+                        {% else %}
+                            <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                            <a class="" href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
+                        {% endif %}
+                    </td>
+
+                 </tr>
+
+
+
+                {% if loop.first %}
+                    </tbody>
+                {% endif %}
+            {% endfor %}
+
+        </table>
+
+    </div>
+{% endif %}
+
+
 {% endblock %}

@@ -14,6 +14,7 @@ class ProjectType extends AbstractType
             ->add('name')
             ->add('sortOrder', 'hidden')
             ->add('resource', 'choice', array('choices'   => array(true => 'Unit', false => 'Folder'),'required'  => true,'label'  => 'Change type:', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))
+            ->add('coursehome', 'choice', array('choices'   => array(true => 'Yes', false => 'No'),'required'  => true,'label'  => 'Show on course home:', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))
         ;
     }
     
