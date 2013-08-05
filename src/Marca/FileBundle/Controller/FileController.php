@@ -59,7 +59,15 @@ class FileController extends Controller
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        
+
+        //tags appropriate for the find
+        if($project != 'recent' and $resource!=0){
+            $projectForTags = $em->getRepository('MarcaCourseBundle:Project')->find($project);
+            $courseForTags =  $projectForTags->getCourse();
+            $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseForTags);
+        }
+        else {$tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($course);}
+
         //pagination for files
         $paginator = $this->get('knp_paginator');
         $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),25);
