@@ -77,16 +77,22 @@ class TagController extends Controller
     /**
      * Displays a form to create a new Tag entity.
      *
-     * @Route("/new", name="tag_new")
+     * @Route("/{tagsetid}/new", name="tag_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($tagsetid)
     {
+        $em = $this->getEm();
+        $tagset = $em->getRepository('MarcaTagBundle:Tagset')->find($tagsetid);
+
         $tag = new Tag();
+        $tag->setTagset($tagset);
+
         $form   = $this->createForm(new TagType(), $tag);
 
         return array(
             'tag' => $tag,
+            'tagset' => $tagset,
             'form'   => $form->createView()
         );
     }
@@ -94,16 +100,18 @@ class TagController extends Controller
     /**
      * Creates a new Tag entity.
      *
-     * @Route("/create", name="tag_create")
+     * @Route("/{tagsetid}/create", name="tag_create")
      * @Method("post")
      * @Template("MarcaTagBundle:Tag:new.html.twig")
      */
-    public function createAction()
+    public function createAction($tagsetid)
     {
         $em = $this->getEm();
+        $tagset = $em->getRepository('MarcaTagBundle:Tagset')->find($tagsetid);
         $user = $this->getUser();
         $tag  = new Tag();
         $tag->setUser($user);
+        $tag->addTagset($tagset);
         $request = $this->getRequest();
         $form    = $this->createForm(new TagType(), $tag);
         $form->bind($request);
@@ -212,7 +220,7 @@ class TagController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('tag'));
+        return $this->redirect($this->generateUrl('tagset'));
     }
 
     private function createDeleteForm($id)

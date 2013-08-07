@@ -21,7 +21,7 @@ Click Label set name to see complete label set.
       <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#tag_accordian" href="#collapse{{loop.index}}">
           <h2 class='inline'>{{ tagset.name }}</h2>
       </a> {% if tagset.shared==1 %}Shared{% elseif tagset.shared==2 %}Default{%endif%}
-      {% if tagset.isOwner(app.user.username) %}{% if tagset.isOwner(app.user.username) %}<a class='btn btn-small  pull-right' href="{{ path('tag_new') }}">Add Label</a><a class="btn btn-small pull-right" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit</a> {% endif %} {% endif %}       
+      {% if tagset.isOwner(app.user.username) %}{% if tagset.isOwner(app.user.username) %}<a class='btn btn-small  pull-right' href="{{ path('tag_new', { 'tagsetid': tagset.id }) }}">Add Label</a><a class="btn btn-small pull-right" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit</a> {% endif %} {% endif %}
     </div>
     <div id="collapse{{loop.index}}" class="accordion-body collapse">
       <div class="accordion-inner">
