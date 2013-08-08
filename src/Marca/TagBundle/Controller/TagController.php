@@ -120,7 +120,7 @@ class TagController extends Controller
             $em = $this->getEm();
             $em->persist($tag);
             $em->flush();
-
+            $this->get('session')->getFlashBag()->add('update',$tagsetid);
             return $this->redirect($this->generateUrl('tagset'));
             
         }
@@ -134,15 +134,15 @@ class TagController extends Controller
     /**
      * Displays a form to edit an existing Tag entity.
      *
-     * @Route("/{id}/edit", name="tag_edit")
+     * @Route("/{id}/{tagsetid}/edit", name="tag_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($id, $tagsetid)
     {
         $em = $this->getEm();
 
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($id);
-
+        $tagset = $em->getRepository('MarcaTagBundle:Tagset')->find($tagsetid);
         if (!$tag) {
             throw $this->createNotFoundException('Unable to find Tag entity.');
         }
@@ -150,8 +150,10 @@ class TagController extends Controller
         $editForm = $this->createForm(new TagType(), $tag);
         $deleteForm = $this->createDeleteForm($id);
 
+
         return array(
             'tag'      => $tag,
+            'tagset'      => $tagset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -160,11 +162,11 @@ class TagController extends Controller
     /**
      * Edits an existing Tag entity.
      *
-     * @Route("/{id}/update", name="tag_update")
+     * @Route("/{id}/{tagsetid}/update", name="tag_update")
      * @Method("post")
      * @Template("MarcaTagBundle:Tag:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($id, $tagsetid)
     {
         $em = $this->getEm();
 
@@ -179,12 +181,13 @@ class TagController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($tag);
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add('update',$tagsetid);
             return $this->redirect($this->generateUrl('tagset'));
         }
 

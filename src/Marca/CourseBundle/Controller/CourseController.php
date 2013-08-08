@@ -213,25 +213,33 @@ class CourseController extends Controller
         $project4 = new Project();
         $project4->setName('Portfolio Prep');
         $project4->setSortOrder(4);
-        $project4->setCourse($course); 
-        }
+        $project4->setCourse($course);
+
         $project5 = new Project();
-        $project5->setName('Readings');
+        $project5->setName('Course Home');
         $project5->setSortOrder(5);
         $project5->setResource(true);
-        $project5->setCourse($course);    
-        
+        $project5->setCourse($course);
+        $project5->setCoursehome(true);
+
+        }
         $project6 = new Project();
-        $project6->setName('Assignments');
+        $project6->setName('Readings');
         $project6->setSortOrder(6);
         $project6->setResource(true);
-        $project6->setCourse($course); 
+        $project6->setCourse($course);
         
         $project7 = new Project();
-        $project7->setName('Resources');
+        $project7->setName('Assignments');
         $project7->setSortOrder(7);
         $project7->setResource(true);
-        $project7->setCourse($course);         
+        $project7->setCourse($course);
+        
+        $project8 = new Project();
+        $project8->setName('Resources');
+        $project8->setSortOrder(8);
+        $project8->setResource(true);
+        $project8->setCourse($course);
         
         $course->setProjectDefault($project1);
 
@@ -245,10 +253,11 @@ class CourseController extends Controller
             $em->persist($project2);
             $em->persist($project3);
             $em->persist($project4);
-            }
             $em->persist($project5);
+            }
             $em->persist($project6);
-            $em->persist($project7);            
+            $em->persist($project7);
+            $em->persist($project8);
             $em->flush();
 
             return $this->redirect($this->generateUrl('course_show', array('courseid' => $course->getId())));

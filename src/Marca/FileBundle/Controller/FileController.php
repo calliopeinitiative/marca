@@ -411,7 +411,7 @@ class FileController extends Controller
         {$resource = '0';}
         
         
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($file);
@@ -512,7 +512,7 @@ class FileController extends Controller
         
 
          if ($this->getRequest()->getMethod() === 'POST') {
-             $form->bindRequest($this->getRequest());
+             $form->bind($this->getRequest());
              if ($form->isValid()) {
                  $em = $this->getEm();
                  $em->persist($file);
