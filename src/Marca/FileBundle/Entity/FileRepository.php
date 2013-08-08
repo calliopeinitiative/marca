@@ -26,7 +26,7 @@ class FileRepository extends EntityRepository
        else {$scopeQuery = '';};
        
        if ($tag != 0) {$tagQuery = '';} else {$tagQuery = ' OR t.id != 0 OR t.id is NULL';}
-            
+
        if($project == 'recent') {
          return $this->getEntityManager()
             ->createQuery('SELECT f, p, d, t, r, o, s  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.responses s LEFT JOIN f.portfolio o LEFT JOIN f.tag t LEFT JOIN f.reviews r 

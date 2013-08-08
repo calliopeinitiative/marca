@@ -84,7 +84,7 @@ label.required[for=marca_filebundle_filetype_url] {text-transform:uppercase;}
 input#marca_filebundle_filetype_name,input#marca_filebundle_filetype_url {padding-bottom:0;margin-bottom:0;}
 .label-margin-bottom{margin-bottom:15px;}
 .modal-header {margin-bottom:-15px;}
-.modal-body {max-height: 90%}
+.modal-body {}
 a {color: #006DCC;text-decoration: none;}
 a:hover {color: #006DCC;text-decoration: underline;}
 
