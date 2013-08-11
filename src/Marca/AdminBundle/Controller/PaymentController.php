@@ -108,7 +108,8 @@ class PaymentController extends Controller{
                 'SELECT c
                  FROM MarcaAdminBundle:Coupon c
                  WHERE c.term = :term
-                 AND c.code = :code')->setParameter('term', $term)->setParameter('code', $code);
+                 AND c.code = :code
+                 AND c.user IS NULL')->setParameter('term', $term)->setParameter('code', $code);
         try{ 
             $validCode = $codeQuery->getSingleResult();
         } catch (\Doctrine\Orm\NoResultException $e) {

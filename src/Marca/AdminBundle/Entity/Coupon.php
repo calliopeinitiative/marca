@@ -36,9 +36,10 @@ class Coupon
     protected $term; 
     
     /**
-     * @ORM\OneToMany(targetEntity="Marca\UserBundle\Entity\User", mappedBy="coupon", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Marca\UserBundle\Entity\User", mappedBy="coupon", cascade={"persist"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
-    protected $users;
+    protected $user;
 
     /**
      * Get id
@@ -123,39 +124,8 @@ class Coupon
      */
     public function __construct()
     {
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        
     }
     
-    /**
-     * Add users
-     *
-     * @param \Marca\UserBundle\Entity\User $users
-     * @return Coupon
-     */
-    public function addUser(\Marca\UserBundle\Entity\User $users)
-    {
-        $this->users[] = $users;
     
-        return $this;
-    }
-
-    /**
-     * Remove users
-     *
-     * @param \Marca\UserBundle\Entity\User $users
-     */
-    public function removeUser(\Marca\UserBundle\Entity\User $users)
-    {
-        $this->users->removeElement($users);
-    }
-
-    /**
-     * Get users
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getUsers()
-    {
-        return $this->users;
-    }
 }
