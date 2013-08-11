@@ -3,6 +3,15 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            {% for flashMessage in app.session.flashbag.get('update') %}
+            $('#collapse{{ flashMessage }}').collapse('show');
+            {% endfor %}
+        });
+    </script>
+
 <div class="span9 well">
 <h1>Labels</h1>
         <a class='btn ' href="{{ path('tagset_new') }}">Create Label Set</a>
@@ -15,20 +24,20 @@ Click Label set name to see complete label set.
 <div class="accordion" id="markup_accordian">
   
 {% for tagset in tagsets%}   
- <div class="accordion-group span8 well">     
+ <div class="accordion-group span9 well pad05">
 
     <div class="accordion-heading">
-      <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#tag_accordian" href="#collapse{{loop.index}}">
+      <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#tag_accordian" href="#collapse{{tagset.id}}">
           <h2 class='inline'>{{ tagset.name }}</h2>
       </a> {% if tagset.shared==1 %}Shared{% elseif tagset.shared==2 %}Default{%endif%}
-      {% if tagset.isOwner(app.user.username) %}{% if tagset.isOwner(app.user.username) %}<a class='btn btn-small  pull-right' href="{{ path('tag_new') }}">Add Label</a><a class="btn btn-small pull-right" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit</a> {% endif %} {% endif %}       
+      {% if tagset.isOwner(app.user.username) %}{% if tagset.isOwner(app.user.username) %}<a class='btn btn-small  pull-right' href="{{ path('tag_new', { 'tagsetid': tagset.id }) }}">Add Label</a><a class="btn btn-small pull-right" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit</a> {% endif %} {% endif %}
     </div>
-    <div id="collapse{{loop.index}}" class="accordion-body collapse">
+    <div id="collapse{{tagset.id}}" class="accordion-body collapse">
       <div class="accordion-inner">
           
            <table class="table">
            {% for tag in tagset.tag %}
-            <tr><td><span class="label {{ tag.color }}">{{ tag.name }}</span></td><td>{% if tagset.isOwner(app.user.username) %}<a class="btn btn-small pull-right" href="{{ path('tag_edit', { 'id': tag.id }) }}">Edit</a>{% endif %}</td></tr>
+            <tr><td><span class="label {{ tag.color }}">{{ tag.name }}</span></td><td>{% if tagset.isOwner(app.user.username) %}<a class="btn btn-small pull-right" href="{{ path('tag_edit', { 'id': tag.id,'tagsetid': tagset.id }) }}">Edit</a>{% endif %}</td></tr>
            {% endfor %}
            </table>
           

@@ -3,32 +3,9 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-<div class="span2">
-<div class="btn-group">
-<a class="btn" href="{{ path('term') }}">List</a>
-<a class="btn" href="{{ path('term_edit', { 'id': term.id }) }}">Edit</a>
- 
-</div> 
-</div>       
-  
-<div class="span1">        
-<form action="{{ path('term_delete', { 'id': term.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
-</form>
-</div>
-  
-</div>
-        
-<div class="row-fluid">
-<div class="span4">    
-<table class="table table-bordered table-condensed table-striped">
-<tbody>        
-    <tr>
-        <th>Id</th>         
-        <td>{{ term.id }}</td>         
-    </tr>        
+<div class="span9 well">
+<table class="table">
+<tbody>
     <tr>
         <th>Term</th>         
         <td>{{ term.term }}</td>         
@@ -39,10 +16,16 @@
     </tr>        
     <tr>
         <th>Status</th>         
-        <td>{{ term.status }}</td>         
-    </tr>  
+        <td>{% if term.status==1 %}Active{% else %}Inactive{% endif %}</td>
+    </tr>
+    <tr>
+        <th>Courses</th>
+        <td>{{ courses|length }}</td>
+    </tr>
 </tbody>
 </table>
-</div>        
-</div>      
+
+    <a class="btn" href="{{ path('term') }}">List</a>
+    <a class="btn" href="{{ path('term_edit', { 'id': term.id }) }}">Edit</a>
+</div>
 {% endblock %}

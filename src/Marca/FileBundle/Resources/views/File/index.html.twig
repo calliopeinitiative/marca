@@ -4,7 +4,10 @@
 
 {% block content %}
 <script language="javascript">
-$(document).ready(function() { 
+$(document).ready(function() {
+    $('.modal-body').css('max-height', function(index) {
+        return $(window).height() * .90;
+    });
 {% for file in files%} 
 $('.edit_{{file.id}}').click(function(){
   $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}');
@@ -32,9 +35,9 @@ $('#file_list').css('height', function(index) {
 });
 </script>
 
+
 {# Project navigation #} 
 
-    
 {# Mine All Find #} 
 {% if app.request.get('resource')=='0' %}
 <div id='project_nav' class="span9 well" role="navigation">  
@@ -59,9 +62,16 @@ $('#file_list').css('height', function(index) {
 </div>
 {% endif %}
 
-{# Breadcrumbs #}  
-<div id='project_breadcrumbs' class="span9 well" role="navigation">  
-  
+{# Breadcrumbs #}
+{# show alert if default Resources #}
+{% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
+    {% for flashMessage in app.session.flashbag.get('message') %}
+        <div class="alert alert-info pad5 span9">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+{% else %}
+<div id='project_breadcrumbs' class="span9 well" role="navigation">
 <ul class="breadcrumb" style='margin:0px;padding-left:6px;' aria-labelledby="breadcrumblabel">
 <p class="inline" id="breadcrumblabel">Your current find:</p>      
 <li  class="margin-left">
@@ -106,10 +116,11 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 </li> 
 {% endif %}
 
-</ul>         
+</ul>
 </div>
+{% endif %}
 
-<div id="file_list" class="span9 well"> 
+<div id="file_list" class="span9 well">
 <table class="table">
 {% for file in files%}
 {# list headings #}        
@@ -223,7 +234,12 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 </tbody>
 {% endif %}
 {% else %}
-No files match your request.
+    {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
+        {% else %}
+        <div class="alert alert-info">
+            No files match your request.
+        </div>
+    {% endif %}
 {% endfor %}
 
 </table>

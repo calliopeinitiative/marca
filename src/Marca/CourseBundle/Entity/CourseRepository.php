@@ -57,5 +57,11 @@ class CourseRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery('SELECT c.id from MarcaCourseBundle:Course c JOIN c.roll r WHERE r.user = ?1')->setParameter('1',$user)->getResult();
-    }     
+    }
+
+    public function findCoursesByTerm($term)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT c.id from MarcaCourseBundle:Course c  WHERE c.term = ?1')->setParameter('1',$term)->getResult();
+    }
 }

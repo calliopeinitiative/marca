@@ -6,7 +6,10 @@
 {% block content %}
 <script language="javascript">
 $(document).ready(function()
-{    
+{
+    $('.modal-body').css('max-height', function(index) {
+        return $(window).height() * .70;
+    });
 $('#file_modal').modal();
 $('#marca_filebundle_filetype_file').on('change', function() { 
   var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '')

@@ -22,5 +22,12 @@ class UserRepository extends EntityRepository
         return $this->getEntityManager()
             ->createQuery('SELECT u from MarcaUserBundle:User u WHERE u.lastname LIKE ?1 OR u.email LIKE ?1 OR u.username LIKE ?1 ORDER BY u.lastname')
                 ->setParameters(array('1' => $namesearch))->getResult();
-    }     
+    }
+
+    public function listinstructors()
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT u from MarcaUserBundle:User u JOIN u.roles r WHERE r.role=ROLE_INSTR ORDER BY u.lastname')
+            ->getResult();
+    }
 }

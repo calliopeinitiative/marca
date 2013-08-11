@@ -36,7 +36,7 @@
         {% endif %}
         <a class="btn btn-primary" title="Enroll in a Course" href="{{ path('enroll_find') }}">Enroll in a Course</a>
         {% if user.institution.research==true %}
-            <a class="btn btn-primary" title="Change Password" href="{{ path('user_research', { 'id': user.id }) }}">Review Reseach Consent</a>
+            <a class="btn btn-primary" title="Change Password" href="{{ path('user_research', { 'id': user.id }) }}">Review Research Consent</a>
         {% endif %}
 
     </div>

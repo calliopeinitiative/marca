@@ -42,16 +42,15 @@ class TermController extends Controller
         $em = $this->getEm();
 
         $term = $em->getRepository('MarcaCourseBundle:Term')->find($id);
-
+        $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByTerm($term);
         if (!$term) {
             throw $this->createNotFoundException('Unable to find Term entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'term'      => $term,
-            'delete_form' => $deleteForm->createView(),        );
+            'courses' => $courses,     );
     }
 
     /**

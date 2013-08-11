@@ -64,7 +64,7 @@ class MarkupController extends Controller
     {
         $markup = new Markup();
         $form   = $this->createForm(new MarkupType(), $markup, array(
-            'em'=>$this->getDoctrine()->getEntityManager(),
+            'em'=>$this->getDoctrine()->getManager(),
         ));
 
         return array(
@@ -92,7 +92,7 @@ class MarkupController extends Controller
         $markup->addMarkupset($markupset);
         $request = $this->getRequest();
         $form    = $this->createForm(new MarkupType(), $markup, array(
-            'em'=>$this->getDoctrine()->getEntityManager(),
+            'em'=>$this->getDoctrine()->getManager(),
         ));
         $form->bind($request);
 
@@ -105,7 +105,8 @@ class MarkupController extends Controller
             $em->persist($markup);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('markupset_show', array('id' => $set_id)));
+            $this->get('session')->getFlashBag()->add('update',$set_id);
+            return $this->redirect($this->generateUrl('markupset'));
             
         }
 
@@ -132,7 +133,7 @@ class MarkupController extends Controller
         }
 
         $editForm = $this->createForm(new MarkupType(), $markup, array(
-            'em'=>$this->getDoctrine()->getEntityManager(),
+            'em'=>$this->getDoctrine()->getManager(),
         ));
         $deleteForm = $this->createDeleteForm($id);
 
@@ -161,19 +162,20 @@ class MarkupController extends Controller
         }
 
         $editForm   = $this->createForm(new MarkupType(), $markup, array(
-            'em'=>$this->getDoctrine()->getEntityManager(),
+            'em'=>$this->getDoctrine()->getManager(),
         ));
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($markup);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('markupset_show', array('id' => $set_id)));
+            $this->get('session')->getFlashBag()->add('update',$set_id);
+            return $this->redirect($this->generateUrl('markupset'));
         }
 
         return array(
