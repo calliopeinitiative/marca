@@ -109,8 +109,23 @@ class FileRepository extends EntityRepository
 
     public function findCoursehomeFiles($course)
     {
-        return $this->getEntityManager()
-            ->createQuery('SELECT f from MarcaFileBundle:File f JOIN f.project p WHERE f.course = ?1 AND p.coursehome=true')
-            ->setParameters(array('1' =>  $course))->getResult();
+        $parents = $this->getEntityManager()
+            ->createQuery('SELECT p.id from MarcaCourseBundle:Course c JOIN c.parents p WHERE c.id = ?1')->setParameter('1',$course)->getResult();
+        if ($parents) {
+            return $this->getEntityManager()
+                ->createQuery('SELECT f from MarcaFileBundle:File f JOIN f.project p WHERE (f.course = ?1 OR f.course in (?2)) AND p.coursehome=true')
+                ->setParameters(array('1' =>  $course))->setParameter('2',$parents)->getResult();
+        } else {
+            return $this->getEntityManager()
+                ->createQuery('SELECT f from MarcaFileBundle:File f JOIN f.project p WHERE f.course = ?1 AND p.coursehome=true')
+                ->setParameters(array('1' =>  $course))->getResult();
+        }
+
+
+
     }
+
+
+
+
 }
