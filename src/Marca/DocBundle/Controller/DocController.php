@@ -131,6 +131,8 @@ class DocController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();
+        $type =2;
+        $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
 
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
         $file = $doc->getFile();
@@ -146,6 +148,7 @@ class DocController extends Controller
         return array(
             'doc'      => $doc,
             'file'        => $file,
+            'pages'        => $pages,
             'markupsets'      => $markupsets,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

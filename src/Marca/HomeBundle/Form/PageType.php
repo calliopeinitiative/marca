@@ -13,7 +13,7 @@ class PageType extends AbstractType
         $builder
             ->add('title')
             ->add('body')
-            ->add('type', 'choice', array('choices'   => array(0 => 'Homepage', 1 => 'Consent'),'required'  => true,'label'  => 'Choose placement for this page', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))
+            ->add('type', 'choice', array('choices'   => array(0 => 'Homepage', 1 => 'Consent', 2 => 'Rubric'),'required'  => true,'label'  => 'Choose placement for this page', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))
 
 
         ;
