@@ -205,9 +205,11 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 <td colspan="2" style="padding-left:3em;">
 
 {% if review.doc %}
+    <span class="label label-file" data-toggle="tooltip" title="This an HTML file ">HTML</span>
 <a href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}">Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
 <a target ='_blank' href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'window' }) }}"><i class="icon-share-alt"></i></a>
 {% else  %}
+    <span class="label label-file" data-toggle="tooltip" title="This an {{ review.ext }} file ">{{ review.ext }}</span>
 <a href="{{ course_path('file_view', { 'id': review.id }) }}" title="Download Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}" >Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
 {% endif %}
 
