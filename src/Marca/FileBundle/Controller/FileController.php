@@ -15,6 +15,7 @@ use Marca\FileBundle\Form\LinkType;
 use Marca\FileBundle\Form\DocType;
 use Marca\FileBundle\Form\ReviewType;
 use Marca\FileBundle\Form\UploadType;
+use Marca\FileBundle\Form\UploadReviewType;
 use Marca\TagBundle\Entity\Tagset;
 use Marca\DocBundle\Entity\Doc;
 
@@ -497,7 +498,7 @@ class FileController extends Controller
          $userid = $user->getId();
          $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
          $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
-         $options = array('courseid' => $courseid, 'resource'=> $resource);
+         $options = array('courseid' => $courseid, 'resource'=> $resource, 'review'=>'no');
          $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
          
          $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
@@ -529,8 +530,63 @@ class FileController extends Controller
          }
 
     return array('form' => $form->createView(),'tags'  => $tags, 'systemtags'  => $systemtags, 'roll'  => $roll,'course' => $course,);
-     } 
- 
+     }
+
+
+    /**
+     * Uploads a file with a Document entity.
+     *
+     * @Route("/{courseid}/{resource}/{tag}/{fileid}/reviewupload", name="review_upload")
+     * @Template("MarcaFileBundle:File:upload.html.twig")
+     */
+    public function uploadReviewAction($courseid, $resource, $fileid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
+        $options = array('courseid' => $courseid, 'resource'=> $resource, 'review'=>'yes');
+        $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
+
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $file = new File();
+        if ($resource!=0){$file->setAccess(1);}
+        $file->setUser($user);
+        $file->setCourse($course);
+        $file->setName('Review');
+        $file->setProject($project);
+        $file->setAccess('2');
+        $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+        $file->setReviewed($reviewed_file);
+        $form = $this->createForm(new UploadReviewType($options), $file);
+
+        $request = $this->getRequest();
+        $postData = $request->get('marca_filebundle_filetype');
+        $project = $postData['project'];
+        if (!$resource)
+        {$resource = '0';}
+
+
+        if ($this->getRequest()->getMethod() === 'POST') {
+            $form->bind($this->getRequest());
+            if ($form->isValid()) {
+                $em = $this->getEm();
+                $em->persist($file);
+                $em->flush();
+                return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'id'=> $file->getId(),'sort'=>'updated','scope'=>'mine','project'=>'recent', 'tag'=>'0', 'userid'=>'0','resource'=>$resource, 'user'=>'0')));
+            }
+
+        }
+
+        return array('form' => $form->createView(),'tags'  => $tags, 'systemtags'  => $systemtags, 'roll'  => $roll,'course' => $course,);
+    }
+
+
+
     /**
      * Finds and displays a File.
      *

@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UploadType extends AbstractType
+class UploadReviewType extends AbstractType
 {
     protected $options;
 
@@ -42,7 +42,7 @@ class UploadType extends AbstractType
                         ->orderBy('c.name', 'ASC');
                 }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Labels', 'attr' => array('class' => 'checkbox'),
               ))
-             ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'inline'),))                      
+             ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared', '2' => 'Hidden'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'inline'),))
             ;
     }
     
