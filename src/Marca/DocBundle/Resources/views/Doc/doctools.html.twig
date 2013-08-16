@@ -32,7 +32,8 @@
 
 
     <div class="accordion margin-top" id="markup">
-        {% for markupset in markupsets%}
+        {% for markupset in markupsets %}
+            {% if not loop.first %}
             <div class="accordion-group">
                 <div class="accordion-heading">
                     <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#markup" href="#collapse{{markupset.id}}">
@@ -48,6 +49,7 @@
                 </div>
 
             </div>
+            {% endif %}
         {% endfor %}
     </div>
 
