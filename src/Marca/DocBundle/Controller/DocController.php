@@ -129,8 +129,8 @@ class DocController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-        $user = $this->getUser();
         $course = $this->getCourse();
+        $role = $this->getCourseRole();
         $type =2;
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
 
@@ -149,6 +149,7 @@ class DocController extends Controller
             'doc'      => $doc,
             'file'        => $file,
             'pages'        => $pages,
+            'role'      => $role,
             'markupsets'      => $markupsets,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
