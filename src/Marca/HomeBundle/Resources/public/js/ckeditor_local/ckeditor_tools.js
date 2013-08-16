@@ -42,18 +42,7 @@ $(function(){
   note();
  });
 });
-function insertRubric()
-{
-    var page = '<div class="eDoc_rubric">' + 'test' + '</div>';
-    var nEditor = CKEDITOR.instances.marca_docbundle_doctype_body;
-    if ( nEditor.mode == 'wysiwyg' )
-    {
-        var rubric = CKEDITOR.dom.element.createFromHtml( page);
-        nEditor.insertElement( rubric );
-    }
-    else
-        alert( 'You must be on WYSIWYG mode!' );
-}
+
 
 
 

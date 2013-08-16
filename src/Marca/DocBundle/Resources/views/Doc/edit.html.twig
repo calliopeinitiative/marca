@@ -35,9 +35,18 @@ var editor = CKEDITOR.instances.marca_docbundle_doctype_body;
 
 var autoSave = setInterval(function(){var buffer = editor.checkDirty(); if (buffer==1) {editor.resetDirty(); var body =  editor.getData();$.post("{{ course_path('doc_ajax', { 'id': doc.id }) }}", {docBody:body}, function(data){});$('#saving_alert').fadeIn();$('#saving_alert').delay(2000).fadeOut();}}, 5000);
 
+$(function(){
+    var rubric = CKEDITOR.dom.element.createFromHtml('<div class="eDoc_rubric"><hr/>{% spaceless %}{% for page in pages %}{{ page.body|raw }}{% endfor %}{% endspaceless %}</div>');
+        $('#insert_rubric').click(function(){
+            editor.insertElement( rubric );
+        });
+});
 
 });
 </script>
+
+
+
 <a name="skip"></a>
 
 <div class="span12 center" style='margin-top:-.78em;'>
@@ -77,4 +86,7 @@ var autoSave = setInterval(function(){var buffer = editor.checkDirty(); if (buff
         
 </form>      
 </div>
+
+
+
 {% endblock %}
