@@ -40,7 +40,7 @@ class PaymentController extends Controller{
         $course=$this->getCourse();
         if($course->getInstitution()->getPaymentType() == 2){
             $publishableKey = $this->container->getParameter('stripe_publishable_key');
-            return array('publishableKey' => $publishableKey, 'courseid' => $courseid, 'paymenttype' => $course->getInstitution()->getPaymentType());
+            return array('publishableKey' => $publishableKey, 'courseid' => $courseid, 'paymenttype' => $course->getInstitution()->getPaymentType(), 'paymentamount' => $course->getInstitution()->getSemesterPrice());
         }
         if($course->getInstitution()->getPaymentType()==1 || $course->getInstitution()->getPaymentType() == 3){
             $coupon = new Coupon();
@@ -57,23 +57,47 @@ class PaymentController extends Controller{
      */
     public function chargeAction($courseid)
     {
-        $user = $this->getUser();
         $em = $this->getEm();
+        $user = $this->getUser();
+        $institution = $user->getInstitution();
+        
+        $termQuery = $em->createQuery(
+                'SELECT t 
+                 FROM MarcaCourseBundle:Term t
+                 WHERE t.institution = :institution
+                 AND t.status = 1'
+                )->setParameter('institution', $institution);
+        $term = $termQuery->getSingleResult();
+ 
         $this->stripeConfig();
         $token  = $_POST['stripeToken'];
 
-        $customer = \Stripe_Customer::create(array(
-            'email' => 'customer@example.com',
+        try{ 
+            $customer = \Stripe_Customer::create(array(
+            'email' => $user->getEmail(),
             'card'  => $token
         ));
+        }
+        catch(\Stripe_CardError $e){
+            return $this->redirect($this->generateUrl('payment', array('courseid'=>$courseid)));
+        }
 
-        $charge = \Stripe_Charge::create(array(
+       try{ 
+       $charge = \Stripe_Charge::create(array(
             'customer' => $customer->id,
-            'amount'   => 5000,
+            'amount'   => $institution->getSemesterPrice(),
             'currency' => 'usd'
         ));
-        
-        $user->setCustomer_id($customer->id);
+       }
+       catch(\Stripe_CardError $e){
+            return $this->redirect($this->generateUrl('payment', array('courseid'=>$courseid)));
+        }
+ 
+        $coupon = New Coupon();
+        $coupon->setCode($customer->id);
+        $coupon->setTerm($term);
+        $coupon->setUser($user);
+        $user->setCoupon($coupon);
         $em->persist($user);
         $em->flush();
         

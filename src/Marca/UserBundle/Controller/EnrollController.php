@@ -98,7 +98,10 @@ class EnrollController extends Controller
        $user = $this->getUser();
        $course = $this->getCourse();
        $coupon = $user->getCoupon();
-       if($coupon == NULL){
+       if($this->get('security.context')->isGranted('ROLE_INSTR') === TRUE){
+           $validCoupon = TRUE;
+       }
+       elseif($coupon == NULL){
            $validCoupon = FALSE;
        }
        elseif ($coupon->getTerm()->getStatus() == 1){
@@ -107,7 +110,7 @@ class EnrollController extends Controller
        else {
            $validCoupon = FALSE;
        }
-       if(($course->getInstitution()->getPaymentType() == 1 && $validCoupon == FALSE) || ($course->getInstitution()->getPaymentType() == 2 && $user->getCustomerId()))
+       if(($course->getInstitution()->getPaymentType() == 1 && $validCoupon == FALSE) || ($course->getInstitution()->getPaymentType() == 2 && $validCoupon == FALSE))
        {
             return $this->redirect($this->generateUrl('payment', array('courseid'=>$courseid)));
        }
