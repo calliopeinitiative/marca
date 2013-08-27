@@ -183,9 +183,11 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
         <li><a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" >Download File</a></li>
         {% endif%}
         {% if role == 2 and file.doc %}
-        <li><a title="Create a copy of this document for peer review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">New Instructor Review</a></li>
-            <li><a title="Create a copy of this document for peer review" id="new_grade_{{file.id}}" href="{{ course_path('review_upload', { 'resource' : '0', 'tag' : '3', 'fileid': file.id }) }}">Upload Instructor Review</a></li>
+        <li><a title="Create a copy of this document for review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">New Instructor Review</a></li>
         {% endif %}
+        {% if role == 2 %}
+        <li><a title="Upload a file for review" id="new_grade_{{file.id}}" href="{{ course_path('review_upload', { 'resource' : '0', 'tag' : '3', 'fileid': file.id }) }}">Upload Instructor Review</a></li>
+        {% endif %}            
         {% if file.doc %}<li><a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}">Open in a new tab</a></li>{% endif %}
         {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}
         <li><a id='file_show_{{file.id}}' href='javascript:void(0);' class="">Delete File</a></li>
