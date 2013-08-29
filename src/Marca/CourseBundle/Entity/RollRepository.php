@@ -43,12 +43,16 @@ class RollRepository extends EntityRepository
     public function enroll($course,$user)
     {
         $em = $this->getEntityManager();
-        $roll  = new Roll();
-        $roll->setCourse($course);
-        $roll->setStatus('1');
-        $roll->setRole(Roll::ROLE_PENDING);
-        $roll->setUser($user);
-        $em->persist($roll);
-        $em->flush();            
+        $onroll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
+        if (!$onroll) {
+            $roll  = new Roll();
+            $roll->setCourse($course);
+            $roll->setStatus('1');
+            $roll->setRole(Roll::ROLE_PENDING);
+            $roll->setUser($user);
+            $em->persist($roll);
+            $em->flush(); 
+        }
+           
     }    
 }
