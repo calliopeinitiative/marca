@@ -7,6 +7,20 @@
 {% endblock %}
 
 {% block content %}
+
+<script language="javascript"> 
+$(document).ready(function()
+{
+$('a#cancel_delete').toggle();$('form#delete').toggle(); 
+$("a#confirm_delete").click(function() {
+$('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
+});    
+$("a#cancel_delete").click(function() {
+$('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
+}); 
+});
+</script>
+
 <script language="javascript"> 
 $(document).ready(function()
 {
@@ -26,11 +40,11 @@ $('form li').addClass('alert alert-error');
         <button class="btn btn-primary" type="submit">Update</button><a class='btn' href="{{ course_path('journal') }}">Cancel</a>
 </form>
         
-       
-<form action="{{ course_path('journal_delete', { 'id': journal.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-delete" type="submit">Delete</button>
-</form>
+<a href='javascript:void(0);' id='confirm_delete' class="btn btn-delete" type="submit">Delete</a>
+<form id='delete' action="{{ course_path('journal_delete', { 'id': journal.id }) }}" method="post">
+{{ form_widget(delete_form) }}
+<button class="btn btn-delete btn-warning" type="submit">Confirm Delete</button>
+</form>  
        
 </div>
 {% endblock %}
