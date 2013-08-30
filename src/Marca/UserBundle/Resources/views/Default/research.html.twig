@@ -3,23 +3,15 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-{% endblock %}
-
-{% block content %}
     <script language="javascript">
         $(document).ready(function()
         {
-            CKEDITOR.replace( 'marca_userbundle_usertype_bio',  {
-                customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}',
-                height: 300,
-            } );
             $('form ul li').addClass('alert alert-error');
         });
     </script>
+{% endblock %}
 
-
-
+{% block content %}
     <div class="span9">
         {% for page in pages %}
             {{ page.body|raw }}
@@ -41,5 +33,4 @@
 
 
     </div>
-
 {% endblock %}

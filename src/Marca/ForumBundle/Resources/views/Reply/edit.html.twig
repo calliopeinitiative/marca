@@ -3,20 +3,15 @@
 {% extends 'MarcaForumBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('form li').addClass('alert alert-error');
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-CKEDITOR.replace( 'marca_forumbundle_replytype_body',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
-} );
-$('form li').addClass('alert alert-error');
-});
-</script>  
-
 <div class="span9 well" style="padding:0">     
       <div class="well-header" >        
          <span class="">{{ comment.user.firstname|capitalize }} {{ comment.user.lastname|capitalize }} says:</span>

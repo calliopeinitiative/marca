@@ -3,26 +3,12 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-CKEDITOR.replace( 'marca_assessmentbundle_objectivetype_objective',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
-} );    
-CKEDITOR.replace( 'marca_assessmentbundle_objectivetype_description',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
-} );
-});
-</script>
-
 <div class="span9 well">
-<legend>Assessment</legend> 
+<h2>Assessment</h2>
 </div>
-
 <div class="span9 well">
         <form action="{{ path('objective_update', { 'id': objective.id }) }}" method="post" {{ form_enctype(edit_form) }}>
             {{ form_widget(edit_form) }}
@@ -36,5 +22,4 @@ CKEDITOR.replace( 'marca_assessmentbundle_objectivetype_description',  {
             <button class="btn btn-delete" type="submit">Delete</button>
         </form>
 </div>
-
 {% endblock %}

@@ -12,7 +12,7 @@ class NoteType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('description')
+            ->add('description', 'ckeditor', array('config_name' => 'editor_default',))
         ;
     }
 

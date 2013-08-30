@@ -15,7 +15,7 @@ class CalendarType extends AbstractType
             ->add('startDate', 'date', array('widget' => 'single_text','format' => 'MM/dd/yyyy','label'  => 'Date',)) 
             ->add('startTime', 'time', array('widget' => 'single_text', 'attr' => array('name' => 'timepicker'),'label'  => 'Time',))                 
             ->add('color','text', array('attr' => array('class' => 'inline'),'label'  => 'Event Color',) )  
-            ->add('description')
+            ->add('description', 'ckeditor', array('config_name' => 'editor_default',))
         ;
     }
 

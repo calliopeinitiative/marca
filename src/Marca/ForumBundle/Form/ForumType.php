@@ -12,7 +12,7 @@ class ForumType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('body')
+            ->add('body', 'ckeditor', array('config_name' => 'editor_default',))
         ;
     }
     

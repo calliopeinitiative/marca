@@ -1,27 +1,31 @@
+{# Marca/NoteBundle/Resources/views/Note/index.html.twig #}
 
 {% extends 'MarcaNoteBundle::layout.html.twig' %}
 
-{% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-$('.note_body').hide(); 
-$('#note_page').css('height', function(index) {
-  return $(window).height()* .82;
-});
-$('#note_sub, #note_list').css('height', function(index) {
-  return $(window).height()* .78;
-});
-{% for note in notes %}
-{% if loop.first %}$('#note_body{{loop.index}}').show();$('#note_td{{loop.index}}').addClass('active');{% endif %}      
-$('#note_anchor{{loop.index}}').click(function(){
-    $('.note_body').hide();$('#note_body{{loop.index}}').show();$('td.active').removeClass('active');$('#note_td{{loop.index}}').addClass('active');
-});        
-{% endfor %}  
-$('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay(500).animate({ borderColor: '#E3E3E3', borderWidth: '1px'  }, 2000); 
-});
+{% block javascripts %}
+<script language="javascript">
+    $(document).ready(function()
+    {
+        $('.note_body').hide();
+        $('#note_page').css('height', function(index) {
+            return $(window).height()* .82;
+        });
+        $('#note_sub, #note_list').css('height', function(index) {
+            return $(window).height()* .78;
+        });
+        {% for note in notes %}
+        {% if loop.first %}$('#note_body{{loop.index}}').show();$('#note_td{{loop.index}}').addClass('active');{% endif %}
+        $('#note_anchor{{loop.index}}').click(function(){
+            $('.note_body').hide();$('#note_body{{loop.index}}').show();$('td.active').removeClass('active');$('#note_td{{loop.index}}').addClass('active');
+        });
+        {% endfor %}
+        $('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay(500).animate({ borderColor: '#E3E3E3', borderWidth: '1px'  }, 2000);
+    });
 </script>
+{% endblock %}
 
+
+{% block content %}
 <div id="note_page" class="span9 well" style="padding-right:0;padding-left:0">
 <div id="note_list" class="span4">
 <table class="table table-hover"> 

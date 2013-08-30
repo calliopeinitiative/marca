@@ -3,25 +3,16 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('form ul li').addClass('alert alert-error');
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-CKEDITOR.replace( 'marca_userbundle_usertype_bio',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}',
-    height: 300,
-} );
-$('form ul li').addClass('alert alert-error');
-});
-</script>
-
-
 <div class="span9 well">
-
-
     <form class="form" action="{{ path('user_update', { 'id': user.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
     <h2>Please update your Profile</h2>
     {{ form_errors(edit_form) }}
@@ -34,8 +25,5 @@ $('form ul li').addClass('alert alert-error');
         <button class="btn btn-primary" type="submit">Update</button>
     </div>
 </form>
-
-              
 </div>
-    
 {% endblock %}

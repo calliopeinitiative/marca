@@ -12,7 +12,7 @@ class PortitemType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
+            ->add('description', 'ckeditor', array('config_name' => 'editor_default',))
             ->add('sortorder')
         ;
     }

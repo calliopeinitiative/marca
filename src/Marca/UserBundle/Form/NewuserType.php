@@ -15,7 +15,7 @@ class NewuserType extends AbstractType
             ->add('firstname', 'text', array('label'  => 'Firstname','attr' => array('class' => 'span5'),))
             ->add('lastname', 'text', array('label'  => 'Lastname','attr' => array('class' => 'span5'),))    
             ->add('photo', 'text', array('label'  => 'Photo URL','attr' => array('class' => 'span5'),))
-            ->add('bio', 'textarea', array('label'  => 'Tell us a little about youself.',))
+            ->add('bio', 'ckeditor', array('config_name' => 'editor_default','label'  => 'Tell us a little about youself.',))
             ->add('institution', 'entity', array('class'=>'MarcaAdminBundle:Institution','property'=>'name', 'label'=>'Select Your Institution'))    
         ;
     }

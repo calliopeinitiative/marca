@@ -3,48 +3,44 @@
 {% extends 'MarcaCalendarBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            {% set gotoyear = gotodate|date('Y') %}
+            {% set gotomonth = gotodate|date('m') -1 %}
+            $( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
+                showButtonPanel: true,
+            });
+            $( '#marca_calendarbundle_calendartype_startTime' ).timepicker(({ 'timeFormat': 'H:i' }));
+            $( '#marca_calendarbundle_calendartype_endDate' ).datepicker({
+                showButtonPanel: true,
+            });
+            $( '#marca_calendarbundle_calendartype_endTime' ).timepicker(({ 'timeFormat': 'H:i' }));
+            $("#marca_calendarbundle_calendartype_color").spectrum({
+                preferredFormat: "name",
+                showPaletteOnly: true,
+                showInput: true,
+                color: '{{calendar.color}}',
+                palette: [
+                    ['royalblue', 'seagreen', 'slateblue','darkorange'],
+                    ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
+                    ['orange', 'cadetblue', 'tomato','blueviolet']
+                ]
+            });
+        });
+    </script>
 {% endblock %}
+
 {% block stylesheets %}
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
 {% endblock %}
-{% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-{% set gotoyear = gotodate|date('Y') %}
-{% set gotomonth = gotodate|date('m') -1 %}    
-CKEDITOR.replace( 'marca_calendarbundle_calendartype_description',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
-} );
-$( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
-showButtonPanel: true,
-});
-$( '#marca_calendarbundle_calendartype_startTime' ).timepicker(({ 'timeFormat': 'H:i' }));
-$( '#marca_calendarbundle_calendartype_endDate' ).datepicker({
-showButtonPanel: true,
-});
-$( '#marca_calendarbundle_calendartype_endTime' ).timepicker(({ 'timeFormat': 'H:i' }));
-$("#marca_calendarbundle_calendartype_color").spectrum({
-    preferredFormat: "name",
-    showPaletteOnly: true,
-    showInput: true,
-    color: '{{calendar.color}}',
-    palette: [
-        ['royalblue', 'seagreen', 'slateblue','darkorange'],
-        ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
-        ['orange', 'cadetblue', 'tomato','blueviolet']        
-    ]
-});
-});
-</script>
 
+{% block content %}
 <div class="span8 well"> 
 <form action="{{ course_path('calendar_update', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
     {{ form_widget(edit_form) }}
@@ -57,7 +53,5 @@ $("#marca_calendarbundle_calendartype_color").spectrum({
             {{ form_widget(delete_form) }}  
     <button class="btn btn-delete" type="submit">Delete</button>
 </form>      
-</div> 
-
-
+</div>
 {% endblock %}

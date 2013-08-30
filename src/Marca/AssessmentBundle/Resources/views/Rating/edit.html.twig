@@ -2,21 +2,12 @@
 {% extends 'MarcaYourBundle::layout.html.twig' %}
 
 {% block javascripts %}
-
 {% endblock %}
 
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-
-});
-</script>
-
 <div class="span2">
 <a class="btn btn-info" href="{{ path('rating') }}">List</a>
- 
-</div>       
+</div>
   
 <div class="span1">        
 <form action="{{ path('rating_delete', { 'id': entity.id }) }}" method="post">
@@ -25,10 +16,8 @@ $(document).ready(function()
 </form>
 </div>
   
-
-
 <div class="span9 well">
-<legend>Portfolios</legend> 
+<h2>Portfolios</h2>
 </div>
 
 <div class="span9 well">

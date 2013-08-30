@@ -2,19 +2,10 @@
 {% extends 'MarcaYourBundle::layout.html.twig' %}
 
 {% block javascripts %}
-
 {% endblock %}
 
 {% block content %}
-  
-  
-
-
 <div class="span9 well">
-<legend></legend> 
-</div> 
-
-<div class="span9 well"> 
 <form action="{{ path('rating_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>

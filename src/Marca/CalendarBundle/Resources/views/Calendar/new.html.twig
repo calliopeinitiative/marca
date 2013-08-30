@@ -3,12 +3,36 @@
 {% extends 'MarcaCalendarBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
+<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
+    {% set set_date = app.request.get('set_date')|date("m/d/Y")%}
 
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('#marca_calendarbundle_calendartype_startDate').val('{{set_date}}');
+            $( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
+                showButtonPanel: true,
+            });
+            $( '#marca_calendarbundle_calendartype_startTime' ).timepicker(({ 'timeFormat': 'H:i' }));
+            $( '#marca_calendarbundle_calendartype_endDate' ).datepicker({
+                showButtonPanel: true,
+            });
+            $( '#marca_calendarbundle_calendartype_endTime' ).timepicker(({ 'timeFormat': 'H:i' }));
+            $("#marca_calendarbundle_calendartype_color").spectrum({
+                preferredFormat: "name",
+                showPaletteOnly: true,
+                showInput: true,
+                color: 'royalblue',
+                palette: [
+                    ['royalblue', 'seagreen', 'slateblue','darkorange'],
+                    ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
+                    ['orange', 'cadetblue', 'tomato','blueviolet']
+                ]
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block stylesheets %}
@@ -18,37 +42,6 @@
 {% endblock %}
 
 {% block content %}
-{% set set_date = app.request.get('set_date')|date("m/d/Y")%}
-
-<script language="javascript"> 
-$(document).ready(function()
-{
-$('#marca_calendarbundle_calendartype_startDate').val('{{set_date}}');
-CKEDITOR.replace( 'marca_calendarbundle_calendartype_description',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
-} );
-$( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
-showButtonPanel: true,
-});
-$( '#marca_calendarbundle_calendartype_startTime' ).timepicker(({ 'timeFormat': 'H:i' }));
-$( '#marca_calendarbundle_calendartype_endDate' ).datepicker({
-showButtonPanel: true,
-});
-$( '#marca_calendarbundle_calendartype_endTime' ).timepicker(({ 'timeFormat': 'H:i' }));
-$("#marca_calendarbundle_calendartype_color").spectrum({
-    preferredFormat: "name",
-    showPaletteOnly: true,
-    showInput: true,
-    color: 'royalblue',
-    palette: [
-        ['royalblue', 'seagreen', 'slateblue','darkorange'],
-        ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
-        ['orange', 'cadetblue', 'tomato','blueviolet']        
-    ]
-});
-});
-</script>
-
 <div class="span8 well"> 
 <form action="{{ course_path('calendar_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
     {{ form_widget(form) }}
