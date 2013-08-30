@@ -11,7 +11,8 @@
 $(document).ready(function()
 {
 CKEDITOR.replace( 'marca_journalbundle_journaltype_body',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
+    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}',
+    height: 500
 } );
 $('form li').addClass('alert alert-error');
 });
