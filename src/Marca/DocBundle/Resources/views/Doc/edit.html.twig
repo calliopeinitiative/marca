@@ -3,11 +3,11 @@
 {% extends 'MarcaDocBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_tools.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/ckeditor/ckeditor_tools.js') }}"></script>
     <script language="javascript">
         $(document).ready(function()
         {
-            var winheight = $(document).height() * .77;
+            var winheight = $(document).height() * .72;
             $('body').height(winheight);
             $('#saving_alert').toggle();
             $('#doctools').css('height', function(index) {

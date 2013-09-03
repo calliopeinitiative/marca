@@ -49,9 +49,9 @@ $('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay
 <span class="pull-right">
 <span id="word-count"></span> word(s)    
 {% if journal.isOwner(app.user.username) %}
-        <a class="btn btn-primary btn-small" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
+        <a class="btn btn-small" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
 {% endif %} 
-        <a class="btn btn-info btn-small" href="{{ course_path('response_new',
+        <a class="btn btn-small" href="{{ course_path('response_new',
         { 'sourceid': journal.id, 'source': 'journal_user','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id }) }}">Respond</a>
 </span>         
 
@@ -67,7 +67,7 @@ $('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay
                 Response by {{ response.user.firstname}} {{ response.user.lastname}}<hr/>
                {{ response.body|raw }} 
                 {% if response.isOwner(app.user.username) %}
-                <a class="btn btn-primary btn-mini pull-right" href="{{ course_path('response_edit', 
+                <a class="btn btn-mini pull-right" href="{{ course_path('response_edit', 
                 { 'id': response.id,'sourceid': journal.id, 'source': 'journal_user','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id  }) }}">Edit</a>
                 {% endif %}
             </div>   
