@@ -74,9 +74,9 @@ by {{file.user.firstname}} {{file.user.lastname}}
 {% if app.request.get('_route') != 'file_view_odt' %}
 {% if doc.isOwner(app.user.username) %}<a title="Edit this document" class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %} 
 {# Don't show Review button if it is a review #}
-{% if file.reviewed|length == 0 %}
+{% if file.reviewed|length == 0 and file.project.resource != 'true' %}
 <a title="Create a copy of this document for peer review" id="new_review" class="btn btn-small" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Peer Review</a>
-{% if role == 2 %}
+{% if role == 2 and file.project.resource != 'true' %}
 <a title="Create a copy of this document for peer review" id="new_grade" class="btn btn-small" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
 {% endif %}
 {% endif %}
