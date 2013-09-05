@@ -33,11 +33,15 @@
         <button class="btn btn-primary" type="submit">Update</button><a class='btn' href="{{ course_path('journal') }}">Cancel</a>
 </form>
         
-<a href='javascript:void(0);' id='confirm_delete' class="btn btn-delete" type="submit">Delete</a>
+{% if journal.responses|length == 0%}
+    <a href='javascript:void(0);' id='confirm_delete' class="btn btn-delete" type="submit">Delete</a>
 <form id='delete' action="{{ course_path('journal_delete', { 'id': journal.id }) }}" method="post">
 {{ form_widget(delete_form) }}
 <button class="btn btn-delete btn-warning" type="submit">Confirm Delete</button>
-</form>  
-       
+</form> 
+{% else %}    
+    <span  class='alert pull-right' >Since this journal entry has at least one response, it can not be deleted.</span>
+{% endif %}
+    
 </div>
 {% endblock %}
