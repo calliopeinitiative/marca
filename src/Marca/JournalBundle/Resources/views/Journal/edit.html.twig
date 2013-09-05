@@ -16,18 +16,13 @@
             $('form li').addClass('alert alert-error');
             $('#saving_alert').toggle();
             var editor = CKEDITOR.instances.marca_journalbundle_journaltype_body;
-            var autoSave = setInterval(function(){var buffer = editor.checkDirty(); if (buffer==1) {editor.resetDirty(); var body =  editor.getData();$.post("{{ course_path('journal_ajax', { 'id': journal.id }) }}", {journalBody:body}, function(data){});$('#saving_alert').fadeIn();$('#saving_alert').delay(2000).fadeOut();}}, 30000);
+            var autoSave = setInterval(function(){var buffer = editor.checkDirty(); if (buffer==1) {editor.resetDirty(); var title = $('#marca_journalbundle_journaltype_title').val(); var body =  editor.getData();$.post("{{ course_path('journal_ajax', { 'id': journal.id }) }}", {journalBody:body, journalTitle:title}, function(data){});$('#saving_alert').fadeIn();$('#saving_alert').delay(2000).fadeOut();}}, 30000);
             
         });
     </script>
 {% endblock %}
 
 {% block content %}
-<div class="span9" >
-     
-</div>
-    
-
 <div class="span9 well">
     <span id='saving_alert' class='alert alert-info margin-left' style="padding-right: 15px;position:fixed;z-index:200;right:15%;top:10%;">Saving</span>
 <form class="form" action="{{ course_path('journal_update', { 'id': journal.id }) }}" method="post" {{ form_enctype(edit_form) }}novalidate="novalidate">

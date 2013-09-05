@@ -71,7 +71,7 @@ class JournalController extends Controller
     }    
 
     /**
-     * Displays a form to create a new Journal entity.
+     * To use the autosave, new persists the entity and redirects to edit.
      *
      * @Route("/{courseid}/new", name="journal_new")
      * @Template()
@@ -80,65 +80,25 @@ class JournalController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        $role = $this->getCourseRole();
         $em = $this->getEm();
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        
-        $journal = new Journal();
-        $journal->setBody('<p></p>');
-        
-        $form   = $this->createForm(new JournalType(), $journal);
-        
-        return array(
-            'journal' => $journal,
-            'form'   => $form->createView(),
-            'roll' => $roll,
-            'role' => $role
-        );
-    }
-
-    /**
-     * Creates a new Journal entity.
-     *
-     * @Route("/{courseid}/create", name="journal_create")
-     * @Method("post")
-     * @Template("MarcaJournalBundle:Journal:new.html.twig")
-     */
-    public function createAction($courseid)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        $role = $this->getCourseRole();        
-        $em = $this->getEm();
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        $user = $this->getUser();
-        
+        $user = $this->getUser();       
         $course = $this->getCourse();
-        $journal  = new Journal();
-        $journal->setUser($user);
-        $journal->setCourse($course);
         
-        $request = $this->getRequest();
-        
-        $form    = $this->createForm(new JournalType(), $journal);
-        $form->bind($request);
+	$journal = new Journal();
+        $journal->setBody('<p></p>');
+	$journal->setTitle('New Journal Entry');
+	$journal->setUser($user);
+        $journal->setCourse($course);        
 
-        if ($form->isValid()) {
-            $em->persist($journal);
-            $em->flush();
+        $em->persist($journal);
+        $em->flush();
 
-            return $this->redirect($this->generateUrl('journal', array('set' => 0, 'courseid'=> $courseid,)));
+            return $this->redirect($this->generateUrl('journal_edit', array('id' => $journal->getId(), 'courseid'=> $courseid,)));
             
         }
+        
 
-        return array(
-            'journal' => $journal,
-            'form'   => $form->createView(),
-            'roll' => $roll,
-            'role' => $role
-        );
-    }
-
+   
     /**
      * Displays a form to edit an existing Journal entity.
      *
@@ -233,14 +193,16 @@ class JournalController extends Controller
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
         
         $request = $this->getRequest();
-        $journal_temp = $request->request->get('journalBody');
-        
+        $journal_body_temp = $request->request->get('journalBody');
+	$journal_title_temp = $request->request->get('journalTitle');     
+
         if (!$journal) {
             throw $this->createNotFoundException('Unable to find Journal entity.');
         }
         
         
-            $journal->setBody($journal_temp);
+            $journal->setBody($journal_body_temp);
+	    $journal->setTitle($journal_title_temp);
             $em->persist($journal);
         
         $em->flush();
