@@ -179,7 +179,9 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         {% if file.isOwner(app.user.username) %}<li><a class='edit_{{file.id}}' href="javascript:void(0);">Update File Settings</a></li>{% endif%}
         {% if file.ext == 'odt' %}
+        {% if file.isOwner(app.user.username) %}    
         <li><a href="{{ course_path('file_convert_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >Convert to HTML doc</a></li>
+        {% endif%}
         <li><a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" >Download File</a></li>
         {% endif%}
         {% if role == 2 and file.doc and app.request.get('resource')=='0' %}
