@@ -217,6 +217,38 @@ class JournalController extends Controller
             'role' => $role
         );
     }
+    
+    
+    /**
+     * Saves via AJAX
+     * @Route("/{courseid}/{id}/ajaxupdate", name="journal_ajax")
+     * @Method("post")
+     */
+    public function ajaxUpdate($id, $courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        
+        $em = $this->getEm();
+        $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
+        
+        $request = $this->getRequest();
+        $journal_temp = $request->request->get('journalBody');
+        
+        if (!$journal) {
+            throw $this->createNotFoundException('Unable to find Journal entity.');
+        }
+        
+        
+            $journal->setBody($journal_temp);
+            $em->persist($journal);
+        
+        $em->flush();
+        
+        $return = "success"; 
+        return new Response($return,200,array('Content-Type'=>'application/json'));
+    }
+    
 
     /**
      * Deletes a Journal entity.
