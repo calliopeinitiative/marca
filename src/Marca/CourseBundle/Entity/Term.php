@@ -58,10 +58,6 @@ class Term
      */
     protected $coupons;    
 
-    /**
-     * @ORM\OneToMany(targetEntity="Marca\AdminBundle\Entity\Coupon", mappedBy="term")
-     */
-    protected $coupons;
 
     /**
      * Get id
