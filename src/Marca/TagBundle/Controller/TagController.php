@@ -77,16 +77,22 @@ class TagController extends Controller
     /**
      * Displays a form to create a new Tag entity.
      *
-     * @Route("/new", name="tag_new")
+     * @Route("/{tagsetid}/new", name="tag_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($tagsetid)
     {
+        $em = $this->getEm();
+        $tagset = $em->getRepository('MarcaTagBundle:Tagset')->find($tagsetid);
+
         $tag = new Tag();
+        $tag->setTagset($tagset);
+
         $form   = $this->createForm(new TagType(), $tag);
 
         return array(
             'tag' => $tag,
+            'tagset' => $tagset,
             'form'   => $form->createView()
         );
     }
@@ -94,25 +100,27 @@ class TagController extends Controller
     /**
      * Creates a new Tag entity.
      *
-     * @Route("/create", name="tag_create")
+     * @Route("/{tagsetid}/create", name="tag_create")
      * @Method("post")
      * @Template("MarcaTagBundle:Tag:new.html.twig")
      */
-    public function createAction()
+    public function createAction($tagsetid)
     {
         $em = $this->getEm();
+        $tagset = $em->getRepository('MarcaTagBundle:Tagset')->find($tagsetid);
         $user = $this->getUser();
         $tag  = new Tag();
         $tag->setUser($user);
+        $tag->addTagset($tagset);
         $request = $this->getRequest();
         $form    = $this->createForm(new TagType(), $tag);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
             $em->persist($tag);
             $em->flush();
-
+            $this->get('session')->getFlashBag()->add('update',$tagsetid);
             return $this->redirect($this->generateUrl('tagset'));
             
         }
@@ -126,15 +134,15 @@ class TagController extends Controller
     /**
      * Displays a form to edit an existing Tag entity.
      *
-     * @Route("/{id}/edit", name="tag_edit")
+     * @Route("/{id}/{tagsetid}/edit", name="tag_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($id, $tagsetid)
     {
         $em = $this->getEm();
 
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($id);
-
+        $tagset = $em->getRepository('MarcaTagBundle:Tagset')->find($tagsetid);
         if (!$tag) {
             throw $this->createNotFoundException('Unable to find Tag entity.');
         }
@@ -142,8 +150,10 @@ class TagController extends Controller
         $editForm = $this->createForm(new TagType(), $tag);
         $deleteForm = $this->createDeleteForm($id);
 
+
         return array(
             'tag'      => $tag,
+            'tagset'      => $tagset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -152,11 +162,11 @@ class TagController extends Controller
     /**
      * Edits an existing Tag entity.
      *
-     * @Route("/{id}/update", name="tag_update")
+     * @Route("/{id}/{tagsetid}/update", name="tag_update")
      * @Method("post")
      * @Template("MarcaTagBundle:Tag:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($id, $tagsetid)
     {
         $em = $this->getEm();
 
@@ -171,12 +181,13 @@ class TagController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($tag);
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add('update',$tagsetid);
             return $this->redirect($this->generateUrl('tagset'));
         }
 
@@ -198,7 +209,7 @@ class TagController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -212,7 +223,7 @@ class TagController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('tag'));
+        return $this->redirect($this->generateUrl('tagset'));
     }
 
     private function createDeleteForm($id)

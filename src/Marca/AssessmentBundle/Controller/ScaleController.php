@@ -2,7 +2,7 @@
 
 namespace Marca\AssessmentBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,7 +24,7 @@ class ScaleController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $scales = $em->getRepository('MarcaAssessmentBundle:Scale')->findAll();
 
@@ -39,7 +39,7 @@ class ScaleController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $scale = $em->getRepository('MarcaAssessmentBundle:Scale')->find($id);
 
@@ -83,10 +83,10 @@ class ScaleController extends Controller
         $scale  = new Scale();
         $request = $this->getRequest();
         $form    = $this->createForm(new ScaleType(), $scale);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($scale);
             $em->flush();
 
@@ -108,7 +108,7 @@ class ScaleController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $scale = $em->getRepository('MarcaAssessmentBundle:Scale')->find($id);
 
@@ -135,7 +135,7 @@ class ScaleController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $scale = $em->getRepository('MarcaAssessmentBundle:Scale')->find($id);
 
@@ -175,10 +175,10 @@ class ScaleController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $scale = $em->getRepository('MarcaAssessmentBundle:Scale')->find($id);
 
             if (!$scale) {

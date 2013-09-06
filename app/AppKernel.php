@@ -42,6 +42,7 @@ class AppKernel extends Kernel
             new Marca\AssessmentBundle\MarcaAssessmentBundle(),
             new FR3D\LdapBundle\FR3DLdapBundle(),
             new Marca\AssignmentBundle\MarcaAssignmentBundle(),
+            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

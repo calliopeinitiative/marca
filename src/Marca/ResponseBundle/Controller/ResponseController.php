@@ -77,10 +77,10 @@ class ResponseController extends Controller
             $response->setJournal($journal);
             $request = $this->getRequest();
             $form    = $this->createForm(new ResponseType(), $response);
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($response);
             $em->flush();
 
@@ -102,10 +102,10 @@ class ResponseController extends Controller
             $response->setFile($file);
             $request = $this->getRequest();
             $form    = $this->createForm(new ResponseType(), $response);
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($response);
             $em->flush();
 
@@ -250,10 +250,10 @@ class ResponseController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $response = $em->getRepository('MarcaResponseBundle:Response')->find($id);
 
             if (!$response) {

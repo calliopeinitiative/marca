@@ -3,20 +3,22 @@
 {% extends 'MarcaForumBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('a#cancel_delete').toggle();$('form#delete').toggle();
+            $("a#confirm_delete").click(function() {
+                $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
+            });
+            $("a#cancel_delete").click(function() {
+                $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
+            });
+            $('form li').addClass('alert alert-error');
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-CKEDITOR.replace( 'marca_forumbundle_forumtype_body',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
-} );
-$('form li').addClass('alert alert-error');
-});
-</script>
-
 <div class="span9 well">    
 <form class="form" action="{{ course_path('forum_update', { 'id': forum.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
      {{ form_errors(edit_form) }}
@@ -26,9 +28,11 @@ $('form li').addClass('alert alert-error');
         <button class="btn btn-primary" type="submit">Update</button><a class='btn' href="{{ course_path('forum', { 'set': 0 }) }}">Cancel</a>
 </form>
 
-<form action="{{ course_path('forum_delete', { 'id': forum.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-delete" type="submit">Delete</button>
-</form>
+<a href='javascript:void(0);' id='confirm_delete' class="btn btn-delete" type="submit">Delete</a>
+<form id='delete' action="{{ course_path('forum_delete', { 'id': forum.id }) }}" method="post">
+{{ form_widget(delete_form) }}
+<button class="btn btn-delete btn-warning" type="submit">Confirm Delete</button>
+</form>     
+
 </div>
 {% endblock %}

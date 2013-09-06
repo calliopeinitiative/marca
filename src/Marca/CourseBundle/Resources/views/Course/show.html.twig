@@ -18,7 +18,8 @@ $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').to
 </script>
 
 <div class="span4 well">
-<h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> </h2> 
+<h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> </h2>
+    <div class='alert alert-info'>Click the {% if course.module == 0%}course{% else %}module{% endif %} name above to return to it</div>
 {% if course.module == 2%}<div class='alert alert-success'>This module is shared with all instructors.</div>{% endif %}
 <a class="btn btn-primary" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit Settings </a>
 {% if course.module == 0%}
@@ -42,22 +43,24 @@ $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').to
 <h2>Settings</h2> 
 <ul class="unstyled">
 <li><strong>Time:</strong> {{ course.time|date('h:i a') }}</li>  
-<li><strong>Term:</strong> {{ course.term.termName }}</li> 
-<hr/> 
+<li><strong>Term:</strong> {{ course.term.termName }}</li>
+    <hr/>
+    <div class='alert alert-info'>Tools available in the course</div>
 <li><strong>Notes tool:</strong>  {{ course.notes=='t' ? 'Yes' : 'No' }}</li> 
 <li><strong>Forum tool:</strong>  {{ course.forum=='t' ? 'Yes' : 'No' }}</li>
-<li><strong>Journal tool:</strong>  {{ course.journal=='t' ? 'Yes' : 'No' }}</li>          
-<hr/>        
+<li><strong>Journal tool:</strong>  {{ course.journal=='t' ? 'Yes' : 'No' }}</li>
+    <hr/>
+    <div class='alert alert-info'>Student access</div>
 
 <li><strong>Enrollment open:</strong>  {{ course.enroll=='t' ? 'Yes' : 'No' }}</li> 
 <li><strong>Student can post files: </strong> {{ course.post=='t' ? 'Yes' : 'No' }}</li> 
-<li><strong>Student can start forum threads:</strong>  {{ course.studentForum=='t' ? 'Yes' : 'No' }}</li> 
-
-<hr/>  
+<li><strong>Student can start forum threads:</strong>  {{ course.studentForum=='t' ? 'Yes' : 'No' }}</li>
+    <hr/>
+    <div class='alert alert-info'>Portfolio settings</div>
 <li><strong>Portfolio: </strong> {{ course.portfolio=='t' ? 'Yes' : 'No' }}</li>
 <li><strong>Portfolio set:</strong>{% if portset %}{{ portset.name}}{% else %}No portfolio set designated{% endif %}</li>
 <li><strong>Portfolio Assessment: </strong> {% if course.assessmentset %}{{ course.assessmentset.name }}{% else %}No portfolio assessment designated{% endif %}</li>
-<li><strong>Portfolio editing open: </strong>{{ course.portStatus=='t' ? 'Yes' : 'No' }}   </li>  
+<li><strong>Portfolio editing open: </strong>{{ course.portStatus=='t' ? 'Yes' : 'No' }}   </li>
 <hr/>
 <li><strong>Modules:</strong>  {% for course in course.parents %}{{ course.name }}</br>{% else %}No Modules{% endfor %} </li> 
 <li><strong>Label Sets: </strong> {% for tagset in tagsets %}{{ tagset.name}}{% if not loop.last %}, {% endif %}{% endfor %} </li>
@@ -83,6 +86,9 @@ No institution is set for this course, please edit the course to set one
 {% if course.module == 0 %} 
 <div class="span4 well"> 
 <h2>Projects</h2>
+
+    <div class='alert alert-info'>Your students will place their work in these folders.</div>
+
 <h2>Folders</h2>
 <a class="btn btn-mini" href="{{ path('project_new', {'courseid': course.id, 'resource':0}) }}">New Folder</a>
 <table class="table table-condensed table-striped">
@@ -119,6 +125,13 @@ No institution is set for this course, please edit the course to set one
 
 <div class="span4 well"> 
 <h2>Resources</h2>
+    {% if course.module == 0%}
+        <div class='alert alert-info'>You will place content in these units for your students.  Any units in the course marked "Course Home" <i class="icon-home"></i> will display on the course home page.</div>
+    {% else %}
+        <div class='alert alert-info'>You will place content in the units of this module to include in other courses.  Add modules to courses in "Course Settings."
+            The units will show under Resources in the course. </div>
+    {% endif %}
+
 
 <h2>Units</h2>
 <a class="btn btn-mini" href="{{ path('project_new', {'courseid': course.id, 'resource':1}) }}">New Unit</a>
@@ -126,7 +139,7 @@ No institution is set for this course, please edit the course to set one
 <tbody>  
 {% for project in projects  %}{% if project.resource == 1  %}        
 <tr id="delete{{project.id}}">
-<th>{{ project.name }}</th>         
+<th>{% if project.coursehome==true %}<i class="icon-home"></i>{% endif %}{{ project.name }}</th>
 <td><a class="btn btn-mini" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>  
 <td><button class="btn btn-mini" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button></td>   
 <td>
@@ -157,6 +170,7 @@ No institution is set for this course, please edit the course to set one
 
 {% if course.module == 0 %}     
 <h2>Modules</h2>
+    <div class='alert alert-info'>Modules are libraries of content that you can reuse.</div>
 Units from Modules.
     <table class="table table-condensed table-striped">
     <tbody>  

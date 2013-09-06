@@ -3,21 +3,11 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-CKEDITOR.replace( 'marca_assessmentbundle_assessmentsettype_description',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
-} );
-});
-</script>
-
 <div class="span9 well">
-<legend>Assessment</legend> 
+<h2>Assessment</h2>
 </div>
 
 <div class="span9 well">

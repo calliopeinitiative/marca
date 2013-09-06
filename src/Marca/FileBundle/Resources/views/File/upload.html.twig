@@ -6,9 +6,18 @@
 {% block content %}
 <script language="javascript">
 $(document).ready(function()
-{    
-  $('#file_modal').modal();
+{
+    $('.modal-body').css('max-height', function(index) {
+        return $(window).height() * .70;
+    });
+$('#file_modal').modal();
+$('#marca_filebundle_filetype_file').on('change', function() { 
+  var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '')
+  $('#marca_filebundle_filetype_name').val(filename);
+});  
 });
+
+
 </script>
 
 {# Modal #}
@@ -21,11 +30,11 @@ $(document).ready(function()
   <div class="modal-body">
      {{ form_errors(form) }}   
         <ul class="unstyled">
+            <li class="pad1">{{ form_row (form.file) }} </li>
             <li class="pad1">{{ form_row (form.name) }} </li>
             <li class="pad1">{{ form_row (form.project) }} </li> 
             <li class="pad1">{{ form_row (form.tag) }} </li> 
-            <li class="pad1">{{ form_row (form.access) }} </li> 
-            <li class="pad1">{{ form_row (form.file) }} </li>
+            <li class="pad1">{{ form_row (form.access) }} </li>          
         </ul>
     {{ form_rest(form) }}
   </div>

@@ -12,4 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class PageRepository extends EntityRepository
 {
+    public function findPageByType($type)
+    {
+        $repository = $this->getEntityManager()->getRepository('MarcaHomeBundle:Page');
+
+        $query = $repository->createQueryBuilder('p')
+            ->where('p.type = :type')
+            ->setParameter('type', $type)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

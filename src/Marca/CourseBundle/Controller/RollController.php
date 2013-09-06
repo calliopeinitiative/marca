@@ -145,7 +145,7 @@ class RollController extends Controller
         $roll  = new Roll();
         $request = $this->getRequest();
         $form    = $this->createForm(new RollType(), $roll);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -246,7 +246,7 @@ class RollController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

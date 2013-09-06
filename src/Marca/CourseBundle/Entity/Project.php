@@ -51,6 +51,13 @@ class Project
      */
     private $resource = false;
 
+    /**
+     * @var boolean $coursehome
+     *
+     * @ORM\Column(name="coursehome", type="boolean", nullable=true)
+     */
+    private $coursehome = false;
+
 
     /**
      * Get id
@@ -152,4 +159,27 @@ class Project
         return($a->sortOrder > $b->sortOrder) ? +1 : -1;
     }
     
+
+    /**
+     * Set coursehome
+     *
+     * @param boolean $coursehome
+     * @return Project
+     */
+    public function setCoursehome($coursehome)
+    {
+        $this->coursehome = $coursehome;
+    
+        return $this;
+    }
+
+    /**
+     * Get coursehome
+     *
+     * @return boolean 
+     */
+    public function getCoursehome()
+    {
+        return $this->coursehome;
+    }
 }

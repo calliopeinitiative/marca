@@ -1,24 +1,11 @@
 {# Marca/CourseBundle/Resources/views/Course/edit.html.twig #}
 
-
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-
 {% endblock %}
 
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-CKEDITOR.replace( 'marca_coursebundle_announcetype_announcement',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}',
-    height: 500,
-} );
-});
-</script>
-
 <div class="span9 well">
 <legend>Announcements</legend>   
 

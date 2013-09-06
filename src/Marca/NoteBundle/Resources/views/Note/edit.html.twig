@@ -1,26 +1,23 @@
+{# Marca/NoteBundle/Resources/views/Note/edit.html.twig #}
 
 {% extends 'MarcaNoteBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('a#cancel_delete').toggle();$('form#delete').toggle();
+            $("a#confirm_delete").click(function() {
+                $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
+            });
+            $("a#cancel_delete").click(function() {
+                $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-CKEDITOR.replace( 'marca_notebundle_notetype_description',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}',
-    height:200
-} );
-});
-</script>
-
-
-<div class="span9 well">
-<legend>Notes</legend> 
-</div>
-
 <div class="span9 well">
         <form action="{{ course_path('note_update', { 'id': note.id }) }}" method="post" {{ form_enctype(edit_form) }}>
             {{ form_widget(edit_form) }}
@@ -29,10 +26,11 @@ CKEDITOR.replace( 'marca_notebundle_notetype_description',  {
         </div>
         </form>
         
-        <form action="{{ course_path('note_delete', { 'id': note.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-delete" type="submit">Delete</button>
+    
+        <a href='javascript:void(0);' id='confirm_delete' class="btn btn-delete" type="submit">Delete</a>
+        <form id='delete' action="{{ course_path('note_delete', { 'id': note.id }) }}" method="post">
+        {{ form_widget(delete_form) }}
+        <button class="btn btn-delete btn-warning" type="submit">Confirm Delete</button>
         </form>
 </div>
-
 {% endblock %}

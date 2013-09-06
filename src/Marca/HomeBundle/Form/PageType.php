@@ -11,10 +11,11 @@ class PageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('homepage')    
             ->add('title')
-            ->add('body')
-            
+            ->add('body', 'ckeditor', array('config_name' => 'editor_page',))
+            ->add('type', 'choice', array('choices'   => array(0 => 'Homepage', 1 => 'Consent', 2 => 'Rubric'),'required'  => true,'label'  => 'Choose placement for this page', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))
+
+
         ;
     }
     

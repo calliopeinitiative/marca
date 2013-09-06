@@ -3,30 +3,16 @@
 {% extends 'MarcaHomeBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            var winheight = $(document).height() * .55;
+            $('body').height(winheight);
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-var winheight = $(document).height() * .50;
-
-CKEDITOR.replace( 'marca_homebundle_pagetype_body',  {
-    height: winheight,
-    stylesSet: 'marca_styles',
-    toolbar : [
-    ['Source','Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight'],['TextColor','BGColor'],['Link','Unlink'],
-    ['NumberedList','BulletedList'],['Outdent','Indent'],['Image','MediaEmbed'],['Undo','Redo'],['RemoveFormat']
-    ],
-    contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}',
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
-} );
-});
-</script>
-
-  
-</div>
 <div class="span9 well">    
 <form action="{{ path('page_update', { 'id': page.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}

@@ -22,11 +22,11 @@
 html, body {height:100%}
 body {background: url('../img/mosaic.png'); }
 h1 {font-size:26px;font-weight:normal}
-h1 small {font-size:20px;font-weight:normal}
+h1.small {font-size:20px;font-weight:normal}
 h2 {font-size:22px;font-weight:normal}
-h2 small {font-size:18px;font-weight:normal}
+h2.small {font-size:18px;font-weight:normal}
 h3 {font-size:20px;font-weight:normal}
-h3 small {font-size:16px;font-weight:normal}
+h3.small {font-size:16px;font-weight:normal}
 .centered {text-align: right;color:blue;}
 .center { float: none; margin-left: auto; margin-right: auto; }
 .background {background: #F2F2F2}
@@ -84,7 +84,7 @@ label.required[for=marca_filebundle_filetype_url] {text-transform:uppercase;}
 input#marca_filebundle_filetype_name,input#marca_filebundle_filetype_url {padding-bottom:0;margin-bottom:0;}
 .label-margin-bottom{margin-bottom:15px;}
 .modal-header {margin-bottom:-15px;}
-
+.modal-body {}
 a {color: #006DCC;text-decoration: none;}
 a:hover {color: #006DCC;text-decoration: underline;}
 
@@ -111,10 +111,12 @@ label.required {font-size:14px;margin-top:8px;}
 .forum_comments {margin-left:14px;}
 #forum_nav_title {color:#333333;}
 .margin-top {margin-top:8px;}
-#doc-display {overflow:auto;margin-bottom: 0px;}
+#doc-display {overflow:auto;margin-bottom: 0px;background: #fff;}
 .doc-body {margin:5em;}
+.doc-body p {font-size: 14px;margin-bottom:27px;}
 #doctools { overflow:auto; margin-top:6px; position:fixed; margin-left: -1em; }
-.journal-body p, .forum-body p, .doc-body p {font-size: 14px;line-height: 200%;margin-bottom:27px;}
+.journal-body p, .forum-body p {font-size: 14px;line-height: 200%;margin-bottom:27px;}
+
 .journal-body {margin-bottom:60px;}
 .responses {font-size:14px;}
 .btn-delete {margin-top: -3.5em; float: right; }
@@ -194,11 +196,12 @@ form ul li {list-style: none;}
 .popover {position:fixed; left:40%; top:135px;padding:2em;}
 
 /* File list */
-#file_list { overflow:auto;  }
+#file_list { overflow-y:scroll;  }
 #file_list table {font-size: 12px;}
 #file_list table td {padding:2px;}
 #file_list table td .label {font-size: 10px;}
 .label-file {background:#888; text-align: center; font-size: 10px; margin-right: 3px;}
+ul.files li .dropdown-menu {left:-110px;}
 
 /* Doc displays */
 .eDoc_note {color:blue;background:white; border:#e3e3e3 1px solid;border-radius: 0px 4px 4px 0px;margin-left:-1px;margin-right: 4px;padding:2px 2px 2px 6px;}
@@ -479,3 +482,4 @@ box-shadow: inset 0 1px 0 #ffffff;
 
 .well-hightlight {border-color: blue}
 .strong label {font-weight: bold}
+

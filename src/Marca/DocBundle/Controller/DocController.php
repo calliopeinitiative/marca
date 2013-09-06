@@ -46,7 +46,7 @@ class DocController extends Controller
      */
     public function showAction($id,$courseid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -129,8 +129,10 @@ class DocController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-        $user = $this->getUser();
         $course = $this->getCourse();
+        $role = $this->getCourseRole();
+        $type =2;
+        $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
 
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
         $file = $doc->getFile();
@@ -146,6 +148,8 @@ class DocController extends Controller
         return array(
             'doc'      => $doc,
             'file'        => $file,
+            'pages'        => $pages,
+            'role'      => $role,
             'markupsets'      => $markupsets,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -239,7 +243,7 @@ class DocController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -292,7 +296,7 @@ class DocController extends Controller
      */    
     public function createPdfAction($id,$courseid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         $em = $this->getEm();
         $user = $this->getUser();

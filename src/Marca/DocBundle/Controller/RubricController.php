@@ -78,7 +78,7 @@ class RubricController extends Controller
         $doc->setFile($file); 
         $request = $this->getRequest();
         $form    = $this->createForm(new DocType(), $doc);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

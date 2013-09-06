@@ -36,10 +36,10 @@ class Coupon
     protected $term; 
     
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="coupon", cascade={"remove"})
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\OneToOne(targetEntity="Marca\UserBundle\Entity\User", mappedBy="coupon", cascade={"persist"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
-    protected $user; 
+    protected $user;
 
     /**
      * Get id
@@ -119,4 +119,13 @@ class Coupon
     {
         return $this->user;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        
+    }
+    
+    
 }

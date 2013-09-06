@@ -3,41 +3,30 @@
 {% extends 'MarcaDocBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_styles.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_tools.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/ckeditor/ckeditor_tools.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            var winheight = $(document).height() * .72;
+            $('body').height(winheight);
+            $('#saving_alert').toggle();
+            $('#doctools').css('height', function(index) {
+                return $(window).height() * .77;
+            });
+
+            var editor = CKEDITOR.instances.marca_docbundle_doctype_body;
+            var autoSave = setInterval(function(){var buffer = editor.checkDirty(); if (buffer==1) {editor.resetDirty(); var body =  editor.getData();$.post("{{ course_path('doc_ajax', { 'id': doc.id }) }}", {docBody:body}, function(data){});$('#saving_alert').fadeIn();$('#saving_alert').delay(2000).fadeOut();}}, 15000);
+            $(function(){
+                var rubric = CKEDITOR.dom.element.createFromHtml('<div class="eDoc_rubric"><hr/>{% spaceless %}{% for page in pages %}{{ page.body|raw }}{% endfor %}{% endspaceless %}</div>');
+                $('#insert_rubric').click(function(){
+                    editor.insertElement( rubric );
+                });
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{   
-var winheight = $(document).height() * .70;
-
-CKEDITOR.replace( 'marca_docbundle_doctype_body',  {
-    height: winheight,
-    stylesSet: 'marca_styles',
-    toolbar : [
-    ['Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight'],['TextColor','BGColor'],['Link','Unlink'],
-    ['NumberedList','BulletedList'],['Outdent','Indent'],['Image','MediaEmbed'],['Undo','Redo'],['RemoveFormat']
-    ],
-    contentsCss:'{{ asset('bundles/marcahome/css/ckeditor41.css') }}',
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
-} );
-
-$('#saving_alert').toggle();
-
-$('#doctools').css('height', function(index) {
-  return $(window).height() * .77;
-});
-
-var editor = CKEDITOR.instances.marca_docbundle_doctype_body;
-
-var autoSave = setInterval(function(){var buffer = editor.checkDirty(); if (buffer==1) {editor.resetDirty(); var body =  editor.getData();$.post("{{ course_path('doc_ajax', { 'id': doc.id }) }}", {docBody:body}, function(data){});$('#saving_alert').fadeIn();$('#saving_alert').delay(2000).fadeOut();}}, 5000);
-
-
-});
-</script>
 <a name="skip"></a>
 
 <div class="span12 center" style='margin-top:-.78em;'>
@@ -53,7 +42,7 @@ var autoSave = setInterval(function(){var buffer = editor.checkDirty(); if (buff
     </span>
 </div>
 
-<div id='doc-gui' class="span8 margin-top" style="margin-bottom:1em;margin-left:0;">         
+<div id='doc-gui' class="span8 margin-top" style="margin-bottom:1em;margin-left:0;">
 
     {{ form_errors(edit_form) }}
     {{ form_errors(edit_form.body) }}
@@ -77,4 +66,6 @@ var autoSave = setInterval(function(){var buffer = editor.checkDirty(); if (buff
         
 </form>      
 </div>
+
+
 {% endblock %}

@@ -66,10 +66,10 @@ class ReplyController extends Controller
         
         $request = $this->getRequest();
         $form    = $this->createForm(new ReplyType(), $reply);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($reply);
             $em->flush();
 
@@ -96,7 +96,7 @@ class ReplyController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $comment = $em->getRepository('MarcaForumBundle:Comment')->find($commentid); 
         $user = $this->getUser();
 
@@ -132,7 +132,7 @@ class ReplyController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
         $comment = $em->getRepository('MarcaForumBundle:Comment')->find($commentid); 
         $reply = $em->getRepository('MarcaForumBundle:Reply')->find($id);
 
@@ -176,10 +176,10 @@ class ReplyController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $reply = $em->getRepository('MarcaForumBundle:Reply')->find($id);
 
             if (!$reply) {

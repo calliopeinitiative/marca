@@ -26,7 +26,7 @@ class FileRepository extends EntityRepository
        else {$scopeQuery = '';};
        
        if ($tag != 0) {$tagQuery = '';} else {$tagQuery = ' OR t.id != 0 OR t.id is NULL';}
-            
+
        if($project == 'recent') {
          return $this->getEntityManager()
             ->createQuery('SELECT f, p, d, t, r, o, s  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.responses s LEFT JOIN f.portfolio o LEFT JOIN f.tag t LEFT JOIN f.reviews r 
@@ -105,5 +105,27 @@ class FileRepository extends EntityRepository
        return $this->getEntityManager()
                ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.course = ?1')
                ->setParameters(array('1' => $course))->getResult();
-    }     
+    }
+
+    public function findCoursehomeFiles($course)
+    {
+        $parents = $this->getEntityManager()
+            ->createQuery('SELECT p.id from MarcaCourseBundle:Course c JOIN c.parents p WHERE c.id = ?1')->setParameter('1',$course)->getResult();
+        if ($parents) {
+            return $this->getEntityManager()
+                ->createQuery('SELECT f from MarcaFileBundle:File f JOIN f.project p WHERE (f.course = ?1 OR f.course in (?2)) AND p.coursehome=true')
+                ->setParameters(array('1' =>  $course))->setParameter('2',$parents)->getResult();
+        } else {
+            return $this->getEntityManager()
+                ->createQuery('SELECT f from MarcaFileBundle:File f JOIN f.project p WHERE f.course = ?1 AND p.coursehome=true')
+                ->setParameters(array('1' =>  $course))->getResult();
+        }
+
+
+
+    }
+
+
+
+
 }

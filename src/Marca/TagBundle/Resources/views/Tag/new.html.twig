@@ -5,6 +5,22 @@
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $("#marca_tagbundle_tagtype_color").spectrum({
+                preferredFormat: "name",
+                showPaletteOnly: true,
+                showInput: true,
+                color: '{{tag.color}}',
+                palette: [
+                    ['royalblue', 'seagreen', 'slateblue','darkorange'],
+                    ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
+                    ['orange', 'cadetblue', 'tomato','blueviolet']
+                ]
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block stylesheets %}
@@ -12,29 +28,12 @@
 {% endblock %}
 
 {% block content %}
-<script language="javascript">
-    $(document).ready(function()
-    {
-    $("#marca_tagbundle_tagtype_color").spectrum({
-    preferredFormat: "name",
-    showPaletteOnly: true,
-    showInput: true,
-    color: '{{tag.color}}',
-    palette: [
-        ['royalblue', 'seagreen', 'slateblue','darkorange'],
-        ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
-        ['orange', 'cadetblue', 'tomato','blueviolet']        
-    ]
-    });
-    });
-</script>
-
 <div class="span9 well">
-    <legend>Label Sets</legend>
+    <h2>Label Sets</h2>
 </div> 
 
 <div class="span9 well"> 
-<form action="{{ path('tag_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('tag_create', { 'tagsetid': tagset.id }) }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>
         <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ path('tagset') }}">Cancel</a> 

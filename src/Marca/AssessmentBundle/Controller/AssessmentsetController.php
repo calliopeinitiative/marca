@@ -24,7 +24,7 @@ class AssessmentsetController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $assessmentsets = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->findAll();
         $scales = $em->getRepository('MarcaAssessmentBundle:Scale')->findAll();
@@ -39,7 +39,7 @@ class AssessmentsetController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->find($id);
 
@@ -83,10 +83,10 @@ class AssessmentsetController extends Controller
         $assessmentset  = new Assessmentset();
         $request = $this->getRequest();
         $form    = $this->createForm(new AssessmentsetType(), $assessmentset);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($assessmentset);
             $em->flush();
 
@@ -108,7 +108,7 @@ class AssessmentsetController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->find($id);
 
@@ -135,7 +135,7 @@ class AssessmentsetController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->find($id);
 
@@ -175,10 +175,10 @@ class AssessmentsetController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->find($id);
 
             if (!$assessmentset) {

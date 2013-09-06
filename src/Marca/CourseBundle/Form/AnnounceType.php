@@ -12,7 +12,7 @@ class AnnounceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('announcement', 'textarea', array('label' => '  '))
+            ->add('announcement', 'ckeditor', array('config_name' => 'editor_default',))
                 
         ;
     }

@@ -25,7 +25,7 @@ class PortsetController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $portsets = $em->getRepository('MarcaPortfolioBundle:Portset')->findAll();
 
@@ -40,7 +40,7 @@ class PortsetController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $portset = $em->getRepository('MarcaPortfolioBundle:Portset')->find($id);
         $portitems = $em->getRepository('MarcaPortfolioBundle:Portitem')->findByPortset($portset);
@@ -96,10 +96,10 @@ class PortsetController extends Controller
         
         $request = $this->getRequest();
         $form    = $this->createForm(new PortsetType(), $portset);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($portset);
             $em->persist($portitem);
             $em->flush();
@@ -122,7 +122,7 @@ class PortsetController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $portset = $em->getRepository('MarcaPortfolioBundle:Portset')->find($id);
 
@@ -149,7 +149,7 @@ class PortsetController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEm();
 
         $portset = $em->getRepository('MarcaPortfolioBundle:Portset')->find($id);
 
@@ -189,10 +189,10 @@ class PortsetController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $portset = $em->getRepository('MarcaPortfolioBundle:Portset')->find($id);
 
             if (!$portset) {

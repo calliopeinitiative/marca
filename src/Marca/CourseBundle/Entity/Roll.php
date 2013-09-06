@@ -16,6 +16,7 @@ class Roll
     const ROLE_STUDENT=1;
     const ROLE_INSTRUCTOR=2;
     const ROLE_TA=3;
+    const ROLE_PORTREVIEWER=4;
     
     /**
 * @var integer $id

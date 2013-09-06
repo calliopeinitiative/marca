@@ -20,13 +20,6 @@
 <script language="javascript"> 
 $(document).ready(function()
 {
-if(CKEDITOR.instances["marca_calendarbundle_calendartype_description"]) {
-delete CKEDITOR.instances["marca_calendarbundle_calendartype_description"];
-};
-$('#marca_calendarbundle_calendartype_description').ckeditor( function() {}, {removePlugins: 'elementspath', height:100,
-toolbar : [
-['Bold','Italic','Link','Unlink','NumberedList','BulletedList','RemoveFormat'],
-],} );
 $( '#marca_calendarbundle_calendartype_startDate' ).datepicker({
 showButtonPanel: true,
 });
@@ -50,6 +43,5 @@ $('#calendar_delete').click(function(){
   $('#calendar_modal').load('{{ course_path('calendar_delete_modal', { 'id': calendar.id, 'gotodate': gotodate }) }}');
   $('#calendar_modal').modal();
 });
-
 });
 </script>

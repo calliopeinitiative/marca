@@ -2,30 +2,15 @@
 {% extends 'MarcaYourBundle::layout.html.twig' %}
 
 {% block javascripts %}
-
 {% endblock %}
 
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-
-});
-</script>
-
 
 <div class="span2">
 <a class="btn btn-info" href="{{ path('ratingset') }}">List</a>
- 
 </div>       
   
-
-
 <div class="span9 well">
-<legend></legend> 
-</div> 
-
-<div class="span9 well"> 
 <form action="{{ path('ratingset_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>

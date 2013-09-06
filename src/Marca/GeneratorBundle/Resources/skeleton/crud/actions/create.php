@@ -13,10 +13,10 @@
         $entity  = new {{ entity_class }}();
         $request = $this->getRequest();
         $form    = $this->createForm(new {{ entity_class }}Type(), $entity);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getEm();
             $em->persist($entity);
             $em->flush();
 

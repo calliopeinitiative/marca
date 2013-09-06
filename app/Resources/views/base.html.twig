@@ -28,6 +28,15 @@
 </head>
 <body>
 
+<script language="javascript">    
+$(document).ready(function() { 
+$('#course_select').click(function(){
+  $('#base_modal').load('{{ path('course_select_modal') }}');
+  $('#base_modal').modal();
+});
+});
+</script>
+
 <div id="skipmenu" class="">
 <a href="#skip" class="skippy">Skip Navigation</a>
 <a name="top"></a>
@@ -47,7 +56,10 @@
             {% if is_granted('ROLE_USER') %}
             <a class="brand" href="{{ path('user_home') }}" title="{{ application_name }} Homepage">{{ application_name }}</a> 
             <div class="nav-collapse">
-            <ul class="nav">  
+            <ul class="nav"> 
+            <li class="navbar-icon">
+            <a title='Select course' id='course_select' href="javascript:void(0);"><i alt='Select course' class="icon-list icon-white"></i></a>
+            </li>    
             {% block subnav %}{% endblock %} 
             </ul>
             <ul class="nav pull-right">

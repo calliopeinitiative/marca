@@ -44,9 +44,11 @@ $('#new_saveas').click(function(){
   $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '0', 'type': 'saveas', 'fileid': file.id }) }}');
   $('#file_modal').modal();
 });
-var string = $(".doc-body").text();
-var count = string.split(" ");
-$("#word-count").text(count.length);
+
+var txt = $('.doc-body').text();
+var count = txt.trim().replace(/\s+/gi, ' ').split(' ').length;
+$("#word-count").text(count);
+
 
 $('#doc-display').css('height', function(index) {
   return $(window).height()* .79;
@@ -65,26 +67,27 @@ $('#doctools').css('height', function(index) {
 
 <div class="span12 center">
 <a name="skip"></a>
-<h1 class='inline'>{{file.name}}</h1>
-<span class="margin-left"><span id="word-count"></span> words</span>
+<h1 class='small inline'>{{file.name}}</h1>
+
 {# Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}} / Word count: <span id="word-count"></span> #}
 <span class="pull-right" style='margin-right:3em'>
 <div class="btn-group">
 {% if app.request.get('_route') != 'file_view_odt' %}
 {% if doc.isOwner(app.user.username) %}<a title="Edit this document" class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %} 
-{# Don't show Review button if it is a review #}
-{% if file.reviewed|length == 0 %}
+
+{# Don't show Review button if it is a review or a Resource #}
+{% if file.reviewed|length == 0 and file.project.resource != 'true' %}
 <a title="Create a copy of this document for peer review" id="new_review" class="btn btn-small" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Peer Review</a>
 {% if role == 2 %}
 <a title="Create a copy of this document for peer review" id="new_grade" class="btn btn-small" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
 {% endif %}
 {% endif %}
+
 {% if doc.isOwner(app.user.username) or file.project.resource == 'true' %}
 <a title="Create a copy of this document" id="new_saveas" class="btn btn-small" href="javascript:void(0)">SaveAs</a>
 {% endif %}
 <a title="Print this document" class="btn btn-small" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>
 {% endif %}
-
 
 {% if app.request.get('view') == 'window' %}
 <a title="Close the current window or tab" id="close_window"  class="btn btn-small" href="javascript:void(0);">Close</a>
@@ -96,8 +99,6 @@ $('#doctools').css('height', function(index) {
     {%else%}    
     <a title="Close this document" class="btn btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
     {%endif%}
-    
-
 {% endif %}
 </div>
 </span>
@@ -118,9 +119,9 @@ $('#doctools').css('height', function(index) {
     
 <div id="docTab">
 <ul class="nav nav-tabs" style="padding-left:3px;">
-  <li class="active"><a href="#docFeedback" data-toggle="tab">Feedback</a></li>
+  <li class="active"><a href="#docInfo" data-toggle="tab">Info</a></li>
   <li><a href="#docNotes" onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" data-toggle="tab">Notes</a></li>
-  <li><a href="#docInfo" data-toggle="tab">Info</a></li>
+  <li><a href="#docFeedback" data-toggle="tab">Feedback</a></li>
 </ul>    
     
 <div id="docTabContent" class="tab-content" style='margin-top: -10px;'>
@@ -129,7 +130,7 @@ $('#doctools').css('height', function(index) {
 </div> 
 </div> 
        
-<div class="tab-pane fade in active" id="docFeedback" >
+<div class="tab-pane fade" id="docFeedback" >
 {# Responses #}
 <div class="">        
 <a class="btn btn-small" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view'),'userid': doc.file.user.id }) }}">Offer Feedback</a>     
@@ -149,18 +150,24 @@ $('#doctools').css('height', function(index) {
 {% endfor %}    
 </div> 
         
-<div class="tab-pane fade pad" id="docInfo">
-<h5>Author</h5>
-{{ file.user.firstname }} {{ file.user.lastname }}
-<h5>Document Name</h5>
-{{ file.name }}
-<h5>Project</h5>
-{% if file.project.name %}{{ file.project.name }}{% endif%}
-<h5>Created:</h5>
-{{ file.created|date('M d Y, g:i a') }}
-<h5>Updated:</h5>
-{{ file.updated|date('M d Y, g:i a') }}
-<h5>Labels</h5>
+<div class="tab-pane fade in active pad" id="docInfo">
+    
+<dl>
+  <dt>Author</dt>
+  <dd>{{ file.user.firstname }} {{ file.user.lastname }}</dd>
+  <dt>Document Name</dt>
+  <dd>{{ file.name }}</dd>
+  <dt>Updated:</dt>
+  <dd>{{ file.updated|date('m/d/y, g:i a') }}</dd>
+  <dt>Created</dt>
+  <dd>{{ file.created|date('m/d/y, g:i a') }}</dd>
+  <dt>Wordcount</dt>
+  <dd><span id="word-count"></span> words approx.</dd>
+</dl>
+
+
+
+<strong>Labels</strong>
 {% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
 {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
 {% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>

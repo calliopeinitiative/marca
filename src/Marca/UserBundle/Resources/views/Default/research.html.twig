@@ -1,0 +1,36 @@
+{# Marca/UserBundle/Resources/views/Default/edit.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block javascripts %}
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('form ul li').addClass('alert alert-error');
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="span9">
+        {% for page in pages %}
+            {{ page.body|raw }}
+        {% endfor %}
+    </div>
+
+
+    <div class="span9 well">
+
+        <form class="form" action="{{ path('user_updateresearch', { 'id': user.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+            <h2>Research Consent</h2>
+            {{ form_errors(edit_form) }}
+            {{ form_row(edit_form.research) }}
+            {{ form_rest(edit_form) }}
+            <div>
+                <button class="btn btn-primary margin-top" type="submit">Update</button>
+            </div>
+        </form>
+
+
+    </div>
+{% endblock %}

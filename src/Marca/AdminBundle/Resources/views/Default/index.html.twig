@@ -4,21 +4,20 @@
 
 {% block content %}
 <div class="span9 well">
-<legend>Permissions</legend>
+<h2>Users</h2>
 
         <form action="{{ path('admin_find') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <button class="btn btn-primary btn-small" type="submit">Find</button>
-        </form>  
-<a class="btn btn-small btn-primary" href="{{ path('admin') }}">List All</a>
-
+        </form>
 </div>
 <div class="span9 well">
+    <div class='alert alert-info'>Number in Find:  {{ count }}</div>
 <table class="table">   
 <tbody>    
 {% for user in users %}
         <tr>
-            <td><a href="{{ path('user_admin', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">{{user.lastname}}, {{user.firstname}}</a></td>
+            <td><a href="{{ path('user_admin', { 'username': user.username }) }}">{{user.lastname}}, {{user.firstname}}</a></td>
             <td><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></td>
        </tr>
 {% endfor %}

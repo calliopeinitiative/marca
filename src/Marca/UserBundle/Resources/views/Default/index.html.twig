@@ -16,7 +16,7 @@ $('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay
 <div class='alert alert-info'>Enrollment pending.  Please check back soon.
                   <a class='btn btn-primary btn-mini pull-right' href="{{ path('user_home') }}">Check now</a></div>
 <table class="table">
-<thead><tr><th>Course Name</th><th>Instructor</th><th>Time</th></tr></thead>    
+<thead><tr><th>Course</th><th>Instructor</th><th>Time</th></tr></thead>
 <tbody>
     {% for course in pending %}
         <tr>
@@ -35,13 +35,14 @@ $('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay
 <h2>Courses Enrolled</h2>  
 <div class='alert alert-success'>Click name to enter.</div>
 <table class="table">
-<thead><tr><th>Name</th><th>Instructor</th><th>Time</th><th></th></tr></thead>    
-<tbody>
+    <thead><tr><th>Course</th><th>Instructor</th><th>Time</th><th>Term</th><th></th></tr></thead>
+    <tbody>
     {% for course in courses %}
         <tr>
             <td><a class="" title="Click to enter {{ course.name }}" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></td>
             <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
             <td>{{ course.time|date('h:i a') }}</td>
+            <td> {{course.term.termName}} </td>
             <td>{% if course.isOwner(app.user.username) %}<a class="btn" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}</td>
         </tr>
      {% endfor %}   
@@ -67,6 +68,26 @@ $('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay
     </tbody>
 </table>
 </div> 
-{% endif %} 
+{% endif %}
+
+    {% if archive %}
+        <div class="span9 well">
+            <h2>Previous Courses</h2>
+            <div class='alert alert-info'>Click name to enter.</div>
+            <table class="table">
+                <thead><tr><th>Course</th><th>Instructor</th><th>Term</th><th></th></tr></thead>
+                <tbody>
+                {% for course in archive %}
+                    <tr>
+                        <td><a class="" title="Click to enter {{ course.name }}" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a> </td>
+                        <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
+                        <td> {{course.term.termName}} </td>
+                        <td>{% if course.isOwner(app.user.username) %}<a class="btn" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
 
 {% endblock %}

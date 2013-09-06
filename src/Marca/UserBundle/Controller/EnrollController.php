@@ -34,6 +34,10 @@ class EnrollController extends Controller
     {
         $em = $this->getEm();
         $current_user = $this->getUser();
+        $id = $current_user->getId();
+        if ($current_user->getInstitution()->getResearch()==true and $current_user->getResearch()==0){
+        return $this->redirect($this->generateUrl('user_research', array('id' => $id)));
+        }
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($current_user);
         $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($current_user);
  
@@ -94,7 +98,10 @@ class EnrollController extends Controller
        $user = $this->getUser();
        $course = $this->getCourse();
        $coupon = $user->getCoupon();
-       if($coupon == NULL){
+       if($this->get('security.context')->isGranted('ROLE_INSTR') === TRUE){
+           $validCoupon = TRUE;
+       }
+       elseif($coupon == NULL){
            $validCoupon = FALSE;
        }
        elseif ($coupon->getTerm()->getStatus() == 1){
@@ -103,7 +110,7 @@ class EnrollController extends Controller
        else {
            $validCoupon = FALSE;
        }
-       if(($course->getInstitution()->getPaymentType() == 1 && $validCoupon == FALSE) || ($course->getInstitution()->getPaymentType() == 2 && $user->getCustomerId()))
+       if(($course->getInstitution()->getPaymentType() == 1 && $validCoupon == FALSE) || ($course->getInstitution()->getPaymentType() == 2 && $validCoupon == FALSE))
        {
             return $this->redirect($this->generateUrl('payment', array('courseid'=>$courseid)));
        }
