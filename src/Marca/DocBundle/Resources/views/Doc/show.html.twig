@@ -44,9 +44,11 @@ $('#new_saveas').click(function(){
   $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '0', 'type': 'saveas', 'fileid': file.id }) }}');
   $('#file_modal').modal();
 });
-var string = $(".doc-body").text();
-var count = string.split(" ");
-$("#word-count").text(count.length);
+
+var txt = $('.doc-body').text();
+var count = txt.trim().replace(/\s+/gi, ' ').split(' ').length;
+$("#word-count").text(count);
+
 
 $('#doc-display').css('height', function(index) {
   return $(window).height()* .79;
@@ -160,7 +162,7 @@ $('#doctools').css('height', function(index) {
   <dt>Created</dt>
   <dd>{{ file.created|date('m/d/y, g:i a') }}</dd>
   <dt>Wordcount</dt>
-  <dd><span id="word-count"></span> words</dd>
+  <dd><span id="word-count"></span> words approx.</dd>
 </dl>
 
 
