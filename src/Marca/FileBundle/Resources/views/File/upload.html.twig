@@ -13,7 +13,8 @@ $(document).ready(function()
 $('#file_modal').modal();
 $('#marca_filebundle_filetype_file').on('change', function() { 
   var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '')
-  $('#marca_filebundle_filetype_name').val(filename);
+  var file = filename.substr(0, filename.lastIndexOf('.')) || filename
+  $('#marca_filebundle_filetype_name').val(file);
 });  
 });
 

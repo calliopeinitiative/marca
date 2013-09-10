@@ -184,7 +184,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
         {% endif%}
         <li><a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" >Download File</a></li>
         {% endif%}
-        {% if role == 2 and file.doc and app.request.get('resource')=='0' %}
+        {% if role == 2 and app.request.get('resource')=='0' %}
         <li><a title="Create a copy of this document for review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">New Instructor Review</a></li>
         {% endif %}
         {% if role == 2 and app.request.get('resource')=='0' %}

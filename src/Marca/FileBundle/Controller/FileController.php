@@ -235,7 +235,9 @@ class FileController extends Controller
            $file->setReviewed($reviewed_file);
            $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
            $file->setAccess('2');
+           if ($reviewed_file->getDoc()) {
            $doc->setBody($reviewed_file->getDoc()->getBody());
+           }
            $em->persist($doc);
            $em->persist($file);
            $em->flush();
