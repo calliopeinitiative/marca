@@ -166,8 +166,7 @@ ivory_ck_editor:
             removePlugins: "elementspath"
             allowedContent: true
             disableNativeSpellChecker: false
-            height: '100%'
-            width: '100%'
+            height: 800
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
             stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckeditor_styles.js'
         editor_page:
@@ -176,8 +175,7 @@ ivory_ck_editor:
             removePlugins: "elementspath"
             allowedContent: true
             disableNativeSpellChecker: false
-            height: '100%'
-            width: '100%'
+            height: 800
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
             stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckeditor_styles.js'
     toolbars:

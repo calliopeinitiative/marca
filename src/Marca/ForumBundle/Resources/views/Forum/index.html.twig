@@ -27,15 +27,15 @@ $('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay
          
 
 {% else %}
-   
+<div class="span9 well">
 There are no open discussions at this time.  
-        
+</div>
 {% endfor %}
 
-    
+<div class="span9">
 <div class="navigation">
     {{ knp_pagination_render(forumEntries) }}
 </div>
-        
+</div>
       
 {% endblock %}

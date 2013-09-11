@@ -16,7 +16,7 @@ class ForumRepository extends EntityRepository
     public function findForumByCourse($course)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT f FROM MarcaForumBundle:Forum f WHERE f.course = ?1')->setParameter('1',$course)->getResult();
+            ->createQuery('SELECT f FROM MarcaForumBundle:Forum f WHERE f.course = ?1 ORDER BY f.updated DESC')->setParameter('1',$course)->getResult();
     } 
     
     public function findForumDesc($id)

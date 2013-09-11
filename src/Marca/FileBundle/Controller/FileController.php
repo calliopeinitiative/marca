@@ -219,7 +219,12 @@ class FileController extends Controller
            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
            $file->setReviewed($reviewed_file);
            $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
-           $doc->setBody($reviewed_file->getDoc()->getBody());
+           if ($reviewed_file->getDoc()) {
+                $doc->setBody($reviewed_file->getDoc()->getBody());
+           }
+           elseif ($reviewed_file->getExt()=='odt') {
+               $doc->setBody($this->odtToHtml($reviewed_file->getId()));
+           }
            $em->persist($doc);
            $em->persist($file);
            $em->flush();
@@ -238,6 +243,9 @@ class FileController extends Controller
            if ($reviewed_file->getDoc()) {
            $doc->setBody($reviewed_file->getDoc()->getBody());
            }
+            elseif ($reviewed_file->getExt()=='odt') {
+            $doc->setBody($this->odtToHtml($reviewed_file->getId()));
+            }
            $em->persist($doc);
            $em->persist($file);
            $em->flush();
@@ -676,8 +684,25 @@ class FileController extends Controller
 		$response->send();
 		
 		return $response;
-	} 
-        
+	}
+
+    /**
+     * Finds and returns an XSL transformation of a odf File entity.
+     *
+     */
+    public function odtToHtml($id)
+    {
+        $em = $this->getEm();
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
+        $odtfile = $helper->asset($file, 'file');
+        $xsltfile = __DIR__.'/../../../../src/Marca/DocBundle/Resources/xsl/odt2html.xsl';
+
+        $html4doc = $this->odt2html($odtfile, $xsltfile)->render_inline_images()->get_html();
+        return $html4doc;
+    }
+
+
    /**
      * Finds and displays an XSL transformation of a File entity.
      *
@@ -693,18 +718,13 @@ class FileController extends Controller
         $doc->setFile($file);
         $course = $this->getCourse();
         $role = $this->getCourseRole();
-
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
-        
-        $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
-        $odtfile = $helper->asset($file, 'file');
-        $xsltfile = __DIR__.'/../../../../src/Marca/DocBundle/Resources/xsl/odt2html.xsl';
 
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
         }
 
-            $html4doc = $this->odt2html($odtfile, $xsltfile)->render_inline_images()->get_html();
+            $html4doc = $this->odtToHtml($id);
             $doc->setBody($html4doc);
             return array(
             'doc'      => $doc,
@@ -745,16 +765,12 @@ class FileController extends Controller
         $role = $this->getCourseRole();
 
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
-        
-        $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
-        $odtfile = $helper->asset($org_file, 'file');
-        $xsltfile = __DIR__.'/../../../../src/Marca/DocBundle/Resources/xsl/odt2html.xsl';
 
         if (!$org_file) {
             throw $this->createNotFoundException('Unable to find File entity.');
         }
 
-            $html4doc = $this->odt2html($odtfile, $xsltfile)->render_inline_images()->get_html();
+            $html4doc = $this->odtToHtml($id);
             $doc->setBody($html4doc);
             $em->persist($file);
             $em->persist($doc);
