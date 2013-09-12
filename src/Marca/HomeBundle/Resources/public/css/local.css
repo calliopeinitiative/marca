@@ -33,7 +33,7 @@ h3.small {font-size:16px;font-weight:normal}
 .navbar .brand {margin-left:0px;}
 .navbar-inner {background:#373737;}
 ul.nav-list  {margin: 0 0 0 0;padding-left: 0;}
-#mainContainer {padding-top:60px;padding-left:15px;padding-right:15px;margin-left:auto;margin-right:auto;background:url('../img/whitewash.png');min-height:89%;
+#mainContainer {padding-top:60px;padding-left:15px;padding-right:15px;margin-left:auto;margin-right:auto;background:url('../img/whitewash.png');min-height:88%;
 -moz-box-shadow:0px 0px 15px rgba(0,0,0,.5);  
 -webkit-box-shadow:0px 0px 15px rgba(0,0,0,.5);  
 box-shadow: 0px 0px 15px rgba(0,0,0,.5);}

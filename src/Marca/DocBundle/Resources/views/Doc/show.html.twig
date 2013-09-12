@@ -51,14 +51,14 @@ $("#word-count").text(count);
 
 
 $('#doc-display').css('height', function(index) {
-  return $(window).height()* .79;
+  return $(window).height()* .77;
 });
 
 $('.doc-body').css('height', function(index) {
   return $(window).height() * .65;
 });
 $('#doctools').css('height', function(index) {
-  return $(window).height() * .79;
+  return $(window).height() * .77;
 });
 
 });
@@ -67,7 +67,7 @@ $('#doctools').css('height', function(index) {
 
 <div class="span12 center">
 <a name="skip"></a>
-<h1 class='small inline'>{{file.name}}</h1>
+<h1 class='inline'>{{file.name}}</h1>
 
 {# Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}} / Word count: <span id="word-count"></span> #}
 <span class="pull-right" style='margin-right:3em'>

@@ -7,11 +7,14 @@
     <script language="javascript">
         $(document).ready(function()
         {
+            var winheight = $(document).height() * .90;
+            var editorheight = $(document).height() * .80;
+            $('#mainContainer').height(winheight);
             $('#saving_alert').toggle();
             $('#doctools').css('height', function(index) {
                 return $(window).height() * .77;
             });
-
+            setTimeout(function(){editor.resize('70%',editorheight);},500);
             var editor = CKEDITOR.instances.marca_docbundle_doctype_body;
             var autoSave = setInterval(function(){var buffer = editor.checkDirty(); if (buffer==1) {editor.resetDirty(); var body =  editor.getData();$.post("{{ course_path('doc_ajax', { 'id': doc.id }) }}", {docBody:body}, function(data){});$('#saving_alert').fadeIn();$('#saving_alert').delay(2000).fadeOut();}}, 15000);
             $(function(){
