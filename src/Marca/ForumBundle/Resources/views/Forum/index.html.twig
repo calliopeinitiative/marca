@@ -3,13 +3,7 @@
 {% extends 'MarcaForumBundle::layout.html.twig' %}
 
 {% block content %}
-<script language="javascript">
-$(document).ready(function() { 
-$('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay(500).animate({ borderColor: '#E3E3E3', borderWidth: '1px'  }, 2000);    
-});
-</script>
-
-{% for forum in forumEntries %}    
+{% for forum in forumEntries %}
 <div class="span9 well" style="padding:0">     
       <div class="well-header" >
          <span class="pull-right"><a class="close" title="Close this discussion" href="{{ course_path('forum') }}">&times;</a></span>

@@ -1,20 +1,24 @@
 {# Marca/DocBundle/Resources/views/Doc/edit.html.twig #}
 
 {% extends 'MarcaDocBundle::layout.html.twig' %}
-
+{% block stylesheets %}
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/checknet.css') }}">
+{% endblock %}
 {% block javascripts %}
 <script src="{{ asset('bundles/marcahome/ckeditor/ckeditor_tools.js') }}"></script>
+<script src="{{ asset('bundles/marcahome/js/jquery.checknet-1.6.min.js') }}"></script>
     <script language="javascript">
         $(document).ready(function()
         {
+            $('#online_alert').hide();
+            $.fn.checknet();
             var winheight = $(document).height() * .90;
-            var editorheight = $(document).height() * .80;
+            var editorheight = $(document).height() * .85;
             $('#mainContainer').height(winheight);
             $('#saving_alert').toggle();
             $('#doctools').css('height', function(index) {
-                return $(window).height() * .77;
+                return $(window).height() * .80;
             });
-            setTimeout(function(){editor.resize('70%',editorheight);},500);
             var editor = CKEDITOR.instances.marca_docbundle_doctype_body;
             var autoSave = setInterval(function(){var buffer = editor.checkDirty(); if (buffer==1) {editor.resetDirty(); var body =  editor.getData();$.post("{{ course_path('doc_ajax', { 'id': doc.id }) }}", {docBody:body}, function(data){});$('#saving_alert').fadeIn();$('#saving_alert').delay(2000).fadeOut();}}, 15000);
             $(function(){
@@ -23,20 +27,20 @@
                     editor.insertElement( rubric );
                 });
             });
+            editor.on('instanceReady', function(){ editor.resize('70%',editorheight);});
         });
     </script>
 {% endblock %}
 
 {% block content %}
-<a name="skip"></a>
-
 <div class="span12 center" style='margin-top:-.78em;'>
 <form id="doc_form" class="" action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
 
 <div class="span12 center" style="margin-top:1em;width:92%">
     <h1  class='inline' style="margin-left:-4%;">{{file.name}}</h1>     
     <span class="pull-right" style="margin-top:8px;margin-right:2.7%;">
-    <span id='saving_alert' class='alert alert-info margin-left' style="padding:8px;margin-right:12px;">Saving</span> 
+    <span id='saving_alert' class='alert alert-info margin-left' style="padding:8px;margin-right:12px;">Saving</span>
+    <span id='online_alert' class='alert alert-danger margin-left' style="position: fixed;top: 0px;left:200px; z-index:10000;">It looks like you have lost your network connection.  Please reconnect before you continue working on this document.</span>
     <div class="btn-group">
     <input class="btn btn-primary btn-small margin-left" type="submit" id="doc_save" value="Save and Close"/>
     </div>

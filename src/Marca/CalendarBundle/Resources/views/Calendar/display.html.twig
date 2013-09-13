@@ -6,6 +6,64 @@
 <script src="{{ asset('bundles/marcahome/js/fullcalendar.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
 <script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function() {
+            $('#calendar').fullCalendar(
+                    {
+                        dayClick: function(date, allDay, jsEvent, view) {
+                            {% if is_granted('ROLE_INSTR') %}
+                            var format_date = $.datepicker.formatDate('yy-mm-dd', date)
+                            var route = "{{ course_path('calendar_new', {'set_date': "event_gotodate" }) }}";
+                            route = route.replace("event_gotodate", format_date);
+                            window.location.href = route;
+                            {% endif %}
+                        },
+                        eventClick: function(calEvent, jsEvent, view) {
+                            if (calEvent.isOwner == 'yes') {
+                                var route = "{{ course_path('calendar_edit', { 'id': "event_id", 'gotodate': "event_gotodate" }) }}";
+                                route = route.replace("event_id", calEvent.id);
+                                route = route.replace("event_gotodate", calEvent.gotodate);
+                                window.location.href = route;
+                            }
+                            else {
+                                var route = "{{ course_path('calendar_show_modal', { 'id': "event_id", 'gotodate': "event_gotodate" }) }}";
+                                route = route.replace("event_id", calEvent.id);
+                                route = route.replace("event_gotodate", calEvent.gotodate);
+                                $('#calendar_modal').load(route);
+                                $('#calendar_modal').modal();
+                            }
+
+
+                        },
+                        header:
+                        {
+                            left:   'title',
+                            center: '',
+                            right:  'today month,agendaWeek,agendaDay,prev,next'
+                        },
+                        events: [
+                            {% for calendar in events %}
+                            {
+                                title  : '{{ calendar.title| escape('js') }}',
+                                color  : '{{ calendar.color }}',
+                                start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date(' H:i:s') }}',
+                                allDay : false,
+                                textColor: 'black',
+                                description: '{{ calendar.description| escape('js') }}',
+                                id: '{{ calendar.id }}',
+                                gotodate: {{gotodate}},
+                                isOwner: {% if calendar.isOwner(app.user.username) %}'yes'{%else%}'no'{%endif%}
+                            },
+                            {% endfor %}
+                        ],
+                        eventMouseover: function( event, jsEvent, view ){},
+                    });
+            {# Go to month #}
+            {% set gotoyear = gotodate|date('Y') %}
+            {% set gotomonth = gotodate|date('m') -1 %}
+            $('#calendar').fullCalendar( "gotoDate", {{gotoyear}},  {{gotomonth}} );
+        });
+    </script>
 {% endblock %}
 
 {% block stylesheets %}
@@ -16,67 +74,6 @@
 {% endblock %}
 
 {% block content %}
-<script language="javascript">
-$(document).ready(function() {       
-$('#calendar').fullCalendar(   
-    {      
-        dayClick: function(date, allDay, jsEvent, view) {
-        {% if is_granted('ROLE_INSTR') %}    
-        var format_date = $.datepicker.formatDate('yy-mm-dd', date)   
-        var route = "{{ course_path('calendar_new', {'set_date': "event_gotodate" }) }}"; 
-        route = route.replace("event_gotodate", format_date);   
-        window.location.href = route;  
-        {% endif %}
-    }, 
-        eventClick: function(calEvent, jsEvent, view) {
-        if (calEvent.isOwner == 'yes') {   
-        var route = "{{ course_path('calendar_edit', { 'id': "event_id", 'gotodate': "event_gotodate" }) }}";        
-        route = route.replace("event_id", calEvent.id);
-        route = route.replace("event_gotodate", calEvent.gotodate);
-        window.location.href = route; 
-        }
-        else {
-        var route = "{{ course_path('calendar_show_modal', { 'id': "event_id", 'gotodate': "event_gotodate" }) }}";        
-        route = route.replace("event_id", calEvent.id);
-        route = route.replace("event_gotodate", calEvent.gotodate);
-        $('#calendar_modal').load(route);
-        $('#calendar_modal').modal();
-    }
-        
-        
-    },
-        header: 
-            {
-              left:   'title',
-              center: '',
-              right:  'today month,agendaWeek,agendaDay,prev,next'
-             },
-       events: [
-       {% for calendar in events %}
-        {
-            title  : '{{ calendar.title| escape('js') }}',
-            color  : '{{ calendar.color }}',
-            start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date(' H:i:s') }}', 
-            allDay : false,
-            textColor: 'black',
-            description: '{{ calendar.description| escape('js') }}',
-            id: '{{ calendar.id }}',
-            gotodate: {{gotodate}},
-            isOwner: {% if calendar.isOwner(app.user.username) %}'yes'{%else%}'no'{%endif%}
-        },
-       {% endfor %} 
-       ], 
-       eventMouseover: function( event, jsEvent, view ){},
-    });
-{# Go to month #}    
-{% set gotoyear = gotodate|date('Y') %}
-{% set gotomonth = gotodate|date('m') -1 %}     
-$('#calendar').fullCalendar( "gotoDate", {{gotoyear}},  {{gotomonth}} ); 
-$('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay(500).animate({ borderColor: '#E3E3E3', borderWidth: '1px'  }, 2000);  
-});
-</script>
-
-
 {# Calendar #}
 <div class="span9 well">
 <div id='calendar'></div>
