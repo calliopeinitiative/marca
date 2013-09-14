@@ -6,6 +6,7 @@
 	background-image:    -moz-linear-gradient(top, #FFEFEF, #FFDFDF); /* FF3.6+ */
 	background-image:      -o-linear-gradient(top, #FFEFEF, #FFDFDF); /* Opera 11.10+ */
 	background-image:         linear-gradient(to bottom, #FFEFEF, #FFDFDF);
+    width:100%;
     position:absolute;top:0;
     z-index:100000;
 }
