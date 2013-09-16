@@ -8,7 +8,7 @@
         $(document).ready(function()
         {
             $.fn.checknet();
-            checknet.config.checkInterval = 1500;
+            checknet.config.checkInterval = 15000;
             checknet.config.warnMsg = 'No internet connection detected.  Please restore your connection before you continue working.';
             $('a#cancel_delete').toggle();$('form#delete').toggle();
             $('a#confirm_delete').click(function() {
