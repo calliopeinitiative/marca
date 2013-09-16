@@ -8,8 +8,10 @@
     <script language="javascript">
         $(document).ready(function()
         {
-            $('#online_alert').hide();
             $.fn.checknet();
+            checknet.config.checkInterval = 1500;
+            checknet.config.warnMsg = 'No internet connection detected.  Please restore your connection before to continue working.';
+
             var winheight = $(document).height() * .90;
             var editorheight = $(document).height() * .85;
             $('#mainContainer').height(winheight);
@@ -38,7 +40,6 @@
     <h1  class='inline' style="margin-left:-4%;">{{file.name}}</h1>     
     <span class="pull-right" style="margin-top:8px;margin-right:2.7%;">
     <span id='saving_alert' class='alert alert-info margin-left' style="padding:8px;margin-right:12px;">Saving</span>
-    <span id='online_alert' class='alert alert-danger margin-left' style="position: fixed;top: 0px;left:200px; z-index:10000;">It looks like you have lost your network connection.  Please reconnect before you continue working on this document.</span>
     <div class="btn-group">
     <input class="btn btn-primary btn-small margin-left" type="submit" id="doc_save" value="Save and Close"/>
     </div>
