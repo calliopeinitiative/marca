@@ -1,5 +1,9 @@
 /web/uploads
 /web/bundles
+/components/
+/web/assetic/
+/web/css/compiled/
+/web/js/
 /app/bootstrap.php.cache
 /app/cache
 /app/logs

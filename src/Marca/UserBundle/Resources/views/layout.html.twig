@@ -3,8 +3,9 @@
 {% extends '::base.html.twig' %}
 {% block title %}{{ application_name }}{% endblock %}
 
-{% block javascripts %}{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block javascripts %}{{ parent() }}{% endblock %}
+
 
 
 {% block sidebar %}

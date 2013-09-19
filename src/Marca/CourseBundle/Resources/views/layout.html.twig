@@ -3,8 +3,8 @@
 {% extends '::base.html.twig' %}
 {% block title %}{{ application_name }} {{ course.name }} Home{% endblock %}
 
-{% block javascripts %}{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block javascripts %}{{ parent() }}{% endblock %}
 
 {% block subnav %}
 {%include 'MarcaCourseBundle::subnav.html.twig' %}

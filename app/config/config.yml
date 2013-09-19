@@ -27,17 +27,39 @@ twig:
       application_name:       %app_name%
       ldap_auth:              %ldap%
 
-# Assetic Configuration
+# Assectic Configuration
 assetic:
-    debug:          %kernel.debug%
-    use_controller: false
-    # java: /usr/bin/java
-    filters:
-        cssrewrite: ~
-        # closure:
-        #     jar: %kernel.root_dir%/java/compiler.jar
-        # yui_css:
-        #     jar: %kernel.root_dir%/java/yuicompressor-2.4.2.jar
+  java: /usr/bin/java
+  filters:
+    yui_js:
+      jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
+    lessphp:
+      file: %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
+      apply_to: "\.less$"
+  assets:
+    jquery_js:
+        inputs:
+            - '%kernel.root_dir%/../components/jquery/jquery.js'
+        filters: [?yui_js]
+    bootstrap_js:
+        inputs:
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/transition.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/alert.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/modal.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/dropdown.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/scrollspy.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/tab.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/tooltip.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/popover.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/button.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/collapse.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/carousel.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/affix.js'
+        filters: [?yui_js]
+    bootstrap_less:
+        inputs:
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/less/bootstrap.less'
+        filters: [lessphp]
 
 # Doctrine Configuration
 doctrine:

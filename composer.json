@@ -4,6 +4,24 @@
     "autoload": {
         "psr-0": { "": "src/" }
     },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "version": "3.0.0",
+                "name": "twbs/bootstrap",
+                "source": {
+                    "url": "https://github.com/twbs/bootstrap.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "dist": {
+                    "url": "https://github.com/twbs/bootstrap/zipball/master",
+                    "type": "zip"
+                }
+            }
+        }
+    ],            
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.1.*",
@@ -29,7 +47,10 @@
         "knplabs/knp-gaufrette-bundle" : "dev-master",
         "knplabs/knp-snappy-bundle": "dev-master",
         "fr3d/ldap-bundle": "1.6.*",
-        "egeloen/ckeditor-bundle": "2.*"
+        "egeloen/ckeditor-bundle": "2.*",
+        "leafo/lessphp": "*",
+        "components/jquery": "1.9.*",
+        "twbs/bootstrap" : "*"        
     },
    "scripts": {
         "post-install-cmd": [
