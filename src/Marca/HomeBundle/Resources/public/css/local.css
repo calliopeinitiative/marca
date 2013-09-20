@@ -113,7 +113,7 @@ label.required {font-size:14px;margin-top:8px;}
 .margin-top {margin-top:8px;}
 #doc-display {
     overflow:auto;
-    margin-bottom: 1in;
+    margin-bottom: 0px;
     background: #fff;
     border: 1px solid #e3e3e3;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
@@ -203,7 +203,7 @@ form ul li {list-style: none;}
 .popover {position:fixed; left:40%; top:135px;padding:2em;}
 
 /* File list */
-#file_list { overflow-y:scroll;  }
+#file_list { overflow-y:auto;  }
 #file_list table {font-size: 12px;}
 #file_list table td {padding:2px;}
 #file_list table td .label {font-size: 10px;}
@@ -487,8 +487,14 @@ border-radius: 0 0 6px 6px;
 box-shadow: inset 0 1px 0 #ffffff;
 }
 
-.well-hightlight {border-color: blue}
 
-.scroll_fix {overflow-y:auto; -webkit-overflow-scrolling:touch}
-
-hr {}
+#netWarn {
+    display:none; margin:0; padding:0.5em 1em; border:0; border-bottom:thin solid #FFDEDE; text-align:center; color:#666; text-shadow:1px 1px 1px #FFEFEF;
+    background-color: #FFEFEF;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#FFEFEF), to(#FFDFDF)); /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient(top, #FFEFEF, #FFDFDF); /* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image:    -moz-linear-gradient(top, #FFEFEF, #FFDFDF); /* FF3.6+ */
+    background-image:      -o-linear-gradient(top, #FFEFEF, #FFDFDF); /* Opera 11.10+ */
+    background-image:         linear-gradient(to bottom, #FFEFEF, #FFDFDF);
+    margin-top:40px;
+}

@@ -3,14 +3,18 @@
 {% extends 'MarcaJournalBundle::layout.html.twig' %}
 
 {% block javascripts %}
+    <script src="{{ asset('bundles/marcahome/js/jquery.checknet-1.6.min.js') }}"></script>
     <script language="javascript">
         $(document).ready(function()
         {
+            $.fn.checknet();
+            checknet.config.checkInterval = 15000;
+            checknet.config.warnMsg = 'No internet connection detected.  Please restore your connection before you continue working.';
             $('a#cancel_delete').toggle();$('form#delete').toggle();
-            $("a#confirm_delete").click(function() {
+            $('a#confirm_delete').click(function() {
                 $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
             });
-            $("a#cancel_delete").click(function() {
+            $('a#cancel_delete').click(function() {
                 $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
             });
             $('form li').addClass('alert alert-error');
