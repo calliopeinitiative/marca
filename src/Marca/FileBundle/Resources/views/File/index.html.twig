@@ -35,9 +35,9 @@ $('#file_list').css('height', function(index) {
 </script>
 
 
-{# Project navigation #} 
+{# Project navigation #}
 
-{# Mine All Find #} 
+{# Mine All Find #}
 {% if app.request.get('resource')=='0' %}
 <div id='project_nav' class="col-md-11 well" role="navigation">
 <span class="btn-group" style="margin-bottom:6px;margin-top:4px;">
@@ -50,12 +50,12 @@ $('#file_list').css('height', function(index) {
    <a href="javascript:void(0);" class="dropdown-toggle btn btn-default btn-small{% if app.request.get('scope')=='byuser' %}active btn-info  btn-small{% endif %} " data-toggle="dropdown" id="dLabel">Files By Author<b class="caret" style="margin-left:6px;"></b></a>
        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
            {% for roll in roll %}
-           <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 
+           <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
            {% endfor %}
        </ul>
 {% endif %}
 </span>
-   
+
 {% if role == '2' and app.request.get('resource')==0 %}<a class="btn btn-default btn-small margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>{% endif %}
 
 </div>
@@ -72,7 +72,7 @@ $('#file_list').css('height', function(index) {
 {% else %}
 <div id='project_breadcrumbs' class="col-md-11 well" role="navigation">
 <ul class="breadcrumb" style='margin:0px;padding-left:6px;' aria-labelledby="breadcrumblabel">
-<p class="inline" id="breadcrumblabel">Your current find:</p>      
+<p class="inline" id="breadcrumblabel">Your current find:</p>
 <li  class="margin-left">
 <strong>
 {% if app.request.get('scope')=='mine' and app.request.get('resource')=='0' %}My Files
@@ -87,8 +87,8 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 {% for project in projects %}
 {% if active_project == project.id %}
 <li  class='margin-left'>
-<strong>{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}</strong>        
-</li>        
+<strong>{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}</strong>
+</li>
 {% endif %}
 {% endfor %}
 <li  class='margin-left'>
@@ -98,21 +98,21 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 <span class="label">All Labels</span>
 {% endif %}
 </li>
-<li class='margin-left'>{{ count }} file(s) found</li>  
+<li class='margin-left'>{{ count }} file(s) found</li>
 
-{# next previous users on roll; hidden if peer review #} 
+{# next previous users on roll; hidden if peer review #}
 {% if byuser %}
 <li class='pull-right'>
 {% for roll in roll %}
-{% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}  
-<span style='margin-right:3em;'></span>        
+{% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}
+<span style='margin-right:3em;'></span>
 <a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname|title}} {{roll.lastname|title}}<i class="icon-chevron-right"></i></a>
 {% endif %}
 {% if loop.index == app.request.get('user') - 1 and app.request.get('tag')!='3' %}
 <a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}"><i class="icon-chevron-left"></i>{{roll.firstname|title}} {{roll.lastname|title}}</a>
 {% endif %}
 {% endfor %}
-</li> 
+</li>
 {% endif %}
 
 </ul>

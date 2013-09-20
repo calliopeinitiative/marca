@@ -35,7 +35,7 @@
          {{ form_row(edit_form.title) }}
          {{ form_row(edit_form.body) }}
     {{ form_rest(edit_form) }}
-        <button class="btn btn-primary" type="submit">Update</button><a class='btn' href="{{ course_path('journal') }}">Cancel</a>
+        <button class="btn btn-primary" type="submit">Update</button><a class='btn btn-default' href="{{ course_path('journal') }}">Cancel</a>
 </form>
         
 {% if journal.responses|length == 0%}

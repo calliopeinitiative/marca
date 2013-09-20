@@ -3,11 +3,7 @@
 {% extends 'MarcaCalendarBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
-<script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
+    {{ parent() }}
     <script language="javascript">
         $(document).ready(function() {
             $('#calendar_new').click(function(){
@@ -23,9 +19,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
+    {{ parent() }}
 {% endblock %}
 
 
