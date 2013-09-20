@@ -4,7 +4,7 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <h2>Edit {% if project.resource==0%}Folder in Projects{%else%}Unit in Resources{%endif%}</h2>   
 <form action="{{ course_path('project_update', { 'id': project.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
     {{ form_errors(edit_form) }}   

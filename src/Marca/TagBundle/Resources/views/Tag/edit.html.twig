@@ -28,11 +28,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="span9 well">
+<div class="col-md-11 well">
     <h2>Label Sets</h2>
 </div> 
 
-<div class="span9 well">
+<div class="col-md-11 well">
 <form class="form" action="{{ path('tag_update', { 'id': tag.id,'tagsetid': tagset.id  }) }}" method="post" {{ form_enctype(edit_form) }}>
      {{ form_errors(edit_form) }}
             {{ form_row(edit_form.name) }}

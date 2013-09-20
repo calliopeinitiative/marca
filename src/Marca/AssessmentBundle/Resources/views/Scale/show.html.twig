@@ -3,12 +3,12 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <legend>Scales</legend>
 <a class="btn" href="{{ path('assessmentset') }}">List Assessment Sets and Scales</a>
 </div>
 
-<div class="span9 well">                
+<div class="col-md-11 well">
     <h3 class="inline">{{ scale.name }}</h3> 
     <a class="btn btn-primary pull-right" href="{{ path('scaleitem_new', {'scaleid':scale.id }) }}">Add Scale item</a> 
     <hr/>

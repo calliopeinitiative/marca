@@ -39,15 +39,15 @@ $('#file_list').css('height', function(index) {
 
 {# Mine All Find #} 
 {% if app.request.get('resource')=='0' %}
-<div id='project_nav' class="span9 well" role="navigation">  
+<div id='project_nav' class="col-md-11 well" role="navigation">
 <span class="btn-group" style="margin-bottom:6px;margin-top:4px;">
-<a class="btn btn-small {% if app.request.get('scope')=='mine' and app.request.get('tag')!='3' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
-<a class="btn btn-small {% if app.request.get('tag')=='3' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '3', 'userid': '0' }) }}">My Reviews</a>
-<a class="btn btn-small {% if app.request.get('scope')=='all' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">Shared Files</a>
+<a class="btn btn-default btn-small {% if app.request.get('scope')=='mine' and app.request.get('tag')!='3' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
+<a class="btn btn-default btn-small {% if app.request.get('tag')=='3' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '3', 'userid': '0' }) }}">My Reviews</a>
+<a class="btn btn-default btn-small {% if app.request.get('scope')=='all' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">Shared Files</a>
 
 {# Roll for Find by user  #}
 {% if app.request.get('resource')=='0' %}
-   <a href="javascript:void(0);" class="dropdown-toggle btn btn-small{% if app.request.get('scope')=='byuser' %}active btn-info  btn-small{% endif %} " data-toggle="dropdown" id="dLabel">Files By Author<b class="caret" style="margin-left:6px;"></b></a>
+   <a href="javascript:void(0);" class="dropdown-toggle btn btn-default btn-small{% if app.request.get('scope')=='byuser' %}active btn-info  btn-small{% endif %} " data-toggle="dropdown" id="dLabel">Files By Author<b class="caret" style="margin-left:6px;"></b></a>
        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
            {% for roll in roll %}
            <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 
@@ -56,7 +56,7 @@ $('#file_list').css('height', function(index) {
 {% endif %}
 </span>
    
-{% if role == '2' and app.request.get('resource')==0 %}<a class="btn btn-small margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>{% endif %}
+{% if role == '2' and app.request.get('resource')==0 %}<a class="btn btn-default btn-small margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>{% endif %}
 
 </div>
 {% endif %}
@@ -65,12 +65,12 @@ $('#file_list').css('height', function(index) {
 {# show alert if default Resources #}
 {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
     {% for flashMessage in app.session.flashbag.get('message') %}
-        <div class="alert alert-info pad5 span9">
+        <div class="alert alert-info pad5 col-md-11">
             {{ flashMessage }}
         </div>
     {% endfor %}
 {% else %}
-<div id='project_breadcrumbs' class="span9 well" role="navigation">
+<div id='project_breadcrumbs' class="col-md-11 well" role="navigation">
 <ul class="breadcrumb" style='margin:0px;padding-left:6px;' aria-labelledby="breadcrumblabel">
 <p class="inline" id="breadcrumblabel">Your current find:</p>      
 <li  class="margin-left">
@@ -119,7 +119,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 </div>
 {% endif %}
 
-<div id="file_list" class="span9 well">
+<div id="file_list" class="col-md-11 well">
 <table class="table">
 {% for file in files%}
 {# list headings #}        

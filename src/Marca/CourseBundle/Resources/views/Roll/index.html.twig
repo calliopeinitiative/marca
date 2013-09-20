@@ -3,7 +3,7 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span9 well"> 
+<div class="col-md-11 well">
 
     <h1><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Roll</h1>
     {#{% if course.hasPendingStudents %}#}<a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{#{% endif %}#}

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <form action="{{ course_path('note_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>

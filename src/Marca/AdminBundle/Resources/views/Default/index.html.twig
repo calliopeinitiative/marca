@@ -3,7 +3,7 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <h2>Users</h2>
 
         <form action="{{ path('admin_find') }}" method="post" {{ form_enctype(form) }}>
@@ -11,7 +11,7 @@
         <button class="btn btn-primary btn-small" type="submit">Find</button>
         </form>
 </div>
-<div class="span9 well">
+<div class="col-md-11 well">
     <div class='alert alert-info'>Number in Find:  {{ count }}</div>
 <table class="table">   
 <tbody>    

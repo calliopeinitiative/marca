@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="span9 well">
+<div class="col-md-11 well">
     <form class="form" action="{{ path('user_update', { 'id': user.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
     <h2>Please update your Profile</h2>
     {{ form_errors(edit_form) }}

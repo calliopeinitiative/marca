@@ -4,12 +4,12 @@
 
 {% block content %}
 
-<div class="span9 well">
+<div class="col-md-11 well">
 <legend>Assessment</legend> 
 <a class="btn" href="{{ path('assessmentset') }}">List Assessment Sets and Scales</a>
 </div>
 
-<div class="span9 well">                    
+<div class="col-md-11 well">
 <h4>{{ assessmentset.name }}</h4>
 {{ assessmentset.description|raw }}  
 

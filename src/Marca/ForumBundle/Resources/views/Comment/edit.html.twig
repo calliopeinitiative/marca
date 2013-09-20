@@ -12,16 +12,16 @@
 {% endblock %}
 
 {% block content %}
-<div class="span9 well" style="padding:0">     
+<div class="col-md-11 well" style="padding:0">
       <div class="well-header" >
          <h2 class="inline">{{ parent.title }}</h2>      
          <span class="margin-left">by {{ parent.user.firstname|capitalize }} {{ parent.user.lastname|capitalize }}</span>
          <p>Created  {{ parent.created|date('M d Y, h:ia') }}  / Updated  {{ parent.updated|date('M d Y, h:ia') }}</p>
       </div>       
-<div class="span7 pad margin-bottom" >{{ parent.body|raw }}  </div>       
+<div class="col-md-7 pad margin-bottom" >{{ parent.body|raw }}  </div>
 </div>
 
-<div class="span9 well"> 
+<div class="col-md-11 well">
 <form action="{{ course_path('comment_update', { 'id': comment.id, 'parentid': parent.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
     {{ form_errors(edit_form) }}
          {{ form_row(edit_form.body) }}

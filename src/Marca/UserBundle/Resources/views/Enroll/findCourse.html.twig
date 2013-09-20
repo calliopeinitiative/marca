@@ -5,7 +5,7 @@
 {% block content %}
 
 {% if pending %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <h2>Courses Pending</h2>     
 <div class='alert alert-info'>Enrollment pending.  Please check back soon.
                   <a class='btn btn-primary btn-mini pull-right' href="{{ path('user_home') }}">Check now</a></div>
@@ -24,7 +24,7 @@
 {% endif %}
 
 {% if courses %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <h2 class='verysmall'>Courses Enrolled</h2>  
 <div class='alert alert-success'>Click name to enter.</div>
 <table class="table">
@@ -41,7 +41,7 @@
 </div> 
 {% endif %} 
 
-<div class="span9 well">
+<div class="col-md-11 well">
     <div class='alert alert-info'>Enter your instructor's last name to find her or his course.</div> 
 <form action="{{ path('enroll_list') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}

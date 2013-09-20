@@ -15,11 +15,11 @@ $(document).ready(function()
 </script>
 
 
-<div class="span9 well">
+<div class="col-md-11 well">
 <legend>Scales</legend> 
 </div> 
 
-<div class="span9 well"> 
+<div class="col-md-11 well">
 <form action="{{ path('scaleitem_create', {'scaleid':scaleid}) }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>

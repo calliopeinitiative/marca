@@ -27,7 +27,7 @@ var editor = $('#marca_docbundle_doctype_body').ckeditorGet();
 </script>
 
 <form action="{{ path('rubric_create', {'resource': app.request.get('resource')}) }}" method="post" {{ form_enctype(form) }}>
-<div class="span9">         
+<div class="col-md-11">
 <div>
     {{ form_errors(form) }}
     {{ form_errors(form.body) }}

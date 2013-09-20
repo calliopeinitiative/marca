@@ -3,6 +3,7 @@
 {% extends 'MarcaDocBundle::layout.html.twig' %}
 
 {% block javascripts %}
+{{ parent() }}
 <script src="{{ asset('bundles/marcahome/ckeditor/ckeditor_tools.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery.checknet-1.6.min.js') }}"></script>
     <script language="javascript">

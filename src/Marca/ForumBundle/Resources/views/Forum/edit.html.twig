@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="span9 well">    
+<div class="col-md-11 well">
 <form class="form" action="{{ course_path('forum_update', { 'id': forum.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
      {{ form_errors(edit_form) }}
          {{ form_row(edit_form.title) }}

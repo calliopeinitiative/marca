@@ -5,13 +5,13 @@
 {% block content %}
 
     {% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="span9 alert alert-info">
+        <div class="col-md-11 alert alert-info">
             {{ flashMessage }}
         </div>
     {% endfor %}
 
 
-    <div class="span9 well">
+    <div class="col-md-11 well">
 
         <h2>{{ user.firstname }} {{ user.lastname }}  </h2>
         <p><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></p>

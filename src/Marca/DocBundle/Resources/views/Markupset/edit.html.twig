@@ -16,12 +16,12 @@ CKEDITOR.replace( 'marca_docbundle_markupsettype_description',  {
 });
 </script>
 
-<div class="span9 well">
+<div class="col-md-11 well">
  <legend>Markup Set</legend> 
 </div>
 
  
-    <div class="span9 well">  
+    <div class="col-md-11 well">
         <form action="{{ path('markupset_update', { 'id': markupset.id }) }}" method="post" {{ form_enctype(edit_form) }}>
          {{ form_widget(edit_form) }}
         <div class='margin-top'>

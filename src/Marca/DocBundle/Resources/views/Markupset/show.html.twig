@@ -4,7 +4,7 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <h1>Markup</h1>
       <a class="btn btn-small" href="{{ path('markupset') }}">List All Markup Sets</a> 
       <a class="btn btn-small" href="{{ path('markupset_new') }}">Create Markup Set</a>
@@ -17,7 +17,7 @@ Click Markupset Name to see complete markup set.
 <div class="accordion" id="markup_accordian">
   
   
- <div class="accordion-group span9 well pad05">     
+ <div class="accordion-group col-md-11 well pad05">
 
     <div class="accordion-heading">
       <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#markup_accordian" href="#collapse">

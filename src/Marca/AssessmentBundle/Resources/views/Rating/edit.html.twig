@@ -16,11 +16,11 @@
 </form>
 </div>
   
-<div class="span9 well">
+<div class="col-md-11 well">
 <h2>Portfolios</h2>
 </div>
 
-<div class="span9 well">
+<div class="col-md-11 well">
         <form action="{{ path('rating_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
             {{ form_widget(edit_form) }}
         <div>

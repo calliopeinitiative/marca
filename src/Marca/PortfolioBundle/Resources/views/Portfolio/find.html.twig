@@ -10,7 +10,7 @@ $(document).ready(function() {
 </script>
 
 {# Project navigation #} 
-<div id='project_nav' class="span9 well">  
+<div id='project_nav' class="col-md-11 well">
 <ul id='project_nav_pills' class="nav nav-pills">
 <li class="{% if active_project == 0 %}active{% endif %}">
 <a href="{{ course_path('portfolio_find', { 'project': 'recent' })}}">
@@ -25,7 +25,7 @@ Recent Files</a>
 </ul>  
 </div>
 
-<div class="span9 well"> 
+<div class="col-md-11 well">
 <table class="table">
 {% for file in files if  file.portfolio|length ==0 %}
 {# list headings #}        

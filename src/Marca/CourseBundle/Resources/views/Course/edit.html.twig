@@ -25,14 +25,14 @@ $('form li').addClass('alert alert-error');
         
             {{ form_errors(edit_form) }}
     
-            <div class="span9 well ">
+            <div class="col-md-11 well ">
             <h2>{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
             <div class="col-md-3 ">{{ form_row (edit_form.name) }}</div>
             <div class="col-md-3 {% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.time) }}</div>
             <div class="col-md-2 {% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.term) }}</div>
             </div>
         
-            <div class="span9 well">
+            <div class="col-md-11 well">
             <h2>Additional settings</h2>
             <div class="col-md-3  {% if course.module!=0 %}hide{%endif%}">
             {{ form_row (edit_form.notes) }}  
@@ -66,7 +66,7 @@ $('form li').addClass('alert alert-error');
  
             {{ form_rest(edit_form) }}  
     
-      <div class="span9 well"> 
+      <div class="col-md-11 well">
       <button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn" href="{{ path('course_show', { 'courseid': course.id }) }}">Cancel</a>
       </div>
 </form>

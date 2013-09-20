@@ -4,7 +4,7 @@
 
 {{ "{% block content %}" }}
 {% if 'new' in actions %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <legend></legend>     
       <a class="btn btn-primary" href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}">New</a>
 </div>
@@ -13,7 +13,7 @@
 
 
 {{ '{% for entity in entities %}' }}
-<div class="span9 well">
+<div class="col-md-11 well">
         
     {%- for field, metadata in fields %}
     {%- if loop.first and ('show' in actions) %}

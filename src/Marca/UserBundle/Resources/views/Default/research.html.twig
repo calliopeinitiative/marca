@@ -12,14 +12,14 @@
 {% endblock %}
 
 {% block content %}
-    <div class="span9">
+    <div class="col-md-11">
         {% for page in pages %}
             {{ page.body|raw }}
         {% endfor %}
     </div>
 
 
-    <div class="span9 well">
+    <div class="col-md-11 well">
 
         <form class="form" action="{{ path('user_updateresearch', { 'id': user.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
             <h2>Research Consent</h2>

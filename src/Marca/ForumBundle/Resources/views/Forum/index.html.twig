@@ -4,7 +4,7 @@
 
 {% block content %}
 {% for forum in forumEntries %}
-<div class="span9 well" style="padding:0">     
+<div class="col-md-11 well" style="padding:0">
       <div class="well-header" >
          <span class="pull-right"><a class="close" title="Close this discussion" href="{{ course_path('forum') }}">&times;</a></span>
          <h2 class="inline"><a class="forum_title" title="Open this discussion" href="{{ course_path('forum_show', { 'id': forum.id }) }}">{{ forum.title }}</a></h2>
@@ -16,17 +16,17 @@
          </span></p>
       </div>
          
-         <div class="span7 pad margin-bottom" >{{ forum.body|raw }}  </div>   
+         <div class="col-md-7 pad margin-bottom" >{{ forum.body|raw }}  </div>
     </div>
          
 
 {% else %}
-<div class="span9 well">
+<div class="col-md-11 well">
 There are no open discussions at this time.  
 </div>
 {% endfor %}
 
-<div class="span9">
+<div class="col-md-11">
 <div class="navigation">
     {{ knp_pagination_render(forumEntries) }}
 </div>

@@ -3,13 +3,13 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <legend>Pages</legend>
       <a class="btn btn-primary" href="{{ path('page_new') }}">New Page</a>
 </div>
 
 
-<div class="span9 well">
+<div class="col-md-11 well">
 <table class="table">  
 <tbody>
     {% for page in pages %}

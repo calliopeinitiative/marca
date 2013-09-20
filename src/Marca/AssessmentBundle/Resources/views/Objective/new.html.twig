@@ -6,12 +6,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <h2>Assessment</h2>
 <a class="btn" href="{{ path('assessmentset') }}">List Assessment Sets</a>
 </div> 
 
-<div class="span9 well"> 
+<div class="col-md-11 well">
 <form action="{{ path('objective_create', {'assessmentsetid':assessmentsetid}) }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>

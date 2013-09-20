@@ -4,13 +4,13 @@
 
 {% block content %}
 
-<div class="span9 well">
+<div class="col-md-11 well">
 <legend>Portfolios</legend> 
 <a class="btn" href="{{ path('portset') }}">List Portfolio Sets</a>  
 </div>
 
        
-<div class="span9 well">
+<div class="col-md-11 well">
     <h4>{{ portset.name }}</h4>
     <a class="btn btn-primary btn-small pull-right" href="{{ path('portitem_new', { 'portsetid': portset.id }) }}">Add Item</a>
     <a class="btn btn-primary btn-small pull-right" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit</a>

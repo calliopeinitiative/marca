@@ -20,14 +20,14 @@ $('form li').addClass('alert alert-error');
 
 <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate"> 
             {{ form_errors(form) }}
-            <div class="span9 well">
+            <div class="col-md-11 well">
             <h2>{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
             <div class="col-md-3 ">{{ form_row (form.name) }}</div>
             <div class="col-md-3 {% if course.module!=0 %}hide{%endif%}">{{ form_row (form.time) }}</div>
             <div class="col-md-2 {% if course.module!=0 %}hide{%endif%}">{{ form_row (form.term) }}</div>
             </div>
         
-            <div class="span9 well {% if course.module!=0 %}hide{%endif%}">
+            <div class="col-md-11 well {% if course.module!=0 %}hide{%endif%}">
             <h2>Additional settings</h2>
             <div class="col-md-3 ">
             {{ form_row (form.notes) }}  
@@ -58,7 +58,7 @@ $('form li').addClass('alert alert-error');
             </div>        
             {{ form_rest(form) }}    
         
-      <div class="span9 well">
+      <div class="col-md-11 well">
       <button class="btn btn-primary" type="submit">Create</button><a style="margin-left: 1em;" class="btn" href="{{ path('course') }}">Cancel</a> 
      </div>
 </form>     

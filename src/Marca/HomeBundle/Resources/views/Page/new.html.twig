@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="span9">
+<div class="col-md-11">
 <form action="{{ path('page_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>

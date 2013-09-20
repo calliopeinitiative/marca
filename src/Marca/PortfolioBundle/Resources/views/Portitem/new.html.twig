@@ -6,11 +6,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <h2>Portfolios</h2>
 </div> 
        
-<div class="span9 well">
+<div class="col-md-11 well">
 <form class="form" action="{{ path('portitem_create', { 'portsetid': portsetid }) }}" method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
             {{ form_row(form.name) }}

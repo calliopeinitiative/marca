@@ -11,7 +11,7 @@
             {% endfor %}
         });
     </script>
-<div class="span9 well">
+<div class="col-md-11 well">
 <h1>Markup</h1>
       <a class="btn" href="{{ path('markupset_new') }}">Create Markup Set</a>
       <a class="btn" href="{{ path('find_markupset') }}">Import Markup Set</a>   
@@ -24,7 +24,7 @@ Click Markupset Name to see complete markup set.
 <div class="accordion" id="markup_accordian">
   
 {% for markupset in markupsets%}    
- <div class="accordion-group span9 well pad05">     
+ <div class="accordion-group col-md-11 well pad05">
 
     <div class="accordion-heading">
       <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#markup_accordian" href="#collapse{{markupset.id}}">

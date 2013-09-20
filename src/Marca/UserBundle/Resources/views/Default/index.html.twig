@@ -4,7 +4,7 @@
 
 {% block content %}
 {% if pending %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <h2>Courses Pending</h2>     
 <div class='alert alert-info'>Enrollment pending.  Please check back soon.
                   <a class='btn btn-primary btn-mini pull-right' href="{{ path('user_home') }}">Check now</a></div>
@@ -24,7 +24,7 @@
 {% endif %}
 
 {% if courses %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <h2>Courses Enrolled</h2>  
 <div class='alert alert-success'>Click name to enter.</div>
 <table class="table">
@@ -45,7 +45,7 @@
 {% endif %} 
 
 {% if modules %}
-<div class="span9 well">
+<div class="col-md-11 well">
 <h2>Modules</h2>  
 <div class='alert alert-info'>Modules are repositories of materials that can be included in courses.  Click name to enter.</div>
 <table class="table">
@@ -64,7 +64,7 @@
 {% endif %}
 
     {% if archive %}
-        <div class="span9 well">
+        <div class="col-md-11 well">
             <h2>Previous Courses</h2>
             <div class='alert alert-info'>Click name to enter.</div>
             <table class="table">
