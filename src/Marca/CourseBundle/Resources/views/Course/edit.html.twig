@@ -27,14 +27,14 @@ $('form li').addClass('alert alert-error');
     
             <div class="span9 well ">
             <h2>{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
-            <div class="span3 ">{{ form_row (edit_form.name) }}</div>   
-            <div class="span3 {% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.time) }}</div>  
-            <div class="span2 {% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.term) }}</div> 
+            <div class="col-md-3 ">{{ form_row (edit_form.name) }}</div>
+            <div class="col-md-3 {% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.time) }}</div>
+            <div class="col-md-2 {% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.term) }}</div>
             </div>
         
             <div class="span9 well">
             <h2>Additional settings</h2>
-            <div class="span3  {% if course.module!=0 %}hide{%endif%}">
+            <div class="col-md-3  {% if course.module!=0 %}hide{%endif%}">
             {{ form_row (edit_form.notes) }}  
             {{ form_row (edit_form.forum) }} 
             {{ form_row (edit_form.journal) }}            
@@ -48,18 +48,18 @@ $('form li').addClass('alert alert-error');
             </div>    
 
     
-            <div class="span3  {% if course.module!=0 %}hide{%endif%}">
+            <div class="col-md-3  {% if course.module!=0 %}hide{%endif%}">
             {{ form_row (edit_form.portfolio) }}     
             {{ form_row (edit_form.portset) }}
             {{ form_row (edit_form.assessmentset) }}                     
             </div> 
                 
-            <div class="span2 {% if course.module!=0 %}hide{%endif%}">
+            <div class="col-md-2 {% if course.module!=0 %}hide{%endif%}">
             {{ form_row (edit_form.markupsets) }}
             {{ form_row (edit_form.parents) }}        
             </div>
 
-            <div class="span2 ">
+            <div class="col-md-2 ">
                     {{ form_row (edit_form.tagset) }}
             </div>
             </div> 

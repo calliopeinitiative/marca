@@ -26,7 +26,7 @@
 
 {% block content %}
 <div id="note_page" class="span9 well" style="padding-right:0;padding-left:0">
-<div id="note_list" class="span4">
+<div id="note_list" class="col-md-4">
 <table class="table table-hover"> 
     <thead><tr><th>Click note name to view</th></tr></thead>    
 {% for note in notes %} 
@@ -41,7 +41,7 @@
 </table>               
 </div>
 
-<div id="note_sub" class="span4 well"> 
+<div id="note_sub" class="col-md-4 well">
 {% for note in notes %}        
         <span class="note_body" id="note_body{{loop.index}}">{{ note.description|raw }} 
         <a class="btn btn-small btn-primary" href="{{ course_path('note_edit', { 'id': note.id }) }}">Edit</a>

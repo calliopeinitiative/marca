@@ -62,7 +62,7 @@ $('#doctools').css('height', function(index) {
 </script>
 
 
-<div class="span12 center">
+<div class="col-md-12 center">
 <a name="skip"></a>
 <h1 class='inline'>{{file.name}}</h1>
 
@@ -102,7 +102,7 @@ $('#doctools').css('height', function(index) {
 
 {# Doc display #}
 <div class="row margin-top clear">
-<div id='doc-display' class="span8">
+<div id='doc-display' class="col-md-8">
 <div class="doc-body">
 {{ doc.body|raw }}     
 </div>
@@ -110,9 +110,9 @@ $('#doctools').css('height', function(index) {
 </div>
  
 {# Doc tools #}        
-<div class="span3"> 
+<div class="col-md-3">
 {% if app.request.get('_route') != 'file_view_odt' %}     
-<div id='doctools' class="span3 well" style='margin-top: -.1em; padding:0;background: white; '>   
+<div id='doctools' class="col-md-3 well" style='margin-top: -.1em; padding:0;background: white; '>
     
 <div id="docTab">
 <ul class="nav nav-tabs" style="padding-left:3px;">

@@ -4,7 +4,7 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span4">
+<div class="col-md-4">
 <legend>Teams</legend>    
 <form action="{{ path('create_team', { 'courseid': course.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
     {{ form_errors(edit_form) }}   

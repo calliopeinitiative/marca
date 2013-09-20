@@ -3,7 +3,7 @@
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span4 well">
+<div class="col-md-6 well">
 <h2>{{ course.name }}</h2> {{ course.time|date('g:i A') }}
 {{ course.user.firstname }} {{ course.user.lastname }}
 <hr/>
@@ -25,7 +25,7 @@
 </div>
 
 {% if app.session.get('module')== 0 %}
-<div class="span4 well">
+<div class="col-md-6 well">
 <h2>Announcements</h2>
 <p>{{ course.announcement|raw }}</p>
 {% if course.isOwner(app.user.username) %}<a class="btn btn-primary btn-small" href="{{ path('announce_edit', { 'courseid': course.id }) }}">Edit</a>{% endif %}

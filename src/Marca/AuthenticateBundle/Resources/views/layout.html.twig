@@ -19,7 +19,7 @@
 <h2>Welcome to {{ application_name }}</h2> 
 </div>
     
-<div class="span3 well">
+<div class="col-md-3 well">
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
 <a href="{{ path('fos_user_security_logout') }}">

@@ -16,7 +16,7 @@
 .pad1 {padding: 1em;}
 .pad05 {padding: .5em;}
 .row {margin-bottom: 1em;}
-/* 
+/*
   Local mods for Twitter Bootstrap
 */
 html, body {height:100%}
@@ -40,7 +40,7 @@ box-shadow: 0px 0px 15px rgba(0,0,0,.5);}
 .navbar-inner .container {margin-left:auto;margin-right:auto;}
 .page-header {margin-top:15px;margin-bottom:25px;}
 .subnav-fixed {margin-top: -20px;}
-.icon-white {margin-left:12px;}	
+.icon-white {margin-left:12px;}
 .navbar-icon {margin-left: -2.5em;}
 .nav-list .btn-primary {width:7em;margin-left:0;margin-bottom:.7em;}
 .nav-list .btn-group button {width:9em;margin-left:0;margin-bottom:.7em;}
@@ -111,16 +111,9 @@ label.required {font-size:14px;margin-top:8px;}
 .forum_comments {margin-left:14px;}
 #forum_nav_title {color:#333333;}
 .margin-top {margin-top:8px;}
-#doc-display {
-    overflow:auto;
-    margin-bottom: 0px;
-    background: #fff;
-    border: 1px solid #e3e3e3;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);}
-.doc-body {margin:1in;}
-.doc-body p {font-size: 12px;margin-bottom:0px;}
+#doc-display {overflow:auto;margin-bottom: 0px;background: #fff;}
+.doc-body {margin:5em;}
+.doc-body p {font-size: 14px;margin-bottom:27px;}
 #doctools { overflow:auto; margin-top:6px; position:fixed; margin-left: -1em; }
 .journal-body p, .forum-body p {font-size: 14px;line-height: 200%;margin-bottom:27px;}
 
@@ -203,12 +196,8 @@ form ul li {list-style: none;}
 .popover {position:fixed; left:40%; top:135px;padding:2em;}
 
 /* File list */
-#file_list { overflow-y:auto;  }
-#file_list table {font-size: 12px;}
-#file_list table td {padding:2px;}
-#file_list table td .label {font-size: 10px;}
-.label-file {background:#888; text-align: center; font-size: 10px; margin-right: 3px;}
-ul.files li .dropdown-menu {left:-110px;}
+#file_list { overflow-y:scroll;  }
+
 
 /* Doc displays */
 .eDoc_note {color:blue;background:white; border:#e3e3e3 1px solid;border-radius: 0px 4px 4px 0px;margin-left:-1px;margin-right: 4px;padding:2px 2px 2px 6px;}
@@ -487,14 +476,8 @@ border-radius: 0 0 6px 6px;
 box-shadow: inset 0 1px 0 #ffffff;
 }
 
+.well-hightlight {border-color: blue}
 
-#netWarn {
-    display:none; margin:0; padding:0.5em 1em; border:0; border-bottom:thin solid #FFDEDE; text-align:center; color:#666; text-shadow:1px 1px 1px #FFEFEF;
-    background-color: #FFEFEF;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#FFEFEF), to(#FFDFDF)); /* Saf4+, Chrome */
-    background-image: -webkit-linear-gradient(top, #FFEFEF, #FFDFDF); /* Chrome 10+, Saf5.1+, iOS 5+ */
-    background-image:    -moz-linear-gradient(top, #FFEFEF, #FFDFDF); /* FF3.6+ */
-    background-image:      -o-linear-gradient(top, #FFEFEF, #FFDFDF); /* Opera 11.10+ */
-    background-image:         linear-gradient(to bottom, #FFEFEF, #FFDFDF);
-    margin-top:40px;
-}
+.scroll_fix {overflow-y:auto; -webkit-overflow-scrolling:touch}
+
+hr {}

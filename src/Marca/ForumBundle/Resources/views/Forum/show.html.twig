@@ -21,7 +21,7 @@
 
    {% for comment in forum.comments%}
          
-     <div class="span8 pull-right well" style="padding:0">
+     <div class="col-md-8 pull-right well" style="padding:0">
          <div class="well-header" >{{ comment.user.firstname|capitalize }} {{ comment.user.lastname|capitalize }} says:
          <span class="pull-right" >
           Created  {{ comment.created|date('M d Y, h:ia') }}  / Updated  {{ comment.updated|date('M d Y, h:ia') }}
@@ -44,7 +44,7 @@
            </span>
            </div>
                    
-           <div class="span6 pad margin-bottom" >{{ reply.body|raw }}</div>    
+           <div class="col-md-6 pad margin-bottom" >{{ reply.body|raw }}</div>
            
            </div>
         {% endfor %}                

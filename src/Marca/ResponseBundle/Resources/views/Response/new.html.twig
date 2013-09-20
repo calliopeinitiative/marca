@@ -14,7 +14,7 @@
 {% block content %}
 {% if journal %}
 <div class="span9 well">  
-<div class="span8 center"> 
+<div class="col-md-8 center">
 <h2><span class="journal-title">{{ journal.title }}</span></h2>
 <span>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }}</span>
 <hr/>

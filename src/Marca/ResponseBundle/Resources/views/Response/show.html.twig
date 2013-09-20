@@ -4,13 +4,13 @@
 
 {% block content %}
 
-<div class="span2">
+<div class="col-md-2">
 <a class="btn btn-info" href="{{ path('response') }}">List</a>
 <a class="btn btn-primary" href="{{ path('response_edit', { 'id': response.id }) }}">Edit</a>
  
 </div>       
   
-<div class="span1">        
+<div class="col-md-1">
 <form action="{{ path('response_delete', { 'id': response.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
@@ -20,7 +20,7 @@
 
         
 
-<div class="span6">    
+<div class="col-md-6">
 <table class="table table-bordered table-condensed table-striped">
 <tbody>        
     <tr>

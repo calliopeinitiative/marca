@@ -5,11 +5,11 @@
 {% block body %}
 
 <div class="row-fluid">
-<div class="span8">
+<div class="col-md-8">
     <h1>Welcome to {{ application_name }}</h1>  
 </div>
              
-<div class="span4"> 
+<div class="col-md-4">
 <p>
     {% if ldap_auth!='yes' %}   
         <a class="btn btn-primary" title="Get an Account" href="{{ path('fos_user_registration_register') }}" >Get an Account</a>
@@ -20,7 +20,7 @@
 </div>
 
 <div class="row-fluid">
-<div class="span12">        
+<div class="col-md-12">
 {% for page in pages %}    
 {{ page.body|raw }}
 {% endfor %} 
@@ -30,7 +30,7 @@
 
 
 <div class="row-fluid">
-<div class="span6">
+<div class="col-md-6">
 <h2>Intuitive peer editing</h2>
 {{ application_name }} makes peer editing a breeze. Students can easily share their work with each other, offer comments, and provide detailed feedback using custom tags created by their instructors.
 
@@ -38,7 +38,7 @@
 <p>Using {{ application_name }}, your students can create beautiful portfolios that combine text and rich multimedia.</p>  
 </div>
 
-<div class="span6">
+<div class="col-md-6">
 <h2>Powerful, flexible markup</h2>
 <p>Whether you’re leaving initial feedback on a rough draft or thoroughly grading a final project, {{ application_name }} provides instructors with simple yet powerful and customizable tools for marking up documents. {{ application_name }} will help you grade more effectively and efficiently.</p>
 </div>

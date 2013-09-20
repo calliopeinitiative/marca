@@ -6,7 +6,7 @@
 </div>
  
 <div class="modal-body">
-<div class="span4">    
+<div class="col-md-4">
 {% if portfolio.file.doc %}<i class="icon-edit"></i> 
 <a href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a> 
 {% elseif portfolio.file.url %}<i class="icon-adjust"></i> <a href="{{ portfolio.file.url}}" target="_blank">{{ portfolio.file.name }}</a>
@@ -14,7 +14,7 @@
 <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
 {% endif %}
 </div>
-<div class="span4 margin-top">
+<div class="col-md-4 margin-top">
     <form action="{{ course_path('portfolio_delete', { 'id': portfolio.id}) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger btn-small" type="submit">Confirm Remove</button>

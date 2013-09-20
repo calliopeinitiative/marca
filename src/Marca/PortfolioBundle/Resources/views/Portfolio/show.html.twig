@@ -26,9 +26,9 @@ $('#doctools').css('height', function(index) {
 });
 </script>  
 
-<div class="span12 center">
+<div class="col-md-12 center">
  
-<div class="span12">    
+<div class="col-md-12">
 {% for portfolio in portfolio %}
 {% if loop.first %}<h3 class='inline' style='margin-left:1em'>{{ portfolio.user.firstname }} {{ portfolio.user.lastname }}'s Portfolio</h3>{% endif %} 
 {% else %}
@@ -50,7 +50,7 @@ $('#doctools').css('height', function(index) {
 </div>
                         
 {% for portfolio_doc in portfolio_docs %}
-<div class="span8" style='margin-top:-4em;'>
+<div class="col-md-8" style='margin-top:-4em;'>
 <div class="pull-right"'>    
 {{ knp_pagination_render(portfolio_docs) }}
 </div>
@@ -58,7 +58,7 @@ $('#doctools').css('height', function(index) {
 
         
 {# Doc display #}
-<div id='doc-display' class="span8 well">          
+<div id='doc-display' class="col-md-8 well">
 <div class="doc-body">    
 {% if portfolio_doc.file.doc %}    
 {{ portfolio_doc.file.doc.body|raw }} 
@@ -72,7 +72,7 @@ Please download this file to view.
 </div>              
 </div>
 {% else %}
-<div id='doc-display' class="span8 well">          
+<div id='doc-display' class="col-md-8 well">
 <div class="doc-body">
 There are no files in this portfolio.    
 </div>              
@@ -80,8 +80,8 @@ There are no files in this portfolio.
 {% endfor %} 
 
 {# Doc tools #}        
-<div class="span3"> 
-<div id='doctools' class="span3 well" style='margin-top: -.1em;'> 
+<div class="col-md-3">
+<div id='doctools' class="col-md-3 well" style='margin-top: -.1em;'>
 <a class="btn btn-small pull-right" href="{{ course_path('portfolio') }}">Close</a>     
 <table class="table table-hover"> 
         {% for portfolio in portfolio %} 

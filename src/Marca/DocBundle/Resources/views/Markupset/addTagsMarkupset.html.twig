@@ -9,7 +9,7 @@
 <a class="btn btn-primary" href="{{path('markupset')}}">Return to Markupsets</a>
 
 <div class = "row">
-<div class = "span8">
+<div class = "col-md-8">
     <strong>{{currentset.name}}</strong>
     <table class="table">
     {% for tag in currentset.markup %}
@@ -23,7 +23,7 @@
 
 <Legend>All Available Tags</legend>
 <div class = "row">
-<div class = "span8">
+<div class = "col-md-8">
     <table class="table">
     {% for thisset in allsets %}
     {% for tag in thisset.markup %}

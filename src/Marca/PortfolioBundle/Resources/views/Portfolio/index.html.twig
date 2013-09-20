@@ -46,12 +46,12 @@ $('#port_{{portfolio.id}}').click(function(){
 </div>
 
 {# assessment display hidden for now
-<div class="span4 well hide">                    
+<div class="col-md-4 well hide">
 <h2>{{ assessmentset.name }}</h2>{{ assessmentset.description|raw }}  
 <hr/>     
 
 {% for objective in assessmentset.objectives %}
-<div class="span3">             
+<div class="col-md-3">
         <div class="row"><strong>{{ objective.objective|raw }}</strong>
         </div>  
         <div class="row">{{ objective.description|raw }}</div>

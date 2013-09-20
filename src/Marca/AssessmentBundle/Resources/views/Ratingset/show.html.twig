@@ -3,13 +3,13 @@
 
 {% block content %}
 
-<div class="span2">
+<div class="col-md-2">
 <a class="btn btn-info" href="{{ path('ratingset') }}">List</a>
 <a class="btn btn-primary" href="{{ path('ratingset_edit', { 'id': entity.id }) }}">Edit</a>
  
 </div>       
   
-<div class="span1">        
+<div class="col-md-1">
 <form action="{{ path('ratingset_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>

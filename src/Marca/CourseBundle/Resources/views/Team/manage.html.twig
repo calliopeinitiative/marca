@@ -2,7 +2,7 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span8 well">
+<div class="col-md-8 well">
     <h1><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Teams</h1>
     <a class="btn" href="{{ path('course_show', { 'courseid': course.id }) }}">Course Settings </a>
     <hr/>

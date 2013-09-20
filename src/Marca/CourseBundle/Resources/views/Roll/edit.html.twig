@@ -3,7 +3,7 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span4 well"> 
+<div class="col-md-4 well">
 <h3>Update Roll for {{ roll.firstname }} {{ roll.lastname }}</h3>     
 <form action="{{ course_path('roll_update', { 'id': roll.id, }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_errors(edit_form) }}

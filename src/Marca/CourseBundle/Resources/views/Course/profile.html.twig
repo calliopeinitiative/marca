@@ -33,7 +33,7 @@
 <p><a class="" target="_blank" href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
 
 <ul class="thumbnails">
-  <li class="span2">
+  <li class="col-md-2">
     <div class="thumbnail">
       <img src="{{ profile.photo }}" alt="{{ profile.firstname }} {{ profile.lastname }}">
       <h3></h3>
@@ -46,7 +46,7 @@
 </div>
 
 {% if user == app.user.username or role == 2 %}
-<div class="span8 well">
+<div class="col-md-8 well">
     <ul>
         <li>Forums:  {{ countForums|length}}  (class average: {{ countCourseForums|length //roll|length}})</li>  
         <li>Comments:  {{ countComments|length}}  (class average: {{ countCourseComments|length//roll|length}})</li>

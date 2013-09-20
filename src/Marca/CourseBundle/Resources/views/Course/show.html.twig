@@ -17,7 +17,7 @@ $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').to
 });
 </script>
 
-<div class="span4 well">
+<div class="col-md-6 well">
 <h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> </h2>
     <div class='alert alert-info'>Click the {% if course.module == 0%}course{% else %}module{% endif %} name above to return to it</div>
 {% if course.module == 2%}<div class='alert alert-success'>This module is shared with all instructors.</div>{% endif %}
@@ -84,7 +84,7 @@ No institution is set for this course, please edit the course to set one
 </div>
 
 {% if course.module == 0 %} 
-<div class="span4 well"> 
+<div class="col-md-6 well">
 <h2>Projects</h2>
 
     <div class='alert alert-info'>Your students will place their work in these folders.</div>
@@ -123,7 +123,7 @@ No institution is set for this course, please edit the course to set one
 </div>
 {% endif %} 
 
-<div class="span4 well"> 
+<div class="col-md-6 well">
 <h2>Resources</h2>
     {% if course.module == 0%}
         <div class='alert alert-info'>You will place content in these units for your students.  Any units in the course marked "Course Home" <i class="icon-home"></i> will display on the course home page.</div>

@@ -46,7 +46,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="span8 well"> 
+<div class="col-md-8 well">
 <form action="{{ course_path('calendar_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
     {{ form_widget(form) }}
         <button class="btn btn-primary" type="submit">Submit</button>

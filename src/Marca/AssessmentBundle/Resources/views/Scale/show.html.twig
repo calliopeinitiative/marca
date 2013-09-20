@@ -14,7 +14,7 @@
     <hr/>
 
 {% for scaleitem in scale.scaleitems %}
-<div class="span8">             
+<div class="col-md-8">
         <div class="row"><strong>{{ scaleitem.name }}</strong>  (value::{{ scaleitem.value }})
         <a class="btn btn-primary btn-small pull-right" href="{{ path('scaleitem_edit', { 'id': scaleitem.id, 'scaleid':scale.id }) }}">Edit</a>  
         </div>  

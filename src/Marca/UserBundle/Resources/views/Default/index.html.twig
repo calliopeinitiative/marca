@@ -3,13 +3,6 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-
-<script language="javascript">
-$(document).ready(function() { 
-$('.well').animate({ borderColor: '#2F96B4', borderWidth: '1.5px' }, 2000).delay(500).animate({ borderColor: '#E3E3E3', borderWidth: '1px'  }, 2000);    
-});
-</script>
-
 {% if pending %}
 <div class="span9 well">
 <h2>Courses Pending</h2>     

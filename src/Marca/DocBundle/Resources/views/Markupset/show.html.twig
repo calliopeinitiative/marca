@@ -11,7 +11,7 @@
       <a class="btn btn-small" href="{{ path('find_markupset') }}"> Import Markup Set</a>   
 </div> 
 
-<div class="span8 alert alert-info">
+<div class="col-md-8 alert alert-info">
 Click Markupset Name to see complete markup set.
 </div> 
 <div class="accordion" id="markup_accordian">
@@ -32,7 +32,7 @@ Click Markupset Name to see complete markup set.
       <a class='btn btn-small pull-right' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Add Tags from Other Sets</a>
       {% endif %} 
            {% for markup in markupset.markup %}
-           <div class="span8 divider">
+           <div class="col-md-8 divider">
             <span class="label {{ markup.color }}" style='color:black;'>{{ markup.name }}</span>
             {{ markup.mouseover|raw }}
             {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% else %}No URL{% endif %}</td>

@@ -16,7 +16,7 @@
 <hr/>     
 
 {% for objective in assessmentset.objectives %}
-<div class="span8">             
+<div class="col-md-8">
     <div class="row"><h5 class='inline'>{{ objective.objective|raw }}</h5>
         <a class="btn btn-primary btn-small pull-right" href="{{ path('objective_edit', { 'id': objective.id }) }}">Edit</a>  
         </div>  
