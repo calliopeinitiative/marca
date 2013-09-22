@@ -19,7 +19,7 @@
     "ext-curl": "*"
   },
   "require-dev": {
-    "vierbergenlars/simpletest": "*"
+    "simpletest/simpletest": "*"
   },
   "autoload": {
     "classmap": ["lib/Stripe/"]
