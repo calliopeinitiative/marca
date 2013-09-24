@@ -2,7 +2,7 @@
 
 namespace Marca\DocBundle\DataFixtures\ORM\AdditionalFixtures;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Marca\DocBundle\Entity\Markupset;
@@ -16,11 +16,16 @@ use Doctrine\ORM\EntityManager;
  *
  * @author Ron
  */
-class LoadMarkupsetData implements FixtureInterface
+class LoadMarkupsetData implements DependentFixtureInterface
 {
     /**
      * {@inheritDoc}
      */
+    public function getDependencies()
+    {
+      return array('Marca\UserBundle\DataFixtures\ORM');
+    }
+
     public function load(ObjectManager $manager)
     {
 
