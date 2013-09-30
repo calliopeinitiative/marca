@@ -44,7 +44,7 @@
 <div id="note_sub" class="col-md-4 well">
 {% for note in notes %}        
         <span class="note_body" id="note_body{{loop.index}}">{{ note.description|raw }} 
-        <a class="btn btn-small btn-primary" href="{{ course_path('note_edit', { 'id': note.id }) }}">Edit</a>
+        <a class="btn btn-sm btn-primary" href="{{ course_path('note_edit', { 'id': note.id }) }}">Edit</a>
         </span>       
 {% endfor %}        
 </div>

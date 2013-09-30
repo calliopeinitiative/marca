@@ -14,8 +14,8 @@
             <td>{{set.owner.firstname}} {{set.owner.lastname}}</td>
             <td>{{set.description}}</td>
             <td>{% if set.hasAccess(app.user) %}<span class="label label-info">In my sets</span>{% endif %}</td>
-            <td>{% if set.hasAccess(app.user) %}<a class="btn btn-warning btn-mini" href="{{ path('remove_markupset', { 'id':set.id }) }}">Remove from sets</a>
-                {% else %}<a class="btn btn-primary btn-mini" href="{{ path('add_markupset', { 'id':set.id }) }}">Add to my sets</a>{% endif %}</td> 
+            <td>{% if set.hasAccess(app.user) %}<a class="btn btn-warning btn-xs" href="{{ path('remove_markupset', { 'id':set.id }) }}">Remove from sets</a>
+                {% else %}<a class="btn btn-primary btn-xs" href="{{ path('add_markupset', { 'id':set.id }) }}">Add to my sets</a>{% endif %}</td>
             </tr>
     {% endfor %}
     </table>

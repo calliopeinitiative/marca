@@ -26,11 +26,11 @@ $("#word-count").text(count);
 {% for roll in roll %}
 {% if loop.index == app.request.get('user') + 1 %}  
 <span style='margin-right:2em;'></span>        
-<a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_user', { 'userid': roll.userid, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}<i class="icon-chevron-right"></i></a>
+<a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_user', { 'userid': roll.userid, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}<i class="glyphicon-chevron-right"></i></a>
 {% endif %}
 
 {% if loop.index == app.request.get('user') - 1 %}
-<a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_user', { 'userid': roll.userid, 'user': loop.index }) }}"><i class="icon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
+<a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_user', { 'userid': roll.userid, 'user': loop.index }) }}"><i class="glyphicon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
 {% endif %}
 {% endfor %}
 {% endif %}
@@ -48,9 +48,9 @@ $("#word-count").text(count);
 <span class="pull-right">
 <span id="word-count"></span> word(s)    
 {% if journal.isOwner(app.user.username) %}
-        <a class="btn btn-default btn-small" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
+        <a class="btn btn-default btn-sm" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
 {% endif %} 
-        <a class="btn btn-default btn-small" href="{{ course_path('response_new',
+        <a class="btn btn-default btn-sm" href="{{ course_path('response_new',
         { 'sourceid': journal.id, 'source': 'journal_user','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id }) }}">Respond</a>
 </span>         
 

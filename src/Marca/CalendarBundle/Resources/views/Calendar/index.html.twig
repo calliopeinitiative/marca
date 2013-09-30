@@ -34,7 +34,7 @@
         <td class='col-md-2 {{calendar.color}}'>{{ calendar.title }}</td>
         <td class='span5'>{{ calendar.description|raw }}</td>             
         <td class='col-md-2'>
-            {% if calendar.isOwner(app.user.username) %}<a id='calendar_edit{{calendar.id}}' class="btn btn-primary btn-small" href="javascript:void(0);">Edit</a>{% endif %}
+            {% if calendar.isOwner(app.user.username) %}<a id='calendar_edit{{calendar.id}}' class="btn btn-primary btn-sm" href="javascript:void(0);">Edit</a>{% endif %}
        </td>       
     </tr>
     

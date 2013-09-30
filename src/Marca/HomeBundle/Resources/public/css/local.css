@@ -30,7 +30,7 @@ h3.small {font-size:16px;font-weight:normal}
 .centered {text-align: right;color:blue;}
 .center { float: none; margin-left: auto; margin-right: auto; }
 .background {background: #F2F2F2}
-.navbar .brand {margin-left:0px;}
+.navbar-brand {margin-left:0px;}
 .navbar-inner {background:#373737;}
 ul.nav-list  {margin: 0 0 0 0;padding-left: 0;}
 #mainContainer {padding-top:60px;padding-left:15px;padding-right:15px;margin-left:auto;margin-right:auto;background:url('../img/whitewash.png');min-height:88%;
@@ -40,7 +40,7 @@ box-shadow: 0px 0px 15px rgba(0,0,0,.5);}
 .navbar-inner .container {margin-left:auto;margin-right:auto;}
 .page-header {margin-top:15px;margin-bottom:25px;}
 .subnav-fixed {margin-top: -20px;}
-.icon-white {margin-left:12px;}
+.glyphicon-white {margin-left:12px;}
 .navbar-icon {margin-left: -2.5em;}
 .nav-list .btn-primary {width:7em;margin-left:0;margin-bottom:.7em;}
 .nav-list .btn-group button {width:9em;margin-left:0;margin-bottom:.7em;}
@@ -65,7 +65,7 @@ dl.dl-horizontal dd p {display:inline}
 .navbar .nav > li > a:hover {color: #999;}
 .nav-list .active > a {background-color:#006DCC;}
 .nav-pills .active > a {background-color:#006DCC;}
-.navbar .brand {color: #fff;text-shadow: none;}
+.navbar-brand {color: #fff;text-shadow: none;}
 
 @media (min-width: 980px) and (max-width: 1199px) {
   .navbar .nav > li > a {

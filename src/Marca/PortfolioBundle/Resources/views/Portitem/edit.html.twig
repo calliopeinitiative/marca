@@ -17,7 +17,7 @@
             {{ form_row(edit_form.description) }}
     {{ form_rest(edit_form) }}
     <div>
-        <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('portset_show', { 'id': portitem.portset.id }) }}">Cancel</a>
+        <button class="btn btn-primary" type="submit">Update</button><a class="btn btn-default" href="{{ path('portset_show', { 'id': portitem.portset.id }) }}">Cancel</a>
     </div>
 </form>
 <form class="form" action="{{ path('portitem_delete', { 'id': portitem.id }) }}" method="post">

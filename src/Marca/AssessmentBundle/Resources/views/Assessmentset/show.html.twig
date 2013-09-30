@@ -6,7 +6,7 @@
 
 <div class="col-md-11 well">
 <legend>Assessment</legend> 
-<a class="btn" href="{{ path('assessmentset') }}">List Assessment Sets and Scales</a>
+<a class="btn btn-default" href="{{ path('assessmentset') }}">List Assessment Sets and Scales</a>
 </div>
 
 <div class="col-md-11 well">
@@ -18,7 +18,7 @@
 {% for objective in assessmentset.objectives %}
 <div class="col-md-8">
     <div class="row"><h5 class='inline'>{{ objective.objective|raw }}</h5>
-        <a class="btn btn-primary btn-small pull-right" href="{{ path('objective_edit', { 'id': objective.id }) }}">Edit</a>  
+        <a class="btn btn-primary btn-sm pull-right" href="{{ path('objective_edit', { 'id': objective.id }) }}">Edit</a>
         </div>  
         <div class="row">{{ objective.description|raw }}</div>
         <div class="row"><strong>{{ objective.scale.name }}</strong>:  

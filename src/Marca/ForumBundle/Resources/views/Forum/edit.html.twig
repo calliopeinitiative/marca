@@ -25,7 +25,7 @@
          {{ form_row(edit_form.title) }}
          {{ form_row(edit_form.body) }}
     {{ form_rest(edit_form) }}
-        <button class="btn btn-primary" type="submit">Update</button><a class='btn' href="{{ course_path('forum', { 'set': 0 }) }}">Cancel</a>
+        <button class="btn btn-primary" type="submit">Update</button><a class='btn btn-default' href="{{ course_path('forum', { 'set': 0 }) }}">Cancel</a>
 </form>
 
 <a href='javascript:void(0);' id='confirm_delete' class="btn btn-delete" type="submit">Delete</a>

@@ -25,7 +25,7 @@
 
 <div class='alert alert-info'>Modules are content repositories that can be included in courses.</div>
 
-    <a class="btn" href="{{ path('course_new', {'type':'1'}) }}">New Module</a>
+    <a class="btn btn-default" href="{{ path('course_new', {'type':'1'}) }}">New Module</a>
 <table class="table">
 <tbody>
     {% for course in courses if course.module!=0 %}

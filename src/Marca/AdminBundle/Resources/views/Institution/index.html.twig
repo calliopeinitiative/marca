@@ -25,7 +25,7 @@ $(document).ready(function()
 <div class="col-md-11 well">
 <h2>Institutions</h2>
 
-<a class="btn btn-small btn-primary" id="new_inst" href="javascript:void(0);">Create New Institution</a>
+<a class="btn btn-sm btn-primary" id="new_inst" href="javascript:void(0);">Create New Institution</a>
 
 </div>
 <div class="col-md-11 well">
@@ -39,7 +39,7 @@ $(document).ready(function()
             <td>${{ institution.SemesterPrice / 100 }}</td>
             <td>{% if institution.research == true %}Research Consent{%endif%}</td>
             <td> 
-                <button class = "btn btn-danger btn-mini" onclick="$('#confirm{{institution.id}}').toggle();$('#default{{institution.id}}').toggle()" type="submit">Delete</button>
+                <button class = "btn btn-danger btn-xs" onclick="$('#confirm{{institution.id}}').toggle();$('#default{{institution.id}}').toggle()" type="submit">Delete</button>
             </td>
         </tr>
         <tr id = "confirm{{institution.id}}" class="toggle">
@@ -48,7 +48,7 @@ $(document).ready(function()
             <td>
                 <form action="{{ path('institution_delete', {'id':institution.id}) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button class="btn btn-danger btn-mini" type="submit">Delete</button>
+            <button class="btn btn-danger btn-xs" type="submit">Delete</button>
             </form>
             </td>
         </tr>

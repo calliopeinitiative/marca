@@ -43,7 +43,7 @@ $(document).ready(function()
     {{ form_errors(edit_form) }}
             {{ form_widget(edit_form) }}
     {{ form_rest(edit_form) }}
-        <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('markupset') }}">Cancel</a> 
+        <button class="btn btn-primary" type="submit">Update</button><a class="btn btn-default" href="{{ path('markupset') }}">Cancel</a>
 </form> 
 <div>
 <form action="{{ path('markup_delete', { 'id': markup.id }) }}" method="post">

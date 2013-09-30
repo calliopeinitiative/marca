@@ -21,7 +21,7 @@
         <td>{{ response.body }}</td>        
         <td>{% if response.created %}{{ response.created|date('Y-m-d H:i:s') }}{% endif%}</td>        
         <td>{% if response.updated %}{{ response.updated|date('Y-m-d H:i:s') }}{% endif%}</td>        
-        <td><a class="btn" href="{{ path('response_show', { 'id': response.id }) }}">show</a><a class="btn" href="{{ path('response_edit', { 'id': response.id }) }}">edit</a>
+        <td><a class="btn btn-default" href="{{ path('response_show', { 'id': response.id }) }}">show</a><a class="btn btn-default" href="{{ path('response_edit', { 'id': response.id }) }}">edit</a>
 </td>       
     </tr>
     

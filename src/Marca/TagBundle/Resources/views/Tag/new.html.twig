@@ -36,7 +36,7 @@
 <form action="{{ path('tag_create', { 'tagsetid': tagset.id }) }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>
-        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ path('tagset') }}">Cancel</a> 
+        <button class="btn btn-primary" type="submit">Create</button><a class="btn btn-default" href="{{ path('tagset') }}">Cancel</a>
     </div>
 </form>
 </div>

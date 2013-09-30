@@ -22,7 +22,7 @@
         <form action="{{ course_path('note_update', { 'id': note.id }) }}" method="post" {{ form_enctype(edit_form) }}>
             {{ form_widget(edit_form) }}
         <div>
-            <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ course_path('note') }}">Cancel</a>
+            <button class="btn btn-primary" type="submit">Update</button><a class="btn btn-default" href="{{ course_path('note') }}">Cancel</a>
         </div>
         </form>
         

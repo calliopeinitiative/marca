@@ -13,8 +13,8 @@
     </script>
 <div class="col-md-11 well">
 <h1>Markup</h1>
-      <a class="btn" href="{{ path('markupset_new') }}">Create Markup Set</a>
-      <a class="btn" href="{{ path('find_markupset') }}">Import Markup Set</a>   
+      <a class="btn btn-default" href="{{ path('markupset_new') }}">Create Markup Set</a>
+      <a class="btn btn-default" href="{{ path('find_markupset') }}">Import Markup Set</a>
 </div> 
 
 <div class="col-md-8 alert alert-info">
@@ -34,9 +34,9 @@ Click Markupset Name to see complete markup set.
     <div id="collapse{{markupset.id}}" class="accordion-body collapse">
       <div class="accordion-inner">
       {% if markupset.isOwner(app.user.username) %}
-      <a class="btn btn-small pull-right" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit Set Information</a>
-      <a class='btn btn-small pull-right' href="{{ path('markup_new', { 'set_id' : markupset.getid}) }}">Create Markup Tag</a>
-      <a class='btn btn-small pull-right' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Add Tags from Other Sets</a>
+      <a class="btn btn-default btn-sm pull-right" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit Set Information</a>
+      <a class='btn btn-default btn-sm pull-right' href="{{ path('markup_new', { 'set_id' : markupset.getid}) }}">Create Markup Tag</a>
+      <a class='btn btn-default btn-sm pull-right' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Add Tags from Other Sets</a>
       {% endif %} 
            {% for markup in markupset.markup %}
            <div class="col-md-8 divider">
@@ -45,7 +45,7 @@ Click Markupset Name to see complete markup set.
             {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% else %}No URL{% endif %}</td>
             
                 
-            {% if markupset.isOwner(app.user.username) %}<a class="btn btn-mini  pull-right" href="{{ path('markup_edit', { 'id': markup.id, 'set_id': markupset.id  }) }}">Edit</a>{% endif %}
+            {% if markupset.isOwner(app.user.username) %}<a class="btn btn-default btn-xs pull-right" href="{{ path('markup_edit', { 'id': markup.id, 'set_id': markupset.id  }) }}">Edit</a>{% endif %}
           </div>
            {% endfor %}
           

@@ -18,7 +18,7 @@
          {{ form_row(form.title) }}
          {{ form_row(form.body) }}
     {{ form_rest(form) }}
-        <button class="btn btn-primary margin-top" type="submit">Submit</button><a class='btn' href="{{ course_path('forum', { 'set': 0 }) }}">Cancel</a>
+        <button class="btn btn-primary margin-top" type="submit">Submit</button><a class='btn btn-default' href="{{ course_path('forum', { 'set': 0 }) }}">Cancel</a>
 </form>
 </div>
 {% endblock %}

@@ -13,7 +13,7 @@
       {{ form_errors(edit_form) }}
             {{ form_row (edit_form.announcement) }}    
       {{ form_rest(edit_form) }}       
-      <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('course_home', { 'courseid': course.id }) }}">Cancel</a>
+      <button class="btn btn-primary" type="submit">Update</button><a class="btn btn-default" href="{{ path('course_home', { 'courseid': course.id }) }}">Cancel</a>
 </form>
 </div>
 {% endblock %}
