@@ -27,7 +27,7 @@
         
         <form action="{{ course_path('ratingset_delete', { 'id': ratingset.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button class="btn pull-right delete_button"  type="submit">Delete</button>
+            <button class="btn pull-right btn-delete"  type="submit">Delete</button>
         </form>
 </div>
 
