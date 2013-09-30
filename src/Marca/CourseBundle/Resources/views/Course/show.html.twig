@@ -41,7 +41,7 @@ $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').to
 {# Show/hide conditional for Modules #}
 {% if course.module == 0 %}       
 <h2>Settings</h2> 
-<ul class="unstyled">
+<ul class="list-unstyled">
 <li><strong>Time:</strong> {{ course.time|date('h:i a') }}</li>  
 <li><strong>Term:</strong> {{ course.term.termName }}</li>
     <hr/>

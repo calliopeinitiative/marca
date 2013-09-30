@@ -19,7 +19,7 @@ $('#file_modal').modal();
 <form action="{{ course_path('file_update', { 'id': file.id, 'resource': app.request.get('resource') }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate"> 
   <div class="modal-body">
       {{ form_errors(edit_form) }} 
-        <ul class="unstyled">
+        <ul class="list-unstyled">
             <li class="pad1">{{ form_row (edit_form.name) }} </li>
             <li class="pad1">{{ form_row (edit_form.url) }} </li>
             <li class="pad1">{{ form_row (edit_form.project) }} </li> 
