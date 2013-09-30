@@ -15,12 +15,12 @@
 
 <div class="col-md-4 well">
 <h4>Assessment Sets</h4>    
-<a class="btn" href="{{ path('assessmentset_new') }}">New Assessment Set</a> 
+<a class="btn btn-default" href="{{ path('assessmentset_new') }}">New Assessment Set</a>
 <hr/>
 
 {% for assessmentset in assessmentsets %}
 <h4><a class="" href="{{ path('assessmentset_show', { 'id': assessmentset.id }) }}">{{ assessmentset.name }}</a></h4>   
-<a class="btn btn-small pull-right" href="{{ path('assessmentset_edit', { 'id': assessmentset.id }) }}">Edit</a>
+<a class="btn btn-default btn-sm pull-right" href="{{ path('assessmentset_edit', { 'id': assessmentset.id }) }}">Edit</a>
 {{ assessmentset.description|raw }}
 <hr/>
 {% endfor %}
@@ -28,12 +28,12 @@
 
 <div class="col-md-4 well">
 <h4>Assessment Scales</h4>     
-<a class="btn" href="{{ path('scale_new') }}">New Scale</a> 
+<a class="btn btn-default" href="{{ path('scale_new') }}">New Scale</a>
 <hr/>
 
 {% for scale in scales %}           
 <h4><a class="" href="{{ path('scale_show', { 'id': scale.id }) }}">{{ scale.name }}</a></h4>  
-<a class="btn btn-small pull-right" href="{{ path('scale_edit', { 'id': scale.id }) }}">Edit</a>
+<a class="btn btn-default btn-sm pull-right" href="{{ path('scale_edit', { 'id': scale.id }) }}">Edit</a>
 <br/> 
 <hr/>
 {% endfor %}

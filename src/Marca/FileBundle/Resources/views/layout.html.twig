@@ -34,12 +34,12 @@ $('#file_new_link').click(function(){
 <div class="btn-group">
   <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
     Create
-    <i class="icon-pencil icon-white"></i>
+    <i class="glyphicon-pencil glyphicon-white"></i>
   </a>
   <ul class="dropdown-menu">
-    <li><a id='file_new_doc' title='Create new document' href='javascript:void(0);'><i class="icon-edit"></i> Document</a></li>
-    <li><a id='file_new_upload' title='Upload document' href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}"><i class="icon-upload"></i> Upload</a></li>  
-    <li><a id='file_new_link' title='Create new link' href="javascript:void(0);"><i class="icon-adjust"></i> Link</a></li>
+    <li><a id='file_new_doc' title='Create new document' href='javascript:void(0);'><i class="glyphicon-edit"></i> Document</a></li>
+    <li><a id='file_new_upload' title='Upload document' href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}"><i class="glyphicon-upload"></i> Upload</a></li>
+    <li><a id='file_new_link' title='Create new link' href="javascript:void(0);"><i class="glyphicon-adjust"></i> Link</a></li>
   </ul>
 </div>
 {% endif %}
@@ -51,14 +51,14 @@ $('#file_new_link').click(function(){
 <h2 class="nav-header">{% if app.request.get('resource')=='1' %}Units{% else %}Folders{% endif %}</h2>
 {% if app.request.get('resource')=='0' %}Folders
 <li><a class="{% if active_project == 0 %}active{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-<i class="icon-folder-{% if active_project == 0 %}open{% else %}close{% endif %}"></i>        
+<i class="glyphicon-folder-{% if active_project == 0 %}open{% else %}close{% endif %}"></i>
 All Folders </a></li>
 {%else%}
 {% endif %}
 {% for project in projects %}
 <li>
 <a title='{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}' class="{% if active_project == project.id %}active{% endif %}" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-<i class="icon-folder-{% if active_project == project.id %}open{% else %}close{% endif %}"></i>
+<i class="glyphicon-folder-{% if active_project == project.id %}open{% else %}close{% endif %}"></i>
 {% if app.request.get('resource')=='1' and project.course.name!=app.session.get('course') %}{{ project.course.name }}: {%endif%}{{ project.name }}</a>
 </li>
 {% endfor %}

@@ -6,19 +6,19 @@
 
 <div class="col-md-11 well">
 <legend>Portfolios</legend> 
-<a class="btn" href="{{ path('portset') }}">List Portfolio Sets</a>  
+<a class="btn btn-default" href="{{ path('portset') }}">List Portfolio Sets</a>
 </div>
 
        
 <div class="col-md-11 well">
     <h4>{{ portset.name }}</h4>
-    <a class="btn btn-primary btn-small pull-right" href="{{ path('portitem_new', { 'portsetid': portset.id }) }}">Add Item</a>
-    <a class="btn btn-primary btn-small pull-right" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit</a>
+    <a class="btn btn-primary btn-sm pull-right" href="{{ path('portitem_new', { 'portsetid': portset.id }) }}">Add Item</a>
+    <a class="btn btn-primary btn-sm pull-right" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit</a>
     {{ portset.description|raw }}
     
     {% for portitem in portitems %}
     <h5>{{ portitem.name }}</h5>
-    <a class="btn btn-primary btn-small pull-right" href="{{ path('portitem_edit', { 'id': portitem.id }) }}">Edit</a>
+    <a class="btn btn-primary btn-sm pull-right" href="{{ path('portitem_edit', { 'id': portitem.id }) }}">Edit</a>
     {{ portitem.description|raw }}
     {% endfor %}
 </div>        

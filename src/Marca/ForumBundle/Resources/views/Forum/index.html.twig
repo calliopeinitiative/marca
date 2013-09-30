@@ -12,7 +12,7 @@
          <span class="margin-left">by {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}</span>
          <p>Created  {{ forum.created|date('M d Y, h:ia') }}  / Updated  {{ forum.updated|date('M d Y, h:ia') }} 
          <span class="pull-right">
-         {% if forum.user==app.user %}<a class="btn btn-small" title="Edit this discussion" href="{{ course_path('forum_edit', { 'id': forum.id }) }}">Edit</a>{% endif%}
+         {% if forum.user==app.user %}<a class="btn btn-default btn-sm" title="Edit this discussion" href="{{ course_path('forum_edit', { 'id': forum.id }) }}">Edit</a>{% endif%}
          </span></p>
       </div>
          

@@ -4,11 +4,11 @@
 {% block content %}
 <div class="col-md-8 well">
     <h1><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Teams</h1>
-    <a class="btn" href="{{ path('course_show', { 'courseid': course.id }) }}">Course Settings </a>
+    <a class="btn btn-default" href="{{ path('course_show', { 'courseid': course.id }) }}">Course Settings </a>
     <hr/>
     <ul class="list-unstyled">
     {% for team in teams %}
-            <li  class="pad05"><strong>{{ team.name }}</strong> {{ team.description }} <a class="btn btn-mini btn-primary" href="{{ path('team_edit', { 'id': team.id,'courseid': course.id }) }}">Edit</a>
+            <li  class="pad05"><strong>{{ team.name }}</strong> {{ team.description }} <a class="btn btn-xs btn-primary" href="{{ path('team_edit', { 'id': team.id,'courseid': course.id }) }}">Edit</a>
             <ol  class="pad05">      
                  {% for listing in team.rolls %}
                       <li>{{ listing.user.firstname }} {{ listing.user.lastname }} </li>

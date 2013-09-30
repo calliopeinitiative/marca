@@ -25,7 +25,7 @@ $(document).ready(function()
 <form action="{{ "{{ path('"~ route_name_prefix ~"_create') }}" }}" method="post" {{ "{{ form_enctype(form) }}" }}>
     {{ "{{ form_widget(form) }}" }}
     <div>
-        <button class="btn" type="submit">Create</button><a class="btn" href="">Cancel</a>
+        <button class="btn btn-default" type="submit">Create</button><a class="btn btn-default" href="">Cancel</a>
     </div>
 </form>
 </div>

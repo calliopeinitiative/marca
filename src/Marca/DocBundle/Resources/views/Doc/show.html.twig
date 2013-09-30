@@ -70,31 +70,31 @@ $('#doctools').css('height', function(index) {
 <span class="pull-right" style='margin-right:3em'>
 <div class="btn-group">
 {% if app.request.get('_route') != 'file_view_odt' %}
-{% if doc.isOwner(app.user.username) %}<a title="Edit this document" class="btn btn-primary btn-small" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %} 
+{% if doc.isOwner(app.user.username) %}<a title="Edit this document" class="btn btn-primary btn-sm" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %}
 
 {# Don't show Review button if it is a review or a Resource #}
 {% if file.reviewed|length == 0 and file.project.resource != 'true' %}
-<a title="Create a copy of this document for peer review" id="new_review" class="btn btn-default btn-small" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Peer Review</a>
+<a title="Create a copy of this document for peer review" id="new_review" class="btn btn-default btn-sm" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Peer Review</a>
 {% if role == 2 %}
-<a title="Create a copy of this document for peer review" id="new_grade" class="btn btn-default btn-small" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
+<a title="Create a copy of this document for peer review" id="new_grade" class="btn btn-default btn-sm" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
 {% endif %}
 {% endif %}
 
 {% if doc.isOwner(app.user.username) or file.project.resource == 'true' %}
-<a title="Create a copy of this document" id="new_saveas" class="btn btn-default btn-small" href="javascript:void(0)">SaveAs</a>
+<a title="Create a copy of this document" id="new_saveas" class="btn btn-default btn-sm" href="javascript:void(0)">SaveAs</a>
 {% endif %}
-<a title="Print this document" class="btn btn-default btn-small" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>
+<a title="Print this document" class="btn btn-default btn-sm" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>
 {% endif %}
 
 {% if app.request.get('view') == 'window' %}
-<a title="Close the current window or tab" id="close_window"  class="btn btn-default btn-small" href="javascript:void(0);">Close</a>
+<a title="Close the current window or tab" id="close_window"  class="btn btn-default btn-sm" href="javascript:void(0);">Close</a>
 {% elseif file.project.resource == 'true' %}
-<a  title="Close this document" class="btn btn-default btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
+<a  title="Close this document" class="btn btn-default btn-sm" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
 {% else %}
     {% if app.session.get('referrer')%}
-    <a title="Close this document" class="btn btn-default btn-small" href="{{app.session.get('referrer')}} ">Close</a>
+    <a title="Close this document" class="btn btn-default btn-sm" href="{{app.session.get('referrer')}} ">Close</a>
     {%else%}    
-    <a title="Close this document" class="btn btn-default btn-small" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+    <a title="Close this document" class="btn btn-default btn-sm" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
     {%endif%}
 {% endif %}
 </div>
@@ -130,12 +130,12 @@ $('#doctools').css('height', function(index) {
 <div class="tab-pane fade" id="docFeedback" >
 {# Responses #}
 <div class="">        
-<a class="btn btn-default btn-small" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view'),'userid': doc.file.user.id }) }}">Offer Feedback</a>
+<a class="btn btn-default btn-sm" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view'),'userid': doc.file.user.id }) }}">Offer Feedback</a>
 </div>
 {% for response in file.responses %}    
 <div class="well-header" >{{ response.user.firstname}} {{ response.user.lastname}} says:
 {% if response.isOwner(app.user.username) %}
-<a class="btn btn-mini pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view'),'userid': doc.file.user.id  }) }}">Edit</a>
+<a class="btn btn-default btn-xs pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view'),'userid': doc.file.user.id  }) }}">Edit</a>
 {% endif %}
 </div>
 <div class="pad">

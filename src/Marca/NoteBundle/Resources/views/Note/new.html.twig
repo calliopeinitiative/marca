@@ -10,7 +10,7 @@
 <form action="{{ course_path('note_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>
-        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ course_path('note') }}">Cancel</a>
+        <button class="btn btn-primary" type="submit">Create</button><a class="btn btn-default" href="{{ course_path('note') }}">Cancel</a>
     </div>
 </form>
 </div>

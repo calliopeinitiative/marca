@@ -67,7 +67,7 @@ $('form li').addClass('alert alert-error');
             {{ form_rest(edit_form) }}  
     
       <div class="col-md-11 well">
-      <button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn" href="{{ path('course_show', { 'courseid': course.id }) }}">Cancel</a>
+      <button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn btn-default" href="{{ path('course_show', { 'courseid': course.id }) }}">Cancel</a>
       </div>
 </form>
 </div>

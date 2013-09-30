@@ -32,7 +32,7 @@
         <td>{{ doc.body }}</td>        
         <td>{% if doc.created %}{{ doc.created|date('Y-m-d H:i:s') }}{% endif%}</td>        
         <td>{% if doc.updated %}{{ doc.updated|date('Y-m-d H:i:s') }}{% endif%}</td>        
-        <td><div class="btn-group"><a class="btn" href="{{ course_path('doc_show', { 'id': doc.id }) }}">show</a><a class="btn" href="{{ course_path('doc_edit', { 'id': doc.id }) }}">edit</a></div>
+        <td><div class="btn-group"><a class="btn btn-default" href="{{ course_path('doc_show', { 'id': doc.id }) }}">show</a><a class="btn btn-default" href="{{ course_path('doc_edit', { 'id': doc.id }) }}">edit</a></div>
    
 
 </td>       

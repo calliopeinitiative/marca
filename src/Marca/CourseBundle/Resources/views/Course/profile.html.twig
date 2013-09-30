@@ -15,11 +15,11 @@
 {% for roll in roll %}
 {% if loop.index == app.request.get('user') + 1 %}  
 <span style='margin-right:3em;'></span>        
-<a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}<i class="icon-chevron-right"></i></a>
+<a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}<i class="glyphicon-chevron-right"></i></a>
 {% endif %}
 
 {% if loop.index == app.request.get('user') - 1 %}
-<a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}"><i class="icon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
+<a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}"><i class="glyphicon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
 {% endif %}
 {% endfor %}
 </li> 

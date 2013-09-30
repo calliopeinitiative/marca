@@ -28,7 +28,7 @@
         <td>{{ term.term }}</td>        
         <td>{% if term.status == 0 %}Inactive{% endif %}{% if term.status == 1 %}Active{% endif %}{% if term.status == 2 %}Continuing{% endif %}</td>        
         <td>{{ term.institution.name }}
-        <td><a class="btn btn-primary btn-small" href="{{ path('term_edit', { 'id': term.id }) }}">Edit</a></td>       
+        <td><a class="btn btn-primary btn-sm" href="{{ path('term_edit', { 'id': term.id }) }}">Edit</a></td>
     </tr>
     
     {% endfor %}

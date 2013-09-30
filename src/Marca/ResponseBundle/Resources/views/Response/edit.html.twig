@@ -30,9 +30,9 @@
             {{ form_widget(edit_form) }}  
             <button class="btn btn-primary" type="submit">Update</button>
             {% if journal %}
-            <a class="btn" href="{{ course_path('journal_user', { 'id': response.id, 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user'),'userid':app.request.get('userid') }) }}">Cancel</a> 
+            <a class="btn btn-default" href="{{ course_path('journal_user', { 'id': response.id, 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user'),'userid':app.request.get('userid') }) }}">Cancel</a>
             {%else %}
-            <a class="btn" href="{{ course_path(source, { 'id': sourceid,'view': app.request.get('view') }) }}">Cancel</a>
+            <a class="btn btn-default" href="{{ course_path(source, { 'id': sourceid,'view': app.request.get('view') }) }}">Cancel</a>
             {%endif %}
             </form>
         
