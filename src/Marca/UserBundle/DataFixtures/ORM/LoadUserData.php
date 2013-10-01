@@ -24,8 +24,6 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $institution_id = 1;
-        $institution = $manager->getRepository('MarcaAdminBundle:Institution')->findOneById($institution_id);
         for ($i = 1; $i <= 25; $i++){
             $num = strval($i);
             $userInstr = new User();
@@ -35,7 +33,9 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
             $userInstr->setFirstname('Test'.$num);
             $userInstr->setLastname('Instructor'.$num);
             $userInstr->setEnabled(True);
-            $userInstr->setInstitution($institution);
+            $userInstr->setInstitution(
+              $this->getReference('institution')
+            );
 
             $manager->persist($userInstr);
             $manager->flush();
@@ -51,7 +51,9 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
             $userStudent->setFirstname('Test'.$num);
             $userStudent->setLastname('Student'.$num);
             $userStudent->setEnabled(True);
-            $userStudent->setInstitution($institution);
+            $userStudent->setInstitution(
+              $this->getReference('institution')
+            );
         
             $manager->persist($userStudent);
             $manager->flush();

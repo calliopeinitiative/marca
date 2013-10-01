@@ -28,6 +28,11 @@ class LoadInstitutionData extends AbstractFixture implements OrderedFixtureInter
         $institution->setPaymentType(1);
         $institution->setSemesterPrice(512);
 
+        $manager->persist($institution);
+        $manager->flush();
+
+        $this->addReference('institution', $institution);
+        
     }
     
     /**
