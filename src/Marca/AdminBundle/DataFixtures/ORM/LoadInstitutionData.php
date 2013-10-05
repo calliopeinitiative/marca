@@ -7,12 +7,9 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Marca\AdminBundle\Entity\Institution;
 
-/*
- * Loads an institution into the database
- */
 
 /**
- * Description of LoadUserData
+ * LoadInstitutionData loads an institution into the database
  *
  * @author Harrison-M
  */
