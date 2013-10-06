@@ -36,7 +36,9 @@ class LoadCourseData extends AbstractFixture implements OrderedFixtureInterface
             $time = new \DateTime('9 am');
             $course->setTime($time);
             $course->setStudentForum(True);
-
+            $course->setTerm(
+                $manager->merge($this->getReference('term'))
+            );
 
             $roll = new Roll();
             $roll->setRole(Roll::ROLE_INSTRUCTOR);
@@ -129,7 +131,7 @@ class LoadCourseData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 2;
+        return 3;
     }
 }
 

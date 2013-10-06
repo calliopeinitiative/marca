@@ -26,7 +26,7 @@ class LoadCouponData implements FixtureInterface
 
 $id =3;
 $term = $manager->getRepository('MarcaCourseBundle:Term')->findOneById($id);
-if (($handle = fopen("/var/www/projects/marca/src/Marca/AdminBundle/DataFixtures/ORM/OtherFixtures/codes.csv", "r")) !== FALSE){
+if (($handle = fopen(dirname(__FILE__)."/codes.csv", "r")) !== FALSE){
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE){
         $coupon = new Coupon();
         $coupon->setCode($data[0]);
