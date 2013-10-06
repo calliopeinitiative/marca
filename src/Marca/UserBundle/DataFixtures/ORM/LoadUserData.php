@@ -33,6 +33,9 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
             $userInstr->setFirstname('Test'.$num);
             $userInstr->setLastname('Instructor'.$num);
             $userInstr->setEnabled(True);
+            $userInstr->setInstitution(
+              $this->getReference('institution')
+            );
 
             $manager->persist($userInstr);
             $manager->flush();
@@ -48,6 +51,9 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
             $userStudent->setFirstname('Test'.$num);
             $userStudent->setLastname('Student'.$num);
             $userStudent->setEnabled(True);
+            $userStudent->setInstitution(
+              $this->getReference('institution')
+            );
         
             $manager->persist($userStudent);
             $manager->flush();
@@ -64,7 +70,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 1;
+        return 2;
     }
 }
 
