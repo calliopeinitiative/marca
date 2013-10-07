@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{% block title %}Welcome!{% endblock %}</title>
 
 {% block stylesheets %}
@@ -11,6 +12,7 @@
 <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/external.css') }}">
+<link type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 {% endstylesheets %}
 {% endblock %}
 
@@ -41,59 +43,60 @@ $('#course_select').click(function(){
 </head>
 <body>
 
-<div id="skipmenu" class="">
+<div id="skipmenu" class="" style="display:none;">
 <a href="#skip" class="skippy">Skip Navigation</a>
 <a name="top"></a>
-</div>   
-    
+</div>
+
 {% if app.request.get('view') != 'window' %}
 <nav class="navbar navbar-inverse navbar-fixed-top">
-{% if is_granted('ROLE_USER') %}    
-  <div class="navbar-header">
-    <a class="navbar-brand" href="{{ path('user_home') }}" title="{{ application_name }} Homepage">{{ application_name }}</a> 
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
+{% if is_granted('ROLE_USER') %}
+ <div class="container">
+  <div class="navbar-header col-md-2">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
+    <a class="navbar-brand" href="{{ path('user_home') }}" title="{{ application_name }} Homepage">{{ application_name }}</a>
   </div>
-  <div class="navbar-header navbar-right">
-  	  <ul class="nav">
+
+   <div class="navbar-collapse collapse">
+         <ul class="nav navbar-nav">
+             {% block subnav %}{% endblock %}
+         </ul>
+
+  	     <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">{{ app.session.get('username') }}<b class="caret"></b></a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">{{ app.session.get('username') }}<b class="caret"></b></a>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
                         <li><a href="{{ path('user_show') }}">Profile</a></li>
                         <li><a class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll</a></li>
                         <li><a title="Logout" href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                     </ul>
                  </li>
-            </ul>
+         </ul>
+
+
   </div>
-  <div class="navbar-collapse collapse">
-    <ul class="nav navbar-nav">
-           <li class="navbar-icon">
-            <a title='Select course' id='course_select' href="javascript:void(0);"><i alt='Select course' class="glyphicon-list glyphicon-white"></i></a>
-            </li>    
-            {% block subnav %}{% endblock %} 
-    </ul>
-  </div>
-{% endif %}         
-</nav>     
+ </div>
 {% endif %}
-    
-<div class="container" id="mainContainer">
+</nav>
+{% endif %}
+
+<div id="mainContainer" class="container">
 
 {%if block('sidebar') %}
-    <div class="row " role="navigation">  
-    <div class="col-md-2 sidebar">
-     <a name="skip"></a>   
+    <div class="row " role="navigation">
+    <div class="col-md-2 col-xs-12 sidebar">
+     <a name="skip"></a>
      <ul class="nav nav-list">
     {{block('sidebar')}}
-    </div>          
-    <div class="col-md-10" role="main">      
-    {% block content %}          
-    {% endblock %}                                          
-    </div>   
+    </div>
+    <div class="col-md-10 col-xs-12" role="main">
+    {% block content %}
+    {% endblock %}
+    </div>
     </div>
 {% else %}
     <a name="skip"></a>
@@ -102,8 +105,9 @@ $('#course_select').click(function(){
 
 </div>
 
+
 {# Modal #}
-<div id="base_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
+<div id="base_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 </div>
 
 

@@ -1,213 +1,591 @@
-/* 
+/*
     Document   : local
     Created on : Mar 23, 2012, 9:24:24 PM
-    Author     : rlbaltha
-    Description:
-        Local additions to the Twitter Bootstrap base   
-*/
-/* 
-   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+    Authors     : rlbaltha and jweath
+    Description: Local additions to the Twitter Bootstrap base
 */
 
 
-.footer {margin-top: 3em;padding-top: 1em;border-top: grey solid 1px}
 
-.pad {min-height: 20px;  padding: 19px;  margin-bottom: 20px;}
-.pad1 {padding: 1em;}
-.pad05 {padding: .5em;}
-.row {margin-bottom: 1em;}
-/*
-  Local mods for Twitter Bootstrap
-*/
-html, body {height:100%}
-body {background: url('../img/mosaic.png'); }
-h1 {font-size:26px;font-weight:normal}
-h1.small {font-size:20px;font-weight:normal}
-h2 {font-size:22px;font-weight:normal}
-h2.small {font-size:18px;font-weight:normal}
-h3 {font-size:20px;font-weight:normal}
-h3.small {font-size:16px;font-weight:normal}
-.centered {text-align: right;color:blue;}
-.center { float: none; margin-left: auto; margin-right: auto; }
-.background {background: #F2F2F2}
-.navbar-brand {margin-left:0px;}
-.navbar-inner {background:#373737;}
-ul.nav-list  {margin: 0 0 0 0;padding-left: 0;}
-#mainContainer {padding-top:60px;padding-left:15px;padding-right:15px;margin-left:auto;margin-right:auto;background:url('../img/whitewash.png');min-height:88%;
--moz-box-shadow:0px 0px 15px rgba(0,0,0,.5);  
--webkit-box-shadow:0px 0px 15px rgba(0,0,0,.5);  
-box-shadow: 0px 0px 15px rgba(0,0,0,.5);}
-.navbar-inner .container {margin-left:auto;margin-right:auto;}
-.page-header {margin-top:15px;margin-bottom:25px;}
-.subnav-fixed {margin-top: -20px;}
-.glyphicon-white {margin-left:12px;}
-.navbar-icon {margin-left: -2.5em;}
-.nav-list .btn-primary {width:7em;margin-left:0;margin-bottom:.7em;}
-.nav-list .btn-group button {width:9em;margin-left:0;margin-bottom:.7em;}
-.nav-list li a {margin-left:0;margin-right:0;padding: 3px 3px;}
-.caret {margin-top: .5em}
-.cell {float:left}
-.doc {background-color: white; border-color: gray;}
-label.inline {display:block;clear:both;width:100%;}
-div.inline input {display:inline;}
-div.inline label {display:inline;padding:.5em;}
-input#remember_me {display:block;clear:left}
-dl.dl-horizontal dd p {display:inline}
-.accordion {float:left; width:180px}
-.files {height:.5em;}
-.width30 {width:30em;}
+/********** Table of Contents **********
+
+01. Globals
+02. Typography
+03. Nav
+04. Content
+05. Bootstrap Elements
+    a) Modals
+    b) Wells
+06. Marca Tools
+    a) File list
+    b) Doc Displays
+07. Media Queries
+08. Accessibility
+09. Colors
+
+************ End Table of Contents **********/
 
 
-.navbar .nav > li > a {color: #fff;text-shadow: none;}
-.navbar .nav > li > a:focus {color: #999;text-shadow: none; outline: thin dotted white;
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;}
-.navbar .nav > li > a:hover {color: #999;}
-.nav-list .active > a {background-color:#006DCC;}
-.nav-pills .active > a {background-color:#006DCC;}
-.navbar-brand {color: #fff;text-shadow: none;}
 
-@media (min-width: 980px) and (max-width: 1199px) {
-  .navbar .nav > li > a {
-      padding:10px;
-  }
-  .navbar-icon {
-      margin-left:-1.8em;
-  }
+/********** 01. Globals **********/
+
+html, body {
+    height:100%;
+}
+
+body {
+    background: url('../img/mosaic.png');
+    padding-top: 50px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */}
+
+.center {
+    float: none;
+    margin-left, margin-right: auto;
+}
+
+.background {
+    background: #F2F2F2;
+}
+
+.pad-left {
+    padding-left: 3em;
+}
+
+.margin-left {
+    margin-left: 1em;
+}
+
+.margin-top {
+    margin-top: 1em;
+}
+
+.margin-top {
+    margin-top:8px;
+}
+
+.margin-bottom {
+    margin-bottom: 1em;
+}
+
+.toggle {
+    display:none;
+}
+
+.note {
+    width: 150px;
+    height: 150px;
+    padding: 0.5em;
+    background: yellow;
+}
+
+.inline, inline li {
+    display: inline;
+}
+
+.table th, .table td {
+    padding:4px;line-height: 25px;
+}
+
+form label.radio, form label.checkbox {
+    clear:right;
+    display:block;
+    padding-top:.5em;
+}
+
+div.radio label {
+    clear:right;
+    display:block;
+}
+
+label.required, .inline label {
+    font-size:14px;
+    margin-top:8px;
+}
+
+td.active {
+    color: #333333;
+    background-color: #e6e6e6;
+}
+
+form ul li {
+    list-style: none;
+}
+
+::-webkit-scrollbar {
+    height: 12px;
+    width: 8px;
+    background: #ccc;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #393812;
+    -webkit-border-radius: 1ex;
+    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
+}
+
+::-webkit-scrollbar-corner {
+    background: #000;
+}
+
+/********** End 01. Globals **********/
+
+
+
+
+/********** 02. Typography **********/
+
+h1 {
+    font-size:26px;
+    font-weight:normal;
+}
+
+h1.small {
+    font-size:20px;
+    font-weight:normal;
+}
+
+h2 {
+    font-size:22px;
+    font-weight:normal;
+}
+
+h2.small {
+    font-size:18px;
+    font-weight:normal;
+}
+
+h3 {
+    font-size:20px;
+    font-weight:normal;
+}
+
+h3.small {
+    font-size:16px;
+    font-weight:normal;
+}
+
+a {
+    color: #006DCC;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #006DCC;
+    text-decoration: underline;
+}
+
+.centered {
+    text-align:right;
+    color:blue;
+}
+
+/********** End 02. Typography **********/
+
+
+
+/********** 03. Nav **********/
+
+.page-header {
+    margin-top:15px;
+    margin-bottom:25px;
+}
+
+.navbar-inverse {
+    background-color:#464648;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #fff;
+    text-shadow: none;
+    font-size:150%;
+    font-weight:200;
 }
 
 
-.label {font-weight: normal;}
-label.required:first-child{font-weight:bold;}
-#file_modal .modal-footer {padding:6px 15px 6px;}
-label.required[for=marca_filebundle_filetype_url] {text-transform:uppercase;}
-input#marca_filebundle_filetype_name,input#marca_filebundle_filetype_url {padding-bottom:0;margin-bottom:0;}
-.label-margin-bottom{margin-bottom:15px;}
-.modal-header {margin-bottom:-15px;}
-.modal-body {}
-a {color: #006DCC;text-decoration: none;}
-a:hover {color: #006DCC;text-decoration: underline;}
 
-
-.pad-left {padding-left: 3em}
-.margin-left {margin-left: 1em}
-.margin-top {margin-top: 1em}
-.margin-bottom {margin-bottom: 1em}
-.toggle {display:none;}
-.note { width: 150px; height: 150px; padding: 0.5em; background: yellow;}
-.inline li {display: inline;}
-.inline {display: inline;}
-.table th, .table td {padding:4px;line-height: 25px;}
-.fc-event-title {cursor: pointer;cursor: hand;}
-.fc-event-time {cursor: pointer;cursor: hand;}
-
-form label.radio {clear:right;display:block;padding-top: .5em;}
-form label.checkbox {clear:right;display:block;padding-top: .5em; }
-div.radio label {clear:right;display:block;}
-#marca_forumbundle_forumtype_title {width:37em;}
-label.required {font-size:14px;margin-top:8px;}
-.inline label {font-size:14px;margin-top:8px;}
-.forum_title,.journal-title {font-size:24px;}
-.forum_comments {margin-left:14px;}
-#forum_nav_title {color:#333333;}
-.margin-top {margin-top:8px;}
-#doc-display {overflow:auto;margin-bottom: 0px;background: #fff;}
-.doc-body {margin:5em;}
-.doc-body p {font-size: 14px;margin-bottom:27px;}
-#doctools { overflow:auto; margin-top:6px; position:fixed; margin-left: -1em; }
-.journal-body p, .forum-body p {font-size: 14px;line-height: 200%;margin-bottom:27px;}
-
-.journal-body {margin-bottom:60px;}
-.responses {font-size:14px;}
-.btn-delete {margin-top: -3.5em; float: right; }
-#note_sub {overflow:auto;margin-bottom: 0px;}
-#note_list {overflow:auto;margin-bottom: 0px;}
-
-
-td.active {  color: #333333;
-  background-color: #e6e6e6;
+.navbar-icon {
+    margin-left: -2.5em;
 }
 
-form ul li {list-style: none;}
+.nav-list .btn-primary {
+    margin-bottom:.7em;
+    margin-left:0;
+    width:7em;
+}
 
-/* TB Modal adjustments */
+.nav-list .btn-group button {
+    margin-bottom:.7em;
+    margin-left:0;
+    width:9em;
+}
+
+ul. nav-list  {
+    margin: 0;
+    padding-left: 0;
+}
+
+.nav-list li a {
+    margin-left:0;
+    margin-right:0;
+    padding: 3px 3px;
+}
+
+label.inline {
+    clear:both;
+    display:block;
+    width:100%;
+}
+
+div.inline input {
+    display:inline;
+}
+
+div.inline label {
+    display:inline;
+    padding:.5em;
+}
+
+.navbar .nav > li > a {
+    color: #fff;
+    text-shadow: none;
+}
+
+.navbar .nav > li > a:focus {
+    color: #999;
+    text-shadow: none;
+    outline: thin dotted white;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+.navbar .nav > li > a:hover {
+    color: #999;
+}
+
+.nav-list .active > a {
+    background-color:#006DCC;
+}
+
+.nav-pills .active > a {
+    background-color:#006DCC;
+}
+
+.nav-list h1 {
+    margin-top:5px;
+}
+
+.subnav-fixed {
+    margin-top: -20px;
+}
+
+.caret {
+    margin-top: .5em;
+}
+
+.nav-header {
+    display: block;
+    padding: 0;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #999999;
+    text-transform: uppercase;
+}
+
+
+/********** End 03. Nav **********/
+
+
+
+/********** 04. Content **********/
+
+#mainContainer {
+    background:url('../img/whitewash.png');
+    padding:15px;
+    padding-top: 25px;
+    margin-left, margin-right:auto;
+    min-height:100%;
+    -moz-box-shadow:0px 0px 15px rgba(0,0,0,.5);
+    -webkit-box-shadow:0px 0px 15px rgba(0,0,0,.5);
+    box-shadow: 0px 0px 15px rgba(0,0,0,.5);}
+
+.footer {
+    margin-top: 3em;
+    padding-top: 1em;
+    border-top: grey solid 1px;
+}
+
+.sidebar {
+    padding-bottom:30px;
+}
+
+/********** End 04. Content **********/
+
+
+
+/********** 05. Bootstrap Elements **********/
+
+/***** 05a. Modals *****/
+
+.label {
+    font-weight: normal;
+}
+
+label.required:first-child{
+    font-weight:bold;
+}
+
+#file_modal .modal-footer {
+    padding:6px 15px 6px;
+}
+
+label.required[for=marca_filebundle_filetype_url] {
+    text-transform:uppercase;
+}
+
+input#marca_filebundle_filetype_name, input#marca_filebundle_filetype_url {
+    padding-bottom:0;
+    margin-bottom:0;
+}
+
+.label-margin-bottom{
+    margin-bottom:15px;
+}
+
+.modal-header {
+    margin-bottom:-15px;
+}
+
 #file_modal .modal-footer {
     margin-bottom: -25px;
 }
-#markup {width:100%;}
-#project_nav {padding:5px;padding-left: 20px;padding-right: 20px;margin-bottom:5px;}
-#project_breadcrumbs {padding:0px;padding-left: 20px;padding-right: 20px;}
-#project_nav_pills {padding:0px;margin-bottom:0px;}
 
-#findBy_nav {padding:5px;padding-left: 20px;padding-right: 20px;margin-bottom:5px;}
-#findBy_nav_pills {padding:0px;margin-bottom:6px;}
-
-.pagination span {
-  display: inline;
+#markup {
+    width:100%;
 }
 
+#project_nav {
+    padding:5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom:5px;
+}
+
+#project_breadcrumbs {
+    padding:0px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#project_nav_pills {
+    padding:0px;
+    margin-bottom:0px;
+}
+
+#findBy_nav {
+    padding:5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom:5px;
+}
+
+#findBy_nav_pills {
+    padding:0px;
+    margin-bottom:6px;
+}
+
+/***** End 05a. Modals *****/
+
+/***** 05b. Wells *****/
+.well-header {
+    padding: 9px 15px;
+    border-bottom: 1px solid #eee;
+    background-color: #F0F0F0;
+    margin-top: 0;
+    border-bottom: 1px solid #ddd;
+    -webkit-border-radius: 6px 6px 0 0 ;
+    -moz-border-radius: 6px 6px 0 0 ;
+    border-radius: 6px 6px 0 0 ;
+    -webkit-box-shadow: inset 0 1px 0 #ffffff;
+    -moz-box-shadow: inset 0 1px 0 #ffffff;
+    box-shadow: inset 0 1px 0 #ffffff;
+}
+
+.well-footer {
+    padding: 14px 15px 15px;
+    margin-bottom: 0;
+    text-align: right;
+    background-color: #F0F0F0;
+    border-top: 1px solid #ddd;
+    -webkit-border-radius: 0 0 6px 6px;
+    -moz-border-radius: 0 0 6px 6px;
+    border-radius: 0 0 6px 6px;
+    -webkit-box-shadow: inset 0 1px 0 #ffffff;
+    -moz-box-shadow: inset 0 1px 0 #ffffff;
+    box-shadow: inset 0 1px 0 #ffffff;
+}
+
+.well-hightlight {
+    border-color: blue
+}
+
+/***** End 05b. Modals *****/
+
+.glyphicon-white {
+    margin-left:12px;
+}
+
+.accordion {
+    float:left;
+    width:180px;
+}
+
+.btn-delete {
+    margin-top: -3.5em;
+    float: right;
+}
+
+.panel-marca {
+    border-color: #CCCCCC;
+}
+.panel-marca > .panel-heading {
+    background-color: #CCCCCC;
+    border-color: #CCCCCC;
+}
+.panel-marca > .panel-heading + .panel-collapse .panel-body {
+    border-top-color: #CCCCCC;
+}
+.panel-marca > .panel-footer + .panel-collapse .panel-body {
+    border-bottom-color: #CCCCCC;
+}
+
+/********** End 05. Bootstrap Elements **********/
 
 
+
+/********** 06. Marca Tools **********/
+
+/***** 06a. File list *****/
+
+#file_list {
+    overflow-y:scroll;
+}
 
 .pagination span {
-  float: left;
-  padding: 4px 12px;
-  line-height: 20px;
-  text-decoration: none;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
-  border-left-width: 0;
+    display: inline;
+}
+
+.pagination span {
+    float: left;
+    padding: 4px 12px;
+    line-height: 20px;
+    text-decoration: none;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-left-width: 0;
 }
 
 .pagination span:hover {
-  background-color: #f5f5f5;
+    background-color: #f5f5f5;
 }
 
 .pagination span.current {
-  color: #999999;
-  cursor: default;
+    color: #999999;
+    cursor: default;
 }
 
 .pagination span.disabled > a:hover {
-  color: #999999;
-  cursor: default;
-  background-color: transparent;
+    color: #999999;
+    cursor: default;
+    background-color: transparent;
 }
 
 .pagination span:first-child  {
-  border-left-width: 1px;
-  -webkit-border-bottom-left-radius: 4px;
-          border-bottom-left-radius: 4px;
-  -webkit-border-top-left-radius: 4px;
-          border-top-left-radius: 4px;
-  -moz-border-radius-bottomleft: 4px;
-  -moz-border-radius-topleft: 4px;
+    border-left-width: 1px;
+    -webkit-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    -moz-border-radius-topleft: 4px;
 }
 
 .pagination span:last-child  {
-  -webkit-border-top-right-radius: 4px;
-          border-top-right-radius: 4px;
-  -webkit-border-bottom-right-radius: 4px;
-          border-bottom-right-radius: 4px;
-  -moz-border-radius-topright: 4px;
-  -moz-border-radius-bottomright: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    -moz-border-radius-bottomright: 4px;
 }
 
-.popover {position:fixed; left:40%; top:135px;padding:2em;}
+.popover {
+    position:fixed;
+    left:40%;
+    top:135px;
+    padding:2em;
+}
 
-/* File list */
-#file_list { overflow-y:scroll;  }
+/***** End 06a. File list *****/
 
+/***** 06b. Doc displays *****/
 
-/* Doc displays */
-.eDoc_note {color:blue;background:white; border:#e3e3e3 1px solid;border-radius: 0px 4px 4px 0px;margin-left:-1px;margin-right: 4px;padding:2px 2px 2px 6px;}
-.eDoc_highlight {background:#FFFFD3;padding:2px 2px 2px 6px;border:#e3e3e3 1px solid;border-radius: 4px 0px 0px 4px;}
-.eDoc_error {background:#bcd85f;padding:1px;}
-.eDoc_hanging_indent {text-indent:-0.5in; margin-left:0.5in;line-height: 200%;}
-.eDoc_paragraph_indent {text-indent:0.5in; line-height: 200%;}
-.eDoc_single_space {line-height: 100%;}
-.eDoc_double_space {line-height: 200%;}
-.eDoc_super {color:blue; vertical-align: super;font-size: smaller; line-height: normal;}
+.doc {
+    background-color: white;
+    border-color: gray;
+}
+
+.eDoc_note {
+    color:blue;
+    background:white;
+    border:#e3e3e3 1px solid;
+    border-radius: 0px 4px 4px 0px;
+    margin-left:-1px;
+    margin-right: 4px;
+    padding:2px 2px 2px 6px;
+}
+
+.eDoc_highlight {
+    background:#FFFFD3;
+    padding:2px 2px 2px 6px;
+    border:#e3e3e3 1px solid;
+    border-radius: 4px 0px 0px 4px;
+}
+
+.eDoc_error {
+    background:#bcd85f;
+    padding:1px;
+}
+
+.eDoc_hanging_indent {
+    text-indent:-0.5in;
+    margin-left:0.5in;
+    line-height: 200%;
+}
+
+.eDoc_paragraph_indent {
+    text-indent:0.5in;
+    line-height: 200%;
+}
+
+.eDoc_single_space {
+    line-height: 100%;
+}
+
+.eDoc_double_space {
+    line-height: 200%;
+}
+
+.eDoc_super {
+    color:blue;
+    vertical-align:super;
+    font-size:smaller;
+    line-height: normal;
+}
+
+/* Doc display colors */
 .blue {color:blue; margin-right: 1em;}
 .context {background:#b6e4ff;padding:1px;}
 .author {background:#ffd8b6;padding:1px;}
@@ -233,14 +611,157 @@ form ul li {list-style: none;}
 .pathos {background:#FCFC7C;color:#000;padding:1px;}
 .logos {background:#C8B613;color:#000;padding:1px;}
 .highlight {background:#FFFFD3}
+/* End Doc display colors */
+
 .markup  {
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
-          padding: 2px 4px;
+    padding: 2px 4px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+/***** End 06b.D Doc displays *****/
+
+.responses {
+    font-size:14px;
+}
+
+.forum_title,.journal-title {
+    font-size:24px;
+}
+
+.forum_comments {
+    margin-left:14px;
+}
+
+#forum_nav_title {
+    color:#333333;
+}
+
+#marca_forumbundle_forumtype_title {
+    width:37em;
+}
+
+#note_sub {
+    overflow:auto;
+    margin-bottom: 0px;
+}
+
+#note_list {
+    overflow:auto;
+    margin-bottom: 0px;
+}
+
+.doc {
+    background-color: white;
+    border-color: gray;
+}
+
+#doc-display {
+    overflow:auto;
+    margin-bottom: 0px;
+    background: #fff;
+}
+
+.doc-body {
+    margin:5em;
+}
+
+.doc-body p {
+    font-size: 14px;
+    margin-bottom:27px;
+}
+
+#doctools {
+    overflow:auto;
+    margin-top:6px;
+    position:fixed;
+    margin-left: -1em;
+}
+.journal-body p, .forum-body p {
+    font-size: 14px;
+    line-height: 200%;
+    margin-bottom:27px;
+}
+
+.journal-body {
+    margin-bottom:60px;
+}
+
+.fc-event-title, .fc-event-time {
+    cursor: pointer;
+    cursor: hand;
+}
+
+/********** End 06. Marca tools *****/
+
+
+
+/********** 07. Media Queries **********/
+
+@media (max-width: 1199px) {
+    .navbar .nav > li > a {
+        padding-left:6px;
+        padding-right: 6px;
+    }
+    .navbar-icon {
+        margin-left:-1.8em;
+    }
 }
 
 
+
+@media (min-width: 788px) {
+    .navbar > .container .navbar-brand {
+        margin-left:-30px;
+    }
+}
+
+@media (max-width: 787px) {
+    .navbar > .container .navbar-brand {
+        margin-left:-12px;
+    }
+
+/********** End 07. Media Queries **********/
+
+
+
+/********** 08. Accessibility **********/
+
+div#skipmenu {
+    position:relative;
+}
+
+div#skipmenu a.skippy {
+    position:absolute;
+    top: -1000px;
+    left:-1000px;
+    height: 1px;
+    width: 1px;
+    overflow:hidden;
+}
+
+div#skipmenu a.skippy:active, div#skipmenu a.skippy:focus, div#skipmenu a.skippy:hover {
+    position: absolute;
+    top:auto;
+    left:auto;
+    height: 1em;
+    font-size:1em;
+    width:99%;
+    padding-bottom:15px;
+    padding-top:10px;
+    padding-right:10px;
+    color: white;
+    z-index:10000;
+    text-align:right;
+    background: #373737;
+}
+
+/********** End 08. Accessibility **********/
+
+
+
+/********** 09. Colors **********/
 .aliceblue {background:#f0f8ff;}
 .antiquewhite {background:#faebd7;}
 .aqua {background:#0ff;}
@@ -388,7 +909,7 @@ form ul li {list-style: none;}
 .whitesmoke {background:#f5f5f5;}
 .yellow {background:#ff0;}
 .yellowgreen {background:#9acd32;}
-            
+
 
 .tc1 {background:#8db14f;}
 .tc2 {background:#D1AD06;}
@@ -399,85 +920,4 @@ form ul li {list-style: none;}
 .tc7 {background:#B14F4F;}
 .tc8 {background:#B1754F;}
 .tc9 {background:#4FB1AF;}
-
-
-::-webkit-scrollbar {
-    height: 12px;
-	width: 8px;
-	background: #ccc;
-    }
-::-webkit-scrollbar-thumb {
-    background: #393812;
-    -webkit-border-radius: 1ex;
-    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
-}
-::-webkit-scrollbar-corner {
-    background: #000;
-}
-
-/* 
-   Accessibility
-*/
-
-div#skipmenu{
-position:relative;
-}
-div#skipmenu a.skippy{
-position:absolute;
-top: -1000px;
-left:-1000px;
-height: 1px;
-width: 1px;
-overflow:hidden;
-}
-
-div#skipmenu a.skippy:active, div#skipmenu a.skippy:focus, div#skipmenu a.skippy:hover{
-position: absolute;
-top:auto;
-left:auto;
-height: 1em;
-font-size:1em;
-width:99%;  
-padding-bottom:15px;
-padding-top:10px;
-padding-right:10px;
-
-color: white;
-z-index:10000;
-text-align:right;
-background: #373737;
-}
-
-.well-header {
-padding: 9px 15px;
-border-bottom: 1px solid #eee;
-background-color: #F0F0F0;
-margin-top: 0;
-border-bottom: 1px solid #ddd;
--webkit-border-radius: 6px 6px 0 0 ;
--moz-border-radius: 6px 6px 0 0 ;
-border-radius: 6px 6px 0 0 ;
--webkit-box-shadow: inset 0 1px 0 #ffffff;
--moz-box-shadow: inset 0 1px 0 #ffffff;
-box-shadow: inset 0 1px 0 #ffffff;
-}
-
-.well-footer {
-padding: 14px 15px 15px;
-margin-bottom: 0;
-text-align: right;
-background-color: #F0F0F0;
-border-top: 1px solid #ddd;
--webkit-border-radius: 0 0 6px 6px;
--moz-border-radius: 0 0 6px 6px;
-border-radius: 0 0 6px 6px;
--webkit-box-shadow: inset 0 1px 0 #ffffff;
--moz-box-shadow: inset 0 1px 0 #ffffff;
-box-shadow: inset 0 1px 0 #ffffff;
-}
-
-.well-hightlight {border-color: blue}
-
-.scroll_fix {overflow-y:auto; -webkit-overflow-scrolling:touch}
-
-hr {}
+/********** End 09. Colors **********/

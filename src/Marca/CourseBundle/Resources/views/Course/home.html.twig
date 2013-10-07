@@ -3,37 +3,51 @@
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="col-md-6 well">
-<h2>{{ course.name }}</h2> {{ course.time|date('g:i A') }}
-{{ course.user.firstname }} {{ course.user.lastname }}
-<hr/>
-<h2>Calendar</h2>
-<table class="table">
-<thead><th>Upcoming Events</th></thead>    
-<tbody>
+<div class="col-md-6 col-xs-12">
+<div class="panel panel-marca">
+        <div class="panel-heading">
+<h2 class="panel-title">Upcoming events</h2>
+            </div>
+    <div class="panel-body">
 {% for calendar in calendar %}
-<tr><td style="{% if calendar.color != '' %}background: {{calendar.color}}{% endif%}">{% if calendar.startDate %}{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}{% endif%}</td></tr> 
-<tr><td><strong>{{ calendar.title }}</strong></td></tr>   
-<tr><td>{{ calendar.description|raw }}</td></tr>                  
+    <div class="panel panel-default">
+        <div class="panel-heading">
+
+        <h3 class="panel-title"><span class="pull-left" style="height:100%;width:1.5em;text-align:center;margin-right:6px; border-radius: 0px 4px 4px 0px;{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif%}">&#183;</span> {{ calendar.title }}</h3>
+            <span class="text-muted">{% if calendar.startDate %}{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}{% endif%}</span>
+        </div>
+        <div class="panel-body">
+            {{ calendar.description|raw }}
+        </div>
+    </div>
 {% endfor %}
-</tbody>
-</table>
+
 
 <div class="navigation">
     {{ knp_pagination_render(calendar) }}
 </div>
+    </div>
 </div>
+    </div>
 
 {% if app.session.get('module')== 0 %}
-<div class="col-md-6 well">
-<h2>Announcements</h2>
-<p>{{ course.announcement|raw }}</p>
-{% if course.isOwner(app.user.username) %}<a class="btn btn-primary btn-sm" href="{{ path('announce_edit', { 'courseid': course.id }) }}">Edit</a>{% endif %}
+<div class="col-md-6 col-xs-12">
+<div class="panel panel-marca">
+<div class="panel-heading">
+    <h2 class="panel-title">Announcements</h2>
+    </div>
+    <div class="panel-body">
+    <p>{{ course.announcement|raw }}</p>
+    </div>
+{% if course.isOwner(app.user.username) %}<div class="panel-footer"><a class="btn btn-primary btn-sm" href="{{ path('announce_edit', { 'courseid': course.id }) }}">Edit</a></div></div>{% endif %}
 
 {% if files %}
-<hr/>
-            <h2>Course Home Files</h2>
-            <table class="table">
+<div class="panel panel-default">
+    <div class="panel-heading">
+    <h2>Featured Resources</h2>
+    </div>
+    <div class="panel-body">
+    <table class="table">
                 {% for file in files%}
 
                     {# main list of files #}
@@ -70,7 +84,11 @@
                 {% endfor %}
 
             </table>
-
+    </div>
+    <div class="panel-footer">
+        <a class="btn btn-primary btn-sm" title='Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Resources</a>
+    </div>
+</div>
 {% endif %}
 </div>
 {%endif%}
