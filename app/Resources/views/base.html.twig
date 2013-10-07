@@ -63,7 +63,11 @@ $('#course_select').click(function(){
 
    <div class="navbar-collapse collapse">
          <ul class="nav navbar-nav">
-             {% block subnav %}{% endblock %}
+            {% block subnav %}
+            <li class="navbar-icon">
+            <a title='Select course' id='course_select' href="javascript:void(0);">Select Course <i alt='Select course' class="glyphicon glyphicon-list"></i></a>
+            </li>
+{% endblock %}
          </ul>
 
   	     <ul class="nav navbar-nav navbar-right">
@@ -109,9 +113,10 @@ $('#course_select').click(function(){
 
 
 {# Modal #}
-<div id="base_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-</div>
 
+  <div class="modal fade" id="base_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+  </div><!-- /.modal -->
 
 </body>
 </html>
