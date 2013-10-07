@@ -47,12 +47,12 @@ Recent Files</a>
 <td> 
     
 {# different functions for different file types #}    
-{% if file.doc %}<i class="glyphicon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">{{ file.name|slice(0, 25) }}</a>
- <a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}"><i class="glyphicon-share-alt"></i></a>
-{% elseif file.url %}<i class="glyphicon-adjust"></i> <a href="{{ file.url}}" target="_blank">{{ file.name }}</a>
-{% elseif file.ext == 'odt' %}<i class="glyphicon-file"></i> <a href="{{ course_path('file_view_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name }}</a>  <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="icon-download"></i></a>
+{% if file.doc %}<i class="glyphicon glyphicon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">{{ file.name|slice(0, 25) }}</a>
+ <a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}"><i class="glyphicon glyphicon-share-alt"></i></a>
+{% elseif file.url %}<i class="glyphicon glyphicon-adjust"></i> <a href="{{ file.url}}" target="_blank">{{ file.name }}</a>
+{% elseif file.ext == 'odt' %}<i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name }}</a>  <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="icon-download"></i></a>
 {% else %}
-<i class="glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name }}</a>
+<i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name }}</a>
 {% endif %}
 
 {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
@@ -74,8 +74,8 @@ Recent Files</a>
 {% if file.isOwner(app.user.username) or review.isOwner(app.user.username) or review.access==1 or role==2 %} 
 <tr style="background:#FAF9C8;"> 
 <td colspan="2" style="padding-left:3em;"> 
-<i class="glyphicon-edit"></i> <a href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}">Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
- <a target ='_blank' href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'window' }) }}"><i class="glyphicon-share-alt"></i></a>
+<i class="glyphicon glyphicon-edit"></i> <a href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}">Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
+ <a target ='_blank' href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'window' }) }}"><i class="glyphicon glyphicon-share-alt"></i></a>
 {% if review.access==1 %} <span class="label label-success margin-left">Shared</span>{% endif %}
 </td>
 
