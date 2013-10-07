@@ -39,11 +39,11 @@ $('#doctools').css('height', function(index) {
 {% for roll in roll %}
 {% if loop.index == app.request.get('user') + 1 %}  
 <a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
-{{roll.firstname}} {{roll.lastname}}<i class="glyphicon-chevron-right"></i></a>
+{{roll.firstname}} {{roll.lastname}}<i class="glyphicon glyphicon-chevron-right"></i></a>
 {% endif %}
 {% if loop.index == app.request.get('user') - 1%}
 <a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
-<i class="glyphicon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}<span style='margin-right:2em;'></span>
+<i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}<span style='margin-right:2em;'></span>
 </a>{% endif %}
 {% endfor %}
 </div>
@@ -64,10 +64,10 @@ $('#doctools').css('height', function(index) {
 {{ portfolio_doc.file.doc.body|raw }} 
 {% elseif portfolio_doc.file.url %}
 Please click link to to view.        
-<i class="glyphicon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+<i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
 {% else %}        
 Please download this file to view.
-<i class="glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+<i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
 {% endif %}        
 </div>              
 </div>
@@ -89,12 +89,12 @@ There are no files in this portfolio.
         <td id="port_td{{loop.index}}" class="port">
              {{portfolio.portitem.name}}:  
 
-             {% if portfolio.file.doc %}<i class="glyphicon-edit"></i>
+             {% if portfolio.file.doc %}<i class="glyphicon glyphicon-edit"></i>
              <a class='active' href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a> 
-             {% elseif portfolio.file.url %}<i class="glyphicon-adjust"></i> <a href="{{ portfolio.file.url}}" target="_blank">{{ portfolio.file.name }}</a>
+             {% elseif portfolio.file.url %}<i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio.file.url}}" target="_blank">{{ portfolio.file.name }}</a>
              {% else %}
-             <i class="glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
-             {% endif %}<i class="glyphicon-share-alt"></i>
+             <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
+             {% endif %}<i class="glyphicon glyphicon-share-alt"></i>
              </td>
             </tr>
         {% endfor %} 

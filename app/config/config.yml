@@ -27,7 +27,7 @@ twig:
       application_name:       %app_name%
       ldap_auth:              %ldap%
 
-# Assectic Configuration
+# Assetic Configuration
 assetic:
   java: /usr/bin/java
   filters:

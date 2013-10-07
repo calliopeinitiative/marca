@@ -106,10 +106,10 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 {% for roll in roll %}
 {% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}
 <span style='margin-right:3em;'></span>
-<a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname|title}} {{roll.lastname|title}}<i class="glyphicon-chevron-right"></i></a>
+<a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname|title}} {{roll.lastname|title}}<i class="glyphicon glyphicon-chevron-right"></i></a>
 {% endif %}
 {% if loop.index == app.request.get('user') - 1 and app.request.get('tag')!='3' %}
-<a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}"><i class="glyphicon-chevron-left"></i>{{roll.firstname|title}} {{roll.lastname|title}}</a>
+<a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}"><i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname|title}} {{roll.lastname|title}}</a>
 {% endif %}
 {% endfor %}
 </li>
@@ -146,7 +146,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
 <a class="" href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">
 {% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
-<a title="Open this file in a new tab." target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}"><i class="glyphicon-share-alt"></i></a>
+<a title="Open this file in a new tab." target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}"><i class="glyphicon glyphicon-share-alt"></i></a>
 
 {# links #} 
 {% elseif file.url %}
@@ -157,7 +157,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 {% elseif file.ext == 'odt' %}
 <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
 <a class="" href="{{ course_path('file_view_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
-<a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="glyphicon-download"></i></a>
+<a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="glyphicon glyphicon-download"></i></a>
 {% else %} 
 <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
 <a class="" href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
@@ -211,7 +211,7 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 {% if review.doc %}
     <span class="label label-file" data-toggle="tooltip" title="This an HTML file ">html</span>
 <a href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}">Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
-<a target ='_blank' href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'window' }) }}"><i class="glyphicon-share-alt"></i></a>
+<a target ='_blank' href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'window' }) }}"><i class="glyphicon glyphicon-share-alt"></i></a>
 {% else  %}
     <span class="label label-file" data-toggle="tooltip" title="This an {{ review.ext }} file ">{{ review.ext }}</span>
 <a href="{{ course_path('file_view', { 'id': review.id }) }}" title="Download Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}" >Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>

@@ -101,8 +101,8 @@ No institution is set for this course, please edit the course to set one
 <button class="btn btn-default btn-xs" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button>
 </td>   
 <td>
-<a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon-chevron-up"></i></a>
-<a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon-chevron-down"></i></a>
+<a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon glyphicon-chevron-up"></i></a>
+<a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon glyphicon-chevron-down"></i></a>
 </td>
 </tr>
 <tr id="confirm{{project.id}}" class="toggle">
@@ -126,7 +126,7 @@ No institution is set for this course, please edit the course to set one
 <div class="col-md-6 well">
 <h2>Resources</h2>
     {% if course.module == 0%}
-        <div class='alert alert-info'>You will place content in these units for your students.  Any units in the course marked "Course Home" <i class="glyphicon-home"></i> will display on the course home page.</div>
+        <div class='alert alert-info'>You will place content in these units for your students.  Any units in the course marked "Course Home" <i class="glyphicon glyphicon-home"></i> will display on the course home page.</div>
     {% else %}
         <div class='alert alert-info'>You will place content in the units of this module to include in other courses.  Add modules to courses in "Course Settings."
             The units will show under Resources in the course. </div>
@@ -139,12 +139,12 @@ No institution is set for this course, please edit the course to set one
 <tbody>  
 {% for project in projects  %}{% if project.resource == 1  %}        
 <tr id="delete{{project.id}}">
-<th>{% if project.coursehome==true %}<i class="glyphicon-home"></i>{% endif %}{{ project.name }}</th>
+<th>{% if project.coursehome==true %}<i class="glyphicon glyphicon-home"></i>{% endif %}{{ project.name }}</th>
 <td><a class="btn btn-default btn-xs" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>
 <td><button class="btn btn-default btn-xs" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button></td>
 <td>
-<a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon-chevron-up"></i></a>
-<a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon-chevron-down"></i></a>
+<a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon glyphicon-chevron-up"></i></a>
+<a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon glyphicon-chevron-down"></i></a>
 </td>
 </tr>
     
