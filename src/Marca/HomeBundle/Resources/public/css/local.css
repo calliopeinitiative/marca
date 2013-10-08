@@ -42,35 +42,11 @@ body {
 
 .center {
     float: none;
-    margin-left, margin-right: auto;
+    margin-left:auto; margin-right: auto;
 }
 
 .background {
     background: #F2F2F2;
-}
-
-.pad-left {
-    padding-left: 3em;
-}
-
-.margin-left {
-    margin-left: 1em;
-}
-
-.margin-top {
-    margin-top: 1em;
-}
-
-.margin-top {
-    margin-top:8px;
-}
-
-.margin-bottom {
-    margin-bottom: 1em;
-}
-
-.toggle {
-    display:none;
 }
 
 .note {
@@ -80,7 +56,7 @@ body {
     background: yellow;
 }
 
-.inline, inline li {
+.inline, li {
     display: inline;
 }
 
@@ -88,31 +64,12 @@ body {
     padding:4px;line-height: 25px;
 }
 
-form label.radio, form label.checkbox {
-    clear:right;
-    display:block;
-    padding-top:.5em;
-}
-
-div.radio label {
-    clear:right;
-    display:block;
-}
-
-label.required, .inline label {
-    font-size:14px;
-    margin-top:8px;
-}
-
 td.active {
     color: #333333;
     background-color: #e6e6e6;
 }
 
-form ul li {
-    list-style: none;
-}
-
+/** Chrome Scroll **/
 ::-webkit-scrollbar {
     height: 12px;
     width: 8px;
@@ -219,7 +176,7 @@ a:hover {
     width:9em;
 }
 
-ul. nav-list  {
+ul.nav-list  {
     margin: 0;
     padding-left: 0;
 }
@@ -336,7 +293,7 @@ div.inline label {
     background:url('../img/whitewash.png');
     padding:15px;
     padding-top: 25px;
-    margin-left, margin-right:auto;
+    margin-left:auto; margin-right:auto;
     min-height:100%;
     -moz-box-shadow:0px 0px 15px rgba(0,0,0,.5);
     -webkit-box-shadow:0px 0px 15px rgba(0,0,0,.5);
@@ -360,31 +317,100 @@ div.inline label {
 
 /***** 05a. Modals *****/
 
-.label {
-    font-weight: normal;
+div.modal-body > div.form-group > div > label {
+    margin-top: 20px;
+    }
+
+div.checkbox label {
+    padding:5px;
+    float:left;
+    display: inline;
+    margin-right: 5px;
 }
 
-label.required:first-child{
-    font-weight:bold;
+.checkbox input[type="checkbox"] {
+    padding:5px;
+    float:left;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
-label.required[for=marca_filebundle_filetype_url] {
-    text-transform:uppercase;
+div.radio label {
+    padding:5px;
+    float:left;
+    display: inline;
+    margin-right: 5px;
 }
 
-input#marca_filebundle_filetype_name, input#marca_filebundle_filetype_url {
-    padding-bottom:0;
-    margin-bottom:0;
+.radio input[type="radio"] {
+    padding:5px;
+    float:left;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
-.label-margin-bottom{
-    margin-bottom:15px;
+div input[type="text"] {
+    clear:left;
+    margin-left: 5px;
+    width:400px;
 }
 
-.modal-header {
-    background:#D9D9D9;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 999px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: red;
+    cursor: inherit;
+    display: block;
+}
+
+span.btn-file {
+    height:34px;
+    width:100px
+}
+
+#markup {
+    width:100%;
+}
+
+#project_nav {
+    padding:5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom:5px;
+}
+
+#project_breadcrumbs {
+    padding:0px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#project_nav_pills {
+    padding:0px;
+    margin-bottom:0px;
+}
+
+#findBy_nav {
+    padding:5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom:5px;
+}
+
+#findBy_nav_pills {
+    padding:0px;
+    margin-bottom:6px;
 }
 
 /***** End 05a. Modals *****/

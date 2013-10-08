@@ -4,7 +4,7 @@
 
 {% block content %}
 {% if pending %}
-<div class="col-md-12">
+<div class="col-md-12" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <div class="panel panel-marca">
         <div class="panel-heading">
 <h2 class="panel-title">Courses Pending</h2>
@@ -34,35 +34,29 @@
 {% endif %}
 
 {% if courses %}
-    <div class="col-md-12">
+<div class="col-md-12">
 <div class="panel panel-marca">
 <div class="panel-heading">
 <h2 class="panel-title">Courses Enrolled</h2>
 </div>
 <div class="panel-body">
+        {% for course in courses %}
+        <div class="col-md-10">
+                <a href="{{ path('course_home', { 'courseid': course.id }) }}">
+                <h2>{{ course.name }}</h2></a>
+                <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
+            </div>
+        <div class="col-md-2">
+                {% if course.isOwner(app.user.username) %}<a class="btn btn-default" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}
 
-<table class="table">
-    <thead><tr><th>Course</th><th>Instructor</th><th>Time</th><th>Term</th><th></th></tr></thead>
-    <tbody>
-    {% for course in courses %}
-
-        <tr>
-            <td><b><a class="" title="Click to enter {{ course.name }}" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></b></td>
-            <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
-            <td>{{ course.time|date('h:i a') }}</td>
-            <td> {{course.term.termName}} </td>
-            <td>{% if course.isOwner(app.user.username) %}<a class="btn btn-info" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}</td>
-        </tr>
-     {% endfor %}   
-    </tbody>
-</table>
-    </div>
-    <div class="panel-footer">
+        </div>
+        {% endfor %}
+</div>
+<div class="panel-footer">
         <span class="text-muted">Click course name to enter.</span>
     </div>
-    </div>
-    </div>
-
+</div>
+</div>
 {% endif %} 
 
 {% if modules %}

@@ -22,26 +22,29 @@ $('#marca_filebundle_filetype_file').on('change', function() {
 </script>
 
 {# Modal #}
-<div id="file_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> 
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Upload</h3>
+<div id="file_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Upload</div>
+            <form action="#" method="post" {{ form_enctype(form) }}  novalidate="novalidate">
+                <div class="modal-body">
+                    {{ form_errors(form) }}
+                    <span class="btn btn-primary btn-file">Select File {{ form_row (form.file) }}</span>
+                    {{ form_row (form.file) }}
+                    {{ form_row (form.name) }}
+                    {{ form_row (form.project) }}
+                    {{ form_row (form.tag) }}
+                    {{ form_row (form.access) }}
+                    {{ form_rest(form) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" type="submit">Update</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div>
-<form action="#" method="post" {{ form_enctype(form) }}  novalidate="novalidate"> 
-  <div class="modal-body">
-     {{ form_errors(form) }}   
-        <ul class="list-unstyled">
-            <li class="pad1">{{ form_row (form.file) }} </li>
-            <li class="pad1">{{ form_row (form.name) }} </li>
-            <li class="pad1">{{ form_row (form.project) }} </li> 
-            <li class="pad1">{{ form_row (form.tag) }} </li> 
-            <li class="pad1">{{ form_row (form.access) }} </li>          
-        </ul>
-    {{ form_rest(form) }}
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" type="submit">Upload</button>
-  </div>
-</form>
-</div>        
 {% endblock %}
