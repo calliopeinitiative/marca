@@ -22,6 +22,10 @@ $('#file_new_link').click(function(){
   $('#file_modal').load('{{ course_path('file_new_modal', { 'fileid':'0','resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'link' }) }}');
   $('#file_modal').modal();
 });
+ $('#file_new_upload').click(function(){
+  $('#file_modal').load('{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}');
+  $('#file_modal').modal();
+});
 });
 </script>
 <h1>{% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}</h1>
@@ -38,7 +42,7 @@ $('#file_new_link').click(function(){
   </a>
   <ul class="dropdown-menu">
     <li><a id='file_new_doc' title='Create new document' href='javascript:void(0);'><i class="glyphicon glyphicon-edit"></i> Document</a></li>
-    <li><a id='file_new_upload' title='Upload document' href="{{ course_path('file_upload', { 'resource': app.request.get('resource'),  'tag': app.request.get('tag') }) }}"><i class="glyphicon glyphicon-upload"></i> Upload</a></li>
+    <li><a id='file_new_upload' title='Upload document' href="javascript:void(0);"><i class="glyphicon glyphicon-upload"></i> Upload</a></li>
     <li><a id='file_new_link' title='Create new link' href="javascript:void(0);"><i class="glyphicon glyphicon-adjust"></i> Link</a></li>
   </ul>
 </div>

@@ -1,29 +1,27 @@
 {# Marca/FileBundle/Resources/views/File/edit_modal.html.twig #}
 
-<script language="javascript"> 
-$(document).ready(function() {
 
-});
-</script>
-
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">File Settings</h3>
-</div>
-<form action="{{ course_path('file_update', { 'id': file.id, 'resource': app.request.get('resource') }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate"> 
-  <div class="modal-body">
-      {{ form_errors(edit_form) }} 
-
-            <div class="label-margin-bottom">{{ form_row (edit_form.name) }} </div>
-            <div class="label-margin-bottom">{{ form_row (edit_form.url) }} </div>
-            <div class="label-margin-bottom">{{ form_row (edit_form.project) }} </div> 
-            <div class="label-margin-bottom">{{ form_row (edit_form.tag) }} </div> 
-            <div>{{ form_row (edit_form.access) }} </div> 
-
-        {{ form_rest(edit_form) }}  
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary pull-left" type="submit">Update</button>  
-  </div>
-</form> 
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">File Settings</div>
+        <form action="{{ course_path('file_update',{'id': file.id,'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': app.request.get('type'),
+        'user': '0','project': 'recent', 'fileid':app.request.get('fileid')}) }}" method="post" {{ form_enctype(edit_form) }}  novalidate="novalidate">
+            <div class="modal-body">
+                {{ form_errors(edit_form) }}
+                {{ form_row (edit_form.name) }}
+                {{ form_row (edit_form.url) }}
+                {{ form_row (edit_form.project) }}
+                {{ form_row (edit_form.tag) }}
+                {{ form_row (edit_form.access) }}
+                {{ form_rest(edit_form) }}
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" type="submit">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </form>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
 

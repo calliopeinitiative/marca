@@ -1,30 +1,31 @@
 {# Marca/FileBundle/Resources/views/File/new_modal.html.twig #}
 
-<script language="javascript"> 
-$(document).ready(function() {
-$(' form div ul li ul li').addClass('alert alert-error');
-});
-</script>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">{% if app.request.get('type') == 'doc' %}New Document{% elseif app.request.get('type') == 'saveas' %}SaveAs Document{% elseif app.request.get('type') == 'review' %}Review{% elseif app.request.get('type') == 'link' %}New Link{%endif%}</h4>
+        </div>
+        <form action="{{ course_path('file_create',{'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': app.request.get('type'),
+'user': '0','project': 'recent', 'fileid':app.request.get('fileid')}) }}" method="post" {{ form_enctype(form) }}  novalidate="novalidate">       
+        <div class="modal-body">
+            <div class="form-group">
+           {{ form_errors(form) }}
+            {{ form_row (form.name) }}
+            {{ form_row (form.url) }}
+            {{ form_row (form.project) }}
+            {{ form_row (form.tag) }}
+            {{ form_row (form.access) }}
+          {{ form_rest(form) }}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" type="submit">Create</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+        </form>           
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">{% if app.request.get('type') == 'doc' %}New Document{% elseif app.request.get('type') == 'saveas' %}SaveAs Document{% elseif app.request.get('type') == 'review' %}Review{% elseif app.request.get('type') == 'link' %}New Link{%endif%}</h3>
-</div>
-<form action="{{ course_path('file_create',{'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': app.request.get('type'),
-'user': '0','project': 'recent', 'fileid':app.request.get('fileid')}) }}" method="post" {{ form_enctype(form) }}  novalidate="novalidate"> 
- <div class="modal-body">
-      {{ form_errors(form) }} 
 
-            <div class="label-margin-bottom">{{ form_row (form.name) }} </div>
-            <div class="label-margin-bottom">{{ form_row (form.url) }} </div>
-            <div class="label-margin-bottom">{{ form_row (form.project) }} </div> 
-            <div class="label-margin-bottom">{{ form_row (form.tag) }} </div> 
-            <div>{{ form_row (form.access) }} </div> 
-
-        {{ form_rest(form) }}  
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary pull-left" type="submit">Create</button>
-  </div>
-</form> 
 
