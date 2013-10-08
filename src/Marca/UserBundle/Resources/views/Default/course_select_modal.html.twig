@@ -7,22 +7,19 @@
           <h4 class="modal-title">Select Course</h4>
         </div>
         <div class="modal-body">
-          <div class='alert alert-info'>Click course name to enter it.</div> 
-          <table class="table">
-          <tbody>
-          <thead><th>Course</th><th>Instructor</th><th>Time</th></thead>
-          {% for course in courses %}
-          <tr>
-            <td><a class="" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></td>
-            <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
-            <td>{{ course.time|date('h:i a') }}</td>
-          </tr>
-          {% endfor %}
-          </tbody>
-          </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+            <div class="list-group">
+                {% for course in courses %}
+                <a href="{{ path('course_home', { 'courseid': course.id }) }}" class="list-group-item">
+                    <h2 class="list-group-item-heading">{{ course.name }}</h2>
+                    <p class="list-group-item-text">{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
+                </a>
+                {% endfor %}
+            </div>
+
+
+
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
