@@ -160,10 +160,8 @@ a:hover {
     font-weight:200;
 }
 
-
-
 .navbar-icon {
-    margin-left: -2.5em;
+    margin-left: -1.5em;
 }
 
 .nav-list .btn-primary {
@@ -244,13 +242,46 @@ div.inline label {
 .nav-header {
     display: block;
     padding: 0;
-    font-size: 11px;
+    font-size: .8em;
     font-weight: bold;
     line-height: 20px;
     color: #999999;
     text-transform: uppercase;
 }
 
+#markup {
+    width:100%;
+}
+
+#project_nav {
+    padding:5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom:5px;
+}
+
+#project_breadcrumbs {
+    padding:0px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#project_nav_pills {
+    padding:0px;
+    margin-bottom:0px;
+}
+
+#findBy_nav {
+    padding:5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom:5px;
+}
+
+#findBy_nav_pills {
+    padding:0px;
+    margin-bottom:6px;
+}
 
 /********** End 03. Nav **********/
 
@@ -690,10 +721,6 @@ span.btn-file {
         padding-left:6px;
         padding-right: 6px;
     }
-    .navbar-icon {
-        margin-left:-1.8em;
-    }
-}
 
 
 
