@@ -613,6 +613,12 @@ input#marca_filebundle_filetype_name, input#marca_filebundle_filetype_url {
 
 /***** End 06b.D Doc displays *****/
 
+
+
+label.required[for=form_lastname] {
+    display:block;
+}
+
 .responses {
     font-size:14px;
 }
