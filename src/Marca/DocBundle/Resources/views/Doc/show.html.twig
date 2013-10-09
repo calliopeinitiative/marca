@@ -64,7 +64,8 @@ $('#doctools').css('height', function(index) {
 
 <div class="col-md-12 center">
 <a name="skip"></a>
-<h1 class='inline'>{{file.name}}</h1>
+<div class="panel panel-default">
+    <div class="panel-heading"><h1 class='inline'>{{file.name}}</h1>
 
 {# Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}} / Word count: <span id="word-count"></span> #}
 <span class="pull-right" style='margin-right:3em'>
@@ -99,8 +100,10 @@ $('#doctools').css('height', function(index) {
 {% endif %}
 </div>
 </span>
+</div>
 
 {# Doc display #}
+<div class="panel-body">
 <div class="row margin-top clear">
 <div id='doc-display' class="col-md-8">
 <div class="doc-body">
@@ -111,66 +114,109 @@ $('#doctools').css('height', function(index) {
  
 {# Doc tools #}        
 <div class="col-md-3">
-{% if app.request.get('_route') != 'file_view_odt' %}     
-<div id='doctools' class="col-md-3 well" style='margin-top: -.1em; padding:0;background: white; '>
-    
-<div id="docTab">
-<ul class="nav nav-tabs" style="padding-left:3px;">
-  <li class="active"><a href="#docInfo" data-toggle="tab">Info</a></li>
-  <li><a href="#docNotes" onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" data-toggle="tab">Notes</a></li>
-  <li><a href="#docFeedback" data-toggle="tab">Feedback</a></li>
-</ul>    
-    
-<div id="docTabContent" class="tab-content" style='margin-top: -10px;'>
-<div class="tab-pane fade" id="docNotes"> 
-<div id='notes_container' class='pad'>
-</div> 
-</div> 
-       
-<div class="tab-pane fade" id="docFeedback" >
-{# Responses #}
-<div class="">        
-<a class="btn btn-default btn-sm" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view'),'userid': doc.file.user.id }) }}">Offer Feedback</a>
+{% if app.request.get('_route') != 'file_view_odt' %}
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        Info
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <dl>
+                        <dt>Author</dt>
+                        <dd>{{ file.user.firstname }} {{ file.user.lastname }}</dd>
+                        <dt>Document Name</dt>
+                        <dd>{{ file.name }}</dd>
+                        <dt>Updated:</dt>
+                        <dd>{{ file.updated|date('m/d/y, g:i a') }}</dd>
+                        <dt>Created</dt>
+                        <dd>{{ file.created|date('m/d/y, g:i a') }}</dd>
+                        <dt>Wordcount</dt>
+                        <dd><span id="word-count"></span> words approx.</dd>
+                    </dl>
+                    <strong>Labels</strong>
+                    {% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
+                    {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
+                    {% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
+                    {% endif %}
+                    {% if file.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" data-toggle="tab">Notes
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="tab-pane fade" id="docNotes">
+                        <div id='notes_container' class='pad'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                        Feedback
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse">
+                <div class="panel-body">
+                    {# Responses #}
+                    <div class="">
+                        <a class="btn btn-default btn-sm" href="{{ course_path('response_new', { 'sourceid': doc.id, 'source': 'doc_show' ,'view': app.request.get('view'),'userid': doc.file.user.id }) }}">Offer Feedback</a>
+                    </div>
+                    {% for response in file.responses %}
+                        <div class="well-header" >{{ response.user.firstname}} {{ response.user.lastname}} says:
+                            {% if response.isOwner(app.user.username) %}
+                                <a class="btn btn-default btn-xs pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view'),'userid': doc.file.user.id  }) }}">Edit</a>
+                            {% endif %}
+                        </div>
+                        <div class="pad">
+                            {{ response.body|raw }}
+                        </div>
+
+                    {% else %}
+                        <div class="pad">No one has has offered feedback.</div>
+                    {% endfor %}
+                </div>
+            </div>
+            </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Markup</a>
+                </h4>
+            </div>
+            <div id="collapseFour" class="panel-collapse collapse">
+                <div class="panel-body">
+                    {# Markup #}
+                    {% for markup in markup %}
+                        <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover hide'>
+                            <button type="button" class="close popover-close" aria-hidden="true">×</button>
+                            <span  class="label {{ markup.color }} " style='color:black;'>{{ markup.name }}</span>
+                            <br/>
+                            {{ markup.mouseover|raw }}
+                            {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
 </div>
-{% for response in file.responses %}    
-<div class="well-header" >{{ response.user.firstname}} {{ response.user.lastname}} says:
-{% if response.isOwner(app.user.username) %}
-<a class="btn btn-default btn-xs pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': doc.id, 'source': 'doc_show','view': app.request.get('view'),'userid': doc.file.user.id  }) }}">Edit</a>
-{% endif %}
-</div>
-<div class="pad">
-{{ response.body|raw }} 
-</div>               
 
-{% else %} 
-<div class="pad">No one has has offered feedback.</div>       
-{% endfor %}    
-</div> 
-        
-<div class="tab-pane fade in active pad" id="docInfo">
-    
-<dl>
-  <dt>Author</dt>
-  <dd>{{ file.user.firstname }} {{ file.user.lastname }}</dd>
-  <dt>Document Name</dt>
-  <dd>{{ file.name }}</dd>
-  <dt>Updated:</dt>
-  <dd>{{ file.updated|date('m/d/y, g:i a') }}</dd>
-  <dt>Created</dt>
-  <dd>{{ file.created|date('m/d/y, g:i a') }}</dd>
-  <dt>Wordcount</dt>
-  <dd><span id="word-count"></span> words approx.</dd>
-</dl>
-
-
-
-<strong>Labels</strong>
-{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
-{% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
-{% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
-{% endif %}
-{% if file.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
-</div> {# End docInfo #}
         
 </div>       
 </div> 
@@ -179,24 +225,11 @@ $('#doctools').css('height', function(index) {
 {% endif %}        
 </div>{# end of Doc tools #}
 
-
-{# Markup #}
-{% for markup in markup %}
-<div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover hide'>
-<button type="button" class="close popover-close" aria-hidden="true">×</button>
-<span  class="label {{ markup.color }} " style='color:black;'>{{ markup.name }}</span>
-<br/>
-{{ markup.mouseover|raw }}
-{% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}
-</div>        
-{% endfor %} 
-
-
 {# Modal #}
 <div id="file_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">  
 </div>
-
 </div> 
 </div>
-
+</div>
+</div>
 {% endblock %}
