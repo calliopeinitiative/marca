@@ -5,21 +5,40 @@
 {% block content %}
 
     <div class="col-md-6">
-    <div class="panel panel-marca">
-    <div class="panel-heading">
-        <h2 class="panel-title">Enroll</h2>
-        </div>
-        <div class="panel-body">
-        <div class='alert alert-info'>Enter your instructor's last name to find her or his course.</div>
-            <form action="{{ path('enroll_list') }}" method="post" {{ form_enctype(form) }}>
-            {{ form_widget(form) }}
-           </div>
-            <div class="panel-footer">
-                <button class="btn btn-primary" type="submit">Find Course</button>
+        <div class="panel panel-marca">
+            <div class="panel-heading">
+                <h2 class="panel-title">Find Courses</h2>
             </div>
-        </form>
+            <div class="panel-body">
+                {% for course in possible_courses %}
+                    {% for exiting_course in courseids if exiting_course.id == course.id %}
+                {%else%}
+                    <div class="col-md-10">
+                        <div class="col-md-10">
+                            <h2>{{ course.name }}</h2>
+                            <p>{{course.firstname}} {{course.lastname}}, {{ course.time|date('h:i a') }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-primary margin-top" title="Enroll in this course" href="{{ path('enroll_enroll', { 'courseid': course.id } ) }}">Enroll</a>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% else %}
+                    {% if app.request.attributes.get('_route') == 'enroll_find' %}
+                    <div class='alert alert-info'>Enter your instructor's last name.</div>
+                    {% else %}
+                    <div class='alert alert-warning'>Shoot, didn't find anyone with that name. Want to try again?</div>
+                    {% endif %}
+
+                    <form action="{{ path('enroll_list') }}" method="post" {{ form_enctype(form) }}>
+                        {{ form_widget(form) }}
+                        <button class="btn btn-primary margin-top" type="submit">Find Course</button>
+                    </form>
+                {% endfor %}
+            </div>
+            <div class="panel-footer"><span class="text-muted">{% if possible_courses %}Select the course your wish to enroll in.{% endif %}</span></div>
+        </div>
     </div>
-</div>
 
 {% if pending %}
 <div class="col-md-6">
@@ -28,17 +47,12 @@
 <h2 class="panel-title">Courses Pending</h2>
         </div>
         <div class="panel-body">
-<table class="table">
-<tbody>
-    {% for course in pending %}
-        <tr>
-            <td>{{ course.name }}</td>
-            <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
-            <td>{{ course.time|date('h:i a') }}</td>
-        </tr>
-    {% endfor %}   
-    </tbody>
-</table>
+        {% for course in pending %}
+        <div class="col-md-10">
+            <h2>{{ course.name }}</h2>
+            <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
+        </div>
+           {% endfor %}
             </div>
         <div class="panel-footer">
             <span class="text-muted">Enrollment pending.  Please check back soon.</span><a class='btn btn-primary btn-xs pull-right' href="{{ path('user_home') }}">Check now</a>
@@ -54,18 +68,14 @@
 <h2 class='panel-title'>Courses Enrolled</h2>
         </div>
         <div class="panel-body">
-<table class="table">
-<tbody>
-    {% for course in courses %}
-        <tr>
-            <td><a class="" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></td>
-            <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
-            <td>{{ course.time|date('h:i a') }}</td>
-        </tr>
-     {% endfor %}
-    </tbody>
-</table>
-            </div>
+        {% for course in courses %}
+          <div class="col-md-10">
+            <h2>{{ course.name }}</h2>
+            <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
+        </div>
+        {% endfor %}
+
+        </div>
         <div class="panel-footer">
         <span class="text-muted">Click name to enter.</span>
 </div>

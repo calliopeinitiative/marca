@@ -10,24 +10,19 @@
 <h2 class="panel-title">Courses Pending</h2>
         </div>
         <div class="panel-body">
-<div class='alert alert-info'>Enrollment pending.  Please check back soon.
-                  <a class='btn btn-primary btn-xs pull-right' href="{{ path('user_home') }}">Check now</a></div>
-<table class="table">
-<thead><tr><th>Course</th><th>Instructor</th><th>Time</th></tr></thead>
-<tbody>
-    {% for course in pending %}
-        <tr>
-            <td>{{ course.name }}</td>
-            <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
-            <td>{{ course.time|date('h:i a') }}</td>
-        </tr>
-    {% endfor %}   
-    </tbody>
-</table>
+            {% for course in pending %}
+                <div class="col-md-10">
+                    <h2>{{ course.name }}</h2>
+                    <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
+                </div>
+                <div class="col-md-2">
+                    {% if course.isOwner(app.user.username) %}<a class="btn btn-default" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}
+                </div>
+            {% endfor %}
             </div>
         <div class="panel-footer">
             <span class="text-muted">Enrollment pending.  Please check back soon.
-                  </span><a class='btn btn-primary btn-xs pull-right' href="{{ path('user_home') }}">Check enrollment</a>
+                  </span><a class='btn btn-primary btn-xs pull-right' href="{{ path('user_home') }}">Check now</a>
         </div>
         </div>
 </div> 
@@ -48,7 +43,6 @@
             </div>
         <div class="col-md-2">
                 {% if course.isOwner(app.user.username) %}<a class="btn btn-default" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}
-
         </div>
         {% endfor %}
 </div>
@@ -66,21 +60,19 @@
 <h2 class="panel-title">Modules</h2>
         </div>
         <div class="panel-body">
-<table class="table">
-<thead><tr><th>Module</th><th>Owner</th><th></th></tr></thead>
-<tbody>
-    {% for course in modules %}
-        <tr>
-            <td><b><a class="" title="Click to enter {{ course.name }}" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></b></td>
-            <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
-            <td>{% if course.isOwner(app.user.username) %}<a class="btn btn-info" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}</td>
-        </tr>
-     {% endfor %}   
-    </tbody>
-</table>
-            </div>
+        {% for course in modules %}
+        <div class="col-md-10">
+            <a href="{{ path('course_home', { 'courseid': course.id }) }}">
+                <h2>{{ course.name }}</h2></a>
+            <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
+        </div>
+        <div class="col-md-2">
+            {% if course.isOwner(app.user.username) %}<a class="btn btn-default" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}
+        </div>
+        {% endfor %}
+        </div>
         <div class="panel-footer">
-            <span class="text-muted">Click course name to enter.</span>
+            <span class="text-muted">Click module name to enter.</span>
         </div>
     </div>
 </div> 
@@ -93,20 +85,17 @@
             <h2 class="panel-title">Previous Courses</h2>
         </div>
         <div class="panel-body">
-            <table class="table">
-                <thead><tr><th>Course</th><th>Instructor</th><th>Term</th><th></th></tr></thead>
-                <tbody>
                 {% for course in archive %}
-                    <tr>
-                        <td><b><a class="" title="Click to enter {{ course.name }}" href="{{ path('course_home', { 'courseid': course.id }) }}">{{ course.name }}</a></b></td>
-                        <td> {{course.user.lastname}}, {{course.user.firstname}} </td>
-                        <td> {{course.term.termName}} </td>
-                        <td>{% if course.isOwner(app.user.username) %}<a class="btn btn-default" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}</td>
-                    </tr>
+                    <div class="col-md-10">
+                        <a href="{{ path('course_home', { 'courseid': course.id }) }}">
+                            <h2>{{ course.name }}</h2></a>
+                        <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
+                    </div>
+                    <div class="col-md-2">
+                        {% if course.isOwner(app.user.username) %}<a class="btn btn-default" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}
+                    </div>
                 {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                </div>
                 <div class="panel-footer">
                     <span class="text-muted">Click course name to enter.</span>
                 </div>

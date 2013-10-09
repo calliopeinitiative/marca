@@ -40,23 +40,28 @@ class EnrollController extends Controller
         }
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($current_user);
         $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($current_user);
- 
+        $courseids = $em->getRepository('MarcaCourseBundle:Course')->findUserCourseIds($current_user);
+
         $user = new User();
         $form = $this->createFormBuilder($user)
-            ->add('lastname')
+            ->add('lastname','text', array('label'  => 'Last name','attr' => array('class' => 'text form-control'),))
             ->getForm();
+
+        $possible_courses = '';
 
         return array(
             'courses'=>$courses,
             'pending'=>$pending,
             'user' => $user,
+            'courseids'=>$courseids,
+            'possible_courses' => $possible_courses,
             'form'   => $form->createView()
         );
     }  
     
     /**
      * @Route("/list", name="enroll_list")
-     * @Template()
+     * @Template("MarcaUserBundle:Enroll:findCourse.html.twig")
      */
     public function listCourseAction()
     {
@@ -69,7 +74,7 @@ class EnrollController extends Controller
         
         $user = new User();
         $form = $this->createFormBuilder($user)
-            ->add('lastname')
+            ->add('lastname','text', array('label'  => 'Last name','attr' => array('class' => 'text form-control'),))
             ->getForm();
         
        $request = $this->get('request');

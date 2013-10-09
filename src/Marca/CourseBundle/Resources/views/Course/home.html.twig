@@ -39,7 +39,10 @@
     <div class="panel-body">
     <p>{{ course.announcement|raw }}</p>
     </div>
-{% if course.isOwner(app.user.username) %}<div class="panel-footer"><a class="btn btn-primary btn-sm" href="{{ path('announce_edit', { 'courseid': course.id }) }}">Edit</a></div></div>{% endif %}
+    <div class="panel-footer">
+        {% if course.isOwner(app.user.username) %}<a class="btn btn-primary btn-sm" href="{{ path('announce_edit', { 'courseid': course.id }) }}">Edit</a>{% endif %}
+    </div>
+</div>
 
 {% if files %}
 <div class="panel panel-default">
@@ -49,7 +52,6 @@
     <div class="panel-body">
     <table class="table">
                 {% for file in files%}
-
                     {# main list of files #}
                     <tr>
                         <td>
@@ -75,9 +77,6 @@
                         </td>
 
                     </tr>
-
-
-
                     {% if loop.first %}
                         </tbody>
                     {% endif %}
@@ -86,7 +85,7 @@
             </table>
     </div>
     <div class="panel-footer">
-        <a class="btn btn-primary btn-sm" title='Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Resources</a>
+        <a class="btn btn-primary btn-sm" title='All Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">All Resources</a>
     </div>
 </div>
 {% endif %}
