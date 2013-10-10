@@ -311,7 +311,7 @@ div.inline label {
 /********** 04. Content **********/
 
 #mainContainer {
-    padding-top: 25px;
+    padding-top: 50px;
     height:100%;
 }
 
@@ -324,8 +324,8 @@ div.inline label {
 .sidebar {
     background:url('../img/whitewash.png');
     height: 100%;
-    margin-top:-25px;
-    padding-top:20px;
+    margin-top:-30px;
+    padding-top:15px;
     border-right:1px solid #D9d9d9;
 }
 
@@ -510,6 +510,7 @@ span.btn-file {
 .panel-heading-button {
   margin-top:-3px;
 }
+
 
 /********** End 05. Bootstrap Elements **********/
 

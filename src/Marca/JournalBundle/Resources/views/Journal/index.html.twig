@@ -18,7 +18,7 @@ $("#word-count").text(count);
 <div class="panel-heading">
 <h1 class="panel-title">Journal entries by {{ user.firstname }} {{ user.lastname }} </h1>
 
-<span class="pull-right"  style="margin-top:-44px;" role="navigation">
+<span class="pull-right"  style="margin-top:-24px" role="navigation">
     {{ knp_pagination_render(journal) }}</span></div>
 </div>
 
@@ -49,17 +49,17 @@ $("#word-count").text(count);
 <div class="panel panel-default">
 <div class="panel-heading">
 <h3 class="panel-title">{{ journal.title }}</h3>
-<span>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }} </span>
 <span class="pull-right">
-<span id="word-count"></span> word(s)    
-{% if journal.isOwner(app.user.username) %}
-<div class="btn-group">
+<span id="word-count"></span> word(s)
+    {% if journal.isOwner(app.user.username) %}
+    <div class="btn-group">
         <a class="btn btn-default btn-xs" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
-{% endif %} 
+        {% endif %}
         <a class="btn btn-default btn-xs" href="{{ course_path('response_new',
         { 'sourceid': journal.id, 'source': 'journal_user','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id }) }}">Respond</a>
-</div>
+    </div>
 </span>
+<h6><span>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }} </span></h6>
 </div>
 <div class="panel-body">
 <div class="journal-body">
