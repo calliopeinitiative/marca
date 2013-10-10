@@ -99,7 +99,7 @@ h1 {
 }
 
 h1.small {
-    font-size:20px;
+    font-size:24px;
     font-weight:normal;
 }
 
@@ -109,12 +109,12 @@ h2 {
 }
 
 h2.small {
-    font-size:18px;
+    font-size:20px;
     font-weight:normal;
 }
 
 h3 {
-    font-size:20px;
+    font-size:18px;
     font-weight:normal;
 }
 
@@ -142,7 +142,6 @@ a:hover {
     margin-top:15px;
 }
 
-
 /********** End 02. Typography **********/
 
 
@@ -161,8 +160,9 @@ a:hover {
 .navbar-inverse .navbar-brand {
     color: #fff;
     text-shadow: none;
-    font-size:150%;
+    font-size:200%;
     font-weight:200;
+    padding-left:0;
 }
 
 .navbar-icon {
@@ -215,6 +215,10 @@ div.inline label {
     padding:.5em;
 }
 
+#course-home {
+    padding-left: 30px;
+}
+
 .navbar .nav > li > a {
     color: #fff;
     text-shadow: none;
@@ -249,7 +253,7 @@ div.inline label {
 }
 
 .caret {
-    margin-top: .5em;
+    margin-left:5px;
 }
 
 .nav-header {
@@ -296,6 +300,10 @@ div.inline label {
     margin-bottom:6px;
 }
 
+#account-dropdown {
+    padding-right:15px;
+}
+
 /********** End 03. Nav **********/
 
 
@@ -303,14 +311,9 @@ div.inline label {
 /********** 04. Content **********/
 
 #mainContainer {
-    background:url('../img/whitewash.png');
-    padding:15px;
     padding-top: 25px;
-    margin-left:auto; margin-right:auto;
-    min-height:100%;
-    -moz-box-shadow:0px 0px 15px rgba(0,0,0,.5);
-    -webkit-box-shadow:0px 0px 15px rgba(0,0,0,.5);
-    box-shadow: 0px 0px 15px rgba(0,0,0,.5);}
+    height:100%;
+}
 
 .footer {
     margin-top: 3em;
@@ -319,8 +322,17 @@ div.inline label {
 }
 
 .sidebar {
-    padding-bottom:30px;
+    background:url('../img/whitewash.png');
+    height: 100%;
+    margin-top:-25px;
+    padding-top:20px;
+    border-right:1px solid #D9d9d9;
 }
+
+.sidebar-mobile {
+  text-align:center !important;
+    }
+
 
 /********** End 04. Content **********/
 
@@ -489,6 +501,14 @@ span.btn-file {
 }
 .panel-marca > .panel-footer + .panel-collapse .panel-body {
     border-bottom-color: #CCCCCC;
+}
+
+.panel-title {
+  display:inline-block;
+}
+
+.panel-heading-button {
+  margin-top:-3px;
 }
 
 /********** End 05. Bootstrap Elements **********/

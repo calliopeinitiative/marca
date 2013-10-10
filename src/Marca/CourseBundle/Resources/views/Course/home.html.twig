@@ -6,7 +6,7 @@
 <div class="col-md-6 col-xs-12">
 <div class="panel panel-marca">
         <div class="panel-heading">
-<h2 class="panel-title">Upcoming events</h2>
+<h2 class="panel-title small">Upcoming events</h2>
             </div>
     <div class="panel-body">
 {% for calendar in calendar %}
@@ -34,20 +34,20 @@
 <div class="col-md-6 col-xs-12">
 <div class="panel panel-marca">
 <div class="panel-heading">
-    <h2 class="panel-title">Announcements</h2>
-    </div>
+    <h2 class="panel-title small" style="display:inline-block;">Announcements</h2>
+    {% if course.isOwner(app.user.username) %}<a class="btn btn-primary btn-sm pull-right panel-heading-button" href="{{ path('announce_edit', { 'courseid': course.id }) }}">Edit</a>{% endif %}
+
+</div>
     <div class="panel-body">
     <p>{{ course.announcement|raw }}</p>
     </div>
-    <div class="panel-footer">
-        {% if course.isOwner(app.user.username) %}<a class="btn btn-primary btn-sm" href="{{ path('announce_edit', { 'courseid': course.id }) }}">Edit</a>{% endif %}
-    </div>
+
 </div>
 
 {% if files %}
-<div class="panel panel-default">
+<div class="panel panel-marca">
     <div class="panel-heading">
-    <h2>Featured Resources</h2>
+    <h2 class="panel-title small">Featured Resources</h2>
     </div>
     <div class="panel-body">
     <table class="table">
@@ -83,11 +83,10 @@
                 {% endfor %}
 
             </table>
-    </div>
-    <div class="panel-footer">
-        <a class="btn btn-primary btn-sm" title='All Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">All Resources</a>
-    </div>
+
+       <a class="btn btn-primary btn-sm pull-right" title='All Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">All Resources</a>
 </div>
+    </div>
 {% endif %}
 </div>
 {%endif%}
