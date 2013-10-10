@@ -3,6 +3,7 @@
 {% extends 'MarcaResponseBundle::layout.html.twig' %}
 
 {% block javascripts %}
+    {{ parent() }}
     <script language="javascript">
         $(document).ready(function()
         {
@@ -13,30 +14,41 @@
 
 {% block content %}
 {% if journal %}
-<div class="col-md-11 well">
-<div class="col-md-8 center">
+<div class="col-md-12">
+<div class="panel panel-default">
+<div class="panel-heading">
 <h2><span class="journal-title">{{ journal.title }}</span></h2>
 <span>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }}</span>
-<hr/>
+</div>
+    <div class="panel-body">
 <div class="journal-body">
 {{ journal.body|raw }}
 </div>
 </div>
-</div> 
+</div>
+</div>
 {%endif %}
 
-<div class="col-md-11 well">
+<div class="col-md-12">
+<div class="panel panel-default">
+<div class="panel-body">
 <form action="{{ course_path('response_create', { 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user') }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
         {{ form_errors(form) }}
          {{ form_row(form.body) }}
+</div>
+    <div class="panel-footer">
+        <div class="btn-group">
          {{ form_rest(form) }}
         <button class="btn btn-primary" type="submit">Create</button>
             {% if journal %}
             <a class="btn btn-default" href="{{ course_path('journal_user', { 'id': response.id, 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user'),'userid':app.request.get('userid') }) }}">Cancel</a>
             {%else %}
             <a class="btn btn-default" href="{{ course_path(source, { 'id': sourceid,'view': app.request.get('view') }) }}">Cancel</a>
-            {%endif %} 
+            {%endif %}
+            </div>
+        </div>
         </form>
-          
-</div>
+
+    </div>
+    </div>
 {% endblock %}

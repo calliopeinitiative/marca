@@ -129,13 +129,13 @@ $('#doctools').css('height', function(index) {
                     <dl>
                         <dt>Author</dt>
                         <dd>{{ file.user.firstname }} {{ file.user.lastname }}</dd>
-                        <dt>Document Name</dt>
+                        <dt>Document</dt>
                         <dd>{{ file.name }}</dd>
-                        <dt>Updated:</dt>
+                        <dt>Updated</dt>
                         <dd>{{ file.updated|date('m/d/y, g:i a') }}</dd>
                         <dt>Created</dt>
                         <dd>{{ file.created|date('m/d/y, g:i a') }}</dd>
-                        <dt>Wordcount</dt>
+                        <dt>Word Count</dt>
                         <dd><span id="word-count"></span> words approx.</dd>
                     </dl>
                     <strong>Labels</strong>
@@ -193,37 +193,25 @@ $('#doctools').css('height', function(index) {
                 </div>
             </div>
             </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Markup</a>
-                </h4>
-            </div>
-            <div id="collapseFour" class="panel-collapse collapse">
-                <div class="panel-body">
-                    {# Markup #}
-                    {% for markup in markup %}
-                        <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover hide'>
-                            <button type="button" class="close popover-close" aria-hidden="true">×</button>
-                            <span  class="label {{ markup.color }} " style='color:black;'>{{ markup.name }}</span>
-                            <br/>
-                            {{ markup.mouseover|raw }}
-                            {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}
-                        </div>
-                    {% endfor %}
-
-                </div>
-            </div>
-        </div>
+</div>
+</div>
 </div>
 
-        
-</div>       
-</div> 
-
 </div>
-{% endif %}        
-</div>{# end of Doc tools #}
+    {% endif %}
+</div>
+{# end of Doc tools #}
+
+{# Markup #}
+{% for markup in markup %}
+<div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover hide'>
+<button type="button" class="close popover-close" aria-hidden="true">×</button>
+<span  class="label {{ markup.color }} " style='color:black;'>{{ markup.name }}</span>
+<br/>
+{{ markup.mouseover|raw }}
+{% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}
+</div>
+{% endfor %}
 
 {# Modal #}
 <div id="file_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">  

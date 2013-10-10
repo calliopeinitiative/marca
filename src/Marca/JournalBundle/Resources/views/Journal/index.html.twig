@@ -13,19 +13,24 @@ $("#word-count").text(count);
 </script>
 
 
-<div class="col-md-11 well">
-<h2>Journal entries by {{ user.firstname }} {{ user.lastname }} </h2>  
+<div class="col-md-12">
+<div class="panel panel-default">
+<div class="panel-heading">
+<h1 class="panel-title">Journal entries by {{ user.firstname }} {{ user.lastname }} </h1>
 
-<div class="col-md-4"  role="navigation" style="margin-top:-20px;">
-    {{ knp_pagination_render(journal) }}
-</div> 
+<span class="pull-right"  style="margin-top:-44px;" role="navigation">
+    {{ knp_pagination_render(journal) }}</span></div>
+</div>
+
+
 <div class="col-md-4  pull-right" role="navigation">
 {% if app.request.attributes.get('_route')=='journal_user' %} 
 {# next previous users on roll #} 
 
 {% for roll in roll %}
+
 {% if loop.index == app.request.get('user') + 1 %}  
-<span style='margin-right:2em;'></span>        
+
 <a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_user', { 'userid': roll.userid, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}<i class="glyphicon glyphicon-chevron-right"></i></a>
 {% endif %}
 
@@ -35,48 +40,54 @@ $("#word-count").text(count);
 {% endfor %}
 {% endif %}
 </div>
-   
 </div>
 
 
 
 {% for journal in journal %}
-<div class="col-md-11 well">
-<div class="col-md-11 center">
-<h3>{{ journal.title }}</h3> 
+<div class="col-md-12">
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title">{{ journal.title }}</h3>
 <span>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }} </span>
 <span class="pull-right">
 <span id="word-count"></span> word(s)    
 {% if journal.isOwner(app.user.username) %}
-        <a class="btn btn-default btn-sm" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
+<div class="btn-group">
+        <a class="btn btn-default btn-xs" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
 {% endif %} 
-        <a class="btn btn-default btn-sm" href="{{ course_path('response_new',
+        <a class="btn btn-default btn-xs" href="{{ course_path('response_new',
         { 'sourceid': journal.id, 'source': 'journal_user','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id }) }}">Respond</a>
-</span>         
-
-<hr/>
+</div>
+</span>
+</div>
+<div class="panel-body">
 <div class="journal-body">
 {{ journal.body|raw }}
 </div>
-</div>
 
-<div class="col-md-11 pull-right">
+<div class="col-md-12">
 {% for response in journal.responses %}    
-            <div class="col-md-7 well">
-                Response by {{ response.user.firstname}} {{ response.user.lastname}}<hr/>
-               {{ response.body|raw }} 
-                {% if response.isOwner(app.user.username) %}
-                <a class="btn btn-default pull-right" href="{{ course_path('response_edit',
-                { 'id': response.id,'sourceid': journal.id, 'source': 'journal_user','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id  }) }}">Edit</a>
-                {% endif %}
-            </div>   
-{% endfor %}    
-            
+            <div class="col-md-7">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                Response by {{ response.user.firstname}} {{ response.user.lastname}}
+                        {% if response.isOwner(app.user.username) %}
+                            <a class="btn btn-default btn-xs pull-right" href="{{ course_path('response_edit',
+                            { 'id': response.id,'sourceid': journal.id, 'source': 'journal_user','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id  }) }}">Edit</a>
+                        {% endif %}
+                    </div>
+<div class="panel-body">
+               {{ response.body|raw }}
+</div>
+            </div>
+                </div>
+{% endfor %}
 </div>        
-</div> 
+
 {% else %}  
-<div class="col-md-11 well">
-<div class="col-md-11 center">
+<div class="col-md-12">
+<div class="col-md-12 center">
 {% if app.request.get('_route') == 'journal_user' %}  
 Sorry, no entries were found.
 {% else %}    
@@ -85,7 +96,8 @@ You don’t have any journals yet. Why not <a href="{{ course_path('journal_new'
 </div>              
 </div>
 {% endfor %}
-
+</div>
+    </div>
 
 
 {% endblock %}
