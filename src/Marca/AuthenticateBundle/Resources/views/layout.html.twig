@@ -1,7 +1,6 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block javascript %}
-
 {% endblock %}
 
 {% block content %}
@@ -10,16 +9,41 @@
         $(document).ready(function()
         {
             $("#_submit").addClass("btn btn-primary");
+            $("input:text").addClass("form-control");
+            $("input:password").addClass("form-control");
         });
     </script>
 
 
 <div class="row">
-<div class="span5">  
-<h2>Welcome to {{ application_name }}</h2> 
-</div>
-    
-<div class="col-md-3 well">
+
+    <div class="col-md-6 col-xs-12">
+        <div class="panel panel-marca">
+            <div class="panel-heading">
+                <h2>Welcome to {{ application_name }}</h2>
+                </div>
+            <div class="panel-body">
+
+                <h3>Intuitive peer editing</h3>
+                {{ application_name }} makes peer editing a breeze. Students can easily share their work with each other, offer comments, and provide detailed feedback using custom tags created by their instructors.
+
+                <h3>Simply beautiful portfolios</h3>
+                <p>Using {{ application_name }}, your students can create beautiful portfolios that combine text and rich multimedia.</p>
+
+                <h3>Powerful, flexible markup</h3>
+                <p>Whether you’re leaving initial feedback on a rough draft or thoroughly grading a final project, {{ application_name }} provides instructors with simple yet powerful and customizable tools for marking up documents. {{ application_name }} will help you grade more effectively and efficiently.</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="col-md-6 col-xs-12">
+<div class="panel panel-marca">
+<div class="panel-heading">
+<h2 class="panel-title small">{{ application_name }} Login</h2>
+ </div>
+<div class="panel-body">
+
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
 <a href="{{ path('fos_user_security_logout') }}">
@@ -36,10 +60,15 @@
 {% block fos_user_content %}
 {% endblock fos_user_content %}
 
-{% if not is_granted("IS_AUTHENTICATED_REMEMBERED") and ldap_auth!='yes' %}
-<a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a>
-{% endif %} 
 </div>
+    <div class="panel-footer">
+        {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") and ldap_auth!='yes' %}
+            <a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a>
+        {% endif %}
+    </div>
+</div>
+</div>
+
 </div>
 {% endblock %}
 

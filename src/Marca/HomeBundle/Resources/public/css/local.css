@@ -311,7 +311,7 @@ div.inline label {
 /********** 04. Content **********/
 
 #mainContainer {
-    padding-top: 50px;
+    padding-top: 30px;
     height:100%;
 }
 
@@ -377,7 +377,6 @@ div.radio label {
 div input[type="text"] {
     clear:left;
     margin-left: 5px;
-    width:400px;
 }
 
 .btn-file {
