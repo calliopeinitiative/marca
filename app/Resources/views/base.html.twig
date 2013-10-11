@@ -18,7 +18,6 @@
 {% block javascripts %}
 {% javascripts '@jquery_js' '@bootstrap_js' combine=true output='js/compiled/main.js' %}
 <script src="{{ asset_url }}"></script>
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery.form.js') }}"></script>
 {% endjavascripts %}
 {% include '::external.html.twig' %}
@@ -64,7 +63,7 @@ $('#course_select').click(function(){
          <ul class="nav navbar-nav">
             {% block subnav %}
             <li>
-            <a title='Select course' id='course-select-home' href="javascript:void(0);">Select Course <span alt='Select course' class="glyphicon glyphicon-list"></span></a>
+            <a title='Select course' id='course_select' href="javascript:void(0);">Select Course <span alt='Select course' class="glyphicon glyphicon-list"></span></a>
             </li>
             {% endblock %}
          </ul>

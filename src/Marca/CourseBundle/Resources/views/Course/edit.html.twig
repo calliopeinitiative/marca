@@ -1,74 +1,80 @@
 {# Marca/CourseBundle/Resources/views/Course/edit.html.twig #}
-
-
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
-{% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
-<script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
-{% endblock %}
 {% block stylesheets %}
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
 {% endblock %}
 
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('input[type=time]').on('click', function(event) { event.preventDefault();});
+            $('#marca_coursebundle_coursetype_time').timepicker({ 'timeFormat': 'H:i' });
+            $('form li').addClass('alert alert-error');
+        });
+    </script>
+{% endblock %}
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-$( '#marca_coursebundle_coursetype_time' ).timepicker(({ 'timeFormat': 'H:i' }));
-$('form li').addClass('alert alert-error');
-});
-</script>
+    <form class="form" action="{{ path('course_update', { 'courseid': course.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+    {{ form_errors(edit_form) }}
 
-<form class="form" action="{{ path('course_update', { 'courseid': course.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">   
-        
-            {{ form_errors(edit_form) }}
-    
-            <div class="col-md-11 well ">
-            <h2>{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
-            <div class="col-md-3 ">{{ form_row (edit_form.name) }}</div>
-            <div class="col-md-3 {% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.time) }}</div>
-            <div class="col-md-2 {% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.term) }}</div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2>{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
             </div>
-        
-            <div class="col-md-11 well">
-            <h2>Additional settings</h2>
-            <div class="col-md-3  {% if course.module!=0 %}hide{%endif%}">
-            {{ form_row (edit_form.notes) }}  
-            {{ form_row (edit_form.forum) }} 
-            {{ form_row (edit_form.journal) }}            
-            {{ form_row (edit_form.zine) }} 
-        
-            <hr/>
-            {{ form_row (edit_form.enroll) }} 
-            {{ form_row (edit_form.post) }} 
-            {{ form_row (edit_form.studentForum) }} 
-            {{ form_row (edit_form.institution) }} 
-            </div>    
-
-    
-            <div class="col-md-3  {% if course.module!=0 %}hide{%endif%}">
-            {{ form_row (edit_form.portfolio) }}     
-            {{ form_row (edit_form.portset) }}
-            {{ form_row (edit_form.assessmentset) }}                     
-            </div> 
-                
-            <div class="col-md-2 {% if course.module!=0 %}hide{%endif%}">
-            {{ form_row (edit_form.markupsets) }}
-            {{ form_row (edit_form.parents) }}        
+            <div class="panel-body">
+                <div class="col-md-4 ">{{ form_row (edit_form.name) }}</div>
+                <div class="col-md-4 {% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.time, {'type':'text'}) }}</div>
+                <div class="col-md-4 {% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.term) }}</div>
             </div>
+        </div>
 
-            <div class="col-md-2 ">
+        <div class="panel panel-default {% if course.module!=0 %}hide{%endif%}">
+            <div class="panel-heading">
+                <h2>Additional settings</h2>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-6">
+                    {{ form_row (edit_form.notes) }}
+                    {{ form_row (edit_form.forum) }}
+                    {{ form_row (edit_form.journal) }}
+                    {{ form_row (edit_form.zine) }}
+
+                    <hr/>
+                    {{ form_row (edit_form.enroll) }}
+                    {{ form_row (edit_form.post) }}
+                    {{ form_row (edit_form.studentForum) }}
+                    {{ form_row (edit_form.institution) }}
+                </div>
+
+                <div class="col-md-6 ">
+                    {{ form_row (edit_form.portfolio) }}
+                    {{ form_row (edit_form.portset) }}
+                    {{ form_row (edit_form.assessmentset) }}
+                    <hr/>
                     {{ form_row (edit_form.tagset) }}
+                    {{ form_row (edit_form.markupsets) }}
+                    {{ form_row (edit_form.parents) }}
+                    {{ form_row (edit_form.module) }}
+                </div>
             </div>
-            </div> 
- 
-            {{ form_rest(edit_form) }}  
-    
-      <div class="col-md-11 well">
-      <button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn btn-default" href="{{ path('course_show', { 'courseid': course.id }) }}">Cancel</a>
-      </div>
-</form>
-</div>
+        </div>
+        {{ form_rest(edit_form) }}
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn" href="{{ path('course') }}">Cancel</a>
+            </div>
+        </div>
+    </form>
+
+
 {% endblock %}
+
+

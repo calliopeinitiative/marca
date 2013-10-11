@@ -89,7 +89,7 @@
                     <div class="col-md-10">
                         <a href="{{ path('course_home', { 'courseid': course.id }) }}">
                             <h2 class="margin-small">{{ course.name }}</h2></a>
-                        <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
+                        <p>{{course.term.termname}}, {{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
                     </div>
                     <div class="col-md-2">
                         {% if course.isOwner(app.user.username) %}<a class="btn btn-info" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}

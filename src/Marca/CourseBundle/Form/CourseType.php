@@ -19,7 +19,7 @@ class CourseType extends AbstractType
         $userid = $course->getUser()->getId();
         $institutionid = $user->getInstitution()->getId();
         $builder
-            ->add('name', 'text', array('label'=>'Name'))               
+            ->add('name','text', array('label'  => 'Course name','attr' => array('class' => 'text form-control'),))
             ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'query_builder' => function(TermRepository $tr) use ($institutionid){
             $qb = $tr->createQueryBuilder('MarcaCourseBundle:Term');
             $qb->select('t')->from('Marca\CourseBundle\Entity\Term', 't')->innerJoin('t.institution', 'i')->where('i.id = ?1')->setParameter('1', $institutionid);
@@ -32,19 +32,19 @@ class CourseType extends AbstractType
             return $qb;
             }
             ,'property'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select associated modules','required' => true,'attr' => array('class' => 'checkbox'),)) 
-            ->add('time', 'time', array('widget' => 'single_text','label'=>'Course Time')) 
-            ->add('enroll','checkbox', array('label'  => 'Allow students to enroll','attr' => array('class' => 'checkbox inline'),))
-            ->add('post', 'checkbox', array('label'  => 'Allow student to post documents','attr' => array('class' => 'checkbox inline'),))
-            ->add('studentForum', 'checkbox', array('label'  => 'Allow student to start Forum  threads','attr' => array('class' => 'checkbox inline'),))
-            ->add('notes', 'checkbox', array('label'  => 'Use the Notes tool','attr' => array('class' => 'checkbox inline'),)) 
-            ->add('forum', 'checkbox', array('label'  => 'Use the Forum','attr' => array('class' => 'checkbox inline'),))  
-            ->add('journal', 'checkbox', array('label'  => 'Use the Journal','attr' => array('class' => 'checkbox inline'),))
+            ->add('time', 'time', array('widget' => 'single_text','label'=>'Course Time','attr' => array('class' => 'text form-control')))
+            ->add('enroll','checkbox', array('label'  => 'Allow students to enroll','attr' => array('class' => 'checkbox'),))
+            ->add('post', 'checkbox', array('label'  => 'Allow student to post documents','attr' => array('class' => 'checkbox'),))
+            ->add('studentForum', 'checkbox', array('label'  => 'Allow student to start Forum  threads','attr' => array('class' => 'checkbox'),))
+            ->add('notes', 'checkbox', array('label'  => 'Use the Notes tool','attr' => array('class' => 'checkbox'),))
+            ->add('forum', 'checkbox', array('label'  => 'Use the Forum','attr' => array('class' => 'checkbox'),))
+            ->add('journal', 'checkbox', array('label'  => 'Use the Journal','attr' => array('class' => 'checkbox'),))
             ->add('portfolio', 'checkbox', array('label'  => 'Use the Portfolio','attr' => array('class' => 'checkbox inline'),))
-            ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'property'=>'name','expanded'=>false,'multiple'=>false, 'label' => 'Select the Portfolio Set',)) 
-            ->add('assessmentset','entity', array('class'=>'MarcaAssessmentBundle:Assessmentset', 'property'=>'name','expanded'=>false,'multiple'=>false, 'label' => 'Select the Assessment Set for the Portfolio',))                    
+            ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'property'=>'name','expanded'=>true,'multiple'=>false, 'label' => 'Select the Portfolio Set','attr' => array('class' => 'radio'),))
+            ->add('assessmentset','entity', array('class'=>'MarcaAssessmentBundle:Assessmentset', 'property'=>'name','expanded'=>true,'multiple'=>false, 'label' => 'Select the Assessment Set for the Portfolio','attr' => array('class' => 'radio'),))
             ->add('zine', 'hidden')
             ->add('module', 'hidden')        
-            ->add('institution', 'entity', array('class'=>'MarcaAdminBundle:Institution','property'=>'name', 'label'=>'Your Institution', 'disabled'=>true))
+            ->add('institution', 'entity', array('class'=>'MarcaAdminBundle:Institution','property'=>'name', 'label'=>'Your Institution','expanded'=>true,'multiple'=>false, 'disabled'=>true,'attr' => array('class' => 'radio'),))
             ->add('portStatus', 'hidden')         
             ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'query_builder' => function(TagsetRepository $tr) use ($userid){
             $qb = $tr->createQueryBuilder('MarcaTagBundle:Tagset');

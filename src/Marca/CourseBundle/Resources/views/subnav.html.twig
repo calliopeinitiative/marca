@@ -1,14 +1,6 @@
 {# Marca/CourseBundle/Resources/views/subnav.html.twig #}
 {# This subnav is the top navigation when inside a course.  Included from layout.html.twig #}
 
-<script language="javascript">    
-$(document).ready(function() { 
-$('#course_select').click(function(){
-  $('#base_modal').load('{{ course_path('course_select_modal') }}');
-  $('#base_modal').modal();
-});
-});
-</script>
 {% if app.session.get('portReviewSwitch')!= 4 %}
 <li>
 <a title='Course Home' id="course-home" href="{{ course_path('course_home')}}">{% if app.session.get('course') %}{{ app.session.get('course')|slice(0, 15) }}{% else %}Course Home{% endif %}</a>

@@ -28,10 +28,10 @@
         <button class="btn btn-primary" type="submit">Update</button><a class='btn btn-default' href="{{ course_path('forum', { 'set': 0 }) }}">Cancel</a>
 </form>
 
-<a href='javascript:void(0);' id='confirm_delete' class="btn btn-delete" type="submit">Delete</a>
+<a href='javascript:void(0);' id='confirm_delete' class="btn btn-warning" type="submit">Delete</a>
 <form id='delete' action="{{ course_path('forum_delete', { 'id': forum.id }) }}" method="post">
 {{ form_widget(delete_form) }}
-<button class="btn btn-delete btn-warning" type="submit">Confirm Delete</button>
+<button class="btn btn-warning" type="submit">Confirm Delete</button>
 </form>     
 
 </div>
