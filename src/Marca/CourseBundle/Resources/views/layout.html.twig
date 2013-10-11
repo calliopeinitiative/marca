@@ -12,7 +12,7 @@
 
 {% block sidebar %}
 
-<h1 class="small">Home</h1>
+<h1>Home</h1>
 <li class=""><a href="{{ course_path('course_home') }}">Home</a></li>
 {# condition for display if not module #}
 {% if app.session.get('module')== 0 %}<li class=""><a href="{{ course_path('course_roll') }}">Roll</a></li>{%endif%} 
