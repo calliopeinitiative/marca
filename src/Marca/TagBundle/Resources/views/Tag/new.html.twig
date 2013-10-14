@@ -35,16 +35,24 @@
 
 
 {% block content %}
-    <div class="col-md-11 well">
-        <h2>Label Sets</h2>
-    </div>
-
-    <div class="col-md-11 well">
+    <div class="col-md-12">
         <form action="{{ path('tag_create', { 'tagsetid': tagset.id }) }}" method="post" {{ form_enctype(form) }}>
-            {{ form_widget(form) }}
-            <div>
-                <button class="btn btn-primary" type="submit">Create</button><a class="btn btn-default" href="{{ path('tagset') }}">Cancel</a>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Label Set
+                </div>
+                <div class="panel-body">
+                    {{ form_widget(form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                        <a class="btn btn-default" href="{{ path('tagset') }}">Cancel</a>
+                    </div>
+                </div>
             </div>
         </form>
+
     </div>
 {% endblock %}
