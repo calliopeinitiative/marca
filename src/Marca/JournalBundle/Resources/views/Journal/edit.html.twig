@@ -29,41 +29,41 @@
 
 {% block content %}
 
-<div class="col-md-12">
-    <span id='saving_alert' class='alert alert-info margin-left' style="padding-right: 15px;position:fixed;z-index:200;right:15%;top:10%;">Saving</span>
-    <form class="form" action="{{ course_path('journal_update', { 'id': journal.id }) }}" method="post" {{ form_enctype(edit_form) }}novalidate="novalidate">
+    <div class="col-md-12">
+        <span id='saving_alert' class='alert alert-info margin-left' style="padding-right: 15px;position:fixed;z-index:200;right:15%;top:10%;">Saving</span>
+        <form class="form" action="{{ course_path('journal_update', { 'id': journal.id }) }}" method="post" {{ form_enctype(edit_form) }}novalidate="novalidate">
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-               Journal Entry
-            </div>
-            <div class="panel-body">
-                {{ form_errors(edit_form) }}
-                {{ form_row(edit_form.title) }}
-                {{ form_row(edit_form.body) }}
-                {{ form_rest(edit_form) }}
-            </div>
-            <div class="panel-footer">
-                <div class="btn-group">
-                    <button class="btn btn-primary" type="submit">Update</button>
-                    <a class='btn btn-default' href="{{ course_path('journal') }}">Cancel</a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Journal Entry
+                </div>
+                <div class="panel-body">
+                    {{ form_errors(edit_form) }}
+                    {{ form_row(edit_form.title) }}
+                    {{ form_row(edit_form.body) }}
+                    {{ form_rest(edit_form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                        <a class='btn btn-default' href="{{ course_path('journal') }}">Cancel</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    {% if journal.responses|length == 0%}
-        <span class="pull-right">
+        {% if journal.responses|length == 0%}
+            <span class="pull-right">
         <a class="btn btn-default btn-warning btn-delete" href='javascript:void(0);' id='confirm_delete' type="submit">Delete</a>
         <form id='delete' action="{{ course_path('journal_delete', { 'id': journal.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-default btn-warning btn-delete" type="submit">Confirm Delete</button>
         </form>
         </span>
-    {% else %}
-        <span  class='alert pull-right' >Since this journal entry has at least one response, it can not be deleted.</span>
-    {% endif %}
+        {% else %}
+            <span  class='alert pull-right' >Since this journal entry has at least one response, it can not be deleted.</span>
+        {% endif %}
 
-</div>
+    </div>
 
 {% endblock %}

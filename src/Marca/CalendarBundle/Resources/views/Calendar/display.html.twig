@@ -4,8 +4,7 @@
 
 {% block javascripts %}
 {{ parent() }}
-<script src="{{ asset('bundles/marcahome/js/fullcalendar.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
+<script src="{{ asset('bundles/marcahome/js/fullcalendar.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
     <script language="javascript">
         $(document).ready(function() {
@@ -68,16 +67,16 @@
 {% endblock %}
 
 {% block stylesheets %}
-{{ parent() }}
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/fullcalendar.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/fullcalendar.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
 {% endblock %}
+
 
 {% block content %}
 {# Calendar #}
-<div class="col-md-11 well">
+<div class="col-md-12 well">
 <div id='calendar'></div>
 </div>
 

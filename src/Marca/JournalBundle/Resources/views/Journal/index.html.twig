@@ -22,7 +22,6 @@ $("#word-count").text(count);
         <span class="panel-title">Journal entries by {{ user.firstname }} {{ user.lastname }} </span>
     </div>
     <div class="col-md-6">
-        {{ knp_pagination_render(journal) }}
 
         {% if app.request.attributes.get('_route')=='journal_user' %}
             <div class="pagination">
@@ -36,10 +35,10 @@ $("#word-count").text(count);
                     <a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_user', { 'userid': roll.userid, 'user': loop.index }) }}">&lt; {{roll.firstname}} {{roll.lastname}}</a>
                 {% endif %}
                 {% endfor %}
-                                </span>
+            </span>
             </div>
         {% endif %}
-
+        {{ knp_pagination_render(journal) }}
 
     </div>
 </div>

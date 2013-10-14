@@ -11,8 +11,8 @@ class TagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('color')
+            ->add('name','text', array('label'  => 'Name','attr' => array('class' => 'text form-control'),))
+            ->add('color','text', array('attr' => array('class' => 'colorpicker'),'label'  => 'Color',) )
         ;
     }
     

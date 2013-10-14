@@ -11,10 +11,11 @@ class CalendarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('startDate', 'date', array('widget' => 'single_text','format' => 'MM/dd/yyyy','label'  => 'Date',)) 
-            ->add('startTime', 'time', array('widget' => 'single_text', 'attr' => array('name' => 'timepicker'),'label'  => 'Time',))                 
-            ->add('color','text', array('attr' => array('class' => 'inline'),'label'  => 'Event Color',) )  
+            ->add('title','text', array('label'  => 'Course name','attr' => array('class' => 'text form-control'),))
+            ->add('startTime', 'time', array('widget' => 'single_text','label'=>'Time','attr' => array('class' => 'text form-control')))
+
+            ->add('startDate', 'date', array('widget' => 'single_text','format' => 'MM/dd/yyyy','label'  => 'Date','attr' => array('class' => 'text form-control')))
+            ->add('color','text', array('attr' => array('class' => 'colorpicker'),'label'  => 'Event Color',) )
             ->add('description', 'ckeditor', array('config_name' => 'editor_default',))
         ;
     }

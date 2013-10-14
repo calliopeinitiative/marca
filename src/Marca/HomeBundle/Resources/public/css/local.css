@@ -10,20 +10,22 @@
 /********** Table of Contents **********
 
 01. Globals
+    a) Accessibility
 02. Typography
 03. Nav
 04. Content
 05. Bootstrap Elements
     a) Modals
-    b) Wells
 06. Marca Tools
-    a) File list
-    b) Doc Displays
+    a) Forms
+    b) File list
+    c) Doc Displays
 07. Media Queries
-08. Accessibility
-09. Colors
+08. Colors
+
 
 ************ End Table of Contents **********/
+
 
 
 
@@ -82,9 +84,29 @@ td.active {
     background: #000;
 }
 
+
+/********** 01a. Accessibility **********/
+
+#skip a, #skip a:hover, #skip a:visited
+{
+    position:absolute;
+    left:0px;
+    top:-500px;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+}
+
+#skip a:active, #skip a:focus
+{
+    position:static;
+    display: inline-block;
+    width:auto;
+    height:auto;
+}
+
+/********** End 01a. Accessibility **********/
 /********** End 01. Globals **********/
-
-
 
 
 /********** 02. Typography **********/
@@ -347,42 +369,15 @@ div.inline label {
 
 /***** 05a. Modals *****/
 
+div.modal-content {background-color: #CCCCCC;}
+
+div.modal-body {background-color: #fff;}
+
+div.modal-footer {background-color: #fff;margin-top: 0px;}
+
 div.modal-body > div.form-group > div > label {
     margin-top: 20px;
     }
-
-div.checkbox label {
-    padding:5px;
-    float:left;
-    display: inline;
-    margin-right: 5px;
-}
-
-.checkbox input[type="checkbox"] {
-    padding:5px;
-    float:left;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-div.radio label {
-    padding:5px;
-    float:left;
-    display: inline;
-    margin-right: 5px;
-}
-
-.radio input[type="radio"] {
-    padding:5px;
-    float:left;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-div input[type="text"] {
-    clear:left;
-    margin-left: 5px;
-}
 
 .btn-file {
     position: relative;
@@ -444,40 +439,6 @@ span.btn-file {
 
 /***** End 05a. Modals *****/
 
-/***** 05b. Wells *****/
-.well-header {
-    padding: 9px 15px;
-    border-bottom: 1px solid #eee;
-    background-color: #F0F0F0;
-    margin-top: 0;
-    border-bottom: 1px solid #ddd;
-    -webkit-border-radius: 6px 6px 0 0 ;
-    -moz-border-radius: 6px 6px 0 0 ;
-    border-radius: 6px 6px 0 0 ;
-    -webkit-box-shadow: inset 0 1px 0 #ffffff;
-    -moz-box-shadow: inset 0 1px 0 #ffffff;
-    box-shadow: inset 0 1px 0 #ffffff;
-}
-
-.well-footer {
-    padding: 14px 15px 15px;
-    margin-bottom: 0;
-    text-align: right;
-    background-color: #F0F0F0;
-    border-top: 1px solid #ddd;
-    -webkit-border-radius: 0 0 6px 6px;
-    -moz-border-radius: 0 0 6px 6px;
-    border-radius: 0 0 6px 6px;
-    -webkit-box-shadow: inset 0 1px 0 #ffffff;
-    -moz-box-shadow: inset 0 1px 0 #ffffff;
-    box-shadow: inset 0 1px 0 #ffffff;
-}
-
-.well-hightlight {
-    border-color: blue
-}
-
-/***** End 05b. Modals *****/
 
 .glyphicon-white {
     margin-left:12px;
@@ -488,8 +449,8 @@ span.btn-file {
     width:180px;
 }
 
-.btn-delete {
-    margin-top: -120px;
+form button.btn-warning {
+    margin-top: -65px;
     margin-right: 30px;
 }
 
@@ -522,7 +483,62 @@ span.btn-file {
 
 /********** 06. Marca Tools **********/
 
-/***** 06a. File list *****/
+/***** 06a. Forms *****/
+
+div.checkbox label {
+    padding:5px;
+    float:left;
+    display: inline;
+    margin-right: 5px;
+}
+
+.checkbox input[type="checkbox"] {
+    padding:5px;
+    float:left;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+div.radio label {
+    padding:5px;
+    float:left;
+    display: inline;
+    margin-right: 5px;
+}
+
+.radio input[type="radio"] {
+    padding:5px;
+    float:left;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 20px;
+}
+
+div input[type="text"] {
+    clear:left;
+    margin-left: 5px;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+div input[type="password"] {
+    clear:left;
+    margin-left: 5px;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+div input[type="time"] {
+    clear:left;
+    margin-left: 5px;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+
+/***** End 06a. Forms *****/
+
+/***** 06b. File list *****/
 
 #file_list {
     overflow-y:scroll;
@@ -531,6 +547,7 @@ span.btn-file {
 .pagination  {
     margin:0;
     padding-left: 20px;
+    float:right;
 }
 
 .pagination span {
@@ -585,9 +602,9 @@ span.btn-file {
     padding:2em;
 }
 
-/***** End 06a. File list *****/
+/***** End 06b. File list *****/
 
-/***** 06b. Doc displays *****/
+/***** 06c. Doc displays *****/
 
 .doc {
     background-color: white;
@@ -677,9 +694,9 @@ span.btn-file {
     border-radius: 3px;
 }
 
-/***** End 06b.D Doc displays *****/
+/***** End 06c Doc displays *****/
 
-
+.label {font-weight: normal;}
 
 label.required[for=form_lastname] {
     display:block;
@@ -785,38 +802,7 @@ label.required[for=form_lastname] {
 
 
 
-/********** 08. Accessibility **********/
 
-div#skipmenu {
-    position:relative;
-}
-
-div#skipmenu a.skippy {
-    position:absolute;
-    top: -1000px;
-    left:-1000px;
-    height: 1px;
-    width: 1px;
-    overflow:hidden;
-}
-
-div#skipmenu a.skippy:active, div#skipmenu a.skippy:focus, div#skipmenu a.skippy:hover {
-    position: absolute;
-    top:auto;
-    left:auto;
-    height: 1em;
-    font-size:1em;
-    width:99%;
-    padding-bottom:15px;
-    padding-top:10px;
-    padding-right:10px;
-    color: white;
-    z-index:10000;
-    text-align:right;
-    background: #373737;
-}
-
-/********** End 08. Accessibility **********/
 
 
 

@@ -4,7 +4,6 @@
 
 {% block javascripts %}
 {{ parent() }}
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
     <script language="javascript">
@@ -16,10 +15,6 @@
                 showButtonPanel: true,
             });
             $( '#marca_calendarbundle_calendartype_startTime' ).timepicker(({ 'timeFormat': 'H:i' }));
-            $( '#marca_calendarbundle_calendartype_endDate' ).datepicker({
-                showButtonPanel: true,
-            });
-            $( '#marca_calendarbundle_calendartype_endTime' ).timepicker(({ 'timeFormat': 'H:i' }));
             $("#marca_calendarbundle_calendartype_color").spectrum({
                 preferredFormat: "name",
                 showPaletteOnly: true,
@@ -57,7 +52,7 @@
         
 <form id='calendar_delete' action="{{ course_path('calendar_delete', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post">
             {{ form_widget(delete_form) }}  
-    <button class="btn btn-delete" type="submit">Delete</button>
+<button class="btn btn-warning pull-right" type="submit" style='margin-top: -35px;'>Delete</button>
 </form>      
 </div>
 {% endblock %}

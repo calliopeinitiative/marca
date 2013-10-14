@@ -50,6 +50,7 @@
         "egeloen/ckeditor-bundle": "2.*",
         "leafo/lessphp": "*",
         "components/jquery": "1.9.*",
+        "components/jqueryui": "1.10.*",
         "twbs/bootstrap" : "*"        
     },
    "scripts": {
