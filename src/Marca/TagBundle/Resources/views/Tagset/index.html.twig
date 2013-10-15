@@ -23,36 +23,38 @@
             <div class="panel-group" id="accordion">
 
                 {% for tagset in tagsets%}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{tagset.id}}">
-                                {{ tagset.name }}</a>
-                        </h4>
-                        {% if tagset.shared==1 %}(Shared){% elseif tagset.shared==2 %}(Default){%endif%}
-                        {% if tagset.isOwner(app.user.username) %}
-                            {% if tagset.isOwner(app.user.username) %}<a class='btn btn-default btn-sm pull-right' href="{{ path('tag_new', { 'tagsetid': tagset.id }) }}">Add Label</a>
-                                <a class="btn btn-default btn-sm pull-right" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit</a>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{tagset.id}}">
+                                    {{ tagset.name }}</a>
+                            </h4>
+                            {% if tagset.shared==1 %}(Shared){% elseif tagset.shared==2 %}(Default){%endif%}
+                            {% if tagset.isOwner(app.user.username) %}
+                                {% if tagset.isOwner(app.user.username) %}<a class='btn btn-default btn-sm pull-right' href="{{ path('tag_new', { 'tagsetid': tagset.id }) }}">Add Label</a>
+                                    <a class="btn btn-default btn-sm pull-right" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit</a>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                    </div>
-                    <div id="collapse{{tagset.id}}" class="panel-collapse collapse">
-                        <div class="panel-body">
+                        </div>
+                        <div id="collapse{{tagset.id}}" class="panel-collapse collapse">
+                            <div class="panel-body">
 
-                            <table class="table">
-                                {% for tag in tagset.tag %}
-                                    <tr><td><span class="label label-default" style="background-color: {{ tag.color }}">{{ tag.name }}</span></td><td>{% if tagset.isOwner(app.user.username) %}<a class="btn btn-default btn-sm pull-right" href="{{ path('tag_edit', { 'id': tag.id,'tagsetid': tagset.id }) }}">Edit</a>{% endif %}</td></tr>
-                                {% endfor %}
-                            </table>
+                                <table class="table">
+                                    {% for tag in tagset.tag %}
+                                        <tr><td><span class="label label-default" style="background-color: {{ tag.color }}">{{ tag.name }}</span></td><td>{% if tagset.isOwner(app.user.username) %}<a class="btn btn-default btn-sm pull-right" href="{{ path('tag_edit', { 'id': tag.id,'tagsetid': tagset.id }) }}">Edit</a>{% endif %}</td></tr>
+                                    {% endfor %}
+                                </table>
 
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
+
             </div>
-            {% endfor %}
-            <div class="panel-footer">
-                <span class="text-muted">Click Label name to expand. </span>
-            </div>
+
+        </div>
+        <div class="panel-footer">
+            <span class="text-muted">Click Label name to expand. </span>
         </div>
     </div>
 {% endblock %}

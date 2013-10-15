@@ -2,23 +2,31 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
-{% block javascripts %}
-{% endblock %}
-
 {% block content %}
-<div class="col-md-11 well">
-<h2>Portfolios</h2>
-</div> 
-      
-<div class="col-md-11 well">
-<form class="form" action="{{ path('portset_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_errors(form) }}
-            {{ form_row(form.name) }}
-            {{ form_row(form.description) }}
-    {{ form_rest(form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Create</button><a class="btn btn-default" href="{{ path('portset') }}">Cancel</a>
+
+    <div class="col-md-12">
+        <form class="form" action="{{ path('portset_create') }}" method="post" {{ form_enctype(form) }}>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Portfolios</h2>
+                </div>
+                <div class="panel-body">
+                    {{ form_errors(form) }}
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.description) }}
+                    {{ form_rest(form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                        <a class="btn btn-default" href="{{ path('portset') }}">Cancel</a>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+
     </div>
-</form>
-</div>       
+
 {% endblock %}
