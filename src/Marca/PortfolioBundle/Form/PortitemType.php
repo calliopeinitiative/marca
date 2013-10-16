@@ -11,7 +11,7 @@ class PortitemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name','text', array('label'  => 'Portfolio item name','attr' => array('class' => 'text form-control'),))
             ->add('description', 'ckeditor', array('config_name' => 'editor_default',))
             ->add('sortorder')
         ;

@@ -2,28 +2,37 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
-{% block javascripts %}
-{% endblock %}
-
 {% block content %}
-<div class="col-md-11 well">
-<h2>Portfolios</h2>
-</div>   
-      
-<div class="col-md-11 well">
-<form action="{{ path('portitem_update', { 'id': portitem.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_errors(edit_form) }}
-            {{ form_row(edit_form.name) }}
-            {{ form_row(edit_form.description) }}
-    {{ form_rest(edit_form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Update</button><a class="btn btn-default" href="{{ path('portset_show', { 'id': portitem.portset.id }) }}">Cancel</a>
-    </div>
-</form>
-<form class="form" action="{{ path('portitem_delete', { 'id': portitem.id }) }}" method="post">
+
+    <div class="col-md-12">
+        <form action="{{ path('portitem_update', { 'id': portitem.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Portfolios</h2>
+                </div>
+                <div class="panel-body">
+                    {{ form_errors(edit_form) }}
+                    {{ form_row(edit_form.name) }}
+                    {{ form_row(edit_form.description) }}
+                    {{ form_rest(edit_form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                        <a class="btn btn-default" href="{{ path('portset_show', { 'id': portitem.portset.id }) }}">Cancel</a>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+        <form class="form" action="{{ path('portitem_delete', { 'id': portitem.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button class="btn btn-delete" type="submit">Delete</button>
-</form>        
-</div>
-       
+            <button class="btn btn-warning pull-right" type="submit">Delete</button>
+        </form>
+
+    </div>
+
 {% endblock %}
