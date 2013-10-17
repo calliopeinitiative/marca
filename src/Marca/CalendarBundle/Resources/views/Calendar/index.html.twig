@@ -25,6 +25,11 @@
 
 {% block content %}
 <div class="col-md-12">
+    <div class="panel panel-marca">
+        <div class="panel-heading">
+            <h2 class="panel-title">Events</h2>
+            </div>
+        <div class="panel-body">
 <table class="table">   
 <tbody>
     {% for calendar in calendar %}
@@ -41,7 +46,10 @@
     {% endfor %}
     </tbody>
 </table>
-        
+
+        </div>
+    </div>
+
 <div class="navigation">
     {{ knp_pagination_render(calendar) }}
 </div>
