@@ -3,55 +3,53 @@
 {% extends 'MarcaNoteBundle::layout.html.twig' %}
 
 {% block javascripts %}
-{{ parent() }}
-<script language="javascript">
-    $(document).ready(function()
-    {
-        $('.note_body').hide();
-        $('#note_page').css('height', function(index) {
-            return $(window).height()* .82;
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('.note_body').show();
+            $('#note_page').css('height', function(index) {
+                return $(window).height()* .82;
+            });
+            $('#note_sub, #note_list').css('height', function(index) {
+                return $(window).height()* .78;
+            });
+            {% for note in notes %}
+            {% if loop.first %}$('#note_body{{loop.index}}').show();{% endif %}
+            $('#note_anchor{{loop.index}}').click(function(){
+                $('.note_body').hide();$('#note_body{{loop.index}}').show();$('td.active').removeClass('active');
+            });
+            {% endfor %}
         });
-        $('#note_sub, #note_list').css('height', function(index) {
-            return $(window).height()* .78;
-        });
-        {% for note in notes %}
-        {% if loop.first %}$('#note_body{{loop.index}}').show();$('#note_td{{loop.index}}').addClass('active');{% endif %}
-        $('#note_anchor{{loop.index}}').click(function(){
-            $('.note_body').hide();$('#note_body{{loop.index}}').show();$('td.active').removeClass('active');$('#note_td{{loop.index}}').addClass('active');
-        });
-        {% endfor %}
-    });
-</script>
+    </script>
 {% endblock %}
 
 
 {% block content %}
 <div id="note_page" class="col-md-12">
     <div class="row">
-<div id="note_list" class="col-md-3">
-    <ul class="list-group">
-    <li class="list-group-item">Click note name to view</li>
-{% for note in notes %}
+        <div id="note_list" class="col-md-2"
+        <ul class="list-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">List<i class="glyphicon glyphicon-list glyphicon-white"></i></div>
+                     {% for note in notes %}
 
-            <li id="note_td{{loop.index}}" class="notes list-group-item"><a  href="javascript:void(0);" id="note_anchor{{loop.index}}">{{ note.title }}</a></li>
-{%else%}
+                    <li id="note_td{{loop.index}}" class="notes list-group-item"><a href="{{ course_path('note_edit', { 'id': note.id }) }}">{{ note.title }}</a></li>
+                {%else%}
 
-            <li class="notes list-group-item">You don't have any notes yet.  Just click the create button to get started.</li>
+                    <li class="notes list-group-item">You don't have any notes yet.  Just click the create button to get started.</li>
 
-{% endfor %}
+                {% endfor %}
+            </div>
+        </ul>
+    </div>
+    <div id="note_sub" class="col-md-9">
+        <ul class="list-group">
+            {% for note in notes %}
+                <li class="note_body list-group-item panel" id="note_body{{loop.index}}">{{ note.description|raw }}
+                    <a class="btn btn-sm btn-primary" href="{{ course_path('note_edit', { 'id': note.id }) }}">Edit</a></li>
+            {% endfor %}
         </ul>
     </div>
 
-<div id="note_sub" class="col-md-8">
-    <div class="panel panel-default">
-        <div class="panel-body">
-{% for note in notes %}        
-        <span class="note_body" id="note_body{{loop.index}}">{{ note.description|raw }}
-        <a class="btn btn-sm btn-primary" href="{{ course_path('note_edit', { 'id': note.id }) }}">Edit</a></span></div>
-{% endfor %}
-        </div>
-</div>
-    </div>
-    </div>
-
-{% endblock %}
+    {% endblock %}
