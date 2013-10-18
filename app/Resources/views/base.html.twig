@@ -102,7 +102,7 @@ $('#course_select').click(function(){
         </div>
     </div>
     {% endif %}
-    <div class="{% if app.request.attributes.get('_route') != 'fos_user_security_login' %}col-md-10{% else %}col-md-12{% endif %} col-xs-12" role="main">
+    <div class="{% if app.request.attributes.get('_route') != 'fos_user_security_login' %}col-md-10 col-md-push-2{% else %}col-md-12{% endif %} col-xs-12" role="main">
     {% block content %}
     {% endblock %}
     </div>
