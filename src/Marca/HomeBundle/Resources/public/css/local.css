@@ -563,6 +563,7 @@ div input[type="time"] {
 #file_list {
     overflow-y:scroll;
 }
+td > ul.nav {height:20px;margin-top: -10px;}
 
 .pagination  {
     margin:0;
@@ -620,6 +621,20 @@ div input[type="time"] {
     left:40%;
     top:135px;
     padding:2em;
+}
+
+.tag {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: normal;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    background-color: #999999;
 }
 
 /***** End 06b. File list *****/
@@ -804,6 +819,7 @@ label.required[for=form_lastname] {
         padding-left:6px;
         padding-right: 6px;
     }
+}
 
 
 
@@ -817,6 +833,7 @@ label.required[for=form_lastname] {
     .navbar > .container .navbar-brand {
         margin-left:-12px;
     }
+}
 
 /********** End 07. Media Queries **********/
 

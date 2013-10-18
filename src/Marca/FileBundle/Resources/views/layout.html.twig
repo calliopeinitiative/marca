@@ -74,10 +74,12 @@ All Folders </a></li>
 {% else %}
 <li>
 <h2 class="nav-header">Labels</h2>
-<a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}"><span class="label {% if app.request.get('tag')=='0' %} margin-left{% endif %}">All Labels</span></a></li>
+<a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}">
+    <span class="label label-default {% if app.request.get('tag')=='0' %} margin-left{% endif %}">All Labels</span></a></li>
 {% for tag in tags %}
 <li>    
-<a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}"><span class="label {{ tag.color }} {% if app.request.get('tag')== tag.id %}margin-left{% endif %} ">{{ tag.name }}</span></a></li>
+<a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}">
+    <div class="label label-default {{ tag.color }} {% if app.request.get('tag')== tag.id %}margin-left{% endif %} ">{{ tag.name }}</div></a></li>
 {% endfor %}
 {% endif %}
 {% endif %}

@@ -2,262 +2,300 @@
 
 {% extends 'MarcaFileBundle::layout.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <!-- tablesorter plugin -->
+    <script src="{{ asset('bundles/marcahome/js/jquery.tablesorter.min.js') }}"></script>
+    <!-- tablesorter widget file - loaded after the plugin -->
+    <script src="{{ asset('bundles/marcahome/js/jquery.tablesorter.widgets.min.js') }}"></script>
+    <script language="javascript">
+        $(function() {
+            $.extend($.tablesorter.themes.bootstrap, {
+                table      : 'table table-bordered',
+                header     : 'bootstrap-header', // give the header a gradient background
+                footerRow  : '',
+                footerCells: '',
+                icons      : '', // add "icon-white" to make them white; this icon class is added to the <i> in the header
+                sortNone   : 'bootstrap-icon-unsorted',
+                sortAsc    : 'glyphicon glyphicon-chevron-up',     // includes classes for Bootstrap v2 & v3
+                sortDesc   : 'glyphicon glyphicon-chevron-down', // includes classes for Bootstrap v2 & v3
+                active     : '', // applied when column is sorted
+                hover      : '', // use custom css here - bootstrap class may not override it
+                filterRow  : '', // filter row class
+                even       : '', // odd row zebra striping
+                odd        : ''  // even row zebra striping
+            });
+            $("table thead th:eq(6)").data("sorter", false);
+            $('.tablesorter-childRow').hide();
+            // call the tablesorter plugin and apply the uitheme widget
+            $("table").tablesorter({
+                theme : "bootstrap",
+                widthFixed: true,
+                headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+                widgets : [ "uitheme", "filter"],
+                widgetOptions : {
+                    filter_reset : ".reset"
+                }
+            });
+
+        });
+        $(document).ready(function() {
+            $('.modal-body').css('max-height', function(index) {
+                return $(window).height() * .90;
+            });
+            {% for file in files%}
+            $('.edit_{{file.id}}').click(function(){
+                $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}');
+                $('#file_modal').modal();
+            });
+            $('#file_show_{{file.id}}').click(function(){
+                $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}');
+                $('#file_modal').modal();
+            });
+            {% for file in file.reviews%}
+            $('.edit_{{file.id}}').click(function(){
+                $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}');
+                $('#file_modal').modal();
+            });
+            $('#file_show_{{file.id}}').click(function(){
+                $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}');
+                $('#file_modal').modal();
+            });
+            {% endfor %}
+            {% endfor %}
+            {#
+            $('#file_list').css('height', function(index) {
+                return $(window).height() * .70;
+            });
+            #}
+            $('.tablesorter-filter').addClass('form-control');
+        });
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/theme.bootstrap.css') }}">
+{% endblock %}
+
 {% block content %}
-<script language="javascript">
-$(document).ready(function() {
-    $('.modal-body').css('max-height', function(index) {
-        return $(window).height() * .90;
-    });
-{% for file in files%} 
-$('.edit_{{file.id}}').click(function(){
-  $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}');
-  $('#file_modal').modal();
-});
-$('#file_show_{{file.id}}').click(function(){
-  $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}');
-  $('#file_modal').modal();
-});
-{% for file in file.reviews%} 
-$('.edit_{{file.id}}').click(function(){
-  $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}');
-  $('#file_modal').modal();
-});
-$('#file_show_{{file.id}}').click(function(){
-  $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}');
-  $('#file_modal').modal();
-});
-{% endfor %}
-{% endfor %}
-$('#file_list').css('height', function(index) {
-  return $(window).height() * .70;
-});
-});
-</script>
-
-
+<div id='project_nav' class="col-md-12 well" role="navigation">
 {# Project navigation #}
+    {# Mine All Find #}
+    {% if app.request.get('resource')=='0' %}
 
-{# Mine All Find #}
-{% if app.request.get('resource')=='0' %}
-<div id='project_nav' class="col-md-11 well" role="navigation">
-<span class="btn-group" style="margin-bottom:6px;margin-top:4px;">
+<span class="btn-group">
 <a class="btn btn-default btn-sm {% if app.request.get('scope')=='mine' and app.request.get('tag')!='3' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
 <a class="btn btn-default btn-sm {% if app.request.get('tag')=='3' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '3', 'userid': '0' }) }}">My Reviews</a>
 <a class="btn btn-default btn-sm {% if app.request.get('scope')=='all' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">Shared Files</a>
 
-{# Roll for Find by user  #}
-{% if app.request.get('resource')=='0' %}
-   <a href="javascript:void(0);" class="dropdown-toggle btn btn-default btn-sm{% if app.request.get('scope')=='byuser' %}active btn-info  btn-small{% endif %} " data-toggle="dropdown" id="dLabel">Files By Author<b class="caret" style="margin-left:6px;"></b></a>
-       <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
-           {% for roll in roll %}
-           <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
-           {% endfor %}
-       </ul>
-{% endif %}
+                {# Roll for Find by user  #}
+                {% if app.request.get('resource')=='0' %}
+                    <a href="javascript:void(0);" class="dropdown-toggle btn btn-default btn-sm{% if app.request.get('scope')=='byuser' %}active btn-info  btn-small{% endif %} " data-toggle="dropdown" id="dLabel">Files By Author<b class="caret" style="margin-left:6px;"></b></a>
+                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+                        {% for roll in roll %}
+                            <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
 </span>
-
 {% if role == '2' and app.request.get('resource')==0 %}<a class="btn btn-default btn-sm margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>{% endif %}
+{% endif %}
 
+    {# Breadcrumbs #}
+    {# show alert if default Resources #}
+    {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
+        {% for flashMessage in app.session.flashbag.get('message') %}
+            <div class="alert alert-info pad5 col-md-11">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+    {% else %}
+
+            <ul class="breadcrumb pull-right"  aria-labelledby="breadcrumblabel">
+                <span class="inline">Your current find:</span>
+                <li>
+                    <strong>
+                        {% if app.request.get('scope')=='mine' and app.request.get('resource')=='0' %}My Files
+                        {% elseif app.request.get('scope')=='all' and app.request.get('resource')=='0' %}Shared Files
+                            {# hide if peer review #}
+                        {% elseif app.request.get('tag')=='3' and app.request.get('resource')=='0' %}
+                        {% elseif byuser %}
+                            Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
+                        {% endif %}
+                    </strong>
+                </li>
+                {% for project in projects %}
+                    {% if active_project == project.id %}
+                        <li>
+                            <strong>{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}</strong>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                <li>
+                    {% if app.request.get('tag')!='0' %}
+                        <span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>
+                    {% else %}
+                        <span class="label label-default">All Labels</span>
+                    {% endif %}
+                </li>
+                <li>{{ count }} file(s) found</li>
+
+                {# next previous users on roll; hidden if peer review #}
+                {% if byuser %}
+                    <li>
+                        {% for roll in roll %}
+                            {% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}
+                                <span style='margin-right:3em;'></span>
+                                <a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname|title}} {{roll.lastname|title}}<i class="glyphicon glyphicon-chevron-right"></i></a>
+                            {% endif %}
+                            {% if loop.index == app.request.get('user') - 1 and app.request.get('tag')!='3' %}
+                                <a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}"><i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname|title}} {{roll.lastname|title}}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </li>
+                {% endif %}
+
+            </ul>
+
+    {% endif %}
 </div>
-{% endif %}
 
-{# Breadcrumbs #}
-{# show alert if default Resources #}
-{% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
-    {% for flashMessage in app.session.flashbag.get('message') %}
-        <div class="alert alert-info pad5 col-md-11">
-            {{ flashMessage }}
-        </div>
-    {% endfor %}
-{% else %}
-<div id='project_breadcrumbs' class="col-md-11 well" role="navigation">
-<ul class="breadcrumb" style='margin:0px;padding-left:6px;' aria-labelledby="breadcrumblabel">
-<p class="inline" id="breadcrumblabel">Your current find:</p>
-<li  class="margin-left">
-<strong>
-{% if app.request.get('scope')=='mine' and app.request.get('resource')=='0' %}My Files
-{% elseif app.request.get('scope')=='all' and app.request.get('resource')=='0' %}Shared Files
-{# hide if peer review #}
-{% elseif app.request.get('tag')=='3' and app.request.get('resource')=='0' %}
-{% elseif byuser %}
-Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
-{% endif %}
-</strong>
-</li>
-{% for project in projects %}
-{% if active_project == project.id %}
-<li  class='margin-left'>
-<strong>{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}</strong>
-</li>
-{% endif %}
-{% endfor %}
-<li  class='margin-left'>
-{% if app.request.get('tag')!='0' %}
-<span class="label {{ tag.color }}">{{ tag.name }}</span>
-{% else %}
-<span class="label">All Labels</span>
-{% endif %}
-</li>
-<li class='margin-left'>{{ count }} file(s) found</li>
 
-{# next previous users on roll; hidden if peer review #}
-{% if byuser %}
-<li class='pull-right'>
-{% for roll in roll %}
-{% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}
-<span style='margin-right:3em;'></span>
-<a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname|title}} {{roll.lastname|title}}<i class="glyphicon glyphicon-chevron-right"></i></a>
-{% endif %}
-{% if loop.index == app.request.get('user') - 1 and app.request.get('tag')!='3' %}
-<a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}"><i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname|title}} {{roll.lastname|title}}</a>
-{% endif %}
-{% endfor %}
-</li>
-{% endif %}
 
-</ul>
-</div>
-{% endif %}
+<table id="file_list" class="col-md-12" style="background-color: #fff">
 
-<div id="file_list" class="col-md-11 well">
-<table class="table">
+    <thead>
+    <tr>
+    <th>Type</th>
+    <th>Title</th>
+    <th>Owner</th>
+    <th>{% if app.request.get('resource')=='1' %}Unit{% else %}Folder{% endif %}</th>
+    <th>Labels</th>
+    <th>Modified</th>
+    <th></th>
+    </tr>
+    </thead>
+
+ <tbody>
 {% for file in files%}
-{# list headings #}        
-{% if loop.first %}        
-<thead>
-<th>Title</th>
-<th>{% if (app.request.get('scope')=='all' or app.request.get('scope')=='byuser') and app.request.get('resource')=='0' %}Owner{% endif %}</th>
-<th>{% if app.request.get('project')=='recent' %}{% if app.request.get('resource')=='1' %}Unit{% else %}Folder{% endif %}{% endif %}</th>
-<th>Labels</th>
-<th>{% if app.request.get('resource')=='0' %}Modified{% endif %}</th>
-<th></th>
-<th></th>
-</thead> 
-<tbody>
-{% endif %}
+    {# main list of files #}
+    <tr>
+        {# different functions for different file types #}
+        {# ODT files #}
+        {% if file.doc %}
+            <td><span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span></td>
+            <td><a class="" href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">
+                    {{ file.name }}</a>
+                <a title="Open this file in a new tab." target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}">
+                    <i class="glyphicon glyphicon-share-alt"></i></a></td>
 
-{# main list of files #}
-<tr>
-<td>  
-{# different functions for different file types #}        
-        
-{# ODT files #}         
-{% if file.doc %}     
-<span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
-<a class="" href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">
-{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
-<a title="Open this file in a new tab." target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}"><i class="glyphicon glyphicon-share-alt"></i></a>
+            {# links #}
+        {% elseif file.url %}
+            <td><span class="label label-file" data-toggle="tooltip" title="This a link ">link</span></td>
+            <td><a class="" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>{{ file.name }}</a></td>
 
-{# links #} 
-{% elseif file.url %}
-<span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
-<a class="" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
-
-{# ODT files #} 
-{% elseif file.ext == 'odt' %}
-<span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
-<a class="" href="{{ course_path('file_view_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
-<a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="glyphicon glyphicon-download"></i></a>
-{% else %} 
-<span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
-<a class="" href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
-{% endif %}
-
-{% if file.access==1 %} <span class="label label-success margin-left" data-toggle="tooltip" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
-{% if file.portfolio|length !=0 %} <span class="label label-info" data-toggle="tooltip" title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
-</td>
-<td>{% if (app.request.get('scope')=='all' or app.request.get('scope')=='byuser') and app.request.get('resource')=='0' %}{{ file.user.firstname|title }} {{ file.user.lastname|title }}{% endif%}</td>
-<td>{% if app.request.get('project')=='recent' %}<strong>{% if app.request.get('resource')=='1' %}{{ file.project.course.name }}: {% endif %}{{ file.project.name }}</strong>{% endif %}</td>
-<td>{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
-
-<td>{% if app.request.get('resource')=='0' %}{% if file.doc %}{{ file.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ file.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}</td>
-<td>
-<ul class="nav files">
-    <li class="dropdown">
-    <a title="More options for {{ file.name }}" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        {% if file.isOwner(app.user.username) %}<li><a class='edit_{{file.id}}' href="javascript:void(0);">Update File Settings</a></li>{% endif%}
-        {% if file.ext == 'odt' %}
-        {% if file.isOwner(app.user.username) %}    
-        <li><a href="{{ course_path('file_convert_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >Convert to HTML doc</a></li>
-        {% endif%}
-        <li><a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" >Download File</a></li>
-        {% endif%}
-        {% if role == 2 and app.request.get('resource')=='0' %}
-        <li><a title="Create a copy of this document for review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">New Instructor Review</a></li>
+            {# ODT files #}
+        {% elseif file.ext == 'odt' %}
+            <td><span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span></td>
+            <td><a class="" href="{{ course_path('file_view_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name }}</a>
+                <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="glyphicon glyphicon-download"></i></a></td>
+        {% else %}
+            <td><span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span></td>
+            <td><a class="" href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name }}</a></td>
         {% endif %}
-        {% if role == 2 and app.request.get('resource')=='0' %}
-        <li><a title="Upload a file for review" id="new_grade_{{file.id}}" href="{{ course_path('review_upload', { 'resource' : '0', 'tag' : '3', 'fileid': file.id }) }}">Upload Instructor Review</a></li>
-        {% endif %}            
-        {% if file.doc %}<li><a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}">Open in a new tab</a></li>{% endif %}
-        {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}
-        <li><a id='file_show_{{file.id}}' href='javascript:void(0);' class="">Delete File</a></li>
-        {% endif%}
-        </ul>
-     </li>
-</ul>
-</td>
-<td></td>
-</tr>
 
-{# reviews only show in projects #}
-{% if app.request.get('resource')=='0' %}
-{% for review in file.reviews%}  
-{# show if parent is owner or if the review is shared or if the user is instructor #}
-{% if (file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %} 
-<tr style="background:#FAF9C8;"> 
-<td colspan="2" style="padding-left:3em;">
+        <td>{{ file.user.firstname|title }} {{ file.user.lastname|title }}</td>
+        <td>{% if app.request.get('project')=='recent' %}<strong>{% if app.request.get('resource')=='1' %}{{ file.project.course.name }}: {% endif %}{{ file.project.name }}</strong>{% endif %}</td>
+        <td>
+            {% if file.access==1 %} <span class="label label-success" data-toggle="tooltip" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
+            {% if file.portfolio|length !=0 %} <span class="label label-info" data-toggle="tooltip" title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
 
-{% if review.doc %}
-    <span class="label label-file" data-toggle="tooltip" title="This an HTML file ">html</span>
-<a href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}">Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
-<a target ='_blank' href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'window' }) }}"><i class="glyphicon glyphicon-share-alt"></i></a>
-{% else  %}
-    <span class="label label-file" data-toggle="tooltip" title="This an {{ review.ext }} file ">{{ review.ext }}</span>
-<a href="{{ course_path('file_view', { 'id': review.id }) }}" title="Download Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}" >Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
-{% endif %}
+            {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
+        <td>{% if app.request.get('resource')=='0' %}{% if file.doc %}{{ file.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ file.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}</td>
+        <td>
+            <ul class="nav files">
+                <li class="dropdown">
+                    <a title="More options for {{ file.name }}" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                        {% if file.isOwner(app.user.username) %}<li><a  role="menuitem" class='edit_{{file.id}}' href="javascript:void(0);">Update File Settings</a></li>{% endif%}
+                        {% if file.ext == 'odt' %}
+                            {% if file.isOwner(app.user.username) %}
+                                <li><a role="menuitem" href="{{ course_path('file_convert_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >Convert to HTML doc</a></li>
+                            {% endif%}
+                            <li><a role="menuitem" href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" >Download File</a></li>
+                        {% endif%}
+                        {% if role == 2 and app.request.get('resource')=='0' %}
+                            <li><a role="menuitem" title="Create a copy of this document for review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">New Instructor Review</a></li>
+                        {% endif %}
+                        {% if role == 2 and app.request.get('resource')=='0' %}
+                            <li><a role="menuitem" title="Upload a file for review" id="new_grade_{{file.id}}" href="{{ course_path('review_upload', { 'resource' : '0', 'tag' : '3', 'fileid': file.id }) }}">Upload Instructor Review</a></li>
+                        {% endif %}
+                        {% if file.doc %}<li><a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}">Open in a new tab</a></li>{% endif %}
+                        {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}
+                            <li><a role="menuitem" id='file_show_{{file.id}}' href='javascript:void(0);' class="">Delete File</a></li>
+                        {% endif%}
+                    </ul>
+                </li>
+            </ul>
+        </td>
+    </tr>
 
-{% if review.access==1 %} <span class="label label-success margin-left">Shared</span>
-{% elseif review.access==2 %}<span title="This review is currently hidden from view." class="label label-inverse margin-left">Hidden</span> {% endif %}
-</td>
+    {# reviews only show in projects#}
+    {% if app.request.get('resource')=='0' %}
+        {% for review in file.reviews%}
 
-<td></td>
-<td>{% for tag in review.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
+            {% if (file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
+                <tr class="tablesorter-childRow" style="background:#FAF9C8;">
 
-<td>{% if app.request.get('resource')=='0' %}{% if review.doc %}{{ review.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ review.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}</td>
-<td>
-<ul class="nav files">
-    <li class="dropdown">
-    <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        {% if review.isOwner(app.user.username) %}<li><a class='edit_{{review.id}}' href="javascript:void(0);">Update File Settings</a></li>{% endif%}
-        {% if role==2 and review.isOwner(app.user.username) %}<li><a class='' href="{{ course_path('file_toggle_release', { 'id': review.id }) }}">{% if review.access==2 %}Release{% else %}Hide{% endif %} Review</a></li>{% endif%}
-        {% if review.doc %}<li><a target ='_blank' href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'window' }) }}">Open in a new tab</a></li>{% endif %}
-        {% if review.isOwner(app.user.username) and file.portfolio|length == 0 %}<li><a id='file_show_{{review.id}}' href='javascript:void(0);' class="">Delete File</a></li>{% endif%}
-        </ul>
-     </li>
-</ul>
-</td>
-<td></td>
-</tr>
-{% endif %}
-{% endfor %}
-{% endif %}
 
-{% if loop.first %}  
-</tbody>
-{% endif %}
+                        {% if review.doc %}
+                    <td><span class="label label-file" data-toggle="tooltip" title="This an HTML file ">html</span></td>
+                    <td><a href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}">Review</a>
+                            <a target ='_blank' href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'window' }) }}"><i class="glyphicon glyphicon-share-alt"></i></a>
+                        </td>
+                        {% else  %}
+                    <td><span class="label label-file" data-toggle="tooltip" title="This an {{ review.ext }} file ">{{ review.ext }}</span></td>
+                    <td><a href="{{ course_path('file_view', { 'id': review.id }) }}" title="Download Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}" >Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
+                        </td>
+                        {% endif %}
+
+
+                    <td>{{ review.user.firstname|title }} {{ review.user.lastname|title }}</td>
+                    <td></td>
+                    <td>{% if review.access==1 %} <span class="label label-success">Shared</span>
+                        {% elseif review.access==2 %}<span title="This review is currently hidden from view." class="label label-default black">Hidden</span> {% endif %}
+
+                        {% for tag in review.tag %}<span class="label label-default " style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
+
+                    <td>{% if app.request.get('resource')=='0' %}{% if review.doc %}{{ review.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ review.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}</td>
+                    <td>
+                        <ul class="nav files">
+                            <li class="dropdown">
+                                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    {% if review.isOwner(app.user.username) %}<li><a class='edit_{{review.id}}' href="javascript:void(0);">Update File Settings</a></li>{% endif%}
+                                    {% if role==2 and review.isOwner(app.user.username) %}<li><a class='' href="{{ course_path('file_toggle_release', { 'id': review.id }) }}">{% if review.access==2 %}Release{% else %}Hide{% endif %} Review</a></li>{% endif%}
+                                    {% if review.doc %}<li><a target ='_blank' href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'window' }) }}">Open in a new tab</a></li>{% endif %}
+                                    {% if review.isOwner(app.user.username) and file.portfolio|length == 0 %}<li><a id='file_show_{{review.id}}' href='javascript:void(0);' class="">Delete File</a></li>{% endif%}
+                                </ul>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
 {% else %}
     {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
-        {% else %}
-        <div class="alert alert-info">
-            No files match your request.
-        </div>
+    {% else %}
+        <tr><td colspan="6">No files match your request.</td> </tr>
     {% endif %}
 {% endfor %}
 
+</tbody>
 </table>
-  
 
 <div class="navigation">
 {{ knp_pagination_render(files) }}
@@ -269,5 +307,5 @@ Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
 
   </div><!-- /.modal -->
     
-</div>
+
 {% endblock %}
