@@ -84,10 +84,10 @@ class JournalController extends Controller
         $user = $this->getUser();       
         $course = $this->getCourse();
         
-	$journal = new Journal();
+	    $journal = new Journal();
         $journal->setBody('<p></p>');
-	$journal->setTitle('New Journal Entry');
-	$journal->setUser($user);
+	    $journal->setTitle('New Journal Entry');
+	    $journal->setUser($user);
         $journal->setCourse($course);        
 
         $em->persist($journal);

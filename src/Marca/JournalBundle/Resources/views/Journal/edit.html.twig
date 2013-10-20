@@ -43,27 +43,24 @@
                     {{ form_row(edit_form.body) }}
                     {{ form_rest(edit_form) }}
                 </div>
+        </form>
                 <div class="panel-footer">
                     <div class="btn-group">
                         <button class="btn btn-primary" type="submit">Update</button>
                         <a class='btn btn-default' href="{{ course_path('journal') }}">Cancel</a>
                     </div>
-                </div>
-            </div>
-        </form>
-
-        {% if journal.responses|length == 0%}
-            <span class="pull-right">
+                    {% if journal.responses|length == 0%}
+                        <span class="pull-right">
         <a class="btn btn-default btn-warning btn-delete" href='javascript:void(0);' id='confirm_delete' type="submit">Delete</a>
         <form id='delete' action="{{ course_path('journal_delete', { 'id': journal.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-default btn-warning btn-delete" type="submit">Confirm Delete</button>
         </form>
         </span>
-        {% else %}
-            <span  class='alert pull-right' >Since this journal entry has at least one response, it can not be deleted.</span>
-        {% endif %}
-
-    </div>
+                    {% else %}
+                        <span  class='alert pull-right' >Since this journal entry has at least one response, it can not be deleted.</span>
+                    {% endif %}
+                </div>
+            </div>
 
 {% endblock %}

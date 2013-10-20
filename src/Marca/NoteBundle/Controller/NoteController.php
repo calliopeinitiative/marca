@@ -62,50 +62,25 @@ class NoteController extends Controller
      * @Route("/{courseid}/new", name="note_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($courseid)
     {
-        $note = new Note();
-        $form   = $this->createForm(new NoteType(), $note);
-
-        return array(
-            'note' => $note,
-            'form'   => $form->createView()
-        );
-    }
-
-    /**
-     * Creates a new Note entity.
-     *
-     * @Route("/{courseid}/create", name="note_create")
-     * @Method("post")
-     * @Template("MarcaNoteBundle:Note:new.html.twig")
-     */
-    public function createAction($courseid)
-    {
-        $note  = new Note();
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();
+
+        $note = new Note();
+        $note->setTitle('New Note');
         $note->setUser($user);
         $note->setCourse($course);
-        $request = $this->getRequest();
-        $form    = $this->createForm(new NoteType(), $note);
-        $form->bind($request);
 
-        if ($form->isValid()) {
-            $em = $this->getEm();
+
             $em->persist($note);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('note', array('courseid' => $courseid)));
-            
-        }
 
-        return array(
-            'note' => $note,
-            'form'   => $form->createView()
-        );
+        return $this->redirect($this->generateUrl('note_edit', array('id' => $note->getId(), 'courseid'=> $courseid,)));
     }
+
 
     /**
      * Displays a form to edit an existing Note entity.
@@ -118,6 +93,7 @@ class NoteController extends Controller
         $em = $this->getEm();
 
         $note = $em->getRepository('MarcaNoteBundle:Note')->find($id);
+
 
         if (!$note) {
             throw $this->createNotFoundException('Unable to find Note entity.');

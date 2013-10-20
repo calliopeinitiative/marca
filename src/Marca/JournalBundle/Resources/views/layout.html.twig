@@ -13,7 +13,7 @@
 
 {% block sidebar %}
 <h1>Journal</h1>
-             <a class="btn btn-primary" href="{{ course_path('journal_new')  }}" >Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+             <a class="btn btn-primary" href="{{ course_path('journal_new')  }}">Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
              <li><a href="{{ course_path('journal') }}">List Entries</a></li>
              {% if role==2 %}
              <li class="dropdown">
