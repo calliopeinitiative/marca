@@ -9,36 +9,6 @@
     <!-- tablesorter widget file - loaded after the plugin -->
     <script src="{{ asset('bundles/marcahome/js/jquery.tablesorter.widgets.min.js') }}"></script>
     <script language="javascript">
-        $(function() {
-            $.extend($.tablesorter.themes.bootstrap, {
-                table      : 'table table-bordered',
-                header     : 'bootstrap-header', // give the header a gradient background
-                footerRow  : '',
-                footerCells: '',
-                icons      : '', // add "icon-white" to make them white; this icon class is added to the <i> in the header
-                sortNone   : 'bootstrap-icon-unsorted',
-                sortAsc    : 'glyphicon glyphicon-chevron-up',     // includes classes for Bootstrap v2 & v3
-                sortDesc   : 'glyphicon glyphicon-chevron-down', // includes classes for Bootstrap v2 & v3
-                active     : '', // applied when column is sorted
-                hover      : '', // use custom css here - bootstrap class may not override it
-                filterRow  : '', // filter row class
-                even       : '', // odd row zebra striping
-                odd        : ''  // even row zebra striping
-            });
-            $("table thead th:eq(6)").data("sorter", false);
-            $('.tablesorter-childRow').hide();
-            // call the tablesorter plugin and apply the uitheme widget
-            $("table").tablesorter({
-                theme : "bootstrap",
-                widthFixed: true,
-                headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
-                widgets : [ "uitheme", "filter"],
-                widgetOptions : {
-                    filter_reset : ".reset"
-                }
-            });
-
-        });
         $(document).ready(function() {
             $('.modal-body').css('max-height', function(index) {
                 return $(window).height() * .90;
@@ -68,7 +38,37 @@
                 return $(window).height() * .70;
             });
             #}
+            $('#sort_filter_toggle').click(function(){
+                $.extend($.tablesorter.themes.bootstrap, {
+                    table      : 'table table-bordered',
+                    header     : 'bootstrap-header', // give the header a gradient background
+                    footerRow  : '',
+                    footerCells: '',
+                    icons      : '', // add "icon-white" to make them white; this icon class is added to the <i> in the header
+                    sortNone   : 'bootstrap-icon-unsorted',
+                    sortAsc    : 'glyphicon glyphicon-chevron-up',     // includes classes for Bootstrap v2 & v3
+                    sortDesc   : 'glyphicon glyphicon-chevron-down', // includes classes for Bootstrap v2 & v3
+                    active     : '', // applied when column is sorted
+                    hover      : '', // use custom css here - bootstrap class may not override it
+                    filterRow  : '', // filter row class
+                    even       : '', // odd row zebra striping
+                    odd        : ''  // even row zebra striping
+                });
+                $("table thead th:eq(6)").data("sorter", false);
+                $('.tablesorter-childRow').hide();
+                // call the tablesorter plugin and apply the uitheme widget
+                $("table").tablesorter({
+                    theme : "bootstrap",
+                    widthFixed: true,
+                    headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+                    widgets : [ "uitheme", "filter"],
+                    widgetOptions : {
+                        filter_reset : ".reset"
+                    }
+                });
+            });
             $('.tablesorter-filter').addClass('form-control');
+
         });
     </script>
 {% endblock %}
@@ -85,23 +85,26 @@
     {% if app.request.get('resource')=='0' %}
 
 <span class="btn-group">
-<a class="btn btn-default btn-sm {% if app.request.get('scope')=='mine' and app.request.get('tag')!='3' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
-<a class="btn btn-default btn-sm {% if app.request.get('tag')=='3' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '3', 'userid': '0' }) }}">My Reviews</a>
-<a class="btn btn-default btn-sm {% if app.request.get('scope')=='all' %}active btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">Shared Files</a>
-
+<a class="btn btn-default btn-sm {% if app.request.get('scope')=='mine' and app.request.get('tag')!='3' %} btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
+<a class="btn btn-default btn-sm {% if app.request.get('tag')=='3' %} btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '3', 'userid': '0' }) }}">My Reviews</a>
+<a class="btn btn-default btn-sm {% if app.request.get('scope')=='all' %} btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">Shared Files</a>
+</span>
                 {# Roll for Find by user  #}
                 {% if app.request.get('resource')=='0' %}
-                    <a href="javascript:void(0);" class="dropdown-toggle btn btn-default btn-sm{% if app.request.get('scope')=='byuser' %}active btn-info  btn-small{% endif %} " data-toggle="dropdown" id="dLabel">Files By Author<b class="caret" style="margin-left:6px;"></b></a>
-                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+                    <a href="javascript:void(0);" class="dropdown-toggle btn btn-default btn-sm
+                    {% if app.request.get('scope')=='byuser' %}btn-info{% endif %}" data-toggle="dropdown" id="dLabel">Files By Author<b class="caret" style="margin-left:6px;"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         {% for roll in roll %}
                             <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
                         {% endfor %}
                     </ul>
                 {% endif %}
-</span>
-{% if role == '2' and app.request.get('resource')==0 %}<a class="btn btn-default btn-sm margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>{% endif %}
+<span class="btn-group">
+{% if role == '2' and app.request.get('resource')==0 %}<a class="btn btn-default btn-sm" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>{% endif %}
 {% endif %}
-
+<a id="sort_filter_toggle" class="btn btn-default btn-sm" href="javascript:void(0);">Advanced Sort/Filter</a>
+</span>
+</div>
     {# Breadcrumbs #}
     {# show alert if default Resources #}
     {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
@@ -112,7 +115,7 @@
         {% endfor %}
     {% else %}
 
-            <ul class="breadcrumb pull-right"  aria-labelledby="breadcrumblabel">
+            <ul class="breadcrumb"  aria-labelledby="breadcrumblabel">
                 <span class="inline">Your current find:</span>
                 <li>
                     <strong>
@@ -159,11 +162,9 @@
             </ul>
 
     {% endif %}
-</div>
 
 
-
-<table id="file_list" class="col-md-12" style="background-color: #fff">
+<table id="file_list" class="col-md-12 table table-bordered " style="background-color: #fff">
 
     <thead>
     <tr>
