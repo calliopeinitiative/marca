@@ -65,10 +65,10 @@ $('#doctools').css('height', function(index) {
 <div class="col-md-12 center">
 <a name="skip"></a>
 <div class="panel panel-default">
-    <div class="panel-heading"><h1 class='inline'>{{file.name}}</h1>
+    <div class="panel-heading">
 
 {# Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}} / Word count: <span id="word-count"></span> #}
-<span class="pull-right" style='margin-right:3em'>
+<span class="pull-right">
 <div class="btn-group">
 {% if app.request.get('_route') != 'file_view_odt' %}
 {% if doc.isOwner(app.user.username) %}<a title="Edit this document" class="btn btn-primary btn-sm" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %}
@@ -100,12 +100,13 @@ $('#doctools').css('height', function(index) {
 {% endif %}
 </div>
 </span>
+        <h1>{{file.name}}</h1>
 </div>
 
 {# Doc display #}
 <div class="panel-body">
 <div class="row margin-top clear">
-<div id='doc-display' class="col-md-8">
+<div id='doc-display' class="col-md-9">
 <div class="doc-body">
 {{ doc.body|raw }}     
 </div>
