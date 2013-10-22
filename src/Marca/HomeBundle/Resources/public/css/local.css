@@ -816,34 +816,46 @@ label.required[for=form_lastname] {
 
 @media (max-width: 1199px) {
     .navbar .nav > li > a {
-        padding-left:6px;
+        padding-left: 6px;
         padding-right: 6px;
     }
 }
 
 
 
-@media (min-width: 788px) {
+@media (min-width: 768px) {
     .navbar > .container .navbar-brand {
         margin-left:-30px;
     }
 }
 
-@media (max-width: 787px) {
+@media (max-width: 767px) {
     .navbar > .container .navbar-brand {
         margin-left:-12px;
     }
 }
 
-@media (min-width:788px) {
+@media (min-width:768px) {
+    .notes-panel {
+        max-width: 800px;
+-webkit-column-count: 2;
+-webkit-column-gap:   10px;
+-moz-column-count:    2;
+-moz-column-gap:      10px;
+column-count:         2;
+column-gap:           10px;
+    }
+}
+
+@media (min-width:992px) {
     .notes-panel {
         max-width: 1200px;
--webkit-column-count: 3;
--webkit-column-gap:   10px;
--moz-column-count:    3;
--moz-column-gap:      10px;
-column-count:         3;
-column-gap:           10px;
+        -webkit-column-count: 3;
+        -webkit-column-gap:   10px;
+        -moz-column-count:    3;
+        -moz-column-gap:      10px;
+        column-count:         3;
+        column-gap:           10px;
     }
 }
 
