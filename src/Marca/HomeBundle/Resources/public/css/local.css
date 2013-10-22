@@ -835,6 +835,18 @@ label.required[for=form_lastname] {
     }
 }
 
+@media (min-width:788px) {
+    .notes-panel {
+        max-width: 1200px;
+-webkit-column-count: 3;
+-webkit-column-gap:   10px;
+-moz-column-count:    3;
+-moz-column-gap:      10px;
+column-count:         3;
+column-gap:           10px;
+    }
+}
+
 /********** End 07. Media Queries **********/
 
 

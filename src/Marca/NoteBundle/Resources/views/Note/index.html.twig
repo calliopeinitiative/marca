@@ -8,18 +8,14 @@
 
 
 {% block content %}
-<div style="
-        width:1000px;
-        -webkit-column-count: 3;
-        -webkit-column-gap:   0px;
-        -moz-column-count:    3;
-        -moz-column-gap:      0px;
-        column-count:         3;
-        column-gap:           0px;">
+    <div class="row">
+    <div class="col-md-12">
+<div class="notes-panel">
     {% for note in notes %}
   <div class="panel panel-default" style="display: inline-block;
-        margin-bottom: 0;
-        width: 100%;">
+        margin-bottom: 10px;
+        width: 100%;
+        min-height:115px;">
             <div class="panel-heading">
                 <a href="{{ course_path('note_edit', { 'id': note.id }) }}">{{ note.title }}</a>
                 </div>
@@ -30,5 +26,7 @@
     {%else%}
         You don't have any notes yet.  Just click the Create button to get started.
     {% endfor %}
+    </div>
+    </div>
     </div>
     {% endblock %}
