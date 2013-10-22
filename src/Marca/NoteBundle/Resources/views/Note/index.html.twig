@@ -4,52 +4,31 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script language="javascript">
-        $(document).ready(function()
-        {
-            $('.note_body').show();
-            $('#note_page').css('height', function(index) {
-                return $(window).height()* .82;
-            });
-            $('#note_sub, #note_list').css('height', function(index) {
-                return $(window).height()* .78;
-            });
-            {% for note in notes %}
-            {% if loop.first %}$('#note_body{{loop.index}}').show();{% endif %}
-            $('#note_anchor{{loop.index}}').click(function(){
-                $('.note_body').hide();$('#note_body{{loop.index}}').show();$('td.active').removeClass('active');
-            });
-            {% endfor %}
-        });
-    </script>
 {% endblock %}
 
 
 {% block content %}
-<div id="note_page" class="col-md-12">
-    <div class="row">
-        <div id="note_list" class="col-md-2"
-        <ul class="list-group">
-            <div class="panel panel-default">
-                <div class="panel-heading">List<i class="glyphicon glyphicon-list glyphicon-white"></i></div>
-                     {% for note in notes %}
-
-                    <li id="note_td{{loop.index}}" class="notes list-group-item"><a href="{{ course_path('note_edit', { 'id': note.id }) }}">{{ note.title }}</a></li>
-                {%else%}
-
-                    <li class="notes list-group-item">You don't have any notes yet.  Just click the create button to get started.</li>
-
-                {% endfor %}
-            </div>
-        </ul>
+<div style="
+        width:1000px;
+        -webkit-column-count: 3;
+        -webkit-column-gap:   0px;
+        -moz-column-count:    3;
+        -moz-column-gap:      0px;
+        column-count:         3;
+        column-gap:           0px;">
+    {% for note in notes %}
+  <div class="panel panel-default" style="display: inline-block;
+        margin-bottom: 0;
+        width: 100%;">
+            <div class="panel-heading">
+                <a href="{{ course_path('note_edit', { 'id': note.id }) }}">{{ note.title }}</a>
+                </div>
+      <div class="panel-body">
+          {{ note.description|raw }}
+      </div>
+        </div>
+    {%else%}
+        You don't have any notes yet.  Just click the Create button to get started.
+    {% endfor %}
     </div>
-    <div id="note_sub" class="col-md-9">
-        <ul class="list-group">
-            {% for note in notes %}
-                <li class="note_body list-group-item panel" id="note_body{{loop.index}}">{{ note.description|raw }}
-                   </li>
-            {% endfor %}
-        </ul>
-    </div>
-
     {% endblock %}
