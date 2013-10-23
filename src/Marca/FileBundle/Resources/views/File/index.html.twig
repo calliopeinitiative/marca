@@ -79,32 +79,7 @@
 {% endblock %}
 
 {% block content %}
-<div id='project_nav' class="col-md-12 well" role="navigation">
-{# Project navigation #}
-    {# Mine All Find #}
-    {% if app.request.get('resource')=='0' %}
 
-<span class="btn-group">
-<a class="btn btn-default btn-sm {% if app.request.get('scope')=='mine' and app.request.get('tag')!='3' %} btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a>
-<a class="btn btn-default btn-sm {% if app.request.get('tag')=='3' %} btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '3', 'userid': '0' }) }}">My Reviews</a>
-<a class="btn btn-default btn-sm {% if app.request.get('scope')=='all' %} btn-info{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">Shared Files</a>
-</span>
-                {# Roll for Find by user  #}
-                {% if app.request.get('resource')=='0' %}
-                    <a href="javascript:void(0);" class="dropdown-toggle btn btn-default btn-sm
-                    {% if app.request.get('scope')=='byuser' %}btn-info{% endif %}" data-toggle="dropdown" id="dLabel">Files By Author<b class="caret" style="margin-left:6px;"></b></a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                        {% for roll in roll %}
-                            <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-<span class="btn-group">
-{% if role == '2' and app.request.get('resource')==0 %}<a class="btn btn-default btn-sm" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>{% endif %}
-{% endif %}
-<a id="sort_filter_toggle" class="btn btn-default btn-sm" href="javascript:void(0);">Advanced Sort/Filter</a>
-</span>
-</div>
     {# Breadcrumbs #}
     {# show alert if default Resources #}
     {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
@@ -115,38 +90,10 @@
         {% endfor %}
     {% else %}
 
-            <ul class="breadcrumb"  aria-labelledby="breadcrumblabel">
-                <span class="inline">Your current find:</span>
-                <li>
-                    <strong>
-                        {% if app.request.get('scope')=='mine' and app.request.get('resource')=='0' %}My Files
-                        {% elseif app.request.get('scope')=='all' and app.request.get('resource')=='0' %}Shared Files
-                            {# hide if peer review #}
-                        {% elseif app.request.get('tag')=='3' and app.request.get('resource')=='0' %}
-                        {% elseif byuser %}
-                            Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}
-                        {% endif %}
-                    </strong>
-                </li>
-                {% for project in projects %}
-                    {% if active_project == project.id %}
-                        <li>
-                            <strong>{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}</strong>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-                <li>
-                    {% if app.request.get('tag')!='0' %}
-                        <span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>
-                    {% else %}
-                        <span class="label label-default">All Labels</span>
-                    {% endif %}
-                </li>
-                <li>{{ count }} file(s) found</li>
-
+            <span class="pull-right">
                 {# next previous users on roll; hidden if peer review #}
                 {% if byuser %}
-                    <li>
+
                         {% for roll in roll %}
                             {% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}
                                 <span style='margin-right:3em;'></span>
@@ -156,10 +103,10 @@
                                 <a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}"><i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname|title}} {{roll.lastname|title}}</a>
                             {% endif %}
                         {% endfor %}
-                    </li>
-                {% endif %}
 
-            </ul>
+                {% endif %}
+</span>
+
 
     {% endif %}
 

@@ -36,10 +36,10 @@ $('#file_new_link').click(function(){
 {# if for resources (only instructor can post to resources)  #}
 {% if (app.request.get('resource')=='0' or role=='2') and loop.first %}
 <div class="btn-group">
-  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
     Create
     <i class="glyphicon glyphicon-pencil glyphicon-white"></i>
-  </a>
+  </button>
   <ul class="dropdown-menu">
     <li><a id='file_new_doc' title='Create new document' href='javascript:void(0);'><i class="glyphicon glyphicon-edit"></i> Document</a></li>
     <li><a id='file_new_upload' title='Upload document' href="javascript:void(0);"><i class="glyphicon glyphicon-upload"></i> Upload</a></li>
@@ -50,40 +50,60 @@ $('#file_new_link').click(function(){
 {% else %}
 {% endfor %}
 
+<hr class="marca-spacer" />
+
+<li><a class="project-sidebar {% if app.request.get('scope')=='mine' and app.request.get('tag')!='3' %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a></li>
+<li><a class="project-sidebar {% if app.request.get('tag')=='3' %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '3', 'userid': '0' }) }}">My Reviews</a></li>
+<li><a class="project-sidebar {% if app.request.get('scope')=='all' %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">Shared Files</a></li>
+
+    {# Roll for Find by user  #}
+    {% if app.request.get('resource')=='0' %}
+      <li class="dropdown"><a href="javascript:void(0);" role="button" class="project-sidebar {% if app.request.get('scope')=='byuser' %}current-filter{% endif %}" data-toggle="dropdown" id="findByAuthor">{% if app.request.get('scope')=='byuser' %}Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}{% else %}Files By Author{% endif %}<b class="caret" style="margin-left:6px;"></b></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">
+            {% for roll in roll %}
+                <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
+            {% endfor %}
+        </ul></li>
+    {% endif %}
+
+<hr class="marca-spacer" />
 
 {# Projects  Find #}
-<h2 class="nav-header">{% if app.request.get('resource')=='1' %}Units{% else %}Folders{% endif %}</h2>
-{% if app.request.get('resource')=='0' %}Folders
-<li><a class="{% if active_project == 0 %}active{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-<i class="glyphicon glyphicon-folder-{% if active_project == 0 %}open{% else %}close{% endif %}"></i>
+<h2 class="nav-header">{% if app.request.get('resource')=='1' %}Units{% endif %}</h2>
+{% if app.request.get('resource')=='0' %}
+<li><a class="project-sidebar {% if active_project == 0 %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
 All Folders </a></li>
 {%else%}
 {% endif %}
 {% for project in projects %}
 <li>
-<a title='{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}' class="{% if active_project == project.id %}active{% endif %}" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-<i class="glyphicon glyphicon-folder-{% if active_project == project.id %}open{% else %}close{% endif %}"></i>
+<a title='{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}' class="project-sidebar {% if active_project == project.id %}current-filter{% endif %} margin-left-medium" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
 {% if app.request.get('resource')=='1' and project.course.name!=app.session.get('course') %}{{ project.course.name }}: {%endif%}{{ project.name }}</a>
 </li>
 {% endfor %}
 
-
+<hr class="marca-spacer" />
 
 {# Labels  Find #} 
 {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
 {% else %}
 <li>
-<h2 class="nav-header">Labels</h2>
-<a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}">
-    <span class="label label-default {% if app.request.get('tag')=='0' %} margin-left{% endif %}">All Labels</span></a></li>
+<a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}" class="project-sidebar {% if app.request.get('tag')=='0' %}current-filter{% endif %}">All Labels</a></li>
 {% for tag in tags %}
 <li>    
-<a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}">
-    <div class="label label-default {{ tag.color }} {% if app.request.get('tag')== tag.id %}margin-left{% endif %} ">{{ tag.name }}</div></a></li>
+<a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}" class="project-sidebar {% if app.request.get('tag')== tag.id %}current-filter{% endif %} margin-left-medium">
+{{ tag.name }}</a></li>
 {% endfor %}
 {% endif %}
 {% endif %}
 
+{% if role == '2' and app.request.get('resource')==0 %}
 
+<hr class="marca-spacer" />
+
+<a class="project-sidebar" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>
+<a id="sort_filter_toggle" class="project-sidebar" href="javascript:void(0);">Advanced Sort/Filter</a>
+
+{% endif %}
 
 {% endblock %}  
