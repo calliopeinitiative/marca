@@ -66,47 +66,48 @@ $('#doctools').css('height', function(index) {
 <a name="skip"></a>
 <div class="panel panel-default">
     <div class="panel-heading">
+        <h1 class="doc-header">{{file.name}}</h1>
 
-{# Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}} / Word count: <span id="word-count"></span> #}
-<span class="pull-right">
-<div class="btn-group">
-{% if app.request.get('_route') != 'file_view_odt' %}
-{% if doc.isOwner(app.user.username) %}<a title="Edit this document" class="btn btn-primary btn-sm" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %}
+        {# Created {{doc.created|date('M d Y, g:ia')}} / Updated {{doc.updated|date('M d Y, g:ia')}} / Word count: <span id="word-count"></span> #}
+        <div class="btn-group pull-right">
+            {% if app.request.get('_route') != 'file_view_odt' %}
+                {% if doc.isOwner(app.user.username) %}<a title="Edit this document" class="btn btn-primary btn-sm" href="{{ course_path('doc_edit', { 'id': doc.id,'view': app.request.get('view') }) }}">Edit</a> {% endif %}
 
-{# Don't show Review button if it is a review or a Resource #}
-{% if file.reviewed|length == 0 and file.project.resource != 'true' %}
-<a title="Create a copy of this document for peer review" id="new_review" class="btn btn-default btn-sm" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Peer Review</a>
-{% if role == 2 %}
-<a title="Create a copy of this document for peer review" id="new_grade" class="btn btn-default btn-sm" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
-{% endif %}
-{% endif %}
+                {# Don't show Review button if it is a review or a Resource #}
+                {% if file.reviewed|length == 0 and file.project.resource != 'true' %}
+                    <a title="Create a copy of this document for peer review" id="new_review" class="btn btn-default btn-sm" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Peer Review</a>
+                    {% if role == 2 %}
+                        <a title="Create a copy of this document for peer review" id="new_grade" class="btn btn-default btn-sm" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
+                    {% endif %}
+                {% endif %}
 
-{% if doc.isOwner(app.user.username) or file.project.resource == 'true' %}
-<a title="Create a copy of this document" id="new_saveas" class="btn btn-default btn-sm" href="javascript:void(0)">SaveAs</a>
-{% endif %}
-<a title="Print this document" class="btn btn-default btn-sm" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>
-{% endif %}
+                {% if doc.isOwner(app.user.username) or file.project.resource == 'true' %}
+                    <a title="Create a copy of this document" id="new_saveas" class="btn btn-default btn-sm" href="javascript:void(0)">SaveAs</a>
+                {% endif %}
+                <a title="Print this document" class="btn btn-default btn-sm" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>
+            {% endif %}
 
-{% if app.request.get('view') == 'window' %}
-<a title="Close the current window or tab" id="close_window"  class="btn btn-default btn-sm" href="javascript:void(0);">Close</a>
-{% elseif file.project.resource == 'true' %}
-<a  title="Close this document" class="btn btn-default btn-sm" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
-{% else %}
-    {% if app.session.get('referrer')%}
-    <a title="Close this document" class="btn btn-default btn-sm" href="{{app.session.get('referrer')}} ">Close</a>
-    {%else%}    
-    <a title="Close this document" class="btn btn-default btn-sm" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
-    {%endif%}
-{% endif %}
-</div>
-</span>
-        <h1>{{file.name}}</h1>
-</div>
+            {% if app.request.get('view') == 'window' %}
+                <a title="Close the current window or tab" id="close_window"  class="btn btn-default btn-sm" href="javascript:void(0);">Close</a>
+            {% elseif file.project.resource == 'true' %}
+                <a  title="Close this document" class="btn btn-default btn-sm" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
+            {% else %}
+                {% if app.session.get('referrer')%}
+                    <a title="Close this document" class="btn btn-default btn-sm" href="{{app.session.get('referrer')}} ">Close</a>
+                {%else%}
+                    <a title="Close this document" class="btn btn-default btn-sm" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+                {%endif%}
+            {% endif %}
+        </div>
+
+
+    </div>
+
 
 {# Doc display #}
-<div class="panel-body">
-<div class="row margin-top clear">
-<div id='doc-display' class="col-md-9">
+<div class="panel-body ">
+
+<div id='doc-display' class="col-md-8 well">
 <div class="doc-body">
 {{ doc.body|raw }}     
 </div>
@@ -114,7 +115,7 @@ $('#doctools').css('height', function(index) {
 </div>
  
 {# Doc tools #}        
-<div class="col-md-3">
+<div class="col-md-4" id="doctools">
 {% if app.request.get('_route') != 'file_view_odt' %}
     <div class="panel-group" id="accordion">
         <div class="panel panel-default">
@@ -194,7 +195,6 @@ $('#doctools').css('height', function(index) {
                 </div>
             </div>
             </div>
-</div>
 </div>
 </div>
 

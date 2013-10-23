@@ -34,43 +34,36 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-md-12 center" style='margin-top:-.78em;'>
-<form id="doc_form" class="" action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <div class="col-md-12 center">
+        <form id="doc_form" class="" action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
 
-<div class="col-md-12 center" style="margin-top:1em;width:92%">
-    <h1  class='inline' style="margin-left:-4%;">{{file.name}}</h1>     
-    <span class="pull-right" style="margin-top:8px;margin-right:2.7%;">
-    <span id='saving_alert' class='alert alert-info margin-left' style="padding:8px;margin-right:12px;">Saving</span>
-    <div class="btn-group">
-    <input class="btn btn-primary btn-sm margin-left" type="submit" id="doc_save" value="Save and Close"/>
+            <a name="skip"></a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="doc-header">{{file.name}}</h1>
+                    <div class="pull-right">
+                    <span id='saving_alert' class='alert alert-info'>Saving</span>
+                    <input class="btn btn-primary btn-sm" type="submit" id="doc_save" value="Save and Close"/>
+                    </div>
+                </div>
+
+            <div class="panel-body ">
+
+                <div id='doc-gui' class="col-md-8">
+                    {{ form_errors(edit_form) }}
+                    {{ form_errors(edit_form.body) }}
+                    {{ form_widget(edit_form.body) }}
+                    {{ form_rest(edit_form) }}
+                </div>
+
+                {# Doc tools #}
+                <div id='doctools' class="col-md-4">
+
+                    {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
+
+                </div>
+            </div>
+        </form>
     </div>
-    </span>
-</div>
-
-<div id='doc-gui' class="col-md-8 margin-top" style="margin-bottom:1em;margin-left:0;">
-
-    {{ form_errors(edit_form) }}
-    {{ form_errors(edit_form.body) }}
-    {{ form_widget(edit_form.body) }}
-    {{ form_rest(edit_form) }}    
-
-</div>
-     
-              
-{# Doc tools #}        
-<div class="col-md-3" >
-<div id='doctools' class="col-md-3 well">
-<div  class='cell clear'>
-
-{%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
-
-</div> 
-</div>
-</div>
-    
-        
-</form>      
-</div>
-
 
 {% endblock %}
