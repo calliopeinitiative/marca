@@ -80,8 +80,10 @@ class FileController extends Controller
         $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),100);
         $count = $files->getTotalItemCount();
 
-        return array('files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project, 
-            'tags' => $tags, 'systemtags' => $systemtags, 'tag' => $tag, 'byuser' => $byuser, 'course' => $course, 'roll' => $roll, 'role'=> $role);
+        if ($resource==0) {$template = 'MarcaFileBundle:File:index.html.twig'; } else {$template = 'MarcaFileBundle:File:resource_index.html.twig';}
+
+        return $this->render($template, array('files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project,
+                'tags' => $tags, 'systemtags' => $systemtags, 'tag' => $tag, 'byuser' => $byuser, 'course' => $course, 'roll' => $roll, 'role'=> $role));
     }  
            
  

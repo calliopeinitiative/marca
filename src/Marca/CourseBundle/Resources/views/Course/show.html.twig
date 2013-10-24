@@ -2,187 +2,189 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript" xmlns="http://www.w3.org/1999/html">
+        $(document).ready(function()
+        {
+            $('.btn-danger').click (function () {
+                return confirm ("Are you sure?") ;
+            }) ;
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
+<div class="col-md-6">
+<div class="panel panel-default ">
+    <div class="panel-heading">
+        <h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> </h2>
+        {% if course.module == 2%}<div class='alert alert-success'>This module is shared with all instructors.</div>{% endif %}
+        <p></p><strong>Time:</strong> {{ course.time|date('h:i a') }}
+        <strong>Term:</strong> {{ course.term.termName }}</p>
 
-<script language="javascript"> 
-$(document).ready(function()
-{
-$('a#cancel_delete').toggle();$('form#delete').toggle(); 
-$("a#confirm_delete").click(function() {
-$('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
-});    
-$("a#cancel_delete").click(function() {
-$('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
-}); 
-});
-</script>
+        <a class="btn btn-primary" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit Settings </a>
+        {% if course.module == 0%}
+            <a class="btn btn-default" href="{{ path('roll', { 'courseid': course.id }) }}">Manage Roll</a>
+            {#  commented out until fully functional
+            <a class="btn btn-default" href="{{ path('teams', { 'courseid': course.id }) }}">Manage Teams</a>
+            #}
+        {% endif %}
+        {% if course.module != 1%}
+            <a class="btn btn-default" href="{{ path('toggle_module', { 'courseid': course.id,'setting': 1  }) }}">Change to {% if course.module == 2%}Private{% endif %} Module</a>
+        {% elseif course.module == 1 %}
+            <a class="btn btn-default" href="{{ path('toggle_module', { 'courseid': course.id,'setting': 0  }) }}">Change to Course</a>
+            <a class="btn btn-default" href="{{ path('toggle_module', { 'courseid': course.id,'setting': 2  }) }}">Share Module</a>
+        {% endif %}
 
-<div class="col-md-6 well">
-<h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> </h2>
-    <div class='alert alert-info'>Click the {% if course.module == 0%}course{% else %}module{% endif %} name above to return to it</div>
-{% if course.module == 2%}<div class='alert alert-success'>This module is shared with all instructors.</div>{% endif %}
-<a class="btn btn-primary" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit Settings </a>
-{% if course.module == 0%}
-<a class="btn btn-default" href="{{ path('roll', { 'courseid': course.id }) }}">Manage Roll</a>
-{#  commented out until fully functional 
-<a class="btn btn-default" href="{{ path('teams', { 'courseid': course.id }) }}">Manage Teams</a>
-#}
-{% endif %}
+    </div>
 
+    <div class="panel-body">
+        {# Show/hide conditional for Modules #}
+        {% if course.module == 0 %}
+            <ul class="list-unstyled">
+                <li><h2>Tools available in the course</h2></li>
+                <li><strong>Notes tool:</strong>  {{ course.notes=='t' ? 'Yes' : 'No' }}</li>
+                <li><strong>Forum tool:</strong>  {{ course.forum=='t' ? 'Yes' : 'No' }}</li>
+                <li><strong>Journal tool:</strong>  {{ course.journal=='t' ? 'Yes' : 'No' }}</li>
+                <li><h2>Student access</h2></li>
+                <li><strong>Enrollment open:</strong>  {{ course.enroll=='t' ? 'Yes' : 'No' }}</li>
+                <li><strong>Student can post files: </strong> {{ course.post=='t' ? 'Yes' : 'No' }}</li>
+                <li><strong>Student can start forum threads:</strong>  {{ course.studentForum=='t' ? 'Yes' : 'No' }}</li>
+                <li><h2>Portfolio</h2></li>
+                <li><strong>Portfolio: </strong> {{ course.portfolio=='t' ? 'Yes' : 'No' }}</li>
+                <li><strong>Portfolio set:</strong>{% if portset %}{{ portset.name}}{% else %}No portfolio set designated{% endif %}</li>
+                <li><strong>Portfolio Assessment: </strong> {% if course.assessmentset %}{{ course.assessmentset.name }}{% else %}No portfolio assessment designated{% endif %}</li>
+                <li><strong>Portfolio editing open: </strong>{{ course.portStatus=='t' ? 'Yes' : 'No' }}   </li>
+                <li><h2>Other Settings</h2></li>
+                <li><strong>Modules:</strong>  {% for course in course.parents %}{{ course.name }}</br>{% else %}No Modules{% endfor %} </li>
+                <li><strong>Label Sets: </strong> {% for tagset in tagsets %}{{ tagset.name}}{% if not loop.last %}, {% endif %}{% endfor %} </li>
+                <li><strong>Markup Sets:</strong> {% for markupset in course.markupsets %}{{ markupset.name}}{% if not loop.last %}, {% endif %}{% endfor %}  </li>
+                <li><strong>Institution:</strong>  {% if course.institution == NULL %}
+                        No institution is set for this course, please edit the course to set one
+                    {% else %}
+                        {{ course.institution.name }}
+                    {% endif %}
+                </li>
+            </ul>
+        {% endif %}
+        <hr/>
 
+        <form class="toggle" id='course_delete' action="{{ path('course_delete', { 'courseid': course.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger pull-right" type="submit">Delete</button>
+        </form>
 
-{% if course.module != 1%}
-<a class="btn btn-default" href="{{ path('toggle_module', { 'courseid': course.id,'setting': 1  }) }}">Change to {% if course.module == 2%}Private{% endif %} Module</a>
-{% elseif course.module == 1 %}
-<a class="btn btn-default" href="{{ path('toggle_module', { 'courseid': course.id,'setting': 0  }) }}">Change to Course</a>
-<a class="btn btn-default" href="{{ path('toggle_module', { 'courseid': course.id,'setting': 2  }) }}">Share Module</a>
-{% endif %}
-
-{# Show/hide conditional for Modules #}
-{% if course.module == 0 %}       
-<h2>Settings</h2> 
-<ul class="list-unstyled">
-<li><strong>Time:</strong> {{ course.time|date('h:i a') }}</li>  
-<li><strong>Term:</strong> {{ course.term.termName }}</li>
-    <hr/>
-    <div class='alert alert-info'>Tools available in the course</div>
-<li><strong>Notes tool:</strong>  {{ course.notes=='t' ? 'Yes' : 'No' }}</li> 
-<li><strong>Forum tool:</strong>  {{ course.forum=='t' ? 'Yes' : 'No' }}</li>
-<li><strong>Journal tool:</strong>  {{ course.journal=='t' ? 'Yes' : 'No' }}</li>
-    <hr/>
-    <div class='alert alert-info'>Student access</div>
-
-<li><strong>Enrollment open:</strong>  {{ course.enroll=='t' ? 'Yes' : 'No' }}</li> 
-<li><strong>Student can post files: </strong> {{ course.post=='t' ? 'Yes' : 'No' }}</li> 
-<li><strong>Student can start forum threads:</strong>  {{ course.studentForum=='t' ? 'Yes' : 'No' }}</li>
-    <hr/>
-    <div class='alert alert-info'>Portfolio settings</div>
-<li><strong>Portfolio: </strong> {{ course.portfolio=='t' ? 'Yes' : 'No' }}</li>
-<li><strong>Portfolio set:</strong>{% if portset %}{{ portset.name}}{% else %}No portfolio set designated{% endif %}</li>
-<li><strong>Portfolio Assessment: </strong> {% if course.assessmentset %}{{ course.assessmentset.name }}{% else %}No portfolio assessment designated{% endif %}</li>
-<li><strong>Portfolio editing open: </strong>{{ course.portStatus=='t' ? 'Yes' : 'No' }}   </li>
-<hr/>
-<li><strong>Modules:</strong>  {% for course in course.parents %}{{ course.name }}</br>{% else %}No Modules{% endfor %} </li> 
-<li><strong>Label Sets: </strong> {% for tagset in tagsets %}{{ tagset.name}}{% if not loop.last %}, {% endif %}{% endfor %} </li>
-<li><strong>Markup Sets:</strong> {% for markupset in course.markupsets %}{{ markupset.name}}{% if not loop.last %}, {% endif %}{% endfor %}  </li>
-<hr/> 
-<li><strong>Institution:</strong>  {% if course.institution == NULL %}
-No institution is set for this course, please edit the course to set one
-{% else %}
-{{ course.institution.name }}
-{% endif %}
-</li>
-</ul>
-{% endif %}
-<hr/>
-<a href='javascript:void(0);' id='confirm_delete' class="btn btn-default pull-right" type="submit">Delete</a>
-<a href='javascript:void(0);' id='cancel_delete' class="btn btn-default pull-right" type="submit">Cancel</a>
-<form id='delete' action="{{ path('course_delete', { 'courseid': course.id }) }}" method="post">
-{{ form_widget(delete_form) }}
-<button class="btn btn-warning pull-right" type="submit">Confirm Delete</button>
-</form>
+    </div>
+</div>
 </div>
 
-{% if course.module == 0 %} 
-<div class="col-md-6 well">
-<h2>Projects</h2>
+    {% if course.module == 0 %}
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Projects</h2>
+                    <p>Your students will place their work in these folders.</p>
+                </div>
 
-    <div class='alert alert-info'>Your students will place their work in these folders.</div>
+                <div class="panel-body">
+                    <h3>Folders</h3>
+                    <a class="btn btn-default btn-xs" href="{{ path('project_new', {'courseid': course.id, 'resource':0}) }}">New Folder</a>
+                    <table class="table table-condensed">
+                        <tbody>
+                        {% for project in projects  %}
+                            {% if project.resource == 0  %}
+                                <tr id="delete{{project.id}}">
+                                    <td>{{ project.name }}{{ project.resource }}</td>
+                                    <td>
+                                        <a class="btn btn-default btn-xs" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a>
+                                        <form class="inline-block" action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
+                                            {{ form_widget(delete_form) }}
 
-<h2>Folders</h2>
-<a class="btn btn-default btn-xs" href="{{ path('project_new', {'courseid': course.id, 'resource':0}) }}">New Folder</a>
-<table class="table table-condensed table-striped">
-<tbody>  
-{% for project in projects  %}{% if project.resource == 0  %}
-<tr id="delete{{project.id}}">
-<th>{{ project.name }}{{ project.resource }}</th>         
-<td><a class="btn btn-default btn-xs" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>
-<td>
-<button class="btn btn-default btn-xs" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button>
-</td>   
-<td>
-<a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon glyphicon-chevron-up"></i></a>
-<a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon glyphicon-chevron-down"></i></a>
-</td>
-</tr>
-<tr id="confirm{{project.id}}" class="toggle">
-<th>{{ project.name }}</th>         
-<td>
-<form class='inline' action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
-{{ form_widget(delete_form) }}
-<button class="btn btn-xs btn-warning" type="submit">Confirm Delete</button>
-</form>
-</td>  
-<td colspan="2">
-<button  class="btn btn-default btn-xs" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Cancel</button>
-</td>       
-</tr>   
-{% endif %}{% endfor %}
-</tbody>
-</table>   
-</div>
-{% endif %} 
-
-<div class="col-md-6 well">
-<h2>Resources</h2>
-    {% if course.module == 0%}
-        <div class='alert alert-info'>You will place content in these units for your students.  Any units in the course marked "Course Home" <i class="glyphicon glyphicon-home"></i> will display on the course home page.</div>
-    {% else %}
-        <div class='alert alert-info'>You will place content in the units of this module to include in other courses.  Add modules to courses in "Course Settings."
-            The units will show under Resources in the course. </div>
+                                            <button class="btn btn-xs btn-danger" type="submit">Delete</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon glyphicon-chevron-up"></i></a>
+                                        <a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon glyphicon-chevron-down"></i></a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     {% endif %}
 
 
-<h2>Units</h2>
-<a class="btn btn-default btn-xs" href="{{ path('project_new', {'courseid': course.id, 'resource':1}) }}">New Unit</a>
-<table class="table table-condensed table-striped">
-<tbody>  
-{% for project in projects  %}{% if project.resource == 1  %}        
-<tr id="delete{{project.id}}">
-<th>{% if project.coursehome==true %}<i class="glyphicon glyphicon-home"></i>{% endif %}{{ project.name }}</th>
-<td><a class="btn btn-default btn-xs" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a></td>
-<td><button class="btn btn-default btn-xs" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Delete</button></td>
-<td>
-<a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon glyphicon-chevron-up"></i></a>
-<a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon glyphicon-chevron-down"></i></a>
-</td>
-</tr>
-    
-<tr id="confirm{{project.id}}" class="toggle">
-<th>{{ project.name }}</th>         
-<td>
-<form class='inline' action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
-{{ form_widget(delete_form) }}
-<button class="btn btn-xs btn-warning" type="submit">Confirm Delete</button>
-</form>
-</td>  
-<td colspan="2">
-<button  class="btn btn-default btn-xs" onclick="$('#confirm{{project.id}}').toggle();$('#delete{{project.id}}').toggle()" type="submit">Cancel</button>
-</td> 
-</tr>   
-{% endif %}{% endfor %}
-</tbody>
-</table>
-    
-<hr/> 
-    
 
 
-{% if course.module == 0 %}     
-<h2>Modules</h2>
-    <div class='alert alert-info'>Modules are libraries of content that you can reuse.</div>
-Units from Modules.
-    <table class="table table-condensed table-striped">
-    <tbody>  
-    {% for project in parentProjects  %}{% if project.resource == 1  %}        
-    <tr>
-        <th>{{ project.course.name }}: {{ project.name }}</th>         
-    </tr>   
-    {% endif %}{% else %}<p>This course has no Modules.</p>{% endfor %}
-    
-    </tbody>
-    </table>
- {% endif %}          
+
+<div class="col-md-6">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>Resources</h2>
+        {% if course.module == 0%}
+            <p>You will place content in these units for your students.  Any units in the course marked "Course Home" <i class="glyphicon glyphicon-home"></i> will display on the course home page.</p>
+        {% else %}
+            <p>You will place content in the units of this module to include in other courses.  Add modules to courses in "Course Settings."
+                The units will show under Resources in the course. <p>
+        {% endif %}
+    </div>
+
+    <div class="panel-body">
+        <h3>Units</h3>
+        <a class="btn btn-default btn-xs" href="{{ path('project_new', {'courseid': course.id, 'resource':1}) }}">New Unit</a>
+        <table class="table table-condensed table-striped">
+            <tbody>
+            {% for project in projects  %}
+                {% if project.resource == 1  %}
+                <tr>
+                    <td>{% if project.coursehome==true %}<i class="glyphicon glyphicon-home"></i>{% endif %}{{ project.name }}</td>
+                    <td>
+                        <a class="btn btn-default btn-xs" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a>
+                        <form class='inline-block' action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
+                            {{ form_widget(delete_form) }}
+                            <button class="btn btn-xs btn-danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+
+                    <td>
+                        <a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon glyphicon-chevron-up"></i></a>
+                        <a class = "" href="{{ path('project_demote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon glyphicon-chevron-down"></i></a>
+                    </td>
+                </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+
+
+        </table>
+
+        <hr/>
+        {% if course.module == 0 %}
+            <h3>Modules</h3>
+            <p>Modules are libraries of content that you can reuse.</p>
+            Units from Modules included in this course.
+            <table class="table table-condensed table-striped">
+                <tbody>
+                {% for project in parentProjects  %}
+                    {% if project.resource == 1  %}
+                        <tr>
+                            <td>{{ project.course.name }}: {{ project.name }}</td>
+                        </tr>
+                    {% endif %}
+                {% else %}<p>This course has no Modules.</p>{% endfor %}
+
+                </tbody>
+            </table>
+        {% endif %}
+
+
+    </div>
+</div>
 </div>
 
         
