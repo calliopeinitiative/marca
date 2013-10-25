@@ -6,7 +6,6 @@
     <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
 {% endblock %}
 
-
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
@@ -19,57 +18,76 @@
         });
     </script>
 {% endblock %}
+
 {% block content %}
     <form class="form" action="{{ path('course_update', { 'courseid': course.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
-    {{ form_errors(edit_form) }}
 
 
+        <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h2>{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
             </div>
             <div class="panel-body">
-                <div class="col-md-4 ">{{ form_row (edit_form.name) }}</div>
-                <div class="col-md-4 {% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.time, {'type':'text'}) }}</div>
-                <div class="col-md-4 {% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.term) }}</div>
+                {{ form_errors(edit_form) }}
+                <div class="">{{ form_row (edit_form.name) }}</div>
+                <div class="{% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.time, {'type':'text'}) }}</div>
+                <div class="{% if course.module!=0 %}hide{%endif%}">{{ form_row (edit_form.term) }}</div>
             </div>
-        </div>
 
-        <div class="panel panel-default {% if course.module!=0 %}hide{%endif%}">
-            <div class="panel-heading">
-                <h2>Additional settings</h2>
+            <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
+                <h2>Tools</h2>
             </div>
-            <div class="panel-body">
-                <div class="col-md-6">
+            <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
                     {{ form_row (edit_form.notes) }}
                     {{ form_row (edit_form.forum) }}
                     {{ form_row (edit_form.journal) }}
                     {{ form_row (edit_form.zine) }}
 
-                    <hr/>
+            </div>
+                    <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
+                        <h2>Portfolios</h2>
+                    </div>
+                    <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
+                        {{ form_row (edit_form.portfolio) }}
+                        {{ form_row (edit_form.portset) }}
+                        {{ form_row (edit_form.assessmentset) }}
+                    </div>
+                </div>
+            </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
+                    <h2>Student Access</h2>
+                </div>
+                <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
                     {{ form_row (edit_form.enroll) }}
                     {{ form_row (edit_form.post) }}
                     {{ form_row (edit_form.studentForum) }}
                     {{ form_row (edit_form.institution) }}
                 </div>
 
-                <div class="col-md-6 ">
-                    {{ form_row (edit_form.portfolio) }}
-                    {{ form_row (edit_form.portset) }}
-                    {{ form_row (edit_form.assessmentset) }}
-                    <hr/>
+                <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
+                    <h2>Other Settings</h2>
+                </div>
+                <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
                     {{ form_row (edit_form.tagset) }}
                     {{ form_row (edit_form.markupsets) }}
                     {{ form_row (edit_form.parents) }}
                     {{ form_row (edit_form.module) }}
                 </div>
-            </div>
-        </div>
-        {{ form_rest(edit_form) }}
 
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <button class="btn btn-primary" type="submit">Update</button><a style="margin-left: 1em;" class="btn" href="{{ path('course') }}">Cancel</a>
+
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        {{ form_rest(edit_form) }}
+
+                        <button class="btn btn-primary " type="submit">Update</button><a class="btn btn-default" href="{{ path('course_show', { 'courseid': course.id }) }}">Cancel</a>
+
+                    </div>
+
+                </div>
             </div>
         </div>
     </form>
