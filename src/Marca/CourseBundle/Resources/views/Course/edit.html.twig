@@ -15,9 +15,13 @@
             $('input[type=time]').on('click', function(event) { event.preventDefault();});
             $('#marca_coursebundle_coursetype_time').timepicker({ 'timeFormat': 'H:i' });
             $('form li').addClass('alert alert-error');
+            $('#toggle_modal').click(function(){
+                $('#delete_modal').modal();
+            });
         });
     </script>
 {% endblock %}
+
 
 {% block content %}
     <form class="form" action="{{ path('course_update', { 'courseid': course.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
@@ -76,22 +80,41 @@
                     {{ form_row (edit_form.markupsets) }}
                     {{ form_row (edit_form.parents) }}
                     {{ form_row (edit_form.module) }}
+                    {{ form_rest(edit_form) }}
                 </div>
 
 
                 <div class="panel-footer">
                     <div class="btn-group">
-                        {{ form_rest(edit_form) }}
-
-                        <button class="btn btn-primary " type="submit">Update</button><a class="btn btn-default" href="{{ path('course_show', { 'courseid': course.id }) }}">Cancel</a>
-
+                        <button class="btn btn-primary " type="submit">Update</button>
+                        <a class="btn btn-default" href="{{ path('course_show', { 'courseid': course.id }) }}">Cancel</a>
                     </div>
-
+                    <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
                 </div>
             </div>
         </div>
     </form>
 
+    <div id="delete_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Delete</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete?</p>
+                    <form class="" id='course_delete' action="{{ path('course_delete', { 'courseid': course.id }) }}" method="post">
+                        {{ form_widget(delete_form) }}
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
 {% endblock %}
 

@@ -4,13 +4,8 @@
 {% block title %}{{ application_name }} {% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}{% endblock %}
 
 {% block stylesheets %}{{ parent() }}{% endblock %}
-{% block javascripts %}{{ parent() }}{% endblock %}
-
-{% block subnav %}
-    {%include 'MarcaCourseBundle::subnav.html.twig' %}
-{% endblock %}
-
-{% block sidebar %}
+{% block javascripts %}
+    {{ parent() }}
     <script language="javascript">
         $(document).ready(function()
         {
@@ -28,6 +23,14 @@
             });
         });
     </script>
+{% endblock %}
+
+{% block subnav %}
+    {%include 'MarcaCourseBundle::subnav.html.twig' %}
+{% endblock %}
+
+{% block sidebar %}
+
     <h1>{% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}</h1>
 
     {% if app.request.attributes.get('_route') == 'file_list'%}
@@ -64,6 +67,16 @@
                         <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
                     {% endfor %}
                 </ul></li>
+            {% if byuser %}
+                        {% for roll in roll %}
+                            {% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}
+                            <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname|title}} {{roll.lastname|title}}<i class="glyphicon glyphicon-chevron-right"></i></a></li>
+                            {% endif %}
+                            {% if loop.index == app.request.get('user') - 1 and app.request.get('tag')!='3' %}
+                            <li><a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}"><i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname|title}} {{roll.lastname|title}}</a></li>
+                        {% endif %}
+                        {% endfor %}
+            {% endif %}
         {% endif %}
 
         <hr class="marca-spacer" />

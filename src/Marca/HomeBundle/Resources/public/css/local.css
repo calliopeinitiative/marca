@@ -233,12 +233,6 @@ ul.nav-list  {
     padding: 3px 3px;
 }
 
-label.inline {
-    clear:both;
-    display:block;
-    width:100%;
-}
-
 .label-file {
     background:#888;
     text-align: center;
@@ -415,10 +409,6 @@ div.modal-body {background-color: #fff;}
 
 div.modal-footer {background-color: #fff;margin-top: 0px;}
 
-div.modal-body > div.form-group > div > label {
-    margin-top: 20px;
-    }
-
 .btn-file {
     position: relative;
     overflow: hidden;
@@ -520,7 +510,9 @@ span.btn-file {
 
 /***** 06a. Forms *****/
 
-div.checkbox label {
+div.panel-body > div > label.required {width:100%;}
+
+div.checkbox > label {
     padding:5px;
     float:left;
     display: inline;
@@ -534,7 +526,7 @@ div.checkbox label {
     margin-right: 5px;
 }
 
-div.radio label {
+div.radio > label {
     padding:5px;
     float:left;
     display: inline;
@@ -543,7 +535,6 @@ div.radio label {
 
 .radio input[type="radio"] {
     padding:5px;
-    float:left;
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 20px;
@@ -747,10 +738,6 @@ td > ul.nav {height:20px;margin-top: -10px;}
 /***** End 06c Doc displays *****/
 
 .label {font-weight: normal;}
-
-label.required[for=form_lastname] {
-    display:block;
-}
 
 .responses {
     font-size:14px;

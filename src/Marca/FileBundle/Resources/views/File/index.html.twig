@@ -80,30 +80,12 @@
 
 {% block content %}
     {# Breadcrumbs #}
-    {# show alert if default Resources #}
     {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
         {% for flashMessage in app.session.flashbag.get('message') %}
             <div class="alert alert-info pad5 col-md-11">
                 {{ flashMessage }}
             </div>
         {% endfor %}
-    {% else %}
-        <span class="pull-right">
-                {# next previous users on roll; hidden if peer review #}
-            {% if byuser %}
-
-                {% for roll in roll %}
-                    {% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}
-                        <span style='margin-right:3em;'></span>
-                        <a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname|title}} {{roll.lastname|title}}<i class="glyphicon glyphicon-chevron-right"></i></a>
-                    {% endif %}
-                            {% if loop.index == app.request.get('user') - 1 and app.request.get('tag')!='3' %}
-                    <a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}"><i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname|title}} {{roll.lastname|title}}</a>
-                {% endif %}
-                {% endfor %}
-
-            {% endif %}
-        </span>
     {% endif %}
 
     <table id="file_list" class="col-md-12 table table-bordered " style="background-color: #fff">

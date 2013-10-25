@@ -2,18 +2,6 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script language="javascript" xmlns="http://www.w3.org/1999/html">
-        $(document).ready(function()
-        {
-            $('.btn-danger').click (function () {
-                return confirm ("Are you sure?") ;
-            }) ;
-        });
-    </script>
-{% endblock %}
-
 {% block content %}
 <div class="col-md-6">
 <div class="panel panel-default ">
@@ -68,13 +56,6 @@
                 </li>
             </ul>
         {% endif %}
-        <hr/>
-
-        <form class="toggle" id='course_delete' action="{{ path('course_delete', { 'courseid': course.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger pull-right" type="submit">Delete</button>
-        </form>
-
     </div>
 </div>
 </div>
@@ -98,11 +79,6 @@
                                     <td>{{ project.name }}{{ project.resource }}</td>
                                     <td>
                                         <a class="btn btn-default btn-xs" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a>
-                                        <form class="inline-block" action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
-                                            {{ form_widget(delete_form) }}
-
-                                            <button class="btn btn-xs btn-danger" type="submit">Delete</button>
-                                        </form>
                                     </td>
                                     <td>
                                         <a class = "" href="{{ path('project_promote', { 'courseid':course.id, 'projectId':project.id}) }}"> <i class = "glyphicon glyphicon-chevron-up"></i></a>
@@ -145,10 +121,6 @@
                     <td>{% if project.coursehome==true %}<i class="glyphicon glyphicon-home"></i>{% endif %}{{ project.name }}</td>
                     <td>
                         <a class="btn btn-default btn-xs" href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a>
-                        <form class='inline-block' action="{{ path('project_delete', { 'courseid':course.id,'id': project.id }) }}" method="post">
-                            {{ form_widget(delete_form) }}
-                            <button class="btn btn-xs btn-danger" type="submit">Delete</button>
-                        </form>
                     </td>
 
                     <td>
