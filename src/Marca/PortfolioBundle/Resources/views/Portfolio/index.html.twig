@@ -36,7 +36,7 @@ $('#port_{{portfolio.id}}').click(function(){
 </div>
         <div class="panel-footer">
             <div class="btn-group">
-            {% for portfolio in portfolioset.portfolioitems if portfolio.portitem.name==portitem.name %}
+            {% for portfolio in portfolioset %}
              {% if portfolio.file.doc %}<i class="glyphicon glyphicon-edit"></i>
              <a href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a> 
              {% elseif portfolio.file.url %}<i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio.file.url}}" target="_blank">{{ portfolio.file.name }}</a>

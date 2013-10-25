@@ -2,19 +2,23 @@
 
 {% extends 'MarcaPortfolioBundle::layout.html.twig' %}
 
-{% block content %}       
-<div class="row">   
-<div class="col-md-6 well">
+{% block content %}
+<div class="col-md-6 col-md-offset-3">
+    <div class="panel panel-default">
+        <div class="panel-heading">
 <form class="form" action="{{ course_path('portfolio_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
         <legend>Portfolio</legend>
+        </div>
+            <div class="panel-default">
             {{ form_row(form.portitem) }}
             {{ form_row(form.portorder) }}
     {{ form_rest(form) }}
-    <div>
+                </div>
+    <div class="panel-footer">
         <button class="btn btn-primary" type="submit">Create</button>
     </div>
 </form>
 </div>
-</div> 
+</div>
 {% endblock %}

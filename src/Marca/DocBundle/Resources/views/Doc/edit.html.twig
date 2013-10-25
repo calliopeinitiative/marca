@@ -49,7 +49,7 @@
 
             <div class="panel-body ">
 
-                <div id='doc-gui' class="col-md-8">
+                <div id='doc-gui' class="col-md-10">
                     {{ form_errors(edit_form) }}
                     {{ form_errors(edit_form.body) }}
                     {{ form_widget(edit_form.body) }}
@@ -57,7 +57,7 @@
                 </div>
 
                 {# Doc tools #}
-                <div id='doctools' class="col-md-4">
+                <div id='doctools' class="col-md-2">
 
                     {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 
