@@ -11,12 +11,8 @@
             $.fn.checknet();
             checknet.config.checkInterval = 15000;
             checknet.config.warnMsg = 'No internet connection detected.  Please restore your connection before you continue working.';
-            $('a#cancel_delete').toggle();$('form#delete').toggle();
-            $('a#confirm_delete').click(function() {
-                $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
-            });
-            $('a#cancel_delete').click(function() {
-                $('a#confirm_delete').toggle();$('form#delete').toggle();$('a#cancel_delete').toggle();
+            $('#toggle_modal').click(function(){
+                $('#delete_modal').modal();
             });
             $('form li').addClass('alert alert-error');
             $('#saving_alert').toggle();
@@ -50,17 +46,33 @@
                         <a class='btn btn-default' href="{{ course_path('journal') }}">Cancel</a>
                     </div>
                     {% if journal.responses|length == 0%}
-                        <span class="pull-right">
-        <a class="btn btn-default btn-warning btn-delete" href='javascript:void(0);' id='confirm_delete' type="submit">Delete</a>
-        <form id='delete' action="{{ course_path('journal_delete', { 'id': journal.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-default btn-warning btn-delete" type="submit">Confirm Delete</button>
-        </form>
-        </span>
+                        <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
                     {% else %}
                         <span  class='alert pull-right' >Since this journal entry has at least one response, it can not be deleted.</span>
                     {% endif %}
                 </div>
             </div>
 
+    {# Modal for Delete confirmation #}
+    <div id="delete_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Delete</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete?</p>
+                    <form id='delete' action="{{ course_path('journal_delete', { 'id': journal.id }) }}" method="post">
+                        {{ form_widget(delete_form) }}
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 {% endblock %}
+

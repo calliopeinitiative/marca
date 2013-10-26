@@ -11,7 +11,7 @@ class NoteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title','text', array('label'  => 'Title','attr' => array('class' => 'text form-control'),))
             ->add('description', 'ckeditor', array('config_name' => 'editor_default',))
         ;
     }
