@@ -98,7 +98,9 @@ There are no files in this portfolio.
              {% endif %}<i class="glyphicon glyphicon-share-alt"></i>
              </li>
         {% endfor %}
-
+</ul>
+            <div class="panel panel-default">
+                <div class="panel-heading">
 
 {# hide ratings is there is no portfolio #}
 {% if portfoliosetid != 0 %}
@@ -106,16 +108,16 @@ There are no files in this portfolio.
 
 {% for ratingset in ratingset %}
 
-<li class="list-group-item">
-<h5>Rating by {{ ratingset.rater.firstname }}  {{ ratingset.rater.lastname }}</h5>
-
+<h3 class="panel-title">Rating by {{ ratingset.rater.firstname }}  {{ ratingset.rater.lastname }}</h3>
+    </div>
+<div class="panel-body">
+    <ul class="list-group">
 {% for rating in ratingset.ratings %} 
 <div class='hide'><strong class='margin-top'>{{ rating.objective.objective|raw }}</strong>
 {{ rating.scaleitem.name }}</div>
 {% endfor %}
-</li>
 <li class="list-group-item">
-<h5>Notes for student:</h5>
+<h5>Notes for Student:</h5>
 {{ ratingset.notesforstudent }}
 {% if role == 2 or role == 4 %}
     </li>
@@ -161,5 +163,7 @@ There are no files in this portfolio.
 </div>
 </div>
 </div>
+    </div>
+        </div>
     </div>
 {% endblock %}

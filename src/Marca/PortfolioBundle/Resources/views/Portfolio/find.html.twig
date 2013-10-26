@@ -9,8 +9,12 @@ $(document).ready(function() {
 });
 </script>
 
-{# Project navigation #} 
-<div id='project_nav' class="col-md-11 well">
+{# Project navigation #}
+<div class="col-md-12">
+    <div class="panel panel-default">
+    <div class="panel-heading">
+<div id='project_nav'>
+
 <ul id='project_nav_pills' class="nav nav-pills">
 <li class="{% if active_project == 0 %}active{% endif %}">
 <a href="{{ course_path('portfolio_find', { 'project': 'recent' })}}">
@@ -24,13 +28,14 @@ Recent Files</a>
 {% endfor %}
 </ul>  
 </div>
-
-<div class="col-md-11 well">
+    </div>
+<div class="panel-body">
 <table class="table">
 {% for file in files if  file.portfolio|length ==0 %}
-{# list headings #}        
-{% if loop.first %}        
+{# list headings #}
+{% if loop.first %}
 <thead>
+<th></th>
 <th>Title</th>
 <th>{% if (app.request.get('scope')=='all' or app.request.get('scope')=='byuser') and app.request.get('resource')=='0' %}Owner{% endif %}</th>
 <th>{% if app.request.get('project')=='recent' %}Project{% endif %}</th>
@@ -38,13 +43,16 @@ Recent Files</a>
 <th>{% if app.request.get('resource')=='0' %}Modified{% endif %}</th>
 <th></th>
 <th></th>
-</thead> 
+</thead>
 <tbody>
 {% endif %}
 
 {# main list of files #}
 <tr>
-<td> 
+    <td>
+        <a class="btn btn-warning btn-xs" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>
+    </td>
+<td>
     
 {# different functions for different file types #}    
 {% if file.doc %}<i class="glyphicon glyphicon-edit"></i> <a href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">{{ file.name|slice(0, 25) }}</a>
@@ -62,9 +70,6 @@ Recent Files</a>
 <td>{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}</td>
 
 <td>{% if app.request.get('resource')=='0' %}{% if file.doc %}{{ file.doc.updated|date('M d Y, g:i a') }}{% else %}{{ file.updated|date('M d Y, g:i a') }}{% endif %}{% endif %}</td>
-<td>
-<a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a> 
-</td>
 <td></td>
 </tr>
 
