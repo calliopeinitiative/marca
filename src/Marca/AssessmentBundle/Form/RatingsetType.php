@@ -8,13 +8,22 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RatingsetType extends AbstractType
 {
+    private $options;
+
+    public function __construct($options)
+    {
+        $this->options= $options;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $options = $this->options;
+        $scale = $options['scale'];
         $builder
             ->add('ratings', 'collection', array(
-                'type'   => new RatingType(),
+                'type'   => new RatingType($scale),
                 'options'  => array(
-                'required'  => false),))            
+                'required'  => false),))
             ->add('grade')
             ->add('grade','integer', array('label'  => 'Grade (must be an integer)','attr' => array('class' => 'inline'),))                
             ->add('notesforstudent','textarea', array('label'  => 'Notes for the student','attr' => array('class' => 'inline'),))  

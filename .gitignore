@@ -18,3 +18,4 @@
 /composer.lock
 /composer.phar
 .idea
+/node_modules
