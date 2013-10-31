@@ -36,7 +36,7 @@ html, body {
 }
 
 body {
-    background: url('../img/mosaic.png');
+    background: url('../img/noisy.png');
     padding-top: 50px;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
@@ -376,7 +376,7 @@ ul.nav > li > input {
 }
 
 .sidebar {
-    background:url('../img/whitewash.png');
+    background-color:#fff;
     min-height: 100%;
     max-height: 100%;
     margin-top:-70px;
