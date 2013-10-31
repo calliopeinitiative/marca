@@ -2,168 +2,170 @@
 
 {% extends 'MarcaPortfolioBundle::port_layout.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+<script language="javascript">
+    $(document).ready(function()
+    {
+        $('#doc-display').css('height', function(index) {
+            return $(window).height()* .79;
+        });
+
+        $('.doc-body').css('height', function(index) {
+            return $(window).height() * .65;
+        });
+        $('#doctools').css('height', function(index) {
+            return $(window).height() * .79;
+        });
+
+        {% if not app.request.get('page') %}$('#port_td1').addClass('active');{% endif %}
+        {% for portfolio in portfolio %}
+        {% if app.request.get('page')==loop.index %}$('#port_td{{loop.index}}').addClass('active');{% endif %}
+        {% endfor %}
+
+
+    });
+</script>
+{% endblock %}
+
+
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-$('#doc-display').css('height', function(index) {
-  return $(window).height()* .79;
-});
-
-$('.doc-body').css('height', function(index) {
-  return $(window).height() * .65;
-});
-$('#doctools').css('height', function(index) {
-  return $(window).height() * .79;
-});
-
-{% if not app.request.get('page') %}$('#port_td1').addClass('active');{% endif %}  
-{% for portfolio in portfolio %} 
-{% if app.request.get('page')==loop.index %}$('#port_td{{loop.index}}').addClass('active');{% endif %}             
-{% endfor %} 
-
-
-});
-</script>  
-
- 
 <div class="col-md-12">
     <div class="panel panel-default">
+        {# Doc header #}
         <div class="panel-heading">
-            <div class="pull-right">
+            {% for portfolio in portfolio %}
+                {% if loop.first %}<h2 class="small inline-block">{{ portfolio.user.firstname }} {{ portfolio.user.lastname }}'s Portfolio</h2>{% endif %}
+            {% else %}
+                <h2 class="small inline-block">Portfolio</h2>
+            {% endfor %}
+            <span class="pull-right">
                 {% for roll in roll %}
                     {% if loop.index == app.request.get('user') + 1 %}
                         <a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
                             {{roll.firstname}} {{roll.lastname}}<i class="glyphicon glyphicon-chevron-right"></i></a>
                     {% endif %}
                     {% if loop.index == app.request.get('user') - 1%}
-                    <a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
-                        <i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}<span style='margin-right:2em;'></span>
-                        </a>{% endif %}
+                <a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
+                    <i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}<span style='margin-right:2em;'></span>
+                    </a>{% endif %}
                 {% endfor %}
-                {% for portfolio_doc in portfolio_docs %}
-                <div class="pull-right" style="padding-top:-40px;">
-                    {{ knp_pagination_render(portfolio_docs) }}
+                <a class="btn btn-default btn-sm" href="{{ course_path('portfolio') }}">Close</a>
+            </span>
+        </div>
+
+
+
+
+        {# Doc display #}
+        <div class="panel-body">
+            <div id='doc-display' class="col-md-8 well">
+                <div class="doc-body">
+                    {% for portfolio_doc in portfolio_docs %}
+                        {% if portfolio_doc.file.doc %}
+                            {{ portfolio_doc.file.doc.body|raw }}
+                        {% elseif portfolio_doc.file.url %}
+                            Please click link to to view.
+                            <i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+                        {% else %}
+                            Please download this file to view.
+                            <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+                        {% endif %}
+                    {% else %}
+                        There are no files in this portfolio.
                     {% endfor %}
                 </div>
             </div>
-{% for portfolio in portfolio %}
-{% if loop.first %}<h3 class='inline' style='margin-left:1em'>{{ portfolio.user.firstname }} {{ portfolio.user.lastname }}'s Portfolio</h3>{% endif %} 
-{% else %}
-<h3 class='inline' style='margin-left:1em'>Portfolio</h3>
-{% endfor %}
-</div>
 
-{% for portfolio_doc in portfolio_docs %}
-{# Doc display #}
-    <div class="panel-body">
-<div id='doc-display' class="col-md-9">
-<div class="doc-body">    
-{% if portfolio_doc.file.doc %}    
-{{ portfolio_doc.file.doc.body|raw }} 
-{% elseif portfolio_doc.file.url %}
-Please click link to to view.        
-<i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
-{% else %}        
-Please download this file to view.
-<i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
-{% endif %}        
-</div>
-{% else %}
-<div id='doc-display' class="col-md-8 well">
-<div class="doc-body">
-There are no files in this portfolio.    
-</div>              
-</div>    
-{% endfor %} 
-</div>
-{# Doc tools #}
-<div id='doctools' class="col-md-3">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-<a class="btn btn-default btn-sm pull-right" href="{{ course_path('portfolio') }}">Close</a></h3>
+            {# Doc tools #}
+            <div id='doctools' class="col-md-4">
+                {# Port files #}
+                <ul class="list-group">
+                    {% for portfolio in portfolio %}
+                        <li class="list-group-item" id="port_td{{loop.index}}">
+                            {{portfolio.portitem.name}}:
+
+                            {% if portfolio.file.doc %}<i class="glyphicon glyphicon-edit"></i>
+                            <a class='active' href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a>
+                        {% elseif portfolio.file.url %}<i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio.file.url}}" target="_blank">{{ portfolio.file.name }}</a>
+                        {% else %}
+                            <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
+                            {% endif %}<i class="glyphicon glyphicon-share-alt"></i>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+
+
+
+                {# hide ratings is there is no portfolio #}
+                {% if portfoliosetid != 0 %}
+                    {% if userid == app.user.id or role == 2 or role == 4 %}
+                        {% for ratingset in ratingset %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Rating by {{ ratingset.rater.firstname }}  {{ ratingset.rater.lastname }}</h3>
+                                    {% if ratingset.isOwner(app.user.username) %}
+                                        <a class="btn btn-primary btn-xs pull-right" href="{{ course_path('ratingset_edit', {'id':ratingset.id, 'userid':app.request.get('userid'), 'user':app.request.get('user')}) }}">Edit Rating</a>
+                                    {% endif %}
+                                </div>
+                                <div class="panel-body">
+
+                                    {% for rating in ratingset.ratings %}
+                                        <div class='hide'><strong class='margin-top'>{{ rating.objective.objective|raw }}</strong>
+                                            {{ rating.scaleitem.name }}</div>
+                                    {% endfor %}
+
+                                    <p>Notes for Student:</p>
+                                    {{ ratingset.notesforstudent }}
+
+                                    {% if role == 2 or role == 4 %}
+                                        <p>Notes for Reviewer:</p>
+                                        {{ ratingset.notesforreviewer }}
+                                        <p>Grade:</p>
+                                        {{ ratingset.grade }}
+                                    {% endif %}
+
+
+
+
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+                        {% for ratingset in ratingset if ratingset.isOwner(app.user.username) %}
+                        {% else %}
+                            {% if role == 2 or role == 4 %}
+                                <hr/>
+                                <a class="btn btn-primary margin-top btn-sm" href="{{ course_path('ratingset_new', {'portfoliosetid':portfoliosetid,'userid':userid,'user':app.request.get('user')}) }}">New Rating</a>
+                            {% endif %}
+                        {% endfor %}
+
+
+                        {% if (role == 2 or role == 4) and ratingset|length > 1 %}
+                            {% set sumratings = 0 %}
+                            {% set countratings = ratingset|length %}
+                            {% for ratingset in ratingset %}
+                                {% set sumratings = sumratings + ratingset.grade %}
+                            {% endfor %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"></h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p>Average Grade: {{  sumratings / countratings }}</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+
             </div>
-        <div class="panel-body">
-<ul class="list-group">
-        {% for portfolio in portfolio %}
-        <li class="list-group-item" id="port_td{{loop.index}}">
-             {{portfolio.portitem.name}}:  
-
-             {% if portfolio.file.doc %}<i class="glyphicon glyphicon-edit"></i>
-             <a class='active' href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a> 
-             {% elseif portfolio.file.url %}<i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio.file.url}}" target="_blank">{{ portfolio.file.name }}</a>
-             {% else %}
-             <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
-             {% endif %}<i class="glyphicon glyphicon-share-alt"></i>
-             </li>
-        {% endfor %}
-</ul>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-
-{# hide ratings is there is no portfolio #}
-{% if portfoliosetid != 0 %}
-{% if userid == app.user.id or role == 2 or role == 4 %}
-
-{% for ratingset in ratingset %}
-
-<h3 class="panel-title">Rating by {{ ratingset.rater.firstname }}  {{ ratingset.rater.lastname }}</h3>
-    </div>
-<div class="panel-body">
-    <ul class="list-group">
-{% for rating in ratingset.ratings %} 
-<div class='hide'><strong class='margin-top'>{{ rating.objective.objective|raw }}</strong>
-{{ rating.scaleitem.name }}</div>
-{% endfor %}
-<li class="list-group-item">
-<h5>Notes for Student:</h5>
-{{ ratingset.notesforstudent }}
-{% if role == 2 or role == 4 %}
-    </li>
-    <li class="list-group-item">
-<h5>Notes for Reviewer:</h5>
-{{ ratingset.notesforreviewer }}
-        </li>
-    <li class="list-group-item">
-<h5>Grade:</h5>
-{{ ratingset.grade }}
-{% endif %}
-        </li>
 
 
-{% if ratingset.isOwner(app.user.username) %}
-    <li class="list-group-item">
-<a class="btn btn-primary margin-top btn-sm" href="{{ course_path('ratingset_edit', {'id':ratingset.id, 'userid':app.request.get('userid'), 'user':app.request.get('user')}) }}">Edit Rating</a>
-{% endif %}
-{% endfor %}
-{% for ratingset in ratingset if ratingset.isOwner(app.user.username) %} 
-{% else %}
-{% if role == 2 or role == 4 %}
-<hr/>
-<a class="btn btn-primary margin-top btn-sm" href="{{ course_path('ratingset_new', {'portfoliosetid':portfoliosetid,'userid':userid,'user':app.request.get('user')}) }}">New Rating</a>
-{% endif %}
-{% endfor %}
-
-{% if (role == 2 or role == 4) and ratingset|length > 1 %}
-{% set sumratings = 0 %}
-{% set countratings = ratingset|length %}
-{% for ratingset in ratingset %}
-  {% set sumratings = sumratings + ratingset.grade %}
-{% endfor %}
-<h5>Average Grade: {{  sumratings / countratings }}</h5>
-{% endif %}
-
-{% endif %}
-        </li>
-{% endif %}
-    </ul>
-</div>
-</div>
-</div>
-</div>
-</div>
-    </div>
         </div>
-    </div>
+</div>
+</div>
+
 {% endblock %}
