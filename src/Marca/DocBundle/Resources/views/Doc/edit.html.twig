@@ -41,18 +41,28 @@
     <div class="col-md-12 center">
         <form id="doc_form" class="" action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
 
-            <a name="skip"></a>
-
             {# Doc nav #}
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-                <a class="navbar-brand" href="#">{{file.name}}</a>
-                <ul class="nav navbar-nav pull-right">
-                    <li><span id='saving_alert' class='alert alert-info'>Saving</span></li>
-                    <li><a id="toggle-tools" class="" href="javascript:void(0);">Doc Tools</a></li>
-                    <li><input class="btn btn-default" type="submit" id="doc_save" value="Save and Close"/></li>
+                <div class="navbar-header col-sm-2 col-md-2">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a name="top"></a>
+                    <a class="navbar-brand" href="#" title="{{file.name}}">{{file.name}}</a>
+                </div>
 
-                </ul>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav pull-right">
+                        <li><span id='saving_alert' class='alert alert-info'>Saving</span></li>
+                        <li><a id="toggle-tools" class="" href="javascript:void(0);">Doc Tools</a></li>
+                        <li><input class="btn btn-default" type="submit" id="doc_save" value="Save and Close"/></li>
+
+                    </ul>
+                </div>
             </nav>
+
 
                 <div id='doc-edit' class="col-md-8">
                     {{ form_errors(edit_form) }}

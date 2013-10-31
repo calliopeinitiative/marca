@@ -26,7 +26,7 @@ class RatingType extends AbstractType
             $qb->select('s')->from('Marca\AssessmentBundle\Entity\Scaleitem', 's')->where('s.scale = ?1')->setParameter('1', $scale);
             return $qb;
             }
-            ,'property'=>'name','expanded'=>true,'multiple'=>false, 'label' => '  ','attr' => array('class' => 'checkbox inline pad1'),))
+            ,'property'=>'name','expanded'=>true,'multiple'=>false, 'label' => '  ','attr' => array('class' => 'radio'),))
             ;    
             
     }

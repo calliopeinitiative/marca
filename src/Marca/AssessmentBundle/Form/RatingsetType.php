@@ -24,10 +24,9 @@ class RatingsetType extends AbstractType
                 'type'   => new RatingType($scale),
                 'options'  => array(
                 'required'  => false),))
-            ->add('grade')
-            ->add('grade','integer', array('label'  => 'Grade (must be an integer)','attr' => array('class' => 'inline'),))                
-            ->add('notesforstudent','textarea', array('label'  => 'Notes for the student','attr' => array('class' => 'inline'),))  
-            ->add('notesforreviewer','textarea', array('label'  => 'Notes for the reviewer','attr' => array('class' => 'inline'),))                   
+            ->add('grade','integer', array('label'  => 'Grade (must be an integer)','attr' => array('class' => 'text form-control'),))
+            ->add('notesforstudent','textarea', array('label'  => 'Notes for the student','attr' => array('class' => 'text form-control'),))
+            ->add('notesforreviewer','textarea', array('label'  => 'Notes for the reviewer','attr' => array('class' => 'text form-control'),))
             ;
     }
 

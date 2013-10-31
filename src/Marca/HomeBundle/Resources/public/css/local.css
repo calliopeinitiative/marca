@@ -522,6 +522,8 @@ div.checkbox > label {
     margin-right: 5px;
 }
 
+div.radio {width:100%}
+
 div.radio > label {
     padding:5px;
     float:left;
