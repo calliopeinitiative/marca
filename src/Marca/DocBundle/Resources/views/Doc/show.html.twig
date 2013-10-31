@@ -127,14 +127,14 @@
 
 
 {# Doc display #}
-<div class="panel-body ">
+
 
 <div id='doc-display' class="col-md-8 well">
 <div class="doc-body">
 {{ doc.body|raw }}     
 </div>
-               
 </div>
+
  
 {# Doc tools #}        
 <div class="col-md-4" id="doctools">
@@ -221,8 +221,8 @@
 </div>
 
 </div>
-    {% endif %}
-</div>
+{% endif %}
+
 {# end of Doc tools #}
 
     {# Markup #}
@@ -236,8 +236,6 @@
         </div>
     {% endfor %}
 
-
-</div>
 
 {# Modal #}
 <div id="file_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
