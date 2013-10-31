@@ -66,14 +66,18 @@ class RatingsetController extends Controller
     public function editAction($id)
     {
         $em = $this->getEm();
-
+        $course = $this->getCourse();
         $ratingset = $em->getRepository('MarcaAssessmentBundle:Ratingset')->find($id);
 
         if (!$ratingset) {
             throw $this->createNotFoundException('Unable to find Ratingset entity.');
         }
 
-        $editForm = $this->createForm(new RatingsetType(), $ratingset);
+        $objectives = $course->getAssessmentset()->getObjectives();
+        $objective = $objectives[1];
+        $scale = $objective->getScale()->getId();
+        $options = array('scale' => $scale);
+        $editForm = $this->createForm(new RatingsetType($options), $ratingset);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -93,14 +97,17 @@ class RatingsetController extends Controller
     public function updateAction($courseid,$id,$userid,$user)
     {
         $em = $this->getEm();
-
+        $course = $this->getCourse();
         $entity = $em->getRepository('MarcaAssessmentBundle:Ratingset')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Ratingset entity.');
         }
-
-        $editForm   = $this->createForm(new RatingsetType(), $entity);
+        $objectives = $course->getAssessmentset()->getObjectives();
+        $objective = $objectives[1];
+        $scale = $objective->getScale()->getId();
+        $options = array('scale' => $scale);
+        $editForm   = $this->createForm(new RatingsetType($options), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
