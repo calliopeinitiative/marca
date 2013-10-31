@@ -478,14 +478,14 @@ span.btn-file {
 .panel-marca {
     border-color: #CCCCCC;
 }
-.panel-marca > .panel-heading {
-    background-color: #CCCCCC;
+.panel-heading {
+    background-color: whiteSmoke;
     border-color: #CCCCCC;
 }
-.panel-marca > .panel-heading + .panel-collapse .panel-body {
+.panel-heading + .panel-collapse .panel-body {
     border-top-color: #CCCCCC;
 }
-.panel-marca > .panel-footer + .panel-collapse .panel-body {
+.panel-footer + .panel-collapse .panel-body {
     border-bottom-color: #CCCCCC;
 }
 
