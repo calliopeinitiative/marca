@@ -262,27 +262,6 @@ div.inline label {
     margin-left:-20px !important;
 }
 
-.navbar .nav > li > a {
-    color: #fff;
-    text-shadow: none;
-}
-
-.navbar .nav > li > a:focus {
-    color: #999;
-    text-shadow: none;
-    outline: thin dotted white;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px;
-}
-
-.navbar .nav > li > a:hover {
-    color: #999;
-}
-
-.nav-list .active > a {
-    background-color:#006DCC;
-}
-
 .nav-pills .active > a {
     background-color:#006DCC;
 }
@@ -293,6 +272,23 @@ div.inline label {
 
 .subnav-fixed {
     margin-top: -20px;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #000;
+}
+
+.navbar-default .navbar-brand {
+    color: #000;
+}
+
+ul.nav > li > input {
+    margin-top: 8px;
+    margin-right: 5px;
 }
 
 .caret {
@@ -778,7 +774,7 @@ td > ul.nav {height:20px;margin-top: -10px;}
 #doc-display {
     overflow:auto;
     margin-bottom: 0px;
-    background: transparent;
+    background: #fff;
 }
 
 .doc-body {

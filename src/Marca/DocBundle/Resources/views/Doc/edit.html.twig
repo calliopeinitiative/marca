@@ -13,10 +13,10 @@
             checknet.config.checkInterval = 15000;
             checknet.config.warnMsg = 'No internet connection detected.  Please restore your connection before you continue working.';
 
-            var editorheight = $(document).height() * .82;
+            var editorheight = $(document).height() * .88;
             $('#saving_alert').toggle();
             $('#doctools').css('height', function(index) {
-                return $(window).height() * .82;
+                return $(window).height() * .88;
             });
             var editor = CKEDITOR.instances.marca_docbundle_doctype_body;
             var autoSave = setInterval(function(){var buffer = editor.checkDirty(); if (buffer==1) {editor.resetDirty(); var body =  editor.getData();$.post("{{ course_path('doc_ajax', { 'id': doc.id }) }}", {docBody:body}, function(data){});$('#saving_alert').fadeIn();$('#saving_alert').delay(2000).fadeOut();}}, 15000);
@@ -42,20 +42,17 @@
         <form id="doc_form" class="" action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
 
             <a name="skip"></a>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h1 class="doc-header">{{file.name}}</h1>
-                    <div class="pull-right">
-                    <span id='saving_alert' class='alert alert-info'>Saving</span>
-                    <div class="btn-group">
-                        <a id="toggle-tools" class="btn btn-default btn-sm" href="javascript:void(0);">Doc Tools</a>
-                        <input class="btn btn-primary btn-sm" type="submit" id="doc_save" value="Save and Close"/>
-                    </div>
 
-                    </div>
-                </div>
+            {# Doc nav #}
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <a class="navbar-brand" href="#">{{file.name}}</a>
+                <ul class="nav navbar-nav pull-right">
+                    <li><span id='saving_alert' class='alert alert-info'>Saving</span></li>
+                    <li><a id="toggle-tools" class="" href="javascript:void(0);">Doc Tools</a></li>
+                    <li><input class="btn btn-default" type="submit" id="doc_save" value="Save and Close"/></li>
 
-            <div class="panel-body ">
+                </ul>
+            </nav>
 
                 <div id='doc-edit' class="col-md-8">
                     {{ form_errors(edit_form) }}
@@ -70,7 +67,6 @@
                     {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 
                 </div>
-            </div>
         </form>
     </div>
 

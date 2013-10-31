@@ -8,14 +8,10 @@
     $(document).ready(function()
     {
         $('#doc-display').css('height', function(index) {
-            return $(window).height()* .79;
-        });
-
-        $('.doc-body').css('height', function(index) {
-            return $(window).height() * .65;
+            return $(window).height()* .88;
         });
         $('#doctools').css('height', function(index) {
-            return $(window).height() * .79;
+            return $(window).height() * .88;
         });
 
         {% if not app.request.get('page') %}$('#port_file_1').addClass('active');{% endif %}
@@ -31,34 +27,26 @@
 
 {% block content %}
 <div class="col-md-12">
-    <div class="panel panel-default">
-        {# Doc header #}
-        <div class="panel-heading">
-            {% for portfolio in portfolio %}
-                {% if loop.first %}<h2 class="small inline-block">{{ portfolio.user.firstname }} {{ portfolio.user.lastname }}'s Portfolio</h2>{% endif %}
-            {% else %}
-                <h2 class="small inline-block">Portfolio</h2>
-            {% endfor %}
-            <span class="pull-right">
+
+        {# Port nav #}
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <ul class="nav navbar-nav pull-right">
                 {% for roll in roll %}
                     {% if loop.index == app.request.get('user') + 1 %}
-                        <a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
-                            {{roll.firstname}} {{roll.lastname}}<i class="glyphicon glyphicon-chevron-right"></i></a>
+            <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
+                            {{roll.firstname}} {{roll.lastname}}<i class="glyphicon glyphicon-chevron-right"></i></a></li>
                     {% endif %}
                     {% if loop.index == app.request.get('user') - 1%}
-                <a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
+            <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
                     <i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}<span style='margin-right:2em;'></span>
-                    </a>{% endif %}
+                    </a></li>{% endif %}
                 {% endfor %}
-                <a class="btn btn-default btn-sm" href="{{ course_path('portfolio') }}">Close</a>
-            </span>
-        </div>
-
-
+            <li><a class="" href="{{ course_path('portfolio') }}">Close</a></li>
+            </ul>
+    </nav>
 
 
         {# Doc display #}
-        <div class="panel-body">
             <div id='doc-display' class="col-md-8 well">
                 <div class="doc-body">
                     {% for portfolio_doc in portfolio_docs %}
@@ -79,7 +67,20 @@
 
             {# Doc tools #}
             <div id='doctools' class="col-md-4">
-                {# Port files #}
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                {% for portfolio in portfolio %}
+                    {% if loop.first %}<h2 class="small inline-block">{{ portfolio.user.firstname }} {{ portfolio.user.lastname }}'s Portfolio</h2>{% endif %}
+                {% else %}
+                    <h2 class="small inline-block">Portfolio</h2>
+                {% endfor %}
+
+                        </div>
+                    </div>
+
+
+                        {# Port files #}
                 <div class="list-group">
                     {% for portfolio in portfolio %}
                             <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('portfolio_user', { 'userid': '0', 'user': '0', 'page': loop.index }) }}">
@@ -157,7 +158,5 @@
 
 
         </div>
-</div>
-</div>
 
 {% endblock %}
