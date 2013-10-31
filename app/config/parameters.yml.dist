@@ -24,5 +24,6 @@ parameters:
     ldap:              no
 
     upload_path:       %kernel.root_dir%/../uploads/files
+    wkhtmltopdf_path: /usr/local/bin/wkhtmltopdf-amd64
 
 
