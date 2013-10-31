@@ -18,9 +18,9 @@
             return $(window).height() * .79;
         });
 
-        {% if not app.request.get('page') %}$('#port_td1').addClass('active');{% endif %}
+        {% if not app.request.get('page') %}$('#port_file_1').addClass('active');{% endif %}
         {% for portfolio in portfolio %}
-        {% if app.request.get('page')==loop.index %}$('#port_td{{loop.index}}').addClass('active');{% endif %}
+        {% if app.request.get('page')==loop.index %}$('#port_file_{{loop.index}}').addClass('active');{% endif %}
         {% endfor %}
 
 
@@ -80,22 +80,14 @@
             {# Doc tools #}
             <div id='doctools' class="col-md-4">
                 {# Port files #}
-                <ul class="list-group">
+                <div class="list-group">
                     {% for portfolio in portfolio %}
-                        <li class="list-group-item" id="port_td{{loop.index}}">
-                            {{portfolio.portitem.name}}:
+                            <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('portfolio_user', { 'userid': '0', 'user': '0', 'page': loop.index }) }}">
+                                <strong>{{portfolio.portitem.name}}:</strong>  {{ portfolio.file.name }}
+                            </a>
 
-                            {% if portfolio.file.doc %}<i class="glyphicon glyphicon-edit"></i>
-                            <a class='active' href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a>
-                        {% elseif portfolio.file.url %}<i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio.file.url}}" target="_blank">{{ portfolio.file.name }}</a>
-                        {% else %}
-                            <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
-                            {% endif %}<i class="glyphicon glyphicon-share-alt"></i>
-                        </li>
                     {% endfor %}
-                </ul>
-
-
+                </div>
 
 
                 {# hide ratings is there is no portfolio #}
