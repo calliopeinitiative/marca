@@ -7,18 +7,7 @@
 {% block stylesheets %}{{ parent() }}{% endblock %}
 {% block javascripts %}{{ parent() }}{% endblock %}
 
-{% block subnav %}
-{% if app.request.get('view') == 'app' %}
-{%include 'MarcaCourseBundle::subnav.html.twig' %}
-{% endif %}
-{% endblock %}
-
 {% block body %}
-
-
-
-{% block content %}          
+{% block content %}
 {% endblock %}
- 
-      
 {% endblock %} 

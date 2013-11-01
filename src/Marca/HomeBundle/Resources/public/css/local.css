@@ -36,7 +36,7 @@ html, body {
 }
 
 body {
-    background: url('../img/mosaic.png');
+    background: url('../img/noisy.png');
     padding-top: 50px;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
@@ -262,27 +262,6 @@ div.inline label {
     margin-left:-20px !important;
 }
 
-.navbar .nav > li > a {
-    color: #fff;
-    text-shadow: none;
-}
-
-.navbar .nav > li > a:focus {
-    color: #999;
-    text-shadow: none;
-    outline: thin dotted white;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px;
-}
-
-.navbar .nav > li > a:hover {
-    color: #999;
-}
-
-.nav-list .active > a {
-    background-color:#006DCC;
-}
-
 .nav-pills .active > a {
     background-color:#006DCC;
 }
@@ -293,6 +272,23 @@ div.inline label {
 
 .subnav-fixed {
     margin-top: -20px;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #000;
+}
+
+.navbar-default .navbar-brand {
+    color: #000;
+}
+
+ul.nav > li > input {
+    margin-top: 8px;
+    margin-right: 5px;
 }
 
 .caret {
@@ -380,7 +376,7 @@ div.inline label {
 }
 
 .sidebar {
-    background:url('../img/whitewash.png');
+    background-color:#fff;
     min-height: 100%;
     max-height: 100%;
     margin-top:-70px;
@@ -482,14 +478,14 @@ span.btn-file {
 .panel-marca {
     border-color: #CCCCCC;
 }
-.panel-marca > .panel-heading {
-    background-color: #CCCCCC;
+.panel-heading {
+    background-color: whiteSmoke;
     border-color: #CCCCCC;
 }
-.panel-marca > .panel-heading + .panel-collapse .panel-body {
+.panel-heading + .panel-collapse .panel-body {
     border-top-color: #CCCCCC;
 }
-.panel-marca > .panel-footer + .panel-collapse .panel-body {
+.panel-footer + .panel-collapse .panel-body {
     border-bottom-color: #CCCCCC;
 }
 
@@ -525,6 +521,8 @@ div.checkbox > label {
     margin-left: 5px;
     margin-right: 5px;
 }
+
+div.radio {width:100%}
 
 div.radio > label {
     padding:5px;
@@ -778,7 +776,7 @@ td > ul.nav {height:20px;margin-top: -10px;}
 #doc-display {
     overflow:auto;
     margin-bottom: 0px;
-    background: transparent;
+    background: #fff;
 }
 
 .doc-body {
