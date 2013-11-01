@@ -2,17 +2,22 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
-{% block content %}
-<legend>Terms</legend>      
 
-<div class="row">
-<div class="col-md-11 well">
-<form action="{{ path('term_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <div>
-        <button class="btn btn-default" type="submit">Create</button>
-    </div>
-</form>
-</div>
+{% block content %}
+<div class="panel panel-default">
+    <form action="{{ path('term_create') }}" method="post" {{ form_enctype(form) }}>
+        <div class="panel-heading">
+            Term
+        </div>
+        <div class="panel-body">
+            {{ form_widget(form) }}
+        </div>
+        <div class="panel-footer">
+            <div class="btn-group">
+                <button class="btn btn-primary" type="submit">Create</button>
+                <a class="btn btn-default" href="{{ path('term') }}">Cancel</a>
+            </div>
+        </div>
+    </form>
 </div>
 {% endblock %}

@@ -12,6 +12,8 @@
         <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/external.css') }}">
+        {# theme test #}
+        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/theme1.css') }}">
         {% endstylesheets %}
     {% endblock %}
 
@@ -88,7 +90,7 @@
 <div id="mainContainer">
 
     {%if block('sidebar') %}
-        {% if app.request.attributes.get('_route') != 'fos_user_security_login' %}
+        {% if 'fos_user' not in app.request.attributes.get('_route')  %}
             <div class="col-sm-2 col-md-2 sidebar hidden-xs">
                 <ul class="nav nav-list">
                     {{block('sidebar')}}
@@ -103,7 +105,7 @@
                 </div>
             </div>
         {% endif %}
-        <div class="{% if app.request.attributes.get('_route') != 'fos_user_security_login' %}col-sm-10 col-sm-push-2 col-md-10 col-md-push-2{% else %}col-sm-12 col-md-12{% endif %} col-xs-12" role="main">
+        <div class="{% if 'fos_user' not in app.request.attributes.get('_route')  %}col-sm-10 col-sm-push-2 col-md-10 col-md-push-2{% else %}col-sm-12 col-md-12{% endif %} col-xs-12" role="main">
             {% block content %}
             {% endblock %}
         </div>

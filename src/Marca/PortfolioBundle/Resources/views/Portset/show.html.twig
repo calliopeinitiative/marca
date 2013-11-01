@@ -5,15 +5,18 @@
 {% block content %}
     <div class="panel panel-default">
         <div class="panel-heading">
+            <a class="btn btn-default pull-right" href="{{ path('portset') }}">List Portfolio Sets</a>
             <h2>Portfolios</h2>
-            <a class="btn btn-default" href="{{ path('portset') }}">List Portfolio Sets</a>
         </div>
         <div class="panel-body">
 
             <div class="col-md-12">
                 <h3>{{ portset.name }}</h3>
-                <a class="btn btn-default btn-sm pull-right" href="{{ path('portitem_new', { 'portsetid': portset.id }) }}">Add Item</a>
-                <a class="btn btn-default btn-sm pull-right" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit</a>
+                <div class="btn-group pull-right" style="margin-top: -5px;">
+                    <a class="btn btn-default btn-sm" href="{{ path('portitem_new', { 'portsetid': portset.id }) }}">Add Item<i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
+                    <a class="btn btn-default btn-sm" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit Set</a>
+                </div>
+
                 {{ portset.description|raw }}
                 <div class="list-group">
                     {% for portitem in portitems %}

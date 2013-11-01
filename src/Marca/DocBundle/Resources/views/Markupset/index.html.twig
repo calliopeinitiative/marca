@@ -18,9 +18,13 @@
 {% block content %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h2>Markup</h2>
-            <a class="btn btn-default" href="{{ path('markupset_new') }}">Create Markup Set</a>
-            <a class="btn btn-default" href="{{ path('find_markupset') }}">Import Markup Set</a>
+            <div class="btn-group pull-right">
+                <a class="btn btn-primary" href="{{ path('markupset_new') }}">Create Set<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+                <a class="btn btn-primary" href="{{ path('find_markupset') }}">Import Set<i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
+            </div>
+
+            <h2>Markup Set</h2>
+
         </div>
         <div class="panel-body">
             <div class="panel-group" id="accordion">

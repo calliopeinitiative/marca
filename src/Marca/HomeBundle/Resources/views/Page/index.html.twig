@@ -2,28 +2,41 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function()
+        {
+
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
-<div class="col-md-11 well">
-<legend>Pages</legend>
-      <a class="btn btn-primary" href="{{ path('page_new') }}">New Page</a>
-</div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a class="btn btn-primary pull-right margin-top" href="{{ path('page_new') }}">Create Page<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+            <h2>Pages</h2>
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <tbody>
+                {% for page in pages %}
+                    <tr>
+                        <td>{{ page.title }}</td>
+                        <td>{% if page.type ==1 %}Research consent form{% elseif page.type ==2 %}Rubric{% else %}Display on Homepage{% endif %}</td>
+                        <td><a class="btn btn-default" href="{{ path('page_show', { 'id': page.id }) }}">show</a><a class="btn btn-primary" href="{{ path('page_edit', { 'id': page.id }) }}">edit</a>
+                        </td>
+                    </tr>
 
+                {% endfor %}
+                </tbody>
+            </table>
 
-<div class="col-md-11 well">
-<table class="table">  
-<tbody>
-    {% for page in pages %}
-    <tr>               
-        <td>{{ page.title }}</td>
-        <td>{% if page.type ==1 %}Research consent form{% elseif page.type ==2 %}Rubric{% else %}Display on Homepage{% endif %}</td>
-        <td><a class="btn btn-default" href="{{ path('page_show', { 'id': page.id }) }}">show</a><a class="btn btn-primary" href="{{ path('page_edit', { 'id': page.id }) }}">edit</a>
+        </div>
+        <div class="panel-footer">
+            <span class="text-muted"> </span>
+        </div>
+    </div>
 
-</td>       
-    </tr>
-    
-    {% endfor %}
-    </tbody>
-</table>
-</div>
-</div>
 {% endblock %}

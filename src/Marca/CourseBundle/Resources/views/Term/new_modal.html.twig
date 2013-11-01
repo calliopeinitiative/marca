@@ -1,24 +1,19 @@
 {# Marca/CourseBundle/Resources/views/Term/new_modal.html.twig #}
 
-<script language="javascript"> 
-$(document).ready(function() {
-$(' form div ul li ul li').addClass('alert alert-error');
-});
-</script>
 
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3>Create a Term for your new Institution</h3>
-</div>
-<form action="{{ path('term_create') }}" method="post" {{ form_enctype(form) }}> 
- <div class="modal-body">
-     {{ form_errors(form) }}
-         {{ form_row (form.termName) }}
-         {{ form_row (form.term) }}
-         {{ form_row (form.status) }}
-         {{ form_row (form.institution) }}
-     {{ form_rest(form) }} 
-  </div>
-  <div class="modal-footer">
-<button class="btn btn-primary pull-left" type="submit">Create</button>
-</div>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form action="{{ path('term_create') }}" method="post" {{ form_enctype(form) }}>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title">Create a Term for your new Institution</h2>
+            </div>
+            <div class="modal-body">
+                {{ form_widget(form) }}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit">Create</button>
+            </div>
+        </form>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

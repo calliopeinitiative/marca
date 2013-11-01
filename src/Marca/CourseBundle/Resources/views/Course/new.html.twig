@@ -70,7 +70,11 @@
 
         <div class="panel panel-default">
             <div class="panel-body">
-                <button class="btn btn-primary" type="submit">Create</button><a style="margin-left: 1em;" class="btn" href="{{ path('course') }}">Cancel</a>
+                <div class="btn-group">
+                    <button class="btn btn-primary" type="submit">Create</button>
+                    <a class="btn btn-default" href="{{ path('course') }}">Cancel</a>
+                </div>
+
             </div>
         </div>
     </form>

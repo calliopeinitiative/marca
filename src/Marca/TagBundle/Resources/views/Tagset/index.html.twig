@@ -16,8 +16,8 @@
 {% block content %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h2>Labels</h2>
-            <a class='btn btn-primary ' href="{{ path('tagset_new') }}">Create Label Set</a>
+            <a class="btn btn-primary pull-right margin-top" href="{{ path('tagset_new') }}">Create Set<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+            <h2>Label Sets</h2>
         </div>
         <div class="panel-body">
             <div class="panel-group" id="accordion">
@@ -31,8 +31,12 @@
                             </h4>
                             {% if tagset.shared==1 %}(Shared){% elseif tagset.shared==2 %}(Default){%endif%}
                             {% if tagset.isOwner(app.user.username) %}
-                                {% if tagset.isOwner(app.user.username) %}<a class='btn btn-default btn-sm pull-right' href="{{ path('tag_new', { 'tagsetid': tagset.id }) }}">Add Label</a>
-                                    <a class="btn btn-default btn-sm pull-right" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit</a>
+                                {% if tagset.isOwner(app.user.username) %}
+                                    <div class="btn-group pull-right" style="margin-top: -5px;">
+                                        <a class='btn btn-default btn-sm' href="{{ path('tag_new', { 'tagsetid': tagset.id }) }}">Add Label<i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
+                                        <a class="btn btn-default btn-sm" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit Label Set</a>
+                                    </div>
+
                                 {% endif %}
                             {% endif %}
                         </div>
@@ -58,3 +62,5 @@
         </div>
     </div>
 {% endblock %}
+
+

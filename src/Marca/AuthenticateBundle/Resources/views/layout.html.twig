@@ -8,9 +8,12 @@
     <script language="javascript">
         $(document).ready(function()
         {
-            $("#_submit").addClass("btn btn-primary");
+            $("input:submit").addClass("btn btn-primary");
             $("input:text").addClass("form-control");
             $("input:password").addClass("form-control");
+            $("#fos_user_registration_form_email").addClass("form-control");
+            $("#fos_user_registration_form_share_email").addClass("checkbox");
+            $("#fos_user_registration_form_institution").addClass("form-control");
         });
     </script>
 
@@ -18,7 +21,7 @@
 <div class="row">
 
     <div class="col-md-6 col-xs-12">
-        <div class="panel panel-marca">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 <h2>Welcome to {{ application_name }}</h2>
                 </div>
@@ -36,38 +39,39 @@
             </div>
         </div>
     </div>
+    <div class="col-md-6 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title small">{{ application_name }} Login</h2>
+            </div>
+            <div class="panel-body">
 
-<div class="col-md-6 col-xs-12">
-<div class="panel panel-marca">
-<div class="panel-heading">
-<h2 class="panel-title small">{{ application_name }} Login</h2>
- </div>
-<div class="panel-body">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+                    <a href="{{ path('fos_user_security_logout') }}">
+                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                    </a>
+                {% endif %}
 
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
-<a href="{{ path('fos_user_security_logout') }}">
-{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-</a>
-{% endif %}
+                {% for key, message in app.session.getFlashes() %}
+                    <div class="{{ key }}">
+                        {{ message|trans({}, 'FOSUserBundle') }}
+                    </div>
+                {% endfor %}
 
-{% for key, message in app.session.getFlashes() %}
-<div class="{{ key }}">
-{{ message|trans({}, 'FOSUserBundle') }}
-</div>
-{% endfor %}
+                {% block fos_user_content %}
+                {% endblock fos_user_content %}
 
-{% block fos_user_content %}
-{% endblock fos_user_content %}
-
-</div>
-    <div class="panel-footer">
-        {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") and ldap_auth!='yes' %}
-            <a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a>
-        {% endif %}
+            </div>
+            <div class="panel-footer">
+                {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") and ldap_auth!='yes' %}
+                    <a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
-</div>
-</div>
+
+
 
 </div>
 {% endblock %}

@@ -25,9 +25,9 @@
                 {% endfor %}
                 {% else %}
                     {% if app.request.attributes.get('_route') == 'enroll_find' %}
-                    <div class='alert alert-info'>Enter your instructor's last name.</div>
+                    Enter your instructor's last name.
                     {% else %}
-                    <div class='alert alert-warning'>Shoot, didn't find anyone with that name. Want to try again?</div>
+                    Shoot, didn't find anyone with that name. Want to try again?
                     {% endif %}
 
                     <form action="{{ path('enroll_list') }}" method="post" {{ form_enctype(form) }}>
@@ -36,7 +36,11 @@
                     </form>
                 {% endfor %}
             </div>
-            <div class="panel-footer"><span class="text-muted">{% if possible_courses %}Select the course your wish to enroll in.{% endif %}</span></div>
+            <div class="panel-footer">
+                <span class="text-muted">
+                    {% if possible_courses %}Select the course your wish to enroll in.{% endif %}
+                </span>
+            </div>
         </div>
     </div>
 

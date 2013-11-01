@@ -12,8 +12,9 @@ class AssessmentsetType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('name','text', array('label'  => 'Name','attr' => array('class' => 'text form-control'),))
             ->add('description', 'ckeditor', array('config_name' => 'editor_default',))
-            ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes', 2 => 'Default'),'required'  => true,'label'  => 'Share your Assessment set?', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))   
+            ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes', 2 => 'Default'),'required'  => true,'label'  => 'Share your Assessment set?', 'expanded' => true,'attr' => array('class' => 'radio'),))
         ;
     }
 

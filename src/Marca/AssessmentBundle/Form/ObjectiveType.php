@@ -13,7 +13,7 @@ class ObjectiveType extends AbstractType
         $builder
             ->add('objective', 'ckeditor', array('config_name' => 'editor_default',))
             ->add('description', 'ckeditor', array('config_name' => 'editor_default',))
-            ->add('scale','entity', array('class'=>'MarcaAssessmentBundle:Scale', 'property'=>'name','expanded'=>false,'multiple'=>false, 'label' => 'Select a Scale for this Objective',))     
+            ->add('scale','entity', array('class'=>'MarcaAssessmentBundle:Scale', 'property'=>'name','expanded'=>false,'multiple'=>false, 'label' => 'Select a Scale for this Objective','attr' => array('class' => 'form-control'),))
         ;
     }
 

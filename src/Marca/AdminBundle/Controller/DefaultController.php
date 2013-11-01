@@ -28,7 +28,7 @@ class DefaultController extends Controller
         $users = array();
         
         $form = $this->createFormBuilder(new User())
-            ->add('lastname','text', array('label'  => 'Start of name, username, or email','attr' => array('class' => 'inline'),))
+            ->add('lastname','text', array('label'  => 'Start of name, username, or email','attr' => array('class' => 'form-control'),))
             ->getForm();
         
         //pagination
@@ -57,7 +57,7 @@ class DefaultController extends Controller
         $users = $em->getRepository('MarcaUserBundle:User')->findUsersByName($name);
         
         $form = $this->createFormBuilder(new User())
-            ->add('lastname','text', array('label'  => 'Start of name, username, or email','attr' => array('class' => 'inline'),))
+            ->add('lastname','text', array('label'  => 'Start of name, username, or email','attr' => array('class' => 'form-control'),))
             ->getForm();
                 
         //pagination
