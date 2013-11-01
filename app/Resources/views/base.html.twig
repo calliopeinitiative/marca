@@ -48,7 +48,6 @@
     {% else %}
     <nav class="navbar navbar-inverse navbar-fixed-top">
         {% if is_granted('ROLE_USER') %}
-            <div>
                 <div class="navbar-header col-sm-2 col-md-2">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
@@ -61,15 +60,15 @@
 
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li id="skip"><a href="#main_content">Skip Navigation</a></li>
+                        <li id="skip">
+                            <a href="#main_content">Skip Navigation</a>
+                        </li>
                         {% block subnav %}
-
                             <li>
                                 <a title='Select course' id='course_select' href="javascript:void(0);">Select Course &nbsp; <span alt='Select course' class="glyphicon glyphicon-list"></span></a>
                             </li>
                         {% endblock %}
                     </ul>
-
                     <ul class="nav navbar-nav navbar-right" id="account-dropdown">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dLabel"><span class="hidden-sm">{{ app.session.get('username') }}<b class="caret"></b></span><span class="visible-sm glyphicon glyphicon-user"><b class="caret"></b></span></a>
@@ -79,10 +78,8 @@
                                 <li><a title="Logout" href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                             </ul>
                         </li>
-
                     </ul>
                 </div>
-            </div>
         {% endif %}
     </nav>
 {% endif %}
@@ -94,6 +91,7 @@
             <div class="col-sm-2 col-md-2 sidebar hidden-xs">
                 <ul class="nav nav-list">
                     {{block('sidebar')}}
+                </ul>
             </div>
             <div class="col-xs-12 visible-xs sidebar-mobile">
                 <a id="main_content" name="main_content"></a>
@@ -101,6 +99,7 @@
                     <div class="panel-body">
                         <ul class="nav nav-list">
                             {{block('sidebar')}}
+                        </ul>
                     </div>
                 </div>
             </div>
