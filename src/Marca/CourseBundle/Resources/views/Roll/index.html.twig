@@ -3,13 +3,18 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="col-md-11 well">
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="btn-group pull-right margin-top">
+                {#{% if course.hasPendingStudents %}#}<a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{#{% endif %}#}
+                <a class="btn btn-default" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh this list</a>
+                <a class="btn btn-default" href="{{ path('course_show', { 'courseid': course.id }) }}">Course Settings </a>
+            </div>
+    <h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Roll</h2>
 
-    <h1><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Roll</h1>
-    {#{% if course.hasPendingStudents %}#}<a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{#{% endif %}#}
-    <a class="btn btn-default" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh this list</a>
-    <a class="btn btn-default" href="{{ path('course_show', { 'courseid': course.id }) }}">Course Settings </a>
-    <hr/>
+            </div>
+        <div class="panel-body">
     <table class="table table-condensed">
         <thead><tr><th>Name</th><th>Role</th><th>Change Role</th></tr></thead>
     <tbody>  
@@ -19,22 +24,23 @@
         <td>{% if roll.role == 2 %}Instructor{% elseif roll.role == 3 %}TA{% elseif roll.role == 4 %}Portfolio Review{% else %}Student{% endif %}</td>
         <td> {% if roll.role == 0 %} PENDING 
             <a class="btn btn-default btn-sm" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>{% endif %}
-            Change role to: 
+            Change role to:
+            <div class="btn-group">
             <a class="btn btn-default btn-sm " href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'1'}) }}">Student</a>
             <a class="btn btn-default btn-sm " href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'3'}) }}">TA</a>
             <a class="btn btn-default btn-sm " href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'2'}) }}">Instructor</a>
             <a class="btn btn-default btn-sm " href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'4'}) }}">Portfolio Review</a>
             <a class="btn btn-default btn-sm" href="{{ path('roll_show', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a></td>
-    
+    </div>
     </tr>
     {% endfor %}
     </tbody>
      </table>
-    
+
     {{ knp_pagination_render(roll) }}
 
-    
-    
-           
 </div>
+
+        </div>
+    </div>
 {% endblock %}

@@ -34,7 +34,7 @@
                                 {% if tagset.isOwner(app.user.username) %}
                                     <div class="btn-group pull-right" style="margin-top: -5px;">
                                         <a class='btn btn-default btn-sm' href="{{ path('tag_new', { 'tagsetid': tagset.id }) }}">Add Label<i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
-                                        <a class="btn btn-default btn-sm" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit Label Set</a>
+                                        <a class="btn btn-default btn-sm" href="{{ path('tagset_edit', { 'id': tagset.id }) }}">Edit Set<i class="glyphicon glyphicon-edit glyphicon-white"></i></a>
                                     </div>
 
                                 {% endif %}

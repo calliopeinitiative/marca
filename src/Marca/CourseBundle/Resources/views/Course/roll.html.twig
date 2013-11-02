@@ -3,10 +3,12 @@
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="col-md-11 well">
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
     <h2>Roll</h2>
-</div>    
-<div class="col-md-11 well">
+</div>
+        <div class="panel-body">
     <table class="table table-condensed"><tbody>  
     {% for roll in roll %}
     <tr>
@@ -16,18 +18,19 @@
     {% endfor %}
     </tbody>
      </table>
-    
 {{ knp_pagination_render(roll) }}           
 </div>
- 
-<div class="col-md-11 well">
+    <div class="panel-footer">
 <h3>Semicolon list of emails</h3>    
 <a class="" target="_blank" href="mailto:{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}; {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}; {% endif %}{% endfor %}</a>
-</div>
-
-<div class="col-md-11 well">
+<hr />
 <h3>Comma list of emails</h3>    
 <a class="" target="_blank" href="mailto:{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}</a>
 </div>
+    </div>
+
+
+</div>
+
 
 {% endblock %}
