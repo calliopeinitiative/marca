@@ -89,7 +89,7 @@
         {% endif %}
         {% for project in projects %}
             <li>
-                <a title='{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}' class="project-sidebar {% if active_project == project.id %}current-filter{% endif %} margin-left-medium" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
+                <a title='{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}' class="project-sidebar {% if active_project == project.id %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
                     {% if app.request.get('resource')=='1' and project.course.name!=app.session.get('course') %}{{ project.course.name }}: {%endif%}{{ project.name }}</a>
             </li>
         {% endfor %}
@@ -104,7 +104,7 @@
                 <a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}" class="project-sidebar {% if app.request.get('tag')=='0' %}current-filter{% endif %}">All Labels</a></li>
             {% for tag in tags %}
                 <li>
-                    <a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}" class="project-sidebar {% if app.request.get('tag')== tag.id %}current-filter{% endif %} margin-left-medium">
+                    <a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}" class="project-sidebar {% if app.request.get('tag')== tag.id %}current-filter{% endif %}">
                         {{ tag.name }}</a></li>
             {% endfor %}
         {% endif %}

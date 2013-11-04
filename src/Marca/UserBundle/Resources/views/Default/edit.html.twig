@@ -12,18 +12,25 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-md-11 well">
-    <form class="form" action="{{ path('user_update', { 'id': user.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
-    <h2>Please update your Profile</h2>
-    {{ form_errors(edit_form) }}
-         {{ form_row(edit_form.firstname) }}
-         {{ form_row(edit_form.lastname) }}
-         {{ form_row(edit_form.photo) }}
-         {{ form_row(edit_form.bio) }}
-    {{ form_rest(edit_form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Update</button>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2>Please update your Profile</h2>
+        </div>
+
+        <div class="panel-body">
+            <form class="form" action="{{ path('user_update', { 'id': user.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+
+                {{ form_errors(edit_form) }}
+                {{ form_row(edit_form.firstname) }}
+                {{ form_row(edit_form.lastname) }}
+                {{ form_row(edit_form.photo) }}
+                {{ form_row(edit_form.bio) }}
+                {{ form_rest(edit_form) }}
+                <div>
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+            </form>
+
+        </div>
     </div>
-</form>
-</div>
 {% endblock %}

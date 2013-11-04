@@ -10,35 +10,38 @@
         </div>
     {% endfor %}
 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+                <a class="btn btn-default" title="Edit Profile" href="{{ path('user_edit', { 'id': user.id }) }}">Edit Profile</a>
+                {% if ldap_auth!='yes' %}
+                    <a class="btn btn-default" title="Change Password" href="{{ path('fos_user_change_password') }}">Change Password</a>
+                {% endif %}
+                <a class="btn btn-default" title="Enroll in a Course" href="{{ path('enroll_find') }}">Enroll in a Course</a>
+                {% if user.institution.research==true %}
+                    <a class="btn btn-default" title="Change Password" href="{{ path('user_research', { 'id': user.id }) }}">Review Research Consent</a>
+                {% endif %}
+            </div>
+            <h2>{{ user.firstname }} {{ user.lastname }}  </h2>
+        </div>
 
-    <div class="col-md-11 well">
+        <div class="panel-body">
+            <p><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></p>
 
-        <h2>{{ user.firstname }} {{ user.lastname }}  </h2>
-        <p><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></p>
-
-        <ul class="thumbnail">
-            <li class="col-md-2">
-                <div class="img-thumbnail">
-                    <img src="{{ user.photo }}" alt="{{ user.firstname }} {{ user.lastname }}">
-                    <h3></h3>
-                    <p>{{ user.firstname }} {{ user.lastname }}</p>
+                <div class="col-md-2">
+                    <div class="thumbnail">
+                        <img src="{{ user.photo }}" alt="{{ user.firstname }} {{ user.lastname }}">
+                        <div class="caption">
+                            <p>{{ user.firstname }} {{ user.lastname }}</p>
+                            </div>
+                    </div>
                 </div>
-            </li>
-        </ul>
 
-        <p>{{ user.bio|raw }}</p>
+            <p>{{ user.bio|raw }}</p>
 
 
-
-        <a class="btn btn-primary" title="Edit Profile" href="{{ path('user_edit', { 'id': user.id }) }}">Edit Profile</a>
-        {% if ldap_auth!='yes' %}
-            <a class="btn btn-primary" title="Change Password" href="{{ path('fos_user_change_password') }}">Change Password</a>
-        {% endif %}
-        <a class="btn btn-primary" title="Enroll in a Course" href="{{ path('enroll_find') }}">Enroll in a Course</a>
-        {% if user.institution.research==true %}
-            <a class="btn btn-primary" title="Change Password" href="{{ path('user_research', { 'id': user.id }) }}">Review Research Consent</a>
-        {% endif %}
-
+        </div>
     </div>
+
 
 {% endblock %}
