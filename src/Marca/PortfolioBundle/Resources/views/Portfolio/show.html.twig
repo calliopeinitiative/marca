@@ -50,11 +50,6 @@ $('#doctools').css('height', function(index) {
 </div>
                         
 {% for portfolio_doc in portfolio_docs %}
-<div class="span8" style='margin-top:-4em;'>
-<div class="pull-right"'>    
-{{ knp_pagination_render(portfolio_docs) }}
-</div>
-</div>
 
         
 {# Doc display #}
@@ -65,9 +60,14 @@ $('#doctools').css('height', function(index) {
 {% elseif portfolio_doc.file.url %}
 Please click link to to view.        
 <i class="icon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>        
-{% else %}        
-Please download this file to view.
-<i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+{% else %}
+    {{ portfolio_doc.file.name }} <br/>
+{% if portfolio_doc.file.ext == 'odt' %}
+    <i class="icon-share-alt"></i><a class="" target="_blank" href="{{ course_path('file_view_odt', { 'id': portfolio_doc.file.id, 'view': 'window' }) }}" title="View {{ portfolio_doc.file.name }}" >Preview in new tab</a>
+<br/>
+{% endif %}
+
+<i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)">Download file</a>
 {% endif %}        
 </div>              
 </div>
@@ -87,14 +87,18 @@ There are no files in this portfolio.
         {% for portfolio in portfolio %} 
         <tr>
         <td id="port_td{{loop.index}}" class="port">
-             {{portfolio.portitem.name}}:  
+            <strong>{{portfolio.portitem.name}}:</strong>
 
-             {% if portfolio.file.doc %}<i class="icon-edit"></i> 
-             <a class='active' href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a> 
-             {% elseif portfolio.file.url %}<i class="icon-adjust"></i> <a href="{{ portfolio.file.url}}" target="_blank">{{ portfolio.file.name }}</a>
-             {% else %}
-             <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
-             {% endif %}<i class="icon-share-alt"></i>
+            {% if portfolio.file.ext == 'odt' %}
+                <a class="" target="_blank" href="{{ course_path('file_view_odt', { 'id': portfolio.file.id, 'view': 'window' }) }}" title="View {{ portfolio.file.name }}" >{{ portfolio.file.name }}</a>
+                <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="Download {{ portfolio.file.name }}" ><i class="icon-download"></i></a>
+            {% else %}
+                <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('portfolio_user', { 'userid': '0', 'user': '0', 'page': loop.index }) }}">
+                    {{ portfolio.file.name }}
+                </a>
+            {% endif %}
+
+
              </td>
             </tr>
         {% endfor %} 
