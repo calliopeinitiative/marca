@@ -15,16 +15,23 @@ $(document).ready(function()
 </script>
 
 
-<div class="col-md-11 well">
-<legend>Scales</legend> 
-</div> 
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
 
-<div class="col-md-11 well">
+            <h2>Scale Item</h2>
+        </div>
+
+        <div class="panel-body">
 <form action="{{ path('scaleitem_create', {'scaleid':scaleid}) }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <div>
+</div>
+    <div class="panel-footer">
+        <div class="btn-group">
         <button class="btn btn-primary" type="submit">Create</button><a class="btn btn-default" href="{{ path('scale_show', {id:scaleid}) }}">Cancel</a>
     </div>
+        </div>
 </form>
 </div>
+    </div>
 {% endblock %}

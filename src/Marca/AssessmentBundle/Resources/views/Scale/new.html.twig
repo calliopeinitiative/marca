@@ -8,16 +8,23 @@
 {% block content %}
 
    
-<div class="col-md-11 well">
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+
 <h2>Scales</h2>
 </div> 
 
-<div class="col-md-11 well">
+<div class="panel-body">
 <form action="{{ path('scale_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <div>
+</div>
+    <div class="panel-footer">
+        <div class="btn-group">
         <button class="btn btn-primary" type="submit">Create</button><a class="btn btn-default" href="{{ path('assessmentset') }}">Cancel</a>
     </div>
+    </div>
 </form>
+</div>
 </div>
 {% endblock %}

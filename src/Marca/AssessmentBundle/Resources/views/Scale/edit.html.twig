@@ -6,22 +6,29 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-md-11 well">
-<h2>Scales</h2>
-</div>
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
 
-<div class="col-md-11 well">
+            <h2>Scales</h2>
+        </div>
+
+        <div class="panel-body">
         <form action="{{ path('scale_update', { 'id': scale.id }) }}" method="post" {{ form_enctype(edit_form) }}>
             {{ form_widget(edit_form) }}
-        <div>
+       </div>
+        <div class="panel-footer">
+            <div class="btn-group">
             <button class="btn btn-primary" type="submit">Update</button><a class="btn btn-default" href="{{ path('assessmentset') }}">Cancel</a>
         </div>
         </form>
         
         <form action="{{ path('scale_delete', { 'id': scale.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button class="btn btn-delete" type="submit">Delete</button>
+            <button class="btn btn-delete pull-right" type="submit">Delete</button>
         </form>
         
 </div>
+        </div>
+    </div>
 {% endblock %}
