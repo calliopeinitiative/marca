@@ -11,15 +11,19 @@
 
 <div class="span9 well">
     <form action="{{ course_path('ratingset_update', { 'id': ratingset.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
-        {{ form_errors(edit_form) }}    
-        <ul class="">    
+        {{ form_errors(edit_form) }}
+        {{ form_row(edit_form.notesforstudent) }}
+        {{ form_row(edit_form.notesforreviewer) }}
+        {{ form_row(edit_form.grade) }}
+        <hr/>
+        <ul class="">
         {% for rating in edit_form.ratings %}
                 <li><strong>{{ ratingset.ratings[loop.index-1].objective.objective|raw }}</strong><br/>
                 {{ ratingset.ratings[loop.index-1].objective.description|raw }}
                 {{ form_row(rating.scaleitem) }}</li>
         {% endfor %}
-        </ul> 
-        {{ form_rest(edit_form) }}        
+        </ul>
+        {{ form_rest(edit_form) }}
         <div>
             <button class="btn btn-primary" type="submit">Update</button>
         </div>
