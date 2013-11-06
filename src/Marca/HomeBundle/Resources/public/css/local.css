@@ -36,7 +36,7 @@ html, body {
 }
 
 body {
-    background: url('.t./img/mosaic.png');
+    background: url('../img/mosaic.png');
     padding-top: 50px;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
