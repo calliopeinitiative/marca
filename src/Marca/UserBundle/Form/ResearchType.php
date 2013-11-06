@@ -11,7 +11,7 @@ class ResearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('research', 'choice', array('choices'   => array(1 => 'Yes', 2 => 'No'),'required'  => true,'label'  => 'I agree to participate in this research.', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))
+            ->add('research', 'choice', array('choices'   => array(1 => 'Yes', 2 => 'No'),'required'  => true,'label'  => 'I agree to participate in this research.', 'expanded' => true,'attr' => array('class' => 'radio'),))
         ;
     }
 
