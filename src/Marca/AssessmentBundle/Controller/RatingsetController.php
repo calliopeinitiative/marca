@@ -74,7 +74,7 @@ class RatingsetController extends Controller
         }
 
         $objectives = $course->getAssessmentset()->getObjectives();
-        $objective = $objectives[1];
+        $objective = $objectives[0];
         $scale = $objective->getScale()->getId();
         $options = array('scale' => $scale);
         $editForm = $this->createForm(new RatingsetType($options), $ratingset);
@@ -104,7 +104,7 @@ class RatingsetController extends Controller
             throw $this->createNotFoundException('Unable to find Ratingset entity.');
         }
         $objectives = $course->getAssessmentset()->getObjectives();
-        $objective = $objectives[1];
+        $objective = $objectives[0];
         $scale = $objective->getScale()->getId();
         $options = array('scale' => $scale);
         $editForm   = $this->createForm(new RatingsetType($options), $entity);
