@@ -66,6 +66,8 @@ class RatingsetController extends Controller
     public function editAction($id)
     {
         $em = $this->getEm();
+        $course = $this->getCourse();
+        $assessmentset = $course->getAssessmentset();
 
         $ratingset = $em->getRepository('MarcaAssessmentBundle:Ratingset')->find($id);
 
@@ -80,6 +82,7 @@ class RatingsetController extends Controller
             'ratingset'      => $ratingset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'assessmentset' => $assessmentset,
         );
     }
 
