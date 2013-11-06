@@ -9,10 +9,22 @@
             {{ flashMessage }}
         </div>
     {% endfor %}
-
+    <div class="col-md-10">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <div class="btn-group pull-right">
+            <h2 style="text-align: center;">{{ user.firstname }} {{ user.lastname }}  </h2>
+        </div>
+
+        <div class="panel-body">
+                <div class="col-md-6 col-md-offset-4">
+                        <img class="img-thumbnail" src="{{ user.photo }}" alt="{{ user.firstname }} {{ user.lastname }}">
+            <h5><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></h5
+
+            <h5>{{ user.bio|raw }}</h5>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="btn-group">
                 <a class="btn btn-default" title="Edit Profile" href="{{ path('user_edit', { 'id': user.id }) }}">Edit Profile</a>
                 {% if ldap_auth!='yes' %}
                     <a class="btn btn-default" title="Change Password" href="{{ path('fos_user_change_password') }}">Change Password</a>
@@ -22,25 +34,9 @@
                     <a class="btn btn-default" title="Change Password" href="{{ path('user_research', { 'id': user.id }) }}">Review Research Consent</a>
                 {% endif %}
             </div>
-            <h2>{{ user.firstname }} {{ user.lastname }}  </h2>
         </div>
 
-        <div class="panel-body">
-            <p><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></p>
-
-                <div class="col-md-2">
-                    <div class="thumbnail">
-                        <img src="{{ user.photo }}" alt="{{ user.firstname }} {{ user.lastname }}">
-                        <div class="caption">
-                            <p>{{ user.firstname }} {{ user.lastname }}</p>
-                            </div>
-                    </div>
-                </div>
-
-            <p>{{ user.bio|raw }}</p>
-
-
-        </div>
+    </div>
     </div>
 
 

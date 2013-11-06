@@ -3,20 +3,26 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block javascripts %}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}
-<div class="col-md-11 well">
-<h2>Assessment</h2>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+<h2>Learning objective</h2>
 <a class="btn btn-default" href="{{ path('assessmentset') }}">List Assessment Sets</a>
 </div> 
 
-<div class="col-md-11 well">
+<div class="panel-body">
 <form action="{{ path('objective_create', {'assessmentsetid':assessmentsetid}) }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ path('assessmentset_show', {'id':assessmentsetid}) }}">Cancel</a>
+    <div class="panel-footer">
+        <div class="btn-group">
+        <button class="btn btn-primary" type="submit">Create</button><a class="btn btn-default" href="{{ path('assessmentset_show', {'id':assessmentsetid}) }}">Cancel</a>
     </div>
 </form>
 </div>
+        </div>
+    </div>
 {% endblock %}

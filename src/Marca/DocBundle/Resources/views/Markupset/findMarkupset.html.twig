@@ -5,9 +5,11 @@
 {% block content %}
 
     <div class="col-md-8">
-    <div class="row">
-    <legend>Available Markup Sets</legend>
-
+    <div class="panel panel-default">
+        <div class="panel-heading">
+    <h2>Available Markup Sets</h2>
+</div>
+        <div class="panel-body">
     <table class="table">
     {% for set in markupsets %}
             <tr><td>{{ set.name }}</td>
@@ -21,6 +23,7 @@
     </table>
     </div>
     </div>
+        </div>
 
 
 
