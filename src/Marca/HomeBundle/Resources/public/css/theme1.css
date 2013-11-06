@@ -5,7 +5,7 @@ body {
 }
 
 .navbar-inverse {
-    background-color: #455860;
+    background-color: #25383C;
     border-color: #303d42;
 }
 a {
@@ -23,12 +23,12 @@ a:focus {
     outline-offset: -2px;
 }
 
-.current-filter {color: #455860;}
+.current-filter {color: #25383C;}
 
 
 .btn-primary {
     color: #ffffff;
-    background-color: #455860;
+    background-color: #25383C;
     border-color: rgba(255, 255, 255, 0);
 }
 .btn-primary:hover,
@@ -76,12 +76,12 @@ h3,
 h4,
 h5,
 h6 {
-    color: #455860;
+    color: #25383C;
 }
 
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
     color: #ffffff;
-    background-color: #455860;
-    border-color: #455860;
+    background-color: #25383C;
+    border-color: #25383C;
 }
 /********** End Skin test **********/

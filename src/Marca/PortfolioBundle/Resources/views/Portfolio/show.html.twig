@@ -65,10 +65,20 @@
             {# Port files #}
             <div class="list-group">
                 {% for portfolio in portfolio %}
-                    <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('portfolio_user', { 'userid': app.request.get('userid'), 'user': '0', 'page': loop.index }) }}">
-                        <strong>{{portfolio.portitem.name}}:</strong>  {{ portfolio.file.name }}
-                    </a>
-
+                    {% if not portfolio.file.doc %}
+                        <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="Download {{ portfolio.file.name }}" >
+                            <strong>{{portfolio.portitem.name}}:</strong>
+                            <span class="label label-file pull-right" data-toggle="tooltip" title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }} </span>
+                            {{ portfolio.file.name }}
+                            <i class="icon-download"></i>
+                        </a>
+                    {% else %}
+                        <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('portfolio_user', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}">
+                            <strong>{{portfolio.portitem.name}}:</strong>
+                            <span class="label label-file pull-right" data-toggle="tooltip" title="This an html file ">html</span>
+                            {{ portfolio.file.name }}
+                        </a>
+                    {% endif %}
                 {% endfor %}
             </div>
 
@@ -158,7 +168,6 @@
         </div>
 
     </div>
-
 {% endblock %}
 
 

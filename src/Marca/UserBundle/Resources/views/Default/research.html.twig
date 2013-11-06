@@ -2,35 +2,32 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
-{% block javascripts %}
-    <script language="javascript">
-        $(document).ready(function()
-        {
-            $('form ul li').addClass('alert alert-error');
-        });
-    </script>
-{% endblock %}
-
 {% block content %}
-    <div class="col-md-11">
-        {% for page in pages %}
-            {{ page.body|raw }}
-        {% endfor %}
-    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2>Research Consent Form</h2>
+        </div>
+
+        <div class="panel-body">
+            {% for page in pages %}
+                {{ page.body|raw }}
+            {% endfor %}
+
+        </div>
 
 
-    <div class="col-md-11 well">
+        <div class="panel-body">
+            <form class="form" action="{{ path('user_updateresearch', { 'id': user.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
 
-        <form class="form" action="{{ path('user_updateresearch', { 'id': user.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
-            <h2>Research Consent</h2>
-            {{ form_errors(edit_form) }}
-            {{ form_row(edit_form.research) }}
-            {{ form_rest(edit_form) }}
-            <div>
-                <button class="btn btn-primary margin-top" type="submit">Update</button>
-            </div>
-        </form>
+                {{ form_errors(edit_form) }}
+                {{ form_row(edit_form.research) }}
+                {{ form_rest(edit_form) }}
+                <hr/>
+                <div class="">
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </div>
 
-
+            </form>
+        </div>
     </div>
 {% endblock %}
