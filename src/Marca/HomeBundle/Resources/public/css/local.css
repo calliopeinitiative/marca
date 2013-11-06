@@ -278,11 +278,11 @@ div.inline label {
 }
 
 .navbar-default .navbar-nav > li > a {
-    color: #000;
+    color: #333;
 }
 
 .navbar-default .navbar-brand {
-    color: #000;
+    color: #333;
 }
 
 ul.nav > li > input {
