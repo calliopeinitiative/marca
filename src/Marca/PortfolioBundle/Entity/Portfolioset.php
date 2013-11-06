@@ -48,6 +48,7 @@ class Portfolioset
     
     /**
     * @ORM\OneToMany(targetEntity="Marca\PortfolioBundle\Entity\Portfolio", mappedBy="portfolioset")
+    * @ORM\OrderBy({"portorder" = "ASC"})
     */
     protected $portfolioitems;
     
