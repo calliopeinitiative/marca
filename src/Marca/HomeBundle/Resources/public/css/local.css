@@ -648,12 +648,6 @@ td > ul.nav {height:20px;margin-top: -10px;}
     -moz-border-radius-bottomright: 4px;
 }
 
-.popover {
-    position:fixed;
-    left:40%;
-    top:135px;
-    padding:2em;
-}
 
 .tag {
     display: inline;

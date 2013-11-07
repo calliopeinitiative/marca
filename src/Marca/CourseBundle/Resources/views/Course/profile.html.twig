@@ -46,7 +46,7 @@
                     <h2 class="margin-top-small" style="text-align:center;margin-bottom:15px;">{{ user.firstname }} {{ user.lastname }}  </h2>
                     <div class="col-md-12 " style="text-align:center;margin-bottom:15px;">
                         {% if user.photo != '' %}
-                        <img class="img-thumbnail" style="width:50%;align:center;" src="{{ user.photo }}" alt="{{ user.firstname }} {{ user.lastname }}">
+                        <img class="img-rounded" style="width:50%;align:center;" src="{{ user.photo }}" alt="{{ user.firstname }} {{ user.lastname }}">
                         {% endif %}
                         <p><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></p>
                     </div>

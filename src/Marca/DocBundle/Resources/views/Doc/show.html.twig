@@ -28,12 +28,19 @@
                 $(this).append(span_append);
             });
 
-            $('.markup').mouseover(function (){
-                var id = "[data-id='" + $(this).attr('data-id') + "']";
-                $('.popover').hide();$(id).show();
+            $('[title]').each( function() {
+                var $this = $(this);
+                $this.data('title',$this.attr('title'));
+                $this.removeAttr('title');
             });
 
-            $('.popover-close, .doc-body').click(function(){
+            $('.markup').mouseover(function (){
+                var id = "div[data-id='" + $(this).attr('data-id') + "']";
+                var offset = $(this).offset();
+                $('.popover').hide();$(id).show().offset({ top: offset.top -30, left: offset.left + 80});
+            });
+
+            $('.popover-close, #doc-display').click(function(){
                 $('.popover').hide();
             });
 
@@ -142,11 +149,11 @@
     <div class="panel-group" id="accordion">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title">
+                <h2 class="panel-title">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                         Info
                     </a>
-                </h4>
+                </h2>
             </div>
             <div id="collapseOne" class="panel-collapse collapse in">
                 <div class="panel-body">
@@ -173,10 +180,10 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title">
+                <h2 class="panel-title">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" data-toggle="tab">Notes
                     </a>
-                </h4>
+                </h2>
             </div>
             <div id="collapseTwo" class="panel-collapse collapse">
                 <div class="panel-body">
@@ -189,11 +196,11 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title">
+                <h2 class="panel-title">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
                         Feedback
                     </a>
-                </h4>
+                </h2>
             </div>
             <div id="collapseThree" class="panel-collapse collapse">
                 <div class="panel-body">
@@ -227,12 +234,14 @@
 
     {# Markup #}
     {% for markup in markup %}
-        <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover hide'>
-            <button type="button" class="close popover-close" aria-hidden="true">×</button>
-            <span  class="label {{ markup.color }} " style='color:black;'>{{ markup.name }}</span>
-            <br/>
-            {{ markup.mouseover|raw }}
-            {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}
+        <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover left'>
+            <h3 class="popover-title">
+                <span class="pull-left color-flag" style="background: {{markup.color}};">&#183;</span>
+                {{ markup.name }}</h3>
+            <div class="popover-content">
+                {{ markup.mouseover|raw }}
+                {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}
+            </div>
         </div>
     {% endfor %}
 

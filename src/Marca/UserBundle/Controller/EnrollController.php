@@ -44,7 +44,7 @@ class EnrollController extends Controller
 
         $user = new User();
         $form = $this->createFormBuilder($user)
-            ->add('lastname','text', array('label'  => 'Last name','attr' => array('class' => 'text form-control'),))
+            ->add('lastname','text', array('label'  => ' ','attr' => array('class' => 'text form-control'),))
             ->getForm();
 
         $possible_courses = '';
