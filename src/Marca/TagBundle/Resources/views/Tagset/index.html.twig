@@ -45,7 +45,7 @@
 
                                 <table class="table">
                                     {% for tag in tagset.tag %}
-                                        <tr><td><span class="label label-default" style="background-color: {{ tag.color }}">{{ tag.name }}</span></td><td>{% if tagset.isOwner(app.user.username) %}<a class="btn btn-default btn-sm pull-right" href="{{ path('tag_edit', { 'id': tag.id,'tagsetid': tagset.id }) }}">Edit</a>{% endif %}</td></tr>
+                                        <tr><td><span class="pull-left color-flag" {% if tag.color != '' %}style="background: {{ tag.color }};color:{{ tag.color }};"{% endif %}>&#183;</span> {{ tag.name }}</span></td><td>{% if tagset.isOwner(app.user.username) %}<a class="btn btn-default btn-sm pull-right" href="{{ path('tag_edit', { 'id': tag.id,'tagsetid': tagset.id }) }}">Edit</a>{% endif %}</td></tr>
                                     {% endfor %}
                                 </table>
 
