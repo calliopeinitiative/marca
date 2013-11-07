@@ -6,13 +6,13 @@
 <div class="col-md-12">
     <div class="panel panel-default">
         <div class="panel-heading">
-    <h2>Roll</h2>
+    <h2>Class Roll</h2>
 </div>
         <div class="panel-body">
     <table class="table table-condensed"><tbody>  
     {% for roll in roll %}
     <tr>
-        <td><a class="" href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}, {{ roll.firstname|capitalize }}</a></td>  
+        <td><a class="" href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}, {{ roll.firstname|capitalize }}</a></td>
         <td><a class="" target="_blank" href="mailto:{{ roll.email }}">{{ roll.email }}</a></td>
     </tr>
     {% endfor %}
