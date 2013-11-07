@@ -28,7 +28,6 @@
 
 
 
-
 /********** 01. Globals **********/
 
 html, body {
@@ -91,6 +90,10 @@ td.active {
 .inline-block {
     display:inline-block;
     }
+
+.marca-gray {
+    color:#333;
+}
 
 /********** 01a. Accessibility **********/
 
@@ -319,8 +322,8 @@ ul.nav > li > input {
 
 .marca-spacer {
     border-top: 1px solid #989898;
-    margin-left:15px;
-    margin-right:15px;
+    width:85%;
+    text-align:center;
 }
 
 #project_nav {
@@ -397,6 +400,16 @@ ul.nav > li > input {
 .user-photo-sm {
     height:50px;
     margin-right:10px;
+}
+
+.color-flag {
+    height:100%;
+    width:1.5em;
+    text-align:center;
+    margin-right:6px;
+    border-radius: 0px 4px 4px 0px;
+    color: #006DCC;
+    background: #006DCC;
 }
 /********** End 04. Content **********/
 
@@ -504,6 +517,9 @@ span.btn-file {
   margin-top:-3px;
 }
 
+.panel-body table tr:first-child td{
+    border-top:none !important;
+}
 
 /********** End 05. Bootstrap Elements **********/
 

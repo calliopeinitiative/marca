@@ -25,7 +25,7 @@
                 {% endfor %}
                 {% else %}
                     {% if app.request.attributes.get('_route') == 'enroll_find' %}
-                    Enter your instructor's last name.
+                    What's your instructor's last name?
                     {% else %}
                     Shoot, didn't find anyone with that name. Want to try again?
                     {% endif %}
@@ -36,11 +36,13 @@
                     </form>
                 {% endfor %}
             </div>
+            {% if possible_courses %}
             <div class="panel-footer">
                 <span class="text-muted">
-                    {% if possible_courses %}Select the course your wish to enroll in.{% endif %}
+                    Which course do you want to enroll in?
                 </span>
             </div>
+            {% endif %}
         </div>
     </div>
 
@@ -53,7 +55,7 @@
         <div class="panel-body">
         {% for course in pending %}
         <div class="col-md-10">
-            <h2>{{ course.name }}</h2>
+            <h2 class="margin-top-small">{{ course.name }}</h2>
             <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
         </div>
            {% endfor %}
@@ -74,7 +76,7 @@
         <div class="panel-body">
         {% for course in courses %}
           <div class="col-md-10">
-              <a href="{{ path('course_home', { 'courseid': course.id }) }}"><h2>{{ course.name }}</h2></a>
+              <a href="{{ path('course_home', { 'courseid': course.id }) }}"><h2 class="margin-top-small">{{ course.name }}</h2></a>
             <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
         </div>
         {% endfor %}
