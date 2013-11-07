@@ -59,6 +59,26 @@
         </nav>
 
 
+        {# Doc display #}
+        <div id='doc-display' class="col-md-8 well">
+            <div class="doc-body">
+                {% for portfolio_doc in portfolio_docs %}
+                    {% if portfolio_doc.file.doc %}
+                        {{ portfolio_doc.file.doc.body|raw }}
+                    {% elseif portfolio_doc.file.url %}
+                        Please click link to to view.
+                        <i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+                    {% else %}
+                        Please download this file to view.
+                        <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+                    {% endif %}
+                {% else %}
+                    There are no files in this portfolio.
+                {% endfor %}
+            </div>
+        </div>
+
+
         {# Doc tools #}
         <div id='doctools' class="col-md-4">
 
@@ -148,24 +168,7 @@
             {% endif %}
         </div>
 
-        {# Doc display #}
-        <div id='doc-display' class="col-md-8 well">
-            <div class="doc-body">
-                {% for portfolio_doc in portfolio_docs %}
-                    {% if portfolio_doc.file.doc %}
-                        {{ portfolio_doc.file.doc.body|raw }}
-                    {% elseif portfolio_doc.file.url %}
-                        Please click link to to view.
-                        <i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
-                    {% else %}
-                        Please download this file to view.
-                        <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
-                    {% endif %}
-                {% else %}
-                    There are no files in this portfolio.
-                {% endfor %}
-            </div>
-        </div>
+
 
     </div>
 {% endblock %}
