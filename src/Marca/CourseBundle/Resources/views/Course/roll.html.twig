@@ -12,7 +12,12 @@
     <table class="table table-condensed"><tbody>  
     {% for roll in roll %}
     <tr>
-        <td><a class="" href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}, {{ roll.firstname|capitalize }}</a></td>
+        <td>
+            <img src="{{ roll.photo }}" class="user-photo-sm img-rounded pull-left margin-top-small"/>
+        </td>
+        <td>
+            <a class="" href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}, {{ roll.firstname|capitalize }}</a>
+        </td>
         <td><a class="" target="_blank" href="mailto:{{ roll.email }}">{{ roll.email }}</a></td>
     </tr>
     {% endfor %}

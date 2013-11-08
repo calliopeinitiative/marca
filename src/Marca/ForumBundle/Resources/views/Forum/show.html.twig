@@ -4,58 +4,45 @@
 
 {% block content %}
 <div class="col-md-12">
-  <div class="panel panel-default">
-    <div class="panel-heading" >
+    <div class="panel panel-default">
+        <div class="panel-heading" >
          <span class="pull-right"><a class="btn btn-primary btn-sm margin-left" title="Comment on this discussion" href="{{ course_path('comment_new', { 'parentid': forum.id ,'forumid': forum.id }) }}">Comment</a>
              {% if forum.user==app.user %}<a class="btn btn-default btn-sm" title="Edit this discussion" href="{{ course_path('forum_edit', { 'id': forum.id }) }}">Edit</a>{% endif%}</span>
-        <img src="{{ forum.user.photo }}" class="user-photo-sm img-rounded pull-left"/>
-        <h2 class="inline-block marca-blue" style="margin-top:-4px;"><a class="forum_title" title="Open this discussion" href="{{ course_path('forum') }}">{{ forum.title }}</a></h2>
-         <p style="margin-bottom:0px;">by {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}, {{ forum.updated|date('M d Y') }}
-        </p>
-    </div>
+            <img src="{{ forum.user.photo }}" class="user-photo-sm img-rounded pull-left"/>
+            <h2 class="inline-block marca-blue"><a class="forum_title" title="Open this discussion" href="{{ course_path('forum') }}">{{ forum.title }}</a></h2>
+            <p>by {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}, {{ forum.updated|date('M d Y') }}
+            </p>
+        </div>
 
-     <div class="panel-body">
-       <div class="margin-bottom">{{ forum.body|raw }}
-       </div>
-
-
-   {% for comment in forum.comments%}
-
-
-       <div class="panel panel-default">
-         <div class="panel-heading padding-bottom" ><img src="{{ comment.user.photo }}" class="user-photo-xs img-rounded" />{{ comment.user.firstname|capitalize }} {{ comment.user.lastname|capitalize }} says:
+        <div class="panel-body">
+            <div class="margin-bottom">{{ forum.body|raw }}
+            </div>
+            {% for comment in forum.comments%}
+                <div class="panel panel-default">
+                    <div class="panel-heading padding-bottom" ><img src="{{ comment.user.photo }}" class="user-photo-xs img-rounded" />{{ comment.user.firstname|capitalize }} {{ comment.user.lastname|capitalize }} says:
          <span class="pull-right" >
           {{ comment.updated|date('M d Y') }}
-          <a class="btn btn-primary btn-sm margin-left"  title="Reply to this comment" href="{{ course_path('reply_new', { 'commentid': comment.id  }) }}">Reply</a>
-         {% if comment.user==app.user %}<a class="btn btn-default btn-sm"  title="Edit this comment" href="{{ course_path('comment_edit', { 'id': comment.id, 'parentid': forum.id }) }}">Edit</a>{% endif%}
+             <a class="btn btn-primary btn-sm margin-left"  title="Reply to this comment" href="{{ course_path('reply_new', { 'commentid': comment.id  }) }}">Reply</a>
+             {% if comment.user==app.user %}<a class="btn btn-default btn-sm"  title="Edit this comment" href="{{ course_path('comment_edit', { 'id': comment.id, 'parentid': forum.id }) }}">Edit</a>{% endif%}
          </span>
-         </div>
+                    </div>
 
-         <div class="panel-body">{{ comment.body|raw }}
-
-
-
-         {% for reply in comment.replies%}
-
-           <div class="panel panel-default">
-             <div class="panel-heading padding-bottom" ><img src="{{ reply.user.photo }}" class="user-photo-xs img-rounded" />{{ reply.user.firstname|capitalize }} {{ reply.user.lastname|capitalize }} says:
+                    <div class="panel-body">{{ comment.body|raw }}
+                        {% for reply in comment.replies%}
+                            <div class="panel panel-default">
+                                <div class="panel-heading padding-bottom" ><img src="{{ reply.user.photo }}" class="user-photo-xs img-rounded" />{{ reply.user.firstname|capitalize }} {{ reply.user.lastname|capitalize }} says:
                <span class="pull-right" >
                {{ reply.updated|date('M d Y') }}
-               {% if reply.user==app.user %}
-               <a class="btn btn-default btn-sm margin-left"  title="Edit this reply" href="{{ course_path('reply_edit', { 'id': reply.id, 'commentid': comment.id }) }}">Edit</a>
-               {% endif%}
+                   {% if reply.user==app.user %}
+                       <a class="btn btn-default btn-sm margin-left"  title="Edit this reply" href="{{ course_path('reply_edit', { 'id': reply.id, 'commentid': comment.id }) }}">Edit</a>
+                   {% endif%}
                </span>
-             </div>
-                   
-             <div class="panel-body" >{{ reply.body|raw }}
-             </div>
-           </div>
-
-
-        {% endfor %}
-
-         </div>
-       </div>
-{% endfor %}
-
+                                </div>
+                                <div class="panel-body" >{{ reply.body|raw }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
 {% endblock %}
