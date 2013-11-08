@@ -235,6 +235,7 @@
     {# Markup #}
     {% for markup in markup %}
         <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover left'>
+            <button type="button" class="close popover-close" data-dismiss="popover" aria-hidden="true">&times;</button>
             <h3 class="popover-title">
                 <span class="pull-left color-flag" style="background: {{markup.color}};">&#183;</span>
                 {{ markup.name }}</h3>
