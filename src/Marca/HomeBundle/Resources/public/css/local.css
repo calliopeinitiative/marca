@@ -483,6 +483,10 @@ span.btn-file {
     margin-bottom:6px;
 }
 
+.popover {min-width: 200px;}
+
+.popover-close {margin-right: 5px;margin-top: 5px;}
+
 /***** End 05a. Modals *****/
 
 
@@ -595,6 +599,31 @@ div input[type="email"] {
 #file_list {
     overflow-y:scroll;
 }
+
+tr.file th {
+    background:#fff;
+}
+
+tr.file td{
+    background:#fff;
+}
+
+tr.review td {
+    background:#FAF9C8;
+}
+
+tr.file > td:first-child > div > a:first-of-type {
+}
+
+tr.review > td:first-child > div >a:first-of-type {
+    margin-left: 35px;
+}
+
+.file-menu {
+
+}
+
+
 td > ul.nav {height:20px;margin-top: -10px;}
 
 .pagination  {
