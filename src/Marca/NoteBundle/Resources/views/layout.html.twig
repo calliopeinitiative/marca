@@ -11,6 +11,6 @@
 {% endblock %}
 
 {% block sidebar %}
-    <h1>Notes</h1>
-    <a class="btn btn-primary" href="{{ course_path('note_new') }}" >Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+    <h1><a  title='Course Notes' href="{{ course_path('note') }}" class="marca-gray">Notes</a></h1>
+    <a class="btn btn-primary margin-bottom-medium" href="{{ course_path('note_new') }}" >Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
 {% endblock %}

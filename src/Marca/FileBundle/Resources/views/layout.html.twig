@@ -31,7 +31,9 @@
 
 {% block sidebar %}
 
-    <h1>{% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}</h1>
+    <h1>{% if app.request.get('resource')=='1' %}<a  title='Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}" class="marca-gray">Resources</a>{% else %}
+            <a title='Reset filters' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}" class="marca-gray">Projects</a>
+        {% endif %}</h1>
 
     {% if app.request.attributes.get('_route') == 'file_list'%}
         {# check to see if projects are in the current course  #}
