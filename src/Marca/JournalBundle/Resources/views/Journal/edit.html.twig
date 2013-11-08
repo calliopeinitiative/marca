@@ -31,7 +31,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Journal Entry
+                    <h2 class="panel-title small">Journal Entry</h2>
                 </div>
                 <div class="panel-body">
                     {{ form_errors(edit_form) }}
@@ -39,7 +39,6 @@
                     {{ form_row(edit_form.body) }}
                     {{ form_rest(edit_form) }}
                 </div>
-        </form>
                 <div class="panel-footer">
                     <div class="btn-group">
                         <button class="btn btn-primary" type="submit">Update</button>
@@ -52,7 +51,8 @@
                     {% endif %}
                 </div>
             </div>
-
+        </form>
+    </div>
     {# Modal for Delete confirmation #}
     <div id="delete_modal" class="modal fade">
         <div class="modal-dialog">

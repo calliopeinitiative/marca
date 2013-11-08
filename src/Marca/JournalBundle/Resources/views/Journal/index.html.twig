@@ -15,6 +15,7 @@
 {% endblock %}
 
 {% block content %}
+
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header col-sm-6 col-md-6">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -23,7 +24,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a name="top"></a>
-            <a class="navbar-brand" href="#" title="Journal entries by {{ user.firstname }} {{ user.lastname }}">Journal entries by {{ user.firstname }} {{ user.lastname }}</a>
+            <a class="navbar-brand" href="#" title="Journal entries by {{ user.firstname }} {{ user.lastname }}"><h2 class="panel-title small">Journal entries by {{ user.firstname }} {{ user.lastname }}</h2></a>
         </div>
 
         <div class="navbar-collapse collapse">
@@ -51,19 +52,17 @@
     {% for journal in journal %}
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2 class="panel-title">{{ journal.title }}</h2>
-            <span class="pull-right">
-                <span id="word-count"></span> word(s)
+                <h3 class="panel-title small">{{ journal.title }}</h3>
+                <span class="pull-right">
+                    <span id="word-count"></span> word(s)
 
-                {% if journal.isOwner(app.user.username) %}
-                <div class="btn-group">
-                    <a class="btn btn-default btn-sm" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
+                    {% if journal.isOwner(app.user.username) %}
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
                     {% endif %}
-                    <a class="btn btn-default btn-sm" href="{{ course_path('response_new',
-                    { 'sourceid': journal.id, 'source': 'journal_user','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id }) }}">Respond</a>
-                </div>
-            </span>
-
+                            <a class="btn btn-default btn-sm" href="{{ course_path('response_new',{ 'sourceid': journal.id, 'source': 'journal_user','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id }) }}">Respond</a>
+                        </div>
+                </span>
                 <p>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }} </p>
             </div>
             <div class="panel-body">
@@ -74,11 +73,12 @@
                 {% for response in journal.responses %}
                     <div class="col-md-12">
                         <div class="panel panel-default">
-                            <div class="panel-heading">Response by {{ response.user.firstname}} {{ response.user.lastname}}
-                                {% if response.isOwner(app.user.username) %}<a class="btn btn-default btn-sm pull-right" href="{{ course_path('response_edit',{ 'id': response.id,'sourceid': journal.id, 'source': 'journal_user','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id  }) }}">Edit</a>
-                                {% endif %}
+                            <div class="panel-heading">
+                                <h4>Response by {{ response.user.firstname}} {{ response.user.lastname}}</h4>
+                                    {% if response.isOwner(app.user.username) %}
+                                        <a class="btn btn-default btn-sm pull-right" href="{{ course_path('response_edit',{ 'id': response.id,'sourceid': journal.id, 'source': 'journal_user','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id  }) }}">Edit</a>
+                                    {% endif %}
                             </div>
-
                             <div class="panel-body">
                                 {{ response.body|raw }}
                             </div>
@@ -90,9 +90,6 @@
         </div>
     {% else %}
         <div class="panel panel-default">
-            <div class="panel-heading">
-            </div>
-
             <div class="panel-body">
                 {% if app.request.get('_route') == 'journal_user' %}
                     Sorry, no entries were found.
@@ -102,6 +99,5 @@
             </div>
         </div>
     {% endfor %}
-
 
 {% endblock %}

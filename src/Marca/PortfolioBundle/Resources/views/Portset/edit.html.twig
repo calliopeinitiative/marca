@@ -15,12 +15,12 @@
 {% endblock %}
 
 {% block content %}
+
     <div class="col-md-12">
         <form action="{{ path('portset_update', { 'id': portset.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2>Portfolios</h2>
+                    <h2 class="panel-title small">Portfolio Set</h2>
                 </div>
                 <div class="panel-body">
                     {{ form_errors(edit_form) }}

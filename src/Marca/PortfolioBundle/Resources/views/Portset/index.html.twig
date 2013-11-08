@@ -3,6 +3,7 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <a class="btn btn-primary pull-right margin-top" href="{{ path('portset_new') }}">Create Set<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
@@ -17,13 +18,13 @@
                         {% if portset.shared ==2 %}(Default){%endif %}
                         {{ portset.description|raw }}
                     </a>
-
                 {% endfor %}
             </div>
         </div>
         <div class="panel-footer">
-            <span class="text-muted">Click name to view. </span>
+            <span class="text-muted">Click name to view.</span>
         </div>
     </div>
+
 {% endblock %}
 

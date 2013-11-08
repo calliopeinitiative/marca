@@ -3,35 +3,32 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block javascripts %}
-
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
+    <script language="javascript">
+        $(document).ready(function()
+            {
+            });
+    </script>
 
-});
-</script>
-
-
-<div class="col-md-4">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-
-            <h2>Scale Item</h2>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title small">Scale Item</h2>
+            </div>
+            <div class="panel-body">
+                <form action="{{ path('scaleitem_create', {'scaleid':scaleid}) }}" method="post" {{ form_enctype(form) }}>
+                    {{ form_widget(form) }}
+            </div>
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <button class="btn btn-primary" type="submit">Create</button>
+                    <a class="btn btn-default" href="{{ path('scale_show', {id:scaleid}) }}">Cancel</a>
+                </div>
+                </form>
+            </div>
         </div>
-
-        <div class="panel-body">
-<form action="{{ path('scaleitem_create', {'scaleid':scaleid}) }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-</div>
-    <div class="panel-footer">
-        <div class="btn-group">
-        <button class="btn btn-primary" type="submit">Create</button><a class="btn btn-default" href="{{ path('scale_show', {id:scaleid}) }}">Cancel</a>
-    </div>
-        </div>
-</form>
-</div>
     </div>
 {% endblock %}
