@@ -10,6 +10,7 @@
     <script src="{{ asset('bundles/marcahome/js/jquery.tablesorter.widgets.min.js') }}"></script>
     <script language="javascript">
         $(document).ready(function() {
+            $( ".file-menu", this ).toggle();
             $('.modal-body').css('max-height', function(index) {
                 return $(window).height() * .90;
             });
@@ -68,11 +69,9 @@
                 });
             });
             $('.tablesorter-filter').addClass('form-control');
-            $( ".file-menu", this ).toggle();
-            $( "td" ).hover(
+            $( "tr" ).hover(
                     function() {
-                        var offset = $(this).offset();
-                        $( ".file-menu", this ).toggle().offset({ top: offset.top + 2, left: offset.left +200});
+                        $( ".file-menu", this ).toggle();
                     }
             );
 
@@ -135,8 +134,8 @@
                         <a  href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name }}</a>
                     {% endif %}
                         </div>
-                    <div class="file-menu" style="position:fixed;z-index: 1000;">
-                    <div class="btn-group">
+                    <div class="file-menu" >
+                    <div class="btn-group btn-group-vertical " style="position: fixed; z-index: 1000; right: 40px;">
                         {% if file.isOwner(app.user.username) %}<a  class="btn btn-default edit_{{file.id}}" href="javascript:void(0);">File Settings</a>{% endif%}
                         {% if file.ext == 'odt' %}
                             {% if file.isOwner(app.user.username) %}
@@ -182,10 +181,10 @@
                                 <a  href="{{ course_path('file_view', { 'id': review.id }) }}" title="Download Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}" >Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
                             {% endif %}
                                     </div>
-                                <div class="file-menu" style="position:fixed;z-index: 1000;">
-                                <div class="btn-group">
+                                <div class="file-menu">
+                                <div class="btn-group btn-group-vertical  "  style="position: fixed; z-index: 1000; right: 40px;">
                                     {% if review.isOwner(app.user.username) %}<a class='btn btn-default edit_{{review.id}}' href="javascript:void(0);">File Settings</a>{% endif%}
-                                    {% if role==2 and review.isOwner(app.user.username) %}<a class='btn btn-default' href="{{ course_path('file_toggle_release', { 'id': review.id }) }}">{% if review.access==2 %}Release{% else %}Hide{% endif %} Review</a>{% endif%}
+                                    {% if role==2 and review.isOwner(app.user.username) %}<a class='btn btn-default ' href="{{ course_path('file_toggle_release', { 'id': review.id }) }}">{% if review.access==2 %}Release{% else %}Hide{% endif %} Review</a>{% endif%}
                                     {% if review.doc %}<a class='btn btn-default' target ='_blank' href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'window' }) }}">Open in a new tab</a>{% endif %}
                                     {% if review.isOwner(app.user.username) and file.portfolio|length == 0 %}<a class='btn btn-default' id='file_show_{{review.id}}' href='javascript:void(0);'>Delete File</a>{% endif%}
                                 </div>
