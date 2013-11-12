@@ -94,11 +94,11 @@
         {% endfor %}
     {% endif %}
 
-    <div class="well" style="padding:4px;">
+    <div class="well" style="margin-top:-4px;padding-top:4px;padding-bottom:4px;padding-left:0;padding-right:0;background-color:#f1f1f1;border:1px solid #d4d4d4;">
     <table id="file_list" class="col-md-12 table">
         <thead>
         <tr class="file">
-            <th>Title</th>
+            <th><span style="padding-left:40px;">Title</span></th>
             <th>Author</th>
             <th>{% if app.request.get('resource')=='1' %}Unit{% else %}Folder{% endif %}</th>
             <th>Labels</th>

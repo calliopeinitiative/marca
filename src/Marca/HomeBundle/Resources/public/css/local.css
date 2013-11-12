@@ -413,11 +413,17 @@ ul.nav > li > input {
     margin-right:6px;
     border-radius: 0px 4px 4px 0px;
     color: #006DCC;
-    background: #006DCC;
+    background-color: #006DCC;
 }
 
 #file_list thead {
     font-size:16px;
+}
+
+#file_list thead th {
+    background-color:#f1f1f1;
+    font-weight:normal;
+    font-family:"museo-slab", Cambria, Georgia, sans-serif;
 }
 
 #file_list {
@@ -425,7 +431,7 @@ ul.nav > li > input {
 }
 
 #file_list tr {
-    height:64px;
+    height:54px;
 }
 
 #file_list tr a {
@@ -438,7 +444,7 @@ ul.nav > li > input {
 }
 
 #file_list tr.review td {
-    height:64px;
+    height:54px;
     border-top: 0 none;
     background: #f9f9f9;
 }
@@ -448,7 +454,12 @@ ul.nav > li > input {
 }
 
 #file_list thead tr {
-    height:37px;
+    height:22px;
+}
+
+#file_list thead tr th {
+    padding-top:2px;
+    padding-bottom:4px;
 }
 
 /********** End 04. Content **********/
