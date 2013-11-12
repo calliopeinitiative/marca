@@ -416,6 +416,10 @@ ul.nav > li > input {
     background: #006DCC;
 }
 
+#file_list thead {
+    font-size:16px;
+}
+
 #file_list {
     margin-bottom:0;
 }
@@ -440,7 +444,7 @@ ul.nav > li > input {
 }
 
 #file_list td {
-    border-top: 2px solid #d4d4d4;
+    border-top: 1px solid #d4d4d4;
 }
 
 #file_list thead tr {
