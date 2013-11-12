@@ -413,10 +413,8 @@ ul.nav > li > input {
     margin-right:6px;
     border-radius: 0px 4px 4px 0px;
     color: #006DCC;
-    background: #006DCC;
+    background-color: #006DCC;
 }
-
-
 
 /********** End 04. Content **********/
 
@@ -603,9 +601,6 @@ div input[type="email"] {
 
 /***** 06b. File list *****/
 
-#file_list {
-    overflow-y:scroll;
-}
 
 .file > td > a {font-size: 13px}
 
@@ -630,16 +625,55 @@ tr.review > td:first-child > a:first-of-type {
     font-size:16px;
 }
 
-#file_list tr {
-    height:60px;
-}
-
 .file-menu {
    margin-top: 4px; margin-left: 40px;
 }
 
 .file-menu > a {
     margin-right: 20px;font-size: 13px;
+}
+
+#file_list thead th {
+    background-color:#f1f1f1;
+    font-weight:normal;
+    font-family:"museo-slab", Cambria, Georgia, sans-serif;
+}
+
+#file_list {
+    margin-bottom:0;
+    overflow-y:scroll;
+}
+
+#file_list tr {
+    height:54px;
+}
+
+#file_list tr.file a {
+    font-weight:bold;
+}
+
+#file_list tr.review a {
+    padding-left:15px;
+    display:inline-block;
+}
+
+#file_list tr.review td {
+    height:54px;
+    border-top: 0 none;
+    background: #f9f9f9;
+}
+
+#file_list td {
+    border-top: 1px solid #d4d4d4;
+}
+
+#file_list thead tr {
+    height:22px;
+}
+
+#file_list thead tr th {
+    padding-top:2px;
+    padding-bottom:4px;
 }
 
 td > ul.nav {height:20px;margin-top: -10px;}
