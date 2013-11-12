@@ -94,6 +94,7 @@
         {% endfor %}
     {% endif %}
 
+    <div class="well" style="padding:4px;">
     <table id="file_list" class="col-md-12 table">
         <thead>
         <tr class="file">
@@ -208,6 +209,8 @@
 
         </tbody>
     </table>
+    </div>
+
 
     <div class="navigation">
         {{ knp_pagination_render(files) }}

@@ -416,6 +416,10 @@ ul.nav > li > input {
     background: #006DCC;
 }
 
+#file_list {
+    margin-bottom:0;
+}
+
 #file_list tr {
     height:64px;
 }
