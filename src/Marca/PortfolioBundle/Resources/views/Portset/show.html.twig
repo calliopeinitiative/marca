@@ -6,13 +6,13 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <a class="btn btn-default pull-right margin-top" href="{{ path('portset') }}">List Portfolio Sets</a>
-            <h2>Portfolios</h2>
+            <a class="btn btn-default pull-right margin-top-small" href="{{ path('portset') }}">List Portfolio Sets</a>
+            <h2 class="margin-top-small">Portfolios</h2>
         </div>
         <div class="panel-body">
 
             <div class="col-md-12">
-                <h3>{{ portset.name }}</h3>
+                <h3 class="margin-top-small">{{ portset.name }}</h3>
                 <div class="btn-group pull-right" style="margin-top: -15px;">
                     <a class="btn btn-default btn-sm" role="button" href="{{ path('portitem_new', { 'portsetid': portset.id }) }}">Add Item<i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
                     <a class="btn btn-default btn-sm" role="button" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit Set<i class="glyphicon glyphicon-edit glyphicon-white"></i></a>
@@ -23,7 +23,7 @@
                     {% for portitem in portitems %}
 
                         <a class="list-group-item" href="{{ path('portitem_edit', { 'id': portitem.id }) }}">
-                            <h4>{{ portitem.name }}</h4>
+                            <h4 class="margin-top-small">{{ portitem.name }}</h4>
                             {{ portitem.description|raw }}
                         </a>
 

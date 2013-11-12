@@ -19,7 +19,7 @@
                     {% for objective in assessmentset.objectives %}
 
                         <a class="list-group-item" href="{{ path('objective_edit', { 'id': objective.id }) }}">
-                            <h3>{{ objective.objective|raw }}</h3>
+                            <h3 class="margin-top-small">{{ objective.objective|raw }}</h3>
                             {{ objective.description|raw }}
                             <strong>{{ objective.scale.name }}</strong>:
                             <p>

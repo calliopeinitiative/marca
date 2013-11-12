@@ -6,15 +6,15 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <a class="btn btn-primary pull-right margin-top" href="{{ path('portset_new') }}">Create Set<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
-            <h2>Portfolio Sets</h2>
+            <a class="btn btn-primary pull-right margin-top-small" href="{{ path('portset_new') }}">Create Set<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+            <h2 class="margin-top-small">Portfolio Sets</h2>
         </div>
         <div class="panel-body">
             <div class="list-group">
                 {% for portset in portsets %}
 
                     <a class="list-group-item" href="{{ path('portset_show', { 'id': portset.id }) }}">
-                        <h3>{{ portset.name }}</h3>
+                        <h3 class="margin-top-small">{{ portset.name }}</h3>
                         {% if portset.shared ==2 %}(Default){%endif %}
                         {{ portset.description|raw }}
                     </a>

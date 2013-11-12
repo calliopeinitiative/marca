@@ -415,6 +415,34 @@ ul.nav > li > input {
     color: #006DCC;
     background: #006DCC;
 }
+
+#file_list tr {
+    height:64px;
+}
+
+#file_list tr a {
+    font-weight:bold;
+}
+
+#file_list tr.review a {
+    padding-left:15px;
+    display:inline-block;
+}
+
+#file_list tr.review td {
+    height:64px;
+    border-top: 0 none;
+    background: #f9f9f9;
+}
+
+#file_list td {
+    border-top: 2px solid #d4d4d4;
+}
+
+#file_list thead tr {
+    height:37px;
+}
+
 /********** End 04. Content **********/
 
 
