@@ -94,7 +94,7 @@
         {% endfor %}
     {% endif %}
 
-    <div class="well" style="padding:4px;">
+    <div class="well" style="padding:2px;">
     <table id="file_list" class="col-md-12 table">
         <thead>
         <tr class="file">
@@ -109,21 +109,17 @@
         {% for file in files%}
             {# main list of files #}
             <tr class="file">
-                <td>
-                    <div class="">
+                <td style="width:50%">
                     {# different functions for different file types #}
                     {# doc files #}
                     {% if file.doc %}
                         <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
                         <a  href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">
                             {{ file.name }}</a>
-
-
                         {# links #}
                     {% elseif file.url %}
                         <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
                         <a class="" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>{{ file.name }}</a>
-
                         {# ODT files #}
                     {% elseif file.ext == 'odt' %}
                         <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
@@ -133,27 +129,26 @@
                         <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                         <a  href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name }}</a>
                     {% endif %}
-                        </div>
-                    <div class="file-menu" >
-                    <div class="btn-group btn-group-vertical " style="position: fixed; z-index: 1000; right: 40px;">
-                        {% if file.isOwner(app.user.username) %}<a  class="btn btn-default edit_{{file.id}}" href="javascript:void(0);">Settings</a>{% endif%}
+
+                    <div class="file-menu">
+                        {% if file.isOwner(app.user.username) %}
+                        <a  class="edit_{{file.id}}" href="javascript:void(0);">Settings</a>{% endif%}
                         {% if file.ext == 'odt' %}
                             {% if file.isOwner(app.user.username) %}
-                                <a class="btn btn-default" href="{{ course_path('file_convert_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" ><span class="glyphicon glyphicon-share"></span> HTML</a>
+                                <a class="" href="{{ course_path('file_convert_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" ><span class="glyphicon glyphicon-share"></span> HTML</a>
                             {% endif%}
-                            <a class="btn btn-default" href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" >Download</a>
+                            <a class="" href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" >Download</a>
                         {% endif%}
                         {% if role == 2 and app.request.get('resource')=='0' %}
-                            <a class="btn btn-default" title="Create a copy of this document for review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
+                            <a class="" title="Create a copy of this document for review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
                         {% endif %}
                         {% if role == 2 and app.request.get('resource')=='0' %}
-                            <a class="btn btn-default" title="Upload a file for review" id="new_grade_{{file.id}}" href="{{ course_path('review_upload', { 'resource' : '0', 'tag' : '3', 'fileid': file.id }) }}"><span class="glyphicon glyphicon-circle-arrow-up"></span></a>
+                            <a class="" title="Upload a file for review" id="new_grade_{{file.id}}" href="{{ course_path('review_upload', { 'resource' : '0', 'tag' : '3', 'fileid': file.id }) }}">Upload Review<span class="glyphicon glyphicon-circle-arrow-up"></span></a>
                         {% endif %}
                         {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}
-                            <a class="btn btn-default" id='file_show_{{file.id}}' href='javascript:void(0);' class="">Delete</a>
+                            <a class="" id='file_show_{{file.id}}' href='javascript:void(0);'>Delete</a>
                         {% endif%}
                     </div>
-                        </div>
                 </td>
 
                 <td>{{ file.user.firstname|title }} {{ file.user.lastname|title }}</td>
@@ -168,24 +163,19 @@
             {# reviews only show in projects#}
             {% if app.request.get('resource')=='0' %}
                 {% for review in file.reviews%}
-
                     {% if (file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
                         <tr class="review">
                             <td>
-                                <div class="">
                             {% if review.doc %}
                                 <a  href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}"><span class="glyphicon glyphicon-comment"></span> Review by {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}</a></span>
                             {% else %}
                                 <a  href="{{ course_path('file_view', { 'id': review.id }) }}" title="Download Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}" ><span class="glyphicon glyphicon-comment"></span> Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
                             {% endif %}
-                                    </div>
                                 <div class="file-menu">
-                                <div class="btn-group btn-group-vertical  "  style="position: fixed; z-index: 1000; right: 40px;">
-                                    {% if review.isOwner(app.user.username) %}<a class='btn btn-default edit_{{review.id}}' href="javascript:void(0);">Settings</a>{% endif%}
-                                    {% if role==2 and review.isOwner(app.user.username) %}<a class='btn btn-default ' href="{{ course_path('file_toggle_release', { 'id': review.id }) }}">{% if review.access==2 %}Release{% else %}Hide{% endif %}</a>{% endif%}
-                                    {% if review.isOwner(app.user.username) and file.portfolio|length == 0 %}<a class='btn btn-default' id='file_show_{{review.id}}' href='javascript:void(0);'>Delete</a>{% endif%}
+                                    {% if review.isOwner(app.user.username) %}<a class='edit_{{review.id}}' href="javascript:void(0);">Settings</a>{% endif%}
+                                    {% if role==2 and review.isOwner(app.user.username) %}<a class='' href="{{ course_path('file_toggle_release', { 'id': review.id }) }}">{% if review.access==2 %}Release{% else %}Hide{% endif %}</a>{% endif%}
+                                    {% if review.isOwner(app.user.username) and file.portfolio|length == 0 %}<a class='' id='file_show_{{review.id}}' href='javascript:void(0);'>Delete</a>{% endif%}
                                 </div>
-                                    </div>
                             </td>
 
                             <td>{{ review.user.firstname|title }} {{ review.user.lastname|title }}</td>

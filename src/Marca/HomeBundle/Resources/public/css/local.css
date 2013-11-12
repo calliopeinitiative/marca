@@ -416,40 +416,7 @@ ul.nav > li > input {
     background: #006DCC;
 }
 
-#file_list thead {
-    font-size:16px;
-}
 
-#file_list {
-    margin-bottom:0;
-}
-
-#file_list tr {
-    height:64px;
-}
-
-#file_list tr a {
-    font-weight:bold;
-}
-
-#file_list tr.review a {
-    padding-left:15px;
-    display:inline-block;
-}
-
-#file_list tr.review td {
-    height:64px;
-    border-top: 0 none;
-    background: #f9f9f9;
-}
-
-#file_list td {
-    border-top: 1px solid #d4d4d4;
-}
-
-#file_list thead tr {
-    height:37px;
-}
 
 /********** End 04. Content **********/
 
@@ -640,6 +607,8 @@ div input[type="email"] {
     overflow-y:scroll;
 }
 
+.file > td > a {font-size: 13px}
+
 tr.file th {
     background:#fff;
 }
@@ -649,20 +618,29 @@ tr.file td{
 }
 
 tr.review td {
-    background:#FAF9C8;
+    background:#E7E7E7;
 }
 
-tr.file > td:first-child > div > a:first-of-type {
-}
 
-tr.review > td:first-child > div >a:first-of-type {
+tr.review > td:first-child > a:first-of-type {
     margin-left: 35px;
 }
 
-.file-menu {
-
+#file_list thead {
+    font-size:16px;
 }
 
+#file_list tr {
+    height:60px;
+}
+
+.file-menu {
+   margin-top: 4px; margin-left: 40px;
+}
+
+.file-menu > a {
+    margin-right: 20px;font-size: 13px;
+}
 
 td > ul.nav {height:20px;margin-top: -10px;}
 
