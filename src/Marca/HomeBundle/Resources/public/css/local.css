@@ -601,9 +601,6 @@ div input[type="email"] {
 
 /***** 06b. File list *****/
 
-
-.file > td > a {font-size: 13px}
-
 tr.file th {
     background:#fff;
 }
@@ -616,9 +613,20 @@ tr.review td {
     background:#E7E7E7;
 }
 
+tr.file > td:first-child  {
+    width:60%;
+}
+
+tr.review > td:first-child  {
+    width:50%;
+}
 
 tr.review > td:first-child > a:first-of-type {
     margin-left: 35px;
+}
+
+td.labels {
+    width:10%;
 }
 
 #file_list thead {
@@ -626,11 +634,16 @@ tr.review > td:first-child > a:first-of-type {
 }
 
 .file-menu {
-   margin-top: 4px; margin-left: 40px;
+   margin-top: 2px; margin-left: 40px;
 }
 
 .file-menu > a {
-    margin-right: 20px;font-size: 13px;
+    margin-right: 5px;
+}
+
+
+.file-menu > a.delete {
+    color:red;
 }
 
 #file_list thead th {
@@ -642,29 +655,26 @@ tr.review > td:first-child > a:first-of-type {
 #file_list {
     margin-bottom:0;
     overflow-y:scroll;
+    font-size: 13px;
 }
 
 #file_list tr {
     height:54px;
 }
 
-#file_list tr.file a {
+tr.file > td > a {
     font-weight:bold;
 }
 
-#file_list tr.review a {
+tr.review a {
     padding-left:15px;
     display:inline-block;
 }
 
-#file_list tr.review td {
+tr.review td {
     height:54px;
     border-top: 0 none;
     background: #f9f9f9;
-}
-
-#file_list td {
-    border-top: 1px solid #d4d4d4;
 }
 
 #file_list thead tr {
