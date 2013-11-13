@@ -75,7 +75,7 @@
                         $( ".file-menu", this ).toggle();
                     }
             );
-            $('.file_name').bind('focus', function(){ $("div.file-menu").hide();$(this).parent().children("div").toggle(); });
+            $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
         });
     </script>
 {% endblock %}
