@@ -115,19 +115,24 @@
                         <a title="Print this document" class="" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>
                     </li>
                 {% endif %}
+                <li>
+                    {% if app.request.get('view') == 'window' %}
+                        <a title="Close the current window or tab" id="close_window"  class="" href="javascript:void(0);">Close</a><
+                    {% elseif file.project.resource == 'true'%}
+                        {% if app.session.get('resource_referrer')%}
+                            <a title="Close this document" class="" href="{{app.session.get('resource_referrer')}} ">Close</a>
+                        {% else %}
+                            <a  title="Close this document" class="" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
+                        {%endif%}
+                    {% else %}
+                        {% if app.session.get('referrer')%}
+                            <a title="Close this document" class="" href="{{app.session.get('referrer')}} ">Close</a>
+                        {% else %}
+                            <a title="Close this document" class="" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+                        {%endif%}
+                    {% endif %}
+                </li>
 
-                {% if app.request.get('view') == 'window' %}
-                    <li><a title="Close the current window or tab" id="close_window"  class="" href="javascript:void(0);">Close</a></li>
-                {% elseif file.project.resource == 'true' %}
-                    <li>
-                        <a  title="Close this document" class="" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a></li>
-                {% else %}
-                    {% if app.session.get('referrer')%}
-                        <li><a title="Close this document" class="" href="{{app.session.get('referrer')}} ">Close</a></li>
-                    {%else%}
-                        <li><a title="Close this document" class="" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a></li>
-                    {%endif%}
-                {% endif %}
             </ul>
         </div>
     </nav>

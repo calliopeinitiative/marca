@@ -9,7 +9,14 @@
         <a  title='Select course' id='course_select' class="subnav-course-select" href="javascript:void(0);"><i alt='Select course' class="glyphicon glyphicon-list hidden-xs"></i></a>
     </li>
 
-    <li><a  title='Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Resources</a></li>
+    <li>
+        {% if app.session.get('resource_referrer')%}
+            <a title='Course Resources' href="{{app.session.get('resource_referrer')}} ">Resources</a>
+        {%else%}
+            <a  title='Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Resources</a>
+
+        {%endif%}
+            </li>
     {% if app.session.get('module')== 0 %}
         <li>
             {% if app.session.get('referrer')%}

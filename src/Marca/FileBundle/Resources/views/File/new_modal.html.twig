@@ -9,7 +9,6 @@
         <form action="{{ course_path('file_create',{'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': app.request.get('type'),
 'user': '0','project': 'recent', 'fileid':app.request.get('fileid')}) }}" method="post" {{ form_enctype(form) }}  novalidate="novalidate">       
         <div class="modal-body">
-            <div class="form-group">
            {{ form_errors(form) }}
             {{ form_row (form.name) }}
             {{ form_row (form.url) }}
@@ -17,11 +16,12 @@
             {{ form_row (form.tag) }}
             {{ form_row (form.access) }}
           {{ form_rest(form) }}
-          </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" type="submit">Create</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary" type="submit">Create</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
         </form>           
       </div><!-- /.modal-content -->

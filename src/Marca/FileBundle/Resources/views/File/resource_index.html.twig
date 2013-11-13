@@ -30,12 +30,12 @@
             #}
             $('#sort_filter_toggle').click(function(){
                 $.extend($.tablesorter.themes.bootstrap, {
-                    table      : 'table table-bordered',
+                    table      : 'table',
                     header     : 'bootstrap-header', // give the header a gradient background
                     footerRow  : '',
                     footerCells: '',
                     icons      : '', // add "icon-white" to make them white; this icon class is added to the <i> in the header
-                    sortNone   : 'bootstrap-icon-unsorted',
+                    sortNone   : 'glyphicon glyphicon-sort',
                     sortAsc    : 'glyphicon glyphicon-chevron-up',     // includes classes for Bootstrap v2 & v3
                     sortDesc   : 'glyphicon glyphicon-chevron-down', // includes classes for Bootstrap v2 & v3
                     active     : '', // applied when column is sorted
@@ -44,8 +44,6 @@
                     even       : '', // odd row zebra striping
                     odd        : ''  // even row zebra striping
                 });
-                $("table thead th:eq(6), table thead th:eq(0), table thead th:eq(4)").data("sorter", false);
-                $("table thead th:eq(6), table thead th:eq(0)").data("filter", false);
                 // call the tablesorter plugin and apply the uitheme widget
                 $("table").tablesorter({
                     theme : "bootstrap",
@@ -58,6 +56,12 @@
                 });
             });
             $('.tablesorter-filter').addClass('form-control');
+            $( "tr" ).hover(
+                    function() {
+                        $(".file-menu").hide();$( ".file-menu", this ).toggle();
+                    }
+            );
+            $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
 
         });
     </script>
@@ -69,84 +73,78 @@
 {% endblock %}
 
 {% block content %}
-    {# show alert if default Resources #}
-    {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
-        {% for flashMessage in app.session.flashbag.get('message') %}
-            <div class="alert alert-info pad5 col-sm-11">
-                {{ flashMessage }}
-            </div>
-        {% endfor %}
-    {% endif %}
+    <div class="file-wrapper well">
 
-    <table id="file_list" class="col-sm-12 table table-bordered " style="background-color: #fff">
+    <table id="file_list" class="col-sm-12 table">
         <thead>
-        <tr>
-            <th>Type</th>
-            <th>Title</th>
+        <tr class="file">
+            <th><span>Title</span></th>
             <th>Unit</th>
             <th>Labels</th>
-            <th></th>
         </tr>
         </thead>
         <tbody>
         {% for file in files%}
             {# main list of files #}
-            <tr>
-                {# different functions for different file types #}
-                {# ODT files #}
+            <tr class="file">
+                <td>
                 {% if file.doc %}
-                    <td><span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span></td>
-                    <td><a class="" href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">
+                        <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
+                        <a class="file_name" href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">
                             {{ file.name }}</a>
                         <a title="Open this file in a new tab." target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}">
-                            <i class="glyphicon glyphicon-share-alt"></i></a></td>
-
+                            <i class="glyphicon glyphicon-share-alt"></i></a>
                     {# links #}
                 {% elseif file.url %}
-                    <td><span class="label label-file" data-toggle="tooltip" title="This a link ">link</span></td>
-                    <td><a class="" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>{{ file.name }}</a></td>
-
+                        <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
+                        <a class="file_name" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>{{ file.name }}</a>
                     {# ODT files #}
                 {% elseif file.ext == 'odt' %}
-                    <td><span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span></td>
-                    <td><a class="" href="{{ course_path('file_view_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name }}</a>
-                        <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="glyphicon glyphicon-download"></i></a></td>
+                        <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                        <a class="file_name" href="{{ course_path('file_view_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name }}</a>
+                        <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="glyphicon glyphicon-download"></i></a>
                 {% else %}
-                    <td><span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span></td>
-                    <td><a class="" href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name }}</a></td>
+                        <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                        <a class="file_name" href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name }}</a>
                 {% endif %}
-
-                <td><strong>{{ file.project.course.name }}: {{ file.project.name }}</strong></td>
+                    <div class="hidden-xs">
+                        <div class="file-menu">
+                            {% if file.isOwner(app.user.username) %}
+                            <a  class="edit_{{file.id}}" href="javascript:void(0);">Settings</a>{% endif%}
+                            {% if file.ext == 'odt' %}
+                                {% if file.isOwner(app.user.username) %}
+                                    <a class="" href="{{ course_path('file_convert_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" ><span class="glyphicon glyphicon-share"></span> HTML</a>
+                                {% endif%}
+                                <a class="" href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" >Download</a>
+                            {% endif%}
+                            {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}
+                                <a class="delete" id='file_show_{{file.id}}' href='javascript:void(0);'>Delete</a>
+                            {% endif%}
+                        </div>
+                    </div>
+                </td>
+                <td>{{ file.project.course.name }}: {{ file.project.name }}</td>
                 <td>
                     {% if file.access==1 %} <span class="label label-success" data-toggle="tooltip" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
-                    {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
-                 <td>
-                    <ul class="nav files">
-                        <li class="dropdown">
-                            <a title="More options for {{ file.name }}" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">More<b class="caret"></b></a>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                                {% if file.isOwner(app.user.username) %}<li><a  role="menuitem" class='edit_{{file.id}}' href="javascript:void(0);">Update File Settings</a></li>{% endif%}
-                                {% if file.ext == 'odt' %}
-                                    {% if file.isOwner(app.user.username) %}
-                                        <li><a role="menuitem" href="{{ course_path('file_convert_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >Convert to HTML doc</a></li>
-                                    {% endif%}
-                                    <li><a role="menuitem" href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" >Download File</a></li>
-                                {% endif%}
-                                {% if file.doc %}<li><a target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}">Open in a new tab</a></li>{% endif %}
-                                {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}
-                                    <li><a role="menuitem" id='file_show_{{file.id}}' href='javascript:void(0);' class="">Delete File</a></li>
-                                {% endif%}
-                            </ul>
-                        </li>
-                    </ul>
+                    {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
                 </td>
             </tr>
         {% else %}
-                <tr><td colspan="4">No files match your request.</td> </tr>
+                <tr>
+                    <td colspan="4">
+                        No files match your request.
+                        {% for flashMessage in app.session.flashbag.get('message') %}
+                            <div class="alert alert-info pad5 col-sm-11">
+                                {{ flashMessage }}
+                            </div>
+                        {% endfor %}
+                    </td>
+                </tr>
         {% endfor %}
 
         </tbody>
     </table>
+    </div>
 
     <div class="navigation">
         {{ knp_pagination_render(files) }}

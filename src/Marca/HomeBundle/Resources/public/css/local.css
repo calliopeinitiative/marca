@@ -609,6 +609,8 @@ div input[type="email"] {
     padding-bottom:4px;
     padding-left:0;
     padding-right:0;
+    background-color:#f1f1f1;
+    border:1px solid #d4d4d4;
     background: rgb(241,241,241); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(241,241,241,1) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(241,241,241,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
@@ -620,6 +622,10 @@ div input[type="email"] {
     border:1px solid #d9d9d9;
 }
 
+tr.file > th > span {
+    padding-left:40px;
+}
+
 tr.file th {
     background:#fff;
 }
@@ -629,7 +635,7 @@ tr.file td{
 }
 
 tr.review td {
-    background:#fff;
+    background:#f1f1f1;
 }
 
 tr.file > td:first-child  {
@@ -668,6 +674,7 @@ td.labels {
 #file_list thead th {
     background-color:#f1f1f1;
     font-weight:normal;
+    font-family:"museo-slab", Cambria, Georgia, sans-serif;
 }
 
 #file_list {
@@ -700,8 +707,8 @@ tr.review > td > div {
 }
 
 #file_list thead tr th {
-    padding-top:6px;
-    padding-bottom:10px;
+    padding-top:4px;
+    padding-bottom:8px;
 }
 
 td > ul.nav {height:20px;margin-top: -10px;}

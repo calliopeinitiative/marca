@@ -37,10 +37,13 @@ class FileController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        if ($resource == 0) {
-        $session = $this->get('session'); 
+        $session = $this->get('session');
         $request = $this->getRequest();
+        if ($resource == 0) {
         $session->set('referrer', $request->getRequestUri());
+        }
+        else {
+        $session->set('resource_referrer', $request->getRequestUri());
         }
         
         $em = $this->getEm();

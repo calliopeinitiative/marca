@@ -72,7 +72,7 @@
             $('.tablesorter-filter').addClass('form-control');
             $( "tr" ).hover(
                     function() {
-                        $( ".file-menu", this ).toggle();
+                        $(".file-menu").hide();$( ".file-menu", this ).toggle();
                     }
             );
             $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
@@ -125,7 +125,7 @@
         <table id="file_list" class="col-sm-12 table">
             <thead>
             <tr class="file">
-                <th><span style="padding-left:40px;">Title</span></th>
+                <th><span>Title</span></th>
                 <th>Author</th>
                 <th class="hidden-xs">{% if app.request.get('resource')=='1' %}Unit{% else %}Folder{% endif %}</th>
                 <th class="hidden-xs">Labels</th>
@@ -226,7 +226,7 @@
             {% else %}
                 {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
                 {% else %}
-                    <tr><td colspan="6">No files match your request.</td> </tr>
+                    <tr><td colspan="4">No files match your request.</td> </tr>
                 {% endif %}
             {% endfor %}
 

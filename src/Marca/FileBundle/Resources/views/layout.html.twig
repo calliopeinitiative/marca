@@ -102,13 +102,13 @@
         {% endif %}
     {% endif %}
 
-    {% if role == '2' and app.request.get('resource')==0 %}
+
 
         <hr class="marca-spacer" />
-
+    {% if role == '2' and app.request.get('resource')==0 %}
         <li><a class="project-sidebar" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a></li>
+    {% endif %}
         <li><a id="sort_filter_toggle" class="project-sidebar" href="javascript:void(0);">Advanced Sort/Filter</a></li>
 
-    {% endif %}
 
 {% endblock %}
