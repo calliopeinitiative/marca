@@ -598,6 +598,15 @@ div input[type="email"] {
     max-width: 400px;
     margin-bottom: 20px;
 }
+
+form > div.btn-group {
+    margin-top:20px;
+}
+
+form > a.btn-warning {
+    margin-top:20px;
+}
+
 /***** End 06a. Forms *****/
 
 /***** 06b. File list *****/

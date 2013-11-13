@@ -12,21 +12,36 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-sm-11 well" style="padding:0">
-      <div class="well-header" >
-         <h2 class="inline">{{ parent.title }}</h2>      
-         <span class="margin-left">by {{ parent.user.firstname|capitalize }} {{ parent.user.lastname|capitalize }}</span>
-         <p>Created  {{ parent.created|date('M d Y, h:ia') }}  / Updated  {{ parent.updated|date('M d Y, h:ia') }}</p>
-      </div>       
-<div class="col-sm-7 pad margin-bottom" >{{ parent.body|raw }}  </div>
-</div>
-     
-<div class="col-sm-11 well">
-<form action="{{ course_path('comment_create', { 'forumid': forumid, 'parentid': parentid }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-    {{ form_errors(form) }}
-         {{ form_row(form.body) }}
-    {{ form_rest(form) }}
-        <button class="btn btn-primary" type="submit">Submit</button><a class='btn btn-default' href="{{ course_path('forum_show', { 'id': parent.id }) }}">Cancel</a>
-</form>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="inline">{{ parent.title }}</h2>
+            <span class="margin-left">by {{ parent.user.firstname|capitalize }} {{ parent.user.lastname|capitalize }}</span>
+            <p>Created  {{ parent.created|date('M d Y, h:ia') }}  / Updated  {{ parent.updated|date('M d Y, h:ia') }}</p>
+        </div>
+        <div class="panel-body">
+            {{ parent.body|raw }}
+        </div>
+        <div class="panel-footer">
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <form action="{{ course_path('comment_create', { 'forumid': forumid, 'parentid': parentid }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+            <div class="panel-heading">
+                Forum Comment
+            </div>
+            <div class="panel-body">
+                {{ form_errors(form) }}
+                {{ form_row(form.body) }}
+                {{ form_rest(form) }}
+            </div>
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <button class="btn btn-primary" type="submit">Update</button>
+                    <a class='btn btn-default' href="{{ course_path('forum_show', { 'id': parent.id }) }}">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
 </div>
 {% endblock %}

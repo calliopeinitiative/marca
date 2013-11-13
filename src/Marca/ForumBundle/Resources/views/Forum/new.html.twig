@@ -2,23 +2,27 @@
 
 {% extends 'MarcaForumBundle::layout.html.twig' %}
 
-{% block javascripts %}
-    <script language="javascript">
-        $(document).ready(function()
-        {
-            $('form li').addClass('alert alert-error');
-        });
-    </script>
-{% endblock %}
+
+
 
 {% block content %}
-<div class="col-sm-11 well">
-<form action="{{ course_path('forum_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-    {{ form_errors(form) }}
-         {{ form_row(form.title) }}
-         {{ form_row(form.body) }}
-    {{ form_rest(form) }}
-        <button class="btn btn-primary margin-top" type="submit">Submit</button><a class='btn btn-default' href="{{ course_path('forum', { 'set': 0 }) }}">Cancel</a>
-</form>
-</div>
+    <div class="panel panel-default">
+        <form action="{{ course_path('forum_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+            <div class="panel-heading">
+                Forum
+            </div>
+            <div class="panel-body">
+                {{ form_errors(form) }}
+                {{ form_row(form.title) }}
+                {{ form_row(form.body) }}
+                {{ form_rest(form) }}
+            </div>
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <button class="btn btn-primary" type="submit">Create</button>
+                    <a class='btn btn-default' href="{{ course_path('forum') }}">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}

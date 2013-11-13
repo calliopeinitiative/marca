@@ -168,7 +168,7 @@ class ReplyController extends Controller
      * @Route("/{courseid}/{id}/delete", name="reply_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -190,7 +190,7 @@ class ReplyController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('reply'));
+        return $this->redirect($this->generateUrl('forum_show', array('courseid' => $courseid,'id' => $reply->getComment()->getForum()->getId(),)));
     }
 
     private function createDeleteForm($id)

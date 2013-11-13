@@ -3,10 +3,13 @@
 {% extends 'MarcaForumBundle::layout.html.twig' %}
 
 {% block javascripts %}
+    {{ parent() }}
     <script language="javascript">
         $(document).ready(function()
         {
-            $('form li').addClass('alert alert-error');
+            $('#toggle_modal').click(function(){
+                $('#delete_modal').modal();
+            });
         });
     </script>
 {% endblock %}
@@ -41,9 +44,34 @@
                     <button class="btn btn-primary" type="submit">Update</button>
                     <a class='btn btn-default' href="{{ course_path('forum_show', { 'id': parent.id }) }}">Cancel</a>
                 </div>
+                {% if comment.replies|length == 0%}
+                    <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                {% else %}
+                    <span  class='pull-right' >Since this comment has at least one reply, it can not be deleted.</span>
+                {% endif %}
             </div>
         </form>
     </div>
 
-
+    {# Modal for Delete confirmation #}
+    <div id="delete_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Delete</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete?</p>
+                    <form id='delete' action="{{ course_path('comment_delete', { 'id': comment.id }) }}" method="post">
+                        {{ form_widget(delete_form) }}
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 {% endblock %}
