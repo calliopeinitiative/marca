@@ -3,7 +3,7 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="col-md-11 well">
+<div class="col-sm-11 well">
 <legend>Scales</legend> 
 <a class="btn btn-default" href="{{ path('assessmentset') }}">List Assessment Sets</a>
 <a class="btn btn-default" href="{{ path('scale_new') }}">New Scale</a>
@@ -12,7 +12,7 @@
 
 
 {% for scale in scales %}
-<div class="col-md-11 well">
+<div class="col-sm-11 well">
     <strong>{{ scale.name }} </strong>       
         
         <a class="btn btn-primary btn-sm pull-right" href="{{ path('scale_edit', { 'id': scale.id }) }}">Edit</a>

@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="row-fluid">
-<div class="col-md-2">
+<div class="col-sm-2">
 <div class="btn-group">
 <a class="btn btn-default" href="{{ path('project') }}">List</a>
 <a class="btn btn-default" href="{{ path('project_edit', { 'id': project.id }) }}">Edit</a>
@@ -12,7 +12,7 @@
 </div> 
 </div>       
   
-<div class="col-md-1">
+<div class="col-sm-1">
 <form action="{{ path('project_delete', { 'id': project.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
@@ -22,7 +22,7 @@
 </div>
         
 <div class="row-fluid">
-<div class="col-md-4">
+<div class="col-sm-4">
 <table class="table table-bordered table-condensed table-striped">
 <tbody>        
     <tr>

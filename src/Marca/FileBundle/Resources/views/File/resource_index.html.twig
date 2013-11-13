@@ -72,13 +72,13 @@
     {# show alert if default Resources #}
     {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
         {% for flashMessage in app.session.flashbag.get('message') %}
-            <div class="alert alert-info pad5 col-md-11">
+            <div class="alert alert-info pad5 col-sm-11">
                 {{ flashMessage }}
             </div>
         {% endfor %}
     {% endif %}
 
-    <table id="file_list" class="col-md-12 table table-bordered " style="background-color: #fff">
+    <table id="file_list" class="col-sm-12 table table-bordered " style="background-color: #fff">
         <thead>
         <tr>
             <th>Type</th>

@@ -49,7 +49,7 @@
                         <div class="panel-body">
 
                             {% for markup in markupset.markup %}
-                                <div class="col-md-12">
+                                <div class="col-sm-12">
                                     <span class="label label-default" style='background-color:{{ markup.color }}; color:black;'>{{ markup.name }}</span>
                                     {{ markup.mouseover|raw }}
                                     {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% else %}No URL{% endif %}

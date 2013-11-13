@@ -28,22 +28,22 @@
             });
             editor.on('instanceReady', function(){ editor.resize('72%',editorheight);});
             {% if not file.reviewed %}
-            $('#doc-edit').toggleClass('col-md-12');$('#doctools').toggleClass('hide');
+            $('#doc-edit').toggleClass('col-sm-12');$('#doctools').toggleClass('hide');
             {% endif %}
             $('#toggle-tools').click(function(){
-                $('#doc-edit').toggleClass('col-md-12');$('#doctools').toggleClass('hide');
+                $('#doc-edit').toggleClass('col-sm-12');$('#doctools').toggleClass('hide');
             });
         });
     </script>
 {% endblock %}
 
 {% block content %}
-    <div class="col-md-12 center">
+    <div class="col-sm-12 center">
         <form id="doc_form" class="" action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}" method="post" {{ form_enctype(edit_form) }}>
 
             {# Doc nav #}
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-                <div class="navbar-header col-sm-2 col-md-2">
+                <div class="navbar-header col-sm-2 col-sm-2">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -64,7 +64,7 @@
             </nav>
 
 
-                <div id='doc-edit' class="col-md-8">
+                <div id='doc-edit' class="col-sm-8">
                     {{ form_errors(edit_form) }}
                     {{ form_errors(edit_form.body) }}
                     {{ form_widget(edit_form.body) }}
@@ -72,7 +72,7 @@
                 </div>
 
                 {# Doc tools #}
-                <div id='doctools' class="col-md-4">
+                <div id='doctools' class="col-sm-4">
 
                     {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 

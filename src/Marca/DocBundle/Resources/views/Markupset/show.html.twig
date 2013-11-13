@@ -4,20 +4,20 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="col-md-11 well">
+<div class="col-sm-11 well">
 <h1>Markup</h1>
       <a class="btn btn-default btn-sm" href="{{ path('markupset') }}">List All Markup Sets</a>
       <a class="btn btn-default btn-sm" href="{{ path('markupset_new') }}">Create Markup Set</a>
       <a class="btn btn-default btn-sm" href="{{ path('find_markupset') }}"> Import Markup Set</a>
 </div> 
 
-<div class="col-md-8 alert alert-info">
+<div class="col-sm-8 alert alert-info">
 Click Markupset Name to see complete markup set.
 </div> 
 <div class="accordion" id="markup_accordian">
   
   
- <div class="accordion-group col-md-11 well pad05">
+ <div class="accordion-group col-sm-11 well pad05">
 
     <div class="accordion-heading">
       <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#markup_accordian" href="#collapse">
@@ -32,7 +32,7 @@ Click Markupset Name to see complete markup set.
       <a class='btn btn-default btn-sm pull-right' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Add Tags from Other Sets</a>
       {% endif %} 
            {% for markup in markupset.markup %}
-           <div class="col-md-8 divider">
+           <div class="col-sm-8 divider">
             <span class="label {{ markup.color }}" style='color:black;'>{{ markup.name }}</span>
             {{ markup.mouseover|raw }}
             {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% else %}No URL{% endif %}</td>

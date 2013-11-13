@@ -3,13 +3,13 @@
 
 {% block content %}
 
-<div class="col-md-2">
+<div class="col-sm-2">
 <a class="btn btn-info" href="{{ path('ratingset') }}">List</a>
 <a class="btn btn-primary" href="{{ path('ratingset_edit', { 'id': entity.id }) }}">Edit</a>
  
 </div>       
   
-<div class="col-md-1">
+<div class="col-sm-1">
 <form action="{{ path('ratingset_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit">Delete</button>
@@ -19,11 +19,11 @@
 
         
 
-<div class="col-md-11 well">
+<div class="col-sm-11 well">
 <legend></legend> 
 </div>
 
-<div class="col-md-11 well">
+<div class="col-sm-11 well">
         Id         
         {{ entity.id }}        
         Created        {{ entity.created|date('Y-m-d H:i:s') }}        

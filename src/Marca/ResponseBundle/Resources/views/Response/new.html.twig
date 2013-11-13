@@ -14,7 +14,7 @@
 
 {% block content %}
 {% if journal %}
-<div class="col-md-12">
+<div class="col-sm-12">
 <div class="panel panel-default">
 <div class="panel-heading">
 <h2><span class="journal-title">{{ journal.title }}</span></h2>
@@ -29,7 +29,7 @@
 </div>
 {%endif %}
 
-<div class="col-md-12">
+<div class="col-sm-12">
 <div class="panel panel-default">
 <div class="panel-body">
 <form action="{{ course_path('response_create', { 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user') }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">

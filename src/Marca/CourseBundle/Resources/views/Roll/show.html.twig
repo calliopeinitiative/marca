@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="row-fluid">
-<div class="col-md-8 well">
+<div class="col-sm-8 well">
 <legend>Confirm removal of  {{ roll.firstname }} {{ roll.lastname }}</legend>
 <form action="{{ path('roll_delete', { 'id': roll.id,'courseid': course.id }) }}" method="post">
             {{ form_widget(delete_form) }}

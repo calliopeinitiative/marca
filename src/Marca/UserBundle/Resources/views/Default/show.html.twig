@@ -5,11 +5,11 @@
 {% block content %}
 
     {% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="col-md-11 alert alert-info">
+        <div class="col-sm-11 alert alert-info">
             {{ flashMessage }}
         </div>
     {% endfor %}
-    <div class="col-md-6 center">
+    <div class="col-sm-6 center">
     <div class="panel panel-default">
 
         <div class="panel-body">

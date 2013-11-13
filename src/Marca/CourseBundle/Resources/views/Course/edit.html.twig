@@ -27,7 +27,7 @@
     <form class="form" action="{{ path('course_update', { 'courseid': course.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
 
 
-        <div class="col-md-6">
+        <div class="col-sm-6">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h2>{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-        <div class="col-md-6">
+        <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
                     <h2>Student Access</h2>

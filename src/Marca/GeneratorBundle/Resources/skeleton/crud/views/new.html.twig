@@ -17,11 +17,11 @@ $(document).ready(function()
 {% set hide_edit, hide_delete = true, true %}
 {% include 'views/others/record_actions.html.twig' %}
 
-<div class="col-md-11 well">
+<div class="col-sm-11 well">
 <legend></legend> 
 </div> 
 
-<div class="col-md-11 well">
+<div class="col-sm-11 well">
 <form action="{{ "{{ path('"~ route_name_prefix ~"_create') }}" }}" method="post" {{ "{{ form_enctype(form) }}" }}>
     {{ "{{ form_widget(form) }}" }}
     <div>

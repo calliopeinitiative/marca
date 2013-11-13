@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="row-fluid">
-<div class="col-md-2">
+<div class="col-sm-2">
 <div class="btn-group">
 <a class="btn btn-default" href="{{ path('roll') }}">List</a>
  
@@ -13,7 +13,7 @@
   
 </div>
 
-<div class="col-md-12" style="margin-top: 3em">
+<div class="col-sm-12" style="margin-top: 3em">
 <form action="{{ path('roll_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>

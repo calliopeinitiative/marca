@@ -13,7 +13,7 @@ $('form li').addClass('alert alert-error');
 });
 </script>
 
-<div class="col-md-11 well">
+<div class="col-sm-11 well">
 <h2>New {% if project.resource==0%}Folder in Projects{%else%}Unit in Resources{%endif%}</h2>     
 <form class="form" action="{{ path('project_create', { 'courseid': courseid, 'resource':project.resource }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
     {{ form_errors(form) }}   

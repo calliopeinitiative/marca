@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-md-11 well">
+<div class="col-sm-11 well">
 <form action="{{ path('page_update', { 'id': page.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}
         <button class="btn btn-primary" type="submit">Update</button><a class='btn btn-default' href="{{ path('page') }}">Cancel</a>

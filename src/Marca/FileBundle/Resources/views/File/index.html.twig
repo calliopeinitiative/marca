@@ -89,7 +89,7 @@
     {# Breadcrumbs #}
     {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
         {% for flashMessage in app.session.flashbag.get('message') %}
-            <div class="alert alert-info pad5 col-md-11">
+            <div class="alert alert-info pad5 col-sm-11">
                 {{ flashMessage }}
             </div>
         {% endfor %}
@@ -97,7 +97,7 @@
 
     {% if byuser %}
     <nav class="navbar navbar-default" role="navigation">
-        <div class="navbar-header col-sm-3 col-md-3">
+        <div class="navbar-header col-sm-3 col-sm-3">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -122,15 +122,13 @@
 
     <div class="file-wrapper well">
 
-
-
-        <table id="file_list" class="col-md-12 table">
+        <table id="file_list" class="col-sm-12 table">
             <thead>
             <tr class="file">
                 <th><span style="padding-left:40px;">Title</span></th>
                 <th>Author</th>
-                <th>{% if app.request.get('resource')=='1' %}Unit{% else %}Folder{% endif %}</th>
-                <th>Labels</th>
+                <th class="hidden-xs">{% if app.request.get('resource')=='1' %}Unit{% else %}Folder{% endif %}</th>
+                <th class="hidden-xs">Labels</th>
                 <th>Modified</th>
             </tr>
             </thead>
@@ -159,6 +157,7 @@
                             <a class="file_name" href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name }}</a>
                         {% endif %}
 
+                        <div class="hidden-xs">
                         <div class="file-menu">
                             {% if file.isOwner(app.user.username) %}
                             <a  class="edit_{{file.id}}" href="javascript:void(0);">Settings</a>{% endif%}
@@ -178,12 +177,13 @@
                                 <a class="delete" id='file_show_{{file.id}}' href='javascript:void(0);'>Delete</a>
                             {% endif%}
                         </div>
+                        </div>
                     </td>
 
                     <td>{{ file.user.firstname|title }} {{ file.user.lastname|title }}</td>
-                    <td>{% if app.request.get('project')=='recent' %}{% if app.request.get('resource')=='1' %}{{ file.project.course.name }}: {% endif %}{{ file.project.name }}{% endif %}</td>
-                    <td class="labels">
-                        {% if file.access!=1 and file.portfolio|length ==0 and file.tag |length ==0%}&mdash;{% endif %}
+                    <td class="hidden-xs">{% if app.request.get('project')=='recent' %}{% if app.request.get('resource')=='1' %}{{ file.project.course.name }}: {% endif %}{{ file.project.name }}{% endif %}</td>
+                    <td class="labels hidden-xs">{% if file.access!=1 and file.portfolio|length ==0 and file.tag |length ==0%}&mdash;{% endif %}
+
                         {% if file.access==1 %} <span class="label label-success" data-toggle="tooltip" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
                         {% if file.portfolio|length !=0 %} <span class="label label-info" data-toggle="tooltip" title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
                         {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
@@ -200,18 +200,19 @@
                                     {% else %}
                                         <a class="file_name" href="{{ course_path('file_view', { 'id': review.id }) }}" title="Download Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}" ><span class="glyphicon glyphicon-comment"></span> Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
                                     {% endif %}
+                                    <div class="hidden-xs">
                                     <div class="file-menu">
                                         {% if review.isOwner(app.user.username) %}<a class='edit_{{review.id}}' href="javascript:void(0);">Settings</a>{% endif%}
                                         {% if role==2 and review.isOwner(app.user.username) %}<a class='' href="{{ course_path('file_toggle_release', { 'id': review.id }) }}">{% if review.access==2 %}Release{% else %}Hide{% endif %}</a>{% endif%}
                                         {% if review.isOwner(app.user.username) and file.portfolio|length == 0 %}<a class='delete' id='file_show_{{review.id}}' href='javascript:void(0);'>Delete</a>{% endif%}
                                     </div>
+                                    </div>
                                 </td>
 
                                 <td>{{ review.user.firstname|title }} {{ review.user.lastname|title }}</td>
-                                <td></td>
-                                <td class="labels">
-                                    {% if review.access!=1 and review.portfolio|length ==0 and review.tag |length ==0%}&mdash;{% endif %}
-                                    {% if review.access==1 %} <span class="label label-success">Shared</span>
+
+                                <td class="hidden-xs"></td>
+                                <td class="labels hidden-xs">{% if review.access==1 %} <span class="label label-success">Shared</span>
                                     {% elseif review.access==2 %}<span title="This review is currently hidden from view." class="label label-default black">Hidden</span> {% endif %}
                                     {% for tag in review.tag %}<span class="label label-default " style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
                                 </td>

@@ -30,9 +30,9 @@
                 <h2>{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
             </div>
             <div class="panel-body">
-                <div class="col-md-4 ">{{ form_row (form.name) }}</div>
-                <div class="col-md-4 {% if course.module!=0 %}hide{%endif%}">{{ form_row (form.time, {'type':'text'}) }}</div>
-                <div class="col-md-4 {% if course.module!=0 %}hide{%endif%}">{{ form_row (form.term) }}</div>
+                <div class="col-sm-4 ">{{ form_row (form.name) }}</div>
+                <div class="col-sm-4 {% if course.module!=0 %}hide{%endif%}">{{ form_row (form.time, {'type':'text'}) }}</div>
+                <div class="col-sm-4 {% if course.module!=0 %}hide{%endif%}">{{ form_row (form.term) }}</div>
             </div>
         </div>
 
@@ -41,7 +41,7 @@
                 <h2>Additional settings</h2>
             </div>
             <div class="panel-body">
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     {{ form_row (form.notes) }}
                     {{ form_row (form.forum) }}
                     {{ form_row (form.journal) }}
@@ -54,7 +54,7 @@
                     {{ form_row (form.institution) }}
                 </div>
 
-                <div class="col-md-6 ">
+                <div class="col-sm-6 ">
                     {{ form_row (form.portfolio) }}
                     {{ form_row (form.portset) }}
                     {{ form_row (form.assessmentset) }}

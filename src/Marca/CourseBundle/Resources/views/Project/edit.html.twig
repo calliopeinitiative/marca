@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-md-12">
+    <div class="col-sm-12">
         <form action="{{ course_path('project_update', { 'id': project.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
 
             <div class="panel panel-default">
