@@ -196,9 +196,9 @@
                             <tr class="review">
                                 <td>
                                     {% if review.doc %}
-                                        <a class="file_name" href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}">Review of {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}</a></span>
+                                        <a class="file_name" href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}"><span class="glyphicon glyphicon-comment" style="color:#888;"></span> Review of {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}</a></span>
                                     {% else %}
-                                        <a class="file_name" href="{{ course_path('file_view', { 'id': review.id }) }}" title="Download Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}" ><span class="glyphicon glyphicon-comment"></span> Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
+                                        <a class="file_name" href="{{ course_path('file_view', { 'id': review.id }) }}" title="Download Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}" ><span class="glyphicon glyphicon-comment" style="color:#888;"></span> Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
                                     {% endif %}
                                     <div class="hidden-xs">
                                     <div class="file-menu">

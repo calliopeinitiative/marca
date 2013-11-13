@@ -603,20 +603,12 @@ div input[type="email"] {
 /***** 06b. File list *****/
 
 .file-wrapper {
-<<<<<<< HEAD
-    margin-top:-4px;
-=======
     margin-left:15px;
     margin-right:15px;
->>>>>>> fdcd4feab7a7a4efc6cf027441f7e4a8d5373b46
     padding-top:4px;
     padding-bottom:4px;
     padding-left:0;
     padding-right:0;
-<<<<<<< HEAD
-    background-color:#f1f1f1;
-    border:1px solid #d4d4d4;
-=======
     background: rgb(241,241,241); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(241,241,241,1) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(241,241,241,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
@@ -626,7 +618,6 @@ div input[type="email"] {
     background: linear-gradient(to bottom,  rgba(241,241,241,1) 0%,rgba(255,255,255,1) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1f1f1', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
     border:1px solid #d9d9d9;
->>>>>>> fdcd4feab7a7a4efc6cf027441f7e4a8d5373b46
 }
 
 tr.file th {
@@ -638,7 +629,7 @@ tr.file td{
 }
 
 tr.review td {
-    background:#f1f1f1;
+    background:#fff;
 }
 
 tr.file > td:first-child  {
@@ -677,7 +668,6 @@ td.labels {
 #file_list thead th {
     background-color:#f1f1f1;
     font-weight:normal;
-    font-family:"museo-slab", Cambria, Georgia, sans-serif;
 }
 
 #file_list {
@@ -710,8 +700,8 @@ tr.review > td > div {
 }
 
 #file_list thead tr th {
-    padding-top:4px;
-    padding-bottom:8px;
+    padding-top:6px;
+    padding-bottom:10px;
 }
 
 td > ul.nav {height:20px;margin-top: -10px;}
