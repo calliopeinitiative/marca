@@ -659,7 +659,7 @@ td.labels {
 }
 
 #file_list tr {
-    height:54px;
+    height:56px;
 }
 
 tr.file > td > a {
@@ -672,7 +672,7 @@ tr.review a {
 }
 
 tr.review td {
-    height:54px;
+    height:56px;
     border-top: 0 none;
     background: #f9f9f9;
 }
