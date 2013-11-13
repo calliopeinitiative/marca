@@ -451,7 +451,8 @@ div.modal-footer {background-color: #fff;margin-top: 0px;}
 
 span.btn-file {
     height:34px;
-    width:100px
+    width:100px;
+    margin-bottom:20px;
 }
 
 #markup {
@@ -538,7 +539,7 @@ span.btn-file {
 
 /***** 06a. Forms *****/
 
-div.panel-body > div > label.required {width:100%;}
+div.modal-body > div > label {width:100%;}
 
 div.checkbox > label {
     padding:5px;
@@ -601,6 +602,16 @@ div input[type="email"] {
 
 /***** 06b. File list *****/
 
+.file-wrapper {
+    margin-top:-4px;
+    padding-top:4px;
+    padding-bottom:4px;
+    padding-left:0;
+    padding-right:0;
+    background-color:#f1f1f1;
+    border:1px solid #d4d4d4;
+}
+
 tr.file th {
     background:#fff;
 }
@@ -610,7 +621,7 @@ tr.file td{
 }
 
 tr.review td {
-    background:#E7E7E7;
+    background:#f1f1f1;
 }
 
 tr.file > td:first-child  {
@@ -634,7 +645,7 @@ td.labels {
 }
 
 .file-menu {
-   margin-top: 2px; margin-left: 40px;
+   margin-top: 2px; margin-left: 40px; display:none;
 }
 
 .file-menu > a {
@@ -655,26 +666,26 @@ td.labels {
 #file_list {
     margin-bottom:0;
     overflow-y:scroll;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 #file_list tr {
-    height:54px;
+    height:55px;
 }
 
 tr.file > td > a {
-    font-weight:bold;
+    font-size: 13px;
 }
 
-tr.review a {
+
+tr.review > td > a {
     padding-left:15px;
     display:inline-block;
+    font-size: 13px;
 }
 
-tr.review td {
-    height:54px;
-    border-top: 0 none;
-    background: #f9f9f9;
+tr.review > td > div {
+    padding-left:15px;
 }
 
 #file_list thead tr {

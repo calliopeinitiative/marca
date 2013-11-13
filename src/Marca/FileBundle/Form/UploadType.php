@@ -19,7 +19,7 @@ class UploadType extends AbstractType
     {
         $options = $this->options;
         $builder
-             ->add('file','file', array('label'  => ' ','attr' => array('class' => 'btn btn-default btn-file'),))
+             ->add('file','file', array('label'  => ' '))
              ->add('name','text', array('attr' => array('class' => 'text form-control'),))
              ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
                 function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {

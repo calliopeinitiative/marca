@@ -497,8 +497,8 @@ class FileController extends Controller
     /**
      * Uploads a file with a Document entity.
      *
-     * @Route("/{courseid}/{resource}/{tag}/upload", name="file_upload")
-     * @Template("MarcaFileBundle:File:upload.html.twig")
+     * @Route("/{courseid}/{resource}/upload", name="file_upload")
+     * @Template("MarcaFileBundle:File:upload_modal.html.twig")
      */    
      public function uploadAction($courseid, $resource)
      {
@@ -507,7 +507,7 @@ class FileController extends Controller
         
          $em = $this->getEm();
          $user = $this->getUser();
-         $userid = $user->getId();
+         $role = $this->getCourseRole();
          $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
          $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
          $options = array('courseid' => $courseid, 'resource'=> $resource, 'review'=>'no');
@@ -526,8 +526,7 @@ class FileController extends Controller
         $request = $this->getRequest();
         $postData = $request->get('marca_filebundle_filetype');
         $project = $postData['project'];
-        if (!$resource)
-        {$resource = '0';}
+        $resource = '0';
         
 
          if ($this->getRequest()->getMethod() === 'POST') {
@@ -541,22 +540,23 @@ class FileController extends Controller
              
          }
 
-    return array('form' => $form->createView(),'tags'  => $tags, 'systemtags'  => $systemtags, 'roll'  => $roll,'course' => $course,);
+    return array('form' => $form->createView(),'tags'  => $tags, 'systemtags'  => $systemtags, 'roll'  => $roll,'role'  => $role,'course' => $course,);
      }
 
 
     /**
      * Uploads a file with a Document entity.
      *
-     * @Route("/{courseid}/{resource}/{tag}/{fileid}/reviewupload", name="review_upload")
-     * @Template("MarcaFileBundle:File:upload.html.twig")
+     * @Route("/{courseid}/{fileid}/reviewupload", name="review_upload")
+     * @Template("MarcaFileBundle:File:upload_modal.html.twig")
      */
-    public function uploadReviewAction($courseid, $resource, $fileid)
+    public function uploadReviewAction($courseid, $fileid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
 
         $em = $this->getEm();
+        $resource = 0;
         $user = $this->getUser();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
@@ -566,7 +566,6 @@ class FileController extends Controller
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $file = new File();
-        if ($resource!=0){$file->setAccess(1);}
         $file->setUser($user);
         $file->setCourse($course);
         $file->setName('Review');
