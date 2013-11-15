@@ -1,15 +1,22 @@
 {# Marca/HomeBundle/Resources/views/Page/show.html.twig #}
 
-{% extends 'MarcaHomeBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-   
-{{ page.body|raw }}
- 
 
-<div class="col-sm-11">
+    <div class="col-sm-12 margin-bottom">
+        <div class="btn-group">
+            <a class="btn btn-default" href="{{ path('page') }}"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+            <a class="btn btn-default" href="{{ path('page_edit', { 'id': page.id }) }}">Edit</a>
+        </div>
+        <span style="text-align:center;"><h2>{{ page.title }}</h2></span>
+        </div>
 
-<a class="btn btn-primary" href="{{ path('page_edit', { 'id': page.id }) }}">Edit</a> 
+    <hr class="marca-spacer" />
 
-</div> 
+    <div class="col-sm-12">
+    {{ page.body|raw }}
+    </div>
+
+
 {% endblock %}
