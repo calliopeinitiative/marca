@@ -11,26 +11,25 @@
         {% endstylesheets %}
     {% endblock %}
     <style>
-        body {background: #fff }
+        body {background: #fff;margin:0em;height:100%;width:100%; }
         .agenda {margin:0em;height:100%;width:100%;}
     </style>
 </head>
 <body>
 {# Agenda display #}
-<div class="row margin-top clear">
-    <div class="col-sm-8 pad">
-        <div class="doc-body">
+    <div class="col-sm-12">
+        <div class="agenda">
             <h1>Agenda</h1>
             <table class="table">
                 <tbody>
                 {% for calendar in calendar %}
                     <tr>
-                        <td class='col-sm-2'>{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}</td>
-
-                        <td class='col-sm-2'><span class="pull-left color-flag" style="{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif%}">&#183;</span> {{ calendar.title }}</td>
-                        <td class='col-sm-6'>{{ calendar.description|raw }}</td>
                         <td class='col-sm-2'>
-                            {% if calendar.isOwner(app.user.username) %}<a id='calendar_edit{{calendar.id}}' class="btn btn-primary btn-sm" href="javascript:void(0);">Edit</a>{% endif %}
+                            {{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}
+                        </td>
+                        <td class='col-sm-10'>
+                            <span class="pull-left color-flag" style="{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif%}">&#183;</span> {{ calendar.title }}
+                            <p>{{ calendar.description|raw }}</p>
                         </td>
                     </tr>
 
@@ -39,7 +38,6 @@
             </table>
         </div>
     </div>
-</div>
 </body>
 
    

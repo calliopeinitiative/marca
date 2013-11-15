@@ -166,8 +166,7 @@ knp_snappy:
     pdf:
         enabled:    true
         binary:     %wkhtmltopdf_path%
-        options:
-            no-background: true
+        options:    []
 
 ivory_ck_editor:
     plugins:

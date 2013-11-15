@@ -16,7 +16,9 @@
              <a class="btn btn-primary margin-bottom-medium" href="{{ course_path('journal_new')  }}">Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
              {% if role==2 %}
              <li class="dropdown">
-                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">Student Journals<b class="caret"></b></a>
+                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">
+                    {% if app.request.attributes.get('_route')=='journal_user' %}By {{ user.firstname|title }} {{ user.lastname|title }}{% else %}By Author{% endif %}
+                    <b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         {% for roll in roll %}
                         <li><a title='View the Journal of {{roll.firstname}} {{roll.lastname}}' data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('journal_user', { 'userid': roll.userid, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
