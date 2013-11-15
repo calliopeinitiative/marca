@@ -1,0 +1,47 @@
+{# Marca/DocBundle/Resources/views/Doc/pdf.html.twig #}
+{% if ip != '::1' %}
+<html>
+<head>
+    {% block stylesheets %}
+        {% stylesheets '@bootstrap_less' combine=true  output='css/compiled/main.css' %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
+        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/external.css') }}">
+        <link type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+        {% endstylesheets %}
+    {% endblock %}
+    <style>
+        body {background: #fff }
+        .agenda {margin:0em;height:100%;width:100%;}
+    </style>
+</head>
+<body>
+{# Agenda display #}
+<div class="row margin-top clear">
+    <div class="col-sm-8 pad">
+        <div class="doc-body">
+            <h1>Agenda</h1>
+            <table class="table">
+                <tbody>
+                {% for calendar in calendar %}
+                    <tr>
+                        <td class='col-sm-2'>{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}</td>
+
+                        <td class='col-sm-2'><span class="pull-left color-flag" style="{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif%}">&#183;</span> {{ calendar.title }}</td>
+                        <td class='col-sm-6'>{{ calendar.description|raw }}</td>
+                        <td class='col-sm-2'>
+                            {% if calendar.isOwner(app.user.username) %}<a id='calendar_edit{{calendar.id}}' class="btn btn-primary btn-sm" href="javascript:void(0);">Edit</a>{% endif %}
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+
+   
+</html>
+{%endif%}

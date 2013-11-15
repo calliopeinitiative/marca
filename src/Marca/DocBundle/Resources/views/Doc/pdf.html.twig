@@ -14,15 +14,21 @@
 body {background: #fff }
 .doc-body {margin:0em;height:100%;width:100%;}
 </style>
-</head> 
+</head>
+
+<body>
+
 {# Doc display #}
 <div class="row margin-top clear">
-<div class="col-sm-8 pad">
-<div class="doc-body">
-{{ doc.body|raw }}     
-</div>           
-</div>       
-</div> 
+    <div class="col-sm-8 pad">
+        <div class="doc-body">
+            {{ doc.body|raw }}
+        </div>
+    </div>
+</div>
+
+</body>
+
    
 </html>
 {%endif%}

@@ -179,39 +179,6 @@ class CalendarController extends Controller
     }
 
     
-    /**
-     * Displays a form to create a new Calendar entity.
-     *
-     * @Route("/{courseid}/new_modal", name="calendar_new_modal")
-     * @Template("MarcaCalendarBundle:Calendar:new_modal.html.twig")
-     */
-    public function newModalAction($courseid)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
-
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        
-        $startTime = $course->getTime();
-        $startDate = date_create();
-         
-        $calendar = new Calendar();
-        $calendar->setDescription('<p> </p>');
-        $calendar->setStartTime($startTime);
-        $calendar->setEndTime($startTime);
-        $calendar->setStartDate($startDate);
-        $calendar->setEndDate($startDate);
-        
-        $form   = $this->createForm(new CalendarType(), $calendar);
-
-        return array(
-            'calendar' => $calendar,
-            'form'   => $form->createView()
-        );
-    }
-    
     
     /**
      * Creates a new Calendar entity.
@@ -285,33 +252,7 @@ class CalendarController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
-    
-    /**
-     * Displays a form to edit an existing Calendar entity.
-     *
-     * @Route("/{courseid}/{id}/{gotodate}/edit_modal", name="calendar_edit_modal")
-     * @Template("MarcaCalendarBundle:Calendar:edit_modal.html.twig")
-     */
-    public function editModalAction($id, $gotodate)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
-        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
 
-        if (!$calendar) {
-            throw $this->createNotFoundException('Unable to find Calendar entity.');
-        }
-
-        $editForm = $this->createForm(new CalendarType(), $calendar);
-
-        return array(
-            'gotodate' => $gotodate,
-            'calendar'      => $calendar,
-            'edit_form'   => $editForm->createView(),
-        );
-    }    
 
     /**
      * Edits an existing Calendar entity.
@@ -358,31 +299,7 @@ class CalendarController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
-    
-    
-    /**
-     * Finds and displays a Calendar entity.
-     *
-     * @Route("/{courseid}/{id}/delete_modal", name="calendar_delete_modal")
-     * @Template("MarcaCalendarBundle:Calendar:delete_modal.html.twig")
-     */
-    public function deleteModalAction($id)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        $gotodate = date("Y-m-d");
-        $deleteForm = $this->createDeleteForm($id);
-        $em = $this->getEm();
 
-        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
-
-        if (!$calendar) {
-            throw $this->createNotFoundException('Unable to find Calendar entity.');
-        }
-
-
-        return array( 'calendar'  => $calendar, 'gotodate' => $gotodate, 'delete_form' => $deleteForm->createView(),);
-    }
     
 
     /**
@@ -440,5 +357,46 @@ class CalendarController extends Controller
     
 }
 
+    /**
+     * Creates HTML for printing
+     *
+     * @Route("/{courseid}/print", name="agenda_print")
+     * @Template("MarcaCalendarBundle:Calendar:pdf.html.twig")
+     */
+    public function htmlPrintAction()
+    {
+        $em = $this->getEm();
+        $course = $this->getCourse();
+        $ip = $this->get('request')->getClientIp();
+        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
+
+        if (!$calendar) {
+            throw $this->createNotFoundException('Unable to find Calendar entity.');
+        }
+
+        return array('calendar' => $calendar, 'ip' => $ip);
+    }
+
+
+    /**
+     * Creates a pdf of a Agenda for printing.
+     *
+     * @Route("/{courseid}/pdf", name="agenda_pdf")
+     */
+    public function createPdfAction($courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $filename = 'attachment; filename="agenda.pdf"';
+
+        $pageUrl = $this->generateUrl('agenda_print', array('courseid'=> $courseid),  true); // use absolute path!
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutput($pageUrl),
+            200,
+            array('Content-Type'=> 'application/force-download', 'Content-Disposition'  => $filename )
+        );
+    }
 
 }

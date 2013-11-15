@@ -24,37 +24,43 @@
 
 
 {% block content %}
-<div class="col-sm-12">
-    <div class="panel panel-marca">
+    <div class="col-sm-12">
+    <div class="panel panel-default">
         <div class="panel-heading">
-            <h2 class="panel-title">Events</h2>
+            <div class="btn-group btn-group-sm pull-right">
+                <a class="btn btn-default " href="{{ course_path('calendar_upcoming') }}">Upcoming Events</a>
+                <a class="btn btn-default" href="{{ course_path('calendar') }}">All Events</a>
+                <a class="btn btn-default" href="{{ course_path('agenda_pdf') }}">Print Agenda</a>
             </div>
+            <h2 class="panel-title">Agenda</h2>
+        </div>
         <div class="panel-body">
-<table class="table">   
-<tbody>
-    {% for calendar in calendar %}
-    <tr>                
-        <td class='col-sm-2'>{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}</td>
-           
-        <td class='col-sm-2 {{calendar.color}}'>{{ calendar.title }}</td>
-        <td class='span5'>{{ calendar.description|raw }}</td>             
-        <td class='col-sm-2'>
-            {% if calendar.isOwner(app.user.username) %}<a id='calendar_edit{{calendar.id}}' class="btn btn-primary btn-sm" href="javascript:void(0);">Edit</a>{% endif %}
-       </td>       
-    </tr>
-    
-    {% endfor %}
-    </tbody>
-</table>
+            <table class="table">
+                <tbody>
+                {% for calendar in calendar %}
+                    <tr>
+                        <td class='col-sm-2'>{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}</td>
+
+                        <td class='col-sm-2'><span class="pull-left color-flag" style="{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif%}">&#183;</span> {{ calendar.title }}</td>
+                        <td class='col-sm-6'>{{ calendar.description|raw }}</td>
+                        <td class='col-sm-2'>
+                            {% if calendar.isOwner(app.user.username) %}<a id='calendar_edit{{calendar.id}}' class="btn btn-primary btn-sm" href="javascript:void(0);">Edit</a>{% endif %}
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
 
         </div>
     </div>
 
-<div class="navigation">
-    {{ knp_pagination_render(calendar) }}
+    <div class="navigation">
+        {{ knp_pagination_render(calendar) }}
+    </div>
+
 </div>
-        
-</div>
+
 
 {# Modal #}
 <div id="calendar_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
