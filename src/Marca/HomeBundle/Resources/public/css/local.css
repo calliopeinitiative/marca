@@ -531,10 +531,6 @@ span.btn-file {
     border-top:none !important;
 }
 
-.cke {
-    margin-bottom: 20px !important;
-}
-
 /********** End 05. Bootstrap Elements **********/
 
 
@@ -677,7 +673,6 @@ td.labels {
 
 .file-menu > a {
     margin-right: 5px;
-    font-size: 13px;
 }
 
 
@@ -694,25 +689,22 @@ td.labels {
 #file_list {
     margin-bottom:0;
     overflow-y:scroll;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 #file_list tr {
-    height:52px;
-}
-
-#file_list tbody > tr > td {
-    padding:5px;
+    height:55px;
 }
 
 tr.file > td > a {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 
 tr.review > td > a {
     padding-left:15px;
     display:inline-block;
+    font-size: 13px;
 }
 
 tr.review > td > div {
@@ -890,9 +882,7 @@ td > ul.nav {height:20px;margin-top: -10px;}
 
 /***** End 06c Doc displays *****/
 
-.label {
-    font-weight: normal;
-}
+.label {font-weight: normal;}
 
 .responses {
     font-size:14px;

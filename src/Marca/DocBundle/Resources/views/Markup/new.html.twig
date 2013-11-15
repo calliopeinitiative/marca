@@ -3,12 +3,14 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block javascripts %}
+    {{ parent() }}
 <script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
 {% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
 <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
 {% endblock %}
 
