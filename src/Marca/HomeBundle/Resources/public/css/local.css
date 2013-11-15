@@ -599,11 +599,17 @@ div input[type="email"] {
     margin-bottom: 20px;
 }
 
-form > div.btn-group {
+/* form > div.btn-group {
     margin-top:20px;
 }
 
 form > a.btn-warning {
+    margin-top:20px;
+}
+
+*/
+
+.btn.btn-primary.btn-lg.btn-block {
     margin-top:20px;
 }
 
@@ -953,8 +959,8 @@ td > ul.nav {height:20px;margin-top: -10px;}
     cursor: hand;
 }
 
-#marca_homebundle_pagetype .cke {
-    margin-bottom:20px;
+.cke {
+    margin-bottom:20px !important;
 }
 
 /********** End 06. Marca tools *****/
@@ -1022,6 +1028,10 @@ td > ul.nav {height:20px;margin-top: -10px;}
 @media (max-width: 767px) {
     .navbar > .container .navbar-brand {
         margin-left:-12px;
+    }
+
+    .fc-button-month, .fc-button-agendaWeek, .fc-button-agendaDay, .fc-button-today {
+        display:none !important;
     }
 }
 
