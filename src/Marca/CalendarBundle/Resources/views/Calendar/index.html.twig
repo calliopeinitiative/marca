@@ -39,11 +39,14 @@
                 <tbody>
                 {% for calendar in calendar %}
                     <tr>
-                        <td class='col-sm-2'>{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}</td>
-
-                        <td class='col-sm-2'><span class="pull-left color-flag" style="{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif%}">&#183;</span> {{ calendar.title }}</td>
-                        <td class='col-sm-6'>{{ calendar.description|raw }}</td>
                         <td class='col-sm-2'>
+                            {{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}
+                        </td>
+                        <td class='col-sm-9'>
+                            <span class="pull-left color-flag" style="{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif%}">&#183;</span> {{ calendar.title }}
+                            <p>{{ calendar.description|raw }}</p>
+                        </td>
+                        <td class='col-sm-1'>
                             {% if calendar.isOwner(app.user.username) %}<a id='calendar_edit{{calendar.id}}' class="btn btn-primary btn-sm" href="javascript:void(0);">Edit</a>{% endif %}
                         </td>
                     </tr>
