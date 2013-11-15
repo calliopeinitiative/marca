@@ -35,7 +35,7 @@ html, body {
 }
 
 body {
-    background: url('../img/bg/hexellence.png');
+    background: url('../img/bg/subtle_white_feathers.png');
     padding-top: 50px;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
@@ -951,6 +951,10 @@ td > ul.nav {height:20px;margin-top: -10px;}
 .fc-event-title, .fc-event-time {
     cursor: pointer;
     cursor: hand;
+}
+
+#marca_homebundle_pagetype .cke {
+    margin-bottom:20px;
 }
 
 /********** End 06. Marca tools *****/

@@ -1,23 +1,29 @@
 {# Marca/HomeBundle/Resources/views/Page/edit.html.twig #}
 
-{% extends 'MarcaHomeBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block javascripts %}
-    <script language="javascript">
-        $(document).ready(function()
-        {
-            var winheight = $(document).height() * .55;
-            $('body').height(winheight);
-        });
-    </script>
+    {{ parent() }}
+
 {% endblock %}
 
 {% block content %}
-<div class="col-sm-11 well">
+<div class="col-sm-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">Edit Page</h2>
+        </div>
+        <div class="panel-body">
 <form action="{{ path('page_update', { 'id': page.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}
+    <div class="btn-group pull-left" style="clear:both;">
         <button class="btn btn-primary" type="submit">Update</button><a class='btn btn-default' href="{{ path('page') }}">Cancel</a>
 </form>
+    </div>
+        </div>
+    </div>
+
+
 <form action="{{ path('page_delete', { 'id': page.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button class="btn btn-delete" type="submit">Delete</button>
