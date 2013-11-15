@@ -21,22 +21,6 @@ use Marca\CourseBundle\Entity\Project;
  */
 class DocController extends Controller
 {
-    /**
-     * Lists all Doc entities.
-     *
-     * @Route("/{courseid}/", name="doc")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        $em = $this->getEm();
-
-        $docs = $em->getRepository('MarcaDocBundle:Doc')->findAll();
-
-        return array('docs' => $docs);
-    }
 
     /**
      * Finds and displays a Doc entity.

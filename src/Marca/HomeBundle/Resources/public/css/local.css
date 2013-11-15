@@ -35,7 +35,7 @@ html, body {
 }
 
 body {
-    background: url('../img/bg/tree_bark.png');
+    background: url('../img/bg/hexellence.png');
     padding-top: 50px;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
@@ -673,6 +673,7 @@ td.labels {
 
 .file-menu > a {
     margin-right: 5px;
+    font-size: 13px;
 }
 
 
@@ -689,22 +690,25 @@ td.labels {
 #file_list {
     margin-bottom:0;
     overflow-y:scroll;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 #file_list tr {
-    height:55px;
+    height:52px;
+}
+
+#file_list tbody > tr > td {
+    padding:5px;
 }
 
 tr.file > td > a {
-    font-size: 13px;
+    font-size: 14px;
 }
 
 
 tr.review > td > a {
     padding-left:15px;
     display:inline-block;
-    font-size: 13px;
 }
 
 tr.review > td > div {
@@ -882,7 +886,9 @@ td > ul.nav {height:20px;margin-top: -10px;}
 
 /***** End 06c Doc displays *****/
 
-.label {font-weight: normal;}
+.label {
+    font-weight: normal;
+}
 
 .responses {
     font-size:14px;

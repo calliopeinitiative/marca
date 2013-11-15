@@ -73,7 +73,7 @@
 {% block content %} 
 <div class="col-sm-12 center">
 {# Doc nav #}
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar  navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header col-sm-4 col-sm-4">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
@@ -117,7 +117,7 @@
                 {% endif %}
                 <li>
                     {% if app.request.get('view') == 'window' %}
-                        <a title="Close the current window or tab" id="close_window"  class="" href="javascript:void(0);">Close</a><
+                        <a title="Close the current window or tab" id="close_window"  class="" href="javascript:void(0);">Close</a>
                     {% elseif file.project.resource == 'true'%}
                         {% if app.session.get('resource_referrer')%}
                             <a title="Close this document" class="" href="{{app.session.get('resource_referrer')}} ">Close</a>
@@ -251,8 +251,8 @@
         </div>
     {% endfor %}
 
+    {# Modal #}
+    <div class="modal fade" id="file_modal" role="dialog" >
 
-{# Modal #}
-<div id="file_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-</div>
+    </div><!-- /.modal -->
 {% endblock %}
