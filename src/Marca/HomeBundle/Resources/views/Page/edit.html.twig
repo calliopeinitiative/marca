@@ -4,29 +4,57 @@
 
 {% block javascripts %}
     {{ parent() }}
-
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('#toggle_modal').click(function(){
+                $('#delete_modal').modal();
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
-<div class="col-sm-12">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h2 class="panel-title">Edit Page</h2>
-        </div>
-        <div class="panel-body">
-<form action="{{ path('page_update', { 'id': page.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-    <div class="btn-group pull-left" style="clear:both;">
-        <button class="btn btn-primary" type="submit">Update</button><a class='btn btn-default' href="{{ path('page') }}">Cancel</a>
-</form>
-    </div>
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Edit Page</h2>
+            </div>
+            <div class="panel-body">
+                <form action="{{ path('page_update', { 'id': page.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+                    {{ form_widget(edit_form) }}
+                    <div class="btn-group pull-left" style="clear:both;">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                        <a class='btn btn-default' href="{{ path('page') }}">Cancel</a>
+                    </div>
+                    <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                </form>
+            </div>
         </div>
     </div>
 
 
-<form action="{{ path('page_delete', { 'id': page.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-delete" type="submit">Delete</button>
-</form>        
-</div>
+    {# Modal for Delete confirmation #}
+    <div id="delete_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Delete</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete?</p>
+                    <form action="{{ path('page_delete', { 'id': page.id }) }}" method="post">
+                        {{ form_widget(delete_form) }}
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 {% endblock %}
+
+
