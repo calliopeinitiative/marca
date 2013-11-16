@@ -36,17 +36,25 @@ $(document).ready(function()
 });
 </script>
 
-<legend>Markup Tag</legend>  
+<div class="col-sm-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="margin-top-small">Markup Tag</h2>
+        </div>
+        <div class="panel-body">
+            <form action="{{ path('markup_create', { 'set_id': set_id }) }}" method="post" {{ form_enctype(form) }}>
 
-<div class="row">
-<div class="col-sm-11  well">
-    
-<form action="{{ path('markup_create', { 'set_id': set_id }) }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-        <button class="btn btn-primary btn-sm" type="submit">Submit</button>
-</form>       
-</div>
-</div>
+            {{ form_widget(form) }}
 
+        </div>
+        <div class="panel-footer">
+            <div class="btn-group">
+                <button class="btn btn-primary" type="submit">Update</button>
+                <a class="btn btn-default" href="{{ path('markupset') }}">Cancel</a>
+            </div>
+        </div>
+            </form>
+    </div>
+</div>
 
 {% endblock %}

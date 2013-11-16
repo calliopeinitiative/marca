@@ -12,7 +12,7 @@ class TagsetType extends AbstractType
     {
         $builder
             ->add('name','text', array('label'  => 'Name','attr' => array('class' => 'text form-control'),))
-            ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes', 2 => 'Default'),'required'  => true,'label'  => 'Share your Label sets?', 'expanded' => true,'attr' => array('class' => 'radio'),))
+            ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes', 2 => 'Default'),'required'  => true,'label'  => 'Who can see this Label Set?', 'expanded' => true,'attr' => array('class' => 'radio'),))
         ;
     }
     
