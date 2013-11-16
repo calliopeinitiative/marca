@@ -10,6 +10,7 @@ use Marca\CourseBundle\Entity\Course;
 use Marca\CourseBundle\Entity\Roll;
 use Marca\UserBundle\Entity\Profile;
 use Marca\CourseBundle\Entity\Project;
+use Marca\HomeBundle\Entity\Page;
 use Marca\CourseBundle\Form\CourseType;
 use Marca\CourseBundle\Form\ModuleType;
 use Marca\CourseBundle\Form\AnnounceType;
@@ -155,11 +156,15 @@ class CourseController extends Controller
         foreach ($markupsets as &$markupset) {
         $course->addMarkupset($markupset);    
         };
+
+        $type= Page::TYPE_COURSE;
+        $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
         
         $form   = $this->createForm(new CourseType($options), $course);
 
         return array(
             'course' => $course,
+            'pages' => $pages,
             'form'   => $form->createView()
         );
     }

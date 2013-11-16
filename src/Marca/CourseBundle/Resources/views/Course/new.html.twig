@@ -14,14 +14,44 @@
     <script language="javascript">
         $(document).ready(function()
         {
+            $('#help').toggle();
             $('input[type=time]').on('click', function(event) { event.preventDefault();});
             $('#marca_coursebundle_coursetype_time').timepicker({ 'timeFormat': 'H:i' });
             $('form li').addClass('alert alert-error');
+            $('#help_show_btn').click(function(){
+                $('#help_show').toggle();$('#help').toggle();
+            });
+            $('#help_close_btn').click(function(){
+                $('#help_show').toggle();$('#help').toggle();
+            });
         });
     </script>
 {% endblock %}
 
 {% block content %}
+    {% if pages %}
+        <div id="help_show" class="panel panel-default">
+                <div class="panel-heading">
+                    <a id="help_show_btn" class="btn btn-default" href="javascript:void(0);">Help</a>
+                </div>
+        </div>
+        <div id="help" class="panel panel-default">
+            {% for page in pages %}
+                <div class="panel-heading">
+                    <button id="help_close_btn" type="button" class="close">&times;</button>
+                    <h2>{{ page.title|raw }}</h2>
+                </div>
+
+                <div class="panel-body">
+
+                    {{ page.body|raw }}
+
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
     <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
 
 
