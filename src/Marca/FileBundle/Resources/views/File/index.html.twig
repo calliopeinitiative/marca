@@ -141,17 +141,16 @@
                         {# doc files #}
                         {% if file.doc %}
                             <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
-                            <a class="file_name" href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">
+                            <a class="file_name" href="{{ course_path('doc_show', { 'id': file.id, 'view': 'app' }) }}">
                                 {{ file.name }}</a>
                             {# links #}
                         {% elseif file.url %}
                             <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
                             <a class="file_name" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>{{ file.name }}</a>
                             {# ODT files #}
-                        {% elseif file.ext == 'odt' %}
+                        {% elseif file.ext == 'odt' or file.ext == 'pdf' %}
                             <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
-                            <a class="file_name" href="{{ course_path('file_view_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name }}</a>
-                            <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="glyphicon glyphicon-download"></i></a>
+                            <a class="file_name" href="{{ course_path('file_viewer', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name }}</a>
                         {% else %}
                             <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                             <a class="file_name" href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name }}</a>
@@ -162,9 +161,6 @@
                             {% if file.isOwner(app.user.username) %}
                             <a  class="edit_{{file.id}}" href="javascript:void(0);">Settings</a>{% endif%}
                             {% if file.ext == 'odt' %}
-                                {% if file.isOwner(app.user.username) %}
-                                    <a class="" href="{{ course_path('file_convert_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" ><span class="glyphicon glyphicon-share"></span> HTML</a>
-                                {% endif%}
                                 <a class="" href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" >Download</a>
                             {% endif%}
                             {% if role == 2 and app.request.get('resource')=='0' %}
@@ -196,7 +192,7 @@
                             <tr class="review">
                                 <td>
                                     {% if review.doc %}
-                                        <a class="file_name" href="{{ course_path('doc_show', { 'id': review.doc.id, 'view': 'app' }) }}"><span class="glyphicon glyphicon-comment" style="color:#888;"></span> Review of {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}</a></span>
+                                        <a class="file_name" href="{{ course_path('doc_show', { 'id': review.id, 'view': 'app' }) }}"><span class="glyphicon glyphicon-comment" style="color:#888;"></span> Review of {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}</a></span>
                                     {% else %}
                                         <a class="file_name" href="{{ course_path('file_view', { 'id': review.id }) }}" title="Download Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}" ><span class="glyphicon glyphicon-comment" style="color:#888;"></span> Review by {{ review.user.firstname|title }} {{ review.user.lastname|title }}</a>
                                     {% endif %}

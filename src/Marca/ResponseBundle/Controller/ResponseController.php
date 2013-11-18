@@ -96,9 +96,8 @@ class ResponseController extends Controller
             );
         }
             else
-        {    
-            $doc = $em->getRepository('MarcaDocBundle:Doc')->find($sourceid);
-            $file = $doc->getFile();
+        {
+            $file = $em->getRepository('MarcaFileBundle:File')->find($sourceid);
             $response->setFile($file);
             $request = $this->getRequest();
             $form    = $this->createForm(new ResponseType(), $response);
@@ -109,7 +108,13 @@ class ResponseController extends Controller
             $em->persist($response);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('doc_show', array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));   
+            if ($file->getDoc())    {
+                return $this->redirect($this->generateUrl('doc_show', array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));
+            }
+                else {
+                    return $this->redirect($this->generateUrl('file_viewer', array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));
+                }
+
             }
 
             return array(

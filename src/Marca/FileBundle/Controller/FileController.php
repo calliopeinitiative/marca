@@ -604,7 +604,7 @@ class FileController extends Controller
     /**
      * Finds and displays a File.
      *
-     * @Route("/{courseid}/{id}/view", name="file_view")
+     * @Route("/{courseid}/{id}/view/{filename}", name="file_view", defaults={"filename" = "name.ext"})
      * 
      */     
     public function viewAction($id)
@@ -708,33 +708,24 @@ class FileController extends Controller
 
 
    /**
-     * Finds and displays an XSL transformation of a File entity.
+     * Finds and displays an ODF or PDF with Viewer.js
      *
-     * @Route("/{courseid}/{id}/{view}/view_odt", name="file_view_odt")
+     * @Route("/{courseid}/{id}/{view}/view_file", name="file_viewer")
      * @Template("MarcaDocBundle:Doc:show.html.twig")
      */
     public function viewOdtAction($id)
     {
         $em = $this->getEm();
-        $user = $this->getUser();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-        $doc = new Doc();
-        $doc->setFile($file);
-        $course = $this->getCourse();
         $role = $this->getCourseRole();
-        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
 
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
         }
 
-            $html4doc = $this->odtToHtml($id);
-            $doc->setBody($html4doc);
             return array(
-            'doc'      => $doc,
-            'role'      => $role,    
-            'file'        => $file,
-            'markup' => $markup,
+            'role'      => $role,
+            'file'        => $file
              );
           
 

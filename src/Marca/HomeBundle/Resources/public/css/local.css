@@ -95,6 +95,7 @@ td.active {
     color:#333;
 }
 
+iframe {border:0px;}
 /********** 01a. Accessibility **********/
 
 #skip a, #skip a:hover, #skip a:visited
