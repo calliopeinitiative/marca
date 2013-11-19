@@ -13,9 +13,14 @@
 
 {% block sidebar %}
              <h1>Portfolio</h1>
+            {% if portStatus == 'true' %}
              <a class='btn btn-primary' href="{{ course_path('portfolio_find', { 'project': 'recent', 'scope': 'mine', 'resource': '0', 'tag': '0', 'userid': '0','user':'0' }) }}">Create<i class="icon-pencil icon-white"></i></a>
+            {% endif %}
              <li><a href="{{ course_path('portfolio') }}">List Portfolio</a></li>
              <li><a href="{{ course_path('portfolio_user', { 'userid': '0', 'user': '0' }) }}">View Portfolio</a></li>
+             {% if role == 2 %}
+             <li><a href="{{ course_path('port_status_toggle') }}">Portfolio editing: {% if portStatus == 'true' %}Open{% else %}Closed{% endif %}</a></li>
+             {% endif %}
              
             <li class="dropdown">
                 <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">Roll<b class="caret"></b></a>
