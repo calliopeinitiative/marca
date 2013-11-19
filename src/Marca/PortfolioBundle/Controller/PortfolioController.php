@@ -322,10 +322,10 @@ class PortfolioController extends Controller
         $em = $this->getEm();
         $course = $this->getCourse();
         if ($course->getPortStatus()=='true') {
-            $course->setPortStatus('false');
+            $course->setPortStatus(false);
         }
         else {
-            $course->setPortStatus('true');
+            $course->setPortStatus(true);
         }
         $em->persist($course);
         $em->flush();
