@@ -6,12 +6,12 @@
     <div class="col-sm-9 center">
 
         <div class="col-sm-12" style="text-align:center;">
-            <div class="btn-group">
+
                 {% if ldap_auth!='yes' %}
-                    <a class="btn btn-default" title="Get an Account" href="{{ path('fos_user_registration_register') }}" >Get an Account</a>
+                    <a class="btn btn-primary btn-lg" title="Get an Account" href="{{ path('fos_user_registration_register') }}" >Get an Account</a>
                 {% endif %}
-                <a class="btn btn-primary" title="Get an Account" href="{{ path('fos_user_security_login') }}" >Login</a>
-            </div>
+                <a class="btn btn-primary btn-lg" title="Get an Account" href="{{ path('fos_user_security_login') }}" >Login</a>
+
         </div>
 
 

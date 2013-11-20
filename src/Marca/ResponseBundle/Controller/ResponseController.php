@@ -227,7 +227,7 @@ class ResponseController extends Controller
             $em->persist($response);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('doc_show', array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));
+            return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));
             }
 
             return array(
@@ -270,11 +270,11 @@ class ResponseController extends Controller
         }
         if ($source == 'journal_user')
         {
-        return $this->redirect($this->generateUrl('journal_user', array('courseid' => $courseid, 'page' => $page,'userid'=>$userid, 'user'=>$user)));
+        return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'page' => $page,'userid'=>$userid, 'user'=>$user)));
         }
         else
         {
-        return $this->redirect($this->generateUrl('doc_show', array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));    
+        return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));
         }
     }
 

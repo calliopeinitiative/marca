@@ -10,7 +10,9 @@
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
 {% endblock %}
 
+{% block body %}
 
-{% block sidebar %}
-       <h1>Response</h1>
-{% endblock %}  
+    {% block content %}
+    {% endblock %}
+
+{% endblock %}
