@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\PortfolioBundle\Entity\Portfolio;
 use Marca\PortfolioBundle\Form\PortfolioType;
 use Marca\PortfolioBundle\Entity\Portfolioset;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Portfolio controller.
@@ -30,7 +31,9 @@ class PortfolioController extends Controller
 
         $em = $this->getEm();
         $user = $this->getUser();
+        $role = $this->getCourseRole();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $portStatus = $course->getPortStatus();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $portset = $course->getPortset();
         
@@ -50,7 +53,7 @@ class PortfolioController extends Controller
         
         $assessmentset_id = $course->getAssessmentset()->getId();
         $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->find($assessmentset_id);
-        return array('portfolioset' =>$portfolioset, 'portset' => $portset, 'roll'=> $roll, 'assessmentset'=> $assessmentset);
+        return array('portfolioset' =>$portfolioset, 'portset' => $portset, 'roll'=> $roll, 'assessmentset'=> $assessmentset,'portStatus'=> $portStatus, 'role'=> $role);
     }
     
     
@@ -72,8 +75,10 @@ class PortfolioController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $role = $this->getCourseRole();
+
         $resource = 'false';
         $course = $this->getCourse();
+        $portStatus = $course->getPortStatus();
 
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesForPort($project, $user, $course);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
@@ -85,7 +90,7 @@ class PortfolioController extends Controller
         $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),15);
         $count = $files->getTotalItemCount();
 
-        return array('files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project, 'course' => $course, 'roll' => $roll, 'role'=> $role);
+        return array('files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project, 'course' => $course, 'roll' => $roll, 'portStatus'=> $portStatus, 'role'=> $role);
     }   
     
     /**
@@ -104,7 +109,9 @@ class PortfolioController extends Controller
             
         return array('portfolio' =>$portfolio,'delete_form' => $deleteForm->createView(),);
     }    
-    
+
+
+
     /**
      * Finds and displays a Portfolio entity.
      *
@@ -124,7 +131,6 @@ class PortfolioController extends Controller
         
         $course = $this->getCourse();
         $role = $this->getCourseRole();
-        $rater = $this->getUser();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         
         //find default portfolio
@@ -196,8 +202,15 @@ class PortfolioController extends Controller
         
         $em = $this->getEm();
         $options = array('courseid' => $courseid);
+        $course = $this->getCourse();
+        $portStatus = $course->getPortStatus();
+        $role = $this->getCourseRole();
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+
+        if($portStatus!='true'){
+            throw new AccessDeniedException();
+        }
 
         if (!$portfolio) {
             throw $this->createNotFoundException('Unable to find Portfolio entity.');
@@ -208,9 +221,12 @@ class PortfolioController extends Controller
 
         return array(
             'portfolio'      => $portfolio,
+            'portStatus'      => $portStatus,
             'roll'=>$roll,
+            'role' => $role,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+
         );
     }
 
@@ -293,4 +309,29 @@ class PortfolioController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * Finds and displays a Portfolio entity for remove confirm.
+     *
+     * @Route("/{courseid}/toggle_status", name="port_status_toggle")
+     */
+    public function toggleStatusAction($courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+        $em = $this->getEm();
+        $course = $this->getCourse();
+        if ($course->getPortStatus()=='true') {
+            $course->setPortStatus(false);
+        }
+        else {
+            $course->setPortStatus(true);
+        }
+        $em->persist($course);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('portfolio', array('courseid' => $courseid)));
+    }
+
+
 }

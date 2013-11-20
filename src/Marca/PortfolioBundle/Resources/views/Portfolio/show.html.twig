@@ -23,6 +23,7 @@
 {% endblock %}
 
 {% block content %}
+
     <div class="col-sm-12">
         {# Port nav #}
         <nav class="navbar  navbar-inverse navbar-fixed-top" role="navigation">
@@ -85,7 +86,13 @@
             {# Port files #}
             <div class="list-group">
                 {% for portfolio in portfolio %}
-                    {% if not portfolio.file.doc %}
+                    {% if portfolio.file.url %}
+                        <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ portfolio.file.url}}" target="_blank">
+                            <strong>{{portfolio.portitem.name}}:</strong>
+                            <span class="label label-file pull-right" data-toggle="tooltip" title="This a Link ">link</span>
+                            {{ portfolio.file.name }}
+                        </a>
+                    {% elseif not portfolio.file.doc %}
                         <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="Download {{ portfolio.file.name }}" >
                             <strong>{{portfolio.portitem.name}}:</strong>
                             <span class="label label-file pull-right" data-toggle="tooltip" title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }} </span>
@@ -101,6 +108,7 @@
                     {% endif %}
                 {% endfor %}
             </div>
+
 
 
             {# hide ratings is there is no portfolio #}
@@ -165,6 +173,7 @@
                         </div>
                     {% endif %}
                 {% endif %}
+
             {% endif %}
         </div>
 
