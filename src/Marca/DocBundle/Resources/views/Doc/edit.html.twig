@@ -27,11 +27,8 @@
                 });
             });
             editor.on('instanceReady', function(){ editor.resize('72%',editorheight);});
-            {% if not file.reviewed %}
-            $('#doc-edit').toggleClass('col-sm-12');$('#doctools').toggleClass('hide');
-            {% endif %}
             $('#toggle-tools').click(function(){
-            $('#doc-edit').toggleClass('col-sm-12 center');$('#doctools').toggleClass('hide');
+            $('#doctools').toggleClass('hide');$('#doc-edit').toggleClass('col-sm-12');
             });
         });
     </script>
@@ -64,7 +61,7 @@
             </nav>
 
                 <div class="col-sm-11 center">
-                <div id='doc-edit' class="col-sm-8 center">
+                <div id='doc-edit' class="col-sm-8">
                     {{ form_errors(edit_form) }}
                     {{ form_errors(edit_form.body) }}
                     {{ form_widget(edit_form.body) }}
