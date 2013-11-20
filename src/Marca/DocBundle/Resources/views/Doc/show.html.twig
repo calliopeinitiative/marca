@@ -87,7 +87,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a name="top"></a>
-            <h2 style="margin-top:11px;"><a href="#" style="color:white;" title="{{file.name}}">{{file.name}}</a></h2>
+            <h2 style="margin-top:11px;color:white;">{{file.name}}</h2>
         </div>
 
         <div class="navbar-collapse collapse">
@@ -214,25 +214,30 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h2 class="panel-title">
+
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
                         Feedback
                     </a>
                 </h2>
+                <a class="btn btn-primary btn-xs pull-right" href="{{ course_path('response_new', { 'sourceid': file.id, 'source': 'doc_show' ,'view': app.request.get('view'),'userid': file.user.id }) }}">Offer Feedback</a>
+
             </div>
             <div id="collapseThree" class="panel-collapse collapse">
                 <div class="panel-body">
                     {# Responses #}
-                    <div class="">
-                        <a class="btn btn-default " href="{{ course_path('response_new', { 'sourceid': file.id, 'source': 'doc_show' ,'view': app.request.get('view'),'userid': file.user.id }) }}">Offer Feedback</a>
-                    </div>
+
                     {% for response in file.responses %}
-                        <div class="well-header" >{{ response.user.firstname}} {{ response.user.lastname}} says:
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">{{ response.user.firstname}} {{ response.user.lastname}} says:</h2>
+
                             {% if response.isOwner(app.user.username) %}
                                 <a class="btn btn-default btn-xs pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': file.id, 'source': 'doc_show','view': app.request.get('view'),'userid': file.user.id  }) }}">Edit</a>
                             {% endif %}
                         </div>
-                        <div class="pad">
+                        <div class="panel-body">
                             {{ response.body|raw }}
+                        </div>
                         </div>
 
                     {% else %}

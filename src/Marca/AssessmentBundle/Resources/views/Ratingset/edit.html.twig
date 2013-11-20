@@ -34,7 +34,8 @@
                     {% for rating in edit_form.ratings %}
                         <p><strong>{{ ratingset.ratings[loop.index-1].objective.objective|raw }}</strong></p>
                         <p>{{ ratingset.ratings[loop.index-1].objective.description|raw }}</p>
-                        {{ form_row(rating.scaleitem) }}</li>
+                        {{ form_row(rating.scaleitem) }}
+                        <hr/>
                     {% endfor %}
                     {{ form_rest(edit_form) }}
                 </div>
