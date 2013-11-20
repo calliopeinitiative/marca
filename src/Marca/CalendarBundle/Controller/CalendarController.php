@@ -282,7 +282,7 @@ class CalendarController extends Controller
         $postData = $request->request->get('marca_calendarbundle_calendartype');
         $startDate = strtotime($postData['startDate']);
         $gotodate = date("Y-m-d", $startDate);
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($calendar);

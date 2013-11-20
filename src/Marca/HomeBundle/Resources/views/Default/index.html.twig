@@ -7,7 +7,7 @@
     <div class="col-sm-12" style="text-align:center;">
         <div class="btn-group">
             {% if ldap_auth!='yes' %}
-                <a class="btn btn-default" title="Get an Account" href="{{ path('fos_user_registration_register') }}" >Get an Account</a>
+                <a class="btn btn-primary" title="Get an Account" href="{{ path('fos_user_registration_register') }}" >Get an Account</a>
             {% endif %}
             <a class="btn btn-primary" title="Get an Account" href="{{ path('fos_user_security_login') }}" >Login</a>
         </div>
@@ -18,7 +18,7 @@
 
         <div class="col-sm-9 center">
             <div style="text-align:center;">
-                <img src="{{ asset('bundles/marcahome/img/emma-hero.png') }}" alt="{{ application_name }}" style="width:100%;" />
+                <h1 style="font-size: 100px;">{{ application_name }}</h1>
             </div>
             <div class="col-sm-4 col-xs-12">
                 <div class="panel panel-default">

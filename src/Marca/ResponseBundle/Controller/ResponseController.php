@@ -196,7 +196,7 @@ class ResponseController extends Controller
              $editForm   = $this->createForm(new ResponseType(), $response);
              $deleteForm = $this->createDeleteForm($id);
              $request = $this->getRequest();
-             $editForm->bindRequest($request);
+             $editForm->bind($request);
 
             if ($editForm->isValid()) {
             $em->persist($response);
@@ -221,7 +221,7 @@ class ResponseController extends Controller
              $editForm   = $this->createForm(new ResponseType(), $response);
              $deleteForm = $this->createDeleteForm($id);
              $request = $this->getRequest();
-             $editForm->bindRequest($request);
+             $editForm->bind($request);
 
             if ($editForm->isValid()) {
             $em->persist($response);
