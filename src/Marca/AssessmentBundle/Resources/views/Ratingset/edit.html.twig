@@ -21,7 +21,7 @@
         <h3>{{ assessmentset.name }}</h3>
         <ul class="">
         {% for rating in edit_form.ratings %}
-                <li><strong>{{ ratingset.ratings[loop.index-1].objective.objective|raw }}</strong><br/>
+                <li class="pad"><strong>{{ ratingset.ratings[loop.index-1].objective.objective|raw }}</strong>
                 {{ ratingset.ratings[loop.index-1].objective.description|raw }}
                 {{ form_row(rating.scaleitem) }}</li>
         {% endfor %}
