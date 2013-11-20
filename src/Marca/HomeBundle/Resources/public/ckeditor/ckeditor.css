@@ -7,7 +7,7 @@ body
 {
     /* Font */
     font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 18px;
+    font-size: 14px;
 
     /* Text color */
     color: #333;
@@ -20,8 +20,8 @@ body
 
 .cke_editable
 {
-    font-size: 18px;
-    line-height: 1.4em;
+    -    font-size: 13px;
+    -    line-height: 1.6em;
 }
 
 blockquote
@@ -103,7 +103,7 @@ pre
 }
 
 
-p {margin-bottom: 1.4em;}
+p {margin-bottom: 0px;}
 .eDoc_note {color:blue;background:white; border:#e3e3e3 1px solid;border-radius: 0px 4px 4px 0px;margin-left:-1px;margin-right: 4px;padding:2px 2px 2px 6px;}
 .eDoc_highlight {background:#FFFFD3;padding:2px 2px 2px 6px;border:#e3e3e3 1px solid;border-radius: 4px 0px 0px 4px;}
 .eDoc_error {background:#bcd85f;padding:1px;}

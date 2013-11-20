@@ -938,8 +938,8 @@ td > ul.nav {height:20px;margin-top: -10px;}
 }
 
 .doc-body p {
-    font-size: 18px;
-    margin-bottom:1.4em;
+    font-size: 14px;
+    margin-bottom: 0px;
 }
 
 #doctools {
