@@ -79,6 +79,7 @@
 <div class="col-sm-12 center">
 {# Doc nav #}
     <nav class="navbar  navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="col-sm-11 center">
         <div class="navbar-header col-sm-6">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
@@ -86,7 +87,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a name="top"></a>
-            <a class="navbar-brand" href="#" title="{{file.name}}">{{file.name}}</a>
+            <h2 style="margin-top:11px;"><a href="#" style="color:white;" title="{{file.name}}">{{file.name}}</a></h2>
         </div>
 
         <div class="navbar-collapse collapse">
@@ -140,11 +141,12 @@
 
             </ul>
         </div>
+        </div>
     </nav>
 
 
 {# Doc display #}
-
+<div class="col-sm-11 center">
     {% if app.request.get('_route') == 'file_viewer' %}
     <iframe class="col-sm-8" id="viewer" src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_view', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}" allowfullscreen="true"></iframe>
         {% else %}
@@ -261,6 +263,8 @@
         </div>
     {% endfor %}
 {% endif %}
+
+</div>
     {# Modal #}
     <div class="modal fade" id="file_modal" role="dialog" >
 

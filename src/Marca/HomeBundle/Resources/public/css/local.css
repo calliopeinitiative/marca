@@ -938,8 +938,8 @@ td > ul.nav {height:20px;margin-top: -10px;}
 }
 
 .doc-body p {
-    font-size: 14px;
-    margin-bottom:27px;
+    font-size: 16px;
+    margin-bottom:1.4em;
 }
 
 #doctools {
@@ -962,6 +962,10 @@ td > ul.nav {height:20px;margin-top: -10px;}
 
 .cke {
     margin-bottom:20px !important;
+}
+
+#doc-edit .cke {
+    margin-bottom:0 !important;
 }
 
 /********** End 06. Marca tools *****/

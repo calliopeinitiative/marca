@@ -31,7 +31,7 @@
             $('#doc-edit').toggleClass('col-sm-12');$('#doctools').toggleClass('hide');
             {% endif %}
             $('#toggle-tools').click(function(){
-                $('#doc-edit').toggleClass('col-sm-12');$('#doctools').toggleClass('hide');
+            $('#doc-edit').toggleClass('col-sm-12 center');$('#doctools').toggleClass('hide');
             });
         });
     </script>
@@ -50,7 +50,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a name="top"></a>
-                    <a class="navbar-brand" href="#" title="{{file.name}}">{{file.name}}</a>
+                    <h2 style="margin-top:11px;"><a href="#" style="color:white;" title="{{file.name}}">{{file.name}}</a></h2>
                 </div>
 
                 <div class="navbar-collapse collapse">
@@ -63,8 +63,8 @@
                 </div>
             </nav>
 
-
-                <div id='doc-edit' class="col-sm-8">
+                <div class="col-sm-11 center">
+                <div id='doc-edit' class="col-sm-8 center">
                     {{ form_errors(edit_form) }}
                     {{ form_errors(edit_form.body) }}
                     {{ form_widget(edit_form.body) }}
@@ -76,6 +76,7 @@
 
                     {%include 'MarcaDocBundle:Doc:doctools.html.twig' %}
 
+                </div>
                 </div>
         </form>
     </div>
