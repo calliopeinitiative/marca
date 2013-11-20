@@ -7,7 +7,7 @@ body
 {
     /* Font */
     font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 16px;
+    font-size: 18px;
 
     /* Text color */
     color: #333;
@@ -20,7 +20,7 @@ body
 
 .cke_editable
 {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.4em;
 }
 
