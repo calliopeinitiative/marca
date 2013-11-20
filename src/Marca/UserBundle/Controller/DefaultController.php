@@ -123,7 +123,9 @@ class DefaultController extends Controller
         $em = $this->getEm();
 
         $user = $this->getUser();
+        if ($user->getResearch() == 0) {
         $user->setResearch(1);
+        }
 
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User entity.');

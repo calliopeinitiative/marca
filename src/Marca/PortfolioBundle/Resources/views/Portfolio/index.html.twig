@@ -33,17 +33,18 @@ $('#port_{{portfolio.id}}').click(function(){
                                 {% for portfolio in portfolioset.portfolioitems if portfolio.portitem.name==portitem.name %}
                                     <li>
                                         {% if portfolio.file.doc %}<i class="icon-edit"></i>
-                                            <a href="{{ course_path('doc_show', { 'id': portfolio.file.doc.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a>
+                                            <a href="{{ course_path('doc_show', { 'id': portfolio.file.id, 'view':'window' }) }}" target="_blank">{{ portfolio.file.name }}</a>
                                         {% elseif portfolio.file.url %}<i class="icon-adjust"></i> <a href="{{ portfolio.file.url}}" target="_blank">{{ portfolio.file.name }}</a>
                                         {% else %}
                                             <i class="icon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
                                         {% endif %}
                                         {% if portStatus == 'true' %}
-                                            <span class="btn-group btn-group-xs pull-right">
-                                    <a class="btn btn-primary btn-xs" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Change</a>
-                                    <a class="btn btn-default btn-xs" id='port_{{portfolio.id}}' href="javascript:void(0);" title='Remove from portfolio'>Remove</a>
-                                </span>
+                                            <div class="btn-group btn-group-xs pull-right">
+                                                <a class="btn btn-primary btn-xs" href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Change</a>
+                                                <a class="btn btn-default btn-xs" id='port_{{portfolio.id}}' href="javascript:void(0);" title='Remove from portfolio'>Remove</a>
+                                            </div>
                                         {% endif %}
+
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -53,6 +54,8 @@ $('#port_{{portfolio.id}}').click(function(){
             </div>
         </div>
     </div>
+
+
 
 
 {# Modal #}

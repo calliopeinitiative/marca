@@ -16,7 +16,6 @@ framework:
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     session: ~
     default_locale: %locale%
-    trust_proxy_headers: false
     trusted_proxies: ~
 
 # Twig Configuration
@@ -94,7 +93,7 @@ swiftmailer:
     spool: { type: memory }
 
 fr3d_ldap:
-    client:
+    driver:
         host:                %ldap_host%
         port:                %ldap_port%
 #       username:            foo    # Optional

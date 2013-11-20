@@ -4,16 +4,18 @@
 
 {% block content %}
 
-    {% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="col-sm-11 alert alert-info">
-            {{ flashMessage }}
-        </div>
-    {% endfor %}
+
     <div class="col-sm-6 center">
     <div class="panel panel-default">
 
         <div class="panel-body">
                 <div style="text-align:center;">
+                    {% for flashMessage in app.session.flashbag.get('notice') %}
+                        <div class="col-sm-12 alert alert-info">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+
                     <h2 class="margin-top-small" style="text-align:center;margin-bottom:15px;">{{ user.firstname }} {{ user.lastname }}  </h2>
                         <img class="img-circle" style="width:50%;" src="{{ user.photo }}" alt="{{ user.firstname }} {{ user.lastname }}">
             <h5><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></h5

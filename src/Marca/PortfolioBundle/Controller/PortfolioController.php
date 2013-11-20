@@ -132,6 +132,7 @@ class PortfolioController extends Controller
         $course = $this->getCourse();
         $role = $this->getCourseRole();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
         
         //find default portfolio
         $portfoliosets = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
@@ -151,7 +152,7 @@ class PortfolioController extends Controller
         }
         else {$portfolio = '';$portfolio_docs = ''; $portfoliosetid = '0';$ratingset = '';}
         
-        return array('portfoliosetid' => $portfoliosetid,'portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll,'assessmentset'=> $assessmentset, 'ratingset' => $ratingset,'userid'=>$userid, 'role' => $role);
+        return array('portfoliosetid' => $portfoliosetid,'portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll,'assessmentset'=> $assessmentset, 'ratingset' => $ratingset,'userid'=>$userid, 'role' => $role, 'markup' => $markup);
     }    
 
     /**

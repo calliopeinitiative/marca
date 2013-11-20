@@ -13,7 +13,27 @@
         $('#doctools').css('height', function(index) {
             return $(window).height() * .88;
         });
+        $('.eDoc_highlight').each(function(index) {
+            var span_number = index + 1;
+            var span_append = '<span class="hide eDoc_super">' + span_number + '</span>';
+            $(this).append(span_append);
+        });
 
+        $('[title]').each( function() {
+            var $this = $(this);
+            $this.data('title',$this.attr('title'));
+            $this.removeAttr('title');
+        });
+
+        $('.markup').mouseover(function (){
+            var id = "div[data-id='" + $(this).attr('data-id') + "']";
+            var offset = $(this).offset();
+            $('.popover').hide();$(id).show().offset({ top: offset.top -30, left: offset.left + 80});
+        });
+
+        $('.popover-close, #doc-display').click(function(){
+            $('.popover').hide();
+        });
         {% if not app.request.get('page') %}$('#port_file_1').addClass('active');{% endif %}
         {% for portfolio in portfolio %}
         {% if app.request.get('page')==loop.index %}$('#port_file_{{loop.index}}').addClass('active');{% endif %}
@@ -59,125 +79,139 @@
             </div>
         </nav>
 
-
-        {# Doc display #}
-        <div id='doc-display' class="col-sm-8 well">
-            <div class="doc-body">
-                {% for portfolio_doc in portfolio_docs %}
-                    {% if portfolio_doc.file.doc %}
-                        {{ portfolio_doc.file.doc.body|raw }}
-                    {% elseif portfolio_doc.file.url %}
-                        Please click link to to view.
-                        <i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+        <div class="col-sm-11 center">
+            {# Doc display #}
+            <div id='doc-display' class="col-sm-8 well">
+                <div class="doc-body">
+                    {% for portfolio_doc in portfolio_docs %}
+                        {% if portfolio_doc.file.doc %}
+                            {{ portfolio_doc.file.doc.body|raw }}
+                        {% elseif portfolio_doc.file.url %}
+                            Please click link to to view.
+                            <i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+                        {% else %}
+                            Please download this file to view.
+                            <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+                        {% endif %}
                     {% else %}
-                        Please download this file to view.
-                        <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
-                    {% endif %}
-                {% else %}
-                    There are no files in this portfolio.
-                {% endfor %}
-            </div>
-        </div>
-
-
-        {# Doc tools #}
-        <div id='doctools' class="col-sm-4">
-
-            {# Port files #}
-            <div class="list-group">
-                {% for portfolio in portfolio %}
-                    {% if portfolio.file.url %}
-                        <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ portfolio.file.url}}" target="_blank">
-                            <strong>{{portfolio.portitem.name}}:</strong>
-                            <span class="label label-file pull-right" data-toggle="tooltip" title="This a Link ">link</span>
-                            {{ portfolio.file.name }}
-                        </a>
-                    {% elseif not portfolio.file.doc %}
-                        <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="Download {{ portfolio.file.name }}" >
-                            <strong>{{portfolio.portitem.name}}:</strong>
-                            <span class="label label-file pull-right" data-toggle="tooltip" title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }} </span>
-                            {{ portfolio.file.name }}
-                            <i class="icon-download"></i>
-                        </a>
-                    {% else %}
-                        <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('portfolio_user', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}">
-                            <strong>{{portfolio.portitem.name}}:</strong>
-                            <span class="label label-file pull-right" data-toggle="tooltip" title="This an html file ">html</span>
-                            {{ portfolio.file.name }}
-                        </a>
-                    {% endif %}
-                {% endfor %}
+                        There are no files in this portfolio.
+                    {% endfor %}
+                </div>
             </div>
 
+            {# Doc tools #}
+            <div id='doctools' class="col-sm-4">
 
+                {# Port files #}
+                <div class="list-group">
+                    {% for portfolio in portfolio %}
+                        {% if portfolio.file.url %}
+                            <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ portfolio.file.url}}" target="_blank">
+                                <strong>{{portfolio.portitem.name}}:</strong>
+                                <span class="label label-file pull-right" data-toggle="tooltip" title="This a Link ">link</span>
+                                {{ portfolio.file.name }}
+                            </a>
+                        {% elseif not portfolio.file.doc %}
+                            <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="Download {{ portfolio.file.name }}" >
+                                <strong>{{portfolio.portitem.name}}:</strong>
+                                <span class="label label-file pull-right" data-toggle="tooltip" title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }} </span>
+                                {{ portfolio.file.name }}
+                                <i class="icon-download"></i>
+                            </a>
+                        {% else %}
+                            <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('portfolio_user', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}">
+                                <strong>{{portfolio.portitem.name}}:</strong>
+                                <span class="label label-file pull-right" data-toggle="tooltip" title="This an html file ">html</span>
+                                {{ portfolio.file.name }}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
 
-            {# hide ratings is there is no portfolio #}
-            {% if portfoliosetid != 0 %}
-                {% if userid == app.user.id or role == 2 or role == 4 %}
-                    {% for ratingset in ratingset %}
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Rating by {{ ratingset.rater.firstname }}  {{ ratingset.rater.lastname }}</h3>
-                                {% if ratingset.isOwner(app.user.username) %}
-                                    <a class="btn btn-primary btn-xs pull-right" href="{{ course_path('ratingset_edit', {'id':ratingset.id, 'userid':app.request.get('userid'), 'user':app.request.get('user')}) }}">Edit Rating</a>
-                                {% endif %}
+                {# hide ratings is there is no portfolio #}
+                {% if portfoliosetid != 0 %}
+                    {% if userid == app.user.id or role == 2 or role == 4 %}
+                        {% for ratingset in ratingset %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Rating by {{ ratingset.rater.firstname }}  {{ ratingset.rater.lastname }}</h3>
+                                    {% if ratingset.isOwner(app.user.username) %}
+                                        <a class="btn btn-primary btn-xs pull-right" href="{{ course_path('ratingset_edit', {'id':ratingset.id, 'userid':app.request.get('userid'), 'user':app.request.get('user')}) }}">Edit Rating</a>
+                                    {% endif %}
+                                </div>
+                                <div class="panel-body">
+                                    {% for rating in ratingset.ratings %}
+                                        <div class='hide'><strong class='margin-top'>{{ rating.objective.objective|raw }}</strong>
+                                            {{ rating.scaleitem.name }}</div>
+                                    {% endfor %}
+
+                                    <p>Notes for Student:</p>
+                                    {{ ratingset.notesforstudent }}
+
+                                    {% if role == 2 or role == 4 %}
+                                        <p>Notes for Reviewer:</p>
+                                        {{ ratingset.notesforreviewer }}
+                                        <p>Grade:</p>
+                                        {{ ratingset.grade }}
+                                    {% endif %}
+                                </div>
+                                <div class="panel-footer">
+                                    <span class="text-muted">{% if role == 2 or role == 4 %}Notes for reviewer and grades are not seen by students.{% endif %}</span>
+                                </div>
                             </div>
-                            <div class="panel-body">
-                                {% for rating in ratingset.ratings %}
-                                    <div class='hide'><strong class='margin-top'>{{ rating.objective.objective|raw }}</strong>
-                                        {{ rating.scaleitem.name }}</div>
-                                {% endfor %}
 
-                                <p>Notes for Student:</p>
-                                {{ ratingset.notesforstudent }}
+                        {% endfor %}
 
-                                {% if role == 2 or role == 4 %}
-                                    <p>Notes for Reviewer:</p>
-                                    {{ ratingset.notesforreviewer }}
-                                    <p>Grade:</p>
-                                    {{ ratingset.grade }}
-                                {% endif %}
-                            </div>
-                            <div class="panel-footer">
-                                <span class="text-muted">{% if role == 2 or role == 4 %}Notes for reviewer and grades are not seen by students.{% endif %}</span>
-                            </div>
-                        </div>
-
+                        {% for ratingset in ratingset if ratingset.isOwner(app.user.username) %}
+                    {% else %}
+                        {% if role == 2 or role == 4 %}
+                            <hr/>
+                            <a class="btn btn-primary margin-top btn-sm" href="{{ course_path('ratingset_new', {'portfoliosetid':portfoliosetid,'userid':userid,'user':app.request.get('user')}) }}">New Rating</a>
+                        {% endif %}
                     {% endfor %}
 
-                    {% for ratingset in ratingset if ratingset.isOwner(app.user.username) %}
-                {% else %}
-                    {% if role == 2 or role == 4 %}
-                        <hr/>
-                        <a class="btn btn-primary margin-top btn-sm" href="{{ course_path('ratingset_new', {'portfoliosetid':portfoliosetid,'userid':userid,'user':app.request.get('user')}) }}">New Rating</a>
-                    {% endif %}
-                {% endfor %}
 
-
-                    {% if (role == 2 or role == 4) and ratingset|length > 1 %}
-                        {% set sumratings = 0 %}
-                        {% set countratings = ratingset|length %}
-                        {% for ratingset in ratingset %}
-                            {% set sumratings = sumratings + ratingset.grade %}
-                        {% endfor %}
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"></h3>
+                        {% if (role == 2 or role == 4) and ratingset|length > 1 %}
+                            {% set sumratings = 0 %}
+                            {% set countratings = ratingset|length %}
+                            {% for ratingset in ratingset %}
+                                {% set sumratings = sumratings + ratingset.grade %}
+                            {% endfor %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"></h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p>Average Grade: {{  sumratings / countratings }}</p>
+                                </div>
+                                <div class="panel-footer">
+                                    <span class="text-muted">Grades are not seen by students.</span>
+                                </div>
                             </div>
-                            <div class="panel-body">
-                                <p>Average Grade: {{  sumratings / countratings }}</p>
-                            </div>
-                            <div class="panel-footer">
-                                <span class="text-muted">Grades are not seen by students.</span>
-                            </div>
-                        </div>
+                        {% endif %}
                     {% endif %}
+
                 {% endif %}
-
-            {% endif %}
+            </div>
         </div>
 
+        {% if app.request.get('_route') != 'file_viewer' %}
+            {# Markup #}
+            {% for markup in markup %}
+                <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover left'>
+                    <button type="button" class="close popover-close" data-dismiss="popover" aria-hidden="true">&times;</button>
+                    <h3 class="popover-title">
+                        <span class="pull-left color-flag" style="background: {{markup.color}};">&#183;</span>
+                        {{ markup.name }}</h3>
+                    <div class="popover-content">
+                        {{ markup.mouseover|raw }}
+                        {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
 
+    </div>
 
     </div>
 {% endblock %}
