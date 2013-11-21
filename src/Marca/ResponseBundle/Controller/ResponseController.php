@@ -99,6 +99,7 @@ class ResponseController extends Controller
         {
             $file = $em->getRepository('MarcaFileBundle:File')->find($sourceid);
             $response->setFile($file);
+            $journal = '';
             $request = $this->getRequest();
             $form    = $this->createForm(new ResponseType(), $response);
             $form->bind($request);
@@ -119,6 +120,7 @@ class ResponseController extends Controller
 
             return array(
             'response' => $response,
+            'journal' => $journal,
             'source' => $source,
             'sourceid' => $sourceid,
             'form'   => $form->createView()
