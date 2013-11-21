@@ -36,6 +36,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
             $userInstr->setInstitution(
               $this->getReference('institution')
             );
+            $userInstr->addRole('ROLE_INSTR');
 
             $manager->persist($userInstr);
             $manager->flush();

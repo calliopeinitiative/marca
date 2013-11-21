@@ -5,10 +5,7 @@ namespace Marca\CourseBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Marca\CourseBundle\Entity\Course;
-use Marca\CourseBundle\Entity\Roll;
-use Marca\CourseBundle\Entity\Project;
-
+use Marca\CourseBundle\Entity\Course; use Marca\CourseBundle\Entity\Roll; use Marca\CourseBundle\Entity\Project; 
 
 /*
  * By default, assigns courses to the test instructors created in the user fixture
@@ -39,6 +36,21 @@ class LoadCourseData extends AbstractFixture implements OrderedFixtureInterface
             $course->setTerm(
                 $manager->merge($this->getReference('term'))
             );
+            $course->setAssessmentset(
+                $manager->merge($this->getReference('assessmentset'))
+            );
+            $course->addMarkupset(
+                $this->getReference('markupset2')
+            );
+            $course->addMarkupset(
+                $this->getReference('markupset3')
+            );
+            $course->addMarkupset(
+                $this->getReference('markupset4')
+            );
+            $course->setPortset(
+                $this->getReference('portset')
+            );
 
             $roll = new Roll();
             $roll->setRole(Roll::ROLE_INSTRUCTOR);
@@ -67,6 +79,9 @@ class LoadCourseData extends AbstractFixture implements OrderedFixtureInterface
             $project4->setCourse($course);
 
             $course->setProjectDefault($project1);
+            $course->addTagset(
+                $manager->merge($this->getReference('tagset'))
+            );
 
             $manager->persist($course);
             $manager->persist($roll);
@@ -85,7 +100,21 @@ class LoadCourseData extends AbstractFixture implements OrderedFixtureInterface
             $time = new \DateTime('11 am');
             $course->setTime($time);
             $course->setStudentForum(True);
-
+            $course->setAssessmentset(
+                $manager->merge($this->getReference('assessmentset'))
+            );
+            $course->addMarkupset(
+                $this->getReference('markupset2')
+            );
+            $course->addMarkupset(
+                $this->getReference('markupset3')
+            );
+            $course->addMarkupset(
+                $this->getReference('markupset4')
+            );
+            $course->setPortset(
+                $this->getReference('portset')
+            );
 
             $roll = new Roll();
             $roll->setRole(Roll::ROLE_INSTRUCTOR);
@@ -131,7 +160,7 @@ class LoadCourseData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 3;
+        return 4;
     }
 }
 
