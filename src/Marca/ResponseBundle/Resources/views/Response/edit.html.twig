@@ -16,8 +16,9 @@
 {% endblock %}
 
 {% block content %}
+    <div class="col-sm-10 center">
 {% if journal %}
-<div class="col-sm-11 well">
+
 <div class="col-sm-8 center">
 <h2><span class="journal-title">{{ journal.title }}</span></h2>
 <span>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }}</span>
@@ -26,7 +27,7 @@
 {{ journal.body|raw }}
 </div>
 </div>
-</div> 
+
 {%endif %}
 
 
@@ -55,6 +56,8 @@
             </div>
         </div>
     </form>
+    </div>
+
 
     {# Modal for Delete confirmation #}
     <div id="delete_modal" class="modal fade">

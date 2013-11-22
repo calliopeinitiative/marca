@@ -100,6 +100,7 @@ class ResponseController extends Controller
             $journal = '';
             $file = $em->getRepository('MarcaFileBundle:File')->find($sourceid);
             $response->setFile($file);
+            $journal = '';
             $request = $this->getRequest();
             $form    = $this->createForm(new ResponseType(), $response);
             $form->bind($request);

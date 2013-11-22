@@ -148,7 +148,7 @@
 {# Doc display #}
 <div class="col-sm-11 center">
     {% if app.request.get('_route') == 'file_viewer' %}
-    <iframe class="col-sm-8" id="viewer" src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_view', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}" allowfullscreen="true"></iframe>
+    <iframe class="col-sm-8" id="viewer" src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_view', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}" allowfullscreen="true" webkitallowfullscreen="true"></iframe>
         {% else %}
         <div id='doc-display' class="col-sm-8 well">
             <div class="doc-body">
@@ -216,7 +216,7 @@
                 <h2 class="panel-title">
 
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                        Feedback
+                        Feedback ({{ file.responses|length }} responses)
                     </a>
                 </h2>
                 <a class="btn btn-primary btn-xs pull-right" href="{{ course_path('response_new', { 'sourceid': file.id, 'source': app.request.get('_route') ,'view': app.request.get('view'),'userid': file.user.id }) }}">Offer Feedback</a>

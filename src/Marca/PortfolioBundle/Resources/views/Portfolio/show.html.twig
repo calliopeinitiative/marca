@@ -111,12 +111,16 @@
                                 <span class="label label-file pull-right" data-toggle="tooltip" title="This a Link ">link</span>
                                 {{ portfolio.file.name }}
                             </a>
-                        {% elseif not portfolio.file.doc %}
-                            <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="Download {{ portfolio.file.name }}" >
+                        {% elseif portfolio.file.doc %}
+                            <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('portfolio_user', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}">
                                 <strong>{{portfolio.portitem.name}}:</strong>
-                                <span class="label label-file pull-right" data-toggle="tooltip" title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }} </span>
+                                <span class="label label-file pull-right" data-toggle="tooltip" title="This an html file ">html</span>
                                 {{ portfolio.file.name }}
-                                <i class="icon-download"></i>
+                            </a>
+                        {% elseif portfolio.file.ext == 'odt' or portfolio.file.ext == 'pdf' %}
+                            <a id="port_file_{{ loop.index }}" class="list-group-item" href="{{ course_path('portfolio_user', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}" title="View {{ portfolio.file.name }}" >{{ portfolio.file.name }}
+                            <strong>{{portfolio.portitem.name}}:</strong>
+                            <span class="label label-file pull-right" data-toggle="tooltip" title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }}</span>
                             </a>
                         {% else %}
                             <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ course_path('portfolio_user', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}">
