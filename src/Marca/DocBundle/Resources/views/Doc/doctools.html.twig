@@ -84,7 +84,7 @@
         <div class="panel-heading">
             <h4 class="panel-title">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                    Feedback
+                    Feedback ({{ file.responses|length }} response(s))
                 </a>
             </h4>
         </div>
@@ -92,14 +92,21 @@
             <div class="panel-body">
                 {# Responses #}
                 {% for response in file.responses %}
-                    <div>{{ response.user.firstname}} {{ response.user.lastname}} says:
-                    </div>
-                    <div>
-                        {{ response.body|raw }}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">{{ response.user.firstname}} {{ response.user.lastname}} says:</h2>
+
+                            {% if response.isOwner(app.user.username) %}
+                                <a class="btn btn-default btn-xs pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': file.id, 'source': app.request.get('_route'),'view': app.request.get('view'),'userid': file.user.id  }) }}">Edit</a>
+                            {% endif %}
+                        </div>
+                        <div class="panel-body">
+                            {{ response.body|raw }}
+                        </div>
                     </div>
 
                 {% else %}
-                    <div>No one has has offered feedback.</div>
+                    <div class="pad">No one has has offered feedback.</div>
                 {% endfor %}
             </div>
         </div>

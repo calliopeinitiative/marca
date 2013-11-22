@@ -662,9 +662,6 @@ tr.review > td:first-child  {
     width:50%;
 }
 
-tr.review > td:first-child > a:first-of-type {
-    margin-left: 35px;
-}
 
 td.labels {
     width:10%;
@@ -709,14 +706,11 @@ tr.file > td > a {
 
 
 tr.review > td > a {
-    padding-left:15px;
+    padding-left:30px;
     display:inline-block;
     font-size: 13px;
 }
 
-tr.review > td > div {
-    padding-left:15px;
-}
 
 #file_list thead tr {
     height:22px;

@@ -91,7 +91,7 @@
                             <i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
                         {% else %}
                             Please download this file to view.
-                            <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id }) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+                            <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id, 'view': 'window'}) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
                         {% endif %}
                     {% else %}
                         There are no files in this portfolio.
@@ -117,7 +117,7 @@
                                 <span class="label label-file pull-right" data-toggle="tooltip" title="This an html file ">html</span>
                                 {{ portfolio.file.name }}
                             </a>
-                        {% elseif portfolio.file.ext == 'odt' or portfolio.file.ext == 'pdf' %}
+                        {% elseif portfolio.file.ext == 'odt' or portfolio.file.ext == 'odp' or portfolio.file.ext == 'ods' or portfolio.file.ext == 'pdf' %}
                             <a id="port_file_{{ loop.index }}" class="list-group-item" href="{{ course_path('portfolio_user', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}" title="View {{ portfolio.file.name }}" >{{ portfolio.file.name }}
                             <strong>{{portfolio.portitem.name}}:</strong>
                             <span class="label label-file pull-right" data-toggle="tooltip" title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }}</span>

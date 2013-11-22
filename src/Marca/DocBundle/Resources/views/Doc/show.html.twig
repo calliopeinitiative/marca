@@ -93,7 +93,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav pull-right">
                 <li id="skip"><a href="#main_content">Skip Navigation</a></li>
-                {% if app.request.get('_route') != 'file_viewer' %}
+                {% if app.request.get('_route') != 'file_view' %}
                     {% if doc.isOwner(app.user.username) %}
                         <li>
                             <a title="Edit this document" class="" href="{{ course_path('doc_edit', { 'id': file.id,'view': app.request.get('view') }) }}">Edit</a>
@@ -147,8 +147,8 @@
 
 {# Doc display #}
 <div class="col-sm-11 center">
-    {% if app.request.get('_route') == 'file_viewer' %}
-    <iframe class="col-sm-8" id="viewer" src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_view', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}" allowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    {% if app.request.get('_route') == 'file_view' %}
+    <iframe class="col-sm-8" id="viewer" src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}" allowfullscreen="true" webkitallowfullscreen="true"></iframe>
         {% else %}
         <div id='doc-display' class="col-sm-8 well">
             <div class="doc-body">
@@ -193,7 +193,7 @@
                 </div>
             </div>
         </div>
-        {% if app.request.get('_route') != 'file_viewer' %}
+        {% if app.request.get('_route') != 'file_view' %}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h2 class="panel-title">
@@ -216,7 +216,7 @@
                 <h2 class="panel-title">
 
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                        Feedback ({{ file.responses|length }} responses)
+                        Feedback ({{ file.responses|length }} response(s))
                     </a>
                 </h2>
                 <a class="btn btn-primary btn-xs pull-right" href="{{ course_path('response_new', { 'sourceid': file.id, 'source': app.request.get('_route') ,'view': app.request.get('view'),'userid': file.user.id }) }}">Offer Feedback</a>
@@ -253,7 +253,7 @@
 
 
 {# end of Doc tools #}
-{% if app.request.get('_route') != 'file_viewer' %}
+{% if app.request.get('_route') != 'file_view' %}
     {# Markup #}
     {% for markup in markup %}
         <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover left'>

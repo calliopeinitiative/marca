@@ -48,9 +48,9 @@
                             {% elseif portfolio.file.url %}
                                 <span class="label label-file" data-toggle="tooltip" title="This a Link ">link</span>
                                 <a href="{{ portfolio.file.url}}" target="_blank">{{ portfolio.file.name }}</a>
-                            {% elseif portfolio.file.ext == 'odt' or portfolio.file.ext == 'pdf' %}
+                            {% elseif portfolio.file.ext == 'odt' or portfolio.file.ext == 'odp' or portfolio.file.ext == 'ods' or portfolio.file.ext == 'pdf' %}
                                 <span class="label label-file" data-toggle="tooltip" title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }}</span>
-                                <a class="file_name" href="{{ course_path('file_viewer', { 'id': portfolio.file.id, 'view': 'window' }) }}" title="View {{ portfolio.file.name }}" target="_blank">{{ portfolio.file.name }}</a>
+                                <a class="file_name" href="{{ course_path('file_view', { 'id': portfolio.file.id, 'view': 'window' }) }}" title="View {{ portfolio.file.name }}" target="_blank">{{ portfolio.file.name }}</a>
                             {% else %}
                                 <span class="label label-file" data-toggle="tooltip" title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }} </span>
                                 <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>

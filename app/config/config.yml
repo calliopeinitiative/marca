@@ -179,6 +179,13 @@ ivory_ck_editor:
             path:     "bundles/marcahome/ckeditor/plugins/maxheight/"
             filename: "plugin.js"
     configs:
+        editor_simple:
+            toolbar: "toolbar_simple"
+            removePlugins: "elementspath"
+            allowedContent: true
+            disableNativeSpellChecker: false
+            height: 300
+            contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
         editor_default:
             toolbar: "toolbar_default"
             extraPlugins: 'wordcount,mediaembed'
@@ -206,6 +213,7 @@ ivory_ck_editor:
             stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckeditor_styles.js'
     toolbars:
         configs:
+            toolbar_simple: [ ['Bold','Italic','Underline','Strike'],['Link','Unlink'],['NumberedList','BulletedList']]
             toolbar_default: [ ['Bold','Italic','Underline','Strike'],['JustifyLeft','JustifyCenter','JustifyRight'],['Link','Unlink'],['NumberedList','BulletedList'],['Image','MediaEmbed'],['PasteText', 'PasteFromWord'],[ 'Undo', 'Redo'],['RemoveFormat'] ]
             toolbar_docs: [ ['Styles','Bold','Italic','Underline','Strike'],['JustifyLeft','JustifyCenter','JustifyRight'],['Link','Unlink'],['NumberedList','BulletedList'],['Outdent','Indent'],['Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'] ]
             toolbar_page: [ ['Source','Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight'],['TextColor','BGColor'],['Link','Unlink'],['NumberedList','BulletedList'],['Outdent','Indent'],['Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'] ]

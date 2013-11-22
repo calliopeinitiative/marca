@@ -72,7 +72,7 @@
                                             <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="glyphicon glyphicon-download"></i></a>
                                         {% else %}
                                             <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
-                                            <a class="" href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
+                                            <a class="" href="{{ course_path('file_view', { 'id': file.id, 'view': 'window'}) }}" title="View {{ file.name }}" >{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
                                         {% endif %}
                                     </td>
 

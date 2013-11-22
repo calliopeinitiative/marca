@@ -604,10 +604,10 @@ class FileController extends Controller
     /**
      * Finds and displays a File.
      *
-     * @Route("/{courseid}/{id}/view/{filename}", name="file_view", defaults={"filename" = "name.ext"})
+     * @Route("/{courseid}/{id}/get/{filename}", name="file_get", defaults={"filename" = "name.ext"})
      * 
      */     
-    public function viewAction($id)
+    public function getAction($id)
 	{
              $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
              $this->restrictAccessTo($allowed);
@@ -621,7 +621,7 @@ class FileController extends Controller
              $filename = $name.'.'.$ext;
 		
 		$response = new Response();
-		
+
 		$response->setStatusCode(200);
                 switch ($ext) {
                       case "png":
@@ -630,63 +630,63 @@ class FileController extends Controller
                       break;
                       case "gif":
                       $response->headers->set('Content-Type', 'image/gif');
-                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');    
+                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
                       break;
                       case "jpeg":
                       $response->headers->set('Content-Type', 'image/jpeg');
-                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');     
+                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
                       break;
                       case "jpg":
                       $response->headers->set('Content-Type', 'image/jpeg');
-                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');     
+                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
                       break;
                       case "odt":
                       $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.text');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
                       break;
                       case "ods":
                       $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
                       break;
                       case "odp":
                       $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.presentation');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
                       break;
                       case "doc":
                       $response->headers->set('Content-Type', 'application/vnd.msword');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
                       break;
                       case "docx":
                       $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
-                      break;                  
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
+                      break;
                       case "ppt":
                       $response->headers->set('Content-Type', 'application/vnd.mspowerpoint');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
                       break;
                       case "pptx":
                       $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.presentationml.presentation');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
-                      break;                  
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
+                      break;
                       case "xls":
                       $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
-                      break;  
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
+                      break;
                       case "xlsx":
                       $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');     
-                      break;                   
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
+                      break;
                       case "pdf":
                       $response->headers->set('Content-Type', 'application/pdf');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');   
+                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
                       break;
                       default:
-                      $response->headers->set('Content-Type', 'application/octet-stream');    
+                      $response->headers->set('Content-Type', 'application/octet-stream');
                       }
 		$response->setContent( file_get_contents( $path));
-		
+
 		$response->send();
-		
+
 		return $response;
 	}
 
@@ -710,10 +710,10 @@ class FileController extends Controller
    /**
      * Finds and displays an ODF or PDF with Viewer.js
      *
-     * @Route("/{courseid}/{id}/{view}/view_file", name="file_viewer")
+     * @Route("/{courseid}/{id}/{view}/view_file", name="file_view")
      * @Template("MarcaDocBundle:Doc:show.html.twig")
      */
-    public function viewOdtAction($id)
+    public function viewAction($id)
     {
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
@@ -727,9 +727,9 @@ class FileController extends Controller
             'role'      => $role,
             'file'        => $file
              );
-          
 
-    } 
+
+    }
     
     
  
