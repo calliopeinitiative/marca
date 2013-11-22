@@ -88,37 +88,43 @@
             {# main list of files #}
             <tr class="file">
                 <td>
-                {% if file.doc %}
-                        <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
-                        <a class="file_name" href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'app' }) }}">
-                            {{ file.name }}</a>
-                        <a title="Open this file in a new tab." target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}">
-                            <i class="glyphicon glyphicon-share-alt"></i></a>
-                    {# links #}
-                {% elseif file.url %}
-                        <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
-                        <a class="file_name" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>{{ file.name }}</a>
-                    {# ODT files #}
-                {% elseif file.ext == 'odt' %}
-                        <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
-                        <a class="file_name" href="{{ course_path('file_view_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >{{ file.name }}</a>
-                        <a href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" ><i class="glyphicon glyphicon-download"></i></a>
-                {% else %}
-                        <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
-                        <a class="file_name" href="{{ course_path('file_view', { 'id': file.id}) }}" title="View {{ file.name }}" >{{ file.name }}</a>
-                {% endif %}
+                    {# different functions for different file types #}
+                    {# doc files #}
+                    {% if file.doc %}
+                        <a class="file_name" href="{{ course_path('doc_show', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >
+                            <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
+                            {{ file.name }}
+                        </a>
+                        {# links #}
+                    {% elseif file.url %}
+                        <a class="file_name" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>
+                            <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
+                            {{ file.name }}
+                        </a>
+                        {# ODT files #}
+                    {% elseif file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
+                        <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >
+                            <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                            {{ file.name }}
+                        </a>
+                    {% else %}
+                        <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}" title="View {{ file.name }}" >
+                            <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                            {{ file.name }}
+                        </a>
+                    {% endif %}
                     <div class="hidden-xs">
                         <div class="file-menu">
                             {% if file.isOwner(app.user.username) %}
-                            <a  class="edit_{{file.id}}" href="javascript:void(0);">Settings</a>{% endif%}
-                            {% if file.ext == 'odt' %}
-                                {% if file.isOwner(app.user.username) %}
-                                    <a class="" href="{{ course_path('file_convert_odt', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" ><span class="glyphicon glyphicon-share"></span> HTML</a>
-                                {% endif%}
-                                <a class="" href="{{ course_path('file_view', { 'id': file.id }) }}" title="Download {{ file.name }}" >Download</a>
-                            {% endif%}
+                            <a  class="edit_{{file.id}}" href="javascript:void(0);" title="Edit the setting for this file." >Settings</a>{% endif%}
+                            {% if role == 2 and app.request.get('resource')=='0' %}
+                                <a class="" title="Create a copy of this document for review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
+                            {% endif %}
+                            {% if role == 2 and app.request.get('resource')=='0' %}
+                                <a class="" title="Upload a file for review" id="upload_{{file.id}}" href="javascript:void(0);">Upload Review</a>
+                            {% endif %}
                             {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}
-                                <a class="delete" id='file_show_{{file.id}}' href='javascript:void(0);'>Delete</a>
+                                <a class="delete" id='file_show_{{file.id}}' href='javascript:void(0);' title="Delete this file.">Delete</a>
                             {% endif%}
                         </div>
                     </div>

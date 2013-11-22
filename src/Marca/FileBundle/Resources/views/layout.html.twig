@@ -89,8 +89,6 @@
 
 
         {# Labels  Find #}
-        {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
-        {% else %}
             <hr class="marca-spacer" />
             <li>
                 <a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}" class="project-sidebar {% if app.request.get('tag')=='0' %}current-filter{% endif %}">All Labels</a></li>
@@ -99,7 +97,6 @@
                     <a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}" class="project-sidebar {% if app.request.get('tag')== tag.id %}current-filter{% endif %}">
                         {{ tag.name }}</a></li>
             {% endfor %}
-        {% endif %}
     {% endif %}
 
 

@@ -51,27 +51,27 @@ class FileController extends Controller
         $role = $this->getCourseRole();
         $byuser = $course = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
+
+        if ($project == 'recent' and $resource!=0) {
+            $default_project = $projects[0]->getId();
+            $project = $default_project;
+        }
 
         //if the request is for reviews
         if ($tag == 3) {
         $files = $em->getRepository('MarcaFileBundle:File')->findPeerReviewFiles($project, $user, $scope, $course, $tag, $resource, $byuser, $role);    
         }
-        //if the request is default for resources
-        elseif ($project == 'recent' and $resource!=0) {
-        $files = array();
-            $message ='Please select a Unit on the left';
-            $this->get('session')->getFlashBag()->add('message',$message);
-        }
         else {
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser, $role);
         }
-        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
+
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         //tags appropriate for the find
-        if($project != 'recent' and $resource!=0){
+        if($resource!=0){
             $projectForTags = $em->getRepository('MarcaCourseBundle:Project')->find($project);
             $courseForTags =  $projectForTags->getCourse();
             $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseForTags);
