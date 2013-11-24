@@ -1,6 +1,6 @@
 <?php
 
-namespace Marca\AdminBundle\DataFixtures\ORM;
+namespace Marca\CalendarBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -53,7 +53,7 @@ class LoadCalendarData extends AbstractFixture implements OrderedFixtureInterfac
      */
     public function getOrder()
     {
-        return 5;
+        return 6;
     }
 }
 

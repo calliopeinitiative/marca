@@ -1,6 +1,6 @@
 <?php
 
-namespace Marca\AdminBundle\DataFixtures\ORM;
+namespace Marca\CourseBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
