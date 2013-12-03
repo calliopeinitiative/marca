@@ -11,6 +11,7 @@
         {% stylesheets '@bootstrap_less' combine=true  output='css/compiled/main.css' %}
         <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
+        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/offline-theme-default.css') }}">
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/external.css') }}">
         {# theme test #}
 
@@ -21,6 +22,7 @@
         {% javascripts '@jquery_js' '@jqueryui_js' '@bootstrap_js' combine=true output='js/compiled/main.js' %}
         <script src="{{ asset_url }}"></script>
         <script src="{{ asset('bundles/marcahome/js/jquery.form.js') }}"></script>
+        <script src="{{ asset('bundles/marcahome/js/offline.min.js') }}"></script>
         {% endjavascripts %}
         {% include '::external.html.twig' %}
         <script language="javascript">

@@ -4,13 +4,9 @@
 
 {% block javascripts %}
 {{ parent() }}
-<script src="{{ asset('bundles/marcahome/js/jquery.checknet-1.6.min.js') }}"></script>
     <script language="javascript">
         $(document).ready(function()
         {
-            $.fn.checknet();
-            checknet.config.checkInterval = 15000;
-            checknet.config.warnMsg = 'No internet connection detected.  Please restore your connection before you continue working.';
             $('#toggle_modal').click(function(){
                 $('#delete_modal').modal();
             });
