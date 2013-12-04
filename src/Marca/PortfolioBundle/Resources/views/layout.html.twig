@@ -8,19 +8,30 @@
 {% block javascripts %}{{ parent() }}{% endblock %}
 
 {% block subnav %}
-{%include 'MarcaCourseBundle::subnav.html.twig' %}
+    {%include 'MarcaCourseBundle::subnav.html.twig' %}
 {% endblock %}
 
 {% block sidebar %}
-
     <h1><a  title='Course Portfolio' href="{{ course_path('portfolio') }}" class="marca-gray">Portfolio</a></h1>
     {% if portStatus == 'true' %}
         <a class='btn btn-primary margin-bottom-medium' href="{{ course_path('portfolio_find', { 'project': 'recent', 'scope': 'mine', 'resource': '0', 'tag': '0', 'userid': '0','user':'0' }) }}">Add<i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
     {% endif %}
-    <li><a href="{{ course_path('portfolio_user', { 'userid': '0', 'user': '0' }) }}">View My Portfolio</a></li>
-    {% if role == 2 %}
-        <li><a href="{{ course_path('port_status_toggle') }}">Portfolio editing: {% if portStatus == 'true' %}Open{% else %}Closed{% endif %}</a></li>
+    {% if app.request.attributes.get('_route') == 'portfolio_find'%}
+        <li>
+            <a class="project-sidebar {% if active_project == 0 %}current-filter{% endif %}" href="{{ course_path('portfolio_find', { 'project': 'recent' })}}">
+                All Folders </a>
+        </li>
+        {% for project in projects %}
+            <li>
+                <a title='{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}' class="project-sidebar {% if active_project == project.id %}current-filter{% endif %}" href="{{ course_path('portfolio_find', { 'project': project.id}) }}">
+                    {% if app.request.get('resource')=='1' and project.course.name!=app.session.get('course') %}{{ project.course.name }}: {%endif%}{{ project.name }}</a>
+            </li>
+        {% endfor %}
+        <hr class="marca-spacer" />
     {% endif %}
+
+    <li><a href="{{ course_path('portfolio_user', { 'userid': '0', 'user': '0' }) }}">View My Portfolio</a></li>
+
     <li class="dropdown">
         <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">View Portfolio by Author<b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -30,7 +41,13 @@
         </ul>
     </li>
 
+    {% if role == 2 %}
+        <hr class="marca-spacer" />
+        <li><a href="{{ course_path('port_status_toggle') }}">Portfolio editing: {% if portStatus == 'true' %}Open{% else %}Closed{% endif %}</a></li>
+    {% endif %}
 {% endblock %}
+
+
 
 
 

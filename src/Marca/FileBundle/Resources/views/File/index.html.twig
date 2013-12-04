@@ -189,8 +189,6 @@
                         {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
                     <td>{% if app.request.get('resource')=='0' %}{% if file.doc %}{{ file.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ file.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}</td>
                 </tr>
-                {# reviews only show in projects#}
-                {% if app.request.get('resource')=='0' %}
                     {% for review in file.reviews%}
                         {% if (file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
                             <tr class="review">
@@ -246,7 +244,6 @@
                             </tr>
                         {% endif %}
                     {% endfor %}
-                {% endif %}
             {% else %}
                 {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
                 {% else %}
