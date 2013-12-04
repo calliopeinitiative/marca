@@ -53,7 +53,7 @@
                                 <a class="file_name" href="{{ course_path('file_view', { 'id': portfolio.file.id, 'view': 'window' }) }}" title="View {{ portfolio.file.name }}" target="_blank">{{ portfolio.file.name }}</a>
                             {% else %}
                                 <span class="label label-file" data-toggle="tooltip" title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }} </span>
-                                <a href="{{ course_path('file_view', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
+                                <a href="{{ course_path('file_get', { 'id': portfolio.file.id }) }}" title="View {{ portfolio.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio.file.name }}</a>
                             {% endif %}
                             </p>
 

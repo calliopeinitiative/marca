@@ -101,13 +101,13 @@
                     <i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
                 </div>
             </div>
-        {% elseif portfolio_doc.file.ext == 'odt' or portfolio_doc.file.ext == 'pdf' %}
+        {% elseif portfolio_doc.file.ext == 'odt' or portfolio_doc.file.ext == 'odp' or portfolio_doc.file.ext == 'ods' or portfolio_doc.file.ext == 'pdf'%}
             <iframe class="col-sm-8" id="viewer" src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': portfolio_doc.file.id }) }}/{{ portfolio_doc.file.name }}.{{ portfolio_doc.file.ext }}" allowfullscreen="true" webkitallowfullscreen="true"></iframe>
         {% else %}
             <div id='doc-display' class="col-sm-8 well">
                 <div class="doc-body">
                     Please download this file to view.
-                    <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id, 'view': 'window'}) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+                    <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_get', { 'id': portfolio_doc.file.id, 'view': 'window'}) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
                 </div>
             </div>
         {% endif %}
