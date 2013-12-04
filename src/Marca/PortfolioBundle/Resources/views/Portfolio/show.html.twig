@@ -38,6 +38,10 @@
         {% for portfolio in portfolio %}
         {% if app.request.get('page')==loop.index %}$('#port_file_{{loop.index}}').addClass('active');{% endif %}
         {% endfor %}
+
+        $('iframe').css('height', function(index) {
+            return $(window).height() * .88;
+        });
     });
 </script>
 {% endblock %}
@@ -79,25 +83,48 @@
             </div>
         </nav>
 
-        <div class="col-sm-11 center">
-            {# Doc display #}
+    <div class="col-sm-11 center">
+    {# Doc display #}
+    {% for portfolio_doc in portfolio_docs %}
+        {% if portfolio_doc.file.doc %}
             <div id='doc-display' class="col-sm-8 well">
                 <div class="doc-body">
-                    {% for portfolio_doc in portfolio_docs %}
-                        {% if portfolio_doc.file.doc %}
-                            {{ portfolio_doc.file.doc.body|raw }}
-                        {% elseif portfolio_doc.file.url %}
-                            Please click link to to view.
-                            <i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
-                        {% else %}
-                            Please download this file to view.
-                            <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id, 'view': 'window'}) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
-                        {% endif %}
-                    {% else %}
-                        There are no files in this portfolio.
-                    {% endfor %}
+                    {{ portfolio_doc.file.doc.body|raw }}
                 </div>
             </div>
+        {% elseif portfolio_doc.file.url %}
+            </div>
+            </div>
+            <div id='doc-display' class="col-sm-8 well">
+                <div class="doc-body">
+                    Please click link to to view.
+                    <i class="glyphicon glyphicon-adjust"></i> <a href="{{ portfolio_doc.file.url}}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+                </div>
+            </div>
+        {% elseif portfolio_doc.file.ext == 'odt' or portfolio_doc.file.ext == 'pdf' %}
+            <iframe class="col-sm-8" id="viewer" src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': portfolio_doc.file.id }) }}/{{ portfolio_doc.file.name }}.{{ portfolio_doc.file.ext }}" allowfullscreen="true" webkitallowfullscreen="true"></iframe>
+        {% else %}
+            <div id='doc-display' class="col-sm-8 well">
+                <div class="doc-body">
+                    Please download this file to view.
+                    <i class="glyphicon glyphicon-file"></i> <a href="{{ course_path('file_view', { 'id': portfolio_doc.file.id, 'view': 'window'}) }}" title="View {{ portfolio_doc.file.name }} (will open in a new window or tab)" target="_blank">{{ portfolio_doc.file.name }}</a>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <div id='doc-display' class="col-sm-8 well">
+            <div class="doc-body">
+                There are no files in this portfolio.
+            </div>
+        </div>
+    {% endfor %}
+
+
+
+
+
+
+
 
             {# Doc tools #}
             <div id='doctools' class="col-sm-4">
