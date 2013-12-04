@@ -2,51 +2,69 @@
 
 {% extends 'MarcaHomeBundle:Default:layout.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
-    <div class="col-sm-9 center">
-
-        <div class="col-sm-12" style="text-align:center;">
-
-                {% if ldap_auth!='yes' %}
-                    <a class="btn btn-primary btn-lg" title="Get an Account" href="{{ path('fos_user_registration_register') }}" >Get an Account</a>
-                {% endif %}
-                <a class="btn btn-primary btn-lg" title="Get an Account" href="{{ path('fos_user_security_login') }}" >Login</a>
-
-        </div>
-
-
-        <div style="text-align:center;">
-            <h1 style="font-size: 100px">{{ application_name }}</h1>
-        </div>
-        <div class="col-sm-4 col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Intuitive peer editing</h3></div>
+<div class="col-sm-9 center">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="panel panel-default" style="margin-right:-15px;height:175px;">
                 <div class="panel-body">
-                    {{ application_name }} makes peer editing a breeze. Students can easily share their work with each other, offer comments, and provide detailed feedback using custom tags created by their instructors.
+                    <h1 style="font-size: 100px">{{ application_name }}</h1>
                 </div>
             </div>
         </div>
-
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-sm-4">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Simply beautiful portfolios</h3></div>
+                <div class="panel-body center" style="height:75px;">
+                    {% if ldap_auth!='yes' %}
+                        <a class="btn btn-primary pull-right" title="Get an Account" href="{{ path('fos_user_registration_register') }}" >Get Started</a>
+                        <p>Sign up for an account.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="panel panel-default" style="height:80px;">
                 <div class="panel-body">
+                    <a class="btn btn-primary pull-right" title="Get an Account" href="{{ path('fos_user_security_login') }}" >Login</a>
+                    <p>Time to get to work?  Sign in.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5 col-xs-12">
+            <div class="panel panel-default" style="height:175px;">
+                <div class="panel-body">
+                    <h2>Intuitive peer editing. <i class="fa fa-comments fa-2x"></i> </h2>
+                    <p>On {{ application_name }}, students can easily share their work with each other, offer comments, and provide detailed feedback.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7 col-xs-12">
+            <div class="panel panel-default" style="height:175px;">
+                <div class="panel-body">
+                    <h2>Simply beautiful portfolios.  <i class="fa fa-archive fa-2x"></i></h2>
                     <p>Using {{ application_name }}, your students can create beautiful portfolios that combine text and rich multimedia.</p>
                 </div>
             </div>
         </div>
-
-        <div class="col-sm-4 col-xs-12">
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Powerful, flexible markup</h3></div>
                 <div class="panel-body">
+                    <h2>Powerful, flexible markup.  <i class="fa fa-pencil fa-2x"></i></h2>
                     <p>Whether you’re leaving initial feedback on a rough draft or thoroughly grading a final project, {{ application_name }} provides instructors with simple yet powerful and customizable tools for marking up documents. {{ application_name }} will help you grade more effectively and efficiently.</p>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
 
         {% for page in pages %}
