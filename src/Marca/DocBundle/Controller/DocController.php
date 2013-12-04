@@ -114,11 +114,15 @@ class DocController extends Controller
         
         $em = $this->getEm();
         $course = $this->getCourse();
+        $user = $this->getUser();
         $role = $this->getCourseRole();
         $type =2;
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
 
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        if($user != $file->getUser()){
+            throw new AccessDeniedException();
+        };
         $doc = $file->getDoc();
         $markupsets = $course->getMarkupsets();
         
