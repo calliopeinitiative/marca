@@ -183,10 +183,12 @@ class FileController extends Controller
         $options = array('courseid' => $courseid, 'resource'=> $resource);
         
         $file = new File();
-        if ($resource!=0){$file->setAccess(1);}
-        $file->setProject($project);
         $file->setUser($user);
+        $file->setProject($project);
         $file->setCourse($course);
+
+        if ($resource!=0){$file->setAccess(1);}
+
         if ($type == 'link') {
         $file->setName('New Link');
         $file->setUrl('http://newlink.edu');
@@ -233,7 +235,7 @@ class FileController extends Controller
            $em->persist($doc);
            $em->persist($file);
            $em->flush();
-           return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $doc->getId(),'view'=>'app')));
+           return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $file->getId(),'view'=>'app')));
         }
         elseif ($type == 'instr_review'){
            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
@@ -254,7 +256,7 @@ class FileController extends Controller
            $em->persist($doc);
            $em->persist($file);
            $em->flush();
-           return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $doc->getId(),'view'=>'app')));
+           return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $file->getId(),'view'=>'app')));
         }        
         elseif ($type == 'saveas'){
            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
@@ -304,7 +306,7 @@ class FileController extends Controller
         if (!$resource)
         {$resource = '0';}
         $form    = $this->createForm(new FileType($options), $file);
-        $form->bind($request);
+        $form->submit($request);
         if ($type == 'doc') {
         $doc  = new Doc();    
         $doc->setFile($file); 
@@ -433,7 +435,7 @@ class FileController extends Controller
         {$resource = '0';}
         
         
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em->persist($file);
@@ -467,7 +469,7 @@ class FileController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -486,7 +488,7 @@ class FileController extends Controller
             $em->flush();
         }
 
-       return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'sort'=>'updated','scope'=>'mine','project'=>'recent', 'tag'=>'0', 'userid'=>'0','resource'=>$resource, 'user'=>'0')));
+       return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'scope'=>'mine','project'=>'recent', 'tag'=>'0', 'userid'=>'0','resource'=>$resource, 'user'=>'0')));
     }
 
     private function createDeleteForm($id)
@@ -533,7 +535,7 @@ class FileController extends Controller
         
 
          if ($this->getRequest()->getMethod() === 'POST') {
-             $form->bind($this->getRequest());
+             $form->submit($this->getRequest());
              if ($form->isValid()) {
                  $em = $this->getEm();
                  $em->persist($file);
@@ -586,7 +588,7 @@ class FileController extends Controller
 
 
         if ($this->getRequest()->getMethod() === 'POST') {
-            $form->bind($this->getRequest());
+            $form->submit($this->getRequest());
             if ($form->isValid()) {
                 $em = $this->getEm();
                 $em->persist($file);

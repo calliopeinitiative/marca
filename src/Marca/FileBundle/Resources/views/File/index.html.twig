@@ -167,7 +167,7 @@
                         <div class="file-menu">
                             {% if file.isOwner(app.user.username) %}
                             <a  class="edit_{{file.id}}" href="javascript:void(0);" title="Edit the setting for this file." >Settings</a>{% endif%}
-                            {% if role == 2 and app.request.get('resource')=='0' %}
+                            {% if role == 2 and app.request.get('resource')=='0' and file.doc %}
                                 <a class="" title="Create a copy of this document for review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
                             {% endif %}
                             {% if role == 2 and app.request.get('resource')=='0' %}
@@ -198,35 +198,35 @@
                                     {% if review.doc %}
                                         <a class="file_name" href="{{ course_path('doc_show', { 'id': review.id, 'view': 'app' }) }}"  title="View {{ review.name }}">
                                             <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
-                                            {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
-                                            <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span></span>
+                                            Review of <i>{{ review.reviewed.name }}</i> for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
+                                            <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
                                         </a>
                                         {# links #}
                                     {% elseif review.url %}
                                         <a class="file_name" href="{{ review.url}}" target="_blank" title='This link will open in a new window or tab.'>
                                             <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
-                                            {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
-                                            <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span></span>
+                                            Review of <i>{{ review.reviewed.name }}</i> for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
+                                            <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
                                         </a>
                                         {# ODT files #}
                                     {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
                                         <a class="file_name" href="{{ course_path('file_view', { 'id': review.id, 'view': 'app' }) }}" title="View {{ review.name }}" >
                                             <span class="label label-file" data-toggle="tooltip" title="This an {{ review.ext }} file ">{{ file.ext }}</span>
-                                            {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
-                                            <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span></span>
+                                            Review of <i>{{ review.reviewed.name }}</i> for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
+                                            <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
                                         </a>
                                     {% else %}
                                         <a class="file_name" href="{{ course_path('file_get', { 'id': review.id}) }}" title="View {{ review.name }}" >
                                             <span class="label label-file" data-toggle="tooltip" title="This an {{ review.ext }} file ">{{ review.ext }}</span>
-                                            {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
-                                            <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span></span>
+                                            Review of <i>{{ review.reviewed.name }}</i> for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
+                                            <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
                                         </a>
                                     {% endif %}
                                     <div class="hidden-xs">
                                     <div class="file-menu">
                                         {% if review.isOwner(app.user.username) %}<a class='edit_{{review.id}}' href="javascript:void(0);" title="Edit the setting for this file.">Settings</a>{% endif%}
                                         {% if role==2 and review.isOwner(app.user.username) %}<a class='' href="{{ course_path('file_toggle_release', { 'id': review.id }) }}"  title="Instructor reviews can be hidden or released to students.  Click to hide or release.">{% if review.access==2 %}Release{% else %}Hide{% endif %}</a>{% endif%}
-                                        {% if review.isOwner(app.user.username) and file.portfolio|length == 0 %}<a class='delete' id='file_show_{{review.id}}' href='javascript:void(0);'  title="Delete this file.">Delete</a>{% endif%}
+                                        {% if review.isOwner(app.user.username) and review.portfolio|length == 0 %}<a class='delete' id='file_show_{{review.id}}' href='javascript:void(0);'  title="Delete this file.">Delete</a>{% endif%}
                                     </div>
                                     </div>
                                 </td>
@@ -247,7 +247,7 @@
             {% else %}
                 {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
                 {% else %}
-                    <tr><td colspan="4">No files match your request.</td> </tr>
+                    <tr><td colspan="5">No files match your request.</td> </tr>
                 {% endif %}
             {% endfor %}
 

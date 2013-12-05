@@ -671,6 +671,10 @@ td.labels {
     font-size:16px;
 }
 
+.table > tbody > tr > td {
+    padding:6px;
+}
+
 .file-menu {
    margin-top: 2px; margin-left: 40px; display:none;
 }
@@ -697,7 +701,7 @@ td.labels {
 }
 
 #file_list tr {
-    height:55px;
+    height:50px;
 }
 
 tr.file > td > a {
