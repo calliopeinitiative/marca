@@ -128,8 +128,10 @@ class JournalController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        $role = $this->getCourseRole(); 
+
         $em = $this->getEm();
+        $role = $this->getCourseRole();
+        $user = $this->getUser();
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
@@ -142,7 +144,7 @@ class JournalController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em->persist($journal);
@@ -213,7 +215,7 @@ class JournalController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

@@ -53,6 +53,7 @@
 
 <div class="navbar-header col-sm-3">
     <ul class="list-group">
+        <li class='list-group-item' style="background-color: #f5f5f5;">Journal Entries</li>
     {% for journal in journals %}
         <a id="journal_{{ loop.index }}" class='list-group-item' href="{{ course_path('journal_list', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}">
             {{ journal.title }}
@@ -112,7 +113,9 @@
                 {% if app.request.get('userid') != 0 %}
 
                 {% else %}
-                    You don’t have any journals yet. Why not <a href="{{ course_path('journal_new') }}">write one</a>?
+                    Just click
+                    <a class="btn btn-primary margin-bottom-medium" href="{{ course_path('journal_new')  }}">Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+                    to get started.
                 {% endif %}
             </div>
         </div>
