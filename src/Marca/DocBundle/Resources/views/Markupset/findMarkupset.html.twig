@@ -4,27 +4,27 @@
 
 {% block content %}
 
-    <div class="col-sm-8">
+<div class="col-sm-12">
     <div class="panel panel-default">
         <div class="panel-heading">
-    <h2>Available Markup Sets</h2>
-</div>
-        <div class="panel-body">
-    <table class="table">
-    {% for set in markupsets %}
-            <tr><td>{{ set.name }}</td>
-            <td>{{set.owner.firstname}} {{set.owner.lastname}}</td>
-            <td>{{set.description}}</td>
-            <td>{% if set.hasAccess(app.user) %}<span class="label label-info">In my sets</span>{% endif %}</td>
-            <td>{% if set.hasAccess(app.user) %}<a class="btn btn-warning btn-xs" href="{{ path('remove_markupset', { 'id':set.id }) }}">Remove from sets</a>
-                {% else %}<a class="btn btn-primary btn-xs" href="{{ path('add_markupset', { 'id':set.id }) }}">Add to my sets</a>{% endif %}</td>
-            </tr>
-    {% endfor %}
-    </table>
-    </div>
-    </div>
+            <a class="btn btn-primary pull-right margin-top-small" href="{{path('markupset')}}">Return to Markupsets</a>
+            <h2 class="margin-top-small">Available Markup Sets</h2>
         </div>
-
-
+        <div class="panel-body">
+            <table class="table">
+                {% for set in markupsets %}
+                    <tr>
+                        <td>{{ set.name }}</td>
+                        <td>{{set.owner.firstname}} {{set.owner.lastname}}</td>
+                        <td>{{set.description}}</td>
+                        <td>{% if set.hasAccess(app.user) %}<span class="label label-info">In my sets</span>{% endif %}</td>
+                        <td>{% if set.hasAccess(app.user) %}<a class="btn btn-warning btn-xs" href="{{ path('remove_markupset', { 'id':set.id }) }}">Remove from sets</a>
+                            {% else %}<a class="btn btn-primary btn-xs" href="{{ path('add_markupset', { 'id':set.id }) }}">Add to my sets</a>{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
