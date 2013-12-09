@@ -87,7 +87,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a name="top"></a>
-            <h2 style="margin-top:11px;color:white;">{{file.name}}</h2>
+            <h1 class="small" style="margin-top:11px;color:white;">{{file.name}}</h1>
         </div>
 
         <div class="navbar-collapse collapse">
@@ -258,9 +258,9 @@
     {% for markup in markup %}
         <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover left'>
             <button type="button" class="close popover-close" data-dismiss="popover" aria-hidden="true">&times;</button>
-            <h3 class="popover-title">
+            <div class="popover-title">
                 <span class="pull-left color-flag" style="background: {{markup.color}};">&#183;</span>
-                {{ markup.name }}</h3>
+                {{ markup.name }}</div>
             <div class="popover-content">
                 {{ markup.mouseover|raw }}
                 {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}

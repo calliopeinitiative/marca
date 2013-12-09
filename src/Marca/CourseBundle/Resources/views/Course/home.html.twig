@@ -58,7 +58,7 @@
                                         {# ODT files #}
                                         {% if file.doc %}
                                             <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
-                                            <a title="Open this file in a new tab." target ='_blank' href="{{ course_path('doc_show', { 'id': file.doc.id, 'view': 'window' }) }}">{{ file.name }}<i class="glyphicon glyphicon-share-alt"></i></a>
+                                            <a title="Open this file in a new tab." target ='_blank' href="{{ course_path('doc_show', { 'id': file.id, 'view': 'window' }) }}">{{ file.name }}<i class="glyphicon glyphicon-share-alt"></i></a>
 
                                             {# links #}
                                         {% elseif file.url %}

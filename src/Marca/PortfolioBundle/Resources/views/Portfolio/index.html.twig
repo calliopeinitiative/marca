@@ -22,7 +22,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="list-group">
-                    <h2>{{ portset.name }}</h2>
+                    <h2 class="small">{{ portset.name }}</h2>
                     <p>{{ portset.description|raw }}</p>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <ul class="list-group">
                     {% for portitem in portset.portitem %}
                         <li class="list-group-item">
-                        <h3>{{portitem.name}}</h3>
+                        <h3 class="small">{{portitem.name}}</h3>
                         <em>{{portitem.description|raw}}</em>
 
                         {% for portfolio in portfolioset.portfolioitems if portfolio.portitem.name==portitem.name %}
