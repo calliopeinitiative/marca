@@ -17,6 +17,55 @@
 {% endblock %}
 
 {% block content %}
+    {% if app.request.attributes.get('_route') == 'enroll_find' or app.request.attributes.get('_route') == 'enroll_list' %}
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">Find Courses</h2>
+                </div>
+                <div class="panel-body">
+                    {% for course in possible_courses %}
+                        {% for exiting_course in courseids if exiting_course.id == course.id %}
+                            <div class="col-sm-12">
+                                <p>You are already in
+                                    <strong>{{ course.name }}</strong> at {{ course.time|date('h:i a') }} offered by
+                                    {{course.firstname}} {{course.lastname}}.</p>
+                            </div>
+                        {%else%}
+                            
+                                <div class="col-sm-8">
+                                    <h2>{{ course.name }}</h2>
+                                    <p>{{course.firstname}} {{course.lastname}}, {{ course.time|date('h:i a') }}</p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a class="btn btn-primary margin-top" title="Enroll in this course" href="{{ path('enroll_enroll', { 'courseid': course.id } ) }}">Enroll in this course</a>
+                                </div>
+                        {% endfor %}
+                    {% endfor %}
+
+                </div>
+
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        {% if app.request.attributes.get('_route') == 'enroll_find' %}
+                            <p>What's your instructor's last name?</p>
+                        {% else %}
+
+                            <p>Want to try again?</p>
+                        {% endif %}
+
+                        <form action="{{ path('enroll_list') }}" method="post" {{ form_enctype(form) }}>
+                            {{ form_widget(form) }}
+                            <button class="btn btn-primary margin-top" type="submit">Find Course</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    {% endif %}
+
+
     {% if pending %}
         <div class="col-sm-6">
             <div class="panel panel-marca">

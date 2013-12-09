@@ -29,25 +29,35 @@ class DefaultController extends Controller
         $user = $this->getUser();
         $id = $user->getId();
 
-
         if ($user->getLastname()==''){
             return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
         }
         if ($user->getInstitution()->getResearch()==true and $user->getResearch()==0){
             return $this->redirect($this->generateUrl('user_research', array('id' => $id)));
         }
+
         $username = $user->getFirstname().' '.$user->getLastname();
         $session = $this->get('session');
         $session->set('username', $username);
+
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($user);
         $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($user);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findPendingRoll($user);
         $modules = $em->getRepository('MarcaCourseBundle:Course')->findModules($user);
         $archive = $em->getRepository('MarcaCourseBundle:Course')->findArchivedCourses($user);
+        $possible_courses = '';
 
 
 
-        return array('user' => $user,'courses' => $courses, 'roll' => $roll, 'pending' => $pending,'modules' => $modules, 'archive' => $archive);
+        return array(
+            'user' => $user,
+            'courses' => $courses,
+            'roll' => $roll,
+            'pending' => $pending,
+            'modules' => $modules,
+            'archive' => $archive,
+            'possible_courses' => $possible_courses,
+        );
     }
 
     /**
