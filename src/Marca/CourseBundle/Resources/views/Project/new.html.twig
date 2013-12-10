@@ -1,7 +1,7 @@
 {# Marca/CourseBundle/Resources/views/Project/new.html.twig #}
 
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -17,7 +17,7 @@ $('form li').addClass('alert alert-error');
 });
 </script>
 
-<div class="col-sm-12">
+<div class="col-sm-6 center">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title small">New {% if project.resource==0%}Folder in Projects{%else%}Unit in Resources{%endif%}</h2>
