@@ -7,14 +7,13 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 {% endblock %}
 
-
 {% block body %}
     <div class="col-sm-9 center">
         <div class="row">
-            <div class="col-sm-8">
-                <div class="panel panel-default" style="margin-right:-15px;height:175px;">
+            <div class="col-sm-8  col-xs-12">
+                <div class="panel panel-default" style="height:175px;">
                     <div class="panel-body">
-                        <h1 style="font-size: 100px">{{ application_name }}</h1>
+                        <h1 style="font-size: 80px">{{ application_name }}</h1>
                     </div>
                 </div>
             </div>
@@ -55,15 +54,24 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-sm-9 center">
-        {% for page in pages %}
-            {{ page.body|raw }}
+        {% if pages %}
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                <div class="panel panel-default">
 
-        {% endfor %}
-    </div>
-    </div>
+                    {% for page in pages %}
+                        <div class="panel-body">
+                            {{ page.body|raw }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
+    </div>
 
 {% endblock %}
+
+
