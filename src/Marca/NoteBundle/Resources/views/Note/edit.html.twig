@@ -1,6 +1,6 @@
 {# Marca/NoteBundle/Resources/views/Note/edit.html.twig #}
 
-{% extends 'MarcaNoteBundle::layout.html.twig' %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -16,7 +16,7 @@
 
 {% block content %}
 
-    <div class="col-sm-12">
+    <div class="col-sm-11 center">
         <form action="{{ course_path('note_update', { 'id': note.id }) }}" method="post" {{ form_enctype(edit_form) }}>
             <div class="panel panel-default">
                 <div class="panel-heading">
