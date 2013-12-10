@@ -1,6 +1,6 @@
 {# Marca/DocBundle/Resources/views/Markup/edit.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -36,7 +36,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-sm-12">
+    <div class="col-sm-11 center">
         <form class="form" action="{{ path('markup_update', { 'id': markup.id, 'set_id': app.request.get('set_id')}) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
             <div class="panel panel-default">
                 <div class="panel-heading">

@@ -1,10 +1,10 @@
 {# Marca/PortfolioBundle/Resources/views/Portitem/new.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block content %}
 
-    <div class="col-sm-12">
+    <div class="col-sm-11 center">
         <form class="form" action="{{ path('portitem_create', { 'portsetid': portsetid }) }}" method="post" {{ form_enctype(form) }}>
 
             <div class="panel panel-default">

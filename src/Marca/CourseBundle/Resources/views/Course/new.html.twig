@@ -1,6 +1,6 @@
 {# Marca/CourseBundle/Resources/views/Course/new.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -29,98 +29,102 @@
 {% endblock %}
 
 {% block content %}
-    {% if pages %}
-        <div id="help_show" class="panel panel-default">
+    <div class="col-sm-11 center">
+        {% if pages %}
+            <div id="help_show" class="panel panel-default">
                 <div class="panel-heading">
                     <a id="help_show_btn" class="btn btn-default" href="javascript:void(0);">Help</a>
                 </div>
-        </div>
-        <div id="help" class="panel panel-default">
-            {% for page in pages %}
-                <div class="panel-heading">
-                    <button id="help_close_btn" type="button" class="close">&times;</button>
-                    <h2>{{ page.title|raw }}</h2>
-                </div>
-
-                <div class="panel-body">
-
-                    {{ page.body|raw }}
-
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-
-    <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-
-
-        <div class="col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2>{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
-                </div>
-                <div class="panel-body">
-                    {{ form_errors(form) }}
-                    <div class="">{{ form_row (form.name) }}</div>
-                    <div class="{% if course.module!=0 %}hide{%endif%}">{{ form_row (form.time, {'type':'text'}) }}</div>
-                    <div class="{% if course.module!=0 %}hide{%endif%}">{{ form_row (form.term) }}</div>
-                </div>
-
-                <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
-                    <h2>Tools</h2>
-                </div>
-                <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
-                    {{ form_row (form.notes) }}
-                    {{ form_row (form.forum) }}
-                    {{ form_row (form.journal) }}
-                    {{ form_row (form.zine) }}
-
-                </div>
-                <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
-                    <h2>Portfolios</h2>
-                </div>
-                <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
-                    {{ form_row (form.portfolio) }}
-                    {{ form_row (form.portset) }}
-                    {{ form_row (form.assessmentset) }}
-                </div>
             </div>
-        </div>
+            <div id="help" class="panel panel-default">
+                {% for page in pages %}
+                    <div class="panel-heading">
+                        <button id="help_close_btn" type="button" class="close">&times;</button>
+                        <h2>{{ page.title|raw }}</h2>
+                    </div>
 
-        <div class="col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
-                    <h2>Student Access</h2>
-                </div>
-                <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
-                    {{ form_row (form.enroll) }}
-                    {{ form_row (form.post) }}
-                    {{ form_row (form.studentForum) }}
-                    {{ form_row (form.institution) }}
-                </div>
+                    <div class="panel-body">
 
-                <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
-                    <h2>Other Settings</h2>
-                </div>
-                <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
-                    {{ form_row (form.tagset) }}
-                    {{ form_row (form.markupsets) }}
-                    {{ form_row (form.parents) }}
-                    {{ form_row (form.module) }}
-                    {{ form_rest(form) }}
-                </div>
+                        {{ page.body|raw }}
+
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
 
-                <div class="panel-footer">
-                    <div class="btn-group">
-                        <button class="btn btn-primary " type="submit">Create</button>
-                        <a class="btn btn-default" href="{{ path('user_home') }}">Cancel</a>
+        <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+
+
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2>{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
+                    </div>
+                    <div class="panel-body">
+                        {{ form_errors(form) }}
+                        <div class="">{{ form_row (form.name) }}</div>
+                        <div class="{% if course.module!=0 %}hide{%endif%}">{{ form_row (form.time, {'type':'text'}) }}</div>
+                        <div class="{% if course.module!=0 %}hide{%endif%}">{{ form_row (form.term) }}</div>
+                    </div>
+
+                    <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
+                        <h2>Tools</h2>
+                    </div>
+                    <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
+                        {{ form_row (form.notes) }}
+                        {{ form_row (form.forum) }}
+                        {{ form_row (form.journal) }}
+                        {{ form_row (form.zine) }}
+
+                    </div>
+                    <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
+                        <h2>Portfolios</h2>
+                    </div>
+                    <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
+                        {{ form_row (form.portfolio) }}
+                        {{ form_row (form.portset) }}
+                        {{ form_row (form.assessmentset) }}
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
+                        <h2>Student Access</h2>
+                    </div>
+                    <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
+                        {{ form_row (form.enroll) }}
+                        {{ form_row (form.post) }}
+                        {{ form_row (form.studentForum) }}
+                        {{ form_row (form.institution) }}
+                    </div>
+
+                    <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
+                        <h2>Other Settings</h2>
+                    </div>
+                    <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
+                        {{ form_row (form.tagset) }}
+                        {{ form_row (form.markupsets) }}
+                        {{ form_row (form.parents) }}
+                        {{ form_row (form.module) }}
+                        {{ form_rest(form) }}
+                    </div>
+
+
+                    <div class="panel-footer">
+                        <div class="btn-group">
+                            <button class="btn btn-primary " type="submit">Create</button>
+                            <a class="btn btn-default" href="{{ path('user_home') }}">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}
+
+
 
 

@@ -557,7 +557,7 @@ div.checkbox > label {
     display: inline;
 }
 
-div.radio {width:100%}
+div.radio {width:100%;float:left}
 
 div.checkbox {width:100%;float:left}
 

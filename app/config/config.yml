@@ -185,7 +185,7 @@ ivory_ck_editor:
             removePlugins: "elementspath"
             allowedContent: false
             disableNativeSpellChecker: false
-            height: 300
+            height: 200
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
         editor_default:
             startupFocus: true
