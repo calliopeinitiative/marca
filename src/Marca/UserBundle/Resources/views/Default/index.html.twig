@@ -76,17 +76,17 @@
                 </div>
                 <div class="panel-body">
                     {% for course in pending %}
-                        <div class="col-sm-10">
+                        <div class="col-sm-9">
                             <h2 class="margin-top-small">{{ course.name }}</h2>
                             <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <a id="remove_{{course.id}}" class="btn btn-default" title="Remove enrollment request" href="javascript:void(0);">Remove</a>
                         </div>
                     {% endfor %}
                 </div>
                 <div class="panel-footer">
-                    <span class="text-muted">Enrollment pending.  Please check back soon.</span>
+                    <span class="text-muted">Please check back soon.</span>
                     <a class='btn btn-primary btn-xs pull-right' href="{{ path('user_home') }}">Check now</a>
                 </div>
             </div>
