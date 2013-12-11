@@ -220,13 +220,6 @@ class CourseController extends Controller
         $project4->setSortOrder(4);
         $project4->setCourse($course);
 
-        $project5 = new Project();
-        $project5->setName('Course Home');
-        $project5->setSortOrder(5);
-        $project5->setResource(true);
-        $project5->setCourse($course);
-        $project5->setCoursehome(true);
-
         }
         $project6 = new Project();
         $project6->setName('Readings');
@@ -239,6 +232,7 @@ class CourseController extends Controller
         $project7->setSortOrder(7);
         $project7->setResource(true);
         $project7->setCourse($course);
+        $project7->setCoursehome(true);
         
         $project8 = new Project();
         $project8->setName('Resources');
@@ -258,7 +252,6 @@ class CourseController extends Controller
             $em->persist($project2);
             $em->persist($project3);
             $em->persist($project4);
-            $em->persist($project5);
             }
             $em->persist($project6);
             $em->persist($project7);

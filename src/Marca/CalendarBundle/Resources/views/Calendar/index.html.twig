@@ -40,7 +40,7 @@
                 {% for calendar in calendar %}
                     <tr>
                         <td class='col-sm-2'>
-                            {{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}
+                            {{ calendar.startDate|date('M j Y') }} {{ calendar.startTime|date('g:i A') }}
                         </td>
                         <td class='col-sm-9'>
                             <span class="pull-left color-flag" style="{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif%}">&#183;</span> {{ calendar.title }}

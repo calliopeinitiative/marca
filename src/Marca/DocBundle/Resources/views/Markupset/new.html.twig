@@ -1,14 +1,14 @@
 {# Marca/DocBundle/Resources/views/Markupset/new.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block content %}
-<div class="col-sm-12">
+<div class="col-sm-11 center">
     <form action="{{ path('markupset_create') }}" method="post" {{ form_enctype(form) }}>
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                Markup Set
+                <h2 class="panel-title small">Markup Set</h2>
             </div>
             <div class="panel-body">
                 {{ form_widget(form) }}

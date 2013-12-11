@@ -20,7 +20,16 @@
                 </div>
             </div>
         {%else%}
-            You don't have any notes yet.  Just click the Create button to get started.
+            <div class="panel panel-default" style="display: inline-block;margin-bottom: 10px;width: 100%;min-height:115px;">
+                <div class="panel-heading">
+                    Notes
+                </div>
+                <div class="panel-body">
+                    You don't have any notes yet.  <br/><br/>
+                    Just click <a class="btn btn-primary margin-bottom-medium" href="{{ course_path('note_new') }}" >Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a> to get started.
+                </div>
+            </div>
+
         {% endfor %}
     </div>
 

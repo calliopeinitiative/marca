@@ -554,9 +554,12 @@ div.checkbox > label {
     float:left;
     margin-left: 5px;
     margin-right: 5px;
+    display: inline;
 }
 
-div.radio {width:100%}
+div.radio {width:100%;float:left}
+
+div.checkbox {width:100%;float:left}
 
 div.radio > label {
     padding:5px;
@@ -599,6 +602,7 @@ div input[type="email"] {
     max-width: 400px;
     margin-bottom: 20px;
 }
+
 
 /* form > div.btn-group {
     margin-top:20px;

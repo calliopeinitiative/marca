@@ -6,13 +6,13 @@
     <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2 class="panel-title small">{{ assessmentset.name }}</h2>
-                <p>{{ assessmentset.description|raw }}</p>
-                <div class="btn-group">
-                    <a class="btn btn-default btn-sm" href="{{ path('assessmentset_edit', { 'id': assessmentset.id }) }}">Edit Assessment Sets</a>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-default btn-sm" href="{{ path('assessmentset_edit', { 'id': assessmentset.id }) }}">Edit Assessment Set</a>
                     <a class="btn btn-default btn-sm" href="{{ path('objective_new', { 'assessmentsetid': assessmentset.id }) }}">Add Learning Objective</a>
                     <a class="btn btn-default btn-sm" href="{{ path('assessmentset') }}">List Assessment Sets</a>
                 </div>
+                <h2 class="margin-top-small">{{ assessmentset.name }}</h2>
+                <p>{{ assessmentset.description|raw }}</p>
             </div>
             <div class="panel-body">
                 <div class="list-group">

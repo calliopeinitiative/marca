@@ -1,7 +1,73 @@
 {# Marca/UserBundle/Resources/views/Default/index.html.twig #}
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function() {
+            {% for roll in roll%}
+                $('#remove_{{roll.course.id}}').click(function(){
+                $('#roll_modal').load('{{ path('user_roll_modal', { 'id': roll.id, "courseid" : roll.course.id  }) }}');
+                $('#roll_modal').modal();
+                });
+            {% endfor %}
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
+    {% if app.request.attributes.get('_route') == 'enroll_find' or app.request.attributes.get('_route') == 'enroll_list' %}
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">Find Courses</h2>
+                </div>
+                <div class="panel-body">
+                    {% for course in possible_courses %}
+                        {% for exiting_course in courseids if exiting_course.id == course.id %}
+                            <div class="row" style="background: #f5f5f5">
+                                <div class="col-sm-12">
+                                    <h2>{{ course.name }}</h2>
+                                    <p>{{course.firstname}} {{course.lastname}}, {{ course.time|date('h:i a') }}</p>
+                                    <p>You are already in this course.</p>
+                                </div>
+                            </div>
+                        {%else%}
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h2>{{ course.name }}</h2>
+                                    <p>{{course.firstname}} {{course.lastname}}, {{ course.time|date('h:i a') }}</p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a class="btn btn-primary margin-top" title="Enroll in this course" href="{{ path('enroll_enroll', { 'courseid': course.id } ) }}">Enroll</a>
+                                </div>
+                                <hr/>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        {% if app.request.attributes.get('_route') == 'enroll_find' %}
+                            <p>What's your instructor's last name?</p>
+                        {% else %}
+
+                            <p>Want to try again?</p>
+                        {% endif %}
+
+                        <form action="{{ path('enroll_list') }}" method="post" {{ form_enctype(form) }}>
+                            {{ form_widget(form) }}
+                            <button class="btn btn-primary margin-top" type="submit">Find Course</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    {% endif %}
+
+
     {% if pending %}
         <div class="col-sm-6">
             <div class="panel panel-marca">
@@ -10,17 +76,17 @@
                 </div>
                 <div class="panel-body">
                     {% for course in pending %}
-                        <div class="col-sm-10">
+                        <div class="col-sm-9">
                             <h2 class="margin-top-small">{{ course.name }}</h2>
                             <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
                         </div>
-                        <div class="col-sm-2">
-                            {% if course.isOwner(app.user.username) %}<a class="btn btn-info" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}
+                        <div class="col-sm-3">
+                            <a id="remove_{{course.id}}" class="btn btn-default" title="Remove enrollment request" href="javascript:void(0);">Remove</a>
                         </div>
                     {% endfor %}
                 </div>
                 <div class="panel-footer">
-                    <span class="text-muted">Enrollment pending.  Please check back soon.</span>
+                    <span class="text-muted">Please check back soon.</span>
                     <a class='btn btn-primary btn-xs pull-right' href="{{ path('user_home') }}">Check now</a>
                 </div>
             </div>
@@ -102,4 +168,9 @@
         </div>
     {% endif %}
 
+
+    {# Modal #}
+    <div class="modal fade" id="roll_modal" role="dialog" >
+
+    </div><!-- /.modal -->
 {% endblock %}

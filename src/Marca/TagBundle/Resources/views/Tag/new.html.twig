@@ -1,6 +1,6 @@
 {# Marca/TabBundle/Resources/views/Tag/new.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -35,7 +35,7 @@
 
 
 {% block content %}
-    <div class="col-sm-12">
+    <div class="col-sm-11 center">
         <form action="{{ path('tag_create', { 'tagsetid': tagset.id }) }}" method="post" {{ form_enctype(form) }}>
 
             <div class="panel panel-default">

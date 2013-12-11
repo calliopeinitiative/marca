@@ -310,7 +310,7 @@ class FileController extends Controller
         if ($type == 'doc') {
         $doc  = new Doc();    
         $doc->setFile($file); 
-        $doc->setBody('<p></p>'); 
+        $doc->setBody('<p> </p>');
         }
         elseif ($type == 'review'){
 
@@ -333,7 +333,7 @@ class FileController extends Controller
         return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'id'=> $file->getId(),'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource, 'user'=>'0')));
         }
         elseif ($type == 'doc' || $type == 'review' || $type == 'instr_review' || $type == 'saveas') {
-        return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $doc->getId(),'view'=>'app')));
+        return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $file->getId(),'view'=>'app')));
         }
         
         }

@@ -1,0 +1,21 @@
+{# Marca/CourseBundle/Resources/views/Roll/show.html.twig #}
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Roll</h4>
+        </div>
+        <form action="{{ path('roll_pending_delete', { 'id': roll.id,'courseid': course.id }) }}" method="post">
+            <div class="modal-body">
+                <p>Are you sure you want to be removed from this course?</p>
+                {{ form_widget(delete_form) }}
+
+                <div class="btn-group">
+                    <button class="btn btn-danger" type="submit">Remove</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

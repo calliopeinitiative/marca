@@ -1,6 +1,6 @@
 {# Marca/CalendarBundle/Resources/views/Calendar/edit.html.twig #}
 
-{% extends 'MarcaCalendarBundle::layout.html.twig' %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
 {% block javascripts %}
 {{ parent() }}
@@ -39,12 +39,13 @@
 
 {% block stylesheets %}
 {{ parent() }}
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
 {% endblock %}
 
 {% block content %}
-    <div class="col-sm-12">
+    <div class="col-sm-11 center">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h2 class="panel-title small">Calendar Event</h2>
@@ -69,7 +70,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Delete</h4>
+                    <span class="modal-title">Delete</span>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete?</p>

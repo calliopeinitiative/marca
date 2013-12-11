@@ -1,6 +1,6 @@
 {# Marca/HomeBundle/Resources/views/Page/edit.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-sm-12">
+    <div class="col-sm-11 center">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h2 class="panel-title">Edit Page</h2>
@@ -40,7 +40,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Delete</h4>
+                    <span class="modal-title">Delete</span>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete?</p>

@@ -180,13 +180,15 @@ ivory_ck_editor:
             filename: "plugin.js"
     configs:
         editor_simple:
+            startupFocus: true
             toolbar: "toolbar_simple"
             removePlugins: "elementspath"
             allowedContent: false
             disableNativeSpellChecker: false
-            height: 300
+            height: 200
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
         editor_default:
+            startupFocus: true
             toolbar: "toolbar_default"
             extraPlugins: 'wordcount,mediaembed'
             removePlugins: "elementspath"
@@ -195,6 +197,7 @@ ivory_ck_editor:
             height: 300
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
         editor_docs:
+            startupFocus: true
             toolbar: "toolbar_docs"
             extraPlugins: 'wordcount,mediaembed,maxheight'
             removePlugins: "elementspath"
@@ -203,12 +206,13 @@ ivory_ck_editor:
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
             stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckeditor_styles.js'
         editor_page:
+            startupFocus: true
             toolbar: "toolbar_page"
             extraPlugins: 'wordcount,mediaembed,maxheight'
             removePlugins: "elementspath"
             allowedContent: false
             disableNativeSpellChecker: false
-            height: 800
+            height: 500
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
             stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckeditor_styles.js'
     toolbars:

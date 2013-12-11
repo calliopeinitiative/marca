@@ -1,12 +1,12 @@
 {# Marca/NoteBundle/Resources/views/Note/new.html.twig #}
 
-{% extends 'MarcaNoteBundle::layout.html.twig' %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
 {% block javascripts %}
 {% endblock %}
 
 {% block content %}
-<div class="col-sm-12">
+<div class="col-sm-11 center">
 
 <form action="{{ course_path('note_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}

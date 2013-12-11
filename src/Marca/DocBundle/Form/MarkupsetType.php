@@ -13,8 +13,8 @@ class MarkupsetType extends AbstractType
         $builder
             ->add('name','text', array('label'  => 'Name','attr' => array('class' => 'text form-control'),))
             ->add('description', 'ckeditor', array('config_name' => 'editor_docs',))
-            ->add('sortorder')     
-            ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes', 2 => 'Default'),'required'  => true,'label'  => 'Share your  Markup Set', 'expanded' => true,'attr' => array('class' => 'radio'),))
+            ->add('sortorder', 'hidden')
+            ->add('shared', 'hidden')
         ;
     }
 

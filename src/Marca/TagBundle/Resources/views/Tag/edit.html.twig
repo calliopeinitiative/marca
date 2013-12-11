@@ -1,6 +1,6 @@
 {# Marca/TabBundle/Resources/views/Tag/edit.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -36,7 +36,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-sm-12">
+    <div class="col-sm-11 center">
         <form class="form" action="{{ path('tag_update', { 'id': tag.id,'tagsetid': tagset.id  }) }}" method="post" {{ form_enctype(edit_form) }}>
 
             <div class="panel panel-default">
@@ -66,7 +66,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Delete</h4>
+                    <span class="modal-title">Delete</span>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete?</p>

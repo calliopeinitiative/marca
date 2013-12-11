@@ -39,6 +39,10 @@ class RollRepository extends EntityRepository
         }
         return $roleString;
     }
+
+    public function findPendingRoll($user){
+        return $this->getEntityManager()->createQuery('SELECT r from MarcaCourseBundle:Roll r WHERE r.user = ?1 AND r.role = 0')->setParameter('1', $user)->getResult();
+    }
     
     public function enroll($course,$user)
     {

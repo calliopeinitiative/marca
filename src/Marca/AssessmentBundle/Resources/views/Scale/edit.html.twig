@@ -1,12 +1,12 @@
 {# Marca/AssessmentBundle/Resources/views/Scale/edit.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block javascripts %}
 {% endblock %}
 
 {% block content %}
-<div class="col-sm-4">
+<div class="col-sm-6 center">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title small">Scales</h2>
@@ -23,7 +23,7 @@
             </form>
             <form action="{{ path('scale_delete', { 'id': scale.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button class="btn btn-delete pull-right" type="submit">Delete</button>
+                <button class="btn btn-warning pull-right" type="submit">Delete</button>
             </form>
         </div>
     </div>

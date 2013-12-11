@@ -1,28 +1,28 @@
 {# Marca/ForumBundle/Resources/views/Forum/new.html.twig #}
 
-{% extends 'MarcaForumBundle::layout.html.twig' %}
-
-
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
 
 {% block content %}
-    <div class="panel panel-default">
-        <form action="{{ course_path('forum_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-            <div class="panel-heading">
-                Forum
-            </div>
-            <div class="panel-body">
-                {{ form_errors(form) }}
-                {{ form_row(form.title) }}
-                {{ form_row(form.body) }}
-                {{ form_rest(form) }}
-            </div>
-            <div class="panel-footer">
-                <div class="btn-group">
-                    <button class="btn btn-primary" type="submit">Create</button>
-                    <a class='btn btn-default' href="{{ course_path('forum') }}">Cancel</a>
+    <div class="col-sm-11 center">
+        <div class="panel panel-default">
+            <form action="{{ course_path('forum_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+                <div class="panel-heading">
+                    Forum
                 </div>
-            </div>
-        </form>
+                <div class="panel-body">
+                    {{ form_errors(form) }}
+                    {{ form_row(form.title) }}
+                    {{ form_row(form.body) }}
+                    {{ form_rest(form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                        <a class='btn btn-default' href="{{ course_path('forum') }}">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}

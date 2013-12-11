@@ -1,9 +1,9 @@
 {# Marca/PortfolioBundle/Resources/views/Portfolio/edit.html.twig #}
 
-{% extends 'MarcaPortfolioBundle::layout.html.twig' %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
 {% block content %}
-    <div class="col-sm-6 col-sm-offset-1">
+    <div class="col-sm-6 center">
         <div class="panel panel-default">
             <form class="form" action="{{ course_path('portfolio_update', { 'id': portfolio.id }) }}" method="post" {{ form_enctype(edit_form) }}>
                 <div class="panel-heading">

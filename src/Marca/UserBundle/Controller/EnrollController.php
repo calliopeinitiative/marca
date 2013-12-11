@@ -28,22 +28,25 @@ class EnrollController extends Controller
     
     /**
      * @Route("/find", name="enroll_find")
-     * @Template()
+     * @Template("MarcaUserBundle:Default:index.html.twig")
      */
     public function findCourseAction()
     {
         $em = $this->getEm();
-        $current_user = $this->getUser();
-        $id = $current_user->getId();
-        if ($current_user->getInstitution()->getResearch()==true and $current_user->getResearch()==0){
+        $user = $this->getUser();
+        $id = $user->getId();
+        if ($user->getInstitution()->getResearch()==true and $user->getResearch()==0){
         return $this->redirect($this->generateUrl('user_research', array('id' => $id)));
         }
-        $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($current_user);
-        $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($current_user);
-        $courseids = $em->getRepository('MarcaCourseBundle:Course')->findUserCourseIds($current_user);
+        $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($user);
+        $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($user);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findPendingRoll($user);
+        $modules = $em->getRepository('MarcaCourseBundle:Course')->findModules($user);
+        $archive = $em->getRepository('MarcaCourseBundle:Course')->findArchivedCourses($user);
+        $courseids = $em->getRepository('MarcaCourseBundle:Course')->findUserCourseIds($user);
 
-        $user = new User();
-        $form = $this->createFormBuilder($user)
+        $find_user = new User();
+        $form = $this->createFormBuilder($find_user)
             ->add('lastname','text', array('label'  => ' ','attr' => array('class' => 'text form-control'),))
             ->getForm();
 
@@ -52,7 +55,10 @@ class EnrollController extends Controller
         return array(
             'courses'=>$courses,
             'pending'=>$pending,
-            'user' => $user,
+            'roll'=>$roll,
+            'archive'=>$archive,
+            'roll'=>$roll,
+            'modules' => $modules,
             'courseids'=>$courseids,
             'possible_courses' => $possible_courses,
             'form'   => $form->createView()
@@ -61,20 +67,22 @@ class EnrollController extends Controller
     
     /**
      * @Route("/list", name="enroll_list")
-     * @Template("MarcaUserBundle:Enroll:findCourse.html.twig")
+     * @Template("MarcaUserBundle:Default:index.html.twig")
      */
     public function listCourseAction()
     {
         $em = $this->getEm();
-        $current_user = $this->getUser();
-        $current_user_id = $current_user->getId();
-        $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($current_user);
-        $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($current_user);
-        $courseids = $em->getRepository('MarcaCourseBundle:Course')->findUserCourseIds($current_user);
+        $user = $this->getUser();
+        $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($user);
+        $pending = $em->getRepository('MarcaCourseBundle:Course')->findPendingCourses($user);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findPendingRoll($user);
+        $modules = $em->getRepository('MarcaCourseBundle:Course')->findModules($user);
+        $archive = $em->getRepository('MarcaCourseBundle:Course')->findArchivedCourses($user);
+        $courseids = $em->getRepository('MarcaCourseBundle:Course')->findUserCourseIds($user);
         
-        $user = new User();
-        $form = $this->createFormBuilder($user)
-            ->add('lastname','text', array('label'  => 'Last name','attr' => array('class' => 'text form-control'),))
+        $find_user = new User();
+        $form = $this->createFormBuilder($find_user)
+            ->add('lastname','text', array('label'  => ' ','attr' => array('class' => 'text form-control'),))
             ->getForm();
         
        $request = $this->get('request');
@@ -82,12 +90,14 @@ class EnrollController extends Controller
        $lastname = $postData['lastname'];
        $em = $this->getEm(); 
        $possible_courses = $em->getRepository('MarcaCourseBundle:Course')->findCourseByLastname($lastname);
-       
-        
         
        return array(
            'courses'=>$courses,
            'pending'=>$pending,
+           'roll'=>$roll,
+           'archive'=>$archive,
+           'roll'=>$roll,
+           'modules' => $modules,
            'courseids'=>$courseids,
            'possible_courses' => $possible_courses,
            'form'   => $form->createView(),

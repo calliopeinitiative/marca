@@ -1,6 +1,6 @@
 {# Marca/CalendarBundle/Resources/views/Calendar/new.html.twig #}
 
-{% extends 'MarcaCalendarBundle::layout.html.twig' %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
 {% block javascripts %}
 {{ parent() }}
@@ -42,12 +42,13 @@
 
 {% block stylesheets %}
 {{ parent() }}
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
 {% endblock %}
 
 {% block content %}
-    <div class="col-sm-12">
+    <div class="col-sm-11 center">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h2 class="panel-title small">Calendar Event</h2>
