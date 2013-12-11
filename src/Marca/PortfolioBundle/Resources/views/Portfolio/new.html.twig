@@ -1,9 +1,9 @@
 {# Marca/PortfolioBundle/Resources/views/Portfolio/new.html.twig #}
 
-{% extends 'MarcaPortfolioBundle::layout.html.twig' %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
 {% block content %}
-<div class="col-sm-6 col-sm-offset-3">
+<div class="col-sm-6 center">
     <div class="panel panel-default">
         <div class="panel-heading">
 <form class="form" action="{{ course_path('portfolio_create') }}" method="post" {{ form_enctype(form) }}>
