@@ -93,7 +93,7 @@ swiftmailer:
     spool: { type: memory }
 
 fr3d_ldap:
-    driver:
+    client:
         host:                %ldap_host%
         port:                %ldap_port%
 #       username:            foo    # Optional
