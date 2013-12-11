@@ -46,7 +46,7 @@
 <body>
 
 
-{% if 'doc' in app.request.attributes.get('_route') or 'portfolio_user' in app.request.attributes.get('_route') or 'ratingset' in app.request.attributes.get('_route')%}
+{% if not is_granted('ROLE_USER') or 'doc' in app.request.attributes.get('_route') or 'portfolio_user' in app.request.attributes.get('_route') or 'ratingset' in app.request.attributes.get('_route')%}
     {% else %}
     <nav class="navbar navbar-inverse navbar-fixed-top">
         {% if is_granted('ROLE_USER') %}
