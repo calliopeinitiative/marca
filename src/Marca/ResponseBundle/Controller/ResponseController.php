@@ -88,7 +88,7 @@ class ResponseController extends Controller
             $response->setJournal($journal);
             $request = $this->getRequest();
             $form    = $this->createForm(new ResponseType(), $response);
-            $form->submit($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
             $em->persist($response);
@@ -118,7 +118,7 @@ class ResponseController extends Controller
             $journal = '';
             $request = $this->getRequest();
             $form    = $this->createForm(new ResponseType(), $response);
-            $form->submit($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
             $em = $this->getEm();
@@ -227,7 +227,7 @@ class ResponseController extends Controller
              $editForm   = $this->createForm(new ResponseType(), $response);
              $deleteForm = $this->createDeleteForm($id);
              $request = $this->getRequest();
-             $editForm->submit($request);
+             $editForm->bind($request);
 
             if ($editForm->isValid()) {
             $em->persist($response);
@@ -253,7 +253,7 @@ class ResponseController extends Controller
              $editForm   = $this->createForm(new ResponseType(), $response);
              $deleteForm = $this->createDeleteForm($id);
              $request = $this->getRequest();
-             $editForm->submit($request);
+             $editForm->bind($request);
             $file = $em->getRepository('MarcaFileBundle:File')->find($sourceid);
             if ($file->getDoc()){
                 $doc = $file->getDoc();

@@ -182,7 +182,7 @@ class DefaultController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->submit($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($user);
@@ -221,7 +221,7 @@ class DefaultController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->submit($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($user);

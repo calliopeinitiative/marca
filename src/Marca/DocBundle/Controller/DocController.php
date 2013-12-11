@@ -171,7 +171,7 @@ class DocController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->submit($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($doc);
@@ -232,7 +232,7 @@ class DocController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->submit($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

@@ -144,7 +144,7 @@ class JournalController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->submit($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($journal);
@@ -215,7 +215,7 @@ class JournalController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->submit($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
