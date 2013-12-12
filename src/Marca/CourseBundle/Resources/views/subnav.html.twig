@@ -22,7 +22,7 @@
             {% if app.session.get('referrer')%}
                 <a title='Course Projects' href="{{app.session.get('referrer')}} ">Projects</a>
             {%else%}
-                <a title='Course Projects' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Projects</a>
+                <a title='Course Projects' href="{{ course_path('file_list', { 'project': 'default', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Projects</a>
             {%endif%}
         </li>
     {%endif%}

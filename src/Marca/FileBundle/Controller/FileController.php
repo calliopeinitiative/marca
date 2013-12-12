@@ -58,6 +58,10 @@ class FileController extends Controller
             $project = $default_project;
         }
 
+        if ($project == 'default') {
+            $project = $course->getProjectDefault()->getId();
+        }
+
         //if the request is for reviews
         if ($tag == 3) {
         $files = $em->getRepository('MarcaFileBundle:File')->findPeerReviewFiles($project, $user, $scope, $course, $tag, $resource, $byuser, $role);    
@@ -535,7 +539,7 @@ class FileController extends Controller
         
 
          if ($this->getRequest()->getMethod() === 'POST') {
-             $form->submit($this->getRequest());
+             $form->bind($this->getRequest());
              if ($form->isValid()) {
                  $em = $this->getEm();
                  $em->persist($file);
@@ -588,7 +592,7 @@ class FileController extends Controller
 
 
         if ($this->getRequest()->getMethod() === 'POST') {
-            $form->submit($this->getRequest());
+            $form->bind($this->getRequest());
             if ($form->isValid()) {
                 $em = $this->getEm();
                 $em->persist($file);

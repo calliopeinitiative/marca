@@ -19,15 +19,15 @@ class FileRepository extends EntityRepository
  */
    public function findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser, $role)
     {
-       if($scope == 'all' and $role == 2) {$scopeQuery = ' or f.access = 1 or f.access = 0';}
-       elseif($scope == 'all' and $role != 2) {$scopeQuery = ' or f.access = 1';}
-       elseif($scope == 'byuser' and $role == 2) {$user = $byuser; $scopeQuery = '';}
-       elseif($scope == 'byuser' and $role != 2) {$user = $byuser; $scopeQuery = ' AND f.access = 1';}
-       else {$scopeQuery = '';};
+        if($scope == 'all' and $role == 2) {$scopeQuery = ' or f.access = 1 or f.access = 0';}
+        elseif($scope == 'all' and $role != 2) {$scopeQuery = ' or f.access = 1';}
+        elseif($scope == 'byuser' and $role == 2) {$user = $byuser; $scopeQuery = '';}
+        elseif($scope == 'byuser' and $role != 2) {$user = $byuser; $scopeQuery = ' AND f.access = 1';}
+        else {$scopeQuery = '';};
        
-       if ($tag != 0) {$tagQuery = '';} else {$tagQuery = ' OR t.id != 0 OR t.id is NULL';}
+        if ($tag != 0) {$tagQuery = '';} else {$tagQuery = ' OR t.id != 0 OR t.id is NULL';}
 
-       if($project == 'recent') {
+        if($project == 'recent') {
          return $this->getEntityManager()
             ->createQuery('SELECT f, p, d, t, r, o, s  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.responses s LEFT JOIN f.portfolio o LEFT JOIN f.tag t LEFT JOIN f.reviews r 
                 WHERE f.course = ?1 AND p.resource = ?3 AND f.reviewed IS NULL AND (f.user = ?2'.$scopeQuery.') AND (t.id = ?4'.$tagQuery.') ORDER BY f.updated DESC')

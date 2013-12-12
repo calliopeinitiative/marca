@@ -75,18 +75,18 @@
         <hr class="marca-spacer" />
 
         {# Projects  Find #}
+        {% for project in projects %}
+            <li>
+                <a title='{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}' class="project-sidebar {% if active_project == project.id %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
+                    {% if app.request.get('resource')=='1' and project.course.name!=app.session.get('course') %}{{ project.course.name }}: {%endif%}{{ project.name }}{% if project == course.projectDefault %} <span class="glyphicon glyphicon-ok small"></span>{%endif%}</a>
+            </li>
+        {% endfor %}
         {% if app.request.get('resource')=='0' %}
             <li><a class="project-sidebar {% if active_project == 0 %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
                     All Folders </a>
             </li>
         {%else%}
         {% endif %}
-        {% for project in projects %}
-            <li>
-                <a title='{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}' class="project-sidebar {% if active_project == project.id %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-                    {% if app.request.get('resource')=='1' and project.course.name!=app.session.get('course') %}{{ project.course.name }}: {%endif%}{{ project.name }}</a>
-            </li>
-        {% endfor %}
 
         {# Labels  Find #}
         <hr class="marca-spacer" />

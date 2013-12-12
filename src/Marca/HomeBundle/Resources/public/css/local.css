@@ -717,16 +717,19 @@ td.labels {
 }
 
 tr.file > td > a {
-    font-size: 13px;
+    font-size: 13px; margin-left: 5px;
 }
 
 
 tr.review > td > a {
-    padding-left:30px;
+    padding-left:5px;
     display:inline-block;
     font-size: 13px;
 }
 
+tr.review > td > span {
+    margin-left:30px;
+}
 
 #file_list thead tr {
     height:22px;
