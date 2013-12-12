@@ -400,7 +400,7 @@ class CourseController extends Controller
     /**
      * Displays a form to edit an course announcements.
      *
-     * @Route("/{courseid}/annouce_edit", name="announce_edit")
+     * @Route("/{courseid}/announce_edit", name="announce_edit")
      * @Template("MarcaCourseBundle:Course:announce_edit.html.twig")
      */
     public function editAnnouncementAction($courseid)
