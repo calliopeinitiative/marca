@@ -29,7 +29,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-sm-11 center">
+    <div class="col-sm-10 center">
         {% if pages %}
             <div id="help_show" class="panel panel-default">
                 <div class="panel-heading">
@@ -68,14 +68,9 @@
                         <div class="{% if course.module!=0 %}hide{%endif%}">{{ form_row (form.term) }}</div>
                     </div>
 
-                    {% if course.module!=0 %}
                     <div class="panel-footer">
-                        <div class="btn-group">
-                            <button class="btn btn-primary " type="submit">Create</button>
-                            <a class="btn btn-default" href="{{ path('user_home') }}">Cancel</a>
-                        </div>
                     </div>
-                    {% endif %}
+
 
                     <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
                         <h2 class="margin-top-small">Tools</h2>
@@ -99,7 +94,7 @@
             </div>
 
 
-            <div class="col-sm-6" {% if course.module != 0%} style="display:none;"{% endif %}>
+            <div class="col-sm-6" >
                 <div class="panel panel-default">
                     <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
                         <h2 class="margin-top-small">Student Access</h2>
@@ -111,11 +106,13 @@
                         {{ form_row (form.institution) }}
                     </div>
 
-                    <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
+                    <div class="panel-heading">
                         <h2 class="margin-top-small">Other Settings</h2>
                     </div>
-                    <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
+                    <div class="panel-body">
                         {{ form_row (form.tagset) }}
+                    </div>
+                    <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
                         {{ form_row (form.markupsets) }}
                         {{ form_row (form.parents) }}
                         {{ form_row (form.module) }}
@@ -123,7 +120,7 @@
                     </div>
 
 
-                    <div class="panel-footer" style="{% if course.module!=0 %}display:none;"{% endif %}>
+                    <div class="panel-footer">
                         <div class="btn-group">
                             <button class="btn btn-primary " type="submit">Create</button>
                             <a class="btn btn-default" href="{{ path('user_home') }}">Cancel</a>

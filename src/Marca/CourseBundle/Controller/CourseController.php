@@ -293,12 +293,16 @@ class CourseController extends Controller
         if($user != $course->getUser()){
             throw new AccessDeniedException();
         }
+
+        $type= Page::TYPE_COURSE;
+        $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
         
         $editForm = $this->createForm(new CourseType($options), $course);
         $deleteForm = $this->createDeleteForm($courseid);
 
         return array(
             'course'      => $course,
+            'pages'      => $pages,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
