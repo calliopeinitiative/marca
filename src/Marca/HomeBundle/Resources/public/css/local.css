@@ -425,11 +425,13 @@ ul.nav > li > input {
 
 /***** 05a. Modals *****/
 
-div.modal-content {background-color: #CCCCCC;}
+div.modal-content {background-color: #fff;}
 
-div.modal-body {background-color: #fff;}
+div.modal-header {background-color: #CCCCCC;}
 
-div.modal-footer {background-color: #fff;margin-top: 0px;}
+div.modal-body {background-color: #fff;padding-top: 20px;}
+
+div.modal-footer {background-color: #fff;margin-top: 30px; padding-top: 20px;}
 
 .btn-file {
     position: relative;
@@ -673,6 +675,7 @@ tr.review > td:first-child  {
 
 td.labels {
     width:10%;
+    padding-bottom:1px;
 }
 
 #file_list thead {
@@ -681,10 +684,11 @@ td.labels {
 
 .table > tbody > tr > td {
     padding:6px;
+    line-height:1.6;
 }
 
 .file-menu {
-   margin-top: 2px; margin-left: 40px; display:none;
+   margin-top: 0px; margin-bottom: -5px; padding-top:2px; margin-left: 40px; display:none;
 }
 
 .file-menu > a {
