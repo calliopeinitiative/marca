@@ -603,6 +603,10 @@ div input[type="email"] {
     margin-bottom: 20px;
 }
 
+.sp-replacer.sp-light {
+    margin-left:10px;
+    margin-bottom:25px;
+}
 
 /* form > div.btn-group {
     margin-top:20px;

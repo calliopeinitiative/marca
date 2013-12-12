@@ -59,7 +59,7 @@
             <div class="col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h2>{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
+                        <h2 class="margin-top-small">{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
                     </div>
                     <div class="panel-body">
                         {{ form_errors(form) }}
@@ -68,8 +68,17 @@
                         <div class="{% if course.module!=0 %}hide{%endif%}">{{ form_row (form.term) }}</div>
                     </div>
 
+                    {% if course.module!=0 %}
+                    <div class="panel-footer">
+                        <div class="btn-group">
+                            <button class="btn btn-primary " type="submit">Create</button>
+                            <a class="btn btn-default" href="{{ path('user_home') }}">Cancel</a>
+                        </div>
+                    </div>
+                    {% endif %}
+
                     <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
-                        <h2>Tools</h2>
+                        <h2 class="margin-top-small">Tools</h2>
                     </div>
                     <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
                         {{ form_row (form.notes) }}
@@ -79,7 +88,7 @@
 
                     </div>
                     <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
-                        <h2>Portfolios</h2>
+                        <h2 class="margin-top-small">Portfolios</h2>
                     </div>
                     <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
                         {{ form_row (form.portfolio) }}
@@ -89,10 +98,11 @@
                 </div>
             </div>
 
-            <div class="col-sm-6">
+
+            <div class="col-sm-6" {% if course.module != 0%} style="display:none;"{% endif %}>
                 <div class="panel panel-default">
                     <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
-                        <h2>Student Access</h2>
+                        <h2 class="margin-top-small">Student Access</h2>
                     </div>
                     <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
                         {{ form_row (form.enroll) }}
@@ -102,7 +112,7 @@
                     </div>
 
                     <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
-                        <h2>Other Settings</h2>
+                        <h2 class="margin-top-small">Other Settings</h2>
                     </div>
                     <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
                         {{ form_row (form.tagset) }}
@@ -113,7 +123,7 @@
                     </div>
 
 
-                    <div class="panel-footer">
+                    <div class="panel-footer" style="{% if course.module!=0 %}display:none;"{% endif %}>
                         <div class="btn-group">
                             <button class="btn btn-primary " type="submit">Create</button>
                             <a class="btn btn-default" href="{{ path('user_home') }}">Cancel</a>

@@ -6,7 +6,7 @@
     <div class="col-sm-6">
         <div class="panel panel-default ">
             <div class="panel-heading">
-                <h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> </h2>
+                <h2 class="margin-top-small"><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> </h2>
                 {% if course.module == 2%}<div class='alert alert-success'>This module is shared with all instructors.</div>{% endif %}
                 <p></p><strong>Time:</strong> {{ course.time|date('h:i a') }}
                 <strong>Term:</strong> {{ course.term.termName }}</p>
@@ -27,11 +27,13 @@
 
             </div>
 
+            {# Show/hide conditional for Modules #}
+            {% if course.module == 0 %}
+
             <div class="panel-body">
-                {# Show/hide conditional for Modules #}
-                {% if course.module == 0 %}
+
                     <ul class="list-unstyled">
-                        <li><h2>Tools available in the course</h2></li>
+                        <li><h2 class="margin-top-small" >Tools available in the course</h2></li>
                         <li><strong>Notes tool:</strong>  {{ course.notes=='t' ? 'Yes' : 'No' }}</li>
                         <li><strong>Forum tool:</strong>  {{ course.forum=='t' ? 'Yes' : 'No' }}</li>
                         <li><strong>Journal tool:</strong>  {{ course.journal=='t' ? 'Yes' : 'No' }}</li>
@@ -55,8 +57,9 @@
                             {% endif %}
                         </li>
                     </ul>
-                {% endif %}
             </div>
+            {% endif %}
+
         </div>
     </div>
 
@@ -64,13 +67,13 @@
         <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2>Projects</h2>
+                    <h2 class="margin-top-small">Projects</h2>
                     <p>Your students will place their work in these folders.</p>
                 </div>
 
                 <div class="panel-body">
-                    <h3>Folders</h3>
-                    <a class="btn btn-default btn-xs" href="{{ path('project_new', {'courseid': course.id, 'resource':0}) }}">New Folder</a>
+                    <h3 class="margin-top-small" style="display:inline-block">Folders</h3>
+                    <a class="btn btn-default btn-xs pull-right" href="{{ path('project_new', {'courseid': course.id, 'resource':0}) }}"><b>New Folder</b></a>
                     <table class="table table-condensed">
                         <tbody>
                         {% for project in projects  %}
@@ -101,7 +104,7 @@
     <div class="col-sm-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2>Resources</h2>
+                <h2 class="margin-top-small">Resources</h2>
                 {% if course.module == 0%}
                 <p>You will place content in these units for your students.  Any units in the course marked <i class="glyphicon glyphicon-home"></i> will display on the course home page.</p>
                 {% else %}
@@ -111,8 +114,8 @@
             </div>
 
             <div class="panel-body">
-                <h3>Units</h3>
-                <a class="btn btn-default btn-xs" href="{{ path('project_new', {'courseid': course.id, 'resource':1}) }}">New Unit</a>
+                <h3 class="margin-top-small" style="display:inline-block">Units</h3>
+                <a class="btn btn-default btn-xs pull-right" href="{{ path('project_new', {'courseid': course.id, 'resource':1}) }}"><b>New Unit</b></a>
                 <table class="table table-condensed table-striped">
                     <tbody>
                     {% for project in projects  %}
@@ -137,7 +140,7 @@
 
                 <hr/>
                 {% if course.module == 0 %}
-                    <h3>Modules</h3>
+                    <h3 class="margin-top-small">Modules</h3>
                     <p>Modules are libraries of content that you can reuse.</p>
                     Units from Modules included in this course.
                     <table class="table table-condensed table-striped">
