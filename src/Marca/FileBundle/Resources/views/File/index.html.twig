@@ -183,10 +183,9 @@
                     <td>{{ file.user.firstname|title }} {{ file.user.lastname|title }}</td>
                     <td class="hidden-xs">{% if app.request.get('project')=='recent' %}{% if app.request.get('resource')=='1' %}{{ file.project.course.name }}: {% endif %}{{ file.project.name }}{% endif %}</td>
                     <td class="labels hidden-xs">{% if file.access!=1 and file.portfolio|length ==0 and file.tag |length ==0%}&mdash;{% endif %}
-
-                        {% if file.access==1 %} <span class="label label-success" data-toggle="tooltip" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
-                        {% if file.portfolio|length !=0 %} <span class="label label-info" data-toggle="tooltip" title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
-                        {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
+                        {% if file.access==1 %} <span class="label label-success" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
+                        {% if file.portfolio|length !=0 %} <span class="label label-info" title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
+                        {% for tag in file.tag %} <span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
                     <td>{% if app.request.get('resource')=='0' %}{% if file.doc %}{{ file.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ file.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}</td>
                 </tr>
                     {% for review in file.reviews%}
@@ -196,27 +195,27 @@
                                     {# different functions for different file types #}
                                     {# doc files #}
                                     {% if review.doc %}
-                                        <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
+                                        <span class="label label-file" title="This an html file ">html</span>
                                         <a class="file_name" href="{{ course_path('doc_show', { 'id': review.id, 'view': 'app' }) }}"  title="View {{ review.name }}">
                                             Review of <i>{{ review.reviewed.name }}</i> for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
                                             <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
                                         </a>
                                         {# links #}
                                     {% elseif review.url %}
-                                        <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
+                                        <span class="label label-file" title="This a link ">link</span>
                                         <a class="file_name" href="{{ review.url}}" target="_blank" title='This link will open in a new window or tab.'>
                                             Review of <i>{{ review.reviewed.name }}</i> for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
                                             <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
                                         </a>
                                         {# ODT files #}
                                     {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
-                                        <span class="label label-file" data-toggle="tooltip" title="This an {{ review.ext }} file ">{{ file.ext }}</span>
+                                        <span class="label label-file" title="This an {{ review.ext }} file ">{{ file.ext }}</span>
                                         <a class="file_name" href="{{ course_path('file_view', { 'id': review.id, 'view': 'app' }) }}" title="View {{ review.name }}" >
                                             Review of <i>{{ review.reviewed.name }}</i> for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
                                             <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
                                         </a>
                                     {% else %}
-                                        <span class="label label-file" data-toggle="tooltip" title="This an {{ review.ext }} file ">{{ review.ext }}</span>
+                                        <span class="label label-file" title="This an {{ review.ext }} file ">{{ review.ext }}</span>
                                         <a class="file_name" href="{{ course_path('file_get', { 'id': review.id}) }}" title="View {{ review.name }}" >
                                             Review of <i>{{ review.reviewed.name }}</i> for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
                                             <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
@@ -235,8 +234,8 @@
 
                                 <td class="hidden-xs"></td>
                                 <td class="labels hidden-xs">{% if review.access==1 %} <span class="label label-success">Shared</span>
-                                    {% elseif review.access==2 %}<span title="This review is currently hidden from view." class="label label-default black">Hidden</span> {% endif %}
-                                    {% for tag in review.tag %}<span class="label label-default " style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
+                                    {% elseif review.access==2 %} <span title="This review is currently hidden from view." class="label label-default black">Hidden</span>{% endif %}
+                                    {% for tag in review.tag %} <span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
                                 </td>
                                 <td>
                                     {% if app.request.get('resource')=='0' %}{% if review.doc %}{{ review.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ review.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}

@@ -729,7 +729,7 @@ tr.review > td > a {
     font-size: 13px;
 }
 
-tr.review > td > span {
+tr.review > td:first-of-type > span {
     margin-left:30px;
 }
 
