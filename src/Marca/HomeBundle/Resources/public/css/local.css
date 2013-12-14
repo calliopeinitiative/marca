@@ -365,6 +365,8 @@ ul.nav > li > input {
     padding-right:15px;
 }
 
+#project_list > a {display:inline;}
+
 /********** End 03. Nav **********/
 
 
@@ -807,6 +809,9 @@ td > ul.nav {height:20px;margin-top: -10px;}
     border-radius: .25em;
     background-color: #999999;
 }
+
+.default_hidden {display:none;}
+.default_show {display:inline;}
 
 /***** End 06b. File list *****/
 

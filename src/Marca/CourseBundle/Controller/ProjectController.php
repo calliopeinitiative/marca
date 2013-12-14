@@ -320,5 +320,27 @@ class ProjectController extends Controller
         return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
 
     }
+
+
+    /**
+     * Set Project Default
+     *
+     * @Route("/{courseid}/{projectId}/set_default", name="project_set_default")
+     */
+    public function setDefaultAction($projectId, $courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+
+        $em = $this->getEm();
+        $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
+        $course = $project->getCourse();
+        $course->setProjectDefault($project);
+        $em->persist($course);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'project'=> 'default', 'scope'=> 'mine', 'user'=> '0', 'resource'=>'0', 'tag'=> '0', 'userid'=> '0')));
+
+    }
 }
 
