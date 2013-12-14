@@ -368,12 +368,14 @@ class FileController extends Controller
         $user = $this->getUser();
         
         $em = $this->getEm();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $options = array('courseid' => $courseid, 'resource'=> $resource);
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $course = $file->getCourse();
+        $file_courseid = $course->getId();
+        $options = array('courseid' => $file_courseid, 'resource'=> $resource);
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $url = $file->getUrl();
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($file_courseid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($file_courseid);
               
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
@@ -415,8 +417,10 @@ class FileController extends Controller
         $user = $this->getUser();
         
         $em = $this->getEm();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $options = array('courseid' => $courseid, 'resource'=> $resource);
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $course = $file->getCourse();
+        $file_courseid = $course->getId();
+        $options = array('courseid' => $file_courseid, 'resource'=> $resource);
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
