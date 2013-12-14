@@ -365,7 +365,9 @@ ul.nav > li > input {
     padding-right:15px;
 }
 
-#project_list > a {display:inline;}
+#project_list > a {
+    display:inline-block;
+}
 
 /********** End 03. Nav **********/
 
