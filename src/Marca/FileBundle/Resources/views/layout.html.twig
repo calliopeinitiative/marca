@@ -65,7 +65,7 @@
             <hr class="marca-spacer" />
 
             <li><a class="project-sidebar {% if app.request.get('scope')=='mine' and app.request.get('tag')!='3' %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a></li>
-            <li><a class="project-sidebar {% if app.request.get('tag')=='3' %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '3', 'userid': '0' }) }}">My Reviews</a></li>
+            {# <li><a class="project-sidebar {% if app.request.get('tag')=='3' %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '3', 'userid': '0' }) }}">My Reviews</a></li> #}
             {# Roll for Find by user  #}
             <li class="dropdown"><a href="javascript:void(0);" role="button" class="project-sidebar {% if app.request.get('scope')=='byuser' %}current-filter{% endif %}" data-toggle="dropdown" id="findByAuthor">{% if app.request.get('scope')=='byuser' %}Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}{% else %}Files By Author{% endif %}<b class="caret" style="margin-left:6px;"></b></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">

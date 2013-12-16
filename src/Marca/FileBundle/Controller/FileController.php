@@ -64,7 +64,7 @@ class FileController extends Controller
 
         //if the request is for reviews
         if ($tag == 3) {
-        $files = $em->getRepository('MarcaFileBundle:File')->findPeerReviewFiles($project, $user, $scope, $course, $tag, $resource, $byuser, $role);    
+        $files = $em->getRepository('MarcaFileBundle:File')->findPeerReviewFiles($project, $user, $scope, $course, $tag, $resource, $byuser, $role);
         }
         else {
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser, $role);
