@@ -81,6 +81,11 @@
             $('#sort_filter_toggle').click(function(){
                 $('.tablesorter-filter-row').toggle();
             });
+            var count = $('#file_list tr').length -2;
+            var count_text = '';
+            if (count > 1) {count_text = ' ' + count + ' files found';$('li.file_count').append(count_text);}
+
+
         });
     </script>
 {% endblock %}

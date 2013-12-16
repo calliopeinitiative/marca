@@ -108,7 +108,7 @@
     {% endif %}
 
     <hr class="marca-spacer" />
-    <li>{{ count }} file{% if count != 1 %}s{% endif %} found</li>
+    <li class="file_count"></li>
     {% if role == '2' and app.request.get('resource')==0 %}
         <li><a class="project-sidebar" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a></li>
     {% endif %}
