@@ -23,11 +23,9 @@
                 $('#file_modal').modal();
             });
             {% endfor %}
-            {#
-            $('#file_list').css('height', function(index) {
-                return $(window).height() * .70;
+            $('.file-wrapper').css('max-height', function(index) {
+                return $(window).height()* .88;
             });
-            #}
             $('#sort_filter_toggle').click(function(){
                 $.extend($.tablesorter.themes.bootstrap, {
                     table      : 'table',

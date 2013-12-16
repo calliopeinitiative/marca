@@ -19,7 +19,7 @@
 
 {% block content %}
 
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-fixed-bottom navbar-inverse" role="navigation">
         <div class="navbar-header col-sm-6">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
@@ -27,7 +27,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a name="top"></a>
-            <a class="navbar-brand" href="#" title="Journal entries by {{ user.firstname }} {{ user.lastname }}"><h2 class="panel-title small">Journal entries by {{ user.firstname }} {{ user.lastname }}</h2></a>
+            <a class="navbar-brand" href="#" title="Journal entries by {{ user.firstname }} {{ user.lastname }}"><div class="panel-title small">Journal entries by {{ user.firstname }} {{ user.lastname }}</div></a>
         </div>
 
         <div class="navbar-collapse collapse">
@@ -53,7 +53,6 @@
 
 <div class="navbar-header col-sm-3">
     <ul class="list-group">
-        <li class='list-group-item' style="background-color: #f5f5f5;">Journal Entries</li>
     {% for journal in journals %}
         <a id="journal_{{ loop.index }}" class='list-group-item' href="{{ course_path('journal_list', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}">
             {{ journal.title }}

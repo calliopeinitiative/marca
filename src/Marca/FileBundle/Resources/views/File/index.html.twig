@@ -37,13 +37,15 @@
             });
             {% endfor %}
             {% endfor %}
+            $('.file-wrapper').css('max-height', function(index) {
+                return $(window).height()* .88;
+            });
             $('#marca_filebundle_filetype_file').on('change', function() {
                 var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '')
                 var file = filename.substr(0, filename.lastIndexOf('.')) || filename
                 $('#marca_filebundle_filetype_name').val(file);
             });
-            $('#sort_filter_toggle').click(function(){
-                $.extend($.tablesorter.themes.bootstrap, {
+            $.extend($.tablesorter.themes.bootstrap, {
                     table      : 'table',
                     header     : 'bootstrap-header', // give the header a gradient background
                     footerRow  : '',
@@ -68,7 +70,7 @@
                         filter_reset : ".reset"
                     }
                 });
-            });
+            $('.tablesorter-filter-row').toggle();
             $('.tablesorter-filter').addClass('form-control');
             $( "tr" ).hover(
                     function() {
@@ -76,6 +78,9 @@
                     }
             );
             $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
+            $('#sort_filter_toggle').click(function(){
+                $('.tablesorter-filter-row').toggle();
+            });
         });
     </script>
 {% endblock %}
@@ -96,7 +101,7 @@
     {% endif %}
 
     {% if byuser %}
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-fixed-bottom navbar-inverse" role="navigation">
         <div class="navbar-header col-sm-3 col-sm-3">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="navbar-collapse">
                 <span class="icon-bar"></span>
@@ -252,12 +257,13 @@
 
             </tbody>
         </table>
+
+        <div class="navigation">
+            {{ knp_pagination_render(files) }}
+        </div>
+
     </div>
 
-
-    <div class="navigation">
-        {{ knp_pagination_render(files) }}
-    </div>
 
     {# Modal #}
     <div class="modal fade" id="file_modal" role="dialog" >
