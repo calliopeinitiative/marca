@@ -60,6 +60,7 @@ class FileController extends Controller
 
         if ($project == 'default') {
             $project = $course->getProjectDefault()->getId();
+            $project = 'recent';
         }
 
         //if the request is for reviews
