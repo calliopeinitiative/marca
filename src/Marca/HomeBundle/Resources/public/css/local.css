@@ -632,6 +632,12 @@ form > a.btn-warning {
 
 /***** 06b. File list *****/
 
+nav.subnav {
+    height:25px;
+    margin-top: -20px;
+    margin-bottom: 10px;
+}
+
 .file-wrapper {
     margin-left:15px;
     margin-right:15px;
