@@ -21,12 +21,13 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2>{% if project.resource==0%}Folder in Projects{%else%}Unit in Resources{%endif%}</h2>
+                    <h2>{% if project.resource == false%}Folder in Projects{%else%}Unit in Resources{%endif%}</h2>
                 </div>
                 <div class="panel-body">
                     {{ form_errors(edit_form) }}
                     {{ form_row (edit_form.name) }}
-                    {{ form_row (edit_form.resource) }}
+                    <div style="display: none;">{{ form_row (edit_form.resource) }}</div>
+                    <div style="{% if project.resource == 0 %}display: none;{% endif %}">{{ form_row (edit_form.coursehome) }}</div>
                     {{ form_rest(edit_form) }}
                 </div>
                 <div class="panel-footer">

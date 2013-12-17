@@ -187,27 +187,8 @@ class ProjectController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            if ($oldSort < $project->getSortOrder()){
-                foreach($course->getProjects() as $projects){
-                    if ($project->getSortOrder() >= $projects->getSortOrder() && $oldSort < $projects->getSortOrder() && $project->getName() != $projects->getName()){
-                        $currentsort = $projects->getSortOrder();
-                        //$project->setName("Changed");
-                        $project->setSortOrder($currentsort-1);    
-                }
-            }
-            }
-            elseif ($oldSort > $project->getSortOrder()){
-                foreach($course->getProjects() as $projects){
-                    if ($project->getSortOrder() <= $projects->getSortOrder() && $oldSort > $projects->getSortOrder() && $project->getName() != $projects->getName()){
-                        $currentsort = $projects->getSortOrder();
-                        //$project->setName("Changed");
-                        $projects->setSortOrder($currentsort+1);    
-                }
-            }
-            }
             $em->persist($project);
             $em->flush();
-
             return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
         }
 

@@ -19,14 +19,16 @@ $('form li').addClass('alert alert-error');
 
 <div class="col-sm-6 center">
     <div class="panel panel-default">
+        <form class="form" action="{{ path('project_create', { 'courseid': courseid, 'resource':project.resource }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+
         <div class="panel-heading">
-            <h2 class="panel-title small">New {% if project.resource==0%}Folder in Projects{%else%}Unit in Resources{%endif%}</h2>
+            <h2 class="panel-title small">New {% if project.resource == 0%}Folder in Projects{%else%}Unit in Resources{%endif%}</h2>
         </div>
         <div class="panel-body">
-            <form class="form" action="{{ path('project_create', { 'courseid': courseid, 'resource':project.resource }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
                 {{ form_errors(form) }}
                 {{ form_row (form.name) }}
-                {{ form_row (form.resource) }}
+                <div style="display: none;">{{ form_row (form.resource) }}</div>
+                <div style="{% if project.resource == 0 %}display: none;{% endif %}">{{ form_row (form.coursehome) }}</div>
                 {{ form_rest(form) }}
         </div>
         <div class="panel-footer">
@@ -35,6 +37,7 @@ $('form li').addClass('alert alert-error');
                 <a class="btn btn-default margin-top" href="{{ path('course_show', { 'courseid': courseid }) }}">Cancel</a>
             </div>
         </div>
+        </form>
     </div>
 </div>
 
