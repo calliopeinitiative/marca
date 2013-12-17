@@ -60,7 +60,6 @@ class FileController extends Controller
 
         if ($project == 'default') {
             $project = $course->getProjectDefault()->getId();
-            $project = 'recent';
         }
 
         //if the request is for reviews
@@ -150,7 +149,7 @@ class FileController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed); 
         $session = $this->getRequest()->getSession();
-        if (!$session){$uri='../../../file/1/recent/0/mine/0/0/0/list';}
+        if (!$session){$uri='../../../file/1/default/0/mine/0/0/0/list';}
         else {
         $uri = $session->get('referrer');
         }
@@ -449,8 +448,12 @@ class FileController extends Controller
         if ($editForm->isValid()) {
             $em->persist($file);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('file_list', array('id'=> $id,'courseid'=> $courseid,'scope'=>'mine','project'=>'recent', 'tag'=>'0', 'userid'=>'0','resource'=>$resource, 'user'=>'0')));
+            }
+            $session = $this->getRequest()->getSession();
+            if (!$session){$uri='../../../file/1/default/0/mine/0/0/0/list';}
+            else {
+            $uri = $session->get('referrer');
+            return $this->redirect($uri);
         }
 
         return array(

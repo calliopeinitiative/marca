@@ -819,6 +819,9 @@ td > ul.nav {height:20px;margin-top: -10px;}
     background-color: #999999;
 }
 
+tr.file td .label {font-size: 90%;}
+tr.review td .label {font-size: 90%;}
+
 .default_hidden {display:none;}
 .default_show {display:inline;}
 

@@ -175,7 +175,8 @@
                             </a>
                             <span class="label label-file pull-left" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                         {% endif %}
-
+                        {% if file.access==1 %} <span class="label label-success pull-right" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
+                        {% if file.portfolio|length !=0 %} <span class="label label-info pull-right" title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
                         <div class="hidden-xs">
                         <div class="file-menu">
                             {% if file.isOwner(app.user.username) %}
@@ -196,9 +197,7 @@
                     <td>{{ file.user.firstname|title }} {{ file.user.lastname|title }}</td>
                     <td class="hidden-xs">{% if app.request.get('project')=='recent' %}{% if app.request.get('resource')=='1' %}{{ file.project.course.name }}: {% endif %}{{ file.project.name }}{% endif %}</td>
                     <td class="labels hidden-xs">{% if file.access!=1 and file.portfolio|length ==0 and file.tag |length ==0%}&mdash;{% endif %}
-                        {% if file.access==1 %} <span class="label label-success" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
-                        {% if file.portfolio|length !=0 %} <span class="label label-info" title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
-                        {% for tag in file.tag %} <span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
+                        {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
                     <td>{% if app.request.get('resource')=='0' %}{% if file.doc %}{{ file.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ file.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}</td>
                 </tr>
                     {% for review in file.reviews%}
@@ -241,14 +240,15 @@
                                         {% if review.isOwner(app.user.username) and review.portfolio|length == 0 %}<a class='delete' id='file_show_{{review.id}}' href='javascript:void(0);'  title="Delete this file.">Delete</a>{% endif%}
                                     </div>
                                     </div>
+                                    {% if review.access==1 %} <span class="label label-success pull-right">Shared</span>
+                                    {% elseif review.access==2 %} <span title="This review is currently hidden from view." class="label label-default black pull-right">Hidden</span>{% endif %}
                                 </td>
 
                                 <td>{{ review.user.firstname|title }} {{ review.user.lastname|title }}</td>
 
                                 <td class="hidden-xs"></td>
-                                <td class="labels hidden-xs">{% if review.access==1 %} <span class="label label-success">Shared</span>
-                                    {% elseif review.access==2 %} <span title="This review is currently hidden from view." class="label label-default black">Hidden</span>{% endif %}
-                                    {% for tag in review.tag %} <span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
+                                <td class="labels hidden-xs">
+                                    {% for tag in review.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
                                 </td>
                                 <td>
                                     {% if app.request.get('resource')=='0' %}{% if review.doc %}{{ review.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ review.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}

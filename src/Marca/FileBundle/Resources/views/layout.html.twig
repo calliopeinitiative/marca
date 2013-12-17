@@ -101,7 +101,8 @@
         {% for tag in tags %}
             <li>
                 <a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}" class="project-sidebar {% if app.request.get('tag')== tag.id %}current-filter{% endif %}">
-                    <span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>
+                    {{ tag.name }}
+                    <span class="pull-left color-flag" style="{% if tag.color != '' %}background: {{tag.color}};color:{{tag.color}};{% endif%}">&#183;</span>
                 </a>
             </li>
         {% endfor %}
