@@ -216,10 +216,10 @@
                 <h2 class="panel-title">
 
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                        Feedback ({{ file.responses|length }} response(s))
+                        Feedback ({{ file.responses|length }} response{% if file.responses|length != 1 %}s{% endif %})
                     </a>
                 </h2>
-                <a class="btn btn-primary btn-xs pull-right" href="{{ course_path('response_new', { 'sourceid': file.id, 'source': app.request.get('_route') ,'view': app.request.get('view'),'userid': file.user.id }) }}">Offer Feedback</a>
+                <a class="btn btn-primary btn-xs pull-right" href="{{ course_path('response_new', { 'sourceid': file.id, 'source': app.request.get('_route') ,'view': app.request.get('view'),'userid': file.user.id }) }}">Add<i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
 
             </div>
             <div id="collapseThree" class="panel-collapse collapse">
