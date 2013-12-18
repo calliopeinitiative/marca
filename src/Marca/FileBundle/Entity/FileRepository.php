@@ -34,7 +34,7 @@ class FileRepository extends EntityRepository
                 ->setParameter('1',$course)->setParameter('2',$user)->setParameter('3',$resource)->setParameter('4',$tag)->getResult();
        } else {
           return $this->getEntityManager()
-            ->createQuery('SELECT f, p, d, t, r, o, s  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.responses s LEFT JOIN f.portfolio o  LEFT JOIN f.tag t LEFT JOIN f.reviews r 
+            ->createQuery('SELECT f, p, d, t, r, o, s  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.responses s LEFT JOIN f.portfolio o  LEFT JOIN f.tag t LEFT JOIN f.reviews r
                 WHERE f.project = ?1 AND f.reviewed IS NULL AND (f.user = ?3'.$scopeQuery.' OR r.user = ?3) AND (t.id = ?4'.$tagQuery.') ORDER BY  f.updated DESC')
                 ->setParameter('1',$project)->setParameter('3',$user)->setParameter('4',$tag)->getResult();
        };

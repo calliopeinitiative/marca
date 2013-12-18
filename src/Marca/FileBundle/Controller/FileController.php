@@ -62,13 +62,7 @@ class FileController extends Controller
             $project = $course->getProjectDefault()->getId();
         }
 
-        //if the request is for reviews
-        if ($tag == 3) {
-        $files = $em->getRepository('MarcaFileBundle:File')->findPeerReviewFiles($project, $user, $scope, $course, $tag, $resource, $byuser, $role);
-        }
-        else {
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser, $role);
-        }
 
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
@@ -84,7 +78,7 @@ class FileController extends Controller
 
         //pagination for files
         $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),100);
+        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),50);
         $count = $files->getTotalItemCount();
 
         if ($resource==0) {$template = 'MarcaFileBundle:File:index.html.twig'; } else {$template = 'MarcaFileBundle:File:resource_index.html.twig';}

@@ -60,10 +60,10 @@ class PortfolioController extends Controller
     /**
      * Finds and displays files to be included in the portfolio
      *
-     * @Route("/{courseid}/{project}/find", name="portfolio_find")
+     * @Route("/{courseid}/{project}/{portitemid}/find", name="portfolio_find")
      * @Template()
      */
-    public function findAction($project, $courseid)
+    public function findAction($project, $courseid, $portitemid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -90,7 +90,7 @@ class PortfolioController extends Controller
         $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),15);
         $count = $files->getTotalItemCount();
 
-        return array('files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project, 'course' => $course, 'roll' => $roll, 'portStatus'=> $portStatus, 'role'=> $role);
+        return array('files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project, 'course' => $course, 'roll' => $roll, 'portStatus'=> $portStatus, 'role'=> $role, 'portitemid'=> $portitemid);
     }   
     
     /**
@@ -271,6 +271,42 @@ class PortfolioController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
+
+
+    /**
+     * Adds a new Portfolio entity and redirects to edit for Portitem and Portorder.
+     *
+     * @Route("/{courseid}/{fileid}/{portitemid}/add", name="portfolio_add")
+     * @Template()
+     */
+    public function addAction($courseid, $fileid, $portitemid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $course = $this->getCourse();
+        $portset = $course->getPortset();
+
+        //find default portfolio
+        $portfoliosets = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
+        //select the first in the array
+        $portfolioset = reset($portfoliosets);
+
+        $file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+        $portitem = $em->getRepository('MarcaPortfolioBundle:Portitem')->find($portitemid);
+        $portfolio = new Portfolio();
+        $portfolio->setFile($file);
+        $portfolio->setUser($user);
+        $portfolio->setCourse($course);
+        $portfolio->setPortitem($portitem);
+        $portfolio->setPortfolioset($portfolioset);
+        $em->persist($portfolio);
+        $em->flush();
+        return $this->redirect($this->generateUrl('portfolio', array('courseid' => $courseid)));
+    }
+
 
     /**
      * Deletes a Portfolio entity.
