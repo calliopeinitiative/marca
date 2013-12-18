@@ -29,7 +29,7 @@
                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{tagset.id}}">
                                     {{ tagset.name }}</a>
                             </h4>
-                            {% if tagset.shared==1 %}(Shared){% elseif tagset.shared==2 %}(Default){%endif%}
+                            {% if tagset.shared==1 %} (Shared){% elseif tagset.shared==2 %} (Default){%endif%}
                             {% if tagset.isOwner(app.user.username) %}
                                 {% if tagset.isOwner(app.user.username) %}
                                     <div class="btn-group pull-right" style="margin-top: -5px;">
@@ -45,7 +45,7 @@
 
                                 <table class="table">
                                     {% for tag in tagset.tag %}
-                                        <tr><td><span class="pull-left color-flag" {% if tag.color != '' %}style="background: {{ tag.color }};color:{{ tag.color }};"{% endif %}>&#183;</span> {{ tag.name }}</span></td><td>{% if tagset.isOwner(app.user.username) %}<a class="btn btn-default btn-sm pull-right" href="{{ path('tag_edit', { 'id': tag.id,'tagsetid': tagset.id }) }}">Edit</a>{% endif %}</td></tr>
+                                        <tr><td><span class="pull-left color-flag" {% if tag.color != '' %}style="background: {{ tag.color }};color:{{ tag.color }};"{% endif %}>&#183;</span> {{ tag.name }}</td><td>{% if tagset.isOwner(app.user.username) %}<a class="btn btn-default btn-sm pull-right" href="{{ path('tag_edit', { 'id': tag.id,'tagsetid': tagset.id }) }}">Edit</a>{% endif %}</td></tr>
                                     {% endfor %}
                                 </table>
 
