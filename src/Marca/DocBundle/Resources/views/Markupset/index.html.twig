@@ -52,7 +52,7 @@
                                         {% for markup in markupset.markup %}
                                             {% if markupset.isOwner(app.user.username) %}
                                                 <a class="list-group-item" href="{{ path('markup_edit', { 'id': markup.id, 'set_id': markupset.id  }) }}">
-                                                    <span class="label label-default" style='background-color:{{ markup.color }}; color:black; padding:2px;'>{{ markup.name }}</span>
+                                                    <span class="pull-left color-flag" {% if markup.color != '' %}style="background: {{ markup.color }};color:{{ markup.color }};"{% endif %}>&#183;</span> {{ markup.name }}</span>
                                                     {{ markup.mouseover|raw }}
                                                     {{ markup.linktext }}
                                                     ({{ markup.url }})
