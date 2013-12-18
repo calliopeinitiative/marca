@@ -61,7 +61,11 @@
                             </a>
                         {% endif %}
                         <div class="file-menu">
-                            <a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>
+                            {% if portitemid !='0'%}
+                                <a class="" href="{{ course_path('portfolio_add', { 'fileid': file.id, 'portitemid': portitemid }) }}">Add to Portfolio</a>
+                            {% else %}
+                                <a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>
+                            {% endif %}
                         </div>
                     </td>
                     <td>{{ file.user.firstname|title }} {{ file.user.lastname|title }}</td>
@@ -108,7 +112,11 @@
                                     </a>
                                 {% endif %}
                                 <div class="file-menu">
-                                    <a class="" href="{{ course_path('portfolio_new', { 'fileid': review.id }) }}">Add to Portfolio</a>
+                                    {% if portitemid !='0'%}
+                                        <a class="" href="{{ course_path('portfolio_add', { 'fileid': file.id, 'portitemid': portitemid }) }}">Add to Portfolio</a>
+                                    {% else %}
+                                        <a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>
+                                    {% endif %}
                                 </div>
                             </td>
 

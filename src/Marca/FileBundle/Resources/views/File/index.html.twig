@@ -148,7 +148,7 @@
             <tbody>
             {% for file in files%}
                 {# main list of files #}
-                <tr class="file {% if app.request.get('scope')=='mine' and not file.isOwner(app.user.username) %}hidden{% endif %}">
+                <tr class="file {% if not file.isOwner(app.user.username) %}hidden{% endif %}">
                     <td>
                         {# different functions for different file types #}
                         {# doc files #}
@@ -198,7 +198,7 @@
                     <td class="hidden-xs">{% if app.request.get('project')=='recent' %}{% if app.request.get('resource')=='1' %}{{ file.project.course.name }}: {% endif %}{{ file.project.name }}{% endif %}</td>
                     <td class="labels hidden-xs">{% if file.access!=1 and file.portfolio|length ==0 and file.tag |length ==0%}&mdash;{% endif %}
                         {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
-                    <td>{% if app.request.get('resource')=='0' %}{% if file.doc %}{{ file.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ file.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}</td>
+                    <td>{% if app.request.get('resource')=='0' %}{{ file.updated|date('m/d/y, g:i a') }}{% endif %}</td>
                 </tr>
                     {% for review in file.reviews%}
                         {% if (file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
@@ -251,7 +251,7 @@
                                     {% for tag in review.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
                                 </td>
                                 <td>
-                                    {% if app.request.get('resource')=='0' %}{% if review.doc %}{{ review.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ review.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}
+                                    {% if app.request.get('resource')=='0' %}{{ review.updated|date('m/d/y, g:i a') }}{% endif %}
                                 </td>
                             </tr>
                         {% endif %}
