@@ -52,8 +52,8 @@
                     footerCells: '',
                     icons      : '', // add "icon-white" to make them white; this icon class is added to the <i> in the header
                     sortNone   : 'glyphicon glyphicon-sort',
-                    sortAsc    : 'glyphicon glyphicon-chevron-up',     // includes classes for Bootstrap v2 & v3
-                    sortDesc   : 'glyphicon glyphicon-chevron-down', // includes classes for Bootstrap v2 & v3
+                    sortAsc    : 'glyphicon glyphicon-arrow-up',     // includes classes for Bootstrap v2 & v3
+                    sortDesc   : 'glyphicon glyphicon-arrow-down', // includes classes for Bootstrap v2 & v3
                     active     : '', // applied when column is sorted
                     hover      : '', // use custom css here - bootstrap class may not override it
                     filterRow  : '', // filter row class
@@ -75,6 +75,11 @@
             $( "tr" ).hover(
                     function() {
                         $(".file-menu").hide();$( ".file-menu", this ).toggle();
+                    }
+            );
+            $( "i" ).hover(
+                    function() {
+                        $(".tablesorter-icon").show();$( ".tablesorter-icon", this ).toggle();
                     }
             );
             $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
@@ -175,8 +180,8 @@
                             </a>
                             <span class="label label-file pull-left" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                         {% endif %}
-                        {% if file.access==1 %} <span class="label label-success pull-right" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
-                        {% if file.portfolio|length !=0 %} <span class="label label-info pull-right" title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
+                        {% if file.access==1 %} <span class="label label-success pull-right margin-left" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
+                        {% if file.portfolio|length !=0 %} <span class="label label-info pull-right margin-left" title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
                         <div class="hidden-xs">
                         <div class="file-menu">
                             {% if file.isOwner(app.user.username) %}
@@ -197,7 +202,7 @@
                     <td>{{ file.user.firstname|title }} {{ file.user.lastname|title }}</td>
                     <td class="hidden-xs">{% if app.request.get('project')=='recent' %}{% if app.request.get('resource')=='1' %}{{ file.project.course.name }}: {% endif %}{{ file.project.name }}{% endif %}</td>
                     <td class="labels hidden-xs">{% if file.access!=1 and file.portfolio|length ==0 and file.tag |length ==0%}&mdash;{% endif %}
-                        {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
+                        {% for tag in file.tag %}<span class="label label-default margin-right" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
                     <td>{% if app.request.get('resource')=='0' %}{{ file.updated|date('m/d/y, g:i a') }}{% endif %}</td>
                 </tr>
                     {% for review in file.reviews%}
