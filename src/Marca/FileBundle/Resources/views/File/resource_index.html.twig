@@ -26,7 +26,6 @@
             $('.file-wrapper').css('max-height', function(index) {
                 return $(window).height()* .88;
             });
-            $('#sort_filter_toggle').click(function(){
                 $.extend($.tablesorter.themes.bootstrap, {
                     table      : 'table',
                     header     : 'bootstrap-header', // give the header a gradient background
@@ -52,6 +51,9 @@
                         filter_reset : ".reset"
                     }
                 });
+            $('.tablesorter-filter-row').toggle();
+            $('#sort_filter_toggle').click(function(){
+                $('.tablesorter-filter-row').toggle();
             });
             $('.tablesorter-filter').addClass('form-control');
             $( "tr" ).hover(
@@ -129,7 +131,6 @@
                 </td>
                 <td>{{ file.project.course.name }}: {{ file.project.name }}</td>
                 <td>
-                    {% if file.access==1 %} <span class="label label-success" data-toggle="tooltip" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
                     {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
                 </td>
             </tr>
