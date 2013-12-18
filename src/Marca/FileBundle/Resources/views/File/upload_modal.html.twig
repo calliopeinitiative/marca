@@ -1,0 +1,41 @@
+{# Marca/FileBundle/Resources/views/File/upload.html.twig #}
+<script language="javascript">
+    $(document).ready(function() {
+        $('#marca_filebundle_filetype_file').on('change', function() {
+            var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '')
+            var file = filename.substr(0, filename.lastIndexOf('.')) || filename
+            $('#marca_filebundle_filetype_name').val(file);
+        });
+    });
+</script>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Upload</div>
+                {% if  app.request.attributes.get('_route')=='file_upload'%}
+                <form action="{{ course_path('file_upload',{'resource' : '0'}) }}" method="post" {{ form_enctype(form) }}>
+                {% else %}
+                <form action="{{ course_path('review_upload',{'fileid': app.request.get('fileid')}) }}" method="post" {{ form_enctype(form) }}>
+                {% endif %}
+
+                <div class="modal-body">
+                    {{ form_errors(form) }}
+                    <span class="btn btn-default btn-file">Select File {{ form_row (form.file) }}</span>
+                    {{ form_row (form.file) }}
+                    {{ form_row (form.name) }}
+                    {{ form_row (form.project) }}
+                    {{ form_row (form.tag) }}
+                    {{ form_row (form.access) }}
+                    {{ form_rest(form) }}
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary" type="submit">Update</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->

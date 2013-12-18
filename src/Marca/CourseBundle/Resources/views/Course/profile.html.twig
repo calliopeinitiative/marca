@@ -4,61 +4,81 @@
 
 {% block content %}
 
-<div class="span9"> 
-<ul class="breadcrumb well">
-<li> 
-{{ profile.firstname }} {{ profile.lastname }}'s Profile
-</li>
+<div class="col-sm-12">
+    <div class="col-sm-6 center">
 
-{# next previous users on roll #} 
-<li class='pull-right'>
-{% for roll in roll %}
-{% if loop.index == app.request.get('user') + 1 %}  
-<span style='margin-right:3em;'></span>        
-<a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}<i class="icon-chevron-right"></i></a>
-{% endif %}
+        {# next previous users on roll #}
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#profile_nav">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="profile_nav">
+                {% for roll in roll %}
+                    {% if loop.index == app.request.get('user') + 1 %}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a  data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}<i class="glyphicon glyphicon-chevron-right"></i></a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                    {% if loop.index == app.request.get('user') - 1 %}
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a  data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}"><i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
+        </nav>
 
-{% if loop.index == app.request.get('user') - 1 %}
-<a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}"><i class="icon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
-{% endif %}
-{% endfor %}
-</li> 
-</ul>
-</div>
 
 
-<div class="span9 well">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div>
+                    <h2 class="margin-top-small" style="text-align:center;margin-bottom:15px;">{{ user.firstname }} {{ user.lastname }}  </h2>
+                    <div class="col-sm-12 " style="text-align:center;margin-bottom:15px;">
+                        {% if user.photo != '' %}
+                        <img class="img-rounded" style="width:50%;align:center;" src="{{ user.photo }}" alt="{{ user.firstname }} {{ user.lastname }}">
+                        {% endif %}
+                        <p><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+                    </div>
 
-<legend>{{ profile.firstname }} {{ profile.lastname }}  </legend>
-<p><a class="" target="_blank" href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
+                    <p>{{ user.bio|raw }}</p>
 
-<ul class="thumbnails">
-  <li class="span2">
-    <div class="thumbnail">
-      <img src="{{ profile.photo }}" alt="{{ profile.firstname }} {{ profile.lastname }}">
-      <h3></h3>
-      <p>{{ profile.firstname }} {{ profile.lastname }}</p>
+                    <hr class="marca-spacer" />
+
+                    {% if user == app.user.username or role == 2 %}
+                        <ul class="list-unstyled">
+                            <li>Forums:  {{ countForums|length}}  (class average: {{ countCourseForums|length //roll|length}})</li>
+                            <li>Comments:  {{ countComments|length}}  (class average: {{ countCourseComments|length//roll|length}})</li>
+                            <li>Replies:  {{ countReplies|length}}  (class average: {{ countCourseReplies|length//roll|length}})</li>
+                            <li>Total:  {{ countForums|length + countComments|length + countReplies|length }}  (class average: {{ (countCourseForums|length + countCourseComments|length +countCourseReplies|length) //roll|length }})</li>
+                        </ul>
+
+
+                        <ul class="list-unstyled">
+                            <li>Journal entries:  {{ countJournals|length}} (class average: {{ countCourseJournals|length //roll|length}})</li>
+                        </ul>
+
+
+                        <ul class="list-unstyled">
+                            <li>Files:  {{ countFiles|length}} (class average: {{ countCourseFiles|length //roll|length}})</li>
+                        </ul>
+                    {% endif%}
+                </div>
+            </div>
+
+        </div>
     </div>
-  </li>
-</ul>
 
-<p>{{ profile.bio|raw }}</p>
-</div>
-
-{% if user == app.user.username or role == 2 %}
-<div class="span8 well">
-    <ul>
-        <li>Forums:  {{ countForums|length}}  (class average: {{ countCourseForums|length //roll|length}})</li>  
-        <li>Comments:  {{ countComments|length}}  (class average: {{ countCourseComments|length//roll|length}})</li>
-        <li>Replies:  {{ countReplies|length}}  (class average: {{ countCourseReplies|length//roll|length}})</li>  
-        <li>Total:  {{ countForums|length + countComments|length + countReplies|length }}  (class average: {{ (countCourseForums|length + countCourseComments|length +countCourseReplies|length) //roll|length }})</li>  
-    </ul>
-    <ul>
-        <li>Journal entries:  {{ countJournals|length}} (class average: {{ countCourseJournals|length //roll|length}})</li>  
-    </ul>
-    <ul>
-        <li>Files:  {{ countFiles|length}} (class average: {{ countCourseFiles|length //roll|length}})</li>  
-    </ul>         
-</div>
-{% endif%}
 {% endblock %}
+
+

@@ -15,7 +15,7 @@ framework:
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     session: ~
-    default_locale: %locale%  
+    default_locale: %locale%
     trust_proxy_headers: false
     trusted_proxies: ~
 
@@ -29,15 +29,43 @@ twig:
 
 # Assetic Configuration
 assetic:
-    debug:          %kernel.debug%
-    use_controller: false
-    # java: /usr/bin/java
-    filters:
-        cssrewrite: ~
-        # closure:
-        #     jar: %kernel.root_dir%/java/compiler.jar
-        # yui_css:
-        #     jar: %kernel.root_dir%/java/yuicompressor-2.4.2.jar
+  java: /usr/bin/java
+  filters:
+    yui_js:
+      jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
+    less:
+       node: /usr/bin/node
+       node_paths: [%kernel.root_dir%/../node_modules]
+       apply_to: "\.less$"
+    cssrewrite: ~
+  assets:
+    jquery_js:
+        inputs:
+            - '%kernel.root_dir%/../vendor/components/jquery/jquery.js'
+        filters: [?yui_js]
+    jqueryui_js:
+        inputs:
+            - '%kernel.root_dir%/../vendor/components/jqueryui/ui/jquery-ui.js'
+        filters: [?yui_js]
+    bootstrap_js:
+        inputs:
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/transition.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/alert.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/modal.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/dropdown.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/scrollspy.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/tab.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/tooltip.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/popover.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/button.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/collapse.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/carousel.js'
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/affix.js'
+        filters: [?yui_js]
+    bootstrap_less:
+        inputs:
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/less/bootstrap.less'
+        filters: [less]
 
 # Doctrine Configuration
 doctrine:
@@ -152,35 +180,47 @@ ivory_ck_editor:
             path:     "bundles/marcahome/ckeditor/plugins/maxheight/"
             filename: "plugin.js"
     configs:
+        editor_simple:
+            startupFocus: true
+            toolbar: "toolbar_simple"
+            removePlugins: "elementspath"
+            allowedContent: 'p h2 h3 h4 img{text-align}(*); a[!href]{*}(*); table th tr td strong em; ol ul li span(*); img[*]{*}; iframe{*}[*];'
+            disableNativeSpellChecker: false
+            height: 200
+            contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
         editor_default:
+            startupFocus: true
             toolbar: "toolbar_default"
             extraPlugins: 'wordcount,mediaembed'
             removePlugins: "elementspath"
-            allowedContent: true
+            allowedContent: 'p h2 h3 h4 img{text-align}(*); a[!href]{*}(*); table th tr td strong em; ol ul li span(*); img[*]{*}; iframe{*}[*];'
             disableNativeSpellChecker: false
-            height: 400
+            height: 300
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
         editor_docs:
+            startupFocus: true
             toolbar: "toolbar_docs"
             extraPlugins: 'wordcount,mediaembed,maxheight'
             removePlugins: "elementspath"
-            allowedContent: true
+            allowedContent: 'p h2 h3 h4 img{text-align}(*); a[!href]{*}(*); table th tr td strong em; ol ul li span(*); img[*]{*}; iframe{*}[*];'
             disableNativeSpellChecker: false
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
             stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckeditor_styles.js'
         editor_page:
+            startupFocus: true
             toolbar: "toolbar_page"
             extraPlugins: 'wordcount,mediaembed,maxheight'
             removePlugins: "elementspath"
             allowedContent: true
             disableNativeSpellChecker: false
-            height: 800
+            height: 500
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
             stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckeditor_styles.js'
     toolbars:
         configs:
-            toolbar_default: [ ['Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight'],['TextColor','BGColor'],['Link','Unlink'],['NumberedList','BulletedList'],['Image','MediaEmbed'],['PasteText', 'PasteFromWord'],[ 'Undo', 'Redo'],['RemoveFormat'] ]
-            toolbar_docs: [ ['Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight'],['TextColor','BGColor'],['Link','Unlink'],['NumberedList','BulletedList'],['Outdent','Indent'],['Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'] ]
-            toolbar_page: [ ['Source','Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight'],['TextColor','BGColor'],['Link','Unlink'],['NumberedList','BulletedList'],['Outdent','Indent'],['Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'] ]
+            toolbar_simple: [ ['Bold','Italic','Underline','Strike'],['Link','Unlink'],['NumberedList','BulletedList']]
+            toolbar_default: [ ['Bold','Italic','Underline','Strike'],['JustifyLeft','JustifyCenter','JustifyRight'],['Link','Unlink'],['NumberedList','BulletedList'],['Image','MediaEmbed'],['PasteText', 'PasteFromWord'],[ 'Undo', 'Redo'],['RemoveFormat'] ]
+            toolbar_docs: [ ['Styles','Bold','Italic','Underline','Strike'],['JustifyLeft','JustifyCenter','JustifyRight'],['Link','Unlink'],['NumberedList','BulletedList'],['Outdent','Indent'],['Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'] ]
+            toolbar_page: [ ['Source','Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight'],['TextColor','BGColor'],['Link','Unlink'],['NumberedList','BulletedList'],['Outdent','Indent'],['Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'],['About'] ]
 
   

@@ -1,20 +1,20 @@
 {# Marca/CourseBundle/Resources/views/layout.html.twig #}
 
 {% extends '::base.html.twig' %}
-{% block title %}{{ application_name }} {{ course.name }} Home{% endblock %}
+{% block title %}{{ application_name }} | {{ course.name }} Home{% endblock %}
 
-{% block javascripts %}{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block javascripts %}{{ parent() }}{% endblock %}
 
 {% block subnav %}
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
 {% endblock %}
 
 {% block sidebar %}
-<h1>{% if app.session.get('module')== 0 %}Course{% else %}Module{% endif %} Home</h1>
-<li class=""><a href="{{ course_path('course_home') }}">Home</a></li>
+
+<h1><a href="{{ course_path('course_home') }}" class="marca-gray">Home</a></h1>
 {# condition for display if not module #}
-{% if app.session.get('module')== 0 %}<li class=""><a href="{{ course_path('course_roll') }}">Roll</a></li>{%endif%} 
+{% if app.session.get('module')== 0 %}<li class=""><a href="{{ course_path('course_roll') }}">Class Roll</a></li>{%endif%}
 
 {% if is_granted('ROLE_INSTR') %}
 <h2 class="nav-header">Settings</h2>
@@ -24,7 +24,7 @@
 
 {# Teams commented out until more fully developed 
 <li><a href="{{ course_path('teams') }}">Manage Teams</a></li>   
-#}       
-{% endif %} 
+#}
+{% endif %}
 {% endblock %} 
 

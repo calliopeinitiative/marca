@@ -1,224 +1,893 @@
-/* 
+/*
     Document   : local
     Created on : Mar 23, 2012, 9:24:24 PM
-    Author     : rlbaltha
-    Description:
-        Local additions to the Twitter Bootstrap base   
-*/
-/* 
-   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+    Authors     : rlbaltha and jweath
+    Description: Local additions to the Twitter Bootstrap base
 */
 
 
-.footer {margin-top: 3em;padding-top: 1em;border-top: grey solid 1px}
 
-.pad {min-height: 20px;  padding: 19px;  margin-bottom: 20px;}
-.pad1 {padding: 1em;}
-.pad05 {padding: .5em;}
-.row {margin-bottom: 1em;}
-/* 
-  Local mods for Twitter Bootstrap
-*/
-html, body {height:100%}
-body {background: url('../img/mosaic.png'); }
-h1 {font-size:26px;font-weight:normal}
-h1.small {font-size:20px;font-weight:normal}
-h2 {font-size:22px;font-weight:normal}
-h2.small {font-size:18px;font-weight:normal}
-h3 {font-size:20px;font-weight:normal}
-h3.small {font-size:16px;font-weight:normal}
-.centered {text-align: right;color:blue;}
-.center { float: none; margin-left: auto; margin-right: auto; }
-.background {background: #F2F2F2}
-.navbar .brand {margin-left:0px;}
-.navbar-inner {background:#373737;}
-ul.nav-list  {margin: 0 0 0 0;padding-left: 0;}
-#mainContainer {padding-top:60px;padding-left:15px;padding-right:15px;margin-left:auto;margin-right:auto;background:url('../img/whitewash.png');min-height:88%;
--moz-box-shadow:0px 0px 15px rgba(0,0,0,.5);  
--webkit-box-shadow:0px 0px 15px rgba(0,0,0,.5);  
-box-shadow: 0px 0px 15px rgba(0,0,0,.5);}
-.navbar-inner .container {margin-left:auto;margin-right:auto;}
-.page-header {margin-top:15px;margin-bottom:25px;}
-.subnav-fixed {margin-top: -20px;}
-.icon-white {margin-left:12px;}	
-.navbar-icon {margin-left: -2.5em;}
-.nav-list .btn-primary {width:7em;margin-left:0;margin-bottom:.7em;}
-.nav-list .btn-group button {width:9em;margin-left:0;margin-bottom:.7em;}
-.nav-list li a {margin-left:0;margin-right:0;padding: 3px 3px;}
-.caret {margin-top: .5em}
-.cell {float:left}
-.doc {background-color: white; border-color: gray;}
-label.inline {display:block;clear:both;width:100%;}
-div.inline input {display:inline;}
-div.inline label {display:inline;padding:.5em;}
-input#remember_me {display:block;clear:left}
-dl.dl-horizontal dd p {display:inline}
-.accordion {float:left; width:180px}
-.files {height:.5em;}
-.width30 {width:30em;}
+/********** Table of Contents **********
+
+01. Globals
+    a) Accessibility
+02. Typography
+03. Nav
+04. Content
+05. Bootstrap Elements
+    a) Modals
+06. Marca Tools
+    a) Forms
+    b) File list
+    c) Doc Displays
+07. Media Queries
+08. Colors
 
 
-.navbar .nav > li > a {color: #fff;text-shadow: none;}
-.navbar .nav > li > a:focus {color: #999;text-shadow: none; outline: thin dotted white;
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;}
-.navbar .nav > li > a:hover {color: #999;}
-.nav-list .active > a {background-color:#006DCC;}
-.nav-pills .active > a {background-color:#006DCC;}
-.navbar .brand {color: #fff;text-shadow: none;}
+************ End Table of Contents **********/
 
-@media (min-width: 980px) and (max-width: 1199px) {
-  .navbar .nav > li > a {
-      padding:10px;
-  }
-  .navbar-icon {
-      margin-left:-1.8em;
-  }
+
+
+/********** 01. Globals **********/
+
+html, body {
+    height:100%;
 }
 
+body {
+    background: url('../img/bg/subtle_white_feathers.png');
+    padding-top: 50px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */}
 
-.label {font-weight: normal;}
-label.required:first-child{font-weight:bold;}
-#file_modal .modal-footer {padding:6px 15px 6px;}
-label.required[for=marca_filebundle_filetype_url] {text-transform:uppercase;}
-input#marca_filebundle_filetype_name,input#marca_filebundle_filetype_url {padding-bottom:0;margin-bottom:0;}
-.label-margin-bottom{margin-bottom:15px;}
-.modal-header {margin-bottom:-15px;}
-.modal-body {}
-a {color: #006DCC;text-decoration: none;}
-a:hover {color: #006DCC;text-decoration: underline;}
+.center {
+    float: none;
+    margin-left:auto; margin-right: auto;
+}
+
+.background {
+    background: #F2F2F2;
+}
+
+.note {
+    width: 150px;
+    height: 150px;
+    padding: 0.5em;
+    background: yellow;
+}
+
+.table th, .table td {
+    padding:4px;line-height: 25px;
+}
+
+td.active {
+    color: #333333;
+    background-color: #e6e6e6;
+}
+
+/** Chrome Scroll **/
+::-webkit-scrollbar {
+    height: 12px;
+    width: 8px;
+    background: #ccc;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #393812;
+    -webkit-border-radius: 1ex;
+    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
+}
+
+::-webkit-scrollbar-corner {
+    background: #000;
+}
+
+.marca-blue {
+     color:#006DCC !important;
+ }
+
+.inline-block {
+    display:inline-block;
+    }
+
+.marca-gray {
+    color:#333;
+}
+
+iframe {border:0px;}
+/********** 01a. Accessibility **********/
+
+#skip a, #skip a:hover, #skip a:visited
+{
+    position:absolute;
+    left:0px;
+    top:-500px;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+}
+
+#skip a:active, #skip a:focus
+{
+    position:static;
+    display: inline-block;
+    width:auto;
+    height:auto;
+}
+
+/********** End 01a. Accessibility **********/
+/********** End 01. Globals **********/
 
 
-.pad-left {padding-left: 3em}
-.margin-left {margin-left: 1em}
-.margin-top {margin-top: 1em}
-.margin-bottom {margin-bottom: 1em}
-.toggle {display:none;}
-.note { width: 150px; height: 150px; padding: 0.5em; background: yellow;}
-.inline li {display: inline;}
-.inline {display: inline;}
-.table th, .table td {padding:4px;line-height: 25px;}
-.fc-event-title {cursor: pointer;cursor: hand;}
-.fc-event-time {cursor: pointer;cursor: hand;}
+/********** 02. Typography **********/
 
-form label.radio {clear:right;display:block;padding-top: .5em;}
-form label.checkbox {clear:right;display:block;padding-top: .5em; }
-div.radio label {clear:right;display:block;}
-#marca_forumbundle_forumtype_title {width:37em;}
-label.required {font-size:14px;margin-top:8px;}
-.inline label {font-size:14px;margin-top:8px;}
-.forum_title,.journal-title {font-size:24px;}
-.forum_comments {margin-left:14px;}
-#forum_nav_title {color:#333333;}
-.margin-top {margin-top:8px;}
-#doc-display {
+h1 {
+    font-size:26px;
+    font-weight:normal;
+}
+
+h1.small {
+    font-size:24px;
+    font-weight:normal;
+}
+
+h1.doc-header {
+    font-size:18px;
+    font-weight:normal;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+h2 {
+    font-size:22px;
+    font-weight:normal;
+}
+
+h2.small {
+    font-size:20px;
+    font-weight:normal;
+}
+
+h3 {
+    font-size:18px;
+    font-weight:normal;
+}
+
+h3.small {
+    font-size:16px;
+    font-weight:normal;
+}
+
+a {
+    color: #006DCC;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #006DCC;
+    text-decoration: underline;
+}
+
+.centered {
+    text-align:right;
+    color:blue;
+}
+
+.margin-top {
+    margin-top:15px;
+}
+
+.margin-top-small {
+  margin-top:2px;
+}
+
+.margin-bottom-medium {
+    margin-bottom:10px;
+}
+
+.margin-bottom {
+    margin-bottom:25px;
+}
+
+.margin-left {
+    margin-left:5px;
+}
+
+.margin-right {
+    margin-right:5px;
+}
+
+.margin-left-medium {
+    margin-left:10px !important;
+}
+
+.padding-bottom {
+    padding-bottom:20px;
+}
+
+/********** End 02. Typography **********/
+
+
+
+/********** 03. Nav **********/
+
+.page-header {
+    margin-top:15px;
+    margin-bottom:25px;
+}
+
+.navbar-inverse {
+    background-color:#464648;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #fff;
+    text-shadow: none;
+    font-size:200%;
+    font-weight:200;
+    padding-left:0;
+}
+
+.navbar-icon {
+    margin-left: -1.5em;
+}
+
+ul.nav-list  {
+    margin: 0;
+    padding-left: 0;
+}
+
+.nav-list li a {
+    margin-right:0;
+    padding: 3px 3px;
+}
+
+.label-file {
+    background:#888;
+    text-align: center;
+    font-size: 10px;
+    margin-right: 3px;
+    font-weight:normal;
+}
+
+div.inline input {
+    display:inline;
+}
+
+div.inline label {
+    display:inline;
+    padding:.5em;
+}
+
+#course-home {
+    padding-left: 35px;
+}
+
+#course_select {
+  margin-left:20px;
+}
+
+.subnav-course-select {
+    margin-left:-20px !important;
+}
+
+.nav-pills .active > a {
+    background-color:#006DCC;
+}
+
+.nav-list h1 {
+    margin-top:5px;
+}
+
+.subnav-fixed {
+    margin-top: -20px;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #333;
+}
+
+.navbar-default .navbar-brand {
+    color: #333;
+}
+
+ul.nav > li > input {
+    margin-top: 8px;
+    margin-right: 5px;
+}
+
+.caret {
+    margin-left:5px;
+}
+
+.nav-header {
+    display: block;
+    padding: 0;
+    font-size: .8em;
+    font-weight: bold;
+    line-height: 20px;
+    color: #999999;
+    text-transform: uppercase;
+}
+
+#markup {
+    width:100%;
+}
+
+.project-sidebar {
+    color:#464648;
+}
+
+.current-filter {
+    color: #006DCC;
+    font-weight:bold;
+}
+
+.marca-spacer {
+    border-top: 1px solid #989898;
+    width:85%;
+    text-align:center;
+}
+
+#project_nav {
+    padding:5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom:5px;
+}
+
+#project_breadcrumbs {
+    padding:0px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#project_nav_pills {
+    padding:0px;
+    margin-bottom:0px;
+}
+
+#findBy_nav {
+    padding:5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom:5px;
+}
+
+#findBy_nav_pills {
+    padding:0px;
+    margin-bottom:6px;
+}
+
+#account-dropdown {
+    padding-right:15px;
+}
+
+#project_list > a {
+    display:inline-block;
+}
+
+/********** End 03. Nav **********/
+
+
+
+/********** 04. Content **********/
+
+#mainContainer {
+    padding-top: 30px;
+    height:100%;
+}
+
+.footer {
+    margin-top: 3em;
+    padding-top: 1em;
+    border-top: grey solid 1px;
+}
+
+.sidebar {
+    background-color: rgba(255,255,255,0.85);
+    min-height: 100%;
+    max-height: 100%;
+    margin-top:-70px;
+    padding-top:55px;
+    border-right:1px solid #D9d9d9;
+    position: fixed;
     overflow:auto;
-    margin-bottom: 0px;
-    background: #fff;
-    border: 1px solid #e3e3e3;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);}
-.doc-body {margin:1in;}
-.doc-body p {font-size: 12px;margin-bottom:0px;}
-#doctools { overflow:auto; margin-top:6px; position:fixed; margin-left: -1em; }
-.journal-body p, .forum-body p {font-size: 14px;line-height: 200%;margin-bottom:27px;}
-
-.journal-body {margin-bottom:60px;}
-.responses {font-size:14px;}
-.btn-delete {margin-top: -3.5em; float: right; }
-#note_sub {overflow:auto;margin-bottom: 0px;}
-#note_list {overflow:auto;margin-bottom: 0px;}
-
-
-td.active {  color: #333333;
-  background-color: #e6e6e6;
 }
 
-form ul li {list-style: none;}
+.sidebar-mobile {
+  text-align:center !important;
+    }
 
-/* TB Modal adjustments */
-#file_modal .modal-footer {
-    margin-bottom: -25px;
+.user-photo-xs {
+    height:35px;
+    margin-right:10px;
 }
-#markup {width:100%;}
-#project_nav {padding:5px;padding-left: 20px;padding-right: 20px;margin-bottom:5px;}
-#project_breadcrumbs {padding:0px;padding-left: 20px;padding-right: 20px;}
-#project_nav_pills {padding:0px;margin-bottom:0px;}
 
-#findBy_nav {padding:5px;padding-left: 20px;padding-right: 20px;margin-bottom:5px;}
-#findBy_nav_pills {padding:0px;margin-bottom:6px;}
+.user-photo-sm {
+    height:50px;
+    margin-right:10px;
+}
+
+.color-flag {
+    height:100%;
+    width:1.5em;
+    text-align:center;
+    margin-right:6px;
+    border-radius: 0px 4px 4px 0px;
+    color: #006DCC;
+    background-color: #006DCC;
+}
+
+/********** End 04. Content **********/
+
+
+
+/********** 05. Bootstrap Elements **********/
+
+/***** 05a. Modals *****/
+
+div.modal-content {background-color: #fff;}
+
+div.modal-header {background-color: #CCCCCC;}
+
+div.modal-body {background-color: #fff;padding-top: 20px;}
+
+div.modal-footer {background-color: #fff;margin-top: 30px; padding-top: 20px;}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 999px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: red;
+    cursor: inherit;
+    display: block;
+}
+
+span.btn-file {
+    height:34px;
+    width:100px;
+    margin-bottom:20px;
+}
+
+#markup {
+    width:100%;
+}
+
+#project_nav {
+    padding:5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom:5px;
+}
+
+#project_breadcrumbs {
+    padding:0px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#project_nav_pills {
+    padding:0px;
+    margin-bottom:0px;
+}
+
+#findBy_nav {
+    padding:5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom:5px;
+}
+
+#findBy_nav_pills {
+    padding:0px;
+    margin-bottom:6px;
+}
+
+.popover {min-width: 200px;}
+
+.popover-close {margin-right: 5px;margin-top: 5px;}
+
+/***** End 05a. Modals *****/
+
+
+.glyphicon-white {
+    margin-left:12px;
+}
+
+.accordion {
+    float:left;
+    width:180px;
+}
+
+.panel-marca {
+    border-color: #CCCCCC;
+}
+.panel-heading {
+    background-color: whiteSmoke;
+    border-color: #CCCCCC;
+}
+.panel-heading + .panel-collapse .panel-body {
+    border-top-color: #CCCCCC;
+}
+.panel-footer + .panel-collapse .panel-body {
+    border-bottom-color: #CCCCCC;
+}
+
+.panel-title {
+  display:inline-block;
+}
+
+.panel-heading-button {
+  margin-top:-3px;
+}
+
+.panel-body table tr:first-child td{
+    border-top:none !important;
+}
+
+
+/********** End 05. Bootstrap Elements **********/
+
+
+
+/********** 06. Marca Tools **********/
+
+/***** 06a. Forms *****/
+
+div.modal-body > div > label {width:100%;}
+
+div.checkbox > label {
+    padding:5px;
+    float:left;
+    display: inline;
+    margin-right: 5px;
+}
+
+.checkbox input[type="checkbox"] {
+    padding:5px;
+    float:left;
+    margin-left: 5px;
+    margin-right: 5px;
+    display: inline;
+}
+
+div.radio {width:100%;float:left}
+
+div.checkbox {width:100%;float:left}
+
+div.radio > label {
+    padding:5px;
+    float:left;
+    display: inline;
+    margin-right: 5px;
+}
+
+.radio input[type="radio"] {
+    padding:5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 20px;
+}
+
+div input[type="text"] {
+    clear:left;
+    margin-left: 5px;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+div input[type="password"] {
+    clear:left;
+    margin-left: 5px;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+div input[type="time"] {
+    clear:left;
+    margin-left: 5px;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+div input[type="email"] {
+    clear:left;
+    margin-left: 5px;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+.sp-replacer.sp-light {
+    margin-left:10px;
+    margin-bottom:25px;
+}
+
+/* form > div.btn-group {
+    margin-top:20px;
+}
+
+form > a.btn-warning {
+    margin-top:20px;
+}
+
+*/
+
+.btn.btn-primary.btn-lg.btn-block {
+    margin-top:20px;
+}
+
+/***** End 06a. Forms *****/
+
+/***** 06b. File list *****/
+
+nav.subnav {
+    height:25px;
+    margin-top: -20px;
+    margin-bottom: 10px;
+}
+
+.file-wrapper {
+    margin-left:15px;
+    margin-right:15px;
+    padding-top:4px;
+    padding-bottom:4px;
+    padding-left:0;
+    padding-right:0;
+    background-color:#f1f1f1;
+    border:1px solid #d4d4d4;
+    background: rgb(241,241,241); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(241,241,241,1) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(241,241,241,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(241,241,241,1) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(241,241,241,1) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(241,241,241,1) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(241,241,241,1) 0%,rgba(255,255,255,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1f1f1', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+    border:1px solid #d9d9d9;
+    overflow:auto;
+}
+
+tr.file > th > span {
+    padding-left:40px;
+}
+
+tr.file th {
+    background:#fff;
+}
+
+tr.file td{
+    background:#fff;
+}
+
+tr.review td {
+    background:#f1f1f1;
+}
+
+tr.file > td:first-child  {
+    width:50%;
+}
+
+tr.review > td:first-child  {
+    width:50%;
+}
+
+
+td.labels {
+    width:10%;
+    padding-bottom:1px;
+}
+
+#file_list thead {
+    font-size:16px;
+}
+
+.table > tbody > tr > td {
+    padding:6px;
+    line-height:1.6;
+}
+
+.file-menu {
+   margin-top: 0px; margin-bottom: -5px; padding-top:2px; margin-left: 40px; display:none;
+}
+
+.file-menu > a {
+    margin-right: 5px;
+}
+
+
+.file-menu > a.delete {
+    color:red;
+}
+
+#file_list thead th {
+    background-color:#f1f1f1;
+    font-weight:normal;
+    font-family:"museo-slab", Cambria, Georgia, sans-serif;
+}
+
+#file_list {
+    margin-bottom:0;
+    overflow-y:scroll;
+    font-size: 12px;
+}
+
+#file_list tr {
+    height:50px;
+}
+
+tr.file > td > a {
+    font-size: 13px; margin-left: 5px;
+}
+
+
+tr.review > td > a {
+    padding-left:5px;
+    display:inline-block;
+    font-size: 13px;
+}
+
+tr.review > td:first-of-type > span {
+    margin-left:30px;
+}
+
+#file_list thead tr {
+    height:22px;
+}
+
+#file_list thead tr th {
+    padding-top:4px;
+    padding-bottom:8px;
+}
+
+td > ul.nav {height:20px;margin-top: -10px;}
+
+.pagination  {
+    margin:0;
+    padding-left: 20px;
+    float:right;
+}
 
 .pagination span {
-  display: inline;
-}
-
-
-
-
-.pagination span {
-  float: left;
-  padding: 4px 12px;
-  line-height: 20px;
-  text-decoration: none;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
-  border-left-width: 0;
+    display: inline;
+    float: left;
+    padding: 4px 12px;
+    line-height: 20px;
+    text-decoration: none;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-left-width: 0;
 }
 
 .pagination span:hover {
-  background-color: #f5f5f5;
+    background-color: #f5f5f5;
 }
 
 .pagination span.current {
-  color: #999999;
-  cursor: default;
+    color: #999999;
+    cursor: default;
 }
 
 .pagination span.disabled > a:hover {
-  color: #999999;
-  cursor: default;
-  background-color: transparent;
+    color: #999999;
+    cursor: default;
+    background-color: transparent;
 }
 
 .pagination span:first-child  {
-  border-left-width: 1px;
-  -webkit-border-bottom-left-radius: 4px;
-          border-bottom-left-radius: 4px;
-  -webkit-border-top-left-radius: 4px;
-          border-top-left-radius: 4px;
-  -moz-border-radius-bottomleft: 4px;
-  -moz-border-radius-topleft: 4px;
+    border-left-width: 1px;
+    -webkit-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    -moz-border-radius-topleft: 4px;
 }
 
 .pagination span:last-child  {
-  -webkit-border-top-right-radius: 4px;
-          border-top-right-radius: 4px;
-  -webkit-border-bottom-right-radius: 4px;
-          border-bottom-right-radius: 4px;
-  -moz-border-radius-topright: 4px;
-  -moz-border-radius-bottomright: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    -moz-border-radius-bottomright: 4px;
 }
 
-.popover {position:fixed; left:40%; top:135px;padding:2em;}
 
-/* File list */
-#file_list { overflow-y:auto;  }
-#file_list table {font-size: 12px;}
-#file_list table td {padding:2px;}
-#file_list table td .label {font-size: 10px;}
-.label-file {background:#888; text-align: center; font-size: 10px; margin-right: 3px;}
-ul.files li .dropdown-menu {left:-110px;}
+.tag {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: normal;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    background-color: #999999;
+}
 
-/* Doc displays */
-.eDoc_note {color:blue;background:white; border:#e3e3e3 1px solid;border-radius: 0px 4px 4px 0px;margin-left:-1px;margin-right: 4px;padding:2px 2px 2px 6px;}
-.eDoc_highlight {background:#FFFFD3;padding:2px 2px 2px 6px;border:#e3e3e3 1px solid;border-radius: 4px 0px 0px 4px;}
-.eDoc_error {background:#bcd85f;padding:1px;}
-.eDoc_hanging_indent {text-indent:-0.5in; margin-left:0.5in;line-height: 200%;}
-.eDoc_paragraph_indent {text-indent:0.5in; line-height: 200%;}
-.eDoc_single_space {line-height: 100%;}
-.eDoc_double_space {line-height: 200%;}
-.eDoc_super {color:blue; vertical-align: super;font-size: smaller; line-height: normal;}
+tr.file td .label {font-size: 90%;}
+tr.review td .label {font-size: 90%;}
+
+.default_hidden {display:none;}
+.default_show {display:inline;}
+
+/***** End 06b. File list *****/
+
+/***** 06c. Doc displays *****/
+
+.doc {
+    background-color: white;
+    border-color: gray;
+}
+
+.eDoc_note {
+    color:blue;
+    background:white;
+    border:#e3e3e3 1px solid;
+    border-radius: 0px 4px 4px 0px;
+    margin-left:-1px;
+    margin-right: 4px;
+    padding:2px 2px 2px 6px;
+}
+
+.eDoc_highlight {
+    background:#FFFFD3;
+    padding:2px 2px 2px 6px;
+    border:#e3e3e3 1px solid;
+    border-radius: 4px 0px 0px 4px;
+}
+
+.eDoc_error {
+    background:#bcd85f;
+    padding:1px;
+}
+
+.eDoc_hanging_indent {
+    text-indent:-0.5in;
+    margin-left:0.5in;
+    line-height: 200%;
+}
+
+.eDoc_paragraph_indent {
+    text-indent:0.5in;
+    line-height: 200%;
+}
+
+.eDoc_single_space {
+    line-height: 100%;
+}
+
+.eDoc_double_space {
+    line-height: 200%;
+}
+
+.eDoc_super {
+    color:blue;
+    vertical-align:super;
+    font-size:smaller;
+    line-height: normal;
+}
+
+/* Doc display colors */
 .blue {color:blue; margin-right: 1em;}
 .context {background:#b6e4ff;padding:1px;}
 .author {background:#ffd8b6;padding:1px;}
@@ -244,14 +913,201 @@ ul.files li .dropdown-menu {left:-110px;}
 .pathos {background:#FCFC7C;color:#000;padding:1px;}
 .logos {background:#C8B613;color:#000;padding:1px;}
 .highlight {background:#FFFFD3}
+/* End Doc display colors */
+
 .markup  {
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
-          padding: 2px 4px;
+    padding: 2px 4px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+/***** End 06c Doc displays *****/
+
+.label {font-weight: normal;}
+
+.responses {
+    font-size:14px;
+}
+
+.forum_title,.journal-title {
+    font-size:24px;
+}
+
+.forum_comments {
+    margin-left:14px;
+}
+
+#forum_nav_title {
+    color:#333333;
+}
+
+#marca_forumbundle_forumtype_title {
+    width:37em;
+}
+
+#note_sub {
+    overflow:auto;
+    margin-bottom: 0px;
+}
+
+#note_list {
+    overflow:auto;
+    margin-bottom: 0px;
 }
 
 
+.doc {
+    background-color: white;
+    border-color: gray;
+}
+
+#doc-display {
+    overflow:auto;
+    margin-bottom: 0px;
+    background: #fff;
+}
+
+.doc-body {
+    margin:3.5em;
+}
+
+.doc-body p {
+    font-size: 14px;
+    margin-bottom: 0px;
+}
+
+#doctools {
+    overflow:auto;
+}
+.journal-body p, .forum-body p {
+    font-size: 14px;
+    line-height: 200%;
+    margin-bottom:27px;
+}
+
+.journal-body {
+    margin-bottom:60px;
+}
+
+.fc-event-title, .fc-event-time {
+    cursor: pointer;
+    cursor: hand;
+}
+
+.cke {
+    margin-bottom:20px !important;
+}
+
+#doc-edit .cke {
+    margin-bottom:0 !important;
+}
+
+/********** End 06. Marca tools *****/
+
+
+
+/********** 07. Media Queries **********/
+
+@media (max-width: 1199px) {
+    .navbar .nav > li > a {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+    #course-home {
+        padding-left: 35px;
+    }
+
+    .subnav-course-select {
+        margin-left:-5px !important;
+    }
+
+}
+
+@media (max-width: 920px) {
+    .navbar .nav > li > a {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    #course-home {
+        padding-left: 20px;
+    }
+
+    .subnav-course-select {
+        margin-left:-5px !important;
+    }
+
+}
+
+
+@media (max-width: 800px) {
+    .navbar .nav > li > a {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    #course-home {
+        padding-left: 5px;
+    }
+
+    .subnav-course-select {
+        margin-left:-5px !important;
+    }
+
+}
+
+
+@media (min-width: 768px) {
+    .navbar > .container .navbar-brand {
+        margin-left:-30px;
+    }
+}
+
+@media (max-width: 767px) {
+    .navbar > .container .navbar-brand {
+        margin-left:-12px;
+    }
+
+    .fc-button-month, .fc-button-agendaWeek, .fc-button-agendaDay, .fc-button-today {
+        display:none !important;
+    }
+}
+
+@media (min-width:768px) {
+    .notes-panel {
+        max-width: 800px;
+-webkit-column-count: 2;
+-webkit-column-gap:   10px;
+-moz-column-count:    2;
+-moz-column-gap:      10px;
+column-count:         2;
+column-gap:           10px;
+    }
+}
+
+@media (min-width:992px) {
+    .notes-panel {
+        max-width: 1200px;
+        -webkit-column-count: 3;
+        -webkit-column-gap:   10px;
+        -moz-column-count:    3;
+        -moz-column-gap:      10px;
+        column-count:         3;
+        column-gap:           10px;
+    }
+}
+
+/********** End 07. Media Queries **********/
+
+
+
+
+
+
+
+/********** 09. Colors **********/
 .aliceblue {background:#f0f8ff;}
 .antiquewhite {background:#faebd7;}
 .aqua {background:#0ff;}
@@ -399,7 +1255,7 @@ ul.files li .dropdown-menu {left:-110px;}
 .whitesmoke {background:#f5f5f5;}
 .yellow {background:#ff0;}
 .yellowgreen {background:#9acd32;}
-            
+
 
 .tc1 {background:#8db14f;}
 .tc2 {background:#D1AD06;}
@@ -411,90 +1267,4 @@ ul.files li .dropdown-menu {left:-110px;}
 .tc8 {background:#B1754F;}
 .tc9 {background:#4FB1AF;}
 
-
-::-webkit-scrollbar {
-    height: 12px;
-	width: 8px;
-	background: #ccc;
-    }
-::-webkit-scrollbar-thumb {
-    background: #393812;
-    -webkit-border-radius: 1ex;
-    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
-}
-::-webkit-scrollbar-corner {
-    background: #000;
-}
-
-/* 
-   Accessibility
-*/
-
-div#skipmenu{
-position:relative;
-}
-div#skipmenu a.skippy{
-position:absolute;
-top: -1000px;
-left:-1000px;
-height: 1px;
-width: 1px;
-overflow:hidden;
-}
-
-div#skipmenu a.skippy:active, div#skipmenu a.skippy:focus, div#skipmenu a.skippy:hover{
-position: absolute;
-top:auto;
-left:auto;
-height: 1em;
-font-size:1em;
-width:99%;  
-padding-bottom:15px;
-padding-top:10px;
-padding-right:10px;
-
-color: white;
-z-index:10000;
-text-align:right;
-background: #373737;
-}
-
-.well-header {
-padding: 9px 15px;
-border-bottom: 1px solid #eee;
-background-color: #F0F0F0;
-margin-top: 0;
-border-bottom: 1px solid #ddd;
--webkit-border-radius: 6px 6px 0 0 ;
--moz-border-radius: 6px 6px 0 0 ;
-border-radius: 6px 6px 0 0 ;
--webkit-box-shadow: inset 0 1px 0 #ffffff;
--moz-box-shadow: inset 0 1px 0 #ffffff;
-box-shadow: inset 0 1px 0 #ffffff;
-}
-
-.well-footer {
-padding: 14px 15px 15px;
-margin-bottom: 0;
-text-align: right;
-background-color: #F0F0F0;
-border-top: 1px solid #ddd;
--webkit-border-radius: 0 0 6px 6px;
--moz-border-radius: 0 0 6px 6px;
-border-radius: 0 0 6px 6px;
--webkit-box-shadow: inset 0 1px 0 #ffffff;
--moz-box-shadow: inset 0 1px 0 #ffffff;
-box-shadow: inset 0 1px 0 #ffffff;
-}
-
-
-#netWarn {
-    display:none; margin:0; padding:0.5em 1em; border:0; border-bottom:thin solid #FFDEDE; text-align:center; color:#666; text-shadow:1px 1px 1px #FFEFEF;
-    background-color: #FFEFEF;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#FFEFEF), to(#FFDFDF)); /* Saf4+, Chrome */
-    background-image: -webkit-linear-gradient(top, #FFEFEF, #FFDFDF); /* Chrome 10+, Saf5.1+, iOS 5+ */
-    background-image:    -moz-linear-gradient(top, #FFEFEF, #FFDFDF); /* FF3.6+ */
-    background-image:      -o-linear-gradient(top, #FFEFEF, #FFDFDF); /* Opera 11.10+ */
-    background-image:         linear-gradient(to bottom, #FFEFEF, #FFDFDF);
-    margin-top:40px;
-}
+/********** End 09. Colors **********/

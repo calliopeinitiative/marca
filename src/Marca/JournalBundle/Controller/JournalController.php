@@ -20,55 +20,36 @@ class JournalController extends Controller
     /**
      * Lists all Journal entities.
      *
-     * @Route("/{courseid}/{page}/{user}/list", name="journal", defaults={"page" = 1,"user" = 1}))
+     * @Route("/{courseid}/{page}/{userid}/{user}/list", name="journal_list", defaults={"page" = 1,"userid" = 0,"user" = 0}))
      * @Template()
      */
-    public function indexAction($courseid,$page)
+    public function indexAction($courseid,$page,$user,$userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-        $user = $this->getUser();
-        $userid =$user->getId();
+        if ($user==0){
+            $user = $this->getUser();
+        }
+        else {
+            $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+        }
+
+
         $course = $this->getCourse();
         $role = $this->getCourseRole();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         
-        $journal = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course);
+        $journals = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course);
         
         //pagination
         $paginator = $this->get('knp_paginator');
-        $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', $page),1);
+        $journal = $paginator->paginate($journals,$this->get('request')->query->get('page', $page),1);
         
-        return array('journal' => $journal, 'roll' => $roll, 'role' => $role, 'user' => $user, 'userid' => $userid);
+        return array('journal' => $journal, 'journals' => $journals, 'roll' => $roll, 'role' => $role, 'user' => $user, 'userid' => $userid);
     }
-    
-    /**
-     * Lists all Journal entities.
-     *
-     * @Route("/{courseid}/{userid}/{user}/{page}/journal_by_user", name="journal_user", defaults={"page" = 1})
-     * @Template("MarcaJournalBundle:Journal:index.html.twig")
-     */
-    public function indexByUserAction($courseid, $userid,$page)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
-        $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
-        $course = $this->getCourse();
-        $role = $this->getCourseRole();
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        
-        $journal = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course);
-        
-        //pagination
-        $paginator = $this->get('knp_paginator');
-        $journal = $paginator->paginate($journal,$this->get('request')->query->get('page', $page),1);
-        
-        return array('journal' => $journal, 'roll' => $roll, 'user' => $user, 'role' => $role);
-    }    
+
 
     /**
      * To use the autosave, new persists the entity and redirects to edit.
@@ -84,10 +65,10 @@ class JournalController extends Controller
         $user = $this->getUser();       
         $course = $this->getCourse();
         
-	$journal = new Journal();
+	    $journal = new Journal();
         $journal->setBody('<p></p>');
-	$journal->setTitle('New Journal Entry');
-	$journal->setUser($user);
+	    $journal->setTitle('New Journal Entry');
+	    $journal->setUser($user);
         $journal->setCourse($course);        
 
         $em->persist($journal);
@@ -131,7 +112,8 @@ class JournalController extends Controller
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'roll' => $roll,
-            'role' => $role
+            'role' => $role,
+            'user' => $user
         );
     }
 
@@ -146,8 +128,10 @@ class JournalController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        $role = $this->getCourseRole(); 
+
         $em = $this->getEm();
+        $role = $this->getCourseRole();
+        $user = $this->getUser();
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
@@ -160,13 +144,13 @@ class JournalController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($journal);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('journal', array('courseid'=> $courseid,)));
+            return $this->redirect($this->generateUrl('journal_list', array('courseid'=> $courseid,)));
         }
 
         return array(
@@ -174,7 +158,8 @@ class JournalController extends Controller
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'roll' => $roll,
-            'role' => $role
+            'role' => $role,
+            'user' => $user
         );
     }
     
@@ -247,7 +232,7 @@ class JournalController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('journal', array('set' => 0, 'courseid'=> $courseid,)));
+        return $this->redirect($this->generateUrl('journal_list', array('courseid'=> $courseid,)));
     }
 
     private function createDeleteForm($id)

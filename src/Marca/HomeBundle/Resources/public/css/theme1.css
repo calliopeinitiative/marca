@@ -1,0 +1,84 @@
+/********** Skin test **********/
+
+
+.navbar-inverse {
+    background-color: #25383C;
+    border-color: #303d42;
+}
+a {
+    color: #25383C;
+    text-decoration: none;
+}
+a:hover,
+a:focus {
+    color: #546b75;
+    text-decoration: underline;
+}
+a:focus {
+    outline: thin dotted #333;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+.current-filter {color: #25383C;}
+
+
+.btn-primary {
+    color: #ffffff;
+    background-color: #25383C;
+    border-color: rgba(255, 255, 255, 0);
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+    color: #ffffff;
+    background-color: #344248;
+    border-color: rgba(224, 224, 224, 0);
+}
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+    background-image: none;
+}
+
+.btn-info {
+    color: #ffffff;
+    background-color: #308cbc;
+    border-color: rgba(255, 255, 255, 0);
+}
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active,
+.btn-info.active,
+.open .dropdown-toggle.btn-info {
+    color: #ffffff;
+    background-color: #28749b;
+    border-color: rgba(224, 224, 224, 0);
+}
+.btn-info:active,
+.btn-info.active,
+.open .dropdown-toggle.btn-info {
+    background-image: none;
+}
+
+.sidebar {
+    background:#fff;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #25383C;
+}
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+    color: #ffffff;
+    background-color: #25383C;
+    border-color: #25383C;
+}
+/********** End Skin test **********/

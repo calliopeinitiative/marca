@@ -28,9 +28,9 @@ class PortfolioType extends AbstractType
                   ->where('c.id = :courseid')
                   ->setParameter('courseid', $courseid)        
                   ->orderBy('p.name', 'ASC');
-                }, 'expanded'=>false,'multiple'=>false, 'label'  => 'Select a portfolio category',
+                }, 'expanded'=>false,'multiple'=>false, 'label'  => 'Select a category ','attr' => array('class' => 'form-control'),
               ))     
-            ->add('portorder')        
+            ->add('portorder',null,array('label' => 'Select a position ','attr' => array('class' => 'text form-control'),))
         ;
     }
     

@@ -2,23 +2,12 @@
 
 {% extends '::base.html.twig' %}
 
-{% block title %}{{ application_name }} Docs{% endblock %}
+{% block title %}{{ application_name }} | Docs{% endblock %}
 
-{% block javascripts %}{% endblock %}
-{% block stylesheets %}{% endblock %}
-
-{% block subnav %}
-{% if app.request.get('view') == 'app' %}
-{%include 'MarcaCourseBundle::subnav.html.twig' %}
-{% endif %}
-{% endblock %}
+{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block javascripts %}{{ parent() }}{% endblock %}
 
 {% block body %}
-
-
-
-{% block content %}          
+{% block content %}
 {% endblock %}
- 
-      
 {% endblock %} 

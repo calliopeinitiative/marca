@@ -1,9 +1,9 @@
 {# Marca/CalendarBundle/Resources/views/Calendar/edit.html.twig #}
 
-{% extends 'MarcaCalendarBundle::layout.html.twig' %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script>
+{{ parent() }}
 <script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
     <script language="javascript">
@@ -15,10 +15,6 @@
                 showButtonPanel: true,
             });
             $( '#marca_calendarbundle_calendartype_startTime' ).timepicker(({ 'timeFormat': 'H:i' }));
-            $( '#marca_calendarbundle_calendartype_endDate' ).datepicker({
-                showButtonPanel: true,
-            });
-            $( '#marca_calendarbundle_calendartype_endTime' ).timepicker(({ 'timeFormat': 'H:i' }));
             $("#marca_calendarbundle_calendartype_color").spectrum({
                 preferredFormat: "name",
                 showPaletteOnly: true,
@@ -34,28 +30,59 @@
                     ['palegreen', 'paleturquoise', 'peachpuff','plum']
                 ]
             });
+            $('#toggle_modal').click(function(){
+                $('#delete_modal').modal();
+            });
         });
     </script>
 {% endblock %}
 
 {% block stylesheets %}
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
+{{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
 {% endblock %}
 
 {% block content %}
-<div class="span8 well"> 
-<form action="{{ course_path('calendar_update', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
-    {{ form_widget(edit_form) }}
-        <button class="btn btn-primary" type="submit">Submit</button>
-        <a class="btn" href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Cancel</a>
-</form>
+    <div class="col-sm-8 center">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title small">Calendar Event</h2>
+            </div>
+            <div class="panel-body">
+                <form action="{{ course_path('calendar_update', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+                    {{ form_widget(edit_form) }}
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <a class="btn btn-default" href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Cancel</a>
+                    </div>
+                    <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                </form>
+            </div>
+        </div>
+    </div>
 
-        
-<form id='calendar_delete' action="{{ course_path('calendar_delete', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post">
-            {{ form_widget(delete_form) }}  
-    <button class="btn btn-delete" type="submit">Delete</button>
-</form>      
-</div>
+
+    {# Modal for Delete confirmation #}
+    <div id="delete_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <span class="modal-title">Delete</span>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete?</p>
+                    <form id='calendar_delete' action="{{ course_path('calendar_delete', { 'id': calendar.id, 'gotodate': gotodate  }) }}" method="post">
+                        {{ form_widget(delete_form) }}
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 {% endblock %}

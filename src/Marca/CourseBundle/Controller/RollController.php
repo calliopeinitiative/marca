@@ -111,6 +111,35 @@ class RollController extends Controller
     }
 
     /**
+     * Finds and displays a Roll for deletion.
+     *
+     * @Route("/{courseid}/{id}/roll_modal", name="user_roll_modal")
+     * @Template("MarcaCourseBundle:Roll:delete_modal.html.twig")
+     */
+    public function showRollModalAction($courseid,$id)
+    {
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
+
+        if (!$roll) {
+            throw $this->createNotFoundException('Unable to find Roll roll.');
+        }
+        if ($roll->getUser() != $user) {
+            throw new AccessDeniedException();
+        }
+
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'roll'      => $roll,
+            'delete_form' => $deleteForm->createView(),
+            'course' => $course,);
+    }
+
+    /**
      * Displays a form to create a new Roll roll.
      *
      * @Route("/new", name="roll_new")
@@ -216,7 +245,7 @@ class RollController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($roll);
@@ -270,6 +299,43 @@ class RollController extends Controller
             ->getForm()
         ;
     }
+
+
+    /**
+     * Deletes a pending Roll roll (self delete by student).
+     *
+     * @Route("/{courseid}/{id}/pending_delete", name="roll_pending_delete")
+     * @Method("post")
+     */
+    public function rollPendingDelete($id, $courseid)
+    {
+
+        $form = $this->createDeleteForm($id);
+        $request = $this->getRequest();
+
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $em = $this->getEm();
+            $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
+            $user = $this->getUser();
+
+            if (!$roll) {
+                throw $this->createNotFoundException('Unable to find Roll entity.');
+            }
+            if ($roll->getUser() != $user) {
+                throw new AccessDeniedException();
+            }
+
+            $em->remove($roll);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('user_home'));
+    }
+
+
+
        
     /**
      *Promote a student to TA

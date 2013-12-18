@@ -1,23 +1,59 @@
 {# Marca/CourseBundle/Resources/views/Term/edit.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('#toggle_modal').click(function(){
+                $('#delete_modal').modal();
+            });
+        });
+    </script>
+{% endblock %}
 
 {% block content %}
-<legend>Terms</legend>
-
-<div class="row">
-<div class="span 9 well">
-<form action="{{ path('term_update', { 'id': term.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Update</button>
+    <div class="col-sm-6 center">
+        <div class="panel panel-default">
+            <form action="{{ path('term_update', { 'id': term.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+                <div class="panel-heading">
+                    Term
+                </div>
+                <div class="panel-body">
+                    {{ form_widget(edit_form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                        <a class="btn btn-default" href="{{ path('term') }}">Cancel</a>
+                    </div>
+                    <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                </div>
+            </form>
+        </div>
     </div>
-</form>
-       
-<form action="{{ path('term_delete', { 'id': term.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Delete</button>
-</form>
-</div>
-</div>
+
+    {# Modal for Delete confirmation #}
+    <div id="delete_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <span class="modal-title">Delete</span>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete?</p>
+                    <form action="{{ path('term_delete', { 'id': term.id }) }}" method="post">
+                        {{ form_widget(delete_form) }}
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 {% endblock %}

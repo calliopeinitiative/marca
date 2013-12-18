@@ -1,33 +1,38 @@
 {# Marca/ForumBundle/Resources/views/Reply/new.html.twig #}
 
-{% extends 'MarcaForumBundle::layout.html.twig' %}
-
-{% block javascripts %}
-    <script language="javascript">
-        $(document).ready(function()
-        {
-            $('form li').addClass('alert alert-error');
-        });
-    </script>
-{% endblock %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
 {% block content %}
-<div class="span9 well" style="padding:0">
-      <div class="well-header" >        
-         <span class="">{{ comment.user.firstname|capitalize }} {{ comment.user.lastname|capitalize }} says:</span>
-         <span class="pull-right">Created  {{ comment.created|date('M d Y, h:ia') }}  / Updated  {{ comment.updated|date('M d Y, h:ia') }}</span>
-      </div>
-         
-<div class="span7 pad margin-bottom" >{{ comment.body|raw }}  </div>       
-</div>
-<div class="span9 well"> 
-<form action="{{ course_path('reply_create', { 'commentid': commentid }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-    {{ form_errors(form) }}
-         {{ form_row(form.body) }}
-    {{ form_rest(form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Submit</button><a class='btn' href="{{ course_path('forum_show', { 'id': comment.forum.id }) }}">Cancel</a>
+    <div class="col-sm-8 center">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="inline">{{ comment.user.firstname|capitalize }} {{ comment.user.lastname|capitalize }} says:</h2>
+                <p>Created  {{ comment.created|date('M d Y, h:ia') }}  / Updated  {{ comment.updated|date('M d Y, h:ia') }}</p>
+            </div>
+            <div class="panel-body">
+                {{ comment.body|raw }}
+            </div>
+            <div class="panel-footer">
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <form action="{{ course_path('reply_create', { 'commentid': commentid }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+                <div class="panel-heading">
+                    Forum Comment
+                </div>
+                <div class="panel-body">
+                    {{ form_errors(form) }}
+                    {{ form_row(form.body) }}
+                    {{ form_rest(form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                        <a class='btn btn-default' href="{{ course_path('forum_show', { 'id': comment.forum.id }) }}">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</form>
-</div>
 {% endblock %}

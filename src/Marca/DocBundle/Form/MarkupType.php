@@ -14,11 +14,11 @@ class MarkupType extends AbstractType
         $entitymanager = $options['em'];
         $transformer = new ColorToCssTransformer($entitymanager);
         $builder
-            ->add('name', null, array('label'=>'Tag Name'))
-            ->add('color','text', array('attr' => array('class' => 'inline'),'label'  => 'Markup Color',) ) 
-            ->add('url', null, array('label'=>'Url (Web address) for outside resources'))
-            ->add('linktext', null, array('label'=>'Display text for link to outside resources'))    
-            ->add('mouseover', null, array('label'=>'Text to display for this tag'))   
+            ->add('name','text', array('label'  => 'Name','attr' => array('class' => 'text form-control'),))
+            ->add('color','text', array('attr' => array('class' => 'colorpicker'),'label'  => 'Markup Color',) )
+            ->add('url','text', array('label'  => 'Url (Web address) for outside resources','attr' => array('class' => 'text form-control'),))
+            ->add('linktext','text', array('label'  => 'Display text for link to outside resources','attr' => array('class' => 'text form-control'),))
+            ->add('mouseover', 'ckeditor', array('label'=>'Text to display for this tag','config_name' => 'editor_docs',))
         ;
     }
     

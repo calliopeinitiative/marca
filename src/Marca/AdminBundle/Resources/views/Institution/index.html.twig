@@ -1,69 +1,66 @@
 {# Marca/AdminBundle/Resources/views/Default/index.html.twig #}
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('#new_inst').click(function(){
+                $('#inst_modal').load('{{ path('inst_new_modal') }}').modal();
+            });
+            {% if newInstitution %}
+            $('#term_modal').load('{{ path('term_new_modal', {'instId':newInstitution}) }}').modal();;
+            {% endif %}
+            $('.toggle').toggle();
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
-<script language="javascript">
-$(document).ready(function()
-{    
-$('#new_inst').click(function(){
-  $('#inst_modal').load('{{ path('inst_new_modal') }}');
-  $('#inst_modal').modal();
-});
-});
-</script>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a class="btn btn-primary pull-right margin-top" id="new_inst" href="javascript:void(0);">Add Institution<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+            <h2>Institutions</h2>
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <tbody>
+                {% for institution in institutions %}
+                    <tr id = "default{{institution.id}}">
+                        <td>{{institution.name}}</td>
+                        <td>{% if institution.PaymentType == 0 %}No Payment Required{% endif %}{% if institution.PaymentType == 1 %}Bookstore Payment{% endif %}{% if institution.PaymentType == 2 %}In App Payment{% endif %}{% if institution.PaymentType == 3 %}Bookstore and In App Payment{% endif %}</td>
+                        <td>${{ institution.SemesterPrice / 100 }}</td>
+                        <td>{% if institution.research == true %}Research Consent{%endif%}</td>
+                        <td>
+                            <button class = "btn btn-danger btn-xs" onclick="$('#confirm{{institution.id}}').toggle();$('#default{{institution.id}}').toggle()" type="submit">Delete</button>
+                        </td>
+                    </tr>
+                    <tr id = "confirm{{institution.id}}" class="toggle">
+                        <td>{{institution.name}}</td>
+                        <td colspan="3"><strong>Deleteing an Institution will make courses and users associated with the institution UNUSABLE!! Are you sure?</strong></td>
+                        <td>
+                            <form action="{{ path('institution_delete', {'id':institution.id}) }}" method="post">
+                                {{ form_widget(delete_form) }}
+                                <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                                <button class = "btn btn-default btn-xs" onclick="$('#confirm{{institution.id}}').toggle();$('#default{{institution.id}}').toggle()" type="submit">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
-{% if newInstitution %}
-<script language="javascript">
-$(document).ready(function()
-{ 
-  $('#term_modal').load('{{ path('term_new_modal', {'instId':newInstitution}) }}');  
-  $('#term_modal').modal();
-});
-</script>
-{% endif %}
+        </div>
+        <div class="panel-footer">
+            <span class="text-muted"> </span>
+        </div>
+    </div>
 
-<div class="span9 well">
-<h2>Institutions</h2>
-
-<a class="btn btn-small btn-primary" id="new_inst" href="javascript:void(0);">Create New Institution</a>
-
-</div>
-<div class="span9 well">
-    <h2> Current Institutions</h2>
-<table class="table">   
-<tbody>    
-{% for institution in institutions %}
-        <tr id = "default{{institution.id}}">
-            <td>{{institution.name}}</td>
-            <td>{% if institution.PaymentType == 0 %}No Payment Required{% endif %}{% if institution.PaymentType == 1 %}Bookstore Payment{% endif %}{% if institution.PaymentType == 2 %}In App Payment{% endif %}{% if institution.PaymentType == 3 %}Bookstore and In App Payment{% endif %}</td>
-            <td>${{ institution.SemesterPrice / 100 }}</td>
-            <td>{% if institution.research == true %}Research Consent{%endif%}</td>
-            <td> 
-                <button class = "btn btn-danger btn-mini" onclick="$('#confirm{{institution.id}}').toggle();$('#default{{institution.id}}').toggle()" type="submit">Delete</button>
-            </td>
-        </tr>
-        <tr id = "confirm{{institution.id}}" class="toggle">
-            <td>{{institution.name}}</td>
-            <td><strong>WARNING!! Deleteing an Institution may make courses and users associated with the institution UNUSABLE!! Are you sure?</strong></td>
-            <td>
-                <form action="{{ path('institution_delete', {'id':institution.id}) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger btn-mini" type="submit">Delete</button>
-            </form>
-            </td>
-        </tr>
-{% endfor %}
-</tbody>
-</table>
-</div>
-
-{# Modal #}
-<div id="inst_modal" class="modal hide fade" tabindex="-1" role="dialog">     
-</div>
-
-<div id="term_modal" class="modal hide fade" tabindex="-2" role="dialog">     
-Hello?
-</div>
-
-
+    {# Modal #}
+    <div class="modal fade" id="inst_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    </div><!-- /.modal -->
+    <div class="modal fade" id="term_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    </div><!-- /.modal -->
 {% endblock %}

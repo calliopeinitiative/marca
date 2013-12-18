@@ -3,32 +3,38 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="btn-group pull-right">
+                    <a class="btn btn-default btn-sm" href="{{ path('assessmentset_edit', { 'id': assessmentset.id }) }}">Edit Assessment Set</a>
+                    <a class="btn btn-default btn-sm" href="{{ path('objective_new', { 'assessmentsetid': assessmentset.id }) }}">Add Learning Objective</a>
+                    <a class="btn btn-default btn-sm" href="{{ path('assessmentset') }}">List Assessment Sets</a>
+                </div>
+                <h2 class="margin-top-small">{{ assessmentset.name }}</h2>
+                <p>{{ assessmentset.description|raw }}</p>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    {% for objective in assessmentset.objectives %}
 
-<div class="span9 well">
-<legend>Assessment</legend> 
-<a class="btn" href="{{ path('assessmentset') }}">List Assessment Sets and Scales</a>
-</div>
+                        <a class="list-group-item" href="{{ path('objective_edit', { 'id': objective.id }) }}">
+                            <h3 class="margin-top-small">{{ objective.objective|raw }}</h3>
+                            {{ objective.description|raw }}
+                            <strong>{{ objective.scale.name }}</strong>:
+                            <p>
+                                {% for scaleitem in objective.scale.scaleitems %}
+                                <strong>{{ scaleitem.name }}</strong> (value:{{ scaleitem.value }})
+                                {% endfor %}
+                            </p>
+                        </a>
 
-<div class="span9 well">                    
-<h4>{{ assessmentset.name }}</h4>
-{{ assessmentset.description|raw }}  
-
-<hr/>     
-
-{% for objective in assessmentset.objectives %}
-<div class="span8">             
-    <div class="row"><h5 class='inline'>{{ objective.objective|raw }}</h5>
-        <a class="btn btn-primary btn-small pull-right" href="{{ path('objective_edit', { 'id': objective.id }) }}">Edit</a>  
-        </div>  
-        <div class="row">{{ objective.description|raw }}</div>
-        <div class="row"><strong>{{ objective.scale.name }}</strong>:  
-         {% for scaleitem in objective.scale.scaleitems %}<span class="margin-left">{{ scaleitem.name }} (value:{{ scaleitem.value }})</span>  {% endfor %}</div>
-         <hr/>
-</div>
-{% endfor %}
-
-
-<a class="btn btn-primary " href="{{ path('objective_new', { 'assessmentsetid': assessmentset.id }) }}">Add Learning Objective</a>
-
-</div>          
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="panel-footer">
+                <span class="text-muted">Click Learning Objective to edit. </span>
+            </div>
+        </div>
+    </div>
 {% endblock %}

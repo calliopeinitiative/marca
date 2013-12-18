@@ -1,23 +1,24 @@
 {# Marca/AssessmentBundle/Resources/views/Scale/new.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
-
-{% block javascripts %}
-{% endblock %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block content %}
-
-   
-<div class="span9 well">
-<h2>Scales</h2>
-</div> 
-
-<div class="span9 well"> 
-<form action="{{ path('scale_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ path('assessmentset') }}">Cancel</a>
-    </div>
-</form>
-</div>
+   <div class="col-sm-6 center">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title small">Scale</h2>
+            </div>
+            <div class="panel-body">
+                <form action="{{ path('scale_create') }}" method="post" {{ form_enctype(form) }}>
+                    {{ form_widget(form) }}
+            </div>
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <button class="btn btn-primary" type="submit">Create</button>
+                    <a class="btn btn-default" href="{{ path('assessmentset') }}">Cancel</a>
+                </div>
+                </form>
+            </div>
+        </div>
+   </div>
 {% endblock %}

@@ -1,45 +1,54 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
-{% block javascript %}
-
-{% endblock %}
-
 {% block content %}
 
     <script language="javascript">
         $(document).ready(function()
         {
-            $("#_submit").addClass("btn btn-primary");
+            $("input:submit").addClass("btn btn-primary btn-lg btn-block");
+            $("input:text").addClass("form-control");
+            $("input:password").addClass("form-control");
+            $("#fos_user_registration_form_email").addClass("form-control");
+            $("#fos_user_registration_form_share_email").addClass("checkbox");
+            $("#fos_user_registration_form_institution").addClass("form-control");
         });
     </script>
-
-
-<div class="row">
-<div class="span5">  
-<h2>Welcome to {{ application_name }}</h2> 
+<div style="text-align:center;">
+    <h1 class="margin-top-small">Welcome to {{ application_name }}.</h1>
+    <h2>Learn together.  Write better.</h2>
 </div>
-    
-<div class="span3 well">
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
-<a href="{{ path('fos_user_security_logout') }}">
-{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-</a>
-{% endif %}
+<div class="col-sm-4 col-xs-12 center margin-top">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div style="text-align:center;">
+                <img class="img-circle" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"/>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+                    <a href="{{ path('fos_user_security_logout') }}">
+                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                    </a>
+                {% endif %}
 
-{% for key, message in app.session.getFlashes() %}
-<div class="{{ key }}">
-{{ message|trans({}, 'FOSUserBundle') }}
-</div>
-{% endfor %}
+                {% for type, messages in app.session.flashBag.all %}
+                    {% for message in messages %}
+                        <div class="{{ type }}">
+                            {{ message|trans({}, 'FOSUserBundle') }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
 
-{% block fos_user_content %}
-{% endblock fos_user_content %}
+                {% block fos_user_content %}
+                {% endblock fos_user_content %}
+            </div>
+        </div>
+    </div>
+    <div style="text-align:center;margin-bottom:20px;">
+        {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") and ldap_auth!='yes' %}
+            <a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a>
+        {% endif %}
+    </div>
+    <div style="height:10px;"></div>
 
-{% if not is_granted("IS_AUTHENTICATED_REMEMBERED") and ldap_auth!='yes' %}
-<a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a>
-{% endif %} 
-</div>
 </div>
 {% endblock %}
 

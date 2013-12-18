@@ -1,16 +1,17 @@
 {# Marca/NoteBundle/Resources/views/Note/new.html.twig #}
 
-{% extends 'MarcaNoteBundle::layout.html.twig' %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
 {% block javascripts %}
 {% endblock %}
 
 {% block content %}
-<div class="span9 well">
+<div class="col-sm-8 center">
+
 <form action="{{ course_path('note_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div>
-        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ course_path('note') }}">Cancel</a>
+        <button class="btn btn-primary" type="submit">Create</button><a class="btn btn-default" href="{{ course_path('note') }}">Cancel</a>
     </div>
 </form>
 </div>

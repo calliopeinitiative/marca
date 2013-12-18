@@ -11,8 +11,8 @@ class ScaleitemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('value')
+            ->add('name','text', array('label'  => 'Name','attr' => array('class' => 'text form-control'),))
+            ->add('value','text', array('label'  => 'Value','attr' => array('class' => 'text form-control'),))
         ;
     }
 

@@ -21,22 +21,6 @@ use Marca\CourseBundle\Entity\Project;
  */
 class DocController extends Controller
 {
-    /**
-     * Lists all Doc entities.
-     *
-     * @Route("/{courseid}/", name="doc")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        $em = $this->getEm();
-
-        $docs = $em->getRepository('MarcaDocBundle:Doc')->findAll();
-
-        return array('docs' => $docs);
-    }
 
     /**
      * Finds and displays a Doc entity.
@@ -54,10 +38,10 @@ class DocController extends Controller
         $user = $this->getUser();
         $role = $this->getCourseRole();
 
-        $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $doc = $file->getDoc();
         $text = $doc->getBody();
         $count = str_word_count($text);
-        $file = $doc->getFile();
         $file_owner = $file->getUser();
         $review_file = $file->getReviewed();
         if ($review_file) {$review_owner = $review_file->getUser();} else {$review_owner = $file_owner;}
@@ -130,12 +114,16 @@ class DocController extends Controller
         
         $em = $this->getEm();
         $course = $this->getCourse();
+        $user = $this->getUser();
         $role = $this->getCourseRole();
         $type =2;
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
 
-        $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
-        $file = $doc->getFile();
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        if($user != $file->getUser()){
+            throw new AccessDeniedException();
+        };
+        $doc = $file->getDoc();
         $markupsets = $course->getMarkupsets();
         
         if (!$doc) {
@@ -171,6 +159,7 @@ class DocController extends Controller
         $em = $this->getEm();
 
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
+        $fileid = $doc->getFile()->getId();
 
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
@@ -182,13 +171,13 @@ class DocController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($doc);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('doc_show', array('id' => $id, 'courseid'=> $courseid, 'view' => $view)));
+            return $this->redirect($this->generateUrl('doc_show', array('id' => $fileid, 'courseid'=> $courseid, 'view' => $view)));
         }
 
         return array(

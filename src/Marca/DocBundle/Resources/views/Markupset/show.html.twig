@@ -4,20 +4,20 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span9 well">
+<div class="col-sm-11 well">
 <h1>Markup</h1>
-      <a class="btn btn-small" href="{{ path('markupset') }}">List All Markup Sets</a> 
-      <a class="btn btn-small" href="{{ path('markupset_new') }}">Create Markup Set</a>
-      <a class="btn btn-small" href="{{ path('find_markupset') }}"> Import Markup Set</a>   
+      <a class="btn btn-default btn-sm" href="{{ path('markupset') }}">List All Markup Sets</a>
+      <a class="btn btn-default btn-sm" href="{{ path('markupset_new') }}">Create Markup Set</a>
+      <a class="btn btn-default btn-sm" href="{{ path('find_markupset') }}"> Import Markup Set</a>
 </div> 
 
-<div class="span8 alert alert-info">
+<div class="col-sm-8 alert alert-info">
 Click Markupset Name to see complete markup set.
 </div> 
 <div class="accordion" id="markup_accordian">
   
   
- <div class="accordion-group span9 well pad05">     
+ <div class="accordion-group col-sm-11 well pad05">
 
     <div class="accordion-heading">
       <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#markup_accordian" href="#collapse">
@@ -27,18 +27,18 @@ Click Markupset Name to see complete markup set.
     <div id="collapse" class="accordion-body collapse">
       <div class="accordion-inner">
       {% if markupset.isOwner(app.user.username) %}
-      <a class="btn btn-small pull-right" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit Set Information</a>
-      <a class='btn btn-small pull-right' href="{{ path('markup_new', { 'set_id' : markupset.getid}) }}">Create Markup Tag</a>
-      <a class='btn btn-small pull-right' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Add Tags from Other Sets</a>
+      <a class="btn btn-default btn-sm pull-right" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit Set Information</a>
+      <a class='btn btn-default btn-sm pull-right' href="{{ path('markup_new', { 'set_id' : markupset.getid}) }}">Create Markup Tag</a>
+      <a class='btn btn-default btn-sm pull-right' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Add Tags from Other Sets</a>
       {% endif %} 
            {% for markup in markupset.markup %}
-           <div class="span8 divider">
+           <div class="col-sm-8 divider">
             <span class="label {{ markup.color }}" style='color:black;'>{{ markup.name }}</span>
             {{ markup.mouseover|raw }}
             {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% else %}No URL{% endif %}</td>
             
                 
-            {% if markupset.isOwner(app.user.username) %}<a class="btn btn-mini  pull-right" href="{{ path('markup_edit', { 'id': markup.id, 'set_id': markupset.id  }) }}">Edit</a>{% endif %}
+            {% if markupset.isOwner(app.user.username) %}<a class="btn btn-default btn-xs pull-right" href="{{ path('markup_edit', { 'id': markup.id, 'set_id': markupset.id  }) }}">Edit</a>{% endif %}
           </div>
            {% endfor %}
           

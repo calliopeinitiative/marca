@@ -10,6 +10,7 @@ use Marca\CourseBundle\Entity\Course;
 use Marca\CourseBundle\Entity\Roll;
 use Marca\UserBundle\Entity\Profile;
 use Marca\CourseBundle\Entity\Project;
+use Marca\HomeBundle\Entity\Page;
 use Marca\CourseBundle\Form\CourseType;
 use Marca\CourseBundle\Form\ModuleType;
 use Marca\CourseBundle\Form\AnnounceType;
@@ -155,11 +156,15 @@ class CourseController extends Controller
         foreach ($markupsets as &$markupset) {
         $course->addMarkupset($markupset);    
         };
+
+        $type= Page::TYPE_COURSE;
+        $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
         
         $form   = $this->createForm(new CourseType($options), $course);
 
         return array(
             'course' => $course,
+            'pages' => $pages,
             'form'   => $form->createView()
         );
     }
@@ -215,13 +220,6 @@ class CourseController extends Controller
         $project4->setSortOrder(4);
         $project4->setCourse($course);
 
-        $project5 = new Project();
-        $project5->setName('Course Home');
-        $project5->setSortOrder(5);
-        $project5->setResource(true);
-        $project5->setCourse($course);
-        $project5->setCoursehome(true);
-
         }
         $project6 = new Project();
         $project6->setName('Readings');
@@ -234,6 +232,7 @@ class CourseController extends Controller
         $project7->setSortOrder(7);
         $project7->setResource(true);
         $project7->setCourse($course);
+        $project7->setCoursehome(true);
         
         $project8 = new Project();
         $project8->setName('Resources');
@@ -253,7 +252,6 @@ class CourseController extends Controller
             $em->persist($project2);
             $em->persist($project3);
             $em->persist($project4);
-            $em->persist($project5);
             }
             $em->persist($project6);
             $em->persist($project7);
@@ -295,12 +293,16 @@ class CourseController extends Controller
         if($user != $course->getUser()){
             throw new AccessDeniedException();
         }
+
+        $type= Page::TYPE_COURSE;
+        $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
         
         $editForm = $this->createForm(new CourseType($options), $course);
         $deleteForm = $this->createDeleteForm($courseid);
 
         return array(
             'course'      => $course,
+            'pages'      => $pages,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -332,7 +334,7 @@ class CourseController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($course);
@@ -398,7 +400,7 @@ class CourseController extends Controller
     /**
      * Displays a form to edit an course announcements.
      *
-     * @Route("/{courseid}/annouce_edit", name="announce_edit")
+     * @Route("/{courseid}/announce_edit", name="announce_edit")
      * @Template("MarcaCourseBundle:Course:announce_edit.html.twig")
      */
     public function editAnnouncementAction($courseid)
@@ -453,7 +455,7 @@ class CourseController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($course);

@@ -1,8 +1,9 @@
 {# Marca/TabBundle/Resources/views/Tag/new.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block javascripts %}
+    {{ parent() }}
 <script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
     <script language="javascript">
@@ -16,7 +17,11 @@
                 palette: [
                     ['royalblue', 'seagreen', 'slateblue','darkorange'],
                     ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
-                    ['orange', 'cadetblue', 'tomato','blueviolet']
+                    ['orange', 'cadetblue', 'tomato','blueviolet'],
+                    ['lavender', 'lavenderblush', 'lightblue','lightcoral'],
+                    ['lightcyan', 'lightgoldenrodyellow', 'lightgray','lightpink'],
+                    ['lightsalmon', 'lightskyblue', 'lightsteelblue','lightyellow'],
+                    ['palegreen', 'paleturquoise', 'peachpuff','plum']
                 ]
             });
         });
@@ -24,20 +29,30 @@
 {% endblock %}
 
 {% block stylesheets %}
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
 {% endblock %}
 
-{% block content %}
-<div class="span9 well">
-    <h2>Label Sets</h2>
-</div> 
 
-<div class="span9 well"> 
-<form action="{{ path('tag_create', { 'tagsetid': tagset.id }) }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ path('tagset') }}">Cancel</a> 
+{% block content %}
+    <div class="col-sm-8 center">
+        <form action="{{ path('tag_create', { 'tagsetid': tagset.id }) }}" method="post" {{ form_enctype(form) }}>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Label Set
+                </div>
+                <div class="panel-body">
+                    {{ form_widget(form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                        <a class="btn btn-default" href="{{ path('tagset') }}">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
     </div>
-</form>
-</div>
 {% endblock %}

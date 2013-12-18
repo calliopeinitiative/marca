@@ -1,10 +1,10 @@
 {# Marca/DocBundle/Resources/views/layout.html.twig #}
 
 {% extends '::base.html.twig' %}
-{% block title %}{{ application_name }} Portfolio{% endblock %}
+{% block title %}{{ application_name }} | Portfolio{% endblock %}
 
-{% block javascripts %}{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block javascripts %}{{ parent() }}{% endblock %}
 
 {% block subnav %}
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
@@ -12,10 +12,7 @@
 
 {% block body %}
 
-
-
 {% block content %}          
 {% endblock %}
- 
-      
+
 {% endblock %} 

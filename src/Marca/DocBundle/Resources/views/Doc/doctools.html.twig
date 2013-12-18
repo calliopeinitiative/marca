@@ -1,98 +1,114 @@
 {# Marca/DocBundle/Resources/views/Doc/doctools.html.twig #}
-<div id="docTab">
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#docMarkup" data-toggle="tab">Markup</a></li>
-  <li><a href="#docFeedback" data-toggle="tab">Feedback</a></li>
-  <li><a href="#docInfo" data-toggle="tab">Info</a></li>
-</ul>
 
-<div id="docTabContent" class="tab-content">
-<div class="tab-pane fade in active" id="docMarkup">
-{# INSERT NOTE #}
-
-<form id='note_insert_form' name='note_insert_form'>
-    <label for="insert_value">Note</label>
-<textarea  class='span3' id="insert_value" name="html_insert"></textarea>
-<a id='note_insert_submit' href="javascript:void(0)" class="label label-info"  title="Submit entry">Insert Note</a>
-</form>
-
-
-<hr/>
-<div class="margin-top">
-{% for markupset in markupsets%}
-{% if loop.first %}
-<div>{{ markupset.name }}</div>
-{% for markup in markupset.markup  %}
-<a href="javascript:{{markup.function}}('{{markup.id}}', '{{markup.value}}','{{markup.color}}')" title="Submit entry"><span style='color:black;' class="label {{ markup.color }}">{{ markup.name }}</span></a></li>
-{% endfor %}
-{% endif %}
-{% endfor %}
-</div>
-
-
-
-    <div class="accordion margin-top" id="markup">
-        {% for markupset in markupsets %}
-            {% if not loop.first %}
-            <div class="accordion-group">
-                <div class="accordion-heading">
-                    <a class="accordion-toggle" style='display:inline;' data-toggle="collapse" data-parent="#markup" href="#collapse{{markupset.id}}">
-                        {{ markupset.name }}
-                    </a>
-                </div>
-                <div id="collapse{{markupset.id}}" class="accordion-body collapse">
-                    <div class="accordion-inner">
-                            {% for markup in markupset.markup %}
-                                <a href="javascript:{{markup.function}}('{{markup.id}}', '{{markup.value}}','{{markup.color}}')" title="Submit entry"><span style='color:black;' class="label {{ markup.color }}">{{ markup.name }}</span></a>
-                            {% endfor %}
-                    </div>
-                </div>
-
+{# Doc tools #}
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                    Info
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse">
+            <div class="panel-body">
+                <dl>
+                    <dt>Author</dt>
+                    <dd>{{ file.user.firstname }} {{ file.user.lastname }}</dd>
+                    <dt>Document</dt>
+                    <dd>{{ file.name }}</dd>
+                    <dt>Updated</dt>
+                    <dd>{{ file.updated|date('m/d/y, g:i a') }}</dd>
+                    <dt>Created</dt>
+                    <dd>{{ file.created|date('m/d/y, g:i a') }}</dd>
+                    <dt>Word Count</dt>
+                    <dd><span id="word-count"></span> words approx.</dd>
+                </dl>
+                <strong>Labels</strong>
+                {% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
+                {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
+                {% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
+                {% endif %}
+                {% if file.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
             </div>
-            {% endif %}
-        {% endfor %}
+        </div>
     </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                    Markup
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse in">
+            <div class="panel-body">
+                {# INSERT NOTE #}
+                <form id='note_insert_form' name='note_insert_form'>
+                    <label for="insert_value">Note</label>
+                    <textarea  class='form-control' id="insert_value" name="html_insert"></textarea>
+                    <a id='note_insert_submit' href="javascript:void(0)" class="btn btn-default btn-sm"  title="Submit entry">Insert Note</a>
+                </form>
 
+                <hr/>
+                <div class="panel-group" id="accordionMarkup">
 
-{% if role == 2 and pages %}
-    <div class='span3' style='margin-left: 0px'>
-    <div class='alert alert-info'>Be sure to place your cursor where you want the rubric to go.</div>
-    <a id='insert_rubric' class='btn' href="javascript:void(0);" title="Insert Rubric: Be sure to place your cursor where you want the rubric to go.">Insert Rubric</a>
+                    {% for markupset in markupsets %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionMarkup" href="#collapseMarkup{{markupset.id}}">
+                                        {{ markupset.name }}
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseMarkup{{markupset.id}}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    {% for markup in markupset.markup %}
+                                        <a href="javascript:{{markup.function}}('{{markup.id}}', '{{markup.value}}','{{markup.color}}')" title="Submit entry"><span style='color:black;' class="label {{ markup.color }}">{{ markup.name }}</span></a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {% if role == 2 and pages %}
+                    <hr/>
+                    <a id='insert_rubric' class='btn btn-default' href="javascript:void(0);" title="Insert Rubric: Be sure to place your cursor where you want the rubric to go.">Insert Rubric</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
-{% endif %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                    Feedback ({{ file.responses|length }} response(s))
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body">
+                {# Responses #}
+                {% for response in file.responses %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">{{ response.user.firstname}} {{ response.user.lastname}} says:</h2>
 
-</div> {# End docMarkup #}
+                            {% if response.isOwner(app.user.username) %}
+                                <a class="btn btn-default btn-xs pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': file.id, 'source': app.request.get('_route'),'view': app.request.get('view'),'userid': file.user.id  }) }}">Edit</a>
+                            {% endif %}
+                        </div>
+                        <div class="panel-body">
+                            {{ response.body|raw }}
+                        </div>
+                    </div>
 
-<div class="tab-pane fade" id="docFeedback">
-{% for response in file.responses %}
-<div>
-<h5 class='inline'>{{ response.user.firstname}} {{ response.user.lastname}} says:</h5>
-<div class="divider">
-{{ response.body|raw }}
+                {% else %}
+                    <div class="pad">No one has has offered feedback.</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
-</div>
-{% else %} No one has has offered feedback.
-{% endfor %}
-</div> {# End docFeedback #}
-
-<div class="tab-pane fade" id="docInfo">
-<h5>Author</h5>
-{{ file.user.firstname }} {{ file.user.lastname }}
-<h5>Document Name</h5>
-{{ file.name }}
-{% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
-{% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
-{% endif %}
-<h5>Project</h5>
-{% if file.project.name %}{{ file.project.name }}{% endif%}
-<h5>Created:</h5>
-{{ file.created|date('M d Y, g:i a') }}
-<h5>Updated:</h5>
-{{ file.updated|date('M d Y, g:i a') }}
-<h5>Labels</h5>
-{% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
-</div> {# End docInfo #}
-
-</div>
-
-</div>{# end docTab  #}

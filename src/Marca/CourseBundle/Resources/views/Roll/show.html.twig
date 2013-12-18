@@ -3,15 +3,20 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="row-fluid">
-<div class="span8 well">
-<legend>Confirm removal of  {{ roll.firstname }} {{ roll.lastname }}</legend>
-<form action="{{ path('roll_delete', { 'id': roll.id,'courseid': course.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit">Remove</button>
-</form> 
-</div>       
-  
-</div>
-     
+    <div class="col-sm-6">
+        <div class="panel panel-marca">
+            <div class="panel-heading">
+                <h2 class="panel-title">Confirm removal of  {{ roll.firstname }} {{ roll.lastname }}</h2>
+            </div>
+            <div class="panel-body">
+                <form action="{{ path('roll_delete', { 'id': roll.id,'courseid': course.id }) }}" method="post">
+                    {{ form_widget(delete_form) }}
+                    <button class="btn btn-danger" type="submit">Remove</button>
+                </form>
+            </div>
+            <div class="panel-footer">
+
+            </div>
+        </div>
+    </div>
 {% endblock %}

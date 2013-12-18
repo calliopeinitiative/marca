@@ -1,22 +1,29 @@
 {# Marca/AssessmentBundle/Resources/views/Objective/new.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block javascripts %}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}
-<div class="span9 well">
-<h2>Assessment</h2>
-<a class="btn" href="{{ path('assessmentset') }}">List Assessment Sets</a>
-</div> 
-
-<div class="span9 well"> 
-<form action="{{ path('objective_create', {'assessmentsetid':assessmentsetid}) }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ path('assessmentset_show', {'id':assessmentsetid}) }}">Cancel</a>
+    <div class="col-sm-8 center">
+        <div class="panel panel-default">
+            <form action="{{ path('objective_create', {'assessmentsetid':assessmentsetid}) }}" method="post" {{ form_enctype(form) }}>
+                <div class="panel-heading">
+                    <a class="btn btn-default pull-right" href="{{ path('assessmentset') }}">List Assessment Sets</a>
+                    <h2 class="margin-top-small">Learning Objective</h2>
+                </div>
+                <div class="panel-body">
+                    {{ form_widget(form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                        <a class="btn btn-default" href="{{ path('assessmentset_show', {'id':assessmentsetid}) }}">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</form>
-</div>
 {% endblock %}

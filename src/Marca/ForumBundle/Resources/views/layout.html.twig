@@ -1,22 +1,20 @@
 {# Marca/ForumBundle/Resources/views/layout.html.twig #}
 
 {% extends '::base.html.twig' %}
-{% block title %}{{ application_name }} Forum{% endblock %}
+{% block title %}{{ application_name }} | Forum{% endblock %}
 
-{% block javascripts %}{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block javascripts %}{{ parent() }}{% endblock %}
 
 {% block subnav %}
 {%include 'MarcaCourseBundle::subnav.html.twig' %}
 {% endblock %}
 
 
-{% block sidebar %} 
-       <h1>Forum</h1>
+{% block sidebar %}
+    <h1><a  title='Course Forum' href="{{ course_path('forum') }}" class="marca-gray">Forum</a></h1>
        {% if is_granted('ROLE_INSTR') %}
-             <a class='btn btn-primary' href="{{ course_path('forum_new') }}">Create<i class="icon-pencil icon-white"></i></a>
+             <a class='btn btn-primary margin-bottom-medium' href="{{ course_path('forum_new') }}">Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
              {% endif %} 
              <li><a href="{{ course_path('forum', { 'set': 0 }) }}">All Discussions</a></li>
-             
-           
 {% endblock %}  

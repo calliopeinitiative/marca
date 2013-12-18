@@ -3,50 +3,34 @@
 {% extends 'MarcaNoteBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script language="javascript">
-    $(document).ready(function()
-    {
-        $('.note_body').hide();
-        $('#note_page').css('height', function(index) {
-            return $(window).height()* .82;
-        });
-        $('#note_sub, #note_list').css('height', function(index) {
-            return $(window).height()* .78;
-        });
-        {% for note in notes %}
-        {% if loop.first %}$('#note_body{{loop.index}}').show();$('#note_td{{loop.index}}').addClass('active');{% endif %}
-        $('#note_anchor{{loop.index}}').click(function(){
-            $('.note_body').hide();$('#note_body{{loop.index}}').show();$('td.active').removeClass('active');$('#note_td{{loop.index}}').addClass('active');
-        });
-        {% endfor %}
-    });
-</script>
+    {{ parent() }}
 {% endblock %}
 
 
 {% block content %}
-<div id="note_page" class="span9 well" style="padding-right:0;padding-left:0">
-<div id="note_list" class="span4">
-<table class="table table-hover"> 
-    <thead><tr><th>Click note name to view</th></tr></thead>    
-{% for note in notes %} 
-        <tr>
-            <td id="note_td{{loop.index}}" class="notes"><a  href="javascript:void(0);" id="note_anchor{{loop.index}}">{{ note.title }}</a></td>
-        </tr>
-{%else%}
-        <tr>
-            <td class="notes">You don't have any notes yet.  Just click the create button to get started.</td>
-        </tr>        
-{% endfor %} 
-</table>               
-</div>
 
-<div id="note_sub" class="span4 well"> 
-{% for note in notes %}        
-        <span class="note_body" id="note_body{{loop.index}}">{{ note.description|raw }} 
-        <a class="btn btn-small btn-primary" href="{{ course_path('note_edit', { 'id': note.id }) }}">Edit</a>
-        </span>       
-{% endfor %}        
-</div>
-</div>
+    <div class="notes-panel">
+        {% for note in notes %}
+            <div class="panel panel-default" style="display: inline-block;margin-bottom: 10px;width: 100%;min-height:115px;">
+                <div class="panel-heading">
+                    <a href="{{ course_path('note_edit', { 'id': note.id }) }}"><h2 class="panel-title small">{{ note.title }}</h2></a>
+                </div>
+                <div class="panel-body">
+                    {{ note.description|raw }}
+                </div>
+            </div>
+        {%else%}
+            <div class="panel panel-default" style="display: inline-block;margin-bottom: 10px;width: 100%;min-height:115px;">
+                <div class="panel-heading">
+                    Notes
+                </div>
+                <div class="panel-body">
+                    You don't have any notes yet.  <br/><br/>
+                    Just click <a class="btn btn-primary margin-bottom-medium" href="{{ course_path('note_new') }}" >Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a> to get started.
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+
 {% endblock %}

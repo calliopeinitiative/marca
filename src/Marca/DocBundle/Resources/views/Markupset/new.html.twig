@@ -1,31 +1,25 @@
 {# Marca/DocBundle/Resources/views/Markupset/new.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
-{% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-{% endblock %}
+{% block content %}
+<div class="col-sm-8 center">
+    <form action="{{ path('markupset_create') }}" method="post" {{ form_enctype(form) }}>
 
-{% block content %} 
-<script language="javascript"> 
-$(document).ready(function()
-{
-CKEDITOR.replace( 'marca_docbundle_markupsettype_description',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
-} );
-});
-</script>
-<div class="span9 well">
- <legend>Markup Set</legend> 
-</div>
-
-<div class="span9 well"> 
-<form action="{{ path('markupset_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <div class='pad'>
-        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ path('markupset') }}">Cancel</a>
-    </div>
-</form>
-</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title small">Markup Set</h2>
+            </div>
+            <div class="panel-body">
+                {{ form_widget(form) }}
+            </div>
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <button class="btn btn-primary" type="submit">Update</button>
+                    <a class="btn btn-default" href="{{ path('markupset') }}">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 {% endblock %}

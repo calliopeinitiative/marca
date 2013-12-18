@@ -1,21 +1,28 @@
 {# Marca/TabBundle/Resources/views/Tagset/new.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block content %}
-
-
-<div class="span9 well">
-    <h2>Label Sets</h2>
-</div> 
-
-<div class="span9 well" > 
-<form action="{{ path('tagset_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <div class="margin-top">
-        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ path('tagset') }}">Cancel</a>
+    <div class="col-sm-8 center">
+        <form action="{{ path('tagset_create') }}" method="post" {{ form_enctype(form) }}>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Markup Set</h2>
+                </div>
+                <div class="panel-body">
+                    {{ form_widget(form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                        <a class="btn btn-default" href="{{ path('tagset') }}">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
-</div>
-      
 {% endblock %}
+
+
+
+

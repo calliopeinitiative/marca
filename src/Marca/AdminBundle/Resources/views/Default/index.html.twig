@@ -3,29 +3,33 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span9 well">
-<h2>Users</h2>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="margin-top-small">User Admin</h2>
+        </div>
+        <div class="panel-body">
+            <form action="{{ path('admin_find') }}" method="post" {{ form_enctype(form) }}>
+                {{ form_widget(form) }}
+                <button class="btn btn-primary btn-sm" type="submit">Find</button>
+            </form>
+            <hr/>
 
-        <form action="{{ path('admin_find') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-        <button class="btn btn-primary btn-small" type="submit">Find</button>
-        </form>
-</div>
-<div class="span9 well">
-    <div class='alert alert-info'>Number in Find:  {{ count }}</div>
-<table class="table">   
-<tbody>    
-{% for user in users %}
-        <tr>
-            <td><a href="{{ path('user_admin', { 'username': user.username }) }}">{{user.lastname}}, {{user.firstname}}</a></td>
-            <td><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></td>
-       </tr>
-{% endfor %}
-</tbody>
-</table>
-</div>
-<div class="navigation">
-    {{ knp_pagination_render(users) }}
-</div>
-
+            <p>Number in Find:  {{ count }}</p>
+            <table class="table">
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td><a href="{{ path('user_admin', { 'username': user.username }) }}">{{user.lastname}}, {{user.firstname}}</a></td>
+                        <td><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer">
+            <div class="navigation">
+                {{ knp_pagination_render(users) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

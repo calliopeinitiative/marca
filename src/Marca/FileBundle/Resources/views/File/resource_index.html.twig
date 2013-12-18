@@ -1,0 +1,164 @@
+{# Marca/FileBundle/Resources/views/File/index.html.twig #}
+
+{% extends 'MarcaFileBundle::layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <!-- tablesorter plugin -->
+    <script src="{{ asset('bundles/marcahome/js/jquery.tablesorter.min.js') }}"></script>
+    <!-- tablesorter widget file - loaded after the plugin -->
+    <script src="{{ asset('bundles/marcahome/js/jquery.tablesorter.widgets.min.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function() {
+            $('.modal-body').css('max-height', function(index) {
+                return $(window).height() * .90;
+            });
+            {% for file in files%}
+            $('.edit_{{file.id}}').click(function(){
+                $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}');
+                $('#file_modal').modal();
+            });
+            $('#file_show_{{file.id}}').click(function(){
+                $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}');
+                $('#file_modal').modal();
+            });
+            {% endfor %}
+            $('.file-wrapper').css('max-height', function(index) {
+                return $(window).height()* .88;
+            });
+                $.extend($.tablesorter.themes.bootstrap, {
+                    table      : 'table',
+                    header     : 'bootstrap-header', // give the header a gradient background
+                    footerRow  : '',
+                    footerCells: '',
+                    icons      : '', // add "icon-white" to make them white; this icon class is added to the <i> in the header
+                    sortNone   : 'glyphicon glyphicon-sort',
+                    sortAsc    : 'glyphicon glyphicon-chevron-up',     // includes classes for Bootstrap v2 & v3
+                    sortDesc   : 'glyphicon glyphicon-chevron-down', // includes classes for Bootstrap v2 & v3
+                    active     : '', // applied when column is sorted
+                    hover      : '', // use custom css here - bootstrap class may not override it
+                    filterRow  : '', // filter row class
+                    even       : '', // odd row zebra striping
+                    odd        : ''  // even row zebra striping
+                });
+                // call the tablesorter plugin and apply the uitheme widget
+                $("table").tablesorter({
+                    theme : "bootstrap",
+                    widthFixed: true,
+                    headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+                    widgets : [ "uitheme", "filter"],
+                    widgetOptions : {
+                        filter_reset : ".reset"
+                    }
+                });
+            $('.tablesorter-filter-row').toggle();
+            $('#sort_filter_toggle').click(function(){
+                $('.tablesorter-filter-row').toggle();
+            });
+            $('.tablesorter-filter').addClass('form-control');
+            $( "tr" ).hover(
+                    function() {
+                        $(".file-menu").hide();$( ".file-menu", this ).toggle();
+                    }
+            );
+            $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
+
+        });
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/theme.bootstrap.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="file-wrapper well">
+
+    <table id="file_list" class="col-sm-12 table">
+        <thead>
+        <tr class="file">
+            <th><span>Title</span></th>
+            <th>Unit</th>
+            <th>Labels</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for file in files%}
+            {# main list of files #}
+            <tr class="file">
+                <td>
+                    {# different functions for different file types #}
+                    {# doc files #}
+                    {% if file.doc %}
+                        <a class="file_name" href="{{ course_path('doc_show', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >
+                            <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
+                            {{ file.name }}
+                        </a>
+                        {# links #}
+                    {% elseif file.url %}
+                        <a class="file_name" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>
+                            <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
+                            {{ file.name }}
+                        </a>
+                        {# ODT files #}
+                    {% elseif file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
+                        <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >
+                            <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                            {{ file.name }}
+                        </a>
+                    {% else %}
+                        <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}" title="View {{ file.name }}" >
+                            <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                            {{ file.name }}
+                        </a>
+                    {% endif %}
+                    <div class="hidden-xs">
+                        <div class="file-menu">
+                            {% if file.isOwner(app.user.username) %}
+                            <a  class="edit_{{file.id}}" href="javascript:void(0);" title="Edit the setting for this file." >Settings</a>{% endif%}
+                            {% if role == 2 and app.request.get('resource')=='0' %}
+                                <a class="" title="Create a copy of this document for review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
+                            {% endif %}
+                            {% if role == 2 and app.request.get('resource')=='0' %}
+                                <a class="" title="Upload a file for review" id="upload_{{file.id}}" href="javascript:void(0);">Upload Review</a>
+                            {% endif %}
+                            {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}
+                                <a class="delete" id='file_show_{{file.id}}' href='javascript:void(0);' title="Delete this file.">Delete</a>
+                            {% endif%}
+                        </div>
+                    </div>
+                </td>
+                <td>{{ file.project.course.name }}: {{ file.project.name }}</td>
+                <td>
+                    {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
+                </td>
+            </tr>
+        {% else %}
+                <tr>
+                    <td colspan="4">
+                        No files match your request.
+                        {% for flashMessage in app.session.flashbag.get('message') %}
+                            <div class="alert alert-info pad5 col-sm-11">
+                                {{ flashMessage }}
+                            </div>
+                        {% endfor %}
+                    </td>
+                </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    </div>
+
+    <div class="navigation">
+        {{ knp_pagination_render(files) }}
+    </div>
+
+    {# Modal #}
+    <div class="modal fade" id="file_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    </div><!-- /.modal -->
+
+
+{% endblock %}

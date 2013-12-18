@@ -1,35 +1,56 @@
 {# Marca/PortfolioBundle/Resources/views/layout.html.twig #}
 
 {% extends '::base.html.twig' %}
-{% block title %}{{ application_name }} Portfolio{% endblock %}
+{% block title %}{{ application_name }} | Portfolio{% endblock %}
 
-{% block javascripts %}{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}{{ parent() }}{% endblock %}
+
+{% block javascripts %}{{ parent() }}{% endblock %}
 
 {% block subnav %}
-{%include 'MarcaCourseBundle::subnav.html.twig' %}
+    {%include 'MarcaCourseBundle::subnav.html.twig' %}
+{% endblock %}
+
+{% block sidebar %}
+    <h1><a  title='Course Portfolio' href="{{ course_path('portfolio') }}" class="marca-gray">Portfolio</a></h1>
+    {#
+    {% if portStatus == 'true' %}
+        <a class='btn btn-primary margin-bottom-medium' href="{{ course_path('portfolio_find', { 'project': 'recent', 'portitemid':'0' }) }}">Add to Portfolio<i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
+    {% endif %}
+    #}
+    {% if app.request.attributes.get('_route') == 'portfolio_find'%}
+        <li>
+            <a class="project-sidebar {% if active_project == 0 %}current-filter{% endif %}" href="{{ course_path('portfolio_find', { 'project': 'recent', 'portitemid': '0' })}}">
+                All Folders </a>
+        </li>
+        {% for project in projects %}
+            <li>
+                <a title='{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}' class="project-sidebar {% if active_project == project.id %}current-filter{% endif %}" href="{{ course_path('portfolio_find', { 'project': project.id, 'portitemid':'0'}) }}">
+                    {% if app.request.get('resource')=='1' and project.course.name!=app.session.get('course') %}{{ project.course.name }}: {%endif%}{{ project.name }}</a>
+            </li>
+        {% endfor %}
+        <hr class="marca-spacer" />
+    {% endif %}
+
+    <li><a href="{{ course_path('portfolio_user', { 'userid': '0', 'user': '0' }) }}">View My Portfolio</a></li>
+
+    <li class="dropdown">
+        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">View Portfolio by Author<b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            {% for roll in roll %}
+                <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+
+    {% if role == 2 %}
+        <hr class="marca-spacer" />
+        <li><a href="{{ course_path('port_status_toggle') }}">Portfolio editing: {% if portStatus == 'true' %}Open{% else %}Closed{% endif %}</a></li>
+    {% endif %}
 {% endblock %}
 
 
-{% block sidebar %}
-             <h1>Portfolio</h1>
-            {% if portStatus == 'true' %}
-             <a class='btn btn-primary' href="{{ course_path('portfolio_find', { 'project': 'recent', 'scope': 'mine', 'resource': '0', 'tag': '0', 'userid': '0','user':'0' }) }}">Create<i class="icon-pencil icon-white"></i></a>
-            {% endif %}
-             <li><a href="{{ course_path('portfolio') }}">List Portfolio</a></li>
-             <li><a href="{{ course_path('portfolio_user', { 'userid': '0', 'user': '0' }) }}">View Portfolio</a></li>
-             {% if role == 2 %}
-             <li><a href="{{ course_path('port_status_toggle') }}">Portfolio editing: {% if portStatus == 'true' %}Open{% else %}Closed{% endif %}</a></li>
-             {% endif %}
-             
-            <li class="dropdown">
-                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">Roll<b class="caret"></b></a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                        {% for roll in roll %}
-                        <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}</a></li> 
-                        {% endfor %}
-                    </ul>
-              </li>
-             
-{% endblock %}  
+
+
+
  

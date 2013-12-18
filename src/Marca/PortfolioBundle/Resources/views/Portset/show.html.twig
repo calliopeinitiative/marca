@@ -4,23 +4,36 @@
 
 {% block content %}
 
-<div class="span9 well">
-<legend>Portfolios</legend> 
-<a class="btn" href="{{ path('portset') }}">List Portfolio Sets</a>  
-</div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a class="btn btn-default pull-right margin-top-small" href="{{ path('portset') }}">List Portfolio Sets</a>
+            <h2 class="margin-top-small">Portfolios</h2>
+        </div>
+        <div class="panel-body">
 
-       
-<div class="span9 well">
-    <h4>{{ portset.name }}</h4>
-    <a class="btn btn-primary btn-small pull-right" href="{{ path('portitem_new', { 'portsetid': portset.id }) }}">Add Item</a>
-    <a class="btn btn-primary btn-small pull-right" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit</a>
-    {{ portset.description|raw }}
-    
-    {% for portitem in portitems %}
-    <h5>{{ portitem.name }}</h5>
-    <a class="btn btn-primary btn-small pull-right" href="{{ path('portitem_edit', { 'id': portitem.id }) }}">Edit</a>
-    {{ portitem.description|raw }}
-    {% endfor %}
-</div>        
+            <div class="col-sm-12">
+                <h3 class="margin-top-small">{{ portset.name }}</h3>
+                <div class="btn-group pull-right" style="margin-top: -15px;">
+                    <a class="btn btn-default btn-sm" role="button" href="{{ path('portitem_new', { 'portsetid': portset.id }) }}">Add Item<i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
+                    <a class="btn btn-default btn-sm" role="button" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit Set<i class="glyphicon glyphicon-edit glyphicon-white"></i></a>
+                </div>
+
+                {{ portset.description|raw }}
+                <div class="list-group">
+                    {% for portitem in portitems %}
+
+                        <a class="list-group-item" href="{{ path('portitem_edit', { 'id': portitem.id }) }}">
+                            <h4 class="margin-top-small">{{ portitem.name }}</h4>
+                            {{ portitem.description|raw }}
+                        </a>
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <span class="text-muted">Click item to edit. </span>
+        </div>
+    </div>
 
 {% endblock %}

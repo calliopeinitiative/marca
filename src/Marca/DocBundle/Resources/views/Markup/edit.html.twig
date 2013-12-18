@@ -1,56 +1,83 @@
 {# Marca/DocBundle/Resources/views/Markup/edit.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
-
-{% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
-<script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
-{% endblock %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block stylesheets %}
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('#toggle_modal').click(function(){
+                $('#delete_modal').modal();
+            });
+            $("#marca_docbundle_markuptype_color").spectrum({
+                preferredFormat: "name",
+                showPaletteOnly: true,
+                showInput: true,
+                color: '{{markup.color}}',
+                palette: [
+                    ['royalblue', 'seagreen', 'slateblue','darkorange'],
+                    ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
+                    ['orange', 'cadetblue', 'tomato','blueviolet'],
+                    ['lavender', 'lavenderblush', 'lightblue','lightcoral'],
+                    ['lightcyan', 'lightgoldenrodyellow', 'lightgray','lightpink'],
+                    ['lightsalmon', 'lightskyblue', 'lightsteelblue','lightyellow'],
+                    ['palegreen', 'paleturquoise', 'peachpuff','plum']
+                ]
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
-<script language="javascript">
-$(document).ready(function()
-    {
-    $("#marca_docbundle_markuptype_color").spectrum({
-    preferredFormat: "name",
-    showPaletteOnly: true,
-    showInput: true,
-    color: '{{markup.color}}',
-    palette: [
-        ['darkseagreen', 'cadetblue', 'chartreuse','darkorange'],
-        ['royalblue', 'seagreen', 'slateblue','coral'],
-        ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
-        ['orange', 'cadetblue', 'tomato','blueviolet']        
-    ]
-    });
-    CKEDITOR.replace( 'marca_docbundle_markuptype_mouseover',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
-} );
-});
-</script>
+    <div class="col-sm-8 center">
+        <form class="form" action="{{ path('markup_update', { 'id': markup.id, 'set_id': app.request.get('set_id')}) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title small">Markup Tag</h2>
+                </div>
+                <div class="panel-body">
+                    {{ form_errors(edit_form) }}
+                    {{ form_widget(edit_form) }}
+                    {{ form_rest(edit_form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                        <a class="btn btn-default" href="{{ path('markupset') }}">Cancel</a>
+                    </div>
+                    <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                </div>
+            </div>
+        </form>
+    </div>
 
-<legend>Markup Tag</legend>  
-
-<div class="row">
-<div class="span9 well">  
-    
-<form class="form" action="{{ path('markup_update', { 'id': markup.id, 'set_id': app.request.get('set_id')}) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_errors(edit_form) }}
-            {{ form_widget(edit_form) }}
-    {{ form_rest(edit_form) }}
-        <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('markupset') }}">Cancel</a> 
-</form> 
-<div>
-<form action="{{ path('markup_delete', { 'id': markup.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-        <button class="btn btn-delete" type="submit">Delete</button>
-</form>  
-</div>
-</div>
-</div>
+    {# Modal for Delete confirmation #}
+    <div id="delete_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <span class="modal-title">Delete</span>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete?</p>
+                    <form action="{{ path('markup_delete', { 'id': markup.id }) }}" method="post">
+                        {{ form_widget(delete_form) }}
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 {% endblock %}
+

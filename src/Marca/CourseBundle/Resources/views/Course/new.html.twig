@@ -1,69 +1,137 @@
 {# Marca/CourseBundle/Resources/views/Course/new.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
-{% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
-<script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
-{% endblock %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
+
 {% block stylesheets %}
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
 {% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('#help').toggle();
+            $('input[type=time]').on('click', function(event) { event.preventDefault();});
+            $('#marca_coursebundle_coursetype_time').timepicker({ 'timeFormat': 'H:i' });
+            $('form li').addClass('alert alert-error');
+            $('#help_show_btn').click(function(){
+                $('#help_show').slideToggle();$('#help').slideToggle();
+            });
+            $('#help_close_btn').click(function(){
+                $('#help_show').slideToggle();$('#help').slideToggle();
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
-<script language="javascript"> 
-$(document).ready(function()
-{
-$( '#marca_coursebundle_coursetype_time' ).timepicker(({ 'timeFormat': 'H:i' }));
-$('form li').addClass('alert alert-error');
-});
-</script>
-
-<form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate"> 
-            {{ form_errors(form) }}
-            <div class="span9 well">
-            <h2>{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
-            <div class="span3 ">{{ form_row (form.name) }}</div>   
-            <div class="span3 {% if course.module!=0 %}hide{%endif%}">{{ form_row (form.time) }}</div>  
-            <div class="span2 {% if course.module!=0 %}hide{%endif%}">{{ form_row (form.term) }}</div> 
+    <div class="col-sm-10 center">
+        {% if pages %}
+            <div id="help_show" class="panel panel-default">
+                <div class="panel-heading">
+                    <a id="help_show_btn" class="btn btn-default" href="javascript:void(0);">Help</a>
+                </div>
             </div>
-        
-            <div class="span9 well {% if course.module!=0 %}hide{%endif%}">
-            <h2>Additional settings</h2>
-            <div class="span3 ">
-            {{ form_row (form.notes) }}  
-            {{ form_row (form.forum) }} 
-            {{ form_row (form.journal) }}            
-            {{ form_row (form.zine) }} 
-        
-            <hr/>
-            {{ form_row (form.enroll) }} 
-            {{ form_row (form.post) }} 
-            {{ form_row (form.studentForum) }} 
-            {{ form_row (form.institution) }} 
-            </div>    
+            <div id="help" class="panel panel-default">
+                {% for page in pages %}
+                    <div class="panel-heading">
+                        <button id="help_close_btn" type="button" class="close">&times;</button>
+                        <h2>{{ page.title|raw }}</h2>
+                    </div>
 
-    
-            <div class="span3 "> 
-            {{ form_row (form.portfolio) }}     
-            {{ form_row (form.portset) }}
-            {{ form_row (form.assessmentset) }}                     
-            </div> 
-                
-            <div class="span2 "> 
-            {{ form_row (form.tagset) }}     
-            {{ form_row (form.markupsets) }}
-            {{ form_row (form.parents) }}
-            {{ form_row (form.module) }}        
-            </div>                 
-            </div>        
-            {{ form_rest(form) }}    
-        
-      <div class="span9 well">
-      <button class="btn btn-primary" type="submit">Create</button><a style="margin-left: 1em;" class="btn" href="{{ path('course') }}">Cancel</a> 
-     </div>
-</form>     
+                    <div class="panel-body">
+
+                        {{ page.body|raw }}
+
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
 
+        <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+
+
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="margin-top-small">{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
+                    </div>
+                    <div class="panel-body">
+                        {{ form_errors(form) }}
+                        <div class="">{{ form_row (form.name) }}</div>
+                        <div class="{% if course.module!=0 %}hide{%endif%}">{{ form_row (form.time, {'type':'text'}) }}</div>
+                        <div class="{% if course.module!=0 %}hide{%endif%}">{{ form_row (form.term) }}</div>
+                    </div>
+
+                    <div class="panel-footer">
+                    </div>
+
+
+                    <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
+                        <h2 class="margin-top-small">Tools</h2>
+                    </div>
+                    <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
+                        {{ form_row (form.notes) }}
+                        {{ form_row (form.forum) }}
+                        {{ form_row (form.journal) }}
+                        {{ form_row (form.zine) }}
+
+                    </div>
+                    <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
+                        <h2 class="margin-top-small">Portfolios</h2>
+                    </div>
+                    <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
+                        {{ form_row (form.portfolio) }}
+                        {{ form_row (form.portset) }}
+                        {{ form_row (form.assessmentset) }}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-6" >
+                <div class="panel panel-default">
+                    <div class="panel-heading {% if course.module!=0 %}hide{%endif%}">
+                        <h2 class="margin-top-small">Student Access</h2>
+                    </div>
+                    <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
+                        {{ form_row (form.enroll) }}
+                        {{ form_row (form.post) }}
+                        {{ form_row (form.studentForum) }}
+                        {{ form_row (form.institution) }}
+                    </div>
+
+                    <div class="panel-heading">
+                        <h2 class="margin-top-small">Other Settings</h2>
+                    </div>
+                    <div class="panel-body">
+                        {{ form_row (form.tagset) }}
+                    </div>
+                    <div class="panel-body {% if course.module!=0 %}hide{%endif%}">
+                        {{ form_row (form.markupsets) }}
+                        {{ form_row (form.parents) }}
+                        {{ form_row (form.module) }}
+                        {{ form_rest(form) }}
+                    </div>
+
+
+                    <div class="panel-footer">
+                        <div class="btn-group">
+                            <button class="btn btn-primary " type="submit">Create</button>
+                            <a class="btn btn-default" href="{{ path('user_home') }}">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}
+
+
 
 

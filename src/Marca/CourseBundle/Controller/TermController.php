@@ -174,7 +174,7 @@ class TermController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($term);
@@ -198,9 +198,7 @@ class TermController extends Controller
      */
     public function deleteAction($id)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
-        
+
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 

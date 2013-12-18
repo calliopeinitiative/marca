@@ -25,7 +25,7 @@ $(' form div ul li ul li').addClass('alert alert-error');
 'user': '0','project': 'recent'}) }}" method="post" {{ form_enctype(form) }}  novalidate="novalidate"> 
   <div class="modal-body">
       {{ form_errors(form) }} 
-        <ul class="unstyled">
+        <ul class="list-unstyled">
             <li class="pad1">{{ form_row (form.name) }} </li>
             <li class="pad1">{{ form_row (form.url) }} </li>
             <li class="pad1">{{ form_row (form.project) }} </li> 

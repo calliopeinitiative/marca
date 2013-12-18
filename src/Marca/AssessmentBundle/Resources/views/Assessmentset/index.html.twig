@@ -3,39 +3,49 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span9 well">
-<legend>Assessment</legend> 
+<div class="col-sm-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a class="btn btn-primary pull-right margin-top-small" href="{{ path('assessmentset_new') }}">Create Set<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+            <h2 class="margin-top-small">Assessment Sets</h2>
+        </div>
+        <div class="panel-body">
+            <div class="list-group">
+                {% for assessmentset in assessmentsets %}
 
-<div class="span"> 
+                    <a class="list-group-item" href="{{ path('assessmentset_show', { 'id': assessmentset.id }) }}">
+                        <h3 class="margin-top-small">{{ assessmentset.name }}</h3>
+                        {{ assessmentset.description|raw }}
+                    </a>
+
+                {% endfor %}
+            </div>
+        </div>
+        <div class="panel-footer">
+            <span class="text-muted">Click name to view. </span>
+        </div>
+    </div>
 </div>
+<div class="col-sm-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a class="btn btn-primary pull-right margin-top-small" href="{{ path('scale_new') }}">Create Scale<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+            <h2 class="margin-top-small">Assessment Scales</h2>
+        </div>
+        <div class="panel-body">
+            <div class="list-group">
+                {% for scale in scales %}
 
-</div>
+                    <a class="list-group-item" href="{{ path('scale_show', { 'id': scale.id }) }}">
+                        <h3 class="margin-top-small">{{ scale.name }}</h3>
+                    </a>
 
-
-
-<div class="span4 well"> 
-<h4>Assessment Sets</h4>    
-<a class="btn" href="{{ path('assessmentset_new') }}">New Assessment Set</a> 
-<hr/>
-
-{% for assessmentset in assessmentsets %}
-<h4><a class="" href="{{ path('assessmentset_show', { 'id': assessmentset.id }) }}">{{ assessmentset.name }}</a></h4>   
-<a class="btn btn-small pull-right" href="{{ path('assessmentset_edit', { 'id': assessmentset.id }) }}">Edit</a>
-{{ assessmentset.description|raw }}
-<hr/>
-{% endfor %}
-</div>
-
-<div class="span4 well"> 
-<h4>Assessment Scales</h4>     
-<a class="btn" href="{{ path('scale_new') }}">New Scale</a> 
-<hr/>
-
-{% for scale in scales %}           
-<h4><a class="" href="{{ path('scale_show', { 'id': scale.id }) }}">{{ scale.name }}</a></h4>  
-<a class="btn btn-small pull-right" href="{{ path('scale_edit', { 'id': scale.id }) }}">Edit</a>
-<br/> 
-<hr/>
-{% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="panel-footer">
+            <span class="text-muted">Click name to view. </span>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -22,12 +22,11 @@ class RatingsetType extends AbstractType
         $builder
             ->add('ratings', 'collection', array(
                 'type'   => new RatingType($scale),
-                'options'  => array(
-                    'required'  => false),))
+                'options'  => array('required'  => false),))
             ->add('grade','integer', array('label'  => 'Grade (must be an integer)','attr' => array('class' => 'text form-control'),))
             ->add('notesforstudent','textarea', array('label'  => 'Notes for the student','attr' => array('class' => 'text form-control'),))
             ->add('notesforreviewer','textarea', array('label'  => 'Notes for the reviewer','attr' => array('class' => 'text form-control'),))
-        ;
+            ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

@@ -3,11 +3,7 @@
 {% extends 'MarcaCalendarBundle::layout.html.twig' %}
 
 {% block javascripts %}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/ckeditor/adapters/jquery.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
-<script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
+    {{ parent() }}
     <script language="javascript">
         $(document).ready(function() {
             $('#calendar_new').click(function(){
@@ -23,36 +19,51 @@
 {% endblock %}
 
 {% block stylesheets %}
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
+    {{ parent() }}
 {% endblock %}
 
 
 {% block content %}
-<div class="span9 well">
-<table class="table">   
-<tbody>
-    {% for calendar in calendar %}
-    <tr>                
-        <td class='span2'>{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}</td>               
-           
-        <td class='span2 {{calendar.color}}'>{{ calendar.title }}</td>        
-        <td class='span5'>{{ calendar.description|raw }}</td>             
-        <td class='span2'>
-            {% if calendar.isOwner(app.user.username) %}<a id='calendar_edit{{calendar.id}}' class="btn btn-primary btn-small" href="javascript:void(0);">Edit</a>{% endif %}
-       </td>       
-    </tr>
-    
-    {% endfor %}
-    </tbody>
-</table>
-        
-<div class="navigation">
-    {{ knp_pagination_render(calendar) }}
+    <div class="col-sm-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="btn-group btn-group-sm pull-right">
+                <a class="btn btn-default " href="{{ course_path('calendar_upcoming') }}">Upcoming Events</a>
+                <a class="btn btn-default" href="{{ course_path('calendar') }}">All Events</a>
+                <a class="btn btn-default" href="{{ course_path('agenda_pdf') }}">Print Agenda</a>
+            </div>
+            <h2 class="panel-title">Agenda</h2>
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <tbody>
+                {% for calendar in calendar %}
+                    <tr>
+                        <td class='col-sm-2'>
+                            {{ calendar.startDate|date('M j Y') }} {{ calendar.startTime|date('g:i A') }}
+                        </td>
+                        <td class='col-sm-9'>
+                            <span class="pull-left color-flag" style="{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif%}">&#183;</span> {{ calendar.title }}
+                            <p>{{ calendar.description|raw }}</p>
+                        </td>
+                        <td class='col-sm-1'>
+                            {% if calendar.isOwner(app.user.username) %}<a id='calendar_edit{{calendar.id}}' class="btn btn-primary btn-sm" href="javascript:void(0);">Edit</a>{% endif %}
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="navigation">
+        {{ knp_pagination_render(calendar) }}
+    </div>
+
 </div>
-        
-</div>
+
 
 {# Modal #}
 <div id="calendar_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     

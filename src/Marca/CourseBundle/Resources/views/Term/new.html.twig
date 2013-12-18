@@ -1,18 +1,24 @@
 {# Marca/CourseBundle/Resources/views/Term/new.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block content %}
-<legend>Terms</legend>      
-
-<div class="row">
-<div class="span9 well">
-<form action="{{ path('term_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <div>
-        <button class="btn" type="submit">Create</button>
+    <div class="col-sm-6 center">
+        <div class="panel panel-default">
+            <form action="{{ path('term_create') }}" method="post" {{ form_enctype(form) }}>
+                <div class="panel-heading">
+                    Term
+                </div>
+                <div class="panel-body">
+                    {{ form_widget(form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                        <a class="btn btn-default" href="{{ path('term') }}">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</form>
-</div>
-</div>
 {% endblock %}

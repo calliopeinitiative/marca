@@ -1,24 +1,34 @@
 {# Marca/DocBundle/Resources/views/Doc/pdf.html.twig #}
 {% if ip != '::1' %}
 <html>
-<head>   
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/bootstrap.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/bootstrap-responsive.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/external.css') }}">
+<head>
+    {% block stylesheets %}
+        {% stylesheets '@bootstrap_less' combine=true  output='css/compiled/main.css' %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
+        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/external.css') }}">
+        <link type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+        {% endstylesheets %}
+    {% endblock %}
 <style>
 body {background: #fff }
 .doc-body {margin:0em;height:100%;width:100%;}
 </style>
-</head> 
+</head>
+
+<body>
+
 {# Doc display #}
 <div class="row margin-top clear">
-<div class="span8 pad">          
-<div class="doc-body">
-{{ doc.body|raw }}     
-</div>           
-</div>       
-</div> 
+    <div class="col-sm-8 pad">
+        <div class="doc-body">
+            {{ doc.body|raw }}
+        </div>
+    </div>
+</div>
+
+</body>
+
    
 </html>
 {%endif%}

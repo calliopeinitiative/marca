@@ -1,21 +1,28 @@
 {# Marca/AssessmentBundle/Resources/views/Assessmentset/new.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block javascripts %}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}
-<div class="span9 well">
-<h2>Assessment</h2>
-</div> 
-
-<div class="span9 well"> 
-<form action="{{ path('assessmentset_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <div>
-        <button class="btn btn-primary" type="submit">Create</button><a class="btn" href="{{ path('assessmentset') }}">Cancel</a>
+    <div class="col-sm-8 center">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title small">Assessment Set</h2>
+            </div>
+            <div class="panel-body">
+                <form action="{{ path('assessmentset_create') }}" method="post" {{ form_enctype(form) }}>
+                    {{ form_widget(form) }}
+            </div>
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <button class="btn btn-primary" type="submit">Create</button>
+                    <a class="btn btn-default" href="{{ path('assessmentset') }}">Cancel</a>
+                </div>
+                </form>
+            </div>
+        </div>
     </div>
-</form>
-</div>
 {% endblock %}

@@ -4,41 +4,42 @@
 
 {% block content %}
 
-    {% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="span9 alert alert-info">
-            {{ flashMessage }}
+
+    <div class="col-sm-6 center">
+    <div class="panel panel-default">
+
+        <div class="panel-body">
+                <div style="text-align:center;">
+                    {% for flashMessage in app.session.flashbag.get('notice') %}
+                        <div class="col-sm-12 alert alert-info">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+
+                    <h2 class="margin-top-small" style="text-align:center;margin-bottom:15px;">{{ user.firstname }} {{ user.lastname }}  </h2>
+                        <img class="img-circle" style="width:50%;" src="{{ user.photo }}" alt="{{ user.firstname }} {{ user.lastname }}">
+            <h5><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></h5
+
+            <h5>{{ user.bio|raw }}</h5>
+            </div>
         </div>
-    {% endfor %}
-
-
-    <div class="span9 well">
-
-        <h2>{{ user.firstname }} {{ user.lastname }}  </h2>
-        <p><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></p>
-
-        <ul class="thumbnails">
-            <li class="span2">
-                <div class="thumbnail">
-                    <img src="{{ user.photo }}" alt="{{ user.firstname }} {{ user.lastname }}">
-                    <h3></h3>
-                    <p>{{ user.firstname }} {{ user.lastname }}</p>
-                </div>
-            </li>
-        </ul>
-
-        <p>{{ user.bio|raw }}</p>
-
-
-
-        <a class="btn btn-primary" title="Edit Profile" href="{{ path('user_edit', { 'id': user.id }) }}">Edit Profile</a>
-        {% if ldap_auth!='yes' %}
-            <a class="btn btn-primary" title="Change Password" href="{{ path('fos_user_change_password') }}">Change Password</a>
-        {% endif %}
-        <a class="btn btn-primary" title="Enroll in a Course" href="{{ path('enroll_find') }}">Enroll in a Course</a>
-        {% if user.institution.research==true %}
-            <a class="btn btn-primary" title="Change Password" href="{{ path('user_research', { 'id': user.id }) }}">Review Research Consent</a>
-        {% endif %}
+        <div class="panel-footer">
+            <div style="text-align:center;margin-left:0;margin-right:0;">
+            <div class="btn-group" style="text-align:center;">
+                <a class="btn btn-default" title="Edit Profile" href="{{ path('user_edit', { 'id': user.id }) }}">Edit Profile</a>
+                {% if ldap_auth!='yes' %}
+                    <a class="btn btn-default" title="Change Password" href="{{ path('fos_user_change_password') }}">Change Password</a>
+                {% endif %}
+                <a class="btn btn-default" title="Enroll in a Course" href="{{ path('enroll_find') }}">Enroll in a Course</a>
+                {% if user.institution.research==true %}
+                    <a class="btn btn-default" title="Change Password" href="{{ path('user_research', { 'id': user.id }) }}">Review Research Consent</a>
+                {% endif %}
+            </div>
+            </div>
+        </div>
 
     </div>
+    </div>
+
 
 {% endblock %}

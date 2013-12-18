@@ -1,26 +1,32 @@
 {# Marca/AssessmentBundle/Resources/views/Scaleitem/edit.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block javascripts %}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}
-<div class="span9 well">
-<h2>Scale</h2>
-</div>
-
-<div class="span9 well">
-        <form action="{{ path('scaleitem_update', { 'id': scaleitem.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-            {{ form_widget(edit_form) }}
-        <div>
-            <button class="btn btn-primary" type="submit">Update</button><a class="btn" href="{{ path('scale_show', { 'id':scaleitem.scale.id }) }}">Cancel</a>
+    <div class="col-sm-6 center">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title small">Scale Item</h2>
+            </div>
+            <div class="panel-body">
+                <form action="{{ path('scaleitem_update', { 'id': scaleitem.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+                    {{ form_widget(edit_form) }}
+            </div>
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <button class="btn btn-primary" type="submit">Update</button>
+                    <a class="btn btn-default" href="{{ path('scale_show', { 'id':scaleitem.scale.id }) }}">Cancel</a>
+                </div>
+                </form>
+                <form action="{{ path('scaleitem_delete', { 'id': scaleitem.id }) }}" method="post">
+                    {{ form_widget(delete_form) }}
+                    <button class="btn btn-warning pull-right" style="margin-top:-32px;" type="submit">Delete</button>
+                </form>
+            </div>
         </div>
-        </form>
-        
-        <form action="{{ path('scaleitem_delete', { 'id': scaleitem.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-delete" type="submit">Delete</button>
-        </form>       
-</div>
+    </div>
 {% endblock %}

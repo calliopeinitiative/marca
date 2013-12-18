@@ -1,32 +1,72 @@
 {# Marca/ForumBundle/Resources/views/Reply/edit.html.twig #}
 
-{% extends 'MarcaForumBundle::layout.html.twig' %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
 {% block javascripts %}
+    {{ parent() }}
     <script language="javascript">
         $(document).ready(function()
         {
-            $('form li').addClass('alert alert-error');
+            $('#toggle_modal').click(function(){
+                $('#delete_modal').modal();
+            });
         });
     </script>
 {% endblock %}
 
 {% block content %}
-<div class="span9 well" style="padding:0">     
-      <div class="well-header" >        
-         <span class="">{{ comment.user.firstname|capitalize }} {{ comment.user.lastname|capitalize }} says:</span>
-         <span class="pull-right">Created  {{ comment.created|date('M d Y, h:ia') }}  / Updated  {{ comment.updated|date('M d Y, h:ia') }}</span>
-      </div>
-         
-<div class="span7 pad margin-bottom" >{{ comment.body|raw }}  </div>       
-</div>
+    <div class="col-sm-8 center">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="inline">{{ comment.user.firstname|capitalize }} {{ comment.user.lastname|capitalize }} says:</h2>
+                <p>Created  {{ comment.created|date('M d Y, h:ia') }}  / Updated  {{ comment.updated|date('M d Y, h:ia') }}</p>
+            </div>
+            <div class="panel-body">
+                {{ comment.body|raw }}
+            </div>
+            <div class="panel-footer">
+            </div>
+        </div>
 
-<div class="span9 well"> 
-<form action="{{ course_path('reply_update', { 'id': reply.id,'commentid': comment.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
-    {{ form_errors(edit_form) }}
-         {{ form_row(edit_form.body) }}
-    {{ form_rest(edit_form) }}
-        <button class="btn btn-primary" type="submit">Update</button><a class='btn' href="{{ course_path('forum_show', { 'id': comment.forum.id }) }}">Cancel</a>
-</form>
-</div>
+        <div class="panel panel-default">
+            <form action="{{ course_path('reply_update', { 'id': reply.id,'commentid': comment.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+                <div class="panel-heading">
+                    Forum Comment
+                </div>
+                <div class="panel-body">
+                    {{ form_errors(edit_form) }}
+                    {{ form_row(edit_form.body) }}
+                    {{ form_rest(edit_form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                        <a class='btn btn-default' href="{{ course_path('forum_show', { 'id': comment.forum.id }) }}">Cancel</a>
+                    </div>
+                    <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    {# Modal for Delete confirmation #}
+    <div id="delete_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <span class="modal-title">Delete</span>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete?</p>
+                    <form id='delete' action="{{ course_path('reply_delete', { 'id': reply.id }) }}" method="post">
+                        {{ form_widget(delete_form) }}
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 {% endblock %}

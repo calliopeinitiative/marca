@@ -3,23 +3,27 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<div class="span9 well">
-<legend>Scales</legend>
-<a class="btn" href="{{ path('assessmentset') }}">List Assessment Sets and Scales</a>
-</div>
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="btn btn-default pull-right" href="{{ path('assessmentset') }}">List Assessment Sets and Scales</a>
+                <h2 class="margin-top-small">Scales</h2>
+            </div>
+            <div class="panel-body">
+                <h3 class="panel-title small">{{ scale.name }}</h3>
+                <hr />
+                {% for scaleitem in scale.scaleitems %}
 
-<div class="span9 well">                
-    <h3 class="inline">{{ scale.name }}</h3> 
-    <a class="btn btn-primary pull-right" href="{{ path('scaleitem_new', {'scaleid':scale.id }) }}">Add Scale item</a> 
-    <hr/>
+                    <div class="col-sm-3 margin-top">
+                        <strong>{{ scaleitem.name }}</strong>  (value::{{ scaleitem.value }})
+                        <a class="btn btn-primary btn-xs" href="{{ path('scaleitem_edit', { 'id': scaleitem.id, 'scaleid':scale.id }) }}">Edit</a>
+                    </div>
 
-{% for scaleitem in scale.scaleitems %}
-<div class="span8">             
-        <div class="row"><strong>{{ scaleitem.name }}</strong>  (value::{{ scaleitem.value }})
-        <a class="btn btn-primary btn-small pull-right" href="{{ path('scaleitem_edit', { 'id': scaleitem.id, 'scaleid':scale.id }) }}">Edit</a>  
-        </div>  
-</div>
-{% endfor %}    
-             
-</div>          
+                {% endfor %}
+            </div>
+            <div class="panel-footer">
+                <a class="btn btn-primary" href="{{ path('scaleitem_new', {'scaleid':scale.id }) }}">Add Scale Item</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

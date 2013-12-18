@@ -16,6 +16,8 @@ class Page
 {
     const TYPE_HOME=0;
     const TYPE_RESEARCH=1;
+    const TYPE_RUBRIC=2;
+    const TYPE_COURSE=3;
 
     /**
      * @var integer $id

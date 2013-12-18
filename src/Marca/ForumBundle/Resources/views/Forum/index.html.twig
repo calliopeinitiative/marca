@@ -3,33 +3,36 @@
 {% extends 'MarcaForumBundle::layout.html.twig' %}
 
 {% block content %}
-{% for forum in forumEntries %}
-<div class="span9 well" style="padding:0">     
-      <div class="well-header" >
-         <span class="pull-right"><a class="close" title="Close this discussion" href="{{ course_path('forum') }}">&times;</a></span>
-         <h2 class="inline"><a class="forum_title" title="Open this discussion" href="{{ course_path('forum_show', { 'id': forum.id }) }}">{{ forum.title }}</a></h2>
-          
-         <span class="margin-left">by {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}</span>
-         <p>Created  {{ forum.created|date('M d Y, h:ia') }}  / Updated  {{ forum.updated|date('M d Y, h:ia') }} 
-         <span class="pull-right">
-         {% if forum.user==app.user %}<a class="btn btn-small" title="Edit this discussion" href="{{ course_path('forum_edit', { 'id': forum.id }) }}">Edit</a>{% endif%}
-         </span></p>
-      </div>
-         
-         <div class="span7 pad margin-bottom" >{{ forum.body|raw }}  </div>   
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Discussions</h2>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+
+                    {% for forum in forumEntries %}
+
+                        <a class="list-group-item" title="Open this discussion" href="{{ course_path('forum_show', { 'id': forum.id }) }}">
+                            {% if forum.user.photo %}
+                                <img alt="Thumbnail image of {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}" src="{{ forum.user.photo }}" class="user-photo-sm img-rounded pull-left margin-top-small"/>
+                            {% endif%}
+                            <h3 class="inline-block margin-top-small">{{ forum.title }}</h3>
+
+                            <span class="margin-left">by {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}</span>
+                            <p class="hidden-xs">Created  {{ forum.created|date('M d Y, h:ia') }}  / Updated  {{ forum.updated|date('M d Y, h:ia') }}</p>
+
+                        </a>
+                    {% else %}
+                        There are no open discussions at this time.
+                    {% endfor %}
+                </div>
+
+                <div class="navigation">
+                    {{ knp_pagination_render(forumEntries) }}
+                </div>
+            </div>
+        </div>
     </div>
-         
 
-{% else %}
-<div class="span9 well">
-There are no open discussions at this time.  
-</div>
-{% endfor %}
-
-<div class="span9">
-<div class="navigation">
-    {{ knp_pagination_render(forumEntries) }}
-</div>
-</div>
-      
 {% endblock %}

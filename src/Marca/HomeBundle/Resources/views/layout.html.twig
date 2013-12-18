@@ -1,17 +1,17 @@
 {# Marca/HomeBundle/Resources/views/layout.html.twig #}
 
 {% extends '::base.html.twig' %}
-{% block title %}{{ application_name }}{% endblock %}
+{% block title %}{{ application_name }} | Pages{% endblock %}
 
-{% block javascripts %}{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block javascripts %}{{ parent() }}{% endblock %}
 
 {% block subnav %}
 {% endblock %}
 
 
 {% block sidebar %}
-       <li><legend>Pages</legend></li>
-       <li><a class="" href="{{ path('page') }}">List</a></li>
+       <h1>Pages</h1>
+       <li><a class="" href="{{ path('page') }}">All Pages</a></li>
 {% endblock %}  
 
