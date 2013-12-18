@@ -12,7 +12,7 @@ class ScaleitemType extends AbstractType
     {
         $builder
             ->add('name','text', array('label'  => 'Name','attr' => array('class' => 'text form-control'),))
-            ->add('value','text', array('label'  => 'Name','attr' => array('class' => 'text form-control'),))
+            ->add('value','text', array('label'  => 'Value','attr' => array('class' => 'text form-control'),))
         ;
     }
 
