@@ -195,6 +195,10 @@ a:hover {
     margin-left:5px;
 }
 
+.margin-right {
+    margin-right:5px;
+}
+
 .margin-left-medium {
     margin-left:10px !important;
 }
@@ -538,6 +542,7 @@ span.btn-file {
     border-top:none !important;
 }
 
+
 /********** End 05. Bootstrap Elements **********/
 
 
@@ -676,7 +681,7 @@ tr.review td {
 }
 
 tr.file > td:first-child  {
-    width:60%;
+    width:50%;
 }
 
 tr.review > td:first-child  {
