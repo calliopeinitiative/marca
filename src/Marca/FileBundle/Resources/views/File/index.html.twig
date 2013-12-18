@@ -148,7 +148,7 @@
             <tbody>
             {% for file in files%}
                 {# main list of files #}
-                <tr class="file {% if not file.isOwner(app.user.username) %}hidden{% endif %}">
+                <tr class="file">
                     <td>
                         {# different functions for different file types #}
                         {# doc files #}

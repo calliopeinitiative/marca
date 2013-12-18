@@ -63,10 +63,11 @@ class RatingsetController extends Controller
      * @Route("/{courseid}/{userid}/{user}/{id}/edit", name="ratingset_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($id, $userid)
     {
         $em = $this->getEm();
         $course = $this->getCourse();
+        $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $assessmentset = $course->getAssessmentset();
 
         $ratingset = $em->getRepository('MarcaAssessmentBundle:Ratingset')->find($id);
@@ -87,6 +88,7 @@ class RatingsetController extends Controller
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'assessmentset' => $assessmentset,
+            'user' => $user,
         );
     }
 

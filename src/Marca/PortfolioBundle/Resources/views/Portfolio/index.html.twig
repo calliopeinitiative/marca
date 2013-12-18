@@ -30,7 +30,9 @@
                 <ul class="list-group">
                     {% for portitem in portset.portitem %}
                         <li class="list-group-item">
+                            {% if portStatus == 'true' %}
                             <a class="btn btn-default btn-xs pull-right" href="{{ course_path('portfolio_find', {'project':'recent', 'portitemid': portitem.id }) }}">Add<i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
+                            {% endif %}
                         <h3 class="small margin-top-small">{{portitem.name}}</h3>
                         <em>{{portitem.description|raw}}</em>
 

@@ -23,7 +23,7 @@
             </div>
             <form action="{{ course_path('ratingset_update', { 'id': ratingset.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
                 <div class="panel-body">
-                    <h3>Notes and Grade</h3>
+                    <h3>Notes and Grade for {{ user.firstname }} {{ user.lastname }}</h3>
 
                     {{ form_errors(edit_form) }}
                     {{ form_row(edit_form.notesforstudent) }}
