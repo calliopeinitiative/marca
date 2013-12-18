@@ -80,12 +80,7 @@
         <hr class="marca-spacer" />
 
         {# Projects  Find #}
-        {% if app.request.get('resource')=='0' %}
-            <li><a class="project-sidebar {% if active_project == 0 %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-                    All Folders </a>
-            </li>
-        {%else%}
-        {% endif %}
+
         {% for project in projects %}
             <li id="project_list">
                 <a title='{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}' class="project-sidebar {% if active_project == project.id %}current-filter{% endif %}"  href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
@@ -93,11 +88,16 @@
             {% if role == '2' and app.request.get('resource')==0 %}<a class="default project-sidebar small" style="display:none;" href="{{ course_path('project_set_default', {'projectId': project.id}) }}">Set Default</a>{% endif %}
             </li>
         {% endfor %}
+        {% if app.request.get('resource')=='0' %}
+            <li><a class="project-sidebar {% if active_project == 0 %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
+                    All Folders </a>
+            </li>
+        {%else%}
+        {% endif %}
         <hr class="marca-spacer" />
 
         {# Labels  Find #}
-        <li>
-            <a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}" class="project-sidebar {% if app.request.get('tag')=='0' %}current-filter{% endif %}">All Labels</a></li>
+
         {% for tag in tags %}
             <li>
                 <a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}" class="project-sidebar {% if app.request.get('tag')== tag.id %}current-filter{% endif %}">
@@ -106,6 +106,9 @@
                 </a>
             </li>
         {% endfor %}
+        <li>
+            <a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}" class="project-sidebar {% if app.request.get('tag')=='0' %}current-filter{% endif %}">All Labels</a>
+        </li>
     {% endif %}
 
     <hr class="marca-spacer" />
