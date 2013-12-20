@@ -1,13 +1,11 @@
-
 {% extends 'MarcaPortfolioBundle::port_layout.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
     <script language="javascript">
-        $(document).ready(function()
-        {
-            $('#toggle_modal').click(function(){
+        $(document).ready(function () {
+            $('#toggle_modal').click(function () {
                 $('#delete_modal').modal();
             });
         });
@@ -19,13 +17,14 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Portfolio Assessment</h3>
+
                 <p>{{ assessmentset.description|raw }}</p>
             </div>
-            <form action="{{ course_path('ratingset_update', { 'id': ratingset.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+            <form action="{{ course_path('ratingset_update', { 'id': ratingset.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}"
+                  method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
                 <div class="panel-body">
 
                     <h3 class="margin-top-small">Notes and Grade for {{ user.firstname }} {{ user.lastname }}</h3>
-
                     {{ form_errors(edit_form) }}
                     {{ form_row(edit_form.notesforstudent) }}
                     {{ form_row(edit_form.notesforreviewer) }}
@@ -43,7 +42,8 @@
                 <div class="panel-footer">
                     <div class="btn-group">
                         <button class="btn btn-primary" type="submit">Update</button>
-                        <a class="btn btn-default" href="{{ path('portfolio_user', { 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}">Cancel</a>
+                        <a class="btn btn-default"
+                           href="{{ path('portfolio_user', { 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}">Cancel</a>
                     </div>
 
                     <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
@@ -64,7 +64,9 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete?</p>
-                    <form action="{{ course_path('ratingset_delete', { 'id': ratingset.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}" method="post">
+
+                    <form action="{{ course_path('ratingset_delete', { 'id': ratingset.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}"
+                          method="post">
                         {{ form_widget(delete_form) }}
                         <div class="btn-group">
                             <button class="btn btn-danger" type="submit">Delete</button>
@@ -72,7 +74,9 @@
                         </div>
                     </form>
                 </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
     </div><!-- /.modal -->
 {% endblock %}
