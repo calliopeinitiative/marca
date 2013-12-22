@@ -449,7 +449,12 @@ class FileController extends Controller
             $session = $this->getRequest()->getSession();
             if (!$session){$uri='../../../file/1/default/0/mine/0/0/0/list';}
             else {
-            $uri = $session->get('referrer');
+                if ($resource==0) {
+                    $uri = $session->get('referrer');
+                }
+                else {
+                    $uri = $session->get('resource_referrer');
+                }
             return $this->redirect($uri);
         }
 
@@ -540,16 +545,28 @@ class FileController extends Controller
         $request = $this->getRequest();
         $postData = $request->get('marca_filebundle_filetype');
         $project = $postData['project'];
-        $resource = '0';
-        
+
 
          if ($this->getRequest()->getMethod() === 'POST') {
              $form->bind($this->getRequest());
              if ($form->isValid()) {
                  $em = $this->getEm();
                  $em->persist($file);
-                 $em->flush(); 
-                 return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'id'=> $file->getId(),'sort'=>'updated','scope'=>'mine','project'=>'recent', 'tag'=>'0', 'userid'=>'0','resource'=>$resource, 'user'=>'0')));
+                 $em->flush();
+
+                 $session = $this->getRequest()->getSession();
+                 if (!$session){$uri='../../../file/1/default/0/mine/0/0/0/list';}
+                 else {
+                     if ($resource==0) {
+                         $uri = $session->get('referrer');
+                     }
+                     else {
+                         $uri = $session->get('resource_referrer');
+                     }
+
+
+                     return $this->redirect($uri);
+                 }
              }
              
          }
