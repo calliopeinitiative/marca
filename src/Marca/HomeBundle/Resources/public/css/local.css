@@ -289,6 +289,13 @@ div.inline label {
     color: #fff;
 }
 
+.navbar-inverse .navbar-nav > li > div {
+    color: #fff;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+}
+
 .navbar-default .navbar-nav > li > a {
     color: #333;
 }

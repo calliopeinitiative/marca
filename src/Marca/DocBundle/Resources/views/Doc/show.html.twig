@@ -88,7 +88,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a name="top"></a>
-            <h1 class="small" style="margin-top:11px;color:white;">{{file.name}}</h1>
+            <h2 style="margin-top:11px;color:white;" title="{{file.name}}">{{file.name|slice(0, 20)}}{% if file.name|length > 19 %}...{% endif %}</h2>
         </div>
 
         <div class="navbar-collapse collapse">

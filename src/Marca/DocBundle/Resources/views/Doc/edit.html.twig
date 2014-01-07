@@ -36,20 +36,20 @@
 
             {# Doc nav #}
             <nav class="navbar  navbar-inverse navbar-fixed-top" role="navigation">
-                <div class="navbar-header col-sm-2 col-sm-2">
+                <div class="navbar-header col-sm-5 col-sm-5">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
                     <a name="top"></a>
-                    <h2 style="margin-top:11px;"><a href="#" style="color:white;" title="{{file.name}}">{{file.name}}</a></h2>
+                    <h2 style="margin-top:11px;color:white;" title="{{file.name}}">{{file.name|slice(0, 20)}}{% if file.name|length > 19 %}...{% endif %}</h2>
                 </div>
 
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav pull-right">
-                        <li><span id='saving_alert' class='alert alert-info'>Saving</span></li>
-                        <li><a id="toggle-tools" class="" href="javascript:void(0);">Doc Tools</a></li>
+                        <li><div id='saving_alert'>Saving</div></li>
+                        <li><a id="toggle-tools" href="javascript:void(0);">Doc Tools</a></li>
                         <li><input class="btn btn-default" type="submit" id="doc_save" value="Save and Close"/></li>
 
                     </ul>
