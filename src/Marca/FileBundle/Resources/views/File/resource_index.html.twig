@@ -33,8 +33,8 @@
                     footerCells: '',
                     icons      : '', // add "icon-white" to make them white; this icon class is added to the <i> in the header
                     sortNone   : 'glyphicon glyphicon-sort',
-                    sortAsc    : 'glyphicon glyphicon-chevron-up',     // includes classes for Bootstrap v2 & v3
-                    sortDesc   : 'glyphicon glyphicon-chevron-down', // includes classes for Bootstrap v2 & v3
+                    sortAsc    : 'glyphicon glyphicon-arrow-up',     // includes classes for Bootstrap v2 & v3
+                    sortDesc   : 'glyphicon glyphicon-arrow-down', // includes classes for Bootstrap v2 & v3
                     active     : '', // applied when column is sorted
                     hover      : '', // use custom css here - bootstrap class may not override it
                     filterRow  : '', // filter row class
@@ -43,6 +43,7 @@
                 });
                 // call the tablesorter plugin and apply the uitheme widget
                 $("table").tablesorter({
+                    sortList: [[0,0]],
                     theme : "bootstrap",
                     widthFixed: true,
                     headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
@@ -92,26 +93,26 @@
                     {# doc files #}
                     {% if file.doc %}
                         <a class="file_name" href="{{ course_path('doc_show', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >
-                            <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
                             {{ file.name }}
                         </a>
+                        <span class="label label-file pull-left" data-toggle="tooltip" title="This an html file ">html</span>
                         {# links #}
                     {% elseif file.url %}
                         <a class="file_name" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>
-                            <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
                             {{ file.name }}
                         </a>
+                        <span class="label label-file pull-left" data-toggle="tooltip" title="This a link ">link</span>
                         {# ODT files #}
                     {% elseif file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
                         <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}" >
-                            <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                             {{ file.name }}
                         </a>
+                        <span class="label label-file pull-left" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                     {% else %}
                         <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}" title="View {{ file.name }}" >
-                            <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                             {{ file.name }}
                         </a>
+                        <span class="label label-file pull-left" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                     {% endif %}
                     <div class="hidden-xs">
                         <div class="file-menu">
