@@ -185,7 +185,11 @@
                         <div class="hidden-xs">
                         <div class="file-menu">
                             {% if file.isOwner(app.user.username) %}
-                            <a  class="edit_{{file.id}}" href="javascript:void(0);" title="Edit the setting for this file." >Settings</a>{% endif%}
+                            <a  class="edit_{{file.id}}" href="javascript:void(0);" title="Edit the setting for this file." >Settings</a>
+                            {% endif%}
+                            {% if file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
+                                <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}" title="Download {{ file.name }}" >Download</a>
+                            {% endif %}
                             {% if role == 2 and app.request.get('resource')=='0' and file.doc %}
                                 <a class="" title="Create a copy of this document for review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
                             {% endif %}

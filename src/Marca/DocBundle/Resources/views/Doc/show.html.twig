@@ -13,7 +13,7 @@
             {$('.eDoc_note').each(function(index) {
                 note_index = index + 1;
                 var note_number = '<span class="blue">' + note_index + '</span>';
-                var note = '<div class="cell divider clear">'+ note_number + $(this).html() + '</div>';
+                var note = '<div>'+ note_number + $(this).html() + '</div>';
                 $('#notes_container').append(note);
             });
             }
@@ -24,9 +24,10 @@
 
             $('.eDoc_highlight').each(function(index) {
                 var span_number = index + 1;
-                var span_append = '<span class="hide eDoc_super">' + span_number + '</span>';
+                var span_append = '<span class="eDoc_super">' + span_number + '</span>';
                 $(this).append(span_append);
             });
+            $('.eDoc_super').toggle();
 
             $('[title]').each( function() {
                 var $this = $(this);
@@ -197,14 +198,14 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h2 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="$('#notes_container').toggle();$('.eDoc_note').toggle();$('.eDoc_super').toggle();" data-toggle="tab">Notes
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick=";$('.eDoc_note').toggle();$('.eDoc_super').toggle();" data-toggle="tab">Notes
                     </a>
                 </h2>
             </div>
             <div id="collapseTwo" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <div class="tab-pane fade" id="docNotes">
-                        <div id='notes_container' class='pad'>
+                    <div id="docNotes">
+                        <div id='notes_container'>
                         </div>
                     </div>
                 </div>
