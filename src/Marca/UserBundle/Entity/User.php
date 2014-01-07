@@ -146,12 +146,18 @@ class User extends BaseUser implements LdapUserInterface
      */
     protected $institution; 
     
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\AdminBundle\Entity\Coupon", mappedBy="pastuser", cascade={"remove", "persist"})
+     */
+    private $oldcoupons;
+    
     public function __construct()
     {
         parent::__construct();
         $this->roll = new ArrayCollection();
         $this->course = new ArrayCollection();
         $this->markupsets = new ArrayCollection();
+        $this->oldcoupons = new ArrayCollection();
     }
  
     /**
@@ -627,5 +633,38 @@ class User extends BaseUser implements LdapUserInterface
     public function getResearch()
     {
         return $this->research;
+    }
+
+    /**
+     * Add oldcoupons
+     *
+     * @param \Marca\AdminBundle\Entity\Coupon $oldcoupons
+     * @return User
+     */
+    public function addOldcoupon(\Marca\AdminBundle\Entity\Coupon $oldcoupons)
+    {
+        $this->oldcoupons[] = $oldcoupons;
+    
+        return $this;
+    }
+
+    /**
+     * Remove oldcoupons
+     *
+     * @param \Marca\AdminBundle\Entity\Coupon $oldcoupons
+     */
+    public function removeOldcoupon(\Marca\AdminBundle\Entity\Coupon $oldcoupons)
+    {
+        $this->oldcoupons->removeElement($oldcoupons);
+    }
+
+    /**
+     * Get oldcoupons
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOldcoupons()
+    {
+        return $this->oldcoupons;
     }
 }

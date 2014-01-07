@@ -40,6 +40,12 @@ class Coupon
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $user;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="oldcoupons", cascade={"persist"})
+     * @ORM\JoinColumn(name="past_user_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    protected $pastuser;
 
     /**
      * Get id
@@ -128,4 +134,27 @@ class Coupon
     }
     
     
+
+    /**
+     * Set pastuser
+     *
+     * @param \Marca\UserBundle\Entity\User $pastuser
+     * @return Coupon
+     */
+    public function setPastuser(\Marca\UserBundle\Entity\User $pastuser = null)
+    {
+        $this->pastuser = $pastuser;
+    
+        return $this;
+    }
+
+    /**
+     * Get pastuser
+     *
+     * @return \Marca\UserBundle\Entity\User 
+     */
+    public function getPastuser()
+    {
+        return $this->pastuser;
+    }
 }

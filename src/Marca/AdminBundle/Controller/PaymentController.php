@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Marca\UserBundle\Entity\User;
 use Marca\AdminBundle\Entity\Coupon;
 use FOS\UserBundle\Entity\UserManager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Collects user payments for Marca instances requiring payment
@@ -30,6 +31,27 @@ class PaymentController extends Controller{
     }
     
     /**
+     * @Route("/select/{courseid}", name="select_payment")
+     */
+    public function selectPayment($courseid)
+    {
+        $defaultData = array('message' => 'Type your message here');
+        $form = $this->createFormBuilder($defaultData)
+        ->add('name', 'text')
+        ->add('email', 'email')
+        ->add('message', 'textarea')
+        ->add('send', 'submit')
+        ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            // data is an array with "name", "email", and "message" keys
+            $data = $form->getData();
+        }
+    }
+    
+    /**
      * @Route("/{courseid}", name="payment")
      * @Template()
      */
@@ -38,11 +60,17 @@ class PaymentController extends Controller{
         
         $this->stripeConfig();
         $course=$this->getCourse();
+        if($course->getInstitution()->getPaymentType() == 3){
+            $publishableKey = $this->container->getParameter('stripe_publishable_key');
+            $coupon = new Coupon();
+            $coupon_form = $this->createFormBuilder($coupon)->add('code')->getForm();
+            return array('publishableKey' => $publishableKey, 'courseid' => $courseid, 'paymenttype' => $course->getInstitution()->getPaymentType(), 'paymentamount' => $course->getInstitution()->getSemesterPrice(), 'coupon_form' => $coupon_form->createView());
+        }
         if($course->getInstitution()->getPaymentType() == 2){
             $publishableKey = $this->container->getParameter('stripe_publishable_key');
             return array('publishableKey' => $publishableKey, 'courseid' => $courseid, 'paymenttype' => $course->getInstitution()->getPaymentType(), 'paymentamount' => $course->getInstitution()->getSemesterPrice());
         }
-        if($course->getInstitution()->getPaymentType()==1 || $course->getInstitution()->getPaymentType() == 3){
+        if($course->getInstitution()->getPaymentType()== 1){
             $coupon = new Coupon();
             $coupon_form = $this->createFormBuilder($coupon)->add('code')->getForm();
             return array('courseid'=>$courseid, 'paymenttype' => $course->getInstitution()->getPaymentType(), 'coupon_form' => $coupon_form->createView());
@@ -93,6 +121,17 @@ class PaymentController extends Controller{
             return $this->redirect($this->generateUrl('payment', array('courseid'=>$courseid)));
         }
  
+        if($user->getCoupon())
+        {
+            $coupon = $user->getCoupon();
+            $user->addOldcoupon($coupon);
+            $coupon->setPastuser($user);
+            $coupon->setUser(NULL);
+            $user->setCoupon(NULL);
+            $em->persist($coupon);
+            $em->persist($user);
+            $em->flush();
+        }
         $coupon = New Coupon();
         $coupon->setCode($customer->id);
         $coupon->setTerm($term);
@@ -131,17 +170,29 @@ class PaymentController extends Controller{
         $codeQuery = $em->createQuery(
                 'SELECT c
                  FROM MarcaAdminBundle:Coupon c
-                 WHERE c.term = :term
-                 AND c.code = :code
-                 AND c.user IS NULL')->setParameter('term', $term)->setParameter('code', $code);
+                 WHERE c.code = :code
+                 AND c.user IS NULL
+                 AND c.pastuser IS NULL')->setParameter('code', $code);
         try{ 
             $validCode = $codeQuery->getSingleResult();
         } catch (\Doctrine\Orm\NoResultException $e) {
             $validCode = null;
         }
         if($validCode){
+            if($user->getCoupon())
+            {
+                $oldcoupon = $user->getCoupon();
+                $user->addOldcoupon($oldcoupon);
+                $oldcoupon->setPastuser($user);
+                $oldcoupon->setUser(NULL);
+                $user->setCoupon(NULL);
+                $em->persist($oldcoupon);
+                $em->persist($user);
+                $em->flush();
+            }
             $user->setCoupon($validCode);
             $validCode->setUser($user);
+            $validCode->setTerm($term);
             $em->persist($user);
             $em->persist($validCode);
             $em->flush();

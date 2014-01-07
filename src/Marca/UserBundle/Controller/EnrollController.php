@@ -125,15 +125,16 @@ class EnrollController extends Controller
        else {
            $validCoupon = FALSE;
        }
-       if(($course->getInstitution()->getPaymentType() == 1 && $validCoupon == FALSE) || ($course->getInstitution()->getPaymentType() == 2 && $validCoupon == FALSE))
+       if(($course->getInstitution()->getPaymentType() != 0 && $validCoupon == FALSE))
        {
             return $this->redirect($this->generateUrl('payment', array('courseid'=>$courseid)));
        }
        else
+           {
             $em = $this->getEm(); 
             $em->getRepository('MarcaCourseBundle:Roll')->enroll($course, $user);
             return $this->redirect($this->generateUrl('user_home'));
+        }  
+    
     }  
-    
-    
 }
