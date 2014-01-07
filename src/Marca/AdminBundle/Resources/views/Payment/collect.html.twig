@@ -18,6 +18,29 @@ $(document).ready(function()
 <div class="modal-header">
     Almost done! 
 </div>
+{% if paymenttype == 3 %}
+    <div class="modal-body">
+        You have two options to pay for your class, please choose one below
+        <div>
+            Click "Pay with Credit Card" to pay securely with your credit card now 
+            <form action="{{ path('charge', {'courseid':courseid}) }}" method="post" novalidate="novalidate">
+     <script language="javascript" src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+          data-key="{{ publishableKey }}"
+          data-amount="{{ paymentamount }}" data-description="One Semester Marca Access"></script>
+    </form>
+        </div>
+        <hr>
+        OR
+        <hr>
+        <div>
+            If you have a code purchased from your bookstore, enter it here:
+            <form action="{{ path('coupon_validate', {'courseid':courseid}) }}" method="post" {{ form_enctype(coupon_form) }}>
+            {{ form_widget(coupon_form) }}
+            <button class = "btn btn-primary" type="submit">Submit Coupon</button>        
+    </form>
+        </div>
+    </div>
+{% endif %}
 {% if paymenttype == 2 %}
 <div class="modal-body">
     To finish enrolling in your course, click the button below to pay securely via credit card.
