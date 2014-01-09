@@ -22,7 +22,7 @@ class CourseType extends AbstractType
             ->add('name','text', array('label'  => 'Name','attr' => array('class' => 'text form-control'),))
             ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'query_builder' => function(TermRepository $tr) use ($institutionid){
             $qb = $tr->createQueryBuilder('MarcaCourseBundle:Term');
-            $qb->select('t')->from('Marca\CourseBundle\Entity\Term', 't')->innerJoin('t.institution', 'i')->where('i.id = ?1')->setParameter('1', $institutionid);
+            $qb->select('t')->from('Marca\CourseBundle\Entity\Term', 't')->innerJoin('t.institution', 'i')->where('t.status != 3')->andWhere('i.id = ?1')->setParameter('1', $institutionid);
             return $qb;
             }
             ,'property'=>'termName','expanded'=>true,'multiple'=>false, 'label' => 'Term','attr' => array('class' => 'radio'),))   

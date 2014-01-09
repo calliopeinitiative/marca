@@ -16,7 +16,8 @@ class TermType extends AbstractType
             ->add('status', 'choice', array('choices' => array(
                 '0' => 'Inactive',
                 '1' => 'Active',
-                '2' => 'Continuing'),'attr' => array('class' => 'form-control'),))
+                '2' => 'Continuing',
+                '3' => 'Hidden'),'attr' => array('class' => 'form-control'),))
             ->add('institution', 'entity', array('class'=>'MarcaAdminBundle:Institution','property'=>'name', 'label'=>'Select Your Institution','attr' => array('class' => 'form-control'),))
         ;
     }

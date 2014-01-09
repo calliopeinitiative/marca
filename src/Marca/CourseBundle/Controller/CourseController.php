@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\CourseBundle\Entity\Course;
+use Marca\CourseBundle\Entity\Term;
 use Marca\CourseBundle\Entity\Roll;
 use Marca\UserBundle\Entity\Profile;
 use Marca\CourseBundle\Entity\Project;
@@ -364,6 +365,9 @@ class CourseController extends Controller
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $user = $this->getUser();
+        $institution = $user->getInstitution();
+        $term = $em->getRepository('MarcaCourseBundle:Term')->findHidden($institution);
+
         //restrict access to the delete function to the course owner
         if($user != $course->getUser()){
             throw new AccessDeniedException();
@@ -381,7 +385,8 @@ class CourseController extends Controller
                 throw $this->createNotFoundException('Unable to find Course entity.');
             }
 
-            $em->remove($course);
+            $course->setTerm($term);
+            $em->persist($course);
             $em->flush();
         }
 

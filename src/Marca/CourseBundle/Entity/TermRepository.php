@@ -15,5 +15,11 @@ class TermRepository extends EntityRepository
        public function findDefault($institution){
         return $this->getEntityManager()
                 ->createQuery('SELECT t from MarcaCourseBundle:Term t  WHERE t.institution = ?1 AND t.status = 1')->setParameter('1',$institution)->setMaxResults(1)->getSingleResult();
-    } 
+    }
+
+    public function findHidden($institution){
+        $status = Term::STATUS_HIDDEN;
+        return $this->getEntityManager()
+            ->createQuery('SELECT t from MarcaCourseBundle:Term t  WHERE t.institution = ?1 AND t.status = ?2')->setParameter('1',$institution)->setParameter('2',$status)->setMaxResults(1)->getSingleResult();
+    }
 }

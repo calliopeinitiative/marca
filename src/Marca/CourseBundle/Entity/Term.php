@@ -15,6 +15,7 @@ class Term
     const STATUS_INACTIVE=0;
     const STATUS_ACTIVE=1;
     const STATUS_CONTINUING=2;
+    const STATUS_HIDDEN=3;
     
     /**
      * @var integer $id
