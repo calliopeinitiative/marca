@@ -50,8 +50,8 @@ class ProjectController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'project'      => $project,
-            'delete_form' => $deleteForm->createView(),        );
+            'project' => $project,
+            'delete_form' => $deleteForm->createView(),);
     }
 
     /**
@@ -64,21 +64,21 @@ class ProjectController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
-        
+
         $em = $this->getEm();
-        
+
         //find current # of projects in course (so we can suggest setting sortOrder to this +1
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $maxCourse = count($course->getProjects());
         $project = new Project();
         $project->setResource($resource);
         $project->setSortOrder($maxCourse + 1);
-        $form   = $this->createForm(new ProjectType(), $project);
+        $form = $this->createForm(new ProjectType(), $project);
 
         return array(
             'project' => $project,
             'courseid' => $courseid,
-            'form'   => $form->createView()
+            'form' => $form->createView()
         );
     }
 
@@ -93,34 +93,34 @@ class ProjectController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
-        
+
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $project  = new Project(); 
+        $project = new Project();
         $project->setCourse($course);
         $request = $this->getRequest();
-        $form    = $this->createForm(new ProjectType(), $project);
+        $form = $this->createForm(new ProjectType(), $project);
         $form->bind($request);
 
         if ($form->isValid()) {
             //iterates over current courses, updates sort orders
-            foreach($course->getProjects() as $projects){
-                if ($project->getSortOrder() <= $projects->getSortOrder()){
+            foreach ($course->getProjects() as $projects) {
+                if ($project->getSortOrder() <= $projects->getSortOrder()) {
                     $currentsort = $projects->getSortOrder();
-                    $projects->setSortOrder($currentsort+1);    
+                    $projects->setSortOrder($currentsort + 1);
                 }
             }
             $em->persist($project);
             $em->flush();
 
             return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
-            
+
         }
 
         return array(
             'project' => $project,
             'courseid' => $courseid,
-            'form'   => $form->createView()
+            'form' => $form->createView()
         );
     }
 
@@ -134,22 +134,25 @@ class ProjectController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
-        
+
         $em = $this->getEm();
+        $user = $this->getUser();
 
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($id);
-        
+        $files = $em->getRepository('MarcaFileBundle:File')->checkProjectFiles($project, $user);
+
         if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
-        
+
         $editForm = $this->createForm(new ProjectType(), $project);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'project'      => $project,
-            'courseid'      => $courseid,
-            'edit_form'   => $editForm->createView(),
+            'project' => $project,
+            'files' => $files,
+            'courseid' => $courseid,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -165,7 +168,7 @@ class ProjectController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
-        
+
         $em = $this->getEm();
 
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($id);
@@ -176,10 +179,7 @@ class ProjectController extends Controller
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
-        //before we update the entity, store the old sort order
-        $oldSort = $project->getSortOrder();
-        
-        $editForm   = $this->createForm(new ProjectType(), $project);
+        $editForm = $this->createForm(new ProjectType(), $project);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -193,8 +193,8 @@ class ProjectController extends Controller
         }
 
         return array(
-            'project'      => $project,
-            'edit_form'   => $editForm->createView(),
+            'project' => $project,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -209,7 +209,7 @@ class ProjectController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
-        
+
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
@@ -217,20 +217,13 @@ class ProjectController extends Controller
         $em = $this->getEm();
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($id);
         $courseid = $project->getCourse()->getId();
-        
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $projects = $course->getProjects();
-        
-     
+
         if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
-        
-        
+
         $em->remove($project);
         $em->flush();
-            
-        //}
 
         return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
     }
@@ -240,64 +233,63 @@ class ProjectController extends Controller
         //This function is not currently used (it was called from deleteAction)
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
-            ->getForm()
-        ;
+            ->getForm();
     }
 
-     /**
+    /**
      * Moves a Project entity up one in the display order.
      *
-     * @Route("/{courseid}/{projectId}/promote", name="project_promote")
+     * @Route("/{courseid}/{projectId}/{previousProjectId}/promote", name="project_promote")
      */
-    public function promoteAction($projectId)
+    public function promoteAction($projectId, $previousProjectId)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
-        
+
         $em = $this->getEm();
+
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
+        $currentOrder = $project->getSortOrder();
+        $previousProject = $em->getRepository('MarcaCourseBundle:Project')->find($previousProjectId);
+        $previousOrder = $previousProject->getSortOrder();
+        $project->setSortOrder($previousOrder);
+        $previousProject->setSortOrder($currentOrder);
+        $em->persist($project);
+        $em->persist($previousProject);
+        $em->flush();
+
         $course = $project->getCourse();
         $courseid = $course->getId();
 
-        if($project->getSortOrder() != 1){
-            $currentOrder = $project->getSortOrder();
-            $previousProject = $em->getRepository('MarcaCourseBundle:Project')->findProjectBySortOrder($course, $currentOrder - 1);
-            $project->setSortOrder($currentOrder-1);
-            $previousProject->setSortOrder($currentOrder);
-            $em->persist($project);
-            $em->persist($previousProject);
-            $em->flush();
-        }
-        
         return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
 
     }
-    
-     /**
+
+    /**
      * Moves a Project entity down one in the display order.
      *
-     * @Route("/{courseid}/{projectId}/demote", name="project_demote")
+     * @Route("/{courseid}/{projectId}/{followingProjectId}/demote", name="project_demote")
      */
-    public function demoteAction($projectId)
+    public function demoteAction($projectId, $followingProjectId)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
-        
+
         $em = $this->getEm();
+
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);
+        $currentOrder = $project->getSortOrder();
+        $followingProject = $em->getRepository('MarcaCourseBundle:Project')->find($followingProjectId);
+        $followingOrder = $followingProject->getSortOrder();
+        $project->setSortOrder($followingOrder);
+        $followingProject->setSortOrder($currentOrder);
+        $em->persist($project);
+        $em->persist($followingProject);
+        $em->flush();
+
         $course = $project->getCourse();
         $courseid = $course->getId();
 
-        if($project->getSortOrder() != count($course->getProjects())){
-            $currentOrder = $project->getSortOrder();
-            $previousProject = $em->getRepository('MarcaCourseBundle:Project')->findProjectBySortOrder($courseid, $currentOrder + 1);
-            $project->setSortOrder($currentOrder+1);
-            $previousProject->setSortOrder($currentOrder);
-            $em->persist($project);
-            $em->persist($previousProject);
-            $em->flush();
-        }
-        
         return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
 
     }
@@ -320,7 +312,7 @@ class ProjectController extends Controller
         $em->persist($course);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'project'=> 'default', 'scope'=> 'mine', 'user'=> '0', 'resource'=>'0', 'tag'=> '0', 'userid'=> '0')));
+        return $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'project' => 'default', 'scope' => 'mine', 'user' => '0', 'resource' => '0', 'tag' => '0', 'userid' => '0')));
 
     }
 }

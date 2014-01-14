@@ -42,8 +42,20 @@ class ProjectRepository extends EntityRepository
             ->createQuery('SELECT p from MarcaCourseBundle:Project p WHERE p.course in (?1) ORDER BY p.sortOrder')->setParameter('1',$parents)->getResult();
     }
     
-    } 
-    
+    }
+
+    public function findProjectsInSortOrder($course)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT p from MarcaCourseBundle:Project p WHERE p.course = ?1 AND p.resource = false ORDER BY p.sortOrder')->setParameter('1',$course)->getResult();
+    }
+
+    public function findResourcesInSortOrder($course)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT p from MarcaCourseBundle:Project p WHERE p.course = ?1 AND p.resource = true ORDER BY p.sortOrder')->setParameter('1',$course)->getResult();
+    }
+
    
     public function findProjectBySortOrder($course, $sortOrder)
     {

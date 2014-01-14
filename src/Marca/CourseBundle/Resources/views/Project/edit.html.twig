@@ -35,7 +35,11 @@
                         <button class="btn btn-primary" type="submit">Update</button>
                         <a class="btn btn-default" href="{{ path('course_show', { 'courseid': courseid }) }}">Cancel</a>
                     </div>
+                    {% if files %}
+                    <span class="pull-right">Since this Project has at least one file, it can not be deleted.</span>
+                    {% else %}
                     <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                    {% endif %}
                 </div>
             </div>
         </form>

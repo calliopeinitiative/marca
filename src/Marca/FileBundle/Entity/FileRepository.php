@@ -61,6 +61,16 @@ class FileRepository extends EntityRepository
 
     }
 
+    /**
+     * check for files for project delete
+     */
+    public function checkProjectFiles($project, $user)
+    {
+            return $this->getEntityManager()
+                ->createQuery('SELECT f, p  FROM MarcaFileBundle:File f JOIN f.project p WHERE f.project = ?1 AND f.user = ?2')
+                ->setParameter('1',$project)->setParameter('2',$user)->getResult();
+    }
+
 
    public function findPeerReviewFiles ($project, $user, $scope, $course, $tag, $resource, $byuser, $role)
     {
