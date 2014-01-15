@@ -1,0 +1,59 @@
+{# Marca/AssignmentBundle/Resources/views/ReviewRubric/show.html.twig #}
+
+{% extends 'MarcaAssignmentBundle::layout.html.twig' %}
+
+{% block content %}
+<h1>ReviewResponse</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Timecreated</th>
+            <td>{{ entity.timeCreated|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Timemodified</th>
+            <td>{{ entity.timeModified|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>ResponseShorttext</th>
+            <td>{{ entity.responseShortText }}</td>
+        </tr>
+        <tr>
+            <th>ResponseParagraphtext</th>
+            <td>{{ entity.responseParagraphText }}</td>
+        </tr>
+        <tr>
+            <th>Responsebool</th>
+            <td>{{ entity.responseBool }}</td>
+        </tr>
+        <tr>
+            <th>Responseint</th>
+            <td>{{ entity.responseInt }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('reviewresponse') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('reviewresponse_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('reviewresponse_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

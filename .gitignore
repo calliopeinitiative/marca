@@ -8,7 +8,7 @@
 /app/cache
 /app/logs
 /vendor
-/app/config/parameters.ini
+app/config/parameters.ini
 /app/config/parameters.yml
 /app/config/security.yml
 /nbproject

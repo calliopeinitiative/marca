@@ -1,0 +1,24 @@
+{# Marca/AssignmentBundle/Resources/views/ReviewRubric/edit.html.twig #}
+
+<script language="javascript">
+        $(document).ready(function() {
+            $(' form div ul li ul li').addClass('alert alert-error');
+        });
+</script>
+
+<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Edit Rubric</h3>
+</div>
+<form action="{{ path('reviewrubric_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} style="margin-bottom:0;">
+     <div class="modal-body">   
+        {{ form_widget(edit_form) }}
+    </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary pull-left" type="submit">Update</button>
+             <form action="{{ path('reviewrubric_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class='btn' type="submit">Delete</button>
+        </form>
+        </div>
+</form>

@@ -1,0 +1,58 @@
+{# Marca/AssignmentBundle/Resources/Views/Review #}
+
+{% extends 'MarcaAssignmentBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="span9 well">
+<h1>Review edit</h1>
+
+<form action="{{ path('review_update', { 'id': review.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_errors(edit_form) }}
+     <ul class="">  
+        {% for reviewresponse in edit_form.reviewresponses %}
+            <li>        
+                        <strong>
+                        Prompt:  {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
+                        </strong>
+                        <br/>
+                        Help:  {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}
+                        <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=0%} hide {%endif%}">
+                        {{ form_row(reviewresponse.responseShortText) }}
+                        </div>
+                        <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=1%} hide {%endif%}">
+                        {{ form_row(reviewresponse.responseParagraphText) }}
+                        </div>
+                         <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=2%} hide {%endif%}">
+                        {{ form_row(reviewresponse.responseBool) }}
+                        </div>
+                        <div class="{%if review.reviewresponses[loop.index-1].reviewPrompt.type!=3%} hide {%endif%}">
+                        {{ form_row(reviewresponse.responseInt) }}
+                        </div>
+                        <div class="well strong {%if app.user.username==review.reviewer.username %} hide {%endif%}">
+                        {{ form_row(reviewresponse.helpful) }}
+                        </div>
+            </li>
+            <hr/>
+        {% endfor %}
+            <li>{{ form_row(edit_form.grade) }}</li>
+            <li>{{ form_row(edit_form.notes) }}</li>
+            <div class="well strong {%if app.user.username==review.reviewer.username %} hide {%endif%}"> 
+            <h2>Evaluate this review:</h2>
+            <ul
+            <li>{{ form_row(edit_form.feedbackGrade) }}</li>
+            <li>{{ form_row(edit_form.feedbackComment) }}</li>
+            </ul>
+            </div>
+     </ul>
+    {{ form_rest(edit_form) }} 
+    <p>
+        <button type="submit">Submit</button>
+    </p>
+</form>
+
+        <form action="{{ path('review_delete', { 'id': review.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+</div>
+{% endblock %}

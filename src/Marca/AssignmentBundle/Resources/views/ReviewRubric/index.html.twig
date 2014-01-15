@@ -1,0 +1,50 @@
+{# Marca/AssignmentBundle/Resources/views/ReviewRubric/index.html.twig #}
+
+{% extends 'MarcaAssignmentBundle::layout.html.twig' %}
+
+
+
+
+{% block content %}
+<script language="javascript">
+ $(document).ready(function()
+{
+ {% for entity in entities%}    
+    $('#file_edit_rubric_{{entity.id}}').click(function(){
+        $('#edit_modal').load('{{path('reviewrubric_edit',  { 'id': entity.id}) }}');
+        $('#edit_modal').modal();
+    });
+    {% endfor %}
+});
+
+</script>
+
+<h1>Available Review Rubrics</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Keywords</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('reviewrubric_show', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
+            <td>{{ entity.description }}</td>
+            <td>{{ entity.keywords }}</td>
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{# Modal #}
+<div id="file_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
+</div>
+<div id="edit_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
+</div>
+
+{% endblock %}

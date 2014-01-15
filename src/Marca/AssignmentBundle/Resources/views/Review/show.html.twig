@@ -1,0 +1,44 @@
+{# Marca/AssignmentBundle/Resources/Views/Review #}
+
+{% extends 'MarcaAssignmentBundle::layout.html.twig' %}
+
+{% block content %}
+
+<div class="span9 well">  
+<div class="span8 center"> 
+    <h1>Review</h1>
+    <span>Created  {{ review.created|date('M d Y, h:ia') }}  / Updated  {{ review.updated|date('M d Y, h:ia') }} </span>
+</div>
+
+{% for reviewresponse in review.reviewresponses %}
+ <div class="span8 pull-right well" style="padding:0">
+ {{ reviewresponse.responseShortText|raw }}
+ {{ reviewresponse.responseparagraphText|raw }}
+ {{ reviewresponse.responseBool|raw }}
+ {{ reviewresponse.responseInt|raw }}                        
+ </div>
+
+{% endfor %}
+
+    <div class="span6 well">  
+        <h2>Grade</h2>
+        {{ review.grade }}
+    </div>
+    <div class="span6 well">  
+        <h2>Notes</h2>
+        {{ review.notes }}
+    </div>
+    
+
+
+        <a class="btn" href="{{ path('review_edit', { 'id': review.id }) }}">
+            Edit
+        </a>
+
+        <form action="{{ path('review_delete', { 'id': review.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+
+    </div>
+{% endblock %}
