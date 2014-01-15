@@ -275,8 +275,8 @@ class FileController extends Controller
             );  
         }        
     }
+      
     
-
     
     /**
      * Creates a new File entity.
@@ -302,10 +302,6 @@ class FileController extends Controller
         $request = $this->getRequest();
         $postData = $request->get('marca_filebundle_filetype');
         $project = $postData['project'];
-        $resource = $em->getRepository('MarcaCourseBundle:Project')->find($project);
-        $resource = $resource->getResource();
-        if (!$resource)
-        {$resource = '0';}
         $form    = $this->createForm(new FileType($options), $file);
         $form->bind($request);
         if ($type == 'doc') {
