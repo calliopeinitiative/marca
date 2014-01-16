@@ -51,8 +51,7 @@
 
             {% if file.project.resource %}{% set resource=1 %}{% else %}{% set resource=0 %}{% endif %}
             $('#new_saveas').click(function(){
-                $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : resource, 'tag' : '0', 'type': 'saveas', 'fileid': file.id }) }}');
-                $('#file_modal').modal();
+                $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : resource, 'tag' : '0', 'type': 'saveas', 'fileid': file.id }) }}').modal();
             });
 
             var txt = $('.doc-body').text();
