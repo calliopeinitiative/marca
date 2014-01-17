@@ -15,35 +15,25 @@
             });
             {% for file in files%}
             $('.edit_{{file.id}}').click(function(){
-                $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}');
-                $('#file_modal').modal();
+                $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}').modal();
             });
             $('#upload_{{file.id}}').click(function(){
-                $('#file_modal').load('{{ course_path('review_upload', { 'resource' : '0', 'tag' : '3', 'fileid': file.id }) }}');
-                $('#file_modal').modal();
+                $('#file_modal').load('{{ course_path('review_upload', { 'resource' : '0', 'tag' : '3', 'fileid': file.id }) }}').modal();
             });
             $('#file_show_{{file.id}}').click(function(){
-                $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}');
-                $('#file_modal').modal();
+                $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}').modal();
             });
             {% for file in file.reviews%}
             $('.edit_{{file.id}}').click(function(){
-                $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}');
-                $('#file_modal').modal();
+                $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}').modal();
             });
             $('#file_show_{{file.id}}').click(function(){
-                $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}');
-                $('#file_modal').modal();
+                $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}').modal();
             });
             {% endfor %}
             {% endfor %}
             $('.file-wrapper').css('max-height', function(index) {
                 return $(window).height()* .88;
-            });
-            $('#marca_filebundle_filetype_file').on('change', function() {
-                var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '')
-                var file = filename.substr(0, filename.lastIndexOf('.')) || filename
-                $('#marca_filebundle_filetype_name').val(file);
             });
             $.extend($.tablesorter.themes.bootstrap, {
                     table      : 'table',

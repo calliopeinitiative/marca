@@ -5,6 +5,12 @@
             var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '');
             var file = filename.substr(0, filename.lastIndexOf('.')) || filename;
             $('#marca_filebundle_filetype_name').val(file);
+            var a=(this.files[0].size/1024/1024);
+            var filesize = Math.round(a * 100) / 100
+            if(a > 10) {
+                alert('Your file is ' + filesize + ' MB.  It must be no larger than 10 MB.');
+                $('#file_modal').modal('hide');
+            };
         });
     });
 </script>
