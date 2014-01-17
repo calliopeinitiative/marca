@@ -11,11 +11,11 @@ class ReviewResponseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('responseShortText')
-            ->add('responseParagraphText')
-            ->add('responseBool')
-            ->add('responseInt')
-            ->add('helpful', 'choice', array('choices'   => array(true => 'Yes', false => 'No'),'required'  => FALSE,'label'  => 'Was this helpful?', 'expanded' => true,'attr' => array('class' => 'checkbox inline'),))
+            ->add('responseShortText','text', array('attr' => array('class' => 'text form-control'),))
+            ->add('responseParagraphText','text', array('attr' => array('class' => 'text form-control'),))
+            ->add('responseBool','text', array('attr' => array('class' => 'text form-control'),))
+            ->add('responseInt','text', array('attr' => array('class' => 'text form-control'),))
+            ->add('helpful', 'choice', array('choices'   => array(true => 'Yes', false => 'No'),'required'  => FALSE,'label'  => 'Was this helpful?', 'expanded' => true,'attr' => array('class' => 'radio inline'),))
     
         ;
     }

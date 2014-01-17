@@ -3,7 +3,7 @@
 namespace Marca\AssignmentBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -25,12 +25,14 @@ class ReviewRubricController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
-        $entities = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->findAll();
+        $rubrics = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->findAll();
+        $scales = $em->getRepository('MarcaAssessmentBundle:Scale')->findAll();
 
         return array(
-            'entities' => $entities,
+            'rubrics' => $rubrics,
+            'scales' => $scales
         );
     }
 
@@ -42,7 +44,7 @@ class ReviewRubricController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($id);
 
@@ -89,7 +91,7 @@ class ReviewRubricController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getEm();
             $em->persist($entity);
             $em->flush();
 
@@ -110,7 +112,7 @@ class ReviewRubricController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($id);
 
@@ -137,7 +139,7 @@ class ReviewRubricController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($id);
 
@@ -175,7 +177,7 @@ class ReviewRubricController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getEm();
             $entity = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($id);
 
             if (!$entity) {

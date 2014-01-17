@@ -1,50 +1,52 @@
 {# Marca/AssignmentBundle/Resources/views/ReviewRubric/index.html.twig #}
 
-{% extends 'MarcaAssignmentBundle::layout.html.twig' %}
-
-
-
+{% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<script language="javascript">
- $(document).ready(function()
-{
- {% for entity in entities%}    
-    $('#file_edit_rubric_{{entity.id}}').click(function(){
-        $('#edit_modal').load('{{path('reviewrubric_edit',  { 'id': entity.id}) }}');
-        $('#edit_modal').modal();
-    });
-    {% endfor %}
-});
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="btn btn-primary pull-right margin-top-small" href="{{ path('assessmentset_new') }}">Create Set<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+                <h2 class="margin-top-small">Review Rubrics</h2>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    {% for rubric in rubrics %}
 
-</script>
+                        <a class="list-group-item" href="{{ path('reviewrubric_show', { 'id': rubric.id }) }}">
+                            <h3 class="margin-top-small">{{ rubric.name }}</h3>
+                            <p>{{ rubric.description|raw }}</p>
+                            <p>{{ rubric.keywords }}</p>
+                        </a>
 
-<h1>Available Review Rubrics</h1>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="panel-footer">
+                <span class="text-muted">Click name to view. </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="btn btn-primary pull-right margin-top-small" href="{{ path('scale_new') }}">Create Scale<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+                <h2 class="margin-top-small">Scales</h2>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    {% for scale in scales %}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Keywords</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for entity in entities %}
-        <tr>
-            <td><a href="{{ path('reviewrubric_show', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
-            <td>{{ entity.description }}</td>
-            <td>{{ entity.keywords }}</td>
+                        <a class="list-group-item" href="{{ path('scale_show', { 'id': scale.id }) }}">
+                            <h3 class="margin-top-small">{{ scale.name }}</h3>
+                        </a>
 
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-
-{# Modal #}
-<div id="file_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
-</div>
-<div id="edit_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">     
-</div>
-
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="panel-footer">
+                <span class="text-muted">Click name to view. </span>
+            </div>
+        </div>
+    </div>
 {% endblock %}

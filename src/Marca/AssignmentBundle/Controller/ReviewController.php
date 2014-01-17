@@ -30,7 +30,6 @@ class ReviewController extends Controller
     public function indexAction($fileid)
     {
         $em = $this->getDoctrine()->getManager();
-	$file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($fileid);
 
         return array(
@@ -70,7 +69,7 @@ class ReviewController extends Controller
     public function displaySelectAction($courseid, $fileid)
     {
         $rubric = new Review();
-        $select_form = $this->createFormBuilder($rubric)->add('reviewrubric', 'entity', array('class'=>'MarcaAssignmentBundle:ReviewRubric', 'property'=>'name'))->getForm();
+        $select_form = $this->createFormBuilder($rubric)->add('reviewrubric', 'entity', array('class'=>'MarcaAssignmentBundle:ReviewRubric', 'property'=>'name','required'  => true,'label'  => 'Select Rubric for your Review', 'expanded' => true,'attr' => array('class' => 'radio'),))->getForm();
         return array('form'=>$select_form->createView(), 'courseid' => $courseid, 'fileid'=>$fileid);
     }
     

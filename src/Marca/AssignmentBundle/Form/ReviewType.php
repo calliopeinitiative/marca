@@ -14,11 +14,11 @@ class ReviewType extends AbstractType
             ->add('reviewresponses', 'collection', array(
                 'type'   => new ReviewResponseType(),
                 'options'  => array(
-                'required'  => false),)) 
-            ->add('grade')
-            ->add('notes')
-            ->add('feedbackGrade')
-            ->add('feedbackComment')    
+                'required'  => false),))
+            ->add('grade','text', array('attr' => array('class' => 'text form-control'),))
+            ->add('notes','text', array('attr' => array('class' => 'text form-control'),))
+            ->add('feedbackGrade','text', array('attr' => array('class' => 'text form-control'),))
+            ->add('feedbackComment','text', array('attr' => array('class' => 'text form-control'),))
         ;
     }
 

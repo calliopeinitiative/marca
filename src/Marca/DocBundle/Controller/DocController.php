@@ -39,6 +39,7 @@ class DocController extends Controller
         $role = $this->getCourseRole();
 
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $fileid = $file->getId();
         $doc = $file->getDoc();
         $text = $doc->getBody();
         $count = str_word_count($text);
@@ -48,6 +49,7 @@ class DocController extends Controller
         $file_access = $file->getAccess();
         
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
+        $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($fileid);
 
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
@@ -64,6 +66,7 @@ class DocController extends Controller
             'count'=> $count,
             'file'        => $file,
             'markup' => $markup,
+            'reviews' => $reviews,
             'delete_form' => $deleteForm->createView(),        );
     }
   
