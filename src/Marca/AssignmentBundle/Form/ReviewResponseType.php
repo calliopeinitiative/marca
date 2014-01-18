@@ -12,8 +12,8 @@ class ReviewResponseType extends AbstractType
     {
         $builder
             ->add('responseShortText','text', array('attr' => array('class' => 'text form-control'),))
-            ->add('responseParagraphText','text', array('attr' => array('class' => 'text form-control'),))
-            ->add('responseBool','text', array('attr' => array('class' => 'text form-control'),))
+            ->add('responseParagraphText', 'ckeditor', array('config_name' => 'editor_simple',))
+            ->add('responseBool', 'choice', array('choices'   => array('false' => 'False', 'true' => 'True'),'required'  => true, 'expanded' => true,'attr' => array('class' => 'radio'), ))
             ->add('responseInt','text', array('attr' => array('class' => 'text form-control'),))
             ->add('helpful', 'choice', array('choices'   => array(true => 'Yes', false => 'No'),'required'  => FALSE,'label'  => 'Was this helpful?', 'expanded' => true,'attr' => array('class' => 'radio inline'),))
     

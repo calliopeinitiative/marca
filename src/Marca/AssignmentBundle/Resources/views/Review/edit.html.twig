@@ -21,121 +21,136 @@
 
 {% block content %}
     <div class="col-sm-12 center">
-    {# Doc nav #}
-    <nav class="navbar  navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="col-sm-12 center">
-            <div class="navbar-header col-sm-5">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a name="top"></a>
+        {# Doc nav #}
+        <nav class="navbar  navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="col-sm-12 center">
+                <div class="navbar-header col-sm-5">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a name="top"></a>
 
-                <h2 style="margin-top:11px;color:white;"
-                    title="{{ review.file.name }}">{{ review.file.name|slice(0, 20) }}{% if review.file.name|length > 19 %}...{% endif %}</h2>
-            </div>
+                    <h2 style="margin-top:11px;color:white;"
+                        title="{{ review.file.name }}">{{ review.file.name|slice(0, 20) }}{% if review.file.name|length > 19 %}...{% endif %}</h2>
+                </div>
 
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav pull-right">
-                    <li>
-                        {% if app.request.get('view') == 'window' %}
-                            <a title="Close the current window or tab" id="close_window" class=""
-                               href="javascript:void(0);">Close</a>
-                        {% elseif review.file.project.resource == 'true' %}
-                            {% if app.session.get('resource_referrer') %}
-                                <a title="Close this document" class=""
-                                   href="{{ app.session.get('resource_referrer') }} ">Close</a>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav pull-right">
+                        <li>
+                            {% if app.request.get('view') == 'window' %}
+                                <a title="Close the current window or tab" id="close_window" class=""
+                                   href="javascript:void(0);">Close</a>
+                            {% elseif review.file.project.resource == 'true' %}
+                                {% if app.session.get('resource_referrer') %}
+                                    <a title="Close this document" class=""
+                                       href="{{ app.session.get('resource_referrer') }} ">Close</a>
+                                {% else %}
+                                    <a title="Close this document" class=""
+                                       href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
+                                {% endif %}
                             {% else %}
-                                <a title="Close this document" class=""
-                                   href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
+                                {% if app.session.get('referrer') %}
+                                    <a title="Close this document" class=""
+                                       href="{{ app.session.get('referrer') }} ">Close</a>
+                                {% else %}
+                                    <a title="Close this document" class=""
+                                       href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+                                {% endif %}
                             {% endif %}
-                        {% else %}
-                            {% if app.session.get('referrer') %}
-                                <a title="Close this document" class=""
-                                   href="{{ app.session.get('referrer') }} ">Close</a>
-                            {% else %}
-                                <a title="Close this document" class=""
-                                   href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
-                            {% endif %}
-                        {% endif %}
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="col-sm-11 center">
-    <div class="col-sm-11 center">
-        {% if not review.file.doc %}
-            <iframe class="col-sm-8" id="viewer"
-                    src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}"
-                    allowfullscreen="true" webkitallowfullscreen="true"></iframe>
-        {% else %}
-            <div id='doc-display' class="col-sm-8 well">
-                <div class="doc-body">
-                    {{ review.file.doc.body|raw }}
+                        </li>
+                    </ul>
                 </div>
             </div>
-        {% endif %}
+        </nav>
 
-            <div class="col-sm-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3>Review</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-
+        <div class="col-sm-11 center">
+            <div class="col-sm-11 center">
+                {% if not review.file.doc %}
+                    <iframe class="col-sm-8" id="viewer"
+                            src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}"
+                            allowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                {% else %}
+                    <div id='doc-display' class="col-sm-8 well">
+                        <div class="doc-body">
+                            {{ review.file.doc.body|raw }}
                         </div>
-                        <form action="{{ path('review_update', { 'id': review.id }) }}"
-                              method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
-                            {{ form_errors(edit_form) }}
-                            <ul class="list-group">
-                                {% for reviewresponse in edit_form.reviewresponses %}
-                                    <li class="list-group-item">
-                                        <strong>
-                                            Prompt:  {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
-                                        </strong>
-                                        <br/>
-                                        Help:  {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}
-                                        <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=0 %} hide {% endif %}">
-                                            {{ form_row(reviewresponse.responseShortText) }}
-                                        </div>
-                                        <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=1 %} hide {% endif %}">
-                                            {{ form_row(reviewresponse.responseParagraphText) }}
-                                        </div>
-                                        <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=2 %} hide {% endif %}">
-                                            {{ form_row(reviewresponse.responseBool) }}
-                                        </div>
-                                        <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=3 %} hide {% endif %}">
-                                            {{ form_row(reviewresponse.responseInt) }}
-                                        </div>
-                                        <div class="{% if app.user.username==review.reviewer.username %} hide {% endif %}">
-                                            {{ form_row(reviewresponse.helpful) }}
-                                        </div>
-                                    </li>
-                                    <hr/>
-                                {% endfor %}
-                                <li class="list-group-item">{{ form_row(edit_form.grade) }}</li>
-                                <li class="list-group-item">{{ form_row(edit_form.notes) }}</li>
-                            </ul>
-                            <div class="{% if app.user.username==review.reviewer.username %} hide {% endif %}">
-                                <p>Evaluate this review:</p>
-                                <ul class="">
-                                    <li>{{ form_row(edit_form.feedbackGrade) }}</li>
-                                    <li>{{ form_row(edit_form.feedbackComment) }}</li>
-                                </ul>
-                            </div>
-
-
-                            {{ form_rest(edit_form) }}
-                            <p>
-                                <button class="btn btn-default" type="submit">Submit</button>
-                            </p>
-                        </form>
                     </div>
+                {% endif %}
+
+                <div class="col-sm-4 ">
+
+                    <form action="{{ path('review_update', { 'id': review.id }) }}"
+                          method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+                        {{ form_errors(edit_form) }}
+
+                        {% for reviewresponse in edit_form.reviewresponses %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>
+                                        Prompt:  {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
+                                    </strong>
+
+                                    <p>Help:  {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}</p>
+                                </div>
+                                <div class="panel-body">
+
+                                    <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=0 %} hide {% endif %}">
+                                        {{ form_row(reviewresponse.responseShortText) }}
+                                    </div>
+                                    <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=1 %} hide {% endif %}">
+                                        {{ form_row(reviewresponse.responseParagraphText) }}
+                                    </div>
+                                    <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=2 %} hide {% endif %}">
+                                        {{ form_row(reviewresponse.responseBool) }}
+                                    </div>
+                                    <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=3 %} hide {% endif %}">
+                                        {{ form_row(reviewresponse.responseInt) }}
+                                    </div>
+                                    <div class="{% if app.user.username==review.reviewer.username %} hide {% endif %}">
+                                        {{ form_row(reviewresponse.helpful) }}
+                                    </div>
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <strong>
+                                    Grade
+                                </strong>
+
+                            </div>
+                            <div class="panel-body">
+                                {{ form_row(edit_form.grade) }}
+                                {{ form_row(edit_form.notes) }}
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default {% if app.user.username==review.reviewer.username %} hide {% endif %}">
+                            <div class="panel-heading">
+                                <strong>
+                                    Evaluate this review
+                                </strong>
+
+                            </div>
+                            <div class="panel-body">
+
+                                {{ form_row(edit_form.feedbackGrade) }}
+                                {{ form_row(edit_form.feedbackComment) }}
+
+                            </div>
+                        </div>
+
+
+                        {{ form_rest(edit_form) }}
+                        <p>
+                            <button class="btn btn-default" type="submit">Submit</button>
+                        </p>
+                    </form>
                 </div>
+            </div>
         </div>
     </div>
 {% endblock %}
