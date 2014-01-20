@@ -38,7 +38,8 @@
         "components/jquery": "1.9.*",
         "components/jqueryui": "1.10.*",
         "twbs/bootstrap" : "*" ,
-        "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1"
+        "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1",
+        "amazonwebservices/aws-sdk-for-php": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

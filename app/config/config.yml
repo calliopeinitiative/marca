@@ -147,20 +147,33 @@ knp_paginator:
     template:
         pagination: KnpPaginatorBundle:Pagination:sliding.html.twig     # sliding pagination controls template
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template 
-        
+
+knp_gaufrette:
+    stream_wrapper: ~
+
+    adapters:
+        uploads:
+            amazon_s3:
+                amazon_s3_id: ct_file_store.s3
+                bucket_name: testdocs.gomarca
+                options:
+                    create: true
+
+    filesystems:
+        amazon_s3:
+            adapter:    uploads
 vich_uploader:
     db_driver: orm # or mongodb
     twig: true
-    gaufrette: false # set to true to enable gaufrette support
-    storage: vich_uploader.storage.file_system
+    gaufrette: true # set to true to enable gaufrette support
+    storage: vich_uploader.storage.gaufrette
     mappings:
         property_file:
-            uri_prefix: %upload_path%   # uri prefix to resource
-            upload_destination: %upload_path%   # gaufrette storage fs id, required
-            namer: namer.upload_file # specify a file namer service id for this entity, null default
-            directory_namer: directory_namer.upload_file # specify a directory namer service id for this entity, null default
-            delete_on_remove: true # determines whether to delete file upon removal of entity
-            inject_on_load: true # determines whether to inject a File instance upon load  
+            uri_prefix: https://s3.amazonaws.com/testdocs.gomarca
+            upload_destination: amazon_s3
+            namer: vich_uploader.namer_uniqid
+            delete_on_remove: true
+            delete_on_update: true
             
 knp_snappy:
     pdf:
