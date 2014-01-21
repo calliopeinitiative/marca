@@ -1,14 +1,28 @@
-{% extends 'MarcaAssignmentBundle::layout.html.twig' %}
+{# Marca/AssignmentBundle/Resources/views/ReviewRubric/index.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
-<h2>PromptItem creation</h2>
+    <div class="col-sm-8 center">
 
-<form action="{{ path('promptitem_create',{'reviewrubricid':reviewrubric.id}) }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <div class="btn-group">
-        <button type="submit" class="btn btn-primary" type="submit">Create</button>
-        <a class='btn btn-default' href="{{ path('reviewrubric_show',{'id':reviewrubric.id}) }}">Cancel</a>
+        <form action="{{ path('promptitem_create',{'reviewrubricid':reviewrubric.id}) }}"
+              method="post" {{ form_enctype(form) }} novalidate="novalidate">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title small">Prompt Item</h2>
+                </div>
+                <div class="panel-body">
+                    {{ form_widget(form) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                        <a class='btn btn-default'
+                           href="{{ path('reviewrubric_show',{'id':reviewrubric.id}) }}">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
-
 {% endblock %}

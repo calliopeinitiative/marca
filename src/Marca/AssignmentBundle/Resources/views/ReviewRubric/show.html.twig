@@ -15,57 +15,59 @@
                 $('#review_modal').load('{{path('promptitem_edit',  { 'id': promptitem.id}) }}').modal();
             });
             {% endfor %}
-
         });
     </script>
 {% endblock %}
 
 {% block content %}
-    <div class="well">
-        <h2>{{ reviewrubric.name }}</h2>
-        <span>{{ reviewrubric.description }}</span>
-        <span class='pull-right'><a id='edit_rubric' title='Edit rubric' href="javascript:void(0);"
-                                    class="btn btn-default btn-small">Edit</a></span>
-        <hr/>
-        <p><strong>Instructions:</strong> {{ reviewrubric.instructions }}</p>
 
-        <p><strong>Keywords:</strong> {{ reviewrubric.keywords }}</p>
-    </div>
-
-    <div class="well">
-        <h2>Prompts</h2>
-
-
-        {% for promptitem in reviewrubric.promptitems %}
-            <div class="well">
-                <span> <p><strong>{{ promptitem.prompt }}</strong></p></span>
-                <span class="pull-right">
-                    <a id='edit_prompt_{{ promptitem.id }}' title='Edit prompt' href="javascript:void(0);" class="btn btn-default btn-small ">Edit</a>
-                </span>
-
-                <p>{{ promptitem.helpText }}</p>
-
-                <div style="margin-bottom:20px;">
-                    {% if promptitem.type==0 %}
-                        <input class="form-control" type="text" disabled=true/>
-                    {% elseif promptitem.type ==1 %}
-                        <textarea class="form-control" disabled=true rows="3" cols="80"></textarea>
-                    {% elseif promptitem.type ==2 %}
-                        {% for scaleitem in promptitem.scale.scaleitems %}
-                        <div style="margin-left:0px;" class="row">
-                            <strong>{{ scaleitem.name }}</strong> (value::{{ scaleitem.value }})
-                        </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="margin-top-small">{{ reviewrubric.name }}</h2>
+            <span>{{ reviewrubric.description }}</span>
+            <div class='btn-group pull-right'>
+                <a id='edit_rubric' title='Edit rubric' href="javascript:void(0);" class="btn btn-default btn-small">Edit</a>
+                <a class='btn btn-default btn-small' href="{{ path('promptitem_new', {'reviewrubricid': reviewrubric.id}) }}">
+                    Add a prompt
+                </a>
             </div>
+            <hr/>
+            <p><strong>Instructions:</strong> {{ reviewrubric.instructions }}</p>
 
-        {% else %}
-            No prompts yet.  Please add them.
-        {% endfor %}
+            <p><strong>Keywords:</strong> {{ reviewrubric.keywords }}</p>
+        </div>
+        <div class="panel-body">
+            <h2>Prompts</h2>
 
-        <a class='btn btn-default btn-small' href="{{ path('promptitem_new', {'reviewrubricid': reviewrubric.id}) }}">Add
-            a prompt</a>
+            {% for promptitem in reviewrubric.promptitems %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a id='edit_prompt_{{ promptitem.id }}' class="btn btn-default pull-right margin-top-small"
+                           title='Edit prompt' href="javascript:void(0);">Edit</a>
+
+                        <p>{{ promptitem.prompt }}</p>
+
+                        <p>{{ promptitem.helpText }}</p>
+                    </div>
+                    <div class="panel-body">
+                        {% if promptitem.type==0 %}
+                            <input class="form-control" type="text" disabled=true/>
+                        {% elseif promptitem.type ==1 %}
+                            <textarea class="form-control" disabled=true rows="3" cols="80"></textarea>
+                        {% elseif promptitem.type ==2 %}
+                            {% for scaleitem in promptitem.scale.scaleitems %}
+                                <div class="row">
+                                    <strong>{{ scaleitem.name }}</strong> (value::{{ scaleitem.value }})
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                No prompts yet.  Please add them.
+            {% endfor %}
+        </div>
+
     </div>
 
     {# Modal #}
