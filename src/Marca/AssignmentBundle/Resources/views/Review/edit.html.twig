@@ -65,21 +65,21 @@
             </div>
         </nav>
 
-        <div class="col-sm-11 center">
-            <div class="col-sm-11 center">
+        <div class="col-sm-12 center">
+            <div class="col-sm-12 center">
                 {% if not review.file.doc %}
-                    <iframe class="col-sm-8" id="viewer"
+                    <iframe class="col-sm-7" id="viewer"
                             src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}"
                             allowfullscreen="true" webkitallowfullscreen="true"></iframe>
                 {% else %}
-                    <div id='doc-display' class="col-sm-8 well">
+                    <div id='doc-display' class="col-sm-7 well">
                         <div class="doc-body">
                             {{ review.file.doc.body|raw }}
                         </div>
                     </div>
                 {% endif %}
 
-                <div class="col-sm-4 ">
+                <div class="col-sm-5 ">
 
                     <form action="{{ path('review_update', { 'id': review.id }) }}"
                           method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">

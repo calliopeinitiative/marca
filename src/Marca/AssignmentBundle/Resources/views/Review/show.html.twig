@@ -66,11 +66,11 @@
         </div>
     </nav>
 
-    <div class="col-sm-11 center">
+    <div class="col-sm-12 center">
             {% if not review.file.doc %}
-                <iframe class="col-sm-8" id="viewer" src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}" allowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                <iframe class="col-sm-7" id="viewer" src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}" allowfullscreen="true" webkitallowfullscreen="true"></iframe>
             {% else %}
-                <div id='doc-display' class="col-sm-8 well">
+                <div id='doc-display' class="col-sm-7 well">
                     <div class="doc-body">
                         {{ review.file.doc.body|raw }}
                     </div>
@@ -79,7 +79,7 @@
 
 
 
-        <div class="col-sm-4">
+        <div class="col-sm-5">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2 class="panel-title">Updated  {{ review.updated|date('M d Y') }}</h2>

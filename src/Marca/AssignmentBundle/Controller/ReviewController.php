@@ -69,7 +69,7 @@ class ReviewController extends Controller
     public function displaySelectAction($courseid, $fileid)
     {
         $rubric = new Review();
-        $select_form = $this->createFormBuilder($rubric)->add('reviewrubric', 'entity', array('class'=>'MarcaAssignmentBundle:ReviewRubric', 'property'=>'name','required'  => true,'label'  => 'Select Rubric for your Review', 'expanded' => true,'attr' => array('class' => 'radio'),))->getForm();
+        $select_form = $this->createFormBuilder($rubric)->add('reviewrubric', 'entity', array('class'=>'MarcaAssignmentBundle:ReviewRubric', 'property'=>'name','required'  => true,'label'  => 'Select Rubric for your Review', 'expanded' => false,'attr' => array('class' => 'form-control'),))->getForm();
         return array('form'=>$select_form->createView(), 'courseid' => $courseid, 'fileid'=>$fileid);
     }
     
