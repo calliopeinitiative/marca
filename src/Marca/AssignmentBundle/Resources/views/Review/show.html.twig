@@ -13,6 +13,9 @@
             $('#doc-display').css('height', function(index) {
                 return $(window).height()* .88;
             });
+            $('#doctools').css('height', function () {
+                return $(window).height() * .88;
+            });
             $('iframe').css('height', function(index) {
                 return $(window).height() * .88;
             });
@@ -80,7 +83,7 @@
 
 
         <div class="col-sm-5">
-            <div class="panel panel-default">
+            <div class="panel panel-default" id="doctools">
                 <div class="panel-heading">
                     <h2 class="panel-title">Updated  {{ review.updated|date('M d Y') }}</h2>
                 </div>
