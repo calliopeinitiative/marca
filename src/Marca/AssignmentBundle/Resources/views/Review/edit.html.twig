@@ -89,10 +89,10 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <strong>
-                                        Prompt:  {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
+                                        {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
                                     </strong>
 
-                                    <p>Help:  {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}</p>
+                                    <p class=""><em>Help:  {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}</em></p>
                                 </div>
                                 <div class="panel-body">
 
