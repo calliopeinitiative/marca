@@ -72,7 +72,7 @@ class PromptItem
     /**
      * @var integer $sortOrder
      *
-     * @ORM\Column(name="sortOrder", type="integer")
+     * @ORM\Column(name="sortOrder", type="integer", nullable=true)
      */
     private $sortOrder=0;
     
