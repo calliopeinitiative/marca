@@ -440,13 +440,8 @@ ul.nav > li > input {
 
 /***** 05a. Modals *****/
 
-div.modal-content {background-color: #fff;}
 
-div.modal-header {background-color: #CCCCCC;}
-
-div.modal-body {background-color: #fff;padding-top: 20px;}
-
-div.modal-footer {background-color: #fff;margin-top: 30px; padding-top: 20px;}
+.modal-footer {margin-top:35px;}
 
 .btn-file {
     position: relative;

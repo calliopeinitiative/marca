@@ -59,6 +59,7 @@ class ReviewRubric
 
     /**
      * @ORM\OneToMany(targetEntity="PromptItem", mappedBy="reviewRubric")
+     * @ORM\OrderBy({"sortOrder" = "ASC"})
      */
     private $promptitems;
     

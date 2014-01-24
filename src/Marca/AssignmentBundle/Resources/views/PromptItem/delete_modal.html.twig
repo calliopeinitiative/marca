@@ -1,0 +1,22 @@
+{# Marca/AssignmentBundle/Resources/views/PromptItem/delete_modal.html.twig #}
+
+    {# Modal for Delete confirmation #}
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <span class="modal-title">Delete</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete?</p>
+                <form id='delete' action="{{ path('promptitem_delete', { 'id': promptitem.id }) }}" method="post">
+                    {{ form_widget(delete_form) }}
+                    <div class="btn-group">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                        <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+

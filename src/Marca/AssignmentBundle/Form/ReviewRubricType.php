@@ -13,8 +13,8 @@ class ReviewRubricType extends AbstractType
     {
         $builder
             ->add('name','text', array('attr' => array('class' => 'text form-control'),))
-            ->add('description','text', array('attr' => array('class' => 'text form-control'),))
-            ->add('instructions','text', array('attr' => array('class' => 'text form-control'),))
+            ->add('description', 'ckeditor', array('config_name' => 'editor_simple',))
+            ->add('instructions', 'ckeditor', array('config_name' => 'editor_simple',))
             ->add('keywords','text', array('attr' => array('class' => 'text form-control'),))
             ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'Public'),'required'  => true,'label'  => 'Share your Rubric', 'expanded' => true,'attr' => array('class' => 'radio'),))
         ;

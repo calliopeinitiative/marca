@@ -3,7 +3,7 @@
 namespace Marca\AssignmentBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -25,7 +25,7 @@ class PromptItemController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $entities = $em->getRepository('MarcaAssignmentBundle:PromptItem')->findAll();
 
@@ -42,7 +42,7 @@ class PromptItemController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaAssignmentBundle:PromptItem')->find($id);
 
@@ -66,13 +66,14 @@ class PromptItemController extends Controller
      */
     public function newAction($reviewrubricid)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($reviewrubricid);
-        
+
         $promptitem = new PromptItem();
 
         $promptitem->setType(0);
+
         $form   = $this->createForm(new PromptItemType(), $promptitem);
 
         return array(
@@ -91,18 +92,20 @@ class PromptItemController extends Controller
      */
     public function createAction(Request $request,$reviewrubricid)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($reviewrubricid);
+        $count = count($reviewrubric->getPromptItems());
         
         $promptitem = new PromptItem();
         $promptitem->setReviewRubric($reviewrubric);
+        $promptitem->setSortOrder($count + 1);
        
         $form = $this->createForm(new PromptItemType(), $promptitem);
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getEm();
             $em->persist($promptitem);
             $em->flush();
 
@@ -123,19 +126,19 @@ class PromptItemController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaAssignmentBundle:PromptItem')->find($id);
+        $promptitem = $em->getRepository('MarcaAssignmentBundle:PromptItem')->find($id);
 
-        if (!$entity) {
+        if (!$promptitem) {
             throw $this->createNotFoundException('Unable to find PromptItem entity.');
         }
 
-        $editForm = $this->createForm(new PromptItemType(), $entity);
+        $editForm = $this->createForm(new PromptItemType(), $promptitem);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'promptitem'      => $promptitem,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -150,7 +153,7 @@ class PromptItemController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaAssignmentBundle:PromptItem')->find($id);
 
@@ -177,6 +180,83 @@ class PromptItemController extends Controller
         );
     }
 
+
+    /**
+     * Moves a Project entity up one in the display order.
+     *
+     * @Route("/{promptitemId}/{previousPromptitemId}/promote", name="promptitem_promote")
+     */
+    public function promoteAction($promptitemId, $previousPromptitemId)
+    {
+
+        $em = $this->getEm();
+
+        $promptitem = $em->getRepository('MarcaAssignmentBundle:PromptItem')->find($promptitemId);
+        $currentOrder = $promptitem->getSortOrder();
+        $previousPromptitem = $em->getRepository('MarcaAssignmentBundle:PromptItem')->find($previousPromptitemId);
+        $previousOrder = $previousPromptitem->getSortOrder();
+        $promptitem->setSortOrder($previousOrder);
+        $previousPromptitem->setSortOrder($currentOrder);
+        $em->persist($promptitem);
+        $em->persist($previousPromptitem);
+        $em->flush();
+
+        $reviewRubricId = $promptitem->getReviewRubric()->getId();
+
+        return $this->redirect($this->generateUrl('reviewrubric_show', array('id' => $reviewRubricId)));
+
+    }
+
+    /**
+     * Moves a Project entity down one in the display order.
+     *
+     * @Route("/{promptitemId}/{followingPromptitemId}/demote", name="promptitem_demote")
+     */
+    public function demoteAction($promptitemId, $followingPromptitemId)
+    {
+
+        $em = $this->getEm();
+
+        $promptitem = $em->getRepository('MarcaAssignmentBundle:PromptItem')->find($promptitemId);
+        $currentOrder = $promptitem->getSortOrder();
+        $followingPromptitem = $em->getRepository('MarcaAssignmentBundle:PromptItem')->find($followingPromptitemId);
+        $followingOrder = $followingPromptitem->getSortOrder();
+        $promptitem->setSortOrder($followingOrder);
+        $followingPromptitem->setSortOrder($currentOrder);
+        $em->persist($promptitem);
+        $em->persist($followingPromptitem);
+        $em->flush();
+
+        $reviewRubricId = $promptitem->getReviewRubric()->getId();
+
+        return $this->redirect($this->generateUrl('reviewrubric_show', array('id' => $reviewRubricId)));
+
+    }    
+
+    /**
+     * Displays a form to delete an existing PromptItem entity.
+     *
+     * @Route("/{id}/delete_modal", name="promptitem_delete_modal")
+     * @Template()
+     */
+    public function delete_modalAction($id)
+    {
+        $em = $this->getEm();
+
+        $promptitem = $em->getRepository('MarcaAssignmentBundle:PromptItem')->find($id);
+
+        if (!$promptitem) {
+            throw $this->createNotFoundException('Unable to find PromptItem entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'promptitem'      => $promptitem,
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
     /**
      * Deletes a PromptItem entity.
      *
@@ -189,8 +269,9 @@ class PromptItemController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getEm();
             $entity = $em->getRepository('MarcaAssignmentBundle:PromptItem')->find($id);
+            $reviewrubricid = $entity->getReviewRubric()->getId();
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find PromptItem entity.');
@@ -200,7 +281,7 @@ class PromptItemController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('promptitem'));
+        return $this->redirect($this->generateUrl('reviewrubric_show', array('id' => $reviewrubricid)));
     }
 
     private function createDeleteForm($id)

@@ -68,6 +68,13 @@ class PromptItem
      * @ORM\JoinColumn(name="reviewrubric_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $reviewRubric;
+
+    /**
+     * @var integer $sortOrder
+     *
+     * @ORM\Column(name="sortOrder", type="integer")
+     */
+    private $sortOrder=0;
     
     /**
      * Get id
@@ -147,6 +154,27 @@ class PromptItem
     {
         return $this->type;
     }
+
+    /**
+     * Set sortOrder
+     *
+     * @param integer $sortOrder
+     */
+    public function setSortOrder($sortOrder)
+    {
+        $this->sortOrder = $sortOrder;
+    }
+
+    /**
+     * Get sortOrder
+     *
+     * @return integer
+     */
+    public function getSortOrder()
+    {
+        return $this->sortOrder;
+    }
+
     /**
      * Constructor
      */

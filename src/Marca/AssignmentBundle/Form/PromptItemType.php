@@ -12,8 +12,8 @@ class PromptItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('prompt','text', array('attr' => array('class' => 'text form-control'),))
-            ->add('helpText','text', array('attr' => array('class' => 'text form-control'),))
+            ->add('prompt', 'ckeditor', array('config_name' => 'editor_simple',))
+            ->add('helpText', 'ckeditor', array('config_name' => 'editor_simple',))
             ->add('type', 'choice', array('choices'   => array(PromptItem::TYPE_SHORTTEXT => 'Short Text', PromptItem::TYPE_PARAGRAPHTEXT => 'Paragraph Text', PromptItem::TYPE_SCALE => 'Scale', PromptItem::TYPE_BOOLEAN => 'Boolean',PromptItem::TYPE_NORESPONSE => 'No Response'),'required'  => true,'label'  => 'Response Type', 'expanded' => true,'attr' => array('class' => 'radio'),))
             ->add('scale','entity',array('class'=>'MarcaAssessmentBundle:Scale','property'=>'name', 'expanded' => true,'required'  => true,'attr' => array('class' => 'radio'),))        ;
     }

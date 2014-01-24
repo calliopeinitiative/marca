@@ -90,7 +90,7 @@
                 <div class="panel-body">
                     {% for reviewresponse in review.reviewresponses %}
                         <div class="">
-                            <div><strong>{{ reviewresponse.reviewPrompt.prompt }}</strong></div>
+                            <div><strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong></div>
 
                             <div class="margin-left margin-top">
                             {{ reviewresponse.responseShortText|raw }}
