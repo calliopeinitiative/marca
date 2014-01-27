@@ -74,7 +74,7 @@
                 $('#doc_modal').load('{{ course_path('selectrubric', { 'fileid': file.id }) }}').modal();
             });
             $('#review_{{ file.id }}').click(function () {
-                $('#doc-body').load('{{ course_path('doc_show_ajax', { 'id': file.id}) }}');$('.nav-tabs').removeClass('active');$(this).parent().addClass('active');
+                $('#doc-body').load('{{ course_path('doc_show_ajax', { 'id': file.id}) }}');$('li').removeClass('active');$(this).parent().addClass('active');
             });
             {% for review in file.reviews%}
             $('#review_{{ review.id }}').click(function () {
