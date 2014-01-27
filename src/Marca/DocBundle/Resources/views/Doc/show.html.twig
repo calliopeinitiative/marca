@@ -199,25 +199,21 @@
                             {# doc files #}
                             {% if review.doc %}
                                 <a id="review_{{ review.id }}" class="file_name" href="javascript:void(0);"  title="View {{ review.name }}">
-                                    Review by {{ review.user.firstname }} {{ review.user.lastname }}
-                                    <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                    <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span> by {{ review.user.firstname }} {{ review.user.lastname }}
                                 </a>
                                 {# links #}
                             {% elseif review.url %}
                                 <a class="file_name" href="{{ review.url}}" target="_blank" title='This link will open in a new window or tab.'>
-                                    Review by {{ review.user.firstname }} {{ review.user.lastname }}
-                                    <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                    <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span> by {{ review.user.firstname }} {{ review.user.lastname }}
                                 </a>
                                 {# ODT files #}
                             {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
                                 <a class="file_name" href="{{ course_path('file_view', { 'id': review.id, 'view': 'app' }) }}" title="View {{ review.name }}" >
-                                    Review by {{ review.user.firstname }} {{ review.user.lastname }}
-                                    <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                    <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span> by {{ review.user.firstname }} {{ review.user.lastname }}
                                 </a>
                             {% else %}
                                 <a class="file_name" href="{{ course_path('file_get', { 'id': review.id}) }}" title="View {{ review.name }}" >
-                                    Review by {{ review.user.firstname }} {{ review.user.lastname }}
-                                    <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                    <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span> by {{ review.user.firstname }} {{ review.user.lastname }}
                                 </a>
                             {% endif %}
                         {% endif %}
