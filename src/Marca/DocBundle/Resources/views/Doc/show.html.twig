@@ -73,7 +73,19 @@
             $('#new_rubricreview').click(function () {
                 $('#doc_modal').load('{{ course_path('selectrubric', { 'fileid': file.id }) }}').modal();
             });
-
+            $('#review_{{ file.id }}').click(function () {
+                $('#doc-body').load('{{ course_path('doc_show_ajax', { 'id': file.id}) }}');$('.nav-tabs').removeClass('active');$(this).parent().addClass('active');
+            });
+            {% for review in file.reviews%}
+            $('#review_{{ review.id }}').click(function () {
+                $('#doc-body').load('{{ course_path('doc_show_ajax', { 'id': review.id}) }}');$('li').removeClass('active');$(this).parent().addClass('active');
+            });
+            {% endfor %}
+            {% for review in reviews %}
+            $('#review_{{ review.id }}').click(function () {
+                $('#review_container').load('{{ course_path('review_show_ajax', { 'id': review.id }) }}');
+            });
+            {% endfor %}
         });
     </script>
 {% endblock %}
@@ -165,13 +177,54 @@
     {# Doc display #}
     <div class="col-sm-11 center">
         <a id="main_content"></a>
+
         {% if app.request.get('_route') == 'file_view' %}
             <iframe class="col-sm-8" id="viewer"
                     src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}"
                     allowfullscreen="true" webkitallowfullscreen="true"></iframe>
         {% else %}
             <div id='doc-display' class="col-sm-8 well">
-                <div class="doc-body">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a id="review_{{ file.id }}" class="file_name" href="javascript:void(0);" title="View {{ file.name }}" >
+                            {{ file.name }}
+                        </a>
+                    </li>
+
+
+                    {% for review in file.reviews%}
+                        {% if (file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
+                            <li>
+                            {# different functions for different file types #}
+                            {# doc files #}
+                            {% if review.doc %}
+                                <a id="review_{{ review.id }}" class="file_name" href="javascript:void(0);"  title="View {{ review.name }}">
+                                    Review by {{ review.user.firstname }} {{ review.user.lastname }}
+                                    <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                </a>
+                                {# links #}
+                            {% elseif review.url %}
+                                <a class="file_name" href="{{ review.url}}" target="_blank" title='This link will open in a new window or tab.'>
+                                    Review by {{ review.user.firstname }} {{ review.user.lastname }}
+                                    <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                </a>
+                                {# ODT files #}
+                            {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
+                                <a class="file_name" href="{{ course_path('file_view', { 'id': review.id, 'view': 'app' }) }}" title="View {{ review.name }}" >
+                                    Review by {{ review.user.firstname }} {{ review.user.lastname }}
+                                    <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                </a>
+                            {% else %}
+                                <a class="file_name" href="{{ course_path('file_get', { 'id': review.id}) }}" title="View {{ review.name }}" >
+                                    Review by {{ review.user.firstname }} {{ review.user.lastname }}
+                                    <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div id='doc-body' class="doc-body">
                     {{ doc.body|raw }}
                 </div>
             </div>
@@ -279,7 +332,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default">
+                <div id="review_panel" class="panel panel-default">
                     <div class="panel-heading">
                         <h2 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
@@ -296,16 +349,20 @@
                     </div>
                     <div id="collapseFour" class="panel-collapse collapse">
                         <div class="panel-body">
+
                             {# RubricReviews #}
                             <div class="list-group">
                                 {% for review in reviews %}
-                                    <a href="{{ path('review_show', { 'id': review.id }) }}">
+                                    <a id="review_{{ review.id }}" href="javascript:void(0);">
                                     <p>Review by {{ review.reviewer.firstname }} {{ review.reviewer.lastname }} ({{ review.created|date('M d Y') }})</p>
                                     </a>
                                 {% else %}
                                     <div class="pad">No one has has offered a review.</div>
                                 {% endfor %}
                             </div>
+
+                            <div id="review_container">
+                                </div>
 
 
                         </div>

@@ -85,7 +85,7 @@
                 <div class="col-sm-5">
                     <div id="doctools">
 
-                    <form action="{{ path('review_update', { 'id': review.id }) }}"
+                    <form action="{{ course_path('review_update', { 'id': review.id }) }}"
                           method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
                         {{ form_errors(edit_form) }}
 

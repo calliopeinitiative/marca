@@ -1,0 +1,32 @@
+{# Marca/AssignmentBundle/Resources/Views/Review/show_ajax.html.twig #}
+
+
+
+                    {% for reviewresponse in review.reviewresponses %}
+                        <div class="">
+                            <div><strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong></div>
+
+                            <div class="margin-left margin-top">
+                            {{ reviewresponse.responseShortText|raw }}
+                            {{ reviewresponse.responseparagraphText|raw }}
+                            {{ reviewresponse.responseBool|raw }}
+                            {{ reviewresponse.responseInt|raw }}
+                            </div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+                    <strong>Grade:</strong>
+                    {{ review.grade }}
+                    <hr/>
+                        <strong>Notes:</strong>
+                    <div class="margin-left margin-top">
+                        {{ review.notes|raw }}
+                        </div>
+                    <hr/>
+                    <a class="btn btn-default" href="{{ course_path('review_edit', { 'id': review.id }) }}">
+                        Edit
+                    </a>
+
+
+
+

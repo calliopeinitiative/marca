@@ -69,7 +69,49 @@ class DocController extends Controller
             'reviews' => $reviews,
             'delete_form' => $deleteForm->createView(),        );
     }
-  
+
+    /**
+     * Finds and displays a Doc entity.
+     *
+     * @Route("/{courseid}/{id}/show_ajax", name="doc_show_ajax")
+     * @Template()
+     */
+    public function show_ajaxAction($id,$courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $em = $this->getEm();
+        $course = $this->getCourse();
+        $user = $this->getUser();
+        $role = $this->getCourseRole();
+
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $fileid = $file->getId();
+        $doc = $file->getDoc();
+        $file_owner = $file->getUser();
+        $review_file = $file->getReviewed();
+        if ($review_file) {$review_owner = $review_file->getUser();} else {$review_owner = $file_owner;}
+        $file_access = $file->getAccess();
+
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
+        $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($fileid);
+
+        if (!$doc) {
+            throw $this->createNotFoundException('Unable to find Doc entity.');
+        }
+        else if ($file_owner != $user && $review_owner != $user && $file_access==0 && $role != 2 )  {
+            throw new AccessDeniedException();
+        }
+
+        return array(
+            'doc'      => $doc,
+            'role'      => $role,
+            'file'        => $file,
+            'markup' => $markup,      );
+    }
+
+
   
     /**
      * Displays a form to create a new Doc entity.

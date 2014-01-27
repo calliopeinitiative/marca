@@ -60,7 +60,28 @@ class ReviewController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
-    
+
+    /**
+     * Finds and displays a Review entity.
+     *
+     * @Route("/{courseid}/{id}/show_ajax", name="review_show_ajax")
+     * @Template()
+     */
+    public function show_ajaxAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
+
+        if (!$review) {
+            throw $this->createNotFoundException('Unable to find Review entity.');
+        }
+
+        return array(
+            'review'      => $review,
+        );
+    }
+
     /**
      * Display form to selects Review Rubric for new Reviews
      * @Route("/{courseid}/{fileid}/selectrubric", name="selectrubric")
@@ -120,13 +141,13 @@ class ReviewController extends Controller
     }
         $em->persist($review);
         $em->flush();
-        return $this->redirect($this->generateUrl('review_edit', array('id' => $review->getId())));
+        return $this->redirect($this->generateUrl('review_edit', array('courseid'=>$courseid, 'id' => $review->getId())));
     }
 
     /**
      * Displays a form to edit an existing Review entity.
      *
-     * @Route("/{id}/edit", name="review_edit")
+     * @Route("/{courseid}/{id}/edit", name="review_edit")
      * @Template()
      */
     public function editAction($id)
@@ -152,15 +173,16 @@ class ReviewController extends Controller
     /**
      * Edits an existing Review entity.
      *
-     * @Route("/{id}/update", name="review_update")
+     * @Route("/{courseid}/{id}/update", name="review_update")
      * @Method("POST")
      * @Template("MarcaAssignmentBundle:Review:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $id, $courseid)
     {
         $em = $this->getDoctrine()->getManager();
 
         $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
+        $fileid = $review->getFile()->getId();
 
         if (!$review) {
             throw $this->createNotFoundException('Unable to find Review entity.');
@@ -174,7 +196,7 @@ class ReviewController extends Controller
             $em->persist($review);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('review_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('doc_show', array('courseid' => $courseid,'id' => $fileid,'view' => 'app')));
         }
 
         return array(
