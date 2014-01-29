@@ -4,3 +4,7 @@ services:
         arguments: ['@service_container']
         tags: 
             - { name:twig.extension}
+    ct_file_store.s3:
+        class: AmazonS3
+        arguments:
+            options: {key: %aws_key%, secret: %aws_secret%}
