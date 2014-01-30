@@ -600,6 +600,7 @@ class FileController extends Controller
         $file->setAccess('2');
         $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $file->setReviewed($reviewed_file);
+        $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
         $form = $this->createForm(new UploadReviewType($options), $file);
 
         $request = $this->getRequest();
@@ -615,7 +616,19 @@ class FileController extends Controller
                 $em = $this->getEm();
                 $em->persist($file);
                 $em->flush();
-                return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'id'=> $file->getId(),'sort'=>'updated','scope'=>'mine','project'=>'recent', 'tag'=>'0', 'userid'=>'0','resource'=>$resource, 'user'=>'0')));
+
+                $session = $this->getRequest()->getSession();
+                if (!$session){$uri='../../../file/1/default/0/mine/0/0/0/list';}
+                else {
+                    if ($resource==0) {
+                        $uri = $session->get('referrer');
+                    }
+                    else {
+                        $uri = $session->get('resource_referrer');
+                    }
+                    return $this->redirect($uri);
+                }
+
             }
 
         }

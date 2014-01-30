@@ -35,11 +35,8 @@ class UploadReviewType extends AbstractType
                   function(\Marca\TagBundle\Entity\TagRepository $er) use ($options) {
                   $courseid = $options['courseid'] ;  
                   return $er->createQueryBuilder('t')
-                        ->join("t.tagset", 's')
-                        ->join("s.course", 'c')
-                        ->where('c.id = :course')
-                        ->setParameter('course', $courseid)        
-                        ->orderBy('c.name', 'ASC');
+                        ->where('t.id = :tag')
+                        ->setParameter('tag',  '3');
                 }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Labels', 'attr' => array('class' => 'checkbox'),
               ))
              ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared', '2' => 'Hidden'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
