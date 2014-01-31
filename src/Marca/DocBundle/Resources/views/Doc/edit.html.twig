@@ -26,6 +26,9 @@
             $('#toggle-tools').click(function(){
             $('#doctools').toggleClass('hide');$('#doc-edit').toggleClass('col-sm-offset-2');
             });
+            $('#notice').click(function(){
+                $(this).toggleClass('hide');
+            });
         });
     </script>
 {% endblock %}
@@ -57,6 +60,12 @@
             </nav>
 
                 <div class="col-sm-11 center">
+                    {% for flashMessage in app.session.flashbag.get('notice') %}
+                        <div id="notice" class="col-sm-12 alert alert-info">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
                 <div id='doc-edit' class="col-sm-8">
                     {{ form_errors(edit_form) }}
                     {{ form_errors(edit_form.body) }}

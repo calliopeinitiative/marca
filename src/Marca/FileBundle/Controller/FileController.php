@@ -176,11 +176,12 @@ class FileController extends Controller
         $this->restrictAccessTo($allowed);
 
         $em = $this->getEm();
-        $user = $this->getUser();     
+        $user = $this->getUser();
+        $role = $this->getCourseRole();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
+        $project = $course->getProjectDefault();
         $options = array('courseid' => $courseid, 'resource'=> $resource);
         
         $file = new File();
@@ -222,37 +223,23 @@ class FileController extends Controller
         elseif ($type == 'review'){
            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
            $file->setName('Review');
+            if ($role==2) {
+                $file->setAccess('2');
+            }
+            else {
+                $file->setAccess('0');
+            }
            $doc = new Doc();
            $doc->setFile($file);
            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
            $file->setReviewed($reviewed_file);
            $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
-           if ($reviewed_file->getDoc()) {
-                $doc->setBody($reviewed_file->getDoc()->getBody());
-           }
-           elseif ($reviewed_file->getExt()=='odt') {
-               $doc->setBody($this->odtToHtml($reviewed_file->getId()));
-           }
-           $em->persist($doc);
-           $em->persist($file);
-           $em->flush();
-           return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $file->getId(),'view'=>'app')));
-        }
-        elseif ($type == 'instr_review'){
-           $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
-           $file->setName('Review');
-           $file->setAccess('2');
-           $doc = new Doc();
-           $doc->setFile($file);
-           $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
-           $file->setReviewed($reviewed_file);
-           $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
-           $file->setAccess('2');
            if ($reviewed_file->getDoc()) {
            $doc->setBody($reviewed_file->getDoc()->getBody());
            }
             elseif ($reviewed_file->getExt()=='odt') {
             $doc->setBody($this->odtToHtml($reviewed_file->getId()));
+                $this->get('session')->getFlashBag()->add('notice','N.B. Some of the original formatting may have been lost in the conversion.');
             }
            $em->persist($doc);
            $em->persist($file);
@@ -498,8 +485,17 @@ class FileController extends Controller
             $em->flush();
         }
 
-       return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'scope'=>'mine','project'=>'recent', 'tag'=>'0', 'userid'=>'0','resource'=>$resource, 'user'=>'0')));
-    }
+        $session = $this->getRequest()->getSession();
+        if (!$session){$uri='../../../file/1/default/0/mine/0/0/0/list';}
+        else {
+            if ($resource==0) {
+                $uri = $session->get('referrer');
+            }
+            else {
+                $uri = $session->get('resource_referrer');
+            }
+            return $this->redirect($uri);}
+        }
 
     private function createDeleteForm($id)
     {
@@ -524,7 +520,7 @@ class FileController extends Controller
          $user = $this->getUser();
          $role = $this->getCourseRole();
          $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-         $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
+         $project = $course->getProjectDefault();
          $options = array('courseid' => $courseid, 'resource'=> $resource, 'review'=>'no');
          $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
          
@@ -585,9 +581,10 @@ class FileController extends Controller
         $em = $this->getEm();
         $resource = 0;
         $user = $this->getUser();
+        $role = $this->getCourseRole();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
-        $options = array('courseid' => $courseid, 'resource'=> $resource, 'review'=>'yes');
+        $project = $course->getProjectDefault();
+        $options = array('courseid' => $courseid, 'resource' => $resource, 'review' => 'yes', 'role' => $role);
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
 
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
@@ -597,7 +594,12 @@ class FileController extends Controller
         $file->setCourse($course);
         $file->setName('Review');
         $file->setProject($project);
-        $file->setAccess('2');
+        if ($role==2) {
+            $file->setAccess('2');
+        }
+        else {
+            $file->setAccess('0');
+        }
         $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $file->setReviewed($reviewed_file);
         $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
