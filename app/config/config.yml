@@ -26,6 +26,8 @@ twig:
     globals:
       application_name:       %app_name%
       ldap_auth:              %ldap%
+      help_email:             %help_email%
+      help_url:               %help_url%
 
 # Assetic Configuration
 assetic:
