@@ -77,6 +77,7 @@
                             <ul class="dropdown-menu" aria-labelledby="dLabel">
                                 <li><a href="{{ path('user_show') }}">Profile</a></li>
                                 <li><a class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll</a></li>
+                                <li><a class="" title="Help" data-toggle="modal" data-target="#help-menu">Help</a></li>
                                 <li><a title="Logout" href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                             </ul>
                         </li>
@@ -122,6 +123,28 @@
 
 <div class="modal fade" id="base_modal" role="dialog" >
 
+</div><!-- /.modal -->
+
+{# Modal #}
+
+<div class="modal fade" id="help-menu" tabindex="-1" aria-labelledby="help-menuLabel" aria-hidden="true" role="dialog" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align:center;margin-bottom:20px;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 style="font-size:2em;margin-bottom:20px;">Need help?</h3>
+                <p style="font-size:1.5em;">First, check out our Help Docs:</p>
+               <div class="well">
+                <a href="http://www.gomarca.com/using-marca/" title="Help Docs" style="color:#006183;">
+                <p><i class="glyphicon glyphicon-book" style="font-size:6em;"></i></p>
+                <p>Clear, simple guides on how to do nearly anything in {{ application_name }}.</p></a>
+               </div>
+               <p style="font-size:1.5em;">Still stuck?</p>
+                <a href="mailto:help@gomarca.com" role="button" class="btn btn-info btn-lg">Send Us An Email</a><br />
+                <p style="margin-top:15px;">We'll get back to you right away.</p>
+            </div>
+        </div>
+    </div>
 </div><!-- /.modal -->
 
 </body>
