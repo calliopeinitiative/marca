@@ -21,6 +21,9 @@ parameters:
     locale:            xxxx
     secret:            xxxx
     app_name:          XXXXX
+    help_email:
+    help_url:
+
     ldap:              no
 
     upload_path:       %kernel.root_dir%/../uploads/files
