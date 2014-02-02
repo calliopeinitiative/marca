@@ -26,4 +26,8 @@ parameters:
     upload_path:       %kernel.root_dir%/../uploads/files
     wkhtmltopdf_path: /usr/local/bin/wkhtmltopdf-amd64
 
-
+    pdo.db_options:
+        db_table: session
+        db_id_col:   session_id
+        db_data_col: session_value
+        db_time_col: session_time
