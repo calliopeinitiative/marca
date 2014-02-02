@@ -158,7 +158,7 @@ knp_gaufrette:
         uploads:
             amazon_s3:
                 amazon_s3_id: ct_file_store.s3
-                bucket_name: testdocs.gomarca
+                bucket_name: %s3_bucket_name%
                 options:
                     create: true
 
