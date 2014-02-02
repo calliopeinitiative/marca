@@ -15,7 +15,21 @@ use FOS\UserBundle\Model\UserInterface;
 class RegistrationController extends BaseController
 {
      /**
-     * Not yet modified...
+     * Tell the user to check his email provider
      */
+    public function checkEmailAction(Request $request)
+    {
+        $email = $request->query->get('email');
+        $this->container->get('session')->remove('fos_user_send_confirmation_email/email');
+        $user = $this->container->get('fos_user.user_manager')->findUserByEmail($email);
+
+        if (null === $user) {
+            throw new NotFoundHttpException(sprintf('The user with email "%s" does not exist', $email));
+        }
+
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:checkEmail.html.'.$this->getEngine(), array(
+            'user' => $user,
+        ));
+    }
 
 }
