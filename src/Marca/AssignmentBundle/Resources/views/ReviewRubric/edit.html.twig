@@ -1,6 +1,15 @@
 {# Marca/AssignmentBundle/Resources/views/ReviewRubric/edit.html.twig #}
 
 <div class="modal-dialog">
+    <script language="javascript">
+        $(document).ready(function () {
+            $('#delete_rubric').click(function () {
+                $('#review_modal').load('{{path('reviewrubric_delete_modal') }}').modal();
+            });
+        });
+    </script>
+    
+
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

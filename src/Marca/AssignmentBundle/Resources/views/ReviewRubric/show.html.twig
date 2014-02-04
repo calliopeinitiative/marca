@@ -9,6 +9,7 @@
             $('#edit_rubric').click(function () {
                 $('#review_modal').load('{{path('reviewrubric_edit',  { 'id': reviewrubric.id}) }}').modal();
             });
+            
 
             {% for promptitem in reviewrubric.promptitems%}
             $('#edit_prompt_{{promptitem.id}}').click(function () {

@@ -165,6 +165,30 @@ class ReviewRubricController extends Controller
         );
     }
 
+        /**
+     * Displays a form to delete an existing ReviewRubric entity.
+     *
+     * @Route("/{id}/delete_modal", name="reviewrubric_delete_modal")
+     * @Template()
+     */
+    public function delete_modalAction($id)
+    {
+        $em = $this->getEm();
+
+        $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($id);
+
+        if (!$reviewrubric) {
+            throw $this->createNotFoundException('Unable to find ReviewRubric entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'reviewrubric'      => $reviewrubric,
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+    
     /**
      * Deletes a ReviewRubric entity.
      *
@@ -199,3 +223,5 @@ class ReviewRubricController extends Controller
         ;
     }
 }
+
+
