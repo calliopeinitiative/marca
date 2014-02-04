@@ -69,6 +69,7 @@ class ReviewRubricController extends Controller
     public function newAction()
     {
         $reviewrubric = new ReviewRubric();
+        $reviewrubric->setShared(0);
         $form   = $this->createForm(new ReviewRubricType(), $reviewrubric);
 
         return array(
