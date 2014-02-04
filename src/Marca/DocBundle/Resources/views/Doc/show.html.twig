@@ -118,21 +118,13 @@
                             </li>
                         {% endif %}
 
-                        {# Don't show Review button if it is a review or a Resource #}
-                        {% if file.reviewed|length == 0 and file.project.resource != 'true' %}
-                            <li>
-                                <a title="Create a copy of this document for peer review" id="new_review" class=""
-                                   href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Peer
-                                    Review</a>
-                            </li>
-                            {% if role == 2 %}
-                                <li>
-                                    <a title="Create a copy of this document for peer review" id="new_grade" class=""
-                                       href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor
-                                        Review</a>
-                                </li>
-                            {% endif %}
-                        {% endif %}
+
+                    {# Don't show Review button if it is a review or a Resource #}
+                    {% if file.reviewed|length == 0 and file.project.resource != 'true' %}
+                        <li>
+                            <a title="Create a copy of this document for peer review" id="new_review" class="" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create Review</a>
+                        </li>
+                    {% endif %}
 
                         {% if doc.isOwner(app.user.username) or file.project.resource == 'true' %}
                             <li>
