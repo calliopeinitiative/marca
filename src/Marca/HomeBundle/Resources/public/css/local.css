@@ -441,8 +441,6 @@ ul.nav > li > input {
 /***** 05a. Modals *****/
 
 
-.modal-footer {margin-top:35px;}
-
 .btn-file {
     position: relative;
     overflow: hidden;

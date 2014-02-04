@@ -28,8 +28,10 @@
         <script language="javascript">
             $(document).ready(function() {
                 $('#course_select').click(function(){
-                    $('#base_modal').load('{{ path('course_select_modal') }}');
-                    $('#base_modal').modal();
+                    $('#base_modal').load('{{ path('course_select_modal') }}').modal();
+                });
+                $('#help_modal_link').click(function(){
+                    $('#help_modal').modal();
                 });
             });
         </script>
@@ -77,6 +79,9 @@
                             <ul class="dropdown-menu" aria-labelledby="dLabel">
                                 <li><a href="{{ path('user_show') }}">Profile</a></li>
                                 <li><a class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll</a></li>
+                                {% if help_url or help_email %}
+                                <li><a href="javascript:void(0);" id="help_modal_link" title="Help">Help</a></li>
+                                {% endif %}
                                 <li><a title="Logout" href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                             </ul>
                         </li>
@@ -119,10 +124,38 @@
 
 
 {# Modal #}
-
-<div class="modal fade" id="base_modal" role="dialog" >
+<div class="modal fade" id="base_modal" tabindex="-1" aria-labelledby="baseModalLabel" aria-hidden="true" role="dialog" >
 
 </div><!-- /.modal -->
+
+{# Modal #}
+<div class="modal fade" id="help_modal" tabindex="-1" aria-labelledby="help-menuLabel" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align:center;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 style="font-size:2em;margin-bottom:20px;">Need help?</h3>
+                {% if help_url %}
+                <p style="font-size:1.5em;">First, check out our Help Docs:</p>
+
+                <div class="well">
+                    <a href="{{ help_url }}" title="Help Docs" style="color:#006183;" target="_blank">
+                        <p><i class="glyphicon glyphicon-book" style="font-size:6em;"></i></p>
+
+                        <p>Clear, simple guides on how to do nearly anything in {{ application_name }}.</p>
+                    </a>
+                </div>
+                {% endif %}
+                {% if help_email %}
+                <p style="font-size:1.5em;">Still stuck?</p>
+                <a href="mailto:{{ help_email }}" role="button" class="btn btn-info btn-lg">Send Us An Email</a><br/>
+                <p style="margin-top:15px;">We'll get back to you right away.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
 
 </body>
 </html>
