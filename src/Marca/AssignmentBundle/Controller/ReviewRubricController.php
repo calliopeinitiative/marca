@@ -114,17 +114,17 @@ class ReviewRubricController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($id);
+        $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($id);
 
-        if (!$entity) {
+        if (!$reviewrubric) {
             throw $this->createNotFoundException('Unable to find ReviewRubric entity.');
         }
 
-        $editForm = $this->createForm(new ReviewRubricType(), $entity);
+        $editForm = $this->createForm(new ReviewRubricType(), $reviewrubric);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'reviewrubric'      => $reviewrubric,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -141,25 +141,25 @@ class ReviewRubricController extends Controller
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($id);
+        $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($id);
 
-        if (!$entity) {
+        if (!$reviewrubric) {
             throw $this->createNotFoundException('Unable to find ReviewRubric entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ReviewRubricType(), $entity);
+        $editForm = $this->createForm(new ReviewRubricType(), $reviewrubric);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($reviewrubric);
             $em->flush();
 
             return $this->redirect($this->generateUrl('reviewrubric_show', array('id' => $id)));
         }
 
         return array(
-            'entity'      => $entity,
+            'reviewrubric'      => $reviewrubric,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );

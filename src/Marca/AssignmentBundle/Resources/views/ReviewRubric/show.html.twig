@@ -9,7 +9,7 @@
             $('#edit_rubric').click(function () {
                 $('#review_modal').load('{{path('reviewrubric_edit',  { 'id': reviewrubric.id}) }}').modal();
             });
-            
+
 
             {% for promptitem in reviewrubric.promptitems%}
             $('#edit_prompt_{{promptitem.id}}').click(function () {
@@ -27,9 +27,11 @@
         <div class="panel-heading">
             <h2 class="margin-top-small">{{ reviewrubric.name }}</h2>
             <span>{{ reviewrubric.description|raw }}</span>
+
             <div class='btn-group pull-right'>
                 <a id='edit_rubric' title='Edit rubric' href="javascript:void(0);" class="btn btn-default btn-small">Edit</a>
-                <a class='btn btn-default btn-small' href="{{ path('promptitem_new', {'reviewrubricid': reviewrubric.id}) }}">
+                <a class='btn btn-default btn-small'
+                   href="{{ path('promptitem_new', {'reviewrubricid': reviewrubric.id}) }}">
                     Add a prompt<i class="glyphicon glyphicon-plus glyphicon-white"></i>
                 </a>
             </div>
@@ -88,7 +90,8 @@
     </div>
 
     {# Modal #}
-    <div class="modal fade" id="review_modal" tabindex="-1" role="dialog" aria-labelledby="Review Modal" aria-hidden="true">
+    <div class="modal fade" id="review_modal" tabindex="-1" role="dialog" aria-labelledby="Review Modal"
+         aria-hidden="true">
 
     </div><!-- /.modal -->
 
