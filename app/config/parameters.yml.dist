@@ -15,12 +15,19 @@ parameters:
     mailer_encryption:  xxxx
     from_email:        xxxx
 
-    ldap_host:         xxx.xxx.xxx
-    ldap_port:         xxx
+    daps_ldap.ldap.admin.dn: cn=admin,cn=Users,dc=example,dc=com
+    daps_ldap.ldap.admin.password: admin
+    daps_ldap.ldap.admin.enable: true
+    daps_ldap.ldap.srv: False
+    daps_ldap.ldap.host: ldap://example.com
+    daps_ldap.ldap.port: 389
+    daps_ldap.ldap.dn: CN
+    daps_ldap.ldap.username_suffix: cn=Users,dc=example,dc=com
 
     locale:            xxxx
     secret:            xxxx
     app_name:          XXXXX
+
     help_email:
     help_url:
 

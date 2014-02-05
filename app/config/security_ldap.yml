@@ -3,10 +3,10 @@ security:
     providers:
         chain_provider:
             chain:
-                providers: [fos_userbundle, fr3d_ldapbundle]
+                providers: [fos_userbundle, daps_ldap]
 
-        fr3d_ldapbundle:
-            id: fr3d_ldap.security.user.provider
+        daps_ldap:
+            id: daps_ldap_user_provider
 
         fos_userbundle:
             id: fos_user.user_provider.username

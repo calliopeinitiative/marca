@@ -7,13 +7,12 @@ use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use FR3D\LdapBundle\Model\LdapUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Marca\UserBundle\Entity\UserRepository")
  * @ORM\Table(name="marca_user")
  */
-class User extends BaseUser implements LdapUserInterface
+class User extends BaseUser
 {
      /**
      * Ldap Object Distinguished Name
