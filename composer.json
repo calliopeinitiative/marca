@@ -30,13 +30,13 @@
         "knplabs/gaufrette": "0.2.*@dev",
         "knplabs/knp-gaufrette-bundle" : "dev-master",
         "knplabs/knp-snappy-bundle": "dev-master",
-        "fr3d/ldap-bundle": "1.6.*",
         "egeloen/ckeditor-bundle": "2.*",
         "leafo/lessphp": "*",
         "components/jquery": "1.9.*",
         "components/jqueryui": "1.10.*",
         "twbs/bootstrap" : "*" ,
-        "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1"
+        "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1",
+        "daps/ldap-bundle": "*@dev"
     },
     "scripts": {
         "post-install-cmd": [

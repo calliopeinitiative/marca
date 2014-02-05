@@ -22,6 +22,8 @@ class AppKernel extends Kernel
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+            new Daps\LdapBundle\DapsLdapBundle(),
+            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new Marca\HomeBundle\MarcaHomeBundle(),
             new Marca\UserBundle\MarcaUserBundle(),
             new Marca\CourseBundle\MarcaCourseBundle(),
@@ -37,9 +39,7 @@ class AppKernel extends Kernel
             new Marca\AdminBundle\MarcaAdminBundle(),
             new Marca\ResponseBundle\MarcaResponseBundle(),
             new Marca\AssessmentBundle\MarcaAssessmentBundle(),
-            new FR3D\LdapBundle\FR3DLdapBundle(),
             new Marca\AssignmentBundle\MarcaAssignmentBundle(),
-            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
