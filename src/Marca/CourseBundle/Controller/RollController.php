@@ -8,6 +8,7 @@ use Marca\CourseBundle\Form\RollType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Roll controller.
@@ -22,11 +23,18 @@ class RollController extends Controller
      * @Route("/{courseid}/", name="roll")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($courseid)
     {
-        $course = $this->getCourse();
+
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+
+        if(!$course or $user != $course->getUser()){
+            throw new AccessDeniedException();
+        }
+
         $courseRoll = $this->getRoll();
-        
         $paginator = $this->get('knp_paginator');
         $roll = $paginator->paginate($courseRoll,$this->get('request')->query->get('page',1),20);
         
