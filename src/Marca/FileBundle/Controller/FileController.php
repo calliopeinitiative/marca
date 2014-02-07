@@ -757,6 +757,7 @@ class FileController extends Controller
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $role = $this->getCourseRole();
+        $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($id);
 
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
@@ -764,7 +765,8 @@ class FileController extends Controller
 
             return array(
             'role'      => $role,
-            'file'        => $file
+            'file'        => $file,
+            'reviews' => $reviews
              );
 
 

@@ -1,4 +1,9 @@
 {# Marca/DocBundle/Resources/views/Doc/show_modal.html.twig #}
+<script language="javascript">
+    $(document).ready(function () {
+        $('#loading').fadeOut();
+    });
+</script>
 
                     {{ doc.body|raw }}
 

@@ -12,6 +12,9 @@
                             {{ reviewresponse.responseBool|raw }}
                             {{ reviewresponse.responseInt|raw }}
                             </div>
+                            <div class="margin-left margin-top">
+                                {% if reviewresponse.helpful==1 %}{{ reviewresponse.review.file.user.firstname }} {{ reviewresponse.review.file.user.lastname }} found this helpful.{% endif %}
+                            </div>
                         </div>
                         <hr/>
                     {% endfor %}
@@ -22,10 +25,12 @@
                     <div class="margin-left margin-top">
                         {{ review.notes|raw }}
                         </div>
+                    {% if review.file.user==app.user or review.reviewer==app.user  %}
                     <hr/>
                     <a class="btn btn-default" href="{{ course_path('review_edit', { 'id': review.id }) }}">
-                        Edit
+                        {% if review.file.user==app.user  %}Feedback{% else %}Edit{% endif %}
                     </a>
+                    {% endif %}
 
 
 
