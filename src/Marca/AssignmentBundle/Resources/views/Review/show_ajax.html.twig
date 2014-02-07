@@ -3,7 +3,7 @@
 
 
                     {% for reviewresponse in review.reviewresponses %}
-                        <div class="">
+                        <div class="well">
                             <div><strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong></div>
 
                             <div class="margin-left margin-top">
@@ -13,10 +13,9 @@
                             {{ reviewresponse.responseInt|raw }}
                             </div>
                             <div class="margin-left margin-top">
-                                {% if reviewresponse.helpful==1 %}{{ reviewresponse.review.file.user.firstname }} {{ reviewresponse.review.file.user.lastname }} found this helpful.{% endif %}
+                                {% if reviewresponse.helpful==1 %}<em>{{ reviewresponse.review.file.user.firstname }} {{ reviewresponse.review.file.user.lastname }} found this helpful.</em>{% endif %}
                             </div>
                         </div>
-                        <hr/>
                     {% endfor %}
                     <strong>Grade:</strong>
                     {{ review.grade }}
