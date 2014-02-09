@@ -11,10 +11,10 @@
         'user': '0','project': 'recent', 'fileid':app.request.get('fileid')}) }}" method="post" {{ form_enctype(edit_form) }}  novalidate="novalidate">
             <div class="modal-body">
                 {{ form_errors(edit_form) }}
-                {{ form_row (edit_form.name) }}
+                <div class="{% if file.reviewed %}hidden{% endif %}">{{ form_row (edit_form.name) }}</div>
                 {{ form_row (edit_form.url) }}
-                {{ form_row (edit_form.project) }}
-                {{ form_row (edit_form.tag) }}
+                <div class="{% if file.reviewed %}hidden{% endif %}">{{ form_row (edit_form.project) }}</div>
+                <div class="{% if file.reviewed %}hidden{% endif %}">{{ form_row (edit_form.tag) }}</div>
                 {{ form_row (edit_form.access) }}
                 {{ form_rest(edit_form) }}
             </div>

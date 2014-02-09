@@ -14,7 +14,9 @@
                     Term
                 </div>
                 <div class="panel-body">
+                    {{ form_errors(edit_form) }}
                     {{ form_widget(edit_form) }}
+                    {{ form_rest(edit_form) }}
                 </div>
                 <div class="panel-footer">
                     <div class="btn-group">

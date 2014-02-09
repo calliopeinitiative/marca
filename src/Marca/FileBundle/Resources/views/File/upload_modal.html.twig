@@ -23,21 +23,20 @@
         </div>
 
         {% if  app.request.attributes.get('_route')=='file_upload' %}
-        <form action="{{ course_path('file_upload',{'resource' : app.request.get('resource')}) }}"
-              method="post" {{ form_enctype(form) }}>
-            {% else %}
-            <form action="{{ course_path('review_upload',{'fileid': app.request.get('fileid')}) }}"
-                  method="post" {{ form_enctype(form) }}>
-                {% endif %}
+        {% set action %}{{ course_path('file_upload',{'resource' : app.request.get('resource')}) }}{% endset %}
+        {% else %}
+        {% set action %}{{ course_path('review_upload',{'fileid': app.request.get('fileid')}) }}{% endset %}
+        {% endif %}
+        <form action="{{ action }}" method="post" {{ form_enctype(form) }}>
 
                 <div class="modal-body">
                     {{ form_errors(form) }}
                     <span class="btn btn-default btn-file">Select File {{ form_row (form.file) }}</span>
                     {{ form_row (form.file) }}
                     {{ form_row (form.name) }}
-                    {{ form_row (form.project) }}
-                    {{ form_row (form.tag) }}
-                    {{ form_row (form.access) }}
+                    <div class="{% if app.request.attributes.get('_route')=='review_upload' %}hidden{% endif %}">{{ form_row (form.project) }}</div>
+                    <div class="{% if app.request.attributes.get('_route')=='review_upload' %}hidden{% endif %}">{{ form_row (form.tag) }}</div>
+                    <div class="{% if app.request.attributes.get('_route')=='review_upload' %}hidden{% endif %}">{{ form_row (form.access) }}</div>
                     {{ form_rest(form) }}
                 </div>
 
