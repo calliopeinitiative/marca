@@ -90,6 +90,7 @@ class ReviewResponse
     
     /**
      * @ORM\ManyToOne(targetEntity="Review", inversedBy="reviewresponses")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $review; 
     

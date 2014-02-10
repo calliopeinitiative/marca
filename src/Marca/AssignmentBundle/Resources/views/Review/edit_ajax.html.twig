@@ -1,0 +1,112 @@
+{# Marca/AssignmentBundle/Resources/Views/Review/edit_jax.html.twig #}
+
+<script language="javascript">
+    $(document).ready(function () {
+        $('#delete_rubric').click(function () {
+            $('#delete_modal').modal();
+        });
+    });
+</script>
+
+<form action="{{ course_path('review_update', { 'id': review.id }) }}"
+      method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+    {{ form_errors(edit_form) }}
+
+    {% for reviewresponse in edit_form.reviewresponses %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>
+                    {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
+                </strong>
+
+                <p class=""><em>Help:  {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}</em></p>
+            </div>
+            <div class="panel-body">
+
+                <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=0 %} hide {% endif %}">
+                    {{ form_row(reviewresponse.responseShortText) }}
+                </div>
+                <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=1 %} hide {% endif %}">
+                    {{ form_row(reviewresponse.responseParagraphText) }}
+                </div>
+                <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=2 %} hide {% endif %}">
+                    {{ form_row(reviewresponse.responseBool) }}
+                </div>
+                <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=3 %} hide {% endif %}">
+                    {{ form_row(reviewresponse.responseInt) }}
+                </div>
+                <div class="{% if app.user.username==review.reviewer.username %} hide {% endif %}">
+                    {{ form_row(reviewresponse.helpful) }}
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        </div>
+        <div class="panel-body">
+            {{ form_row(edit_form.grade) }}
+            {{ form_row(edit_form.notes) }}
+        </div>
+    </div>
+
+    <div class="panel panel-default {% if app.user.username==review.reviewer.username %} hide {% endif %}">
+        <div class="panel-heading">
+            <strong>
+                Evaluate this review
+            </strong>
+
+        </div>
+        <div class="panel-body">
+
+            {{ form_row(edit_form.feedbackGrade) }}
+            {{ form_row(edit_form.feedbackComment) }}
+
+        </div>
+    </div>
+
+
+    {{ form_rest(edit_form) }}
+
+    <div class="panel panel-default}">
+        <div class="panel-body">
+            <div class="btn-group pull-left">
+                <button type="submit" class="btn btn-primary" type="submit">Submit</button>
+            </div>
+            {% if app.user.username==review.reviewer %}
+                <a id="delete_rubric" class="btn btn-warning pull-right margin-top-small"
+                   title='Delete Rubric' href="javascript:void(0);">Delete</a>
+            {% endif %}
+
+        </div>
+    </div>
+
+
+</form>
+
+{# Modal for Delete confirmation #}
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="Delete Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <span class="modal-title">Delete</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete?</p>
+
+                <form id='delete' action="{{ course_path('review_delete', { 'id': review.id }) }}" method="post">
+                    {{ form_widget(delete_form) }}
+                    <div class="btn-group">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                        <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->{# empty Twig template #}
+
+</div><!-- /.modal -->

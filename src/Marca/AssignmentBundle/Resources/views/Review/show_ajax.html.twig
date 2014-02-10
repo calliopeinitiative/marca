@@ -1,35 +1,47 @@
 {# Marca/AssignmentBundle/Resources/Views/Review/show_ajax.html.twig #}
 
+<script language="javascript">
+    $(document).ready(function () {
+        $('#review_edit').click(function () {
+            $('#review_container').load('{{ course_path('review_edit_ajax', { 'id': review.id }) }}');
+        });
+    });
+</script>
+
+<div class="panel panel-default">
+        <div class="panel-body">
+            {% for reviewresponse in review.reviewresponses %}
+                <div><strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong></div>
+
+                <div class="margin-left margin-top">
+                    {{ reviewresponse.responseShortText|raw }}
+                    {{ reviewresponse.responseparagraphText|raw }}
+                    {{ reviewresponse.responseBool|raw }}
+                    {{ reviewresponse.responseInt|raw }}
+                </div>
+                <div class="margin-left margin-top">
+                    {% if reviewresponse.helpful==1 %}
+                        <em>{{ reviewresponse.review.file.user.firstname }} {{ reviewresponse.review.file.user.lastname }} found
+                        this helpful.</em>{% endif %}
+                </div>
+            {% endfor %}
+            <strong>Grade:</strong>
+            {{ review.grade }}
+            <hr/>
+            <strong>Notes:</strong>
+            <div class="margin-left margin-top">
+                {{ review.notes|raw }}
+            </div>
+            {% if review.file.user==app.user or review.reviewer==app.user %}
+                <hr/>
+                <a id="review_edit" class="btn btn-default" href="javascript:void(0);">
+                    {% if review.file.user==app.user %}Feedback{% else %}Edit{% endif %}
+                </a>
+            {% endif %}
+        </div>
+</div>
 
 
-                    {% for reviewresponse in review.reviewresponses %}
-                        <div class="well">
-                            <div><strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong></div>
-
-                            <div class="margin-left margin-top">
-                            {{ reviewresponse.responseShortText|raw }}
-                            {{ reviewresponse.responseparagraphText|raw }}
-                            {{ reviewresponse.responseBool|raw }}
-                            {{ reviewresponse.responseInt|raw }}
-                            </div>
-                            <div class="margin-left margin-top">
-                                {% if reviewresponse.helpful==1 %}<em>{{ reviewresponse.review.file.user.firstname }} {{ reviewresponse.review.file.user.lastname }} found this helpful.</em>{% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                    <strong>Grade:</strong>
-                    {{ review.grade }}
-                    <hr/>
-                        <strong>Notes:</strong>
-                    <div class="margin-left margin-top">
-                        {{ review.notes|raw }}
-                        </div>
-                    {% if review.file.user==app.user or review.reviewer==app.user  %}
-                    <hr/>
-                    <a class="btn btn-default" href="{{ course_path('review_edit', { 'id': review.id }) }}">
-                        {% if review.file.user==app.user  %}Feedback{% else %}Edit{% endif %}
-                    </a>
-                    {% endif %}
 
 
 

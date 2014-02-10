@@ -74,26 +74,37 @@
                 $('#doc_modal').load('{{ course_path('selectrubric', { 'fileid': file.id }) }}').modal();
             });
             $('#review_{{ file.id }}').click(function () {
-                $('#doc-body').load('{{ course_path('doc_show_ajax', { 'id': file.id}) }}');$('.document').removeClass('active');$(this).addClass('active');$('#loading').fadeIn();
+                $('#doc-body').load('{{ course_path('doc_show_ajax', { 'id': file.id}) }}');
+                $('.document').removeClass('active');
+                $(this).addClass('active');
+                $('#loading').fadeIn();
             });
             {% for review in file.reviews%}
             $('#review_{{ review.id }}').click(function () {
-                $('#doc-body').load('{{ course_path('doc_show_ajax', { 'id': review.id}) }}');$('.document').removeClass('active');$(this).addClass('active');$('#loading').fadeIn();
+                $('#doc-body').load('{{ course_path('doc_show_ajax', { 'id': review.id}) }}');
+                $('.document').removeClass('active');
+                $(this).addClass('active');
+                $('#loading').fadeIn();
             });
             {% endfor %}
             {% for review in reviews %}
             $('#review_{{ review.id }}').click(function () {
-                $('#review_container').load('{{ course_path('review_show_ajax', { 'id': review.id }) }}');$('.question').removeClass('active');$(this).addClass('active');
+                $('#review_container').load('{{ course_path('review_show_ajax', { 'id': review.id }) }}').show();
+                $('.question').removeClass('active');
+                $(this).addClass('active');
             });
             {% endfor %}
             $('#loading').fadeOut();
+            $('#review_container').toggle();
         });
     </script>
 {% endblock %}
 
 {% block content %}
     <div class="col-sm-12 center">
-    <div id="loading" class="col-sm-offset-3 col-sm-1 alert alert-info" style="position:absolute;z-index: 1000;text-align: center">Loading</div>
+    <div id="loading" class="col-sm-offset-3 col-sm-1 alert alert-info"
+         style="position:absolute;z-index: 1000;text-align: center">Loading
+    </div>
     {# Doc nav #}
     <nav class="navbar  navbar-inverse navbar-fixed-top" role="navigation">
         <div class="col-sm-12 center">
@@ -121,12 +132,14 @@
                         {% endif %}
 
 
-                    {# Don't show Review button if it is a review or a Resource #}
-                    {% if file.reviewed|length == 0 and file.project.resource != 'true' %}
-                        <li>
-                            <a title="Create a copy of this document for peer review" id="new_review" class="" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create Review</a>
-                        </li>
-                    {% endif %}
+                        {# Don't show Review button if it is a review or a Resource #}
+                        {% if file.reviewed|length == 0 and file.project.resource != 'true' %}
+                            <li>
+                                <a title="Create a copy of this document for peer review" id="new_review" class=""
+                                   href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create
+                                    Review</a>
+                            </li>
+                        {% endif %}
 
                         {% if doc.isOwner(app.user.username) or file.project.resource == 'true' %}
                             <li>
@@ -169,7 +182,7 @@
 
 
     {# Doc display #}
-    <div class="col-sm-11 center">
+    <div class="col-sm-12 center">
         <a id="main_content"></a>
 
         {% if app.request.get('_route') == 'file_view' %}
@@ -188,185 +201,147 @@
         {# Doc tools #}
         <div class="col-sm-4" id="doctools">
 
-            <div class="panel-group" id="accordion">
+            {# Doc Reviews #}
+            <h3 class="small">Review documents</h3>
 
-                {# Review Panel #}
-                <div id="review_panel" class="panel panel-default">
+            <div class="list-group">
+                <a class="list-group-item document active" id="review_{{ file.id }}" href="javascript:void(0);"
+                   title="View {{ file.name }}">
+                    {{ file.name }} by {{ file.user.firstname }} {{ file.user.lastname }}
+                    <span class="pull-right"> {{ file.updated|date('m/d/y, g:i a') }}</span>
+                </a>
+
+                {% for review in file.reviews %}
+                    {% if (file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
+
+                        {# different functions for different file types #}
+                        {# doc files #}
+                        {% if review.doc %}
+                            <a class="list-group-item document" id="review_{{ review.id }}" href="javascript:void(0);"
+                               title="View {{ review.name }}">
+                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                by {{ review.user.firstname }} {{ review.user.lastname }}
+                                <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
+                            </a>
+                            {# links #}
+                        {% elseif review.url %}
+                            <a class="list-group-item document" href="{{ review.url }}" target="_blank"
+                               title='This link will open in a new window or tab.'>
+                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                by {{ review.user.firstname }} {{ review.user.lastname }}
+                                <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
+                            </a>
+                            {# ODT files #}
+                        {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
+                            <a class="list-group-item document"
+                               href="{{ course_path('file_view', { 'id': review.id, 'view': 'app' }) }}"
+                               title="View {{ review.name }}">
+                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                by {{ review.user.firstname }} {{ review.user.lastname }}
+                                <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
+                            </a>
+                        {% else %}
+                            <a class="list-group-item document" href="{{ course_path('file_get', { 'id': review.id}) }}"
+                               title="View {{ review.name }}">
+                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                by {{ review.user.firstname }} {{ review.user.lastname }}
+                                <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <h3 class="inline-block small">Review questions</h3>
+            <a id="new_rubricreview" title="Create a new review" class="btn btn-default btn-xs pull-right" style="margin-top: 20px;"
+               href="javascript:void(0);">Answer Questions</a>
+
+            <div class="list-group">
+                {% for review in reviews %}
+                    <a class="list-group-item question" id="review_{{ review.id }}" href="javascript:void(0);">
+                        by {{ review.reviewer.firstname }} {{ review.reviewer.lastname }}
+                        <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
+                    </a>
+                {% else %}
+                    <div class="pad">No one has answered the review questions.</div>
+                {% endfor %}
+            </div>
+
+            <div class="" id="review_container">
+
+            </div>
+
+            {# Notes Panel #}
+            {% if app.request.get('_route') != 'file_view' %}
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h2 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                               href="#collapseOne">
-                                Reviews
+                               href="#collapseOne" onclick="$('.eDoc_note').toggle();$('.eDoc_super').toggle();"
+                               data-toggle="tab">Notes
                             </a>
                         </h2>
                     </div>
                     <div id="collapseOne" class="panel-collapse collapse">
                         <div class="panel-body">
+                            <div id="docNotes">
+                                <div id='notes_container'>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
 
-                            {# Doc Reviews #}
-                            <h3 class="small">Documents</h3>
-                            <div class="list-group">
-                                <a  class="list-group-item document active" id="review_{{ file.id }}" href="javascript:void(0);" title="View {{ file.name }}" >
-                                    {{ file.name }} by {{ file.user.firstname }} {{ file.user.lastname }}
-                                </a>
 
-                                {% for review in file.reviews%}
-                                    {% if (file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
+            {# Feedback Panel #}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">
 
-                                        {# different functions for different file types #}
-                                        {# doc files #}
-                                        {% if review.doc %}
-                                            <a  class="list-group-item document" id="review_{{ review.id }}" href="javascript:void(0);"  title="View {{ review.name }}">
-                                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span> by {{ review.user.firstname }} {{ review.user.lastname }}
-                                            </a>
-                                            {# links #}
-                                        {% elseif review.url %}
-                                            <a class="list-group-item document"  href="{{ review.url}}" target="_blank" title='This link will open in a new window or tab.'>
-                                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span> by {{ review.user.firstname }} {{ review.user.lastname }}
-                                            </a>
-                                            {# ODT files #}
-                                        {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
-                                            <a class="list-group-item document" href="{{ course_path('file_view', { 'id': review.id, 'view': 'app' }) }}" title="View {{ review.name }}" >
-                                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span> by {{ review.user.firstname }} {{ review.user.lastname }}
-                                            </a>
-                                        {% else %}
-                                            <a class="list-group-item document" href="{{ course_path('file_get', { 'id': review.id}) }}" title="View {{ review.name }}" >
-                                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span> by {{ review.user.firstname }} {{ review.user.lastname }}
-                                            </a>
-                                        {% endif %}
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseTwo">
+                            Feedback ({{ file.responses|length }})
+                        </a>
+                    </h2>
+
+                    <div class="btn-group  pull-right">
+                        <a class="btn btn-default btn-xs"
+                           href="{{ course_path('response_new', { 'sourceid': file.id, 'source': app.request.get('_route') ,'view': app.request.get('view'),'userid': file.user.id }) }}">Add<i
+                                    class="glyphicon glyphicon-plus glyphicon-white"></i></a>
+                    </div>
+
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {# Responses #}
+
+                        {% for response in file.responses %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title">{{ response.user.firstname }} {{ response.user.lastname }}
+                                        says:</h2>
+
+                                    {% if response.isOwner(app.user.username) %}
+                                        <a class="btn btn-default btn-xs pull-right"
+                                           href="{{ course_path('response_edit', { 'id': response.id,'sourceid': file.id, 'source': app.request.get('_route'),'view': app.request.get('view'),'userid': file.user.id  }) }}">Edit</a>
                                     {% endif %}
-                                {% endfor %}
-                            </div>
-
-                            {# RubricReviews #}
-                            <h3 class="inline-block small">Questions</h3>
-                            <a id="new_rubricreview" title="Create a new review" class="btn btn-default btn-xs pull-right" style="margin-top: 20px;"
-                               href="javascript:void(0);">Answer Questions</a>
-                            <div class="list-group">
-                                {% for review in reviews %}
-                                    <a class="list-group-item question" id="review_{{ review.id }}" href="javascript:void(0);">
-                                        <p>Review by {{ review.reviewer.firstname }} {{ review.reviewer.lastname }} ({{ review.created|date('M d Y') }})</p>
-                                    </a>
-                                {% else %}
-                                    <div class="pad">No one has has offered a review.</div>
-                                {% endfor %}
-                            </div>
-
-                            <div class="" id="review_container">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                {# Notes Panel #}
-                {% if app.request.get('_route') != 'file_view' %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h2 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                                   href="#collapseTwo" onclick="$('.eDoc_note').toggle();$('.eDoc_super').toggle();"
-                                   data-toggle="tab">Notes
-                                </a>
-                            </h2>
-                        </div>
-                        <div id="collapseTwo" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <div id="docNotes">
-                                    <div id='notes_container'>
-                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    {{ response.body|raw }}
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                {% endif %}
 
-
-                {# Feedback Panel #}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">
-
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                               href="#collapseThree">
-                                Feedback ({{ file.responses|length }})
-                            </a>
-                        </h2>
-
-                        <div class="btn-group  pull-right">
-                            <a class="btn btn-default btn-xs"
-                               href="{{ course_path('response_new', { 'sourceid': file.id, 'source': app.request.get('_route') ,'view': app.request.get('view'),'userid': file.user.id }) }}">Add<i
-                                        class="glyphicon glyphicon-plus glyphicon-white"></i></a>
-                        </div>
-
-                    </div>
-                    <div id="collapseThree" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            {# Responses #}
-
-                            {% for response in file.responses %}
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h2 class="panel-title">{{ response.user.firstname }} {{ response.user.lastname }}
-                                            says:</h2>
-
-                                        {% if response.isOwner(app.user.username) %}
-                                            <a class="btn btn-default btn-xs pull-right"
-                                               href="{{ course_path('response_edit', { 'id': response.id,'sourceid': file.id, 'source': app.request.get('_route'),'view': app.request.get('view'),'userid': file.user.id  }) }}">Edit</a>
-                                        {% endif %}
-                                    </div>
-                                    <div class="panel-body">
-                                        {{ response.body|raw }}
-                                    </div>
-                                </div>
-
-                            {% else %}
-                                <div class="pad">No one has has offered feedback.</div>
-                            {% endfor %}
-                        </div>
+                        {% else %}
+                            <div class="pad">No one has has offered feedback.</div>
+                        {% endfor %}
                     </div>
                 </div>
-
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                               href="#collapseFour">
-                                Info
-                            </a>
-                        </h2>
-                    </div>
-                    <div id="collapseFour" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <dl>
-                                <dt>Author</dt>
-                                <dd>{{ file.user.firstname }} {{ file.user.lastname }}</dd>
-                                <dt>Document</dt>
-                                <dd>{{ file.name }}</dd>
-                                <dt>Updated</dt>
-                                <dd>{{ file.updated|date('m/d/y, g:i a') }}</dd>
-                                <dt>Created</dt>
-                                <dd>{{ file.created|date('m/d/y, g:i a') }}</dd>
-                                <dt>Word Count</dt>
-                                <dd><span id="word-count"></span> words approx.</dd>
-                            </dl>
-                            <strong>Labels</strong>
-                            {% for tag in file.tag %}<span
-                                class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
-                            {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
-                            {% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
-                            {% endif %}
-                            {% if file.portfolio|length !=0 %} <span
-                                    class="label label-info">Portfolio</span>{% endif %}
-                        </div>
-                    </div>
-                </div>
-
-
             </div>
+
+
         </div>
+    </div>
 
     </div>
 
@@ -390,7 +365,6 @@
         {% endfor %}
     {% endif %}
 
-    </div>
     {# Modal #}
     <div class="modal fade" id="doc_modal" role="dialog">
 

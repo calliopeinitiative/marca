@@ -141,7 +141,7 @@ class ReviewController extends Controller
     }
         $em->persist($review);
         $em->flush();
-        return $this->redirect($this->generateUrl('review_edit', array('courseid'=>$courseid, 'id' => $review->getId())));
+        return $this->redirect($this->generateUrl('review_edit_ajax', array('courseid'=>$courseid, 'id' => $review->getId())));
     }
 
     /**
@@ -151,6 +151,32 @@ class ReviewController extends Controller
      * @Template()
      */
     public function editAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
+
+        if (!$review) {
+            throw $this->createNotFoundException('Unable to find Review entity.');
+        }
+
+        $editForm = $this->createForm(new ReviewType(), $review);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'review'      => $review,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+     * Displays a form to edit an existing Review entity.
+     *
+     * @Route("/{courseid}/{id}/edit_ajax", name="review_edit_ajax")
+     * @Template()
+     */
+    public function edit_ajaxAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -209,27 +235,29 @@ class ReviewController extends Controller
     /**
      * Deletes a Review entity.
      *
-     * @Route("/{id}/delete", name="review_delete")
+     * @Route("/{courseid}/{id}/delete", name="review_delete")
      * @Method("POST")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, $id, $courseid)
     {
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
+            $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
+            $file= $review->getFile();
+            $fileid=$file->getId();
 
-            if (!$entity) {
+            if (!$review) {
                 throw $this->createNotFoundException('Unable to find Review entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($review);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('review'));
+        return $this->redirect($this->generateUrl('doc_show', array('courseid' => $courseid,'id' => $fileid,'view' => 'app')));
     }
 
     private function createDeleteForm($id)
