@@ -16,7 +16,8 @@ class PromptItem
     const TYPE_SHORTTEXT=0;
     const TYPE_PARAGRAPHTEXT=1;
     const TYPE_SCALE=2;
-    const TYPE_BOOLEAN=3;
+    /* (pulling the Boolean in favor of scales)
+     * const TYPE_BOOLEAN=3; */
     const TYPE_NORESPONSE=4;
     
     
