@@ -92,10 +92,25 @@
                 $('#review_container').load('{{ course_path('review_show_ajax', { 'id': review.id }) }}').show();
                 $('.question').removeClass('active');
                 $(this).addClass('active');
+                $('#doc_container').slideUp();
             });
             {% endfor %}
             $('#loading').fadeOut();
             $('#review_container').toggle();
+            $('#toggle_docs').click(function () {
+                if ( $('#doc_container').is(':hidden') ) {
+                    $('#doc_container').slideDown();
+                } else {
+                    $('#doc_container').slideUp();
+                }
+            });
+            $('#toggle_questions').click(function () {
+                if ( $('#reviews_container').is(':hidden') ) {
+                    $('#reviews_container').slideDown();
+                } else {
+                    $('#reviews_container').slideUp();
+                }
+            });
         });
     </script>
 {% endblock %}
@@ -202,9 +217,9 @@
         <div class="col-sm-4" id="doctools">
 
             {# Doc Reviews #}
-            <h3 class="small">Review documents</h3>
+            <h3 id="toggle_docs" class="small" style="cursor: pointer">Review documents</h3>
 
-            <div class="list-group">
+            <div id="doc_container" class="list-group">
                 <a class="list-group-item document active" id="review_{{ file.id }}" href="javascript:void(0);"
                    title="View {{ file.name }}">
                     {{ file.name }} by {{ file.user.firstname }} {{ file.user.lastname }}
@@ -252,10 +267,11 @@
                 {% endfor %}
             </div>
 
-            <h3 class="inline-block small">Review questions</h3>
+
+            <h3  id="toggle_questions" class="inline-block small" style="cursor: pointer">Review questions</h3>
             <a id="new_rubricreview" title="Create a new review" class="btn btn-default btn-xs pull-right" style="margin-top: 20px;"
                href="javascript:void(0);">Answer Questions</a>
-
+            <div id="reviews_container">
             <div class="list-group">
                 {% for review in reviews %}
                     <a class="list-group-item question" id="review_{{ review.id }}" href="javascript:void(0);">
@@ -269,6 +285,7 @@
 
             <div class="" id="review_container">
 
+            </div>
             </div>
 
             {# Notes Panel #}

@@ -153,6 +153,7 @@ class ReviewController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
+        $role = $this->getCourseRole();
 
         $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
 
@@ -164,6 +165,7 @@ class ReviewController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
+            'role'      => $role,
             'review'      => $review,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -179,17 +181,20 @@ class ReviewController extends Controller
     public function edit_ajaxAction($id)
     {
         $em = $this->getDoctrine()->getManager();
+        $role = $this->getCourseRole();
 
         $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
+        $options = array('scaleid' => '1');
 
         if (!$review) {
             throw $this->createNotFoundException('Unable to find Review entity.');
         }
 
-        $editForm = $this->createForm(new ReviewType(), $review);
+        $editForm = $this->createForm(new ReviewType($options), $review);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
+            'role'      => $role,
             'review'      => $review,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

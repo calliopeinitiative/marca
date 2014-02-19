@@ -45,7 +45,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
         </div>
-        <div class="panel-body">
+        <div class="panel-body {% if role!=2 %} hide {% endif %}">
             {{ form_row(edit_form.grade) }}
             {{ form_row(edit_form.notes) }}
         </div>
@@ -58,11 +58,11 @@
             </strong>
 
         </div>
-        <div class="panel-body">
-
+        <div class="panel-body {% if role!=2 %} hide {% endif %}">
             {{ form_row(edit_form.feedbackGrade) }}
+        </div>
+        <div class="panel-body">
             {{ form_row(edit_form.feedbackComment) }}
-
         </div>
     </div>
 

@@ -192,7 +192,7 @@ class CourseController extends Controller
         $request = $this->getRequest();
         $module = $request->request->get('module');
         $form    = $this->createForm(new CourseType($options), $course);
-        $form->bind($request);
+        $form->submit($request);
         
         $roll = new Roll();
         $roll->setRole(Roll::ROLE_INSTRUCTOR);
@@ -377,7 +377,7 @@ class CourseController extends Controller
         $request = $this->getRequest();
     
         
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             

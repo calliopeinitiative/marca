@@ -8,11 +8,19 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ReviewType extends AbstractType
 {
+    protected $options;
+
+    public function __construct (array $options)
+    {
+        $this->options = $options;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $options = $this->options;
         $builder
             ->add('reviewresponses', 'collection', array(
-                'type'   => new ReviewResponseType(),
+                'type'   => new ReviewResponseType($options),
                 'options'  => array(
                 'required'  => false),))
             ->add('grade','text', array('attr' => array('class' => 'text form-control'),))

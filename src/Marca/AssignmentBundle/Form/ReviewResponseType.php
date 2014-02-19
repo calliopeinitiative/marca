@@ -8,13 +8,25 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ReviewResponseType extends AbstractType
 {
+    protected $options;
+
+    public function __construct (array $options)
+    {
+        $this->options = $options;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $options = $this->options;
         $builder
             ->add('responseShortText','text', array('attr' => array('class' => 'text form-control'),'label'  => ' ',))
             ->add('responseParagraphText', 'ckeditor', array('config_name' => 'editor_simple','label'  => ' ',))
             ->add('responseBool', 'choice', array('choices'   => array('false' => 'False', 'true' => 'True'),'required'  => true, 'expanded' => true,'attr' => array('class' => 'radio'), 'label'  => ' ',))
-            ->add('responseInt','text', array('attr' => array('class' => 'text form-control'),'label'  => ' ',))
+            ->add('responseInt', 'entity', array('class' => 'MarcaAssessmentBundle:Scale','property'=>'name','query_builder' =>
+                function(\Marca\AssessmentBundle\Entity\ScaleRepository $sc) use ($options) {
+                    $id = $options['scaleid'] ;
+                    return $sc->createQueryBuilder('s')
+                        ->where('s.id = :id')->setParameter('id', $id) ;}, 'expanded'=>true,'label'  => 'Select', 'expanded' => true,'attr' => array('class' => 'radio'),))
             ->add('helpful', 'choice', array('choices'   => array(true => 'Yes', false => 'No'),'required'  => TRUE,'label'  => 'Was this helpful?', 'expanded' => true,'attr' => array('class' => 'radio inline'),))
     
         ;
