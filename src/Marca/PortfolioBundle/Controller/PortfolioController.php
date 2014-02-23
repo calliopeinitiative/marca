@@ -36,6 +36,7 @@ class PortfolioController extends Controller
         $portStatus = $course->getPortStatus();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $portset = $course->getPortset();
+        $private_port = $portset->getPrivatePort();
         
         //find default portfolio
         $portfoliosets = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
@@ -53,7 +54,7 @@ class PortfolioController extends Controller
         
         $assessmentset_id = $course->getAssessmentset()->getId();
         $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->find($assessmentset_id);
-        return array('portfolioset' =>$portfolioset, 'portset' => $portset, 'roll'=> $roll, 'assessmentset'=> $assessmentset,'portStatus'=> $portStatus, 'role'=> $role);
+        return array('private_port' => $private_port, 'portfolioset' =>$portfolioset, 'portset' => $portset, 'roll'=> $roll, 'assessmentset'=> $assessmentset,'portStatus'=> $portStatus, 'role'=> $role);
     }
     
     
@@ -79,8 +80,15 @@ class PortfolioController extends Controller
         $resource = 'false';
         $course = $this->getCourse();
         $portStatus = $course->getPortStatus();
+        
+        $private_port = $course->getPortset()->getPrivatePort();
 
-        $files = $em->getRepository('MarcaFileBundle:File')->findFilesForPort($project, $user, $course);
+        if($course->getPortset()->getPrivatePort()){
+           $files = $em->getRepository('MarcaFileBundle:File')->findFilesForPrivatePort($project, $user, $course);
+        }
+        else {
+           $files = $em->getRepository('MarcaFileBundle:File')->findFilesForPort($project, $user, $course); 
+        }
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
 
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -90,7 +98,7 @@ class PortfolioController extends Controller
         $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),15);
         $count = $files->getTotalItemCount();
 
-        return array('files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project, 'course' => $course, 'roll' => $roll, 'portStatus'=> $portStatus, 'role'=> $role, 'portitemid'=> $portitemid);
+        return array('private_port' => $private_port, 'files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project, 'course' => $course, 'roll' => $roll, 'portStatus'=> $portStatus, 'role'=> $role, 'portitemid'=> $portitemid);
     }   
     
     /**
@@ -120,7 +128,15 @@ class PortfolioController extends Controller
      */
     public function portByUserAction($courseid, $userid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT, self::ROLE_PORTREVIEW);
+        $course = $this->getCourse();
+        
+        if($course->getPortset()->getPrivatePort()){
+            $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW);
+        }
+        else {
+            $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT, self::ROLE_PORTREVIEW);
+        }
+        
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
@@ -129,7 +145,7 @@ class PortfolioController extends Controller
         else 
         {$user = $em->getRepository('MarcaUserBundle:User')->find($userid);}
         
-        $course = $this->getCourse();
+        
         $role = $this->getCourseRole();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
@@ -153,7 +169,49 @@ class PortfolioController extends Controller
         else {$portfolio = '';$portfolio_docs = ''; $portfoliosetid = '0';$ratingset = '';}
         
         return array('portfoliosetid' => $portfoliosetid,'portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll,'assessmentset'=> $assessmentset, 'ratingset' => $ratingset,'userid'=>$userid, 'role' => $role, 'markup' => $markup);
-    }    
+    }  
+    
+    /**
+     * Displays the portfolio of the current user ONLY (for private portfolios)
+     *
+     * @Route("/{courseid}/{userid}/{user}/portfolio_self", name="portfolio_self")
+     * @Template("MarcaPortfolioBundle:Portfolio:self.html.twig")
+     */
+    public function myPortAction($courseid, $userid)
+    {
+        $course = $this->getCourse();
+        if($userid != '0'){
+           throw new AccessDeniedException(); 
+        } 
+        $em = $this->getEm();
+ 
+        $user = $this->getUser();
+        $userid = $user->getId();
+       
+        $role = $this->getCourseRole();
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
+        
+        //find default portfolio
+        $portfoliosets = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
+        //select the first in the array
+        $portfolioset = reset($portfoliosets);
+
+        $assessmentset = $course->getAssessmentset();
+        
+        //pagination for portfolio file is there is a portfolio present
+        $paginator = $this->get('knp_paginator');
+        if ($portfoliosets)
+        {
+        $portfolio = $portfolioset->getPortfolioitems();
+        $portfoliosetid = $portfolioset->getId();
+        $portfolio_docs = $paginator->paginate($portfolio,$this->get('request')->query->get('page', 1),1);
+        $ratingset = $em->getRepository('MarcaAssessmentBundle:Ratingset')->ratingsetsByPortfolioset($portfolioset);
+        }
+        else {$portfolio = '';$portfolio_docs = ''; $portfoliosetid = '0';$ratingset = '';}
+        
+        return array('portfoliosetid' => $portfoliosetid,'portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll,'assessmentset'=> $assessmentset, 'ratingset' => $ratingset,'userid'=>$userid, 'role' => $role, 'markup' => $markup);
+    }
 
     /**
      * Adds a new Portfolio entity and redirects to edit for Portitem and Portorder.

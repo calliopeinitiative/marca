@@ -231,27 +231,4 @@ class Portset
     {
         return $this->shared;
     }
-
-    /**
-     * Set private_port
-     *
-     * @param boolean $privatePort
-     * @return Portset
-     */
-    public function setPrivatePort($privatePort)
-    {
-        $this->private_port = $privatePort;
-    
-        return $this;
-    }
-
-    /**
-     * Get private_port
-     *
-     * @return boolean 
-     */
-    public function getPrivatePort()
-    {
-        return $this->private_port;
-    }
 }

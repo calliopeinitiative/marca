@@ -32,8 +32,13 @@
         <hr class="marca-spacer" />
     {% endif %}
 
+    {% if not private_port %}    
     <li><a href="{{ course_path('portfolio_user', { 'userid': '0', 'user': '0' }) }}">View My Portfolio</a></li>
-
+    {% else %} 
+    <li><a href="{{ course_path('portfolio_self', { 'userid': '0', 'user': '0' }) }}">View My Portfolio</a></li>
+    {% endif %}
+    
+    {% if not private_port %}
     <li class="dropdown">
         <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">View Portfolio by Author<b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -42,7 +47,17 @@
             {% endfor %}
         </ul>
     </li>
-
+    {% elseif role == 2 %}
+    <li class="dropdown">
+        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">View Portfolio by Author<b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            {% for roll in roll %}
+                <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endif %}
+    
     {% if role == 2 %}
         <hr class="marca-spacer" />
         <li><a href="{{ course_path('port_status_toggle') }}">Portfolio editing: {% if portStatus == 'true' %}Open{% else %}Closed{% endif %}</a></li>
