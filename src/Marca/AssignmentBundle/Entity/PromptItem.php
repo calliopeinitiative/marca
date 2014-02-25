@@ -54,7 +54,7 @@ class PromptItem
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Scale", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Scale", inversedBy="promptitem" , cascade={"persist"})
      * @ORM\JoinColumn(name="scale_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
      */
     private $scale; 

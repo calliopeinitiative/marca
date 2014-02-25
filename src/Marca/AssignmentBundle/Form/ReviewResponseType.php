@@ -28,7 +28,7 @@ class ReviewResponseType extends AbstractType
                         ->join("s.promptitem", 'p')
                         ->join("p.responses", 'r')
                         ->where('s.id = :id')
-                        ->setParameter('id', '1') ;},
+                        ->setParameter('id', '2') ;},
                 'expanded'=>true,'label'  => 'Select', 'expanded' => true,'attr' => array('class' => 'radio'),))
             ->add('helpful', 'choice', array('choices'   => array(true => 'Yes', false => 'No'),'required'  => TRUE,'label'  => 'Was this helpful?', 'expanded' => true,'attr' => array('class' => 'radio inline'),))
     
