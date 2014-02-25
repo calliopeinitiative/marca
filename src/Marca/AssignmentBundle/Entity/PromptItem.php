@@ -63,6 +63,7 @@ class PromptItem
       * @ORM\OneToMany(targetEntity="ReviewResponse", mappedBy="reviewPrompt")
       */
     private $responses;
+
     
     /**
      * @ORM\ManyToOne(targetEntity="ReviewRubric", inversedBy="promptitems", cascade={"persist"})

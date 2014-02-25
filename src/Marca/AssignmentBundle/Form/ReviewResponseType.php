@@ -24,9 +24,12 @@ class ReviewResponseType extends AbstractType
             ->add('responseBool', 'choice', array('choices'   => array('false' => 'False', 'true' => 'True'),'required'  => true, 'expanded' => true,'attr' => array('class' => 'radio'), 'label'  => ' ',))
             ->add('responseInt', 'entity', array('class' => 'MarcaAssessmentBundle:Scale','property'=>'name','query_builder' =>
                 function(\Marca\AssessmentBundle\Entity\ScaleRepository $sc) use ($options) {
-                    $id = $options['scaleid'] ;
                     return $sc->createQueryBuilder('s')
-                        ->where('s.id = :id')->setParameter('id', $id) ;}, 'expanded'=>true,'label'  => 'Select', 'expanded' => true,'attr' => array('class' => 'radio'),))
+                        ->join("s.promptitem", 'p')
+                        ->join("p.responses", 'r')
+                        ->where('s.id = :id')
+                        ->setParameter('id', '1') ;},
+                'expanded'=>true,'label'  => 'Select', 'expanded' => true,'attr' => array('class' => 'radio'),))
             ->add('helpful', 'choice', array('choices'   => array(true => 'Yes', false => 'No'),'required'  => TRUE,'label'  => 'Was this helpful?', 'expanded' => true,'attr' => array('class' => 'radio inline'),))
     
         ;
