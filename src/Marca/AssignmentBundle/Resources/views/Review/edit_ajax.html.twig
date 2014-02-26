@@ -30,7 +30,7 @@
                     {{ form_row(reviewresponse.responseParagraphText) }}
                 </div>
                 <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=2 %} hide {% endif %}">
-                    {{ form_row(reviewresponse.responseInt) }}
+                    {{ form_row(reviewresponse.scaleitem) }}
                 </div>
                 <div class="{% if app.user.username==review.reviewer.username %} hide {% endif %}">
                     {{ form_row(reviewresponse.helpful) }}

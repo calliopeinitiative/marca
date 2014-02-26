@@ -49,7 +49,13 @@ class ReviewResponse
      * @ORM\Column(name="responseInt", type="integer", nullable=true)
      */
     private $responseInt;
-    
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Scaleitem", inversedBy="reviewresponse")
+     */
+    protected $scaleitem;
+
     /**
     * @ORM\Column(type="datetime", nullable=true)
     * @Gedmo\Timestampable(on="create")
@@ -358,5 +364,28 @@ class ReviewResponse
     public function getResponseShortText()
     {
         return $this->responseShortText;
+    }
+
+    /**
+     * Set scaleitem
+     *
+     * @param \Marca\AssessmentBundle\Entity\Scaleitem $scaleitem
+     * @return ReviewResponse
+     */
+    public function setScaleitem(\Marca\AssessmentBundle\Entity\Scaleitem $scaleitem = null)
+    {
+        $this->scaleitem = $scaleitem;
+    
+        return $this;
+    }
+
+    /**
+     * Get scaleitem
+     *
+     * @return \Marca\AssessmentBundle\Entity\Scaleitem 
+     */
+    public function getScaleitem()
+    {
+        return $this->scaleitem;
     }
 }

@@ -213,6 +213,7 @@ class ReviewController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
+        $options = array('scaleid' => '1');
         $fileid = $review->getFile()->getId();
 
         if (!$review) {
@@ -220,7 +221,7 @@ class ReviewController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ReviewType(), $review);
+        $editForm = $this->createForm(new ReviewType($options), $review);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {

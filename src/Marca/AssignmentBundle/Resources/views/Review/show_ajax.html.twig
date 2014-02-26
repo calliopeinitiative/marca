@@ -16,8 +16,7 @@
                 <div class="margin-left margin-top">
                     {{ reviewresponse.responseShortText|raw }}
                     {{ reviewresponse.responseparagraphText|raw }}
-                    {{ reviewresponse.responseBool|raw }}
-                    {{ reviewresponse.responseInt|raw }}
+                    {% if reviewresponse.scaleitem %}{{ reviewresponse.scaleitem.name }}{% endif %}
                 </div>
                 <div class="margin-left margin-top">
                     {% if reviewresponse.helpful==1 %}
