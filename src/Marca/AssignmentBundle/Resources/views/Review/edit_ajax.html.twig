@@ -19,7 +19,7 @@
                     {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
                 </strong>
 
-                <p class=""><em>Help:  {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}</em></p>
+                <p class=""><em>{{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}</em></p>
             </div>
             <div class="panel-body">
                 <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=0 %} hide {% endif %}">
