@@ -8,53 +8,55 @@
     });
 </script>
 
-<div class="panel panel-default">
+
+{% for reviewresponse in review.reviewresponses %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong>
+            </div>
         <div class="panel-body">
-            {% for reviewresponse in review.reviewresponses %}
-                <div><strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong></div>
-
-                <div class="margin-left margin-top">
-                    {{ reviewresponse.responseShortText|raw }}
-                    {{ reviewresponse.responseparagraphText|raw }}
-                    {% if reviewresponse.scaleitem %}{{ reviewresponse.scaleitem.name }}{% endif %}
-                </div>
-                <div class="margin-left margin-top">
-                    {% if reviewresponse.helpful==1 %}
-                        <em>{{ reviewresponse.review.file.user.firstname }} {{ reviewresponse.review.file.user.lastname }} found
-                        this helpful.</em>{% endif %}
-                </div>
-            {% endfor %}
-
-            {% if  (review.file.user==app.user or role==2) and review.grade!='' %}
-                <strong>Grade:</strong>
-                {{ review.grade }}
-                <hr/>
-            {% endif %}
-            {% if  (review.file.user==app.user or role==2) and review.notes!='' %}
-                <strong>Notes:</strong>
-                <div class="margin-left margin-top">
-                    {{ review.notes|raw }}
-                </div>
-            {% endif %}
-
-            {% if  review.feedbackComment!='' %}
-                <strong>Notes:</strong>
-                <div class="margin-left margin-top">
-                    {{ review.feedbackComment|raw }}
-                </div>
-            {% endif %}
-
-
-
-            {% if review.file.user==app.user or review.reviewer==app.user %}
-                <hr/>
-                <a id="review_edit" class="btn btn-default" href="javascript:void(0);">
-                    {% if review.file.user==app.user %}Feedback{% else %}Edit{% endif %}
-                </a>
-            {% endif %}
-
-
+                {{ reviewresponse.responseShortText|raw }}
+                {{ reviewresponse.responseparagraphText|raw }}
+                {% if reviewresponse.scaleitem %}{{ reviewresponse.scaleitem.name }}{% endif %}
+            </div>
+            <div class="panel-footer">
+                {% if reviewresponse.helpful==1 %}
+                    <em>{{ reviewresponse.review.file.user.firstname }} {{ reviewresponse.review.file.user.lastname }}
+                    found
+                    this helpful.</em>
+                {% endif %}
+            </div>
         </div>
+{% endfor %}
+<div class="panel panel-default">
+    <div class="panel-body">
+        {% if  (review.file.user==app.user or role==2) and review.grade!='' %}
+            <strong>Grade:</strong>
+            {{ review.grade }}
+            <hr/>
+        {% endif %}
+        {% if  (review.file.user==app.user or role==2) and review.notes!='' %}
+            <strong>Notes:</strong>
+            <div class="margin-left margin-top">
+                {{ review.notes|raw }}
+            </div>
+        {% endif %}
+
+        {% if  review.feedbackComment!='' %}
+            <strong>Notes:</strong>
+            <div class="margin-left margin-top">
+                {{ review.feedbackComment|raw }}
+            </div>
+        {% endif %}
+
+        {% if review.file.user==app.user or review.reviewer==app.user %}
+            <a id="review_edit" class="btn btn-default" href="javascript:void(0);">
+                {% if review.file.user==app.user %}Feedback{% else %}Edit{% endif %}
+            </a>
+        {% endif %}
+
+
+    </div>
 </div>
 
 

@@ -25,7 +25,7 @@ class ReviewResponseType extends AbstractType
 
             $form = $event->getForm();
             $form
-            ->add('responseShortText','text', array('attr' => array('class' => 'text form-control'),'label'  => ' ',))
+            ->add('responseShortText','text', array('attr' => array('class' => 'text form-control'), 'label'  => ' ',))
                 ->add('responseParagraphText', 'ckeditor', array('config_name' => 'editor_simple','label'  => ' ',))
                 ->add('scaleitem', 'entity', array('class' => 'MarcaAssessmentBundle:Scaleitem','property'=>'name','query_builder' =>
                     function(\Marca\AssessmentBundle\Entity\ScaleitemRepository $sc) use ($promptid) {
