@@ -25,10 +25,12 @@
                 </div>
             {% endfor %}
 
-            {% if  review.file.user==app.user or role==2 %}
+            {% if  (review.file.user==app.user or role==2) and review.grade!='' %}
                 <strong>Grade:</strong>
                 {{ review.grade }}
                 <hr/>
+            {% endif %}
+            {% if  (review.file.user==app.user or role==2) and review.notes!='' %}
                 <strong>Notes:</strong>
                 <div class="margin-left margin-top">
                     {{ review.notes|raw }}
