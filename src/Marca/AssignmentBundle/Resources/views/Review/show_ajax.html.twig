@@ -24,19 +24,26 @@
                         this helpful.</em>{% endif %}
                 </div>
             {% endfor %}
-            <strong>Grade:</strong>
-            {{ review.grade }}
-            <hr/>
-            <strong>Notes:</strong>
-            <div class="margin-left margin-top">
-                {{ review.notes|raw }}
-            </div>
+
+            {% if  review.file.user==app.user or role!=2 %}
+                <strong>Grade:</strong>
+                {{ review.grade }}
+                <hr/>
+                <strong>Notes:</strong>
+                <div class="margin-left margin-top">
+                    {{ review.notes|raw }}
+                </div>
+            {% endif %}
+
+
             {% if review.file.user==app.user or review.reviewer==app.user %}
                 <hr/>
                 <a id="review_edit" class="btn btn-default" href="javascript:void(0);">
                     {% if review.file.user==app.user %}Feedback{% else %}Edit{% endif %}
                 </a>
             {% endif %}
+
+
         </div>
 </div>
 
