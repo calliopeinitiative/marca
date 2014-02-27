@@ -71,7 +71,7 @@
                 return $(window).height() * .88;
             });
             $('#new_rubricreview').click(function () {
-                $('#doc_modal').load('{{ course_path('selectrubric', { 'fileid': file.id }) }}').modal();
+                $('#doc_modal').load('{{ course_path('selectrubric', { 'fileid': file.id }) }}').modal();$('#reviews_container').slideDown();
             });
             $('#review_{{ file.id }}').click(function () {
                 $('#doc-body').load('{{ course_path('doc_show_ajax', { 'id': file.id}) }}');
@@ -270,11 +270,15 @@
             </div>
 
             <div class="list-group">
-                <h3  id="toggle_questions" class="list-group-item" style="cursor: pointer">Review questions</h3>
+                <h3 class="list-group-item">
+                    <span  id="toggle_questions" style="cursor: pointer">Review questions</span>
+                <span id="new_rubricreview" title="Create a new review" class="btn btn-default btn-xs pull-right"
+                   href="javascript:void(0);">Answer Questions</span>
+                </h3>
             </div>
 
-            <a id="new_rubricreview" title="Create a new review" class="btn btn-default btn-xs pull-right" style="margin-top: 20px;"
-               href="javascript:void(0);">Answer Questions</a>
+
+
             <div id="reviews_container">
             <div class="list-group" style="margin-top: -15px">
                 {% for review in reviews %}
