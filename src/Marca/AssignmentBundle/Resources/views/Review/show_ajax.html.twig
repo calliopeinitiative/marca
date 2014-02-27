@@ -37,6 +37,14 @@
                 </div>
             {% endif %}
 
+            {% if  review.feedbackComment!='' %}
+                <strong>Notes:</strong>
+                <div class="margin-left margin-top">
+                    {{ review.feedbackComment|raw }}
+                </div>
+            {% endif %}
+
+
 
             {% if review.file.user==app.user or review.reviewer==app.user %}
                 <hr/>
