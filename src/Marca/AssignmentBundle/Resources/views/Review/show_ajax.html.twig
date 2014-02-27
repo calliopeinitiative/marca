@@ -25,7 +25,7 @@
                 </div>
             {% endfor %}
 
-            {% if  review.file.user==app.user or role!=2 %}
+            {% if  review.file.user==app.user or role==2 %}
                 <strong>Grade:</strong>
                 {{ review.grade }}
                 <hr/>
