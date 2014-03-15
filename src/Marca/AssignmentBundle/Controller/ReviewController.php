@@ -70,6 +70,7 @@ class ReviewController extends Controller
     public function show_ajaxAction($id)
     {
         $em = $this->getDoctrine()->getManager();
+        $role = $this->getCourseRole();
 
         $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
 
@@ -79,6 +80,7 @@ class ReviewController extends Controller
 
         return array(
             'review'      => $review,
+            'role'      => $role,
         );
     }
 

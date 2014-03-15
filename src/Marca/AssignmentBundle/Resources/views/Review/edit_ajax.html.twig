@@ -19,18 +19,29 @@
                     {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
                 </strong>
 
-                <p class=""><em>Help:  {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}</em></p>
+                <p class=""><em>{{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}</em></p>
             </div>
             <div class="panel-body">
-
                 <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=0 %} hide {% endif %}">
-                    {{ form_row(reviewresponse.responseShortText) }}
+                    {% if app.user.username==review.reviewer.username %}
+                        {{ form_row(reviewresponse.responseShortText) }}
+                    {% else %}
+                        {{ form_row(reviewresponse.responseShortText, { 'attr':{'disabled':'disabled'}} ) }}
+                    {% endif %}
                 </div>
                 <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=1 %} hide {% endif %}">
-                    {{ form_row(reviewresponse.responseParagraphText) }}
+                    {% if app.user.username==review.reviewer.username %}
+                        {{ form_row(reviewresponse.responseParagraphText) }}
+                    {% else %}
+                        {{ form_row(reviewresponse.responseParagraphText, { 'attr':{'disabled':'disabled'}} ) }}
+                    {% endif %}
                 </div>
                 <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=2 %} hide {% endif %}">
-                    {{ form_row(reviewresponse.scaleitem) }}
+                    {% if app.user.username==review.reviewer.username %}
+                        {{ form_row(reviewresponse.scaleitem) }}
+                    {% else %}
+                        {{ form_row(reviewresponse.scaleitem, { 'attr':{'disabled':'disabled'}} ) }}
+                    {% endif %}
                 </div>
                 <div class="{% if app.user.username==review.reviewer.username %} hide {% endif %}">
                     {{ form_row(reviewresponse.helpful) }}
