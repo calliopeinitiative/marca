@@ -152,8 +152,6 @@ knp_paginator:
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template 
 
 knp_gaufrette:
-    stream_wrapper: ~
-
     adapters:
         uploads:
             amazon_s3:
@@ -165,6 +163,8 @@ knp_gaufrette:
     filesystems:
         amazon_s3:
             adapter:    uploads
+            
+    stream_wrapper: ~
 vich_uploader:
     db_driver: orm # or mongodb
     twig: true
