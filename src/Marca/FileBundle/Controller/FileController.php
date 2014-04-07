@@ -18,6 +18,8 @@ use Marca\FileBundle\Form\UploadType;
 use Marca\FileBundle\Form\UploadReviewType;
 use Marca\TagBundle\Entity\Tagset;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Marca\DocBundle\Entity\Doc;
+
 /**
  * File controller.
  *
