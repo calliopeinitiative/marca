@@ -22,7 +22,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
-            new Daps\LdapBundle\DapsLdapBundle(),
+            new FR3D\LdapBundle\FR3DLdapBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new Marca\HomeBundle\MarcaHomeBundle(),
             new Marca\UserBundle\MarcaUserBundle(),

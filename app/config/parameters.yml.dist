@@ -15,14 +15,8 @@ parameters:
     mailer_encryption:  xxxx
     from_email:        xxxx
 
-    daps_ldap.ldap.admin.dn: cn=admin,cn=Users,dc=example,dc=com
-    daps_ldap.ldap.admin.password: admin
-    daps_ldap.ldap.admin.enable: true
-    daps_ldap.ldap.srv: False
-    daps_ldap.ldap.host: ldap://example.com
-    daps_ldap.ldap.port: 389
-    daps_ldap.ldap.dn: CN
-    daps_ldap.ldap.username_suffix: cn=Users,dc=example,dc=com
+    ldap_host: ldap://example.com
+    ldap_port: 389
 
     locale:            xxxx
     secret:            xxxx

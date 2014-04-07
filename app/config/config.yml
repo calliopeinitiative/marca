@@ -2,7 +2,6 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: '@MarcaCourseBundle/Resources/config/services.yml' }
-    - { resource: "@DapsLdapBundle/Resources/config/services.yml"}
 
 framework:
     #esi:             ~
@@ -107,7 +106,30 @@ fos_user:
             enabled:    true
     from_email:
         address:        %from_email%
-        sender_name:    Marca Dev 
+        sender_name:    Marca Dev
+
+fr3d_ldap:
+    driver:
+        host:                %ldap_host%
+        port:                %ldap_port%
+#       username:            foo    # Optional
+#       password:            bar    # Optional
+#       bindRequiresDn:      true   # Optional
+#       baseDn:              ou=users, dc=host, dc=foo   # Optional
+#       accountFilterFormat: (&(uid=%s)) # Optional. sprintf format %s will be the username
+#       optReferrals:        false  # Optional
+        useSsl:              true   # Enable SSL negotiation. Optional
+#       useStartTls:         true   # Enable TLS negotiation. Optional
+    user:
+        baseDn: ou=users,o=uga
+        filter: (&(ObjectClass=Person))
+        attributes:          # Specify ldap attributes mapping [ldap attribute, user object method]
+            - { ldap_attr: UID,  user_method: setUsername } # Default
+#           - { ldap_attr: cn,   user_method: setName }     # Optional
+#           - { ldap_attr: ...,  user_method: ... }         # Optional
+    service:
+        user_manager: fos_user.user_manager          # Overrides default user manager
+#       ldap_manager: fr3d_ldap.ldap_manager.default # Overrides default ldap manager
 
 # Doctrine extensions    
 stof_doctrine_extensions:
