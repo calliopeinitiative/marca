@@ -4,7 +4,6 @@
 namespace Marca\UserBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
-use FR3D\LdapBundle\Model\LdapUserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,29 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Marca\UserBundle\Entity\UserRepository")
  * @ORM\Table(name="marca_user")
  */
-class User extends BaseUser implements LdapUserInterface
+class User extends BaseUser
 {
-    /**
-     * Ldap Object Distinguished Name
-     * @var string $dn
-     */
-    private $dn;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function setDn($dn)
-    {
-        $this->dn = $dn;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDn()
-    {
-        return $this->dn;
-    }
     
     /**
      * @ORM\Id
