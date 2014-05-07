@@ -76,7 +76,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right" id="account-dropdown">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dLabel"><span class="hidden-sm">{{ app.session.get('username') }}<b class="caret"></b></span><span class="visible-sm glyphicon glyphicon-user"><b class="caret"></b></span></a>
+                            <a href="#" class="dropdown-toggle" data-hover="dropdown" id="dLabel"><span class="hidden-sm">{{ app.session.get('username') }}<b class="caret"></b></span><span class="visible-sm glyphicon glyphicon-user"><b class="caret"></b></span></a>
                             <ul class="dropdown-menu" aria-labelledby="dLabel">
                                 <li><a href="{{ path('user_show') }}">Profile</a></li>
                                 <li><a class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll</a></li>
