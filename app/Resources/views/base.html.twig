@@ -69,8 +69,15 @@
                             <a href="#main_content">Skip Navigation</a>
                         </li>
                         {% block subnav %}
-                            <li>
-                                <a title='Select course' id='course_select' href="javascript:void(0);">Select Course &nbsp; <span alt='Select course' class="glyphicon glyphicon-list"></span></a>
+                            <li class="dropdown" style="margin-left:15px;">
+                                <a class="dropdown-toggle" data-hover="dropdown" title='Select course' id='course_selectS' href="javascript:void(0);">Select Course<b class="caret"></b></a>
+
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a tabindex="-1" title='Select course' id='course_select' href="javascript:void(0);">Switch Course</a>
+                                    </li>
+                                </ul>
+
                             </li>
                         {% endblock %}
                     </ul>
