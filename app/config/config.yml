@@ -183,7 +183,7 @@ ivory_ck_editor:
         editor_simple:
             startupFocus: true
             toolbar: "toolbar_simple"
-            removePlugins: "elementspath"
+            removePlugins: "elementspath,contextmenu,liststyle,tabletools"
             allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong em; ol ul li span(*); img[*]{*}; iframe{*}[*];'
             disableNativeSpellChecker: false
             height: 200
@@ -192,16 +192,18 @@ ivory_ck_editor:
             startupFocus: true
             toolbar: "toolbar_default"
             extraPlugins: 'wordcount,mediaembed'
-            removePlugins: "elementspath"
+            removePlugins: "elementspath,contextmenu,liststyle,tabletools"
             allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong em; ol ul li span(*){font-size,font-family,color,background-color}; img[*]{*}; iframe{*}[*];'
             disableNativeSpellChecker: false
             height: 300
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
+            stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckeditor_styles.js'
+
         editor_docs:
             startupFocus: true
             toolbar: "toolbar_docs"
             extraPlugins: 'wordcount,mediaembed,maxheight'
-            removePlugins: "elementspath"
+            removePlugins: "elementspath,contextmenu,liststyle,tabletools"
             allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong s em; ol ul li span(*){font-size,font-family,color,background-color}[data-id]; img[*]{*}; iframe{*}[*];'
             disableNativeSpellChecker: false
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
@@ -210,7 +212,7 @@ ivory_ck_editor:
             startupFocus: true
             toolbar: "toolbar_page"
             extraPlugins: 'wordcount,mediaembed,maxheight'
-            removePlugins: "elementspath"
+            removePlugins: "elementspath,contextmenu,liststyle,tabletools"
             allowedContent: true
             disableNativeSpellChecker: false
             height: 500
