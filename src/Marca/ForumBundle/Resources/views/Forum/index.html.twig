@@ -9,19 +9,19 @@
                 <h2 class="panel-title">Discussions</h2>
             </div>
             <div class="panel-body">
-                <div class="list-group">
+                <div class="list-group media">
 
                     {% for forum in forumEntries %}
 
                         <a class="list-group-item" title="Open this discussion" href="{{ course_path('forum_show', { 'id': forum.id }) }}">
                             {% if forum.user.photo %}
-                                <img alt="Thumbnail image of {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}" src="{{ forum.user.photo }}" class="user-photo-sm img-rounded pull-left margin-top-small"/>
+                                <div class="pull-left"><img alt="Thumbnail image of {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}" src="{{ forum.user.photo }}" class="user-photo-sm img-rounded pull-left margin-top-small media-object"/></div>
                             {% endif%}
-                            <h3 class="inline-block margin-top-small">{{ forum.title }}</h3>
+                            <div class="media-body"><h3 class="inline-block margin-top-small">{{ forum.title }}</h3><span class="visible-xs" style="height:1px;"><br /></span>
 
                             <span class="margin-left">by {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}</span>
                             <p class="hidden-xs">Created  {{ forum.created|date('M d Y, h:ia') }}  / Updated  {{ forum.updated|date('M d Y, h:ia') }}</p>
-
+                            </div>
                         </a>
                     {% else %}
                         There are no open discussions at this time.
