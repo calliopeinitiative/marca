@@ -309,6 +309,10 @@ ul.nav > li > input {
     margin-left:5px;
 }
 
+ul .dropdown-menu .glyphicon {
+    margin-right:10px;
+}
+
 .nav-header {
     display: block;
     padding: 0;
