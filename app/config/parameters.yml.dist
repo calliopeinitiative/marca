@@ -1,26 +1,26 @@
 parameters:
     database_driver:   pdo_mysql
     database_host:     localhost
-    database_port:     xxxx
-    database_name:     xxxx
-    database_user:     xxxx
-    database_password: xxxx
+    database_port:     ~
+    database_name:     marca_db
+    database_user:     dbusername
+    database_password: dbpassword
 
-    mailer_transport:  xxxx
-    mailer_host:       xxxx
-    mailer_port:       xxxx
-    mailer_sender_address: xxxx
-    mailer_user:       xxxx
-    mailer_password:   xxxx
-    mailer_encryption:  xxxx
-    from_email:        xxxx
+    mailer_transport:  smtp
+    mailer_host:       localhost
+    mailer_port:       false
+    mailer_sender_address: marca@yourserver.edu
+    mailer_user:       ~
+    mailer_password:   ~
+    mailer_encryption:  ~
+    from_email:        marca@yourserver.edu
 
-    ldap_host: ldap://example.com
-    ldap_port: 389
+    ldap_host:         ldap://example.com
+    ldap_port:         389
 
-    locale:            xxxx
-    secret:            xxxx
-    app_name:          XXXXX
+    locale:            en
+    secret:            agr8hqoiugq34iqn34g8q0348gq7435
+    app_name:          Marca
 
     help_email:
     help_url:
