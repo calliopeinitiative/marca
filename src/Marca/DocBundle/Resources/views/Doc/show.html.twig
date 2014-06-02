@@ -49,7 +49,7 @@
                 window.close();
             });
 
-            {% if file.project.resource %}{% set resource=1 %}{% else %}{% set resource=0 %}{% endif %}
+            {% if file.project.resource and role==2 %}{% set resource=1 %}{% else %}{% set resource=0 %}{% endif %}
             $('#new_saveas').click(function () {
                 $('#doc_modal').load('{{ course_path('file_new_modal', { 'resource' : resource, 'tag' : '0', 'type': 'saveas', 'fileid': file.id }) }}').modal();
             });
