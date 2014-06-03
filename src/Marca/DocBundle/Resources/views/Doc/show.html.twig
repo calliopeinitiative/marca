@@ -156,7 +156,7 @@
                             </li>
                         {% endif %}
 
-                        {% if doc.isOwner(app.user.username) or file.project.resource == 'true' %}
+                        {% if (doc.isOwner(app.user.username) and file.project.resource != 'true') or (doc.isOwner(app.user.username) and file.project.resource == 'true'  and local_resource) or (not doc.isOwner(app.user.username) and file.project.resource == 'true') %}
                             <li>
                                 <a title="Create a copy of this document" id="new_saveas" class=""
                                    href="javascript:void(0)">SaveAs</a>

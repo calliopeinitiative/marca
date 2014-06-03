@@ -50,6 +50,7 @@ class DocController extends Controller
         
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
         $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($fileid);
+        $local_resource = $projects = $em->getRepository('MarcaCourseBundle:Project')->findResourcesInSortOrder($course);
 
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
@@ -67,6 +68,7 @@ class DocController extends Controller
             'file'        => $file,
             'markup' => $markup,
             'reviews' => $reviews,
+            'local_resource' => $local_resource,
             'delete_form' => $deleteForm->createView(),        );
     }
 

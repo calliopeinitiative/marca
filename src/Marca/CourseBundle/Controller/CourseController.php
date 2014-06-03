@@ -334,9 +334,12 @@ class CourseController extends Controller
         $editForm = $this->createForm(new CourseType($options), $course);
         $deleteForm = $this->createDeleteForm($courseid);
 
+        $type= Page::TYPE_COURSE;
+        $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
+
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em->persist($course);
@@ -347,6 +350,7 @@ class CourseController extends Controller
 
         return array(
             'course'      => $course,
+            'pages'      => $pages,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -461,7 +465,7 @@ class CourseController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em->persist($course);
