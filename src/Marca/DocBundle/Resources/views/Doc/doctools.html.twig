@@ -2,27 +2,21 @@
 
 {# Doc tools #}
 <div class="panel-group" id="accordion">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                    Info
+    <div class="panel panel-default ">
+        <div class="panel-heading" style="color:white; background-color: #428bca;">
+                <a class="accordion-toggle" style="color:white;"  data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                    {{ file.name }}
                 </a>
-            </h4>
+            <span class="pull-right">by {{ file.user.firstname }} {{ file.user.lastname }}</span>
         </div>
+
         <div id="collapseOne" class="panel-collapse collapse">
             <div class="panel-body">
                 <dl>
-                    <dt>Author</dt>
-                    <dd>{{ file.user.firstname }} {{ file.user.lastname }}</dd>
-                    <dt>Document</dt>
-                    <dd>{{ file.name }}</dd>
                     <dt>Updated</dt>
                     <dd>{{ file.updated|date('m/d/y, g:i a') }}</dd>
                     <dt>Created</dt>
                     <dd>{{ file.created|date('m/d/y, g:i a') }}</dd>
-                    <dt>Word Count</dt>
-                    <dd><span id="word-count"></span> words approx.</dd>
                 </dl>
                 <strong>Labels</strong>
                 {% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
@@ -33,6 +27,16 @@
             </div>
         </div>
     </div>
+    <div class="col-sm-12 margin-bottom">
+    <div class="btn-group pull-right" style="margin-right: -15px;">
+        {# <a class="btn btn-default" id="toggle-tools" href="javascript:void(0);">Doc Tools</a> #}
+        <span class="btn btn-default" id='saving_alert'>Saving</span>
+        <input class="btn btn-default"  type="submit" id="doc_save" value="Save and Close"/>
+
+    </div>
+        </div>
+
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
