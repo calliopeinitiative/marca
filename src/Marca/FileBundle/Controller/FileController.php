@@ -755,6 +755,19 @@ class FileController extends Controller
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $role = $this->getCourseRole();
+        $file_owner = $file->getUser();
+        $review_file = $file->getReviewed();
+        if ($review_file)
+        {
+            $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
+            $review_owner = $review_file->getUser();
+        }
+        else
+        {
+            $parent_file = $file;
+            $review_owner = $file_owner;
+        }
+
         $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($id);
 
         if (!$file) {
@@ -764,6 +777,7 @@ class FileController extends Controller
             return array(
             'role'      => $role,
             'file'        => $file,
+            'parent_file'        => $parent_file,
             'reviews' => $reviews
              );
 

@@ -39,13 +39,24 @@ class DocController extends Controller
         $role = $this->getCourseRole();
 
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-        $fileid = $file->getId();
+
         $doc = $file->getDoc();
         $text = $doc->getBody();
         $count = str_word_count($text);
         $file_owner = $file->getUser();
+
         $review_file = $file->getReviewed();
-        if ($review_file) {$review_owner = $review_file->getUser();} else {$review_owner = $file_owner;}
+        if ($review_file)
+           {
+               $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
+               $review_owner = $review_file->getUser();
+           }
+        else
+            {
+                $parent_file = $file;
+                $review_owner = $file_owner;
+            }
+        $fileid = $parent_file->getId();
         $file_access = $file->getAccess();
         
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
@@ -66,6 +77,7 @@ class DocController extends Controller
             'role'      => $role,
             'count'=> $count,
             'file'        => $file,
+            'parent_file'        => $parent_file,
             'markup' => $markup,
             'reviews' => $reviews,
             'local_resource' => $local_resource,
