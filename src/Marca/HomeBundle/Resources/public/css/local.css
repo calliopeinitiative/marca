@@ -922,6 +922,16 @@ tr.review td .label {font-size: 90%;}
     border-radius: 3px;
 }
 
+.expand_feedback {
+    position: fixed;
+    right:0px;
+    top:0px;
+    z-index: 1000;
+    width: 50%;
+    height: 100%;
+    overflow-y: auto;
+}
+
 /***** End 06c Doc displays *****/
 
 .label {font-weight: normal;}
