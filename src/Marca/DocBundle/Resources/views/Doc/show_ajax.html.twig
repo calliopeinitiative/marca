@@ -1,10 +1,17 @@
 {# Marca/DocBundle/Resources/views/Doc/show_modal.html.twig #}
 <script language="javascript">
     $(document).ready(function () {
+        $('#doc-display').css('height', function () {
+            return $(window).height() * .98;
+        });
         $('#loading').fadeOut();
     });
 </script>
 
-{{ doc.body|raw }}
+<div id='doc-display' class="col-sm-8 well">
+    <div id='doc-body' class="doc-body">
+        {{ doc.body|raw }}
+    </div>
+</div>
 
 

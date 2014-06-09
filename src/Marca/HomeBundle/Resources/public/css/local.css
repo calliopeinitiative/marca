@@ -932,6 +932,10 @@ tr.review td .label {font-size: 90%;}
     overflow-y: auto;
 }
 
+#file-container {
+    height: 100%;
+}
+
 /***** End 06c Doc displays *****/
 
 .label {font-weight: normal;}
