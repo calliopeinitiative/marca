@@ -82,7 +82,7 @@
 
             {# Parent file #}
             $('#review_{{ parent_file.id }}').click(function () {
-                $('#doc-display').load('{{ course_path('doc_show_ajax', { 'id': parent_file.id}) }}');
+                $('#file-container').load('{{ course_path('doc_show_ajax', { 'id': parent_file.id}) }}');
                 $('.document').removeClass('active');
                 $(this).addClass('active');
                 $('.review_nav').hide();
