@@ -21,9 +21,8 @@ class DirectoryNamer implements DirectoryNamerInterface
      */
     public function directoryName($object, PropertyMapping $mapping)
     {
-        $upload_dir = $mapping->getUploadDestination();
         $courseid = $object->getCourse()->getId();
-        $new_path = $upload_dir.'/'.$courseid;
+        $new_path = '/'.$courseid;
         return $new_path;
     }
 }

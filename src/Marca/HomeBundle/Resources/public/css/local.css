@@ -925,10 +925,10 @@ tr.review td .label {font-size: 90%;}
 .expand_feedback {
     position: fixed;
     right:0px;
-    top:0px;
+    top:10px;
     z-index: 1000;
     width: 50%;
-    height: 100%;
+    height: 98%;
     overflow-y: auto;
 }
 
