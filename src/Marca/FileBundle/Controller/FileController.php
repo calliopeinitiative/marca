@@ -756,6 +756,7 @@ class FileController extends Controller
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $role = $this->getCourseRole();
         $review_file = $file->getReviewed();
+        $markup = null;
         if ($review_file)
         {
             $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
@@ -775,7 +776,8 @@ class FileController extends Controller
             'role'      => $role,
             'file'        => $file,
             'parent_file'        => $parent_file,
-            'reviews' => $reviews
+            'reviews' => $reviews,
+            'markup' => $markup,
              );
 
 
@@ -785,7 +787,7 @@ class FileController extends Controller
      * Finds and displays an ODF or PDF with Viewer.js
      *
      * @Route("/{courseid}/{id}/view_file_ajax", name="file_view_ajax")
-     * @Template("MarcaDocBundle:Doc:show_ajax.html.twig")
+     * @Template("MarcaDocBundle:Doc:show.html.twig")
      */
     public function view_ajaxAction($id)
     {
@@ -793,6 +795,7 @@ class FileController extends Controller
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $role = $this->getCourseRole();
         $review_file = $file->getReviewed();
+        $markup = null;
         if ($review_file)
         {
             $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
@@ -812,7 +815,8 @@ class FileController extends Controller
             'role'      => $role,
             'file'        => $file,
             'parent_file'        => $parent_file,
-            'reviews' => $reviews
+            'reviews' => $reviews,
+            'markup' => $markup,
         );
 
 

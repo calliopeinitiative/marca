@@ -1,12 +1,23 @@
 {# Marca/DocBundle/Resources/views/Doc/doctools.html.twig #}
 
 {# Doc tools #}
+
+<div class="col-sm-12 margin-bottom margin-top">
+    <div class="btn-group pull-right" style="margin-right: -15px;">
+        {# <a class="btn btn-default" id="toggle-tools" href="javascript:void(0);">Doc Tools</a> #}
+        <span class="btn btn-default" id='saving_alert'>Saving</span>
+        <input class="btn btn-default" type="submit" id="doc_save" value="Save and Close"/>
+
+    </div>
+</div>
+
 <div class="panel-group" id="accordion">
     <div class="panel panel-default ">
         <div class="panel-heading" style="color:white; background-color: #428bca;">
-                <a class="accordion-toggle" style="color:white;"  data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                    {{ file.name }}
-                </a>
+            <a class="accordion-toggle" style="color:white;" data-toggle="collapse" data-parent="#accordion"
+               href="#collapseOne">
+                {{ file.name }}
+            </a>
             <span class="pull-right">by {{ file.user.firstname }} {{ file.user.lastname }}</span>
         </div>
 
@@ -27,14 +38,6 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 margin-bottom margin-top">
-    <div class="btn-group pull-right" style="margin-right: -15px;">
-        {# <a class="btn btn-default" id="toggle-tools" href="javascript:void(0);">Doc Tools</a> #}
-        <span class="btn btn-default" id='saving_alert'>Saving</span>
-        <input class="btn btn-default"  type="submit" id="doc_save" value="Save and Close"/>
-
-    </div>
-        </div>
 
 
     <div class="panel panel-default">
@@ -50,8 +53,9 @@
                 {# INSERT NOTE #}
                 <form id='note_insert_form' name='note_insert_form'>
                     <label for="insert_value">Note</label>
-                    <textarea  class='form-control' id="insert_value" name="html_insert"></textarea>
-                    <a id='note_insert_submit' href="javascript:void(0)" class="btn btn-default btn-sm"  title="Submit entry">Insert Note</a>
+                    <textarea class='form-control' id="insert_value" name="html_insert"></textarea>
+                    <a id='note_insert_submit' href="javascript:void(0)" class="btn btn-default btn-sm"
+                       title="Submit entry">Insert Note</a>
                 </form>
 
                 <hr/>
@@ -61,15 +65,18 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionMarkup" href="#collapseMarkup{{markupset.id}}">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionMarkup"
+                                       href="#collapseMarkup{{ markupset.id }}">
                                         {{ markupset.name }}
                                     </a>
                                 </h4>
                             </div>
-                            <div id="collapseMarkup{{markupset.id}}" class="panel-collapse collapse">
+                            <div id="collapseMarkup{{ markupset.id }}" class="panel-collapse collapse">
                                 <div class="panel-body">
                                     {% for markup in markupset.markup %}
-                                        <a href="javascript:{{markup.function}}('{{markup.id}}', '{{markup.value}}','{{markup.color}}')" title="Submit entry"><span style='color:black;' class="label {{ markup.color }}">{{ markup.name }}</span></a>
+                                        <a href="javascript:{{ markup.function }}('{{ markup.id }}', '{{ markup.value }}','{{ markup.color }}')"
+                                           title="Submit entry"><span style='color:black;'
+                                                                      class="label {{ markup.color }}">{{ markup.name }}</span></a>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -79,7 +86,9 @@
 
                 {% if role == 2 and pages %}
                     <hr/>
-                    <a id='insert_rubric' class='btn btn-default' href="javascript:void(0);" title="Insert Rubric: Be sure to place your cursor where you want the rubric to go.">Insert Rubric</a>
+                    <a id='insert_rubric' class='btn btn-default' href="javascript:void(0);"
+                       title="Insert Rubric: Be sure to place your cursor where you want the rubric to go.">Insert
+                        Rubric</a>
                 {% endif %}
             </div>
         </div>
@@ -98,10 +107,12 @@
                 {% for response in file.responses %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h2 class="panel-title">{{ response.user.firstname}} {{ response.user.lastname}} says:</h2>
+                            <h2 class="panel-title">{{ response.user.firstname }} {{ response.user.lastname }}
+                                says:</h2>
 
                             {% if response.isOwner(app.user.username) %}
-                                <a class="btn btn-default btn-xs pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': file.id, 'source': app.request.get('_route'),'view': app.request.get('view'),'userid': file.user.id  }) }}">Edit</a>
+                                <a class="btn btn-default btn-xs pull-right"
+                                   href="{{ course_path('response_edit', { 'id': response.id,'sourceid': file.id, 'source': app.request.get('_route'),'view': app.request.get('view'),'userid': file.user.id  }) }}">Edit</a>
                             {% endif %}
                         </div>
                         <div class="panel-body">

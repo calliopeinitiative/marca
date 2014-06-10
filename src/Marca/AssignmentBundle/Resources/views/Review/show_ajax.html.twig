@@ -2,6 +2,7 @@
 
 <script language="javascript">
     $(document).ready(function () {
+        $('#loading-feedback').fadeOut();
         $('#review_edit').click(function () {
             $('#review_container').load('{{ course_path('review_edit_ajax', { 'id': review.id }) }}');
         });
