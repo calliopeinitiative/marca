@@ -36,6 +36,7 @@ class ReviewResponse
      */
     private $responseShortText;
 
+    /* the boolean and the int cols are both replaced by the scaleitem relation, so deprecated */
     /**
      * @var boolean
      *

@@ -88,7 +88,7 @@ class DocController extends Controller
      * Finds and displays a Doc entity.
      *
      * @Route("/{courseid}/{id}/show_ajax", name="doc_show_ajax")
-     * @Template()
+     * @Template("MarcaDocBundle:Doc:show.html.twig")
      */
     public function show_ajaxAction($id,$courseid)
     {

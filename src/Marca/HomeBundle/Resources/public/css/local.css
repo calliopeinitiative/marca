@@ -930,6 +930,8 @@ tr.review td .label {font-size: 90%;}
     width: 50%;
     height: 98%;
     overflow-y: auto;
+    background: #F2F2F2;
+    padding: 20px;
 }
 
 #file-container {

@@ -230,7 +230,7 @@ class ReviewController extends Controller
             $em->persist($review);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('doc_show', array('courseid' => $courseid,'id' => $fileid,'view' => 'app')));
+            return $this->redirect($this->generateUrl('review_show_ajax', array('courseid' => $courseid,'id' => $id)));
         }
 
         return array(

@@ -18,6 +18,10 @@ class ReviewResponseType extends AbstractType
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
+        /* to access the reviewresponse here, (so we can set the id in the query)
+        the EventListener pulls the data and the form a part.
+        thus, we can get the promptitemid out of the data and drop it in the form builder query.
+         */
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event){
             $reviewresponse = $event->getData();

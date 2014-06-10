@@ -104,7 +104,7 @@ class ReviewResponseController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new ReviewResponseType(), $entity);
-        $editForm->bind($request);
+        $editForm>submit($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -129,7 +129,7 @@ class ReviewResponseController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form>submit($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();

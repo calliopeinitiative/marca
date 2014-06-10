@@ -187,7 +187,7 @@ ivory_ck_editor:
             removePlugins: "elementspath,contextmenu,liststyle,tabletools"
             allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong em; ol ul li span(*); img[*]{*}; iframe{*}[*];'
             disableNativeSpellChecker: false
-            height: 200
+            height: 150
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
         editor_default:
             skin: "bootstrapck, ../../../../bundles/marcahome/ckeditor/skins/bootstrapck/"

@@ -1,7 +1,8 @@
 {# Marca/DocBundle/Resources/views/Doc/show.html.twig #}
 
-
-{% extends 'MarcaDocBundle::layout.html.twig' %}
+{% extends app.request.xmlHttpRequest
+? '::ajax.html.twig'
+: 'MarcaDocBundle::layout.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -82,7 +83,16 @@
 
             {# Parent file #}
             $('#review_{{ parent_file.id }}').click(function () {
+                {% if parent_file.doc %}
                 $('#file-container').load('{{ course_path('doc_show_ajax', { 'id': parent_file.id}) }}');
+                {% elseif parent_file.ext == 'odt' or parent_file.ext == 'ods' or parent_file.ext == 'odp' or parent_file.ext == 'pdf' %}
+                $('#file-container').load('{{ course_path('file_view_ajax', { 'id': parent_file.id}) }}');
+                {% elseif parent_file.url %}
+                var win = window.open("{{ parent_file.url}}");
+                {% else %}
+                var win = window.open("{{ course_path('file_get', { 'id': parent_file.id}) }}");
+                {% endif %}
+
                 $('.document').removeClass('active');
                 $(this).addClass('active');
                 $('.review_nav').hide();
@@ -96,7 +106,16 @@
             $('#review_nav_{{ review.id }}').fadeIn();
             {% endif %}
             $('#review_{{ review.id }}').click(function () {
+                {% if review.doc %}
                 $('#file-container').load('{{ course_path('doc_show_ajax', { 'id': review.id}) }}');
+                {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
+                $('#file-container').load('{{ course_path('file_view_ajax', { 'id': review.id}) }}');
+                {% elseif parent_file.url %}
+                var win = window.open("{{ review.url}}");
+                {% else %}
+                var win = window.open("{{ course_path('file_get', { 'id': review.id}) }}");
+                {% endif %}
+
                 $('.document').removeClass('active');
                 $(this).addClass('active');
                 $('#parent_nav').hide();
@@ -126,6 +145,7 @@
             });
             $('#expand').click(function () {
                 $('#feedback').toggleClass("expand_feedback");
+                $('#doc-display').toggleClass("col-sm-6");
                 $('#glyph_expand').toggleClass("glyphicon-resize-small");
             });
         });
@@ -140,6 +160,19 @@
     </div>
     <a id="main_content"></a>
 
+    {# Ajax fragment  #}
+    {% block ajax %}
+        <script language="javascript">
+            $(document).ready(function () {
+                $('#doc-display').css('height', function () {
+                    return $(window).height() * .98;
+                });
+                $('iframe').css('height', function () {
+                    return $(window).height() * .98;
+                });
+                $('#loading').fadeOut();
+            });
+        </script>
     <div id='file-container'>
         {% if app.request.get('_route') == 'file_view' %}
             <iframe class="col-sm-8" id="viewer"
@@ -153,13 +186,83 @@
             </div>
         {% endif %}
     </div>
-
-
+    {% endblock %}
 
 
     {# Doc tools #}
     <div id="doctools" class="col-sm-4">
-        <div class="list-group" style="margin-top: 0px;margin-bottom: 0px;">
+
+
+        {# File/Doc nav #}
+        <div class="clearfix">
+            {# Parent nav #}
+            <div id='parent_nav' class="btn-group">
+                {% if  parent_file.doc and parent_file.isOwner(app.user.username) %}
+                    <a title="Edit this document" class="btn btn-default"
+                       href="{{ course_path('doc_edit', { 'id': parent_file.id,'view': app.request.get('view') }) }}">Edit</a>
+                {% endif %}
+                {# Don't show Review button if it is a review or a Resource #}
+                {% if parent_file.doc and parent_file.reviewed|length == 0 and parent_file.project.resource != 'true' %}
+                    <a title="Create a copy of this document for peer review" id="new_review"
+                       class="btn btn-default"
+                       href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create
+                        Review</a>
+                {% endif %}
+
+                {% if (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource != 'true') or (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource == 'true'  and local_resource) or (not parent_file.isOwner(app.user.username) and file.project.resource == 'true') %}
+                    <a title="Create a copy of this document" id="new_saveas" class="btn btn-default"
+                       href="javascript:void(0)">SaveAs</a>
+                {% endif %}
+                {% if parent_file.doc%}
+                    <a title="Print this document" class="btn btn-default"
+                       href="{{ course_path('doc_pdf', { 'id': parent_file.doc.id }) }}">Printable PDF</a>
+                {% elseif parent_file.ext == 'odt' or parent_file.ext == 'ods' or parent_file.ext == 'odp' or parent_file.ext == 'pdf' %}
+                    <a title="Download this document" class="btn btn-default"
+                       href="{{ course_path('file_get', { 'id': parent_file.id }) }}">Download</a>
+                {% endif %}
+            </div>
+
+            {# Review docs nav #}
+            {% for review in parent_file.reviews %}
+                    <div id="review_nav_{{ review.id }}" class="btn-group review_nav clearfix">
+                       {% if review.doc and review.doc.isOwner(app.user.username) %}
+                        <a title="Edit this document" class="btn btn-default"
+                           href="{{ course_path('doc_edit', { 'id': review.id,'view': app.request.get('view') }) }}">Edit</a>
+                        <a title="Print this document" class="btn btn-default"
+                           href="{{ course_path('doc_pdf', { 'id': review.doc.id }) }}">Printable PDF</a>
+                        {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
+                        <a title="Download this document" class="btn btn-default"
+                           href="{{ course_path('file_get', { 'id': review.id }) }}">Download</a>
+                        {% endif %}
+                    </div>
+            {% endfor %}
+
+
+            {% if app.request.get('view') == 'window' %}
+                <a title="Close the current window or tab" id="close_window" class="btn btn-default pull-right"
+                   href="javascript:void(0);">Close</a>
+            {% elseif file.project.resource == 'true' %}
+                {% if app.session.get('resource_referrer') %}
+                    <a title="Close this document" class="btn btn-default pull-right"
+                       href="{{ app.session.get('resource_referrer') }} ">Close</a>
+                {% else %}
+                    <a title="Close this document" class="btn btn-default pull-right"
+                       href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
+                {% endif %}
+            {% else %}
+                {% if app.session.get('referrer') %}
+                    <a title="Close this document" class="btn btn-default pull-right"
+                       href="{{ app.session.get('referrer') }} ">Close</a>
+                {% else %}
+                    <a title="Close this document" class="btn btn-default pull-right"
+                       href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+                {% endif %}
+            {% endif %}
+
+        </div>
+
+        {# Parent file listing #}
+        <div class="list-group margin-top" style="margin-bottom: 0px;">
             <a class="list-group-item document {% if parent_file.id == app.request.get('id') %}active{% endif %}"
                id="review_{{ parent_file.id }}" href="javascript:void(0);"
                title="View {{ parent_file.name }}">
@@ -168,115 +271,20 @@
             </a>
         </div>
 
-        {# Doc Reviews #}
+        {# Review listing #}
         <div id="doc_container" class="list-group">
             {% for review in parent_file.reviews %}
                 {% if (parent_file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
-
-                    {# different functions for different file types #}
-                    {# doc files #}
-                    {% if review.doc %}
                         <a class="list-group-item document {% if review.id == app.request.get('id') %}active{% endif %}"
                            id="review_{{ review.id }}" href="javascript:void(0);"
                            title="View {{ review.name }}">
                             <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
                             Review
-                            by {% if review.doc.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}
+                            by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}
                             <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
                         </a>
-
-                        {# links #}
-                    {% elseif review.url %}
-                        <a class="list-group-item document {% if review.id == app.request.get('id') %}active{% endif %}"
-                           href="{{ review.url }}" target="_blank"
-                           title='This link will open in a new window or tab.'>
-                            <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
-                            Review by {{ review.user.firstname }} {{ review.user.lastname }}
-                            <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
-                        </a>
-                        {# ODT files #}
-                    {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
-                        <a class="list-group-item document {% if review.id == app.request.get('id') %}active{% endif %}"
-                           href="{{ course_path('file_view', { 'id': review.id, 'view': 'app' }) }}"
-                           title="View {{ review.name }}">
-                            <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
-                            Review by {{ review.user.firstname }} {{ review.user.lastname }}
-                            <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
-                        </a>
-                    {% else %}
-                        <a class="list-group-item document {% if review.id == app.request.get('id') %}active{% endif %}"
-                           href="{{ course_path('file_get', { 'id': review.id}) }}"
-                           title="View {{ review.name }}">
-                            <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
-                            Review by {{ review.user.firstname }} {{ review.user.lastname }}
-                            <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
-                        </a>
-                    {% endif %}
                 {% endif %}
             {% endfor %}
-
-            {# File/Doc nav #}
-
-
-                <div class="margin-top clearfix">
-                    {# Parent nav #}
-                    <div id='parent_nav' class="btn-group">
-                        {% if parent_file.isOwner(app.user.username) %}
-                            <a title="Edit this document" class="btn btn-default"
-                               href="{{ course_path('doc_edit', { 'id': parent_file.id,'view': app.request.get('view') }) }}">Edit</a>
-                        {% endif %}
-                        {# Don't show Review button if it is a review or a Resource #}
-                        {% if parent_file.reviewed|length == 0 and parent_file.project.resource != 'true' %}
-                            <a title="Create a copy of this document for peer review" id="new_review"
-                               class="btn btn-default"
-                               href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create
-                                Review</a>
-                        {% endif %}
-
-                        {% if (parent_file.isOwner(app.user.username) and file.project.resource != 'true') or (parent_file.isOwner(app.user.username) and file.project.resource == 'true'  and local_resource) or (not doc.isOwner(app.user.username) and file.project.resource == 'true') %}
-                            <a title="Create a copy of this document" id="new_saveas" class="btn btn-default"
-                               href="javascript:void(0)">SaveAs</a>
-                        {% endif %}
-                        {% if parent_file.doc%}
-                        <a title="Print this document" class="btn btn-default"
-                           href="{{ course_path('doc_pdf', { 'id': parent_file.doc.id }) }}">Printable PDF</a>
-                        {% endif %}
-                    </div>
-
-                    {# Review docs nav #}
-                    {% for review in parent_file.reviews %}
-                        {% if review.doc and review.doc.isOwner(app.user.username) %}
-                            <div id="review_nav_{{ review.id }}" class="btn-group review_nav">
-                                <a title="Edit this document" class="btn btn-default"
-                                   href="{{ course_path('doc_edit', { 'id': review.id,'view': app.request.get('view') }) }}">Edit</a>
-                                <a title="Print this document" class="btn btn-default"
-                                   href="{{ course_path('doc_pdf', { 'id': review.doc.id }) }}">Printable PDF</a>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-
-                    {% if app.request.get('view') == 'window' %}
-                        <a title="Close the current window or tab" id="close_window" class="btn btn-default pull-right"
-                           href="javascript:void(0);">Close</a>
-                    {% elseif file.project.resource == 'true' %}
-                        {% if app.session.get('resource_referrer') %}
-                            <a title="Close this document" class="btn btn-default pull-right"
-                               href="{{ app.session.get('resource_referrer') }} ">Close</a>
-                        {% else %}
-                            <a title="Close this document" class="btn btn-default pull-right"
-                               href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
-                        {% endif %}
-                    {% else %}
-                        {% if app.session.get('referrer') %}
-                            <a title="Close this document" class="btn btn-default pull-right"
-                               href="{{ app.session.get('referrer') }} ">Close</a>
-                        {% else %}
-                            <a title="Close this document" class="btn btn-default pull-right"
-                               href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
-                        {% endif %}
-                    {% endif %}
-                </div>
-
 
 
         </div>
@@ -332,11 +340,9 @@
                         {# Reviews #}
                         {% for review in reviews %}
                             <a class="list-group-item question" id="review_{{ review.id }}" href="javascript:void(0);">
-                                by {{ review.reviewer.firstname }} {{ review.reviewer.lastname }}
+                                by {% if review.reviewer.username==app.user.username %}me{% else %}{{ review.reviewer.firstname }} {{ review.reviewer.lastname }}{% endif %}
                                 <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
                             </a>
-                        {% else %}
-                            <div class="pad">No one has answered the review questions.</div>
                         {% endfor %}
                     </div>
 

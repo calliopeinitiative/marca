@@ -24,9 +24,9 @@ class ReviewType extends AbstractType
                 'options'  => array(
                 'required'  => false),))
             ->add('grade','text', array('attr' => array('class' => 'text form-control'),))
-            ->add('notes', 'ckeditor', array('config_name' => 'editor_simple','label'  => ' ',))
+            ->add('notes', 'textarea', array('attr' => array('class' => 'text form-control'),))
             ->add('feedbackGrade','text', array('attr' => array('class' => 'text form-control'),))
-            ->add('feedbackComment', 'ckeditor', array('config_name' => 'editor_simple'))
+            ->add('feedbackComment', 'textarea', array('attr' => array('class' => 'text form-control'),))
         ;
     }
 

@@ -5,10 +5,17 @@
         $('#delete_rubric').click(function () {
             $('#delete_modal').modal();
         });
+        var options = {
+            target:        '#review_container'
+        };
+        $('#review-edit').submit(function() {
+            $(this).ajaxSubmit(options);
+            return false;
+        });
     });
 </script>
 
-<form action="{{ course_path('review_update', { 'id': review.id }) }}"
+<form id="review-edit" action="{{ course_path('review_update', { 'id': review.id }) }}"
       method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
     {{ form_errors(edit_form) }}
 
