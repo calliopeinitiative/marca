@@ -184,6 +184,7 @@ class DocController extends Controller
         };
         $doc = $file->getDoc();
         $markupsets = $course->getMarkupsets();
+        $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($id);
         
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
@@ -198,6 +199,7 @@ class DocController extends Controller
             'pages'        => $pages,
             'role'      => $role,
             'markupsets'      => $markupsets,
+            'reviews' => $reviews,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );

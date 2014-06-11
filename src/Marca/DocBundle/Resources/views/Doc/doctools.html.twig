@@ -93,36 +93,43 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                    Feedback ({{ file.responses|length }} response(s))
-                </a>
-            </h4>
-        </div>
-        <div id="collapseThree" class="panel-collapse collapse">
-            <div class="panel-body">
-                {# Responses #}
-                {% for response in file.responses %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h2 class="panel-title">{{ response.user.firstname }} {{ response.user.lastname }}
-                                says:</h2>
 
-                            {% if response.isOwner(app.user.username) %}
-                                <a class="btn btn-default btn-xs pull-right"
-                                   href="{{ course_path('response_edit', { 'id': response.id,'sourceid': file.id, 'source': app.request.get('_route'),'view': app.request.get('view'),'userid': file.user.id  }) }}">Edit</a>
-                            {% endif %}
-                        </div>
-                        <div class="panel-body">
-                            {{ response.body|raw }}
-                        </div>
+    {# Feedback Panel #}
+    <div id="feedback" class="margin-top">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <h2 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                       href="#collapseThree">
+                        Feedback ({{ reviews|length }})
+                    </a>
+                </h2>
+                <div class="btn-group  pull-right">
+                <span id="expand" title="Create a new review" class="btn btn-default btn-xs pull-right"
+                      href="javascript:void(0);"><i id="glyph_expand"
+                                                    class="glyphicon glyphicon-resize-full glyphicon-white"
+                                                    style="margin-left: 0px;"></i></span>
+                <span id="new_rubricreview" title="Create a new review" class="btn btn-default btn-xs pull-right"
+                      href="javascript:void(0);">Add <i
+                            class="glyphicon glyphicon-plus glyphicon-white"></i></span>
+                </div>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse">
+                <div class="panel-body margin-bottom" style="padding:0px;">
+                    <div id="loading-feedback" class="alert alert-info small"
+                         style="position:absolute;z-index: 1000;text-align: center">Loading
                     </div>
-
-                {% else %}
-                    <div class="pad">No one has has offered feedback.</div>
-                {% endfor %}
+                    {# Reviews #}
+                    {% for review in reviews %}
+                        <a class="list-group-item question" id="review_{{ review.id }}" href="javascript:void(0);">
+                            by {% if review.reviewer.username==app.user.username %}me{% else %}{{ review.reviewer.firstname }} {{ review.reviewer.lastname }}{% endif %}
+                            <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+                <div class="" id="review_container">
+                </div>
             </div>
         </div>
     </div>

@@ -72,7 +72,7 @@
             });
             {% endfor %}
 
-            {# Review questions #}
+            {# Review feedback #}
             {% for review in reviews %}
             $('#review_{{ review.id }}').click(function () {
                 $('#loading-feedback').fadeIn();
@@ -348,20 +348,16 @@
                            href="#collapseTwo">
                             Feedback ({{ reviews|length }})
                         </a>
-
                     </h2>
-
                     <div class="btn-group  pull-right">
                 <span id="expand" title="Create a new review" class="btn btn-default btn-xs pull-right"
                       href="javascript:void(0);"><i id="glyph_expand"
                                                     class="glyphicon glyphicon-resize-full glyphicon-white"
                                                     style="margin-left: 0px;"></i></span>
-
                 <span id="new_rubricreview" title="Create a new review" class="btn btn-default btn-xs pull-right"
                       href="javascript:void(0);">Add <i
                             class="glyphicon glyphicon-plus glyphicon-white"></i></span>
                     </div>
-
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse">
                     <div class="panel-body margin-bottom" style="padding:0px;">
@@ -376,9 +372,7 @@
                             </a>
                         {% endfor %}
                     </div>
-
                     <div class="" id="review_container">
-
                     </div>
                 </div>
             </div>
