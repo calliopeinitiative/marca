@@ -4,6 +4,7 @@
     $(document).ready(function () {
         $('#loading-feedback').fadeOut();
         $('#review_edit').click(function () {
+            $('#loading-feedback').fadeIn();
             $('#review_container').load('{{ course_path('review_edit_ajax', { 'id': review.id }) }}');
         });
     });
