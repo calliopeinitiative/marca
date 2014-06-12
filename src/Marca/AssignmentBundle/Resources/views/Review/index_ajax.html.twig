@@ -1,0 +1,25 @@
+{# Marca/AssignmentBundle/Resources/Views/Review/show_ajax.html.twig #}
+
+<script language="javascript">
+    $(document).ready(function () {
+        $('#loading-feedback').fadeOut();
+    });
+</script>
+
+<div id="responses">
+
+    {# Reviews #}
+    {% for review in reviews %}
+        <a class="list-group-item question" id="review_{{ review.id }}" href="javascript:void(0);">
+            by {% if review.reviewer.username==app.user.username %}me{% else %}{{ review.reviewer.firstname }} {{ review.reviewer.lastname }}{% endif %}
+            <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
+        </a>
+    {% endfor %}
+
+</div>
+
+
+
+
+
+

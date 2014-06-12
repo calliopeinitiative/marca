@@ -38,6 +38,22 @@ class ReviewController extends Controller
     }
 
     /**
+     * Lists all Review entities.
+     *
+     * @Route("/{fileid}/index_ajax", name="review_index_ajax")
+     * @Template()
+     */
+    public function index_ajaxAction($fileid)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($fileid);
+
+        return array(
+            'reviews' => $reviews,
+        );
+    }
+
+    /**
      * Finds and displays a Review entity.
      *
      * @Route("/{id}/show", name="review_show")
