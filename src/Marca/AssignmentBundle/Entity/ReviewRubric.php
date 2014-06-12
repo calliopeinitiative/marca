@@ -32,21 +32,21 @@ class ReviewRubric
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     private $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="instructions", type="text")
+     * @ORM\Column(name="instructions", type="text", nullable=true)
      */
     private $instructions;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="keywords", type="string", length=255)
+     * @ORM\Column(name="keywords", type="string", length=255, nullable=true)
      */
     private $keywords;
 
