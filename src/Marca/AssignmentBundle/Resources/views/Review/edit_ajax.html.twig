@@ -13,15 +13,17 @@
             return false;
         });
         $('#loading-feedback').fadeOut();
+        {# nice little jquery plugin for sorting: tinysort #}
+        $('div#responses>div').tsort({order:'asc',attr:'id'});
     });
 </script>
 
 <form id="review-edit" action="{{ course_path('review_update', { 'id': review.id }) }}"
       method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
     {{ form_errors(edit_form) }}
-
+    <div id="responses">
     {% for reviewresponse in edit_form.reviewresponses %}
-        <div class="panel panel-default">
+        <div id="{{ review.reviewresponses[loop.index-1].reviewPrompt.sortOrder }}"  class="panel panel-default">
             <div class="panel-heading">
                 <strong>
                     {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
@@ -58,6 +60,7 @@
             </div>
         </div>
     {% endfor %}
+        </div>
     <div class="panel panel-default">
         <div class="panel-heading">
         </div>

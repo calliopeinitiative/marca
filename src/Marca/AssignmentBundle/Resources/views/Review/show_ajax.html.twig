@@ -7,12 +7,14 @@
             $('#loading-feedback').fadeIn();
             $('#review_container').load('{{ course_path('review_edit_ajax', { 'id': review.id }) }}');
         });
+        {# nice little jquery plugin for sorting: tinysort #}
+        $('div#responses>div').tsort({order:'asc',attr:'id'});
     });
 </script>
 
-
+<div id="responses">
 {% for reviewresponse in review.reviewresponses %}
-    <div class="panel panel-default">
+    <div id="{{ reviewresponse.reviewPrompt.sortOrder }}" class="panel panel-default">
         <div class="panel-heading">
             <strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong>
             </div>
@@ -30,6 +32,8 @@
             </div>
     </div>
 {% endfor %}
+</div>
+
 <div class="panel panel-default">
     <div class="panel-body">
         {% if  (review.file.user==app.user or role==2) and review.grade!='' %}
