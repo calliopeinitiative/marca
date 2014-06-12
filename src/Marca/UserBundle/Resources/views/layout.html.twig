@@ -12,7 +12,9 @@
 <h1><a title="Click to list your current or pending courses" href="{{ path('user_home') }}" class="marca-gray">Home</a> </h1>
        {% if is_granted('ROLE_USER') %}
              <li><a title="Click to enroll in a new course" class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll in a course</a></li>
+                {% if app.request.get('_route') == 'user_home' or app.request.get('_route') == 'file_view_ajax' %}
              {% if archive %}<li><a id="archive_toggle" title="Click to view Previous Courses" class="" href="javascript:void(0);">Previous Courses</a></li>{% endif %}
+                {% endif %}
        {% endif %}
        {% if is_granted('ROLE_INSTR') %}
              <h2 class="nav-header">Settings</h2>
