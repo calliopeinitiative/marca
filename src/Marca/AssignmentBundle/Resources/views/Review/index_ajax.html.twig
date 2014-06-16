@@ -1,22 +1,36 @@
-{# Marca/AssignmentBundle/Resources/Views/Review/show_ajax.html.twig #}
+{# Marca/AssignmentBundle/Resources/Views/Review/index_ajax.html.twig #}
 
 <script language="javascript">
     $(document).ready(function () {
         $('#loading-feedback').fadeOut();
+        {# nice little jquery plugin for sorting: tinysort #}
+        $('div#responses>div').tsort({order:'asc',attr:'id'});
+        {# jquery to hide redundant display of prompts #}
+        $('.prompts').hide();
+        {% for review in reviews %}
+        {% for reviewresponse in review.reviewresponses %}
+        var classselector = '.';
+        var promptid = classselector.concat({{ reviewresponse.reviewPrompt.id }});
+        $(promptid).first().fadeIn();
+        {% endfor %}
+        {% endfor %}
     });
 </script>
 
 <div id="responses">
-
     {# Reviews #}
     {% for review in reviews %}
-        <a class="list-group-item question" id="review_{{ review.id }}" href="javascript:void(0);">
-            by {% if review.reviewer.username==app.user.username %}me{% else %}{{ review.reviewer.firstname }} {{ review.reviewer.lastname }}{% endif %}
-            <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
-        </a>
+            {% for reviewresponse in review.reviewresponses %}
+                <div id="{{ reviewresponse.reviewPrompt.sortOrder }}" class="pad">
+                    <div class="prompts {{ reviewresponse.reviewPrompt.id }}"><hr/><strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong></div>
+                        {{ reviewresponse.responseShortText|raw }}
+                        {{ reviewresponse.responseparagraphText|raw }}
+                        {% if reviewresponse.scaleitem %}{{ reviewresponse.scaleitem.name }}{% endif %}
+                </div>
+            {% endfor %}
     {% endfor %}
-
 </div>
+
 
 
 

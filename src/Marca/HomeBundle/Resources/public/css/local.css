@@ -391,10 +391,15 @@ ul .dropdown-menu .glyphicon {
     height:100%;
 }
 
-.footer {
+.doc-header {
     margin-top: 3em;
     padding-top: 1em;
     border-top: grey solid 1px;
+}
+
+.doc-footer {
+    margin-top: 0px;
+    border: rgba(0, 0, 0, 0.05) solid 1px;
 }
 
 .sidebar {
@@ -925,10 +930,10 @@ tr.review td .label {font-size: 90%;}
 .expand_feedback {
     position: fixed;
     right:0px;
-    top:10px;
+    top:45px;
     z-index: 1000;
     width: 50%;
-    height: 98%;
+    height: 96%;
     overflow-y: auto;
     background: #F2F2F2;
     padding: 20px;

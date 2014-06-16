@@ -10,7 +10,7 @@
         $(document).ready(function () {
             var editorheight = $(document).height() * .98;
             $('#saving_alert').toggle();
-            $('#doctools').css('height', function (index) {
+            $('#doc-tools').css('height', function (index) {
                 return $(window).height() * .98;
             });
             var editor = CKEDITOR.instances.marca_docbundle_doctype_body;
@@ -35,7 +35,7 @@
                 editor.resize('80%', editorheight);
             });
             $('#toggle-tools').click(function () {
-                $('#doctools').toggleClass('hide');
+                $('#doc-tools').toggleClass('hide');
                 $('#doc-edit').toggleClass('col-sm-offset-2');
             });
             $('#notice').click(function () {
@@ -83,11 +83,10 @@
                 </div>
 
                 {# Doc tools #}
-                <div id='doctools' class="col-sm-4">
-
+                <div id='doc-tools' class="col-sm-4">
                     {% include 'MarcaDocBundle:Doc:doctools.html.twig' %}
-
                 </div>
+
             </div>
         </form>
     </div>

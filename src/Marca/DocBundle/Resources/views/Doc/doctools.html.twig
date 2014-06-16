@@ -1,111 +1,253 @@
 {# Marca/DocBundle/Resources/views/Doc/doctools.html.twig #}
 
-{# Doc tools #}
+{# Doc tools include in Doc Edit and Show #}
+<div class="col-sm-12">
 
-<div class="col-sm-12 margin-bottom margin-top">
-    <div class="btn-group pull-right" style="margin-right: -15px;">
-        {# <a class="btn btn-default" id="toggle-tools" href="javascript:void(0);">Doc Tools</a> #}
-        <span class="btn btn-default" id='saving_alert'>Saving</span>
-        <input class="btn btn-default" type="submit" id="doc_save" value="Save and Close"/>
+{# conditional for show or edit #}
+{% if app.request.get('_route') == 'doc_edit' or app.request.get('_route') == 'doc_ajax' %}
 
-    </div>
-</div>
-
-<div class="panel-group" id="accordion">
-    <div class="panel panel-default ">
-        <div class="panel-heading" style="color:white; background-color: #428bca;">
-            <a class="accordion-toggle" style="color:white;" data-toggle="collapse" data-parent="#accordion"
-               href="#collapseOne">
-                {{ file.name }}
-            </a>
-            <span class="pull-right">by {{ file.user.firstname }} {{ file.user.lastname }}</span>
+    {# id doc edit #}
+    <div class="clearfix">
+        <div class="btn-group pull-right">
+            {# <a class="btn btn-default" id="toggle-tools" href="javascript:void(0);">Doc Tools</a> #}
+            <span class="btn btn-default" id='saving_alert'>Saving</span>
+            {% if role == 2 and pages %}
+                <a id='insert_rubric' class='btn btn-default' href="javascript:void(0);"
+                   title="Insert Rubric: Be sure to place your cursor where you want the rubric to go.">Insert
+                    Rubric</a>
+            {% endif %}
+            <input class="btn btn-default" type="submit" id="doc_save" value="Save and Close"/>
         </div>
+    </div>
 
-        <div id="collapseOne" class="panel-collapse collapse">
-            <div class="panel-body">
-                <dl>
-                    <dt>Updated</dt>
-                    <dd>{{ file.updated|date('m/d/y, g:i a') }}</dd>
-                    <dt>Created</dt>
-                    <dd>{{ file.created|date('m/d/y, g:i a') }}</dd>
-                </dl>
-                <strong>Labels</strong>
-                {% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
-                {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
-                {% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
-                {% endif %}
-                {% if file.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
+    <div class="panel-group margin-top" style="margin-bottom: 5px;" id="accordion">
+        <div class="panel panel-default ">
+            <div class="panel-heading" style="color:white; background-color: #428bca;">
+                <a class="accordion-toggle" style="color:white;" data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseOne">
+                    {{ file.name }}
+                </a>
+                <span class="small pull-right">by {{ file.user.firstname }} {{ file.user.lastname }}</span>
+            </div>
+
+            <div id="collapseOne" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <dl>
+                        <dt>Updated</dt>
+                        <dd>{{ file.updated|date('m/d/y, g:i a') }}</dd>
+                        <dt>Created</dt>
+                        <dd>{{ file.created|date('m/d/y, g:i a') }}</dd>
+                    </dl>
+                    <strong>Labels</strong>
+                    {% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
+                    {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
+                    {% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
+                    {% endif %}
+                    {% if file.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
+                </div>
             </div>
         </div>
-    </div>
 
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                    Markup
-                </a>
-            </h4>
-        </div>
-        <div id="collapseTwo" class="panel-collapse collapse in">
+        <div class="panel panel-default">
             <div class="panel-body">
                 {# INSERT NOTE #}
                 <form id='note_insert_form' name='note_insert_form'>
-                    <label for="insert_value">Note</label>
                     <textarea class='form-control' id="insert_value" name="html_insert"></textarea>
                     <a id='note_insert_submit' href="javascript:void(0)" class="btn btn-default btn-sm"
-                       title="Submit entry">Insert Note</a>
+                       title="Insert Note">Insert Note</a>
                 </form>
+            </div>
+        </div>
 
-                <hr/>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        Markup
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse in">
                 <div class="panel-group" id="accordionMarkup">
+                    <div class="panel-body">
 
-                    {% for markupset in markupsets %}
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionMarkup"
-                                       href="#collapseMarkup{{ markupset.id }}">
-                                        {{ markupset.name }}
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseMarkup{{ markupset.id }}" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    {% for markup in markupset.markup %}
-                                        <a href="javascript:{{ markup.function }}('{{ markup.id }}', '{{ markup.value }}','{{ markup.color }}')"
-                                           title="Submit entry"><span style='color:black;'
-                                                                      class="label {{ markup.color }}">{{ markup.name }}</span></a>
-                                    {% endfor %}
+                        {% for markupset in markupsets %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle" data-toggle="collapse"
+                                           data-parent="#accordionMarkup"
+                                           href="#collapseMarkup{{ markupset.id }}">
+                                            {{ markupset.name }}
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseMarkup{{ markupset.id }}" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        {% for markup in markupset.markup %}
+                                            <a href="javascript:{{ markup.function }}('{{ markup.id }}', '{{ markup.value }}','{{ markup.color }}')"
+                                               title="Submit entry"><span style='color:black;'
+                                                                          class="label {{ markup.color }}">{{ markup.name }}</span></a>
+                                        {% endfor %}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
-
-                {% if role == 2 and pages %}
-                    <hr/>
-                    <a id='insert_rubric' class='btn btn-default' href="javascript:void(0);"
-                       title="Insert Rubric: Be sure to place your cursor where you want the rubric to go.">Insert
-                        Rubric</a>
-                {% endif %}
             </div>
         </div>
     </div>
 
-    {# Feedback Panel #}
-    <div id="feedback" class="margin-top">
-        <div class="panel panel-default">
-            <div class="panel-heading">
+{% else %}
 
+    {# if doc show #}
+    {# File/Doc nav #}
+    <div class="clearfix">
+        {# Parent nav #}
+        <div id='parent_nav' class="btn-group">
+            {% if  parent_file.doc and parent_file.isOwner(app.user.username) %}
+                <a title="Edit this document" class="btn btn-default"
+                   href="{{ course_path('doc_edit', { 'id': parent_file.id,'view': app.request.get('view') }) }}">Edit</a>
+            {% endif %}
+            {# Don't show Review button if it is a review or a Resource #}
+            {% if parent_file.doc and parent_file.reviewed|length == 0 and parent_file.project.resource != 'true' %}
+                <a title="Create a copy of this document for peer review" id="new_review"
+                   class="btn btn-default"
+                   href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create
+                    Review</a>
+            {% endif %}
+
+            {# conditional to SaveAs project for students and Saveas Resource for instructors #}
+            {% if (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource != 'true') or (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource == 'true'  and local_resource) or (not parent_file.isOwner(app.user.username) and parent_file.doc and file.project.resource == 'true') %}
+                <a title="Create a copy of this document" id="new_saveas" class="btn btn-default"
+                   href="javascript:void(0)">SaveAs</a>
+            {% endif %}
+            {% if parent_file.doc %}
+                <a title="Print this document" class="btn btn-default"
+                   href="{{ course_path('doc_pdf', { 'id': parent_file.doc.id }) }}">Printable PDF</a>
+            {% elseif parent_file.ext == 'odt' or parent_file.ext == 'ods' or parent_file.ext == 'odp' or parent_file.ext == 'pdf' %}
+                <a title="Download this document" class="btn btn-default"
+                   href="{{ course_path('file_get', { 'id': parent_file.id }) }}">Download</a>
+            {% endif %}
+        </div>
+        {# Review docs nav #}
+        {% for review in parent_file.reviews %}
+            <div id="review_nav_{{ review.id }}" class="btn-group review_nav clearfix">
+                {% if review.doc and review.doc.isOwner(app.user.username) %}
+                    <a title="Edit this document" class="btn btn-default"
+                       href="{{ course_path('doc_edit', { 'id': review.id,'view': app.request.get('view') }) }}">Edit</a>
+                    <a title="Print this document" class="btn btn-default"
+                       href="{{ course_path('doc_pdf', { 'id': review.doc.id }) }}">Printable PDF</a>
+                {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
+                    <a title="Download this document" class="btn btn-default"
+                       href="{{ course_path('file_get', { 'id': review.id }) }}">Download</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+        {# Close #}
+        {% if app.request.get('view') == 'window' %}
+            <a title="Close the current window or tab" id="close_window" class="btn btn-default pull-right"
+               href="javascript:void(0);">Close</a>
+        {% elseif file.project.resource == 'true' %}
+            {% if app.session.get('resource_referrer') %}
+                <a title="Close this document" class="btn btn-default pull-right"
+                   href="{{ app.session.get('resource_referrer') }} ">Close</a>
+            {% else %}
+                <a title="Close this document" class="btn btn-default pull-right"
+                   href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
+            {% endif %}
+        {% else %}
+            {% if app.session.get('referrer') %}
+                <a title="Close this document" class="btn btn-default pull-right"
+                   href="{{ app.session.get('referrer') }} ">Close</a>
+            {% else %}
+                <a title="Close this document" class="btn btn-default pull-right"
+                   href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    {# Parent file listing #}
+    <div class="list-group margin-top" style="margin-bottom: 0px;">
+        <a class="list-group-item document {% if parent_file.id == app.request.get('id') %}active{% endif %}"
+           id="review_{{ parent_file.id }}" href="javascript:void(0);"
+           title="View {{ parent_file.name }}">
+            <span>{{ parent_file.name }} </span><br/>
+            <span class="small">by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}</span>
+                <span class="small pull-right">
+                    {% if parent_file.doc %}
+                        {{ parent_file.doc.created|date('m/d/y, g:i a') }}{% if parent_file.doc.created != parent_file.doc.updated %} / {{ parent_file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
+                    {% else %}
+                        {{ parent_file.created|date('m/d/y, g:i a') }}{% if parent_file.created != parent_file.updated %} / {{ parent_file.updated|date('m/d/y, g:i a') }}{% endif %}
+                    {% endif %}
+                 </span>
+        </a>
+    </div>
+
+    {# Review listing #}
+    <div id="doc_container" class="list-group">
+        {% for review in parent_file.reviews %}
+            {% if (parent_file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
+                <a class="list-group-item document {% if review.id == app.request.get('id') %}active{% endif %}"
+                   id="review_{{ review.id }}" href="javascript:void(0);"
+                   title="View {{ review.name }}">
+                    <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                    Review<br/>
+                    <span class="small">by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}</span>
+
+                        <span class="small pull-right">
+                                {% if review.doc %}
+                                    {{ review.doc.created|date('m/d/y, g:i a') }}{% if review.doc.created != review.doc.updated %} / {{ review.doc.updated|date('m/d/y, g:i a') }}{% endif %}
+                                {% else %}
+                                    {{ review.created|date('m/d/y, g:i a') }}{% if review.created != review.updated %} / {{ review.updated|date('m/d/y, g:i a') }}{% endif %}
+                                {% endif %}
+                            </span>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    {# Notes Panel #}
+    {% if app.request.get('_route') != 'file_view' %}
+        <div id="notes" class="panel panel-default">
+            <div class="panel-heading">
                 <h2 class="panel-title">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                       href="#collapseThree">
-                        Feedback ({{ reviews|length }})
+                       href="#collapseOne"
+                       data-toggle="tab">Comments <span id="inline-toggle">Inline</span>
                     </a>
                 </h2>
-                <div class="btn-group  pull-right">
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div id="docNotes">
+                        <div id='notes_container'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {# end of Note Panel#}
+
+{% endif %}
+{# end of conditional for show or edit #}
+
+
+{# Feedback Panel for both #}
+<div id="feedback">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+
+            <h2 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseThree">
+                    Feedback ({{ reviews|length }})
+                </a>
+            </h2>
+
+            <div class="btn-group  pull-right">
                 <span id="expand" title="Create a new review" class="btn btn-default btn-xs pull-right"
                       href="javascript:void(0);"><i id="glyph_expand"
                                                     class="glyphicon glyphicon-resize-full glyphicon-white"
@@ -113,27 +255,31 @@
                 <span id="new_rubricreview" title="Create a new review" class="btn btn-default btn-xs pull-right"
                       href="javascript:void(0);">Add <i
                             class="glyphicon glyphicon-plus glyphicon-white"></i></span>
-                <span id="review_composite" title="View Feedback Composite" class="btn btn-default btn-xs pull-right"
-                                      href="javascript:void(0);">Composite <i
-                                            class="glyphicon glyphicon-list glyphicon-white"></i></span>
-                </div>
-            </div>
-            <div id="collapseThree" class="panel-collapse collapse">
-                <div class="panel-body margin-bottom" style="padding:0px;">
-                    <div id="loading-feedback" class="alert alert-info small"
-                         style="position:absolute;z-index: 1000;text-align: center">Loading
-                    </div>
-                    {# Reviews #}
-                    {% for review in reviews %}
-                        <a class="list-group-item question" id="review_{{ review.id }}" href="javascript:void(0);">
-                            by {% if review.reviewer.username==app.user.username %}me{% else %}{{ review.reviewer.firstname }} {{ review.reviewer.lastname }}{% endif %}
-                            <span class="pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
-                        </a>
-                    {% endfor %}
-                </div>
-                <div class="" id="review_container">
-                </div>
+                               <span id="review_composite" title="View Feedback Composite"
+                                     class="btn btn-default btn-xs pull-right"
+                                     href="javascript:void(0);">Composite <i
+                                           class="glyphicon glyphicon-list glyphicon-white"></i></span>
             </div>
         </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body margin-bottom">
+                <div id="loading-feedback" class="alert alert-info small"
+                     style="position:absolute;z-index: 1000;text-align: center">Loading
+                </div>
+                {# Reviews #}
+                {% for review in reviews %}
+                    <a class="list-group-item question" id="review_{{ review.id }}" href="javascript:void(0);">
+                        by {% if review.reviewer.username==app.user.username %}me{% else %}{{ review.reviewer.firstname }} {{ review.reviewer.lastname }}{% endif %}
+                        <span class="small pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
+                    </a>
+                {% endfor %}
+                <div class="margin-top" id="review_container">
+                </div>
+            </div>
+
+        </div>
     </div>
+</div>
+{# end of Feedback Panel #}
+
 </div>
