@@ -5,14 +5,14 @@
 {% block javascripts %}
     {{ parent() }}
     <script language="javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             {% for roll in roll%}
-                $('#remove_{{roll.course.id}}').click(function(){
+            $('#remove_{{roll.course.id}}').click(function () {
                 $('#roll_modal').load('{{ path('user_roll_modal', { 'id': roll.id, "courseid" : roll.course.id  }) }}');
                 $('#roll_modal').modal();
-                });
+            });
             {% endfor %}
-            $( "#archive_toggle" ).click(function() {
+            $("#archive_toggle").click(function () {
                 $('#archive').toggle();
             });
             $('#archive').toggle();
@@ -33,18 +33,22 @@
                             <div class="row" style="background: #f5f5f5">
                                 <div class="col-sm-12">
                                     <h2>{{ course.name }}</h2>
-                                    <p>{{course.firstname}} {{course.lastname}}, {{ course.time|date('h:i a') }}</p>
+
+                                    <p>{{ course.firstname }} {{ course.lastname }}, {{ course.time|date('h:i a') }}</p>
+
                                     <p>You are already in this course.</p>
                                 </div>
                             </div>
-                        {%else%}
+                        {% else %}
                             <div class="row">
                                 <div class="col-sm-8">
                                     <h2>{{ course.name }}</h2>
-                                    <p>{{course.firstname}} {{course.lastname}}, {{ course.time|date('h:i a') }}</p>
+
+                                    <p>{{ course.firstname }} {{ course.lastname }}, {{ course.time|date('h:i a') }}</p>
                                 </div>
                                 <div class="col-sm-4">
-                                    <a class="btn btn-primary margin-top" title="Enroll in this course" href="{{ path('enroll_enroll', { 'courseid': course.id } ) }}">Enroll</a>
+                                    <a class="btn btn-primary margin-top" title="Enroll in this course"
+                                       href="{{ path('enroll_enroll', { 'courseid': course.id } ) }}">Enroll</a>
                                 </div>
                                 <hr/>
                             </div>
@@ -82,13 +86,17 @@
                     {% for course in pending %}
                         <div class="col-sm-9">
                             <h2 class="margin-top-small">{{ course.name }}</h2>
-                            <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
+
+                            <p>{{ course.user.firstname }} {{ course.user.lastname }}
+                                , {{ course.time|date('h:i a') }}</p>
                         </div>
                         <div class="col-sm-3">
-                            <a id="remove_{{course.id}}" class="btn btn-default" title="Remove enrollment request" href="javascript:void(0);">Remove</a>
+                            <a id="remove_{{ course.id }}" class="btn btn-default" title="Remove enrollment request"
+                               href="javascript:void(0);">Remove</a>
                         </div>
                     {% endfor %}
-                </div></a><
+                </div>
+                </a>
                 <div class="panel-footer">
                     <span class="text-muted">Please check back soon.</span>
                     <a class='btn btn-primary btn-xs pull-right' href="{{ path('user_home') }}">Check now</a>
@@ -108,10 +116,15 @@
                         <div class="col-sm-9">
                             <a href="{{ path('course_home', { 'courseid': course.id }) }}">
                                 <h2 class="margin-top-small">{{ course.name }}</h2></a>
-                            <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
+
+                            <p>{{ course.user.firstname }} {{ course.user.lastname }}
+                                , {{ course.time|date('h:i a') }}</p>
                         </div>
                         <div class="col-sm-3">
-                            {% if course.isOwner(app.user.username) %}<a class="btn btn-default" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}
+                            {% if course.isOwner(app.user.username) %}<a class="btn btn-default"
+                                                                         title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"
+                                                                         href="{{ path('course_show', { 'courseid': course.id }) }}">
+                                    Settings</a>{% endif %}
                         </div>
                     {% endfor %}
                 </div>
@@ -133,10 +146,15 @@
                         <div class="col-sm-9">
                             <a href="{{ path('course_home', { 'courseid': course.id }) }}">
                                 <h2 class="margin-top-small">{{ course.name }}</h2></a>
-                            <p>{{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
+
+                            <p>{{ course.user.firstname }} {{ course.user.lastname }}
+                                , {{ course.time|date('h:i a') }}</p>
                         </div>
                         <div class="col-sm-3">
-                            {% if course.isOwner(app.user.username) %}<a class="btn btn-default" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}
+                            {% if course.isOwner(app.user.username) %}<a class="btn btn-default"
+                                                                         title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"
+                                                                         href="{{ path('course_show', { 'courseid': course.id }) }}">
+                                    Settings</a>{% endif %}
                         </div>
                     {% endfor %}
                 </div>
@@ -158,10 +176,15 @@
                         <div class="col-sm-9">
                             <a href="{{ path('course_home', { 'courseid': course.id }) }}">
                                 <h2 class="margin-top-small">{{ course.name }}</h2></a>
-                            <p>{{course.term.termname}}, {{course.user.firstname}} {{course.user.lastname}}, {{ course.time|date('h:i a') }}</p>
+
+                            <p>{{ course.term.termname }}, {{ course.user.firstname }} {{ course.user.lastname }}
+                                , {{ course.time|date('h:i a') }}</p>
                         </div>
                         <div class="col-sm-3">
-                            {% if course.isOwner(app.user.username) %}<a class="btn btn-default" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}" href="{{ path('course_show', { 'courseid': course.id }) }}">Settings</a>{% endif %}
+                            {% if course.isOwner(app.user.username) %}<a class="btn btn-default"
+                                                                         title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"
+                                                                         href="{{ path('course_show', { 'courseid': course.id }) }}">
+                                    Settings</a>{% endif %}
                         </div>
                     {% endfor %}
                 </div>
@@ -174,7 +197,7 @@
 
 
     {# Modal #}
-    <div class="modal fade" id="roll_modal" role="dialog" >
+    <div class="modal fade" id="roll_modal" role="dialog">
 
     </div><!-- /.modal -->
 {% endblock %}
