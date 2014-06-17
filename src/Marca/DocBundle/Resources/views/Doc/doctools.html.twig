@@ -255,17 +255,16 @@
                 <span id="new_rubricreview" title="Create a new review" class="btn btn-default btn-xs pull-right"
                       href="javascript:void(0);">Add <i
                             class="glyphicon glyphicon-plus glyphicon-white"></i></span>
-                               <span id="review_composite" title="View Feedback Composite"
-                                     class="btn btn-default btn-xs pull-right"
-                                     href="javascript:void(0);">Composite <i
-                                           class="glyphicon glyphicon-list glyphicon-white"></i></span>
             </div>
         </div>
         <div id="collapseThree" class="panel-collapse collapse">
             <div class="panel-body margin-bottom">
                 <div id="loading-feedback" class="alert alert-info small"
-                     style="position:absolute;z-index: 1000;text-align: center">Loading
+                     style="position:absolute;z-index: 1000;text-align: center;right:30px">Loading
                 </div>
+                <a title="View Feedback Composite" id="review_composite" class="list-group-item question" id="review_comp" href="javascript:void(0);">
+                    Composite <i class="glyphicon glyphicon-list glyphicon-white"></i>
+                </a>
                 {# Reviews #}
                 {% for review in reviews %}
                     <a class="list-group-item question" id="review_{{ review.id }}" href="javascript:void(0);">

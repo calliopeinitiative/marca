@@ -5,7 +5,6 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/marcahome/ckeditor/ckeditor_tools.js') }}"></script>
-
     <script language="javascript">
         $(document).ready(function () {
             var editorheight = $(document).height() * .98;
@@ -41,22 +40,7 @@
             $('#notice').click(function () {
                 $(this).toggleClass('hide');
             });
-            {# Review feedback #}
-            {% for review in reviews %}
-            $('#review_{{ review.id }}').click(function () {
-                $('#loading-feedback').fadeIn();
-                $('#review_container').load('{{ course_path('review_show_ajax', { 'id': review.id }) }}').show();
-                $('.question').removeClass('active');
-                $(this).addClass('active');
-            });
-            {% endfor %}
-            $('.review_nav,#loading, #loading-feedback').hide();
-            $('#review_container').toggle();
-            $('#expand').click(function () {
-                $('#feedback').toggleClass("expand_feedback");
-                $('#doc-display').toggleClass("col-sm-6");
-                $('#glyph_expand').toggleClass("glyphicon-resize-small");
-            });
+            {% include 'MarcaDocBundle:Doc:js.html.twig' %}
         });
     </script>
 {% endblock %}

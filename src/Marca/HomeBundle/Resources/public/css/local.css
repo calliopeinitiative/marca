@@ -939,6 +939,16 @@ tr.review td .label {font-size: 90%;}
     padding: 20px;
 }
 
+.prompts {
+   border-bottom: 1px solid #e3e3e3;
+    padding: 5px;
+    padding-top: 10px;
+}
+
+.responses {
+    margin: 10px;
+}
+
 #file-container {
     height: 100%;
 }

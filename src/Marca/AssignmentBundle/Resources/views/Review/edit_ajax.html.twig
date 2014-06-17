@@ -19,6 +19,17 @@
     });
 </script>
 
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Instructions
+    </div>
+    <div class="panel-body">
+        {{ review.reviewrubric.instructions|raw }}
+    </div>
+</div>
+
+
 <form id="review-edit" action="{{ course_path('review_update', { 'id': review.id }) }}"
       method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
     {{ form_errors(edit_form) }}

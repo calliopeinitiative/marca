@@ -71,38 +71,6 @@
                 $('#loading').fadeIn();
             });
             {% endfor %}
-
-            {# Review feedback #}
-            {% for review in reviews %}
-            $('#review_{{ review.id }}').click(function () {
-                $('#loading-feedback').fadeIn();
-                $('#review_container').load('{{ course_path('review_show_ajax', { 'id': review.id }) }}').show();
-                $('.question').removeClass('active');
-                $(this).addClass('active');
-            });
-            {% endfor %}
-            $('.review_nav,#loading, #loading-feedback').hide();
-            $('#review_container').toggle();
-            $('#toggle_docs').click(function () {
-                if ($('#doc_container').is(':hidden')) {
-                    $('#doc_container').slideDown();
-                } else {
-                    $('#doc_container').slideUp();
-                }
-            });
-            $('#expand').click(function () {
-                $('#feedback').toggleClass("expand_feedback");
-                $('#doc-container').toggleClass("col-sm-6");
-                $('#doc-tools').toggleClass("col-sm-6");
-                $('#glyph_expand').toggleClass("glyphicon-resize-small");
-            });
-            {# Review Feedback composite #}
-            $('#review_composite').click(function () {
-                $('#loading-feedback').fadeIn();
-                $('.question').removeClass('active');
-                $('#review_container').show();
-                $('#review_container').load('{{ course_path('review_index_ajax', { 'fileid': parent_file.id}) }}');
-            });
             {# Notes #}
             $("#notes").click(function () {
                 $('#inline-toggle').text(($('#inline-toggle').text() == 'Inline' ? 'Marginal' : 'Inline'));
@@ -112,8 +80,12 @@
             {% if file.project.resource == 'true' %}
             $('#notes, #feedback').hide();
             {% endif %}
+            {% include 'MarcaDocBundle:Doc:js.html.twig' %}
         });
     </script>
+
+
+
 {% endblock %}
 
 {% block content %}

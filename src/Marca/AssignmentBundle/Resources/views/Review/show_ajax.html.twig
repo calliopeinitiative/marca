@@ -58,7 +58,7 @@
 
         {% if review.file.user==app.user or review.reviewer==app.user %}
             <a id="review_edit" class="btn btn-default" href="javascript:void(0);">
-                {% if review.file.user==app.user %}Feedback{% else %}Edit{% endif %}
+                {% if review.reviewer==app.user %}Edit{% else %}Respond{% endif %}
             </a>
         {% endif %}
 
