@@ -26,12 +26,18 @@ $('#doc-tools').toggleClass("col-sm-6");
 $('#glyph_expand').toggleClass("glyphicon-resize-small");
 });
 {# Review Feedback composite #}
+{% if app.request.get('_route') == 'doc_edit' or app.request.get('_route') == 'doc_ajax' %}
+    {% set fileid %}{{ file.id }}{% endset %}
+{% else %}
+    {% set fileid %}{{ parent_file.id }}{% endset %}
+{% endif %}
+
 $('#review_composite').click(function () {
 $('#loading-feedback').fadeIn();
 $('.question').removeClass('active');
 $(this).addClass('active');
 $('#review_container').show();
-$('#review_container').load('{{ course_path('review_index_ajax', { 'fileid': parent_file.id}) }}');
+$('#review_container').load('{{ course_path('review_index_ajax', { 'fileid': fileid}) }}');
 });
 
 
