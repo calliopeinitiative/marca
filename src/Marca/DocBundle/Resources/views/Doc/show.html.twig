@@ -143,12 +143,18 @@
 
             {# Parent file #}
             <span id='parent_nav'>
-                <p class="navbar-text small">
+                <p class="navbar-text">
                     {% if parent_file.doc %}
                         {{ parent_file.doc.created|date('m/d/y, g:i a') }}{% if parent_file.doc.created != parent_file.doc.updated %} / {{ parent_file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
                     {% else %}
                         {{ parent_file.created|date('m/d/y, g:i a') }}{% if parent_file.created != parent_file.updated %} / {{ parent_file.updated|date('m/d/y, g:i a') }}{% endif %}
                     {% endif %}
+                <br/>
+                {% for tag in parent_file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
+                {% if parent_file.access==1 %} <span class="label label-success margin-left">Shared</span>
+                {% elseif parent_file.access==0 %}<span class="label label-success margin-left">Private</span>
+                {% endif %}
+                {% if parent_file.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
                 </p>
 
                 {% if  parent_file.doc and parent_file.isOwner(app.user.username) %}
@@ -195,6 +201,12 @@
                             {% else %}
                                 {{ review.created|date('m/d/y, g:i a') }}{% if review.created != review.updated %} / {{ review.updated|date('m/d/y, g:i a') }}{% endif %}
                             {% endif %}
+                            <br/>
+                            {% for tag in review.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
+                            {% if review.access==1 %} <span class="label label-success margin-left">Shared</span>
+                            {% elseif review.access==0 %}<span class="label label-success margin-left">Private</span>
+                            {% endif %}
+                            {% if review.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
                         </p>
                     {% if review.doc and review.doc.isOwner(app.user.username) %}
                         <p class="navbar-text">

@@ -953,12 +953,6 @@ tr.review td .label {font-size: 90%;}
     margin: 10px;
 }
 
-#parent_nav, .review_nav, .close_nav {
-    font-size: medium;
-    padding: 10px;
-    margin-top: 20px;
-}
-
 #file-container {
     height: 100%;
 }
