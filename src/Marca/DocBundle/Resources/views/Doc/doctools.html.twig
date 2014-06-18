@@ -9,32 +9,6 @@
     {# id doc edit #}
     <div class="panel-group margin-top" style="margin-bottom: 5px;" id="accordion">
         <div class="panel panel-default">
-            <div class="panel-heading">
-            <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                    Document Info
-                </a>
-            </h4>
-        </div>
-            <div id="collapseOne" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <dl>
-                        <dt>Updated</dt>
-                        <dd>{{ file.updated|date('m/d/y, g:i a') }}</dd>
-                        <dt>Created</dt>
-                        <dd>{{ file.created|date('m/d/y, g:i a') }}</dd>
-                    </dl>
-                    <strong>Labels</strong>
-                    {% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
-                    {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
-                    {% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
-                    {% endif %}
-                    {% if file.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
-                </div>
-        </div>
-            </div>
-
-        <div class="panel panel-default">
             <div class="panel-body">
                 {# INSERT NOTE #}
                 <form id='note_insert_form' name='note_insert_form'>

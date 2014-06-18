@@ -7,10 +7,10 @@
     <script src="{{ asset('bundles/marcahome/ckeditor/ckeditor_tools.js') }}"></script>
     <script language="javascript">
         $(document).ready(function () {
-            var editorheight = $(document).height() * .90;
+            var editorheight = $(document).height() * .88;
             $('#saving_alert').toggle();
             $('#doc-tools').css('height', function (index) {
-                return $(window).height() * .90;
+                return $(window).height() * .88;
             });
             var editor = CKEDITOR.instances.marca_docbundle_doctype_body;
             var autoSave = setInterval(function () {
@@ -49,7 +49,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-sm-12 center" style="margin-top: 0px">
+    <div class="col-sm-12 center">
 
         {# Doc Nav #}
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -71,6 +71,17 @@
                     </li>
                 </ul>
 
+                <p class="navbar-text">
+                        {{ file.doc.created|date('m/d/y, g:i a') }}{% if file.doc.created != file.doc.updated %} / {{ file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
+                </p>
+                <p class="navbar-text">
+                {% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
+                {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
+                {% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
+                {% endif %}
+                {% if file.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
+                </p>
+
                 <ul class="nav navbar-nav navbar-right"  style="padding-right: 20px">
                     <li>
                         <a  id='saving_alert' href="javascript:void(0);" class="" id="doc_save">Saving</a>
@@ -84,7 +95,7 @@
 
 
 
-        <form id="doc_form" class=""
+        <form id="doc_form"
               action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}"
               method="post" {{ form_enctype(edit_form) }}>
 
@@ -96,7 +107,7 @@
                         {{ flashMessage }}
                     </div>
                 {% endfor %}
-                <div id='doc-edit' class=" col-sm-offset-1 col-sm-7">
+                <div id='doc-container' class=" col-sm-offset-1 col-sm-7" style="margin-top: 15px;">
                     {{ form_errors(edit_form) }}
                     {{ form_errors(edit_form.body) }}
                     {{ form_widget(edit_form.body) }}

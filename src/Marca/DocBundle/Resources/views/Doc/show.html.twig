@@ -125,8 +125,7 @@
                 {% endfor %}
             </ul>
 
-            {# File/Doc nav #}
-            {# Parent nav #}
+            {# Parent file #}
             <span id='parent_nav'>
                 <p class="navbar-text small">
                     {% if parent_file.doc %}
@@ -171,7 +170,7 @@
 
                 {% endif %}
                 </span>
-            {# Review docs nav #}
+            {# Review docs #}
             {% for review in parent_file.reviews %}
                 <span id="review_nav_{{ review.id }}" class="review_nav">
                         <p class="navbar-text">
