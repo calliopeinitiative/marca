@@ -328,7 +328,7 @@ ul .dropdown-menu .glyphicon {
 }
 
 .project-sidebar {
-    color:#464648;
+    color:#f8f8f8;
 }
 
 .current-filter {
@@ -403,7 +403,7 @@ ul .dropdown-menu .glyphicon {
 }
 
 .sidebar {
-    background-color: rgba(255,255,255,0.85);
+    background-color: #f8f8f8;
     min-height: 100%;
     max-height: 100%;
     margin-top:-70px;
@@ -942,11 +942,17 @@ tr.review td .label {font-size: 90%;}
 .prompts {
    border-bottom: 1px solid #e3e3e3;
     padding: 5px;
-    padding-top: 10px;
+    margin-top: 0px;
 }
 
 .responses {
     margin: 10px;
+}
+
+#parent_nav, .review_nav, .close_nav {
+    font-size: medium;
+    padding: 10px;
+    margin-top: 20px;
 }
 
 #file-container {
