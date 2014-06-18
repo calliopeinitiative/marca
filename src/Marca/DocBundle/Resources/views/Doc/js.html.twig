@@ -10,7 +10,7 @@ $('.question').removeClass('active');
 $(this).addClass('active');
 });
 {% endfor %}
-$('.review_nav,#loading, #loading-feedback').hide();
+$('#loading, #loading-feedback').hide();
 $('#toggle_docs').click(function () {
 if ($('#doc_container').is(':hidden')) {
 $('#doc_container').show();

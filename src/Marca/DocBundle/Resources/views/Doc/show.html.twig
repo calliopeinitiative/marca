@@ -46,7 +46,9 @@
 
             {# Review files/docs #}
             {% for review in parent_file.reviews%}
-            {% if review.id == app.request.get('id') %}$('#parent_nav').hide();
+            {% if review.id == app.request.get('id') %}
+            $('.review_nav').hide();
+            $('#parent_nav').hide();
             $('#review_nav_{{ review.id }}').show();
             {% endif %}
             $('#review_{{ review.id }}').click(function () {
@@ -259,7 +261,6 @@
                 $('.popover-close, #doc-display').click(function () {
                     $('.popover').hide();
                 });
-                $('#collapseOne').collapse();
                 $('#notes_container').empty();
                 var numNotes = $('.eDoc_note').length;
                 if (numNotes > 0) {
