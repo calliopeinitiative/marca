@@ -328,7 +328,11 @@ ul .dropdown-menu .glyphicon {
 }
 
 .project-sidebar {
-    color:#f8f8f8;
+    color:#464648;
+}
+
+.navbar-text>a {
+    color:white;
 }
 
 .current-filter {

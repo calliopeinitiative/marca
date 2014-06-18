@@ -7,29 +7,15 @@
 {% if app.request.get('_route') == 'doc_edit' or app.request.get('_route') == 'doc_ajax' %}
 
     {# id doc edit #}
-    <div class="clearfix">
-        <div class="btn-group pull-right">
-            {# <a class="btn btn-default" id="toggle-tools" href="javascript:void(0);">Doc Tools</a> #}
-            <span class="btn btn-default" id='saving_alert'>Saving</span>
-            {% if role == 2 and pages %}
-                <a id='insert_rubric' class='btn btn-default' href="javascript:void(0);"
-                   title="Insert Rubric: Be sure to place your cursor where you want the rubric to go.">Insert
-                    Rubric</a>
-            {% endif %}
-            <input class="btn btn-default" type="submit" id="doc_save" value="Save and Close"/>
-        </div>
-    </div>
-
     <div class="panel-group margin-top" style="margin-bottom: 5px;" id="accordion">
-        <div class="panel panel-default ">
-            <div class="panel-heading" style="color:white; background-color: #428bca;">
-                <a class="accordion-toggle" style="color:white;" data-toggle="collapse" data-parent="#accordion"
-                   href="#collapseOne">
-                    {{ file.name }}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                    Document Info
                 </a>
-                <span class="small pull-right">by {{ file.user.firstname }} {{ file.user.lastname }}</span>
-            </div>
-
+            </h4>
+        </div>
             <div id="collapseOne" class="panel-collapse collapse">
                 <div class="panel-body">
                     <dl>
@@ -45,8 +31,8 @@
                     {% endif %}
                     {% if file.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
                 </div>
-            </div>
         </div>
+            </div>
 
         <div class="panel panel-default">
             <div class="panel-body">
@@ -97,6 +83,17 @@
                 </div>
             </div>
         </div>
+
+        {# INSERT Rubric #}
+        {% if role == 2 and pages %}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                    <a id='insert_rubric' class='btn btn-default' href="javascript:void(0);"
+                       title="Insert Rubric: Be sure to place your cursor where you want the rubric to go.">Insert
+                        Rubric</a>
+            </div>
+        </div>
+        {% endif %}
     </div>
 
 {% else %}
