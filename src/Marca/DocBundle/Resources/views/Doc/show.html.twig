@@ -40,15 +40,14 @@
                 $('.document').removeClass('active');
                 $(this).addClass('active');
                 $('.review_nav').hide();
-                $('#parent_nav').fadeIn();
-                $('.collapse').collapse('hide');
+                $('#parent_nav').show();
                 $('#loading').fadeIn();
             });
 
             {# Review files/docs #}
             {% for review in parent_file.reviews%}
             {% if review.id == app.request.get('id') %}$('#parent_nav').hide();
-            $('#review_nav_{{ review.id }}').fadeIn();
+            $('#review_nav_{{ review.id }}').show();
             {% endif %}
             $('#review_{{ review.id }}').click(function () {
                 {% if review.doc %}
@@ -65,8 +64,7 @@
                 $(this).addClass('active');
                 $('#parent_nav').hide();
                 $('.review_nav').hide();
-                $('#review_nav_{{ review.id }}').fadeIn();
-                $('.collapse').collapse('hide');
+                $('#review_nav_{{ review.id }}').show();
                 $('#loading').fadeIn();
             });
             {% endfor %}
@@ -203,7 +201,7 @@
             {% endfor %}
 
             {# Close #}
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right"  style="padding-right: 20px">
                 <li style="padding-right: 10px;">
                     {% if app.request.get('view') == 'window' %}
                         <a title="Close the current window or tab" id="close_window" class=""
@@ -262,6 +260,7 @@
                 $('.popover-close, #doc-display').click(function () {
                     $('.popover').hide();
                 });
+                $('#collapseOne').collapse();
                 $('#notes_container').empty();
                 var numNotes = $('.eDoc_note').length;
                 if (numNotes > 0) {
@@ -284,7 +283,6 @@
                 });
                 $('.eDoc_super').toggle();
                 $('#inline-toggle').text('Inline');
-                $('.collapse').collapse('hide');
                 $('#loading').fadeOut();
             });
         </script>

@@ -934,7 +934,7 @@ tr.review td .label {font-size: 90%;}
 .expand_feedback {
     position: fixed;
     right:0px;
-    top:45px;
+    top:75px;
     z-index: 1000;
     width: 50%;
     height: 96%;

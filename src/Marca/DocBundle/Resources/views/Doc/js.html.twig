@@ -11,17 +11,16 @@ $(this).addClass('active');
 });
 {% endfor %}
 $('.review_nav,#loading, #loading-feedback').hide();
-$('#review_container').toggle();
 $('#toggle_docs').click(function () {
 if ($('#doc_container').is(':hidden')) {
-$('#doc_container').slideDown();
+$('#doc_container').show();
 } else {
-$('#doc_container').slideUp();
+$('#doc_container').hide();
 }
 });
 $('#expand').click(function () {
 $('#feedback').toggleClass("expand_feedback");
-$('#doc-container').toggleClass("col-sm-6");
+$('#doc-container').toggleClass("col-sm-offset-1 col-sm-6");
 $('#doc-tools').toggleClass("col-sm-6");
 $('#glyph_expand').toggleClass("glyphicon-resize-small");
 });

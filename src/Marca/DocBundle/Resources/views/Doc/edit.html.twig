@@ -21,7 +21,7 @@
                     $.post("{{ course_path('doc_ajax', { 'id': doc.id }) }}", {docBody: body}, function (data) {
                     });
                     $('#saving_alert').fadeIn();
-                    $('#saving_alert').delay(2000).fadeOut();
+                    $('#saving_alert').delay(3000).fadeOut();
                 }
             }, 15000);
             $(function () {
@@ -71,9 +71,9 @@
                     </li>
                 </ul>
 
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right"  style="padding-right: 20px">
                     <li>
-                        <span class="alert alert-info margin-top" id='saving_alert'>Saving</span>
+                        <a  id='saving_alert' href="javascript:void(0);" class="" id="doc_save">Saving</a>
                     </li>
                     <li>
                         <a href="javascript:void(0);" class="" id="doc_save">Save and Close</a>
