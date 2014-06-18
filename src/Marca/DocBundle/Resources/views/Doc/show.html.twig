@@ -8,7 +8,7 @@
     {{ parent() }}
     <script language="javascript">
         $(document).ready(function () {
-            $('.review_nav').hide();
+
 
             {# Parent file/doc #}
             $('#review_{{ parent_file.id }}').click(function () {
@@ -25,12 +25,14 @@
                 $('.document').removeClass('active');
                 $(this).addClass('active');
                 $('.review_nav').hide();
+                $('#collapseOne').collapse('hide');
                 $('#parent_nav').show();
                 $('#loading').fadeIn();
             });
 
             {# Review files/docs #}
             {# Reviews here are documents, not Feedback prompts and responses,#}
+            $('.review_nav').hide();
             {% for review in parent_file.reviews%}
             {% if review.id == app.request.get('id') %}
             $('#parent_nav').hide();
@@ -51,6 +53,7 @@
                 $(this).addClass('active');
                 $('#parent_nav').hide();
                 $('.review_nav').hide();
+                $('#collapseOne').collapse('hide');
                 $('#review_nav_{{ review.id }}').show();
                 $('#loading').fadeIn();
             });
@@ -65,6 +68,7 @@
             {% if file.project.resource == 'true' %}
             $('#notes, #feedback').hide();
             {% endif %}
+            $('#collapseOne').collapse('hide');
 
             {# Markup #}
             $('.eDoc_highlight').each(function (index) {
@@ -89,6 +93,7 @@
                 $('#doc_modal').load('{{ course_path('selectrubric', { 'fileid': file.id }) }}').modal();
             });
             {% include 'MarcaDocBundle:Doc:js.html.twig' %}
+
         });
     </script>
 
