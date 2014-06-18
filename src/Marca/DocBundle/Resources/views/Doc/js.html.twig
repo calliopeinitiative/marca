@@ -2,6 +2,7 @@
 
 {# js include in Doc Edit and Show #}
 
+{# Reviews here are Feedback prompts and responses, not documents #}
 {% for review in reviews %}
 $('#review_{{ review.id }}').click(function () {
 $('#loading-feedback').fadeIn();

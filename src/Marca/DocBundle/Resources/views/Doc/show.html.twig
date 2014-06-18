@@ -8,24 +8,9 @@
     {{ parent() }}
     <script language="javascript">
         $(document).ready(function () {
-            $('.eDoc_highlight').each(function (index) {
-                var span_number = index + 1;
-                var span_append = '<span class="eDoc_super">' + span_number + '</span>';
-                $(this).append(span_append);
-            });
-            $('.eDoc_super').toggle();
-            $('[title]').each(function () {
-                var $this = $(this);
-                $this.data('title', $this.attr('title'));
-                $this.removeAttr('title');
-            });
-            $('#close_window').click(function () {
-                window.close();
-            });
-            $('#new_rubricreview').click(function () {
-                $('#doc_modal').load('{{ course_path('selectrubric', { 'fileid': file.id }) }}').modal();
-            });
-            {# Parent file #}
+            $('.review_nav').hide();
+
+            {# Parent file/doc #}
             $('#review_{{ parent_file.id }}').click(function () {
                 {% if parent_file.doc %}
                 $('#file-container').load('{{ course_path('doc_show_ajax', { 'id': parent_file.id}) }}');
@@ -45,9 +30,9 @@
             });
 
             {# Review files/docs #}
+            {# Reviews here are documents, not Feedback prompts and responses,#}
             {% for review in parent_file.reviews%}
             {% if review.id == app.request.get('id') %}
-            $('.review_nav').hide();
             $('#parent_nav').hide();
             $('#review_nav_{{ review.id }}').show();
             {% endif %}
@@ -70,6 +55,7 @@
                 $('#loading').fadeIn();
             });
             {% endfor %}
+
             {# Notes #}
             $("#notes").click(function () {
                 $('#inline-toggle').text(($('#inline-toggle').text() == 'Inline' ? 'Marginal' : 'Inline'));
@@ -79,6 +65,29 @@
             {% if file.project.resource == 'true' %}
             $('#notes, #feedback').hide();
             {% endif %}
+
+            {# Markup #}
+            $('.eDoc_highlight').each(function (index) {
+                var span_number = index + 1;
+                var span_append = '<span class="eDoc_super">' + span_number + '</span>';
+                $(this).append(span_append);
+            });
+            $('.eDoc_super').toggle();
+            $('[title]').each(function () {
+                var $this = $(this);
+                $this.data('title', $this.attr('title'));
+                $this.removeAttr('title');
+            });
+
+            {# Close window #}
+            $('#close_window').click(function () {
+                window.close();
+            });
+
+            {# Add Feedback #}
+            $('#new_rubricreview').click(function () {
+                $('#doc_modal').load('{{ course_path('selectrubric', { 'fileid': file.id }) }}').modal();
+            });
             {% include 'MarcaDocBundle:Doc:js.html.twig' %}
         });
     </script>
@@ -95,7 +104,7 @@
     </div>
 
     {# Doc Nav #}
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="max-height: 70px;">
         <div class="navbar-header col-sm-0">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
