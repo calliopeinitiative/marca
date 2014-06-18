@@ -9,7 +9,6 @@
     <script language="javascript">
         $(document).ready(function () {
 
-
             {# Parent file/doc #}
             $('#review_{{ parent_file.id }}').click(function () {
                 {% if parent_file.doc %}
@@ -25,14 +24,17 @@
                 $('.document').removeClass('active');
                 $(this).addClass('active');
                 $('.review_nav').hide();
+                $('.review_info').hide();
                 $('#collapseOne').collapse('hide');
                 $('#parent_nav').show();
+                $('#parent_info').show();
                 $('#loading').fadeIn();
             });
 
             {# Review files/docs #}
             {# Reviews here are documents, not Feedback prompts and responses,#}
-            $('.review_nav').hide();
+            $('.review_nav').hide()
+            $('.review_info').hide();;
             {% for review in parent_file.reviews%}
             {% if review.id == app.request.get('id') %}
             $('#parent_nav').hide();
@@ -52,9 +54,12 @@
                 $('.document').removeClass('active');
                 $(this).addClass('active');
                 $('#parent_nav').hide();
+                $('#parent_info').hide();
                 $('.review_nav').hide();
+                $('.review_info').hide();
                 $('#collapseOne').collapse('hide');
                 $('#review_nav_{{ review.id }}').show();
+                $('#review_info_{{ review.id }}').show();
                 $('#loading').fadeIn();
             });
             {% endfor %}
@@ -123,8 +128,9 @@
                 <li class="{% if parent_file.id == app.request.get('id') %}active{% endif %} document"
                     id="review_{{ parent_file.id }}">
                     <a href="javascript:void(0);" title="View {{ parent_file.name }}">
-                        <span>{{ parent_file.name }} </span><br/>
-                        <span class="small">by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}</span>
+                        <span style="font-size:18px;margin-bottom:-2px;">{{ parent_file.name }} </span>
+                        <span class="small"
+                              style="font-family:proxima-nova;">by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}</span>
                     </a>
                 </li>
                 {% for review in parent_file.reviews %}
@@ -133,103 +139,82 @@
                             id="review_{{ review.id }}">
                             <a href="javascript:void(0);" title="View {{ review.name }}">
                                 <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
-                                Review<br/>
-                                <span class="small">by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}</span>
+                                Review
+                                <span class="small"
+                                      style="font-family:proxima-nova;">by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}</span>
                             </a>
                         </li>
                     {% endif %}
                 {% endfor %}
             </ul>
 
-            {# Parent file #}
-            <span id='parent_nav'>
-                <p class="navbar-text">
-                    {% if parent_file.doc %}
-                        {{ parent_file.doc.created|date('m/d/y, g:i a') }}{% if parent_file.doc.created != parent_file.doc.updated %} / {{ parent_file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
-                    {% else %}
-                        {{ parent_file.created|date('m/d/y, g:i a') }}{% if parent_file.created != parent_file.updated %} / {{ parent_file.updated|date('m/d/y, g:i a') }}{% endif %}
-                    {% endif %}
-                <br/>
-                {% for tag in parent_file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
-                {% if parent_file.access==1 %} <span class="label label-success margin-left">Shared</span>
-                {% elseif parent_file.access==0 %}<span class="label label-success margin-left">Private</span>
-                {% endif %}
-                {% if parent_file.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
-                </p>
+            <ul class="nav navbar-nav navbar-right" style="padding-right: 20px">
 
-                {% if  parent_file.doc and parent_file.isOwner(app.user.username) %}
-                    <p class="navbar-text">
-                        <a title="Edit this document" class=""
-                           href="{{ course_path('doc_edit', { 'id': parent_file.id,'view': app.request.get('view') }) }}">Edit</a>
-                    </p>
-                {% endif %}
-                {# Don't show Review button if it is a review or a Resource #}
-                {% if parent_file.doc and parent_file.reviewed|length == 0 and parent_file.project.resource != 'true' %}
-                    <p class="navbar-text">
-                        <a title="Create a copy of this document for peer review" id="new_review"
-                           class=""
-                           href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create
-                            Review</a>
-                    </p>
-                {% endif %}
-
-                {# conditional to SaveAs project for students and Saveas Resource for instructors #}
-                {% if (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource != 'true') or (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource == 'true'  and local_resource) or (not parent_file.isOwner(app.user.username) and parent_file.doc and file.project.resource == 'true') %}
-                    <p class="navbar-text"><a title="Create a copy of this document" id="new_saveas" class=""
-                                              href="javascript:void(0)">SaveAs</a>
-                    </p>
-                {% endif %}
-                {% if parent_file.doc %}
-                    <p class="navbar-text"><a title="Print this document" class=""
-                                              href="{{ course_path('doc_pdf', { 'id': parent_file.doc.id }) }}">Printable
-                            PDF</a>
-                    </p>
-                {% elseif parent_file.ext == 'odt' or parent_file.ext == 'ods' or parent_file.ext == 'odp' or parent_file.ext == 'pdf' %}
-                    <p class="navbar-text">
-                        <a title="Download this document" class=""
-                           href="{{ course_path('file_get', { 'id': parent_file.id }) }}">Download</a>
-                    </p>
-
-                {% endif %}
-                </span>
-            {# Review docs #}
-            {% for review in parent_file.reviews %}
-                <span id="review_nav_{{ review.id }}" class="review_nav">
-                        <p class="navbar-text">
-                            {% if review.doc %}
-                                {{ review.doc.created|date('m/d/y, g:i a') }}{% if review.doc.created != review.doc.updated %} / {{ review.doc.updated|date('m/d/y, g:i a') }}{% endif %}
-                            {% else %}
-                                {{ review.created|date('m/d/y, g:i a') }}{% if review.created != review.updated %} / {{ review.updated|date('m/d/y, g:i a') }}{% endif %}
-                            {% endif %}
-                            <br/>
-                            {% for tag in review.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
-                            {% if review.access==1 %} <span class="label label-success margin-left">Shared</span>
-                            {% elseif review.access==0 %}<span class="label label-success margin-left">Private</span>
-                            {% endif %}
-                            {% if review.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
-                        </p>
-                    {% if review.doc and review.doc.isOwner(app.user.username) %}
-                        <p class="navbar-text">
+                {# Parent file #}
+                <span id='parent_nav'>
+                    {% if  parent_file.doc and parent_file.isOwner(app.user.username) %}
+                        <li class="navbar-text">
                             <a title="Edit this document" class=""
-                               href="{{ course_path('doc_edit', { 'id': review.id,'view': app.request.get('view') }) }}">Edit</a>
-                        </p>
-                        <p class="navbar-text">
-                            <a title="Print this document" class=""
-                               href="{{ course_path('doc_pdf', { 'id': review.doc.id }) }}">Printable PDF</a>
-                        </p>
-
-                    {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
-                        <p class="navbar-text">
-                            <a title="Download this document" class=""
-                               href="{{ course_path('file_get', { 'id': review.id }) }}">Download</a>
-                        </p>
+                               href="{{ course_path('doc_edit', { 'id': parent_file.id,'view': app.request.get('view') }) }}">Edit</a>
+                        </li>
                     {% endif %}
-                </span>
-            {% endfor %}
+                    {# Don't show Review button if it is a review or a Resource #}
+                    {% if parent_file.doc and parent_file.reviewed|length == 0 and parent_file.project.resource != 'true' %}
+                        <li class="navbar-text">
+                            <a title="Create a copy of this document for peer review" id="new_review"
+                               class=""
+                               href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create
+                                Review</a>
+                        </li>
+                    {% endif %}
 
-            {# Close #}
-            <ul class="nav navbar-nav navbar-right"  style="padding-right: 20px">
-                <li style="padding-right: 10px;">
+                    {# conditional to SaveAs project for students and Saveas Resource for instructors #}
+                    {% if (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource != 'true') or (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource == 'true'  and local_resource) or (not parent_file.isOwner(app.user.username) and parent_file.doc and file.project.resource == 'true') %}
+                        <li class="navbar-text"><a title="Create a copy of this document" id="new_saveas" class=""
+                                                   href="javascript:void(0)">SaveAs</a>
+                        </li>
+                    {% endif %}
+                    {% if parent_file.doc %}
+                        <li class="navbar-text"><a title="Print this document" class=""
+                                                   href="{{ course_path('doc_pdf', { 'id': parent_file.doc.id }) }}">Printable
+                                PDF</a>
+                        </li>
+                    {% elseif parent_file.ext == 'odt' or parent_file.ext == 'ods' or parent_file.ext == 'odp' or parent_file.ext == 'pdf' %}
+                        <li class="navbar-text">
+                            <a title="Download this document" class=""
+                               href="{{ course_path('file_get', { 'id': parent_file.id }) }}">Download</a>
+                        </li>
+
+                    {% endif %}
+                    </span>
+
+
+                {# Review docs #}
+                {% for review in parent_file.reviews %}
+                    <span id="review_nav_{{ review.id }}" class="review_nav">
+
+                        {% if review.doc and review.doc.isOwner(app.user.username) %}
+                            <li class="navbar-text">
+                                <a title="Edit this document" class=""
+                                   href="{{ course_path('doc_edit', { 'id': review.id,'view': app.request.get('view') }) }}">Edit</a>
+                            </li>
+                            <li class="navbar-text">
+                                <a title="Print this document" class=""
+                                   href="{{ course_path('doc_pdf', { 'id': review.doc.id }) }}">Printable PDF</a>
+                            </li>
+
+                        {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
+                            <li class="navbar-text">
+                                <a title="Download this document" class=""
+                                   href="{{ course_path('file_get', { 'id': review.id }) }}">Download</a>
+                            </li>
+                        {% endif %}
+                    </span>
+                {% endfor %}
+
+
+                {# Close #}
+                <li style="padding-right: 10px;margin-left:15px">
                     {% if app.request.get('view') == 'window' %}
                         <a title="Close the current window or tab" id="close_window" class=""
                            href="javascript:void(0);">Close</a>
@@ -255,6 +240,7 @@
         </div>
     </nav>
 
+    <div class="col-sm-11 center">
     <a id="main_content"></a>
 
     {# Ajax fragment  #}
@@ -316,11 +302,11 @@
         {# Document display or File Viewer #}
         <div id='file-container'>
             {% if app.request.get('_route') == 'file_view' or app.request.get('_route') == 'file_view_ajax' %}
-                <iframe class="col-sm-offset-1 col-sm-7" id="viewer"
+                <iframe class="col-sm-8" id="viewer"
                         src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}"
                         allowfullscreen="true" webkitallowfullscreen="true"></iframe>
             {% else %}
-                <div id="doc-container" class="col-sm-offset-1 col-sm-7">
+                <div id="doc-container" class="col-sm-8">
                     <div id='doc-display' class="col-sm-12 well">
                         <div id='doc-body' class="doc-body">
                             {{ doc.body|raw }}
@@ -355,6 +341,7 @@
         {% include 'MarcaDocBundle:Doc:doctools.html.twig' %}
     </div>
 
+    </div>
     </div>
 
     {# Modal #}
