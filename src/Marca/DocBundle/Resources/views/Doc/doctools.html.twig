@@ -11,7 +11,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
                 <p>
-                    <span style="font-size:18px;">{{ file.name }} </span>
+                    <h1 style="font-size:18px;">{{ file.name }} </h1>
                 <span class="small" style="font-family:proxima-nova;">
                     by {% if file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif %}
                 </span>
@@ -48,13 +48,13 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                <h2 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseMarkup">
                         Markup
                     </a>
-                </h4>
+                </h2>
             </div>
-            <div id="collapseTwo" class="panel-collapse collapse in">
+            <div id="collapseMarkup" class="panel-collapse collapse in">
                 <div class="panel-group" id="accordionMarkup">
                     <div class="panel-body">
 
@@ -107,7 +107,7 @@
             <span id="parent_info">
             {% if parent_file %}
                 <p>
-                    <span style="font-size:18px;">{{ parent_file.name }} </span>
+                    <h1 style="font-size:18px;">{{ parent_file.name }} </h1>
                 <span class="small" style="font-family:proxima-nova;">
                     by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}
                 </span>
@@ -136,7 +136,7 @@
             {% for review in parent_file.reviews %}
                 <span id="review_info_{{ review.id }}" class="review_info">
                         <p>
-                            <span style="font-size:18px;">{{ review.name }} </span>
+                            <h1 style="font-size:18px;">{{ review.name }} </h1>
                     <span class="small" style="font-family:proxima-nova;">
                     by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}
                     </span>
@@ -169,14 +169,14 @@
             <div class="panel-heading">
                 <h2 class="panel-title" style="width: 100%">
                     <a class="accordion-toggle " data-toggle="collapse" data-parent="#accordion"
-                       href="#collapseOne"
+                       href="#collapseNotes"
                        data-toggle="tab">
                         Comments
                         <span class="inline pull-right">Inline / Marginal</span>
                     </a>
                 </h2>
             </div>
-            <div id="collapseOne" class="panel-collapse collapse in">
+            <div id="collapseNotes" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <div id="docNotes">
                         <div id='notes_container'>
@@ -199,7 +199,7 @@
 
             <h2 class="panel-title">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                   href="#collapseThree">
+                   href="#collapseFeedback">
                     Feedback ({{ reviews|length }})
                 </a>
             </h2>
@@ -217,7 +217,7 @@
                 {% endif %}
             </div>
         </div>
-        <div id="collapseThree" class="panel-collapse collapse">
+        <div id="collapseFeedback" class="panel-collapse collapse">
             <div class="panel-body margin-bottom">
                 <div id="loading-feedback" class="alert alert-info small"
                      style="position:absolute;z-index: 1000;text-align: center;right:30px">Loading

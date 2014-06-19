@@ -20,25 +20,21 @@
                 {% else %}
                 var win = window.open("{{ course_path('file_get', { 'id': parent_file.id}) }}");
                 {% endif %}
-
                 $('.document').removeClass('active');
                 $(this).addClass('active');
-                $('.review_nav').hide();
-                $('.review_info').hide();
-                $('#collapseOne').collapse('hide');
-                $('#parent_nav').show();
-                $('#parent_info').show();
+                $('.review_nav, .review_info').hide();
+                $('#parent_nav, #parent_info').show();
+                $('#collapseNotes').collapse('hide');
                 $('#loading').fadeIn();
             });
 
             {# Review files/docs #}
             {# Reviews here are documents, not Feedback prompts and responses,#}
-            $('.review_nav').hide()
-            $('.review_info').hide();;
+            $('.review_nav, .review_info').hide()
             {% for review in parent_file.reviews%}
             {% if review.id == app.request.get('id') %}
-            $('#parent_nav').hide();
-            $('#review_nav_{{ review.id }}').show();
+            $('#parent_nav, #parent_info').hide();
+            $('#review_nav_{{ review.id }}, #review_info_{{ review.id }}').show();
             {% endif %}
             $('#review_{{ review.id }}').click(function () {
                 {% if review.doc %}
@@ -50,16 +46,12 @@
                 {% else %}
                 var win = window.open("{{ course_path('file_get', { 'id': review.id}) }}");
                 {% endif %}
-
                 $('.document').removeClass('active');
                 $(this).addClass('active');
-                $('#parent_nav').hide();
-                $('#parent_info').hide();
-                $('.review_nav').hide();
-                $('.review_info').hide();
-                $('#collapseOne').collapse('hide');
-                $('#review_nav_{{ review.id }}').show();
-                $('#review_info_{{ review.id }}').show();
+                $('#parent_nav, #parent_info').hide();
+                $('.review_nav, .review_info').hide();
+                $('#review_nav_{{ review.id }}, #review_info_{{ review.id }}').show();
+                $('#collapseNotes').collapse('hide');
                 $('#loading').fadeIn();
             });
             {% endfor %}
@@ -67,13 +59,12 @@
             {# Notes #}
             $("#notes").click(function () {
                 $('#inline-toggle').text(($('#inline-toggle').text() == 'Inline' ? 'Marginal' : 'Inline'));
-                $('.eDoc_note').toggle();
-                $('.eDoc_super').toggle();
+                $('.eDoc_note, .eDoc_super').toggle();
             });
             {% if file.project.resource == 'true' %}
             $('#notes, #feedback').hide();
             {% endif %}
-            $('#collapseOne').collapse('hide');
+            $('#collapseNotes').collapse('hide');
 
             {# Markup #}
             $('.eDoc_highlight').each(function (index) {
@@ -97,6 +88,7 @@
             $('#new_rubricreview').click(function () {
                 $('#doc_modal').load('{{ course_path('selectrubric', { 'fileid': file.id }) }}').modal();
             });
+
             {% include 'MarcaDocBundle:Doc:js.html.twig' %}
 
         });
@@ -126,9 +118,9 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="{% if parent_file.id == app.request.get('id') %}active{% endif %} document"
-                    id="review_{{ parent_file.id }}">
+                    id="review_{{ parent_file.id }}" style="margin-top: -2px;">
                     <a href="javascript:void(0);" title="View {{ parent_file.name }}">
-                        <span style="font-size:18px;margin-bottom:-2px;">{{ parent_file.name }} </span>
+                        <span style="font-size:18px;">{{ parent_file.name }} </span>
                         <span class="small"
                               style="font-family:proxima-nova;">by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}</span>
                     </a>
@@ -137,18 +129,20 @@
                     {% if (parent_file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
                         <li class="{% if review.id == app.request.get('id') %}active{% endif %} document"
                             id="review_{{ review.id }}">
-                            <a href="javascript:void(0);" title="View {{ review.name }}">
-                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
-                                Review
+                            <a href="javascript:void(0);" title="{{ review.name }} by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}">
+                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review" alt="{{ review.name }} by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}"></span>
+                                {% if parent_file.reviews|length < 5 %}
+                                    Review
                                 <span class="small"
                                       style="font-family:proxima-nova;">by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}</span>
+                                {% endif %}
                             </a>
                         </li>
                     {% endif %}
                 {% endfor %}
             </ul>
 
-            <ul class="nav navbar-nav navbar-right" style="padding-right: 20px">
+            <ul class="nav navbar-nav navbar-right" style="padding-right: 25px">
 
                 {# Parent file #}
                 <span id='parent_nav'>
@@ -287,7 +281,6 @@
                     var note = '<div class="cell divider clear">There are no notes in this document.</div>';
                     $('#notes_container').append(note);
                 }
-                ;
                 $('.eDoc_highlight').each(function (index) {
                     var span_number = index + 1;
                     var span_append = '<span class="eDoc_super">' + span_number + '</span>';
