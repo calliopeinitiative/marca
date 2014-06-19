@@ -3,185 +3,243 @@
 {# Doc tools include in Doc Edit and Show #}
 <div class="col-sm-12">
 
-    {# conditional for show or edit #}
-    {% if app.request.get('_route') == 'doc_edit' or app.request.get('_route') == 'doc_ajax' %}
+{# conditional for show or edit #}
+{% if app.request.get('_route') == 'doc_edit' or app.request.get('_route') == 'doc_ajax' %}
 
-        {# id doc edit #}
-        <div class="panel-group margin-top" style="margin-bottom: 5px;" id="accordion">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {# INSERT NOTE #}
-                    <form id='note_insert_form' name='note_insert_form'>
-                        <textarea class='form-control' id="insert_value" name="html_insert"></textarea>
-                        <a id='note_insert_submit' href="javascript:void(0)" class="btn btn-default btn-sm"
-                           title="Insert Note">Insert Note</a>
-                    </form>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                            Markup
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse in">
-                    <div class="panel-group" id="accordionMarkup">
-                        <div class="panel-body">
-
-                            {% for markupset in markupsets %}
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle" data-toggle="collapse"
-                                               data-parent="#accordionMarkup"
-                                               href="#collapseMarkup{{ markupset.id }}">
-                                                {{ markupset.name }}
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapseMarkup{{ markupset.id }}" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            {% for markup in markupset.markup %}
-                                                <a href="javascript:{{ markup.function }}('{{ markup.id }}', '{{ markup.value }}','{{ markup.color }}')"
-                                                   title="Submit entry"><span style='color:black;'
-                                                                              class="label {{ markup.color }}">{{ markup.name }}</span></a>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {# INSERT Rubric #}
-            {% if role == 2 and pages %}
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <a id='insert_rubric' class='btn btn-default' href="javascript:void(0);"
-                           title="Insert Rubric: Be sure to place your cursor where you want the rubric to go.">Insert
-                            Rubric</a>
-                    </div>
-                </div>
-            {% endif %}
+    {# id doc edit #}
+    {# file/doc info #}
+    <div class="panel panel-default">
+        <div class="panel-body">
+                <p>
+                    <span style="font-size:18px;">{{ file.name }} </span>
+                <span class="small" style="font-family:proxima-nova;">
+                    by {% if file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif %}
+                </span>
+                </p>
+                <p>
+                        {{ file.doc.created|date('m/d/y, g:i a') }}{% if file.doc.created != file.doc.updated %} / {{ file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
+                </p>
+                <p>
+                    {% for tag in file.tag %}
+                        <span class="label {{ tag.color }}">{{ tag.name }}</span>
+                    {% endfor %}
+                    {% if file.access==1 %}<span class="label label-success margin-left">Shared</span>
+                    {% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
+                    {% endif %}
+                    {% if file.portfolio|length !=0 %}
+                        <span class="label label-info">Portfolio</span>
+                    {% endif %}
+                </p>
         </div>
-
-    {% else %}
-
+    </div>
+    
+    
+    <div class="panel-group margin-top" style="margin-bottom: 5px;" id="accordion">
         <div class="panel panel-default">
             <div class="panel-body">
-        <span id="parent_info">
-                {% if parent_file.doc %}
-                    {{ parent_file.doc.created|date('m/d/y, g:i a') }}{% if parent_file.doc.created != parent_file.doc.updated %} / {{ parent_file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
-                {% else %}
-                    {{ parent_file.created|date('m/d/y, g:i a') }}{% if parent_file.created != parent_file.updated %} / {{ parent_file.updated|date('m/d/y, g:i a') }}{% endif %}
-                {% endif %}
-            {% for tag in parent_file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
-            {% if parent_file.access==1 %} <span class="label label-success margin-left">Shared</span>
-            {% elseif parent_file.access==0 %}<span class="label label-success margin-left">Private</span>
-            {% endif %}
-            {% if parent_file.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
-        </span>
-
-                {% for review in parent_file.reviews %}
-                    <span id="review_info_{{ review.id }}" class="review_info">
-                {% if review.doc %}
-                 {{ review.doc.created|date('m/d/y, g:i a') }}{% if review.doc.created != review.doc.updated %} / {{ review.doc.updated|date('m/d/y, g:i a') }}{% endif %}
-                {% else %}
-                   {{ review.created|date('m/d/y, g:i a') }}{% if review.created != review.updated %} / {{ review.updated|date('m/d/y, g:i a') }}{% endif %}
-                    {% endif %}
-
-                        {% for tag in review.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
-                        {% if review.access==1 %} <span class="label label-success margin-left">Shared</span>
-                        {% elseif review.access==0 %}<span class="label label-success margin-left">Private</span>
-                        {% endif %}
-                        {% if review.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
-            </span>
-                {% endfor %}
+                {# INSERT NOTE #}
+                <form id='note_insert_form' name='note_insert_form'>
+                    <textarea class='form-control' id="insert_value" name="html_insert"></textarea>
+                    <a id='note_insert_submit' href="javascript:void(0)" class="btn btn-default btn-sm"
+                       title="Insert Note">Insert Note</a>
+                </form>
             </div>
         </div>
 
-        {# Notes Panel #}
-        {% if app.request.get('_route') != 'file_view' %}
-            <div id="notes" class="panel panel-default">
-                <div class="panel-heading">
-                    <h2 class="panel-title" style="width: 100%">
-                        <a class="accordion-toggle " data-toggle="collapse" data-parent="#accordion"
-                           href="#collapseOne"
-                           data-toggle="tab">
-                            Comments
-                            <span class="inline pull-right">Inline / Marginal</span>
-                        </a>
-                    </h2>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse in">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        Markup
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse in">
+                <div class="panel-group" id="accordionMarkup">
                     <div class="panel-body">
-                        <div id="docNotes">
-                            <div id='notes_container'>
+
+                        {% for markupset in markupsets %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle" data-toggle="collapse"
+                                           data-parent="#accordionMarkup"
+                                           href="#collapseMarkup{{ markupset.id }}">
+                                            {{ markupset.name }}
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseMarkup{{ markupset.id }}" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        {% for markup in markupset.markup %}
+                                            <a href="javascript:{{ markup.function }}('{{ markup.id }}', '{{ markup.value }}','{{ markup.color }}')"
+                                               title="Submit entry"><span style='color:black;'
+                                                                          class="label {{ markup.color }}">{{ markup.name }}</span></a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        {% endfor %}
                     </div>
+                </div>
+            </div>
+        </div>
+
+        {# INSERT Rubric #}
+        {% if role == 2 and pages %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a id='insert_rubric' class='btn btn-default' href="javascript:void(0);"
+                       title="Insert Rubric: Be sure to place your cursor where you want the rubric to go.">Insert
+                        Rubric</a>
                 </div>
             </div>
         {% endif %}
-        {# end of Note Panel#}
+    </div>
 
-    {% endif %}
-    {# end of conditional for show or edit #}
+{% else %}
 
+    {# file/doc  show #}
+    {# file/doc info  #}
+    <div class="panel panel-default">
+        <div class="panel-body">
 
-    {# Feedback Panel for both #}
-    <div id="feedback">
-        <div class="panel panel-default">
+            <span id="parent_info">
+            {% if parent_file %}
+                <p>
+                    <span style="font-size:18px;">{{ parent_file.name }} </span>
+                <span class="small" style="font-family:proxima-nova;">
+                    by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}
+                </span>
+                </p>
+                <p>
+                    {% if parent_file.doc %}
+                        {{ parent_file.doc.created|date('m/d/y, g:i a') }}{% if parent_file.doc.created != parent_file.doc.updated %} / {{ parent_file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
+                    {% else %}
+                        {{ parent_file.created|date('m/d/y, g:i a') }}{% if parent_file.created != parent_file.updated %} / {{ parent_file.updated|date('m/d/y, g:i a') }}{% endif %}
+                    {% endif %}
+                </p>
+                <p>
+                    {% for tag in parent_file.tag %}
+                        <span class="label {{ tag.color }}">{{ tag.name }}</span>
+                    {% endfor %}
+                    {% if parent_file.access==1 %}<span class="label label-success margin-left">Shared</span>
+                    {% elseif parent_file.access==0 %}<span class="label label-success margin-left">Private</span>
+                    {% endif %}
+                    {% if parent_file.portfolio|length !=0 %}
+                        <span class="label label-info">Portfolio</span>
+                    {% endif %}
+                </p>
+            {% endif %}
+            </span>
+
+            {% for review in parent_file.reviews %}
+                <span id="review_info_{{ review.id }}" class="review_info">
+                        <p>
+                            <span style="font-size:18px;">{{ review.name }} </span>
+                    <span class="small" style="font-family:proxima-nova;">
+                    by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}
+                    </span>
+                        </p>
+
+                        <p>
+                            {% if review.doc %}
+                                {{ review.doc.created|date('m/d/y, g:i a') }}{% if review.doc.created != review.doc.updated %} / {{ review.doc.updated|date('m/d/y, g:i a') }}{% endif %}
+                            {% else %}
+                                {{ review.created|date('m/d/y, g:i a') }}{% if review.created != review.updated %} / {{ review.updated|date('m/d/y, g:i a') }}{% endif %}
+                            {% endif %}
+                        </p>
+                    <p>
+                        {% for tag in review.tag %}<span
+                            class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
+                        {% if review.access==1 %}<span class="label label-success margin-left">Shared</span>
+                        {% elseif review.access==0 %}<span class="label label-success margin-left">Private</span>
+                        {% endif %}
+                        {% if review.portfolio|length !=0 %}<span
+                                class="label label-info">Portfolio</span>{% endif %}
+                    </p>
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+
+    {# Notes Panel #}
+    {% if app.request.get('_route') != 'file_view' %}
+        <div id="notes" class="panel panel-default">
             <div class="panel-heading">
-
-                <h2 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                       href="#collapseThree">
-                        Feedback ({{ reviews|length }})
+                <h2 class="panel-title" style="width: 100%">
+                    <a class="accordion-toggle " data-toggle="collapse" data-parent="#accordion"
+                       href="#collapseOne"
+                       data-toggle="tab">
+                        Comments
+                        <span class="inline pull-right">Inline / Marginal</span>
                     </a>
                 </h2>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div id="docNotes">
+                        <div id='notes_container'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {# end of Note Panel#}
 
-                <div class="btn-group  pull-right">
+{% endif %}
+{# end of conditional for show or edit #}
+
+
+{# Feedback Panel for both #}
+<div id="feedback">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+
+            <h2 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseThree">
+                    Feedback ({{ reviews|length }})
+                </a>
+            </h2>
+
+            <div class="btn-group  pull-right">
                 <span id="expand" title="Create a new review" class="btn btn-default btn-xs pull-right"
                       href="javascript:void(0);"><i id="glyph_expand"
                                                     class="glyphicon glyphicon-resize-full glyphicon-white"
                                                     style="margin-left: 0px;"></i></span>
-                    {% if not (app.request.get('_route') == 'doc_edit' or app.request.get('_route') == 'doc_ajax') %}
-                        <span id="new_rubricreview" title="Create a new review"
-                              class="btn btn-default btn-xs pull-right"
-                              href="javascript:void(0);">Add <i
-                                    class="glyphicon glyphicon-plus glyphicon-white"></i></span>
-                    {% endif %}
-                </div>
-            </div>
-            <div id="collapseThree" class="panel-collapse collapse">
-                <div class="panel-body margin-bottom">
-                    <div id="loading-feedback" class="alert alert-info small"
-                         style="position:absolute;z-index: 1000;text-align: center;right:30px">Loading
-                    </div>
-                    <a title="View Feedback Composite" id="review_composite" class="list-group-item question"
-                       id="review_comp" href="javascript:void(0);">
-                        Composite <i class="glyphicon glyphicon-list glyphicon-white"></i>
-                    </a>
-                    {# Reviews #}
-                    {% for review in reviews %}
-                        <a class="list-group-item question" id="review_{{ review.id }}" href="javascript:void(0);">
-                            by {% if review.reviewer.username==app.user.username %}me{% else %}{{ review.reviewer.firstname }} {{ review.reviewer.lastname }}{% endif %}
-                            <span class="small pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
-                        </a>
-                    {% endfor %}
-                    <div class="margin-top" id="review_container">
-                    </div>
-                </div>
-
+                {% if not (app.request.get('_route') == 'doc_edit' or app.request.get('_route') == 'doc_ajax') %}
+                    <span id="new_rubricreview" title="Create a new review"
+                          class="btn btn-default btn-xs pull-right"
+                          href="javascript:void(0);">Add <i
+                                class="glyphicon glyphicon-plus glyphicon-white"></i></span>
+                {% endif %}
             </div>
         </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body margin-bottom">
+                <div id="loading-feedback" class="alert alert-info small"
+                     style="position:absolute;z-index: 1000;text-align: center;right:30px">Loading
+                </div>
+                <a title="View Feedback Composite" id="review_composite" class="list-group-item question"
+                   id="review_comp" href="javascript:void(0);">
+                    Composite <i class="glyphicon glyphicon-list glyphicon-white"></i>
+                </a>
+                {# Reviews #}
+                {% for review in reviews %}
+                    <a class="list-group-item question" id="review_{{ review.id }}" href="javascript:void(0);">
+                        by {% if review.reviewer.username==app.user.username %}me{% else %}{{ review.reviewer.firstname }} {{ review.reviewer.lastname }}{% endif %}
+                        <span class="small pull-right"> {{ review.updated|date('m/d/y, g:i a') }}</span>
+                    </a>
+                {% endfor %}
+                <div class="margin-top" id="review_container">
+                </div>
+            </div>
+
+        </div>
     </div>
-    {# end of Feedback Panel #}
+</div>
+{# end of Feedback Panel #}
 
 </div>

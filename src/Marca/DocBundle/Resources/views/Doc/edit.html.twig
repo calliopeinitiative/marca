@@ -65,22 +65,11 @@
                 <ul class="nav navbar-nav">
                     <li class="active">
                         <a href="javascript:void(0);" title="Edit {{ file.name }}">
-                            <span>{{ file.name }} </span><br/>
+                            <span>{{ file.name }} </span>
                             <span class="small">by me</span>
                         </a>
                     </li>
                 </ul>
-
-                <p class="navbar-text">
-                        {{ file.doc.created|date('m/d/y, g:i a') }}{% if file.doc.created != file.doc.updated %} / {{ file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
-                </p>
-                <p class="navbar-text">
-                {% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
-                {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
-                {% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
-                {% endif %}
-                {% if file.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
-                </p>
 
                 <ul class="nav navbar-nav navbar-right"  style="padding-right: 20px">
                     <li>
