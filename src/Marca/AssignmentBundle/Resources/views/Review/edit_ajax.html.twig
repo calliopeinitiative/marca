@@ -7,7 +7,7 @@
         });
         $('.question').fadeOut();
         var options = {
-            target:        '#review_container'
+            target:        '#feedback'
         };
         $('#review-edit').submit(function() {
             $(this).ajaxSubmit(options);
@@ -65,20 +65,26 @@
                         {{ form_row(reviewresponse.scaleitem, { 'attr':{'disabled':'disabled'}} ) }}
                     {% endif %}
                 </div>
-                <div class="{% if app.user.username==review.reviewer.username %} hide {% endif %}">
-                    {{ form_row(reviewresponse.helpful) }}
-                </div>
 
+
+            </div>
+
+            <div class="panel-footer {% if app.user.username==review.reviewer.username %} hide {% endif %}" style="min-height: 100px;">
+                {{ form_row(reviewresponse.helpful) }}
             </div>
         </div>
     {% endfor %}
         </div>
     <div class="panel panel-default">
         <div class="panel-heading">
+            <strong>Grading {% if role==2 %}(Instructors only){% endif %}</strong>
         </div>
         <div class="panel-body {% if role!=2 %} hide {% endif %}">
             {{ form_row(edit_form.grade) }}
             {{ form_row(edit_form.notes) }}
+        </div>
+        <div class="panel-footer">
+            {% if role==2 %}NB:  Grade and Notes are available only to the owner of the reviewed document and the instructor.{% endif %}
         </div>
     </div>
 
@@ -95,6 +101,7 @@
         <div class="panel-body">
             {{ form_row(edit_form.feedbackComment) }}
         </div>
+
     </div>
 
 

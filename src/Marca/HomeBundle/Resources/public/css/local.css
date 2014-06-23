@@ -937,7 +937,7 @@ tr.review td .label {font-size: 90%;}
     top:80px;
     z-index: 1000;
     width: 50%;
-    height: 96%;
+    height: 90%;
     overflow-y: auto;
     background: #F2F2F2;
     padding: 20px;
@@ -1013,7 +1013,7 @@ tr.review td .label {font-size: 90%;}
     margin-bottom: 0px;
 }
 
-#doctools {
+#doc-tools {
     overflow:auto;
 }
 .journal-body p, .forum-body p {

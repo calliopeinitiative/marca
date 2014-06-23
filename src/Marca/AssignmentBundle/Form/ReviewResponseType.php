@@ -29,7 +29,7 @@ class ReviewResponseType extends AbstractType
 
             $form = $event->getForm();
             $form
-            ->add('responseShortText','text', array('attr' => array('class' => 'text form-control'), 'label'  => ' ',))
+                ->add('responseShortText','text', array('attr' => array('class' => 'text form-control'), 'label'  => ' ',))
                 ->add('responseParagraphText', 'textarea', array('attr' => array('class' => 'text form-control'), 'label'  => ' ',))
                 ->add('scaleitem', 'entity', array('class' => 'MarcaAssessmentBundle:Scaleitem','property'=>'name','query_builder' =>
                     function(\Marca\AssessmentBundle\Entity\ScaleitemRepository $sc) use ($promptid) {
@@ -37,6 +37,7 @@ class ReviewResponseType extends AbstractType
                             ->join("s.scale", 'c')
                             ->join("c.promptitem", 'p')
                             ->where('p.id = :id')
+                            ->orderBy('s.value')
                             ->setParameter('id', $promptid) ;},
                     'expanded'=>true,'required'  => TRUE,'label'  => 'Select','attr' => array('class' => 'radio'),))
                 ->add('helpful', 'choice', array('choices'   => array(true => 'Yes', false => 'No'),'required'  => TRUE,'label'  => 'Was this helpful?', 'expanded' => true,'attr' => array('class' => 'radio inline'),));

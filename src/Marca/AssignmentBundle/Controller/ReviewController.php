@@ -90,6 +90,7 @@ class ReviewController extends Controller
 
         $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
 
+
         if (!$review) {
             throw $this->createNotFoundException('Unable to find Review entity.');
         }
@@ -99,6 +100,34 @@ class ReviewController extends Controller
             'role'      => $role,
         );
     }
+
+    /**
+     * Finds and displays a Review entity.
+     *
+     * @Route("/{courseid}/{id}/refresh_ajax", name="review_refresh_ajax")
+     * @Template()
+     */
+    public function refresh_ajaxAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $role = $this->getCourseRole();
+
+        $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
+        $fileid = $review->getFile()->getId();
+        $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($fileid);
+
+
+        if (!$review) {
+            throw $this->createNotFoundException('Unable to find Review entity.');
+        }
+
+        return array(
+            'reviews' => $reviews,
+            'review'      => $review,
+            'role'      => $role,
+        );
+    }
+
 
     /**
      * Display form to selects Review Rubric for new Reviews
@@ -232,7 +261,6 @@ class ReviewController extends Controller
 
         $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
         $options = array('scaleid' => '1');
-        $fileid = $review->getFile()->getId();
 
         if (!$review) {
             throw $this->createNotFoundException('Unable to find Review entity.');
@@ -246,7 +274,7 @@ class ReviewController extends Controller
             $em->persist($review);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('review_show_ajax', array('courseid' => $courseid,'id' => $id)));
+            return $this->redirect($this->generateUrl('review_refresh_ajax', array('courseid' => $courseid,'id' => $id)));
         }
 
         return array(

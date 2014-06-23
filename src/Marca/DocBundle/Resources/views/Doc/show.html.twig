@@ -84,11 +84,6 @@
                 window.close();
             });
 
-            {# Add Feedback #}
-            $('#new_rubricreview').click(function () {
-                $('#doc_modal').load('{{ course_path('selectrubric', { 'fileid': file.id }) }}').modal();
-            });
-
             {% include 'MarcaDocBundle:Doc:js.html.twig' %}
 
         });
@@ -249,9 +244,6 @@
                 var count = txt.trim().replace(/\s+/gi, ' ').split(' ').length;
                 $("#word-count").text(count);
                 $('#doc-display').css('height', function () {
-                    return $(window).height() * .88;
-                });
-                $('#doc-tools').css('height', function () {
                     return $(window).height() * .88;
                 });
                 $('iframe').css('height', function () {

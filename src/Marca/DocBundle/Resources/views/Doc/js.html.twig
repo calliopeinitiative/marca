@@ -3,13 +3,24 @@
 {# js include in Doc Edit and Show #}
 
 {# Reviews here are Feedback prompts and responses, not documents #}
-{% for review in reviews %}
-$('#review_{{ review.id }}').click(function () {
-$('#loading-feedback').fadeIn();
-$('#review_container').load('{{ course_path('review_show_ajax', { 'id': review.id }) }}').show();
-$('.question').removeClass('active');
-$(this).addClass('active');
+
+$('#doc-tools').css('height', function () {
+return $(window).height() * .88;
 });
+
+{# Add Feedback #}
+$('#new_rubricreview').click(function () {
+$('#collapseFeedback').collapse('show');
+$('#doc_modal').load('{{ course_path('selectrubric', { 'fileid': file.id }) }}').modal();
+});
+
+{% for review in reviews %}
+    $('#review_{{ review.id }}').click(function () {
+    $('#loading-feedback').fadeIn();
+    $('#review_container').load('{{ course_path('review_show_ajax', { 'id': review.id }) }}').show();
+    $('.question').removeClass('active');
+    $(this).addClass('active');
+    });
 {% endfor %}
 $('#loading, #loading-feedback').hide();
 $('#toggle_docs').click(function () {
