@@ -4,6 +4,13 @@
     $(document).ready(function () {
 
         {# duplicate code with js.html for now #}
+
+        {# Add Feedback #}
+        $('#new_rubricreview').click(function () {
+            $('#collapseFeedback').collapse('show');
+            $('#doc_modal').load('{{ course_path('selectrubric', { 'fileid': review.file.id }) }}').modal();
+        });
+
         {% for review in reviews %}
         $('#review_{{ review.id }}').click(function () {
             $('#loading-feedback').fadeIn();
