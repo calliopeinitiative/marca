@@ -2,40 +2,72 @@
 
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
-{% block content %}
-<div class="col-sm-12">
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function () {
+    {% for roll in roll %}
+            $('#absent{{roll.id}}').click(function(){
+            $('#roll_container{{ roll.id }}').load('{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '0' }) }}');
+            });
+            $('#tardy{{ roll.id }}').click(function(){
+            $('#roll_container{{ roll.id }}').load('{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '1' }) }}');
+            });
+    {% endfor %}
+            });
+    </script>
+    {% endblock %}
+
+    {% block content %}
+    <div class="col-sm-12">
     <div class="panel panel-default">
-        <div class="panel-heading">
-    <h2>Class Roll</h2>
-</div>
-        <div class="panel-body">
-    <table class="table table-condensed"><tbody>  
+    <div class="panel-heading">
+        <h2>Class Roll</h2>
+    </div>
+    <div class="panel-body">
+    <table class="table table-condensed">
+    <tbody>
     {% for roll in roll %}
     <tr>
-        <td>
-            <img src="{{ roll.photo }}" class="user-photo-sm img-rounded pull-left margin-top-small"/>
+    <td>
+    <img src="{{ roll.photo }}"
+        class="user-photo-sm img-rounded pull-left margin-top-small"/>
         </td>
         <td>
-            <a class="" href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}, {{ roll.firstname|capitalize }}</a>
+            <a class=""
+               href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}
+                , {{ roll.firstname|capitalize }}</a>
         </td>
         <td><a class="" target="_blank" href="mailto:{{ roll.email }}">{{ roll.email }}</a></td>
-    </tr>
+        <td>
+            <div class="btn-group">
+                <a id="absent{{ roll.id }}" class="btn btn-default" href="javascript:void(0);">Absent</a>
+                <a id="tardy{{ roll.id }}" class="btn btn-default" href="javascript:void(0);">Tardy</a>
+            </div>
+            <div id="roll_container{{ roll.id }}"></div>
+
+        </td>
+        </td>
+
+        </tr>
     {% endfor %}
     </tbody>
-     </table>
-{{ knp_pagination_render(roll) }}           
-</div>
+    </table>
+    {{ knp_pagination_render(roll) }}
+    </div>
     <div class="panel-footer">
-<h3>Semicolon list of emails</h3>    
-<a class="" target="_blank" href="mailto:{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}; {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}; {% endif %}{% endfor %}</a>
-<hr />
-<h3>Comma list of emails</h3>    
-<a class="" target="_blank" href="mailto:{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}</a>
-</div>
+        <h3>Semicolon list of emails</h3>
+        <a class="" target="_blank"
+           href="mailto:{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}; {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}; {% endif %}{% endfor %}</a>
+        <hr/>
+        <h3>Comma list of emails</h3>
+        <a class="" target="_blank"
+           href="mailto:{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}</a>
+    </div>
     </div>
 
 
-</div>
+    </div>
 
 
 {% endblock %}
