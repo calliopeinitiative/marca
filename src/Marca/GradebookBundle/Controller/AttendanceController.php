@@ -35,32 +35,6 @@ class AttendanceController extends Controller
             'entities' => $entities,
         );
     }
-    /**
-     * Creates a new Attendance entity.
-     *
-     * @Route("/", name="attendance_create")
-     * @Method("POST")
-     * @Template("MarcaGradebookBundle:Attendance:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $entity = new Attendance();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getEm();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('attendance_show', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
 
     /**
      * Creates a new Attendance entity.
@@ -81,67 +55,27 @@ class AttendanceController extends Controller
         $em->persist($attendance);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('attendance_show_ajax', array('id' => $attendance->getId())));
+        return $this->redirect($this->generateUrl('attendance_show_ajax', array('rollid' => $id)));
 
     }
 
-
-    /**
-    * Creates a form to create a Attendance entity.
-    *
-    * @param Attendance $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createCreateForm(Attendance $entity)
-    {
-        $form = $this->createForm(new AttendanceType(), $entity, array(
-            'action' => $this->generateUrl('attendance_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
-    /**
-     * Displays a form to create a new Attendance entity.
-     *
-     * @Route("/new", name="attendance_new")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new Attendance();
-        $form   = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
 
     /**
      * Finds and displays a Attendance entity.
      *
-     * @Route("/{id}", name="attendance_show_ajax")
+     * @Route("/{rollid}", name="attendance_show_ajax")
      * @Method("GET")
      * @Template("MarcaGradebookBundle:Attendance:show_ajax.html.twig")
      */
-    public function showAjaxAction($id)
+    public function showAjaxAction($rollid)
     {
         $em = $this->getEm();
-
-        $attendance = $em->getRepository('MarcaGradebookBundle:Attendance')->find($id);
-
-        if (!$attendance) {
-            throw $this->createNotFoundException('Unable to find Attendance entity.');
-        }
+        $absences = $em->getRepository('MarcaGradebookBundle:Attendance')->countAbsenses($rollid);
+        $tardies = $em->getRepository('MarcaGradebookBundle:Attendance')->countTardies($rollid);
 
         return array(
-            'attendance'      => $attendance,
+            'tardies'      => $tardies,
+            'absences'      => $absences,
         );
     }
 

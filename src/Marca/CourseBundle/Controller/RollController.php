@@ -36,7 +36,7 @@ class RollController extends Controller
 
         $courseRoll = $this->getRoll();
         $paginator = $this->get('knp_paginator');
-        $roll = $paginator->paginate($courseRoll,$this->get('request')->query->get('page',1),20);
+        $roll = $paginator->paginate($courseRoll,$this->get('request')->query->get('page',1),25);
         
         return array('roll' => $roll, 'course' => $course);
     }
@@ -70,8 +70,8 @@ class RollController extends Controller
     public function courseRollProfileAction($rollid)
     {
         $em = $this->getEm();
-        $userid = $em->getRepository('MarcaCourseBundle:Roll')->findUserByRoll($rollid);
-        $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+        $roll_user = $em->getRepository('MarcaCourseBundle:Roll')->findUserByRoll($rollid);
+        $user = $em->getRepository('MarcaUserBundle:User')->find($roll_user);
         $course = $this->getCourse();
         $roll = $this->getRoll();
         $role = $this->getCourseRole();
@@ -88,7 +88,23 @@ class RollController extends Controller
         $countFiles = $em->getRepository('MarcaFileBundle:File')->countFilesByUser($user,$course);
         $countCourseFiles = $em->getRepository('MarcaFileBundle:File')->countFilesByCourse($course);
 
-        return array('user'=> $user, 'role' => $role, 'roll' => $roll, 'profile' => $profile, 'course' => $course, 'countForums'=>$countForums, 'countComments'=>$countComments, 'countReplies'=>$countReplies, 'countCourseForums'=>$countCourseForums, 'countCourseComments'=>$countCourseComments, 'countCourseReplies'=>$countCourseReplies,'countJournals'=>$countJournals,'countCourseJournals'=>$countCourseJournals,'countFiles'=>$countFiles,'countCourseFiles'=>$countCourseFiles);
+        return array(
+            'user'=> $user,
+            'role' => $role,
+            'roll' => $roll,
+            'profile' => $profile,
+            'course' => $course,
+            'countForums'=>$countForums,
+            'countComments'=>$countComments,
+            'countReplies'=>$countReplies,
+            'countCourseForums'=>$countCourseForums,
+            'countCourseComments'=>$countCourseComments,
+            'countCourseReplies'=>$countCourseReplies,
+            'countJournals'=>$countJournals,
+            'countCourseJournals'=>$countCourseJournals,
+            'countFiles'=>$countFiles,
+            'countCourseFiles'=>$countCourseFiles,
+        );
     }     
 
     /**

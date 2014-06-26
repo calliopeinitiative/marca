@@ -2,22 +2,6 @@
 
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script language="javascript">
-        $(document).ready(function () {
-    {% for roll in roll %}
-            $('#absent{{roll.id}}').click(function(){
-            $('#roll_container{{ roll.id }}').load('{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '0' }) }}');
-            });
-            $('#tardy{{ roll.id }}').click(function(){
-            $('#roll_container{{ roll.id }}').load('{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '1' }) }}');
-            });
-    {% endfor %}
-            });
-    </script>
-    {% endblock %}
-
     {% block content %}
     <div class="col-sm-12">
     <div class="panel panel-default">
@@ -39,16 +23,6 @@
                 , {{ roll.firstname|capitalize }}</a>
         </td>
         <td><a class="" target="_blank" href="mailto:{{ roll.email }}">{{ roll.email }}</a></td>
-        <td>
-            <div class="btn-group">
-                <a id="absent{{ roll.id }}" class="btn btn-default" href="javascript:void(0);">Absent</a>
-                <a id="tardy{{ roll.id }}" class="btn btn-default" href="javascript:void(0);">Tardy</a>
-            </div>
-            <div id="roll_container{{ roll.id }}"></div>
-
-        </td>
-        </td>
-
         </tr>
     {% endfor %}
     </tbody>

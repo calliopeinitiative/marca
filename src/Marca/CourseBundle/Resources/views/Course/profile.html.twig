@@ -22,14 +22,14 @@
                     {% if loop.index == app.request.get('user') + 1 %}
                         <ul class="nav navbar-nav navbar-right">
                             <li>
-                                <a  data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}<i class="glyphicon glyphicon-chevron-right"></i></a>
+                                <a  data-index="{{loop.index}}" data-id='{{roll.user.id}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}<i class="glyphicon glyphicon-chevron-right"></i></a>
                             </li>
                         </ul>
                     {% endif %}
                     {% if loop.index == app.request.get('user') - 1 %}
                         <ul class="nav navbar-nav">
                             <li>
-                                <a  data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}"><i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
+                                <a  data-index="{{loop.index}}" data-id='{{roll.user.id}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}"><i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
                             </li>
                         </ul>
                     {% endif %}
@@ -71,6 +71,17 @@
 
                         <ul class="list-unstyled">
                             <li>Files:  {{ countFiles|length}} (class average: {{ countCourseFiles|length //roll|length}})</li>
+                        </ul>
+
+                    <ul class="list-unstyled">
+                        {% set x=0 %}
+                        Absences: {% for attendance in profile.attendance if attendance.type==0 %}{% set x=x+1 %}{% endfor %}{{ x }}<br/>
+                        {% for attendance in profile.attendance if attendance.type==0 %}{{ attendance.date|date('m/d') }} {% endfor %}
+                        </ul>
+                    <ul class="list-unstyled">
+                        {% set y=0 %}
+                        Tardies: {% for attendance in profile.attendance if attendance.type==1 %}{% set y=y+1 %}{% endfor %}{{ y }}<br/>
+                        {% for attendance in profile.attendance if attendance.type==1 %}{{ attendance.date|date('m/d')  }} {% endfor %}
                         </ul>
                     {% endif%}
                 </div>

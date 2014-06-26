@@ -38,7 +38,7 @@ class Attendance
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Roll")
+     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Roll", inversedBy="attendance")
      */
     protected $roll;
 
