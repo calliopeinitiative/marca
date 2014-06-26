@@ -15,13 +15,13 @@ class AttendanceRepository extends EntityRepository
     public function countAbsenses($rollid)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT a from MarcaGradebookBundle:Attendance a WHERE a.roll = ?1 AND a.type = 0')
+            ->createQuery("SELECT a from MarcaGradebookBundle:Attendance a WHERE a.roll = ?1 AND a.type = '0'")
             ->setParameters(array('1' => $rollid))->getResult();
     }
     public function countTardies($rollid)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT a from MarcaGradebookBundle:Attendance a WHERE a.roll = ?1 AND a.type = 1')
+            ->createQuery("SELECT a from MarcaGradebookBundle:Attendance a WHERE a.roll = ?1 AND a.type = '1' ")
             ->setParameters(array('1' => $rollid))->getResult();
     }
 }
