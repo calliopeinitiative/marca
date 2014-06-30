@@ -16,9 +16,8 @@ class AttendanceType extends AbstractType
     {
         $builder
             ->add('date')
-            ->add('type')
-            ->add('created')
-            ->add('updated')
+            ->add('date', 'date', array('widget' => 'single_text','format' => 'MM/dd/yyyy','label'  => 'Date','attr' => array('class' => 'text form-control')))
+            ->add('type', 'choice', array('choices'   => array('0' => 'Absent', '1' => 'Tardy'),'required'  => true, 'multiple'=>false,'label'  => '', 'expanded' => true,'attr' => array('class' => 'radio'),))
         ;
     }
     

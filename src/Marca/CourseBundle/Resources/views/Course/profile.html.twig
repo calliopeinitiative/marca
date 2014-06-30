@@ -2,6 +2,22 @@
 
 {% extends 'MarcaCourseBundle::layout.html.twig' %}
 
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function () {
+            {% for attendance in profile.attendance %}
+            $('#edit_{{attendance.id}}').click(function () {
+                $('#attendance_modal').load('{{ course_path('attendance_edit', { 'id': attendance.id, 'rollid': profile.id, 'user': app.request.get('user') }) }}').modal();
+            });
+            {% endfor %}
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
 
 <div class="col-sm-12">
@@ -18,78 +34,126 @@
                 </button>
             </div>
             <div class="collapse navbar-collapse" id="profile_nav">
-                {% for roll in roll %}
-                    {% if loop.index == app.request.get('user') + 1 %}
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a  data-index="{{loop.index}}" data-id='{{roll.user.id}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}<i class="glyphicon glyphicon-chevron-right"></i></a>
-                            </li>
-                        </ul>
+
+                <ul class="nav navbar-nav">
+                    {% if app.session.get('module')== 0 %}
+                        <li>
+                            <a href="{{ course_path('roll') }}">Manage Roll</a>
+                        </li>
                     {% endif %}
-                    {% if loop.index == app.request.get('user') - 1 %}
-                        <ul class="nav navbar-nav">
-                            <li>
-                                <a  data-index="{{loop.index}}" data-id='{{roll.user.id}}' href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}"><i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}</a>
-                            </li>
-                        </ul>
-                    {% endif %}
-                {% endfor %}
                 </ul>
+                <div class="inline-block pull-right">
+                    {% for roll in roll %}
+                        {% if loop.index == app.request.get('user') + 1 %}
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a data-index="{{ loop.index }}" data-id='{{ roll.user.id }}'
+                                       href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.firstname }} {{ roll.lastname }}
+                                        <i class="glyphicon glyphicon-chevron-right"></i></a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                        {% if loop.index == app.request.get('user') - 1 %}
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a data-index="{{ loop.index }}" data-id='{{ roll.user.id }}'
+                                       href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}"><i
+                                                class="glyphicon glyphicon-chevron-left"></i>{{ roll.firstname }} {{ roll.lastname }}
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+
+
             </div>
         </nav>
-
 
 
         <div class="panel panel-default">
             <div class="panel-body">
                 <div>
-                    <h2 class="margin-top-small" style="text-align:center;margin-bottom:15px;">{{ user.firstname }} {{ user.lastname }}  </h2>
+                    <h2 class="margin-top-small"
+                        style="text-align:center;margin-bottom:15px;">{{ user.firstname }} {{ user.lastname }}  </h2>
+
                     <div class="col-sm-12 " style="text-align:center;margin-bottom:15px;">
                         {% if user.photo != '' %}
-                        <img class="img-rounded" style="width:50%;align:center;" src="{{ user.photo }}" alt="{{ user.firstname }} {{ user.lastname }}">
+                            <img class="img-rounded" style="width:50%;align:center;" src="{{ user.photo }}"
+                                 alt="{{ user.firstname }} {{ user.lastname }}">
                         {% endif %}
                         <p><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></p>
                     </div>
 
                     <p>{{ user.bio|raw }}</p>
 
-                    <hr class="marca-spacer" />
+                    <hr class="marca-spacer"/>
 
                     {% if user == app.user.username or role == 2 %}
                         <ul class="list-unstyled">
-                            <li>Forums:  {{ countForums|length}}  (class average: {{ countCourseForums|length //roll|length}})</li>
-                            <li>Comments:  {{ countComments|length}}  (class average: {{ countCourseComments|length//roll|length}})</li>
-                            <li>Replies:  {{ countReplies|length}}  (class average: {{ countCourseReplies|length//roll|length}})</li>
-                            <li>Total:  {{ countForums|length + countComments|length + countReplies|length }}  (class average: {{ (countCourseForums|length + countCourseComments|length +countCourseReplies|length) //roll|length }})</li>
+                            <li>Forums:  {{ countForums|length }}  (class
+                                average: {{ countCourseForums|length //roll|length }})
+                            </li>
+                            <li>Comments:  {{ countComments|length }}  (class
+                                average: {{ countCourseComments|length//roll|length }})
+                            </li>
+                            <li>Replies:  {{ countReplies|length }}  (class
+                                average: {{ countCourseReplies|length//roll|length }})
+                            </li>
+                            <li>Total:  {{ countForums|length + countComments|length + countReplies|length }}  (class
+                                average: {{ (countCourseForums|length + countCourseComments|length +countCourseReplies|length) //roll|length }}
+                                )
+                            </li>
                         </ul>
 
 
                         <ul class="list-unstyled">
-                            <li>Journal entries:  {{ countJournals|length}} (class average: {{ countCourseJournals|length //roll|length}})</li>
+                            <li>Journal entries:  {{ countJournals|length }} (class
+                                average: {{ countCourseJournals|length //roll|length }})
+                            </li>
                         </ul>
 
 
                         <ul class="list-unstyled">
-                            <li>Files:  {{ countFiles|length}} (class average: {{ countCourseFiles|length //roll|length}})</li>
+                            <li>Files:  {{ countFiles|length }} (class
+                                average: {{ countCourseFiles|length //roll|length }})
+                            </li>
                         </ul>
 
-                    <ul class="list-unstyled">
-                        {% set x=0 %}
-                        Absences: {% for attendance in profile.attendance if attendance.type==0 %}{% set x=x+1 %}{% endfor %}{{ x }}<br/>
-                        {% for attendance in profile.attendance if attendance.type==0 %}{{ attendance.date|date('m/d') }} {% endfor %}
+                        <ul class="list-unstyled">
+                            {% set x=0 %}
+                            Absences: {% for attendance in profile.attendance if attendance.type==0 %}{% set x=x+1 %}{% endfor %}{{ x }}
+                            <br/>
+                            {% for attendance in profile.attendance if attendance.type==0 %}
+                                <a href="javascript:void(0);" title="Edit attendance"
+                                   id="edit_{{ attendance.id }}">{{ attendance.date|date('m/d') }}</a>,
+                            {% endfor %}
                         </ul>
-                    <ul class="list-unstyled">
-                        {% set y=0 %}
-                        Tardies: {% for attendance in profile.attendance if attendance.type==1 %}{% set y=y+1 %}{% endfor %}{{ y }}<br/>
-                        {% for attendance in profile.attendance if attendance.type==1 %}{{ attendance.date|date('m/d')  }} {% endfor %}
+                        <ul class="list-unstyled">
+                            {% set y=0 %}
+                            Tardies: {% for attendance in profile.attendance if attendance.type==1 %}{% set y=y+1 %}{% endfor %}{{ y }}
+                            <br/>
+                            {% for attendance in profile.attendance if attendance.type==1 %}
+                                <a href="javascript:void(0);" title="Edit attendance"
+                                   id="edit_{{ attendance.id }}">{{ attendance.date|date('m/d') }}</a>,
+                            {% endfor %}
                         </ul>
-                    {% endif%}
+                    {% endif %}
                 </div>
             </div>
 
         </div>
     </div>
 
-{% endblock %}
+    {# Modal #}
+    <div class="modal fade" id="attendance_modal" tabindex="-1" aria-labelledby="baseModalLabel" aria-hidden="true"
+         role="dialog">
+
+    </div>
+    <!-- /.modal -->
+
+    {% endblock %}
 
 

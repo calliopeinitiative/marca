@@ -38,7 +38,9 @@
                     <thead>
                     <tr>
                         <th>Name</th>
+                        <th></th>
                         <th>Absences</th>
+                        <th>Tardies</th>
                         <th>Role</th>
                         <th>Approve/Change Role</th>
                     </tr>
@@ -49,23 +51,25 @@
                             <td><a class=""
                                    href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}
                                     , {{ roll.firstname|capitalize }}</a></td>
-
                             <td>
-                                <div class="inline-block" id="roll_container{{ roll.id }}">
-                                        {% set x=0 %}
-                                        Absences: {% for attendance in roll.attendance if attendance.type==0 %}{% set x=x+1 %}{% endfor %}{{ x }}
-                                        {% set y=0 %}
-                                        Tardies: {% for attendance in roll.attendance if attendance.type==1 %}{% set y=y+1 %}{% endfor %}{{ y }}
-
-                                </div>
-
-
-
                                 <div class="margin-left btn-group inline-block">
                                     <a id="absent{{ roll.id }}" class="btn btn-default btn-xs"
                                        href="javascript:void(0);">Absent</a>
                                     <a id="tardy{{ roll.id }}" class="btn btn-default btn-xs"
                                        href="javascript:void(0);">Tardy</a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="inline-block" id="roll_container{{ roll.id }}">
+                                      {% set x=0 %}
+                                      {% for attendance in roll.attendance if attendance.type==0 %}{% set x=x+1 %}{% endfor %}{{ x }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="inline-block" id="roll_container{{ roll.id }}">
+                                    {% set y=0 %}
+                                    {% for attendance in roll.attendance if attendance.type==1 %}{% set y=y+1 %}{% endfor %}{{ y }}
                                 </div>
                             </td>
 

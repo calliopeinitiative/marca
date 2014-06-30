@@ -82,25 +82,25 @@ class AttendanceController extends Controller
     /**
      * Displays a form to edit an existing Attendance entity.
      *
-     * @Route("/{id}/edit", name="attendance_edit")
+     * @Route("/{courseid}/{id}/{rollid}/{user}/edit", name="attendance_edit")
      * @Method("GET")
-     * @Template()
+     * @Template("MarcaGradebookBundle:Attendance:edit_modal.html.twig")
      */
-    public function editAction($id)
+    public function editAction($id, $courseid, $rollid, $user)
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaGradebookBundle:Attendance')->find($id);
+        $attendance = $em->getRepository('MarcaGradebookBundle:Attendance')->find($id);
 
-        if (!$entity) {
+        if (!$attendance) {
             throw $this->createNotFoundException('Unable to find Attendance entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($attendance, $courseid, $rollid, $user);
+        $deleteForm = $this->createDeleteForm($id, $courseid, $rollid, $user);
 
         return array(
-            'entity'      => $entity,
+            'attendance'      => $attendance,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -113,46 +113,47 @@ class AttendanceController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Attendance $entity)
+    private function createEditForm($attendance, $courseid, $rollid, $user)
     {
-        $form = $this->createForm(new AttendanceType(), $entity, array(
-            'action' => $this->generateUrl('attendance_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new AttendanceType(), $attendance, array(
+            'action' => $this->generateUrl('attendance_update', array('id' => $attendance->getId(),'courseid'=>$courseid,'rollid'=>$rollid, 'user'=>$user)),
             'method' => 'PUT',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Update','attr' => array('class' => 'btn btn-primary pull-right')));
 
         return $form;
     }
+
+
     /**
      * Edits an existing Attendance entity.
      *
-     * @Route("/{id}", name="attendance_update")
+     * @Route("/{courseid}/{rollid}/{user}/{id}", name="attendance_update")
      * @Method("PUT")
      * @Template("MarcaGradebookBundle:Attendance:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $id, $courseid, $rollid, $user)
     {
         $em = $this->getEm();
 
-        $entity = $em->getRepository('MarcaGradebookBundle:Attendance')->find($id);
+        $attendance = $em->getRepository('MarcaGradebookBundle:Attendance')->find($id);
 
-        if (!$entity) {
+        if (!$attendance) {
             throw $this->createNotFoundException('Unable to find Attendance entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
+        $deleteForm = $this->createDeleteForm($id, $courseid, $rollid, $user);
+        $editForm = $this->createEditForm($attendance, $courseid, $rollid, $user);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('attendance_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('course_roll_profile', array('courseid' => $courseid,'rollid' => $rollid, 'user' => $user)));
         }
 
         return array(
-            'entity'      => $entity,
+            'entity'      => $attendance,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -160,12 +161,12 @@ class AttendanceController extends Controller
     /**
      * Deletes a Attendance entity.
      *
-     * @Route("/{id}", name="attendance_delete")
+     * @Route("/{courseid}/{rollid}/{user}/{id}/delete", name="attendance_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, $id, $courseid, $rollid, $user)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($id, $courseid, $rollid, $user);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -180,7 +181,7 @@ class AttendanceController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('attendance'));
+        return $this->redirect($this->generateUrl('course_roll_profile', array('courseid' => $courseid,'rollid' => $rollid, 'user' => $user)));
     }
 
     /**
@@ -190,12 +191,12 @@ class AttendanceController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    private function createDeleteForm($id, $courseid, $rollid, $user)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('attendance_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('attendance_delete', array('id' => $id,'courseid' => $courseid,'rollid' => $rollid, 'user' => $user)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Delete','attr' => array('class' => 'btn btn-default')))
             ->getForm()
         ;
     }

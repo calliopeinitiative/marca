@@ -679,6 +679,14 @@ class FileController extends Controller
                       $response->headers->set('Content-Type', 'image/jpeg');
                       $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
                       break;
+                      case "mpeg":
+                      $response->headers->set('Content-Type', 'audio/mpeg');
+                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
+                      break;
+                      case "mp3":
+                      $response->headers->set('Content-Type', 'audio/mp3');
+                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
+                      break;
                       case "odt":
                       $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.text');
                       $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');

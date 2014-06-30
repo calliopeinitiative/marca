@@ -69,7 +69,7 @@
             <li class="dropdown"><a href="javascript:void(0);" role="button" class="project-sidebar {% if app.request.get('scope')=='byuser' %}current-filter{% endif %}" data-toggle="dropdown" id="findByAuthor">{% if app.request.get('scope')=='byuser' %}Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}{% else %}Files By Author{% endif %}<b class="caret" style="margin-left:6px;"></b></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">
                     {% for roll in roll %}
-                        <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
+                        <li><a data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.user.id }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
                     {% endfor %}
                 </ul>
             </li>

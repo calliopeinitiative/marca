@@ -14,7 +14,7 @@
     {% for roll in roll %}
     <tr>
     <td>
-    <img src="{{ roll.photo }}"
+    <img src="{{ roll.user.photo }}"
         class="user-photo-sm img-rounded pull-left margin-top-small"/>
         </td>
         <td>
@@ -22,7 +22,7 @@
                href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}
                 , {{ roll.firstname|capitalize }}</a>
         </td>
-        <td><a class="" target="_blank" href="mailto:{{ roll.email }}">{{ roll.email }}</a></td>
+        <td><a class="" target="_blank" href="mailto:{{ roll.user.email }}">{{ roll.user.email }}</a></td>
         </tr>
     {% endfor %}
     </tbody>
@@ -32,11 +32,11 @@
     <div class="panel-footer">
         <h3>Semicolon list of emails</h3>
         <a class="" target="_blank"
-           href="mailto:{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}; {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}; {% endif %}{% endfor %}</a>
+           href="mailto:{% for roll in full_roll %}{{ roll.user.email }}{% if not loop.last %}; {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.user.email }}{% if not loop.last %}; {% endif %}{% endfor %}</a>
         <hr/>
         <h3>Comma list of emails</h3>
         <a class="" target="_blank"
-           href="mailto:{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.email }}{% if not loop.last %}, {% endif %}{% endfor %}</a>
+           href="mailto:{% for roll in full_roll %}{{ roll.user.email }}{% if not loop.last %}, {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.user.email }}{% if not loop.last %}, {% endif %}{% endfor %}</a>
     </div>
     </div>
 
