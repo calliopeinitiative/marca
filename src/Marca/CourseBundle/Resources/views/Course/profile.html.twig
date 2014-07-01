@@ -123,22 +123,26 @@
                         </ul>
 
                         <ul class="list-unstyled">
+                            <li>
                             {% set x=0 %}
                             Absences: {% for attendance in profile.attendance if attendance.type==0 %}{% set x=x+1 %}{% endfor %}{{ x }}
                             <br/>
                             {% for attendance in profile.attendance if attendance.type==0 %}
-                                <a href="javascript:void(0);" title="Edit attendance"
-                                   id="edit_{{ attendance.id }}">{{ attendance.date|date('m/d') }}</a>,
+                                 <a class="margin-right" href="javascript:void(0);" title="Edit attendance"
+                                   id="edit_{{ attendance.id }}">{{ attendance.date|date('n/j (D)') }}</a>
                             {% endfor %}
+                            </li>
                         </ul>
                         <ul class="list-unstyled">
+                            <li>
                             {% set y=0 %}
                             Tardies: {% for attendance in profile.attendance if attendance.type==1 %}{% set y=y+1 %}{% endfor %}{{ y }}
                             <br/>
                             {% for attendance in profile.attendance if attendance.type==1 %}
-                                <a href="javascript:void(0);" title="Edit attendance"
-                                   id="edit_{{ attendance.id }}">{{ attendance.date|date('m/d') }}</a>,
+                                  <a class="margin-right" href="javascript:void(0);" title="Edit attendance"
+                                   id="edit_{{ attendance.id }}">{{ attendance.date|date('n/j (D)') }}</a>
                             {% endfor %}
+                            </li>
                         </ul>
                     {% endif %}
                 </div>
