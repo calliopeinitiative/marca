@@ -84,7 +84,41 @@
                 </ul>
             </div>
         </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-top-small">Grade Set</h3>
+
+                <p>Categories and percentages for grades</p>
+            </div>
+            <div class="panel-body">
+                <table class="table table-condensed table-striped">
+                    {% if course.gradeset %}
+                        <tbody>
+                        {% for category in course.gradeset.categories %}
+                            <tr>
+                                <td>{{ category.name }}: {{ category.percent }}%</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% else %}
+                        <tr>
+                            <td>This course does not have a Grade Set.
+                            </td>
+                        </tr>
+                        </tbody>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+
     </div>
+
+
+
+
+
+
 
     {% if course.module == 0 %}
         <div class="col-sm-6">
@@ -198,8 +232,9 @@
 
                     </tbody>
                 </table>
-                {% endif %}
             </div>
+            {% endif %}
+
         </div>
     </div>
 

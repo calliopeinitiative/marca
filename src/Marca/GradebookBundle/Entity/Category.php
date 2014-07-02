@@ -35,6 +35,11 @@ class Category
      */
     private $percent;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\GradebookBundle\Entity\Gradeset")
+     */
+    protected $gradeset;
+
 
     /**
      * Get id
@@ -90,5 +95,28 @@ class Category
     public function getPercent()
     {
         return $this->percent;
+    }
+
+    /**
+     * Set gradeset
+     *
+     * @param \Marca\GradebookBundle\Entity\Gradeset $gradeset
+     * @return Category
+     */
+    public function setGradeset(\Marca\GradebookBundle\Entity\Gradeset $gradeset = null)
+    {
+        $this->gradeset = $gradeset;
+
+        return $this;
+    }
+
+    /**
+     * Get gradeset
+     *
+     * @return \Marca\GradebookBundle\Entity\Gradeset 
+     */
+    public function getGradeset()
+    {
+        return $this->gradeset;
     }
 }

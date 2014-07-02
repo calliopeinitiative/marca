@@ -1,14 +1,14 @@
-{# Marca/GradebookBundle/Resources/views/Category/index.html.twig #}
+{# Marca/GradebookBundle/Resources/views/Gradeset/index.html.twig #}
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
     {% block content %}
+        <a class="btn btn-primary pull-right margin-top-small" href="{{ path('gradeset_new') }}">Create Grade set<i
+                    class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+        {% for gradeset in gradesets %}
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a class="btn btn-primary pull-right margin-top-small" href="{{ path('category_new') }}">Create Category<i
-                            class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
-
-                <h2 class="margin-top-small">Category</h2>
+                <h2 class="margin-top-small">{{ gradeset.name }}</h2>
             </div>
             <div class="panel-body">
                 <table class="table">
@@ -17,7 +17,7 @@
                         <th style="border-top:none;">Category Name</th>
                         <th style="border-top:none;">Percentage</th>
                     </tr>
-                    {% for category in categories %}
+                    {% for category in gradeset.categories %}
                         <tr>
                             <td>{{ category.name }}
                             </td>
@@ -33,4 +33,5 @@
                 </table>
             </div>
         </div>
+        {% endfor %}
     {% endblock %}

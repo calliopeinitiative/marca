@@ -29,10 +29,10 @@ class CategoryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('MarcaGradebookBundle:Category')->findAll();
+        $categories = $em->getRepository('MarcaGradebookBundle:Category')->findAll();
 
         return array(
-            'entities' => $entities,
+            'categories' => $categories,
         );
     }
     /**
@@ -76,7 +76,7 @@ class CategoryController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Create','attr' => array('class' => 'btn btn-primary pull-right')));
 
         return $form;
     }
@@ -165,7 +165,7 @@ class CategoryController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Update','attr' => array('class' => 'btn btn-primary pull-right')));
 
         return $form;
     }

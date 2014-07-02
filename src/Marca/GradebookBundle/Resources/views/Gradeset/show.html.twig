@@ -1,7 +1,7 @@
-{% extends 'MarcaGradebookBundle::layout.html.twig' %}
+{% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Category</h1>
+    <h1>Gradeset</h1>
 
     <table class="record_properties">
         <tbody>
@@ -13,21 +13,17 @@
                 <th>Name</th>
                 <td>{{ entity.name }}</td>
             </tr>
-            <tr>
-                <th>Percent</th>
-                <td>{{ entity.percent }}</td>
-            </tr>
         </tbody>
     </table>
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('category') }}">
+        <a href="{{ path('gradeset') }}">
             Back to the list
         </a>
     </li>
     <li>
-        <a href="{{ path('category_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('gradeset_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>
