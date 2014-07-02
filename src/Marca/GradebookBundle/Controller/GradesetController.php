@@ -84,13 +84,19 @@ class GradesetController extends Controller
     /**
      * Displays a form to create a new Gradeset entity.
      *
-     * @Route("/new", name="gradeset_new")
+     * @Route("{courseid}/new", name="gradeset_new")
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction($courseid)
     {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $gradeset = new Gradeset();
+        $gradeset->setCourse($course);
+
         $form   = $this->createCreateForm($gradeset);
 
         return array(
