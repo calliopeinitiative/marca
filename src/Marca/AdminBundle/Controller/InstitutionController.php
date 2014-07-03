@@ -56,7 +56,7 @@ class InstitutionController extends Controller {
         $options = array();
         $form = $this->createForm(new InstitutionType($options), $institution);
         $request = $this->getRequest();
-        $form->bind($request);
+        $form->submit($request);
         if ($form->isValid()){
             $em->persist($institution);
             $em->flush();
@@ -79,7 +79,7 @@ class InstitutionController extends Controller {
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
         
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             

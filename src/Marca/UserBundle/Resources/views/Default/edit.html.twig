@@ -3,12 +3,7 @@
 {% extends 'MarcaDocBundle::layout.html.twig' %}
 
 {% block javascripts %}
-    <script language="javascript">
-        $(document).ready(function()
-        {
-            $('form ul li').addClass('alert alert-error');
-        });
-    </script>
+    {{ parent() }}
 {% endblock %}
 
 

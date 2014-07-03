@@ -201,6 +201,11 @@ class Course
      */
     private $module = 0;    
     
+    /**
+     * @ORM\ManyToMany(targetEntity="Marca\AssignmentBundle\Entity\ReviewRubric")
+     */
+    private $reviewrubrics;
+    
     public function __construct()
     {
         $this->roll = new ArrayCollection();

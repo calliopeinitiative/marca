@@ -1,0 +1,47 @@
+{# Marca/AssignmentBundle/Resources/Views/Review/index_ajax.html.twig #}
+
+<script language="javascript">
+    $(document).ready(function () {
+        $('#loading-feedback').fadeOut();
+        {# nice little jquery plugin for sorting: tinysort #}
+        $('div#responses>div').tsort({order: 'asc', attr: 'id'});
+        {# jquery to hide redundant display of prompts #}
+        $('.prompts').hide();
+        {% for review in reviews %}
+        {% for reviewresponse in review.reviewresponses %}
+        var classselector = '.';
+        var promptid = classselector.concat({{ reviewresponse.reviewPrompt.id }});
+        $(promptid).first().fadeIn();
+        {% endfor %}
+        {% endfor %}
+    });
+</script>
+<div class="panel panel-default">
+    <div class="panel-heading">Composite of Responses</div>
+    <div class="panel-body">
+        <div id="responses">
+            {# Reviews #}
+            {% for review in reviews %}
+                {% for reviewresponse in review.reviewresponses %}
+                    <div id="{{ reviewresponse.reviewPrompt.sortOrder }}">
+                        <div class="prompts {{ reviewresponse.reviewPrompt.id }}">
+                            <strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong></div>
+                        <div class="responses">
+                        {{ reviewresponse.responseShortText|raw }}
+                        {{ reviewresponse.responseparagraphText|raw }}
+                        {% if reviewresponse.scaleitem %}{{ reviewresponse.scaleitem.name }}{% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="panel-footer"></div>
+</div>
+
+
+
+
+
+
+

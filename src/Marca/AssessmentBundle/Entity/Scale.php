@@ -38,9 +38,16 @@ class Scale
     /**
     * @ORM\OneToMany(targetEntity="Marca\AssessmentBundle\Entity\Objective", mappedBy="scale")
     */
-    protected $objective;      
+    protected $objective;
 
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\AssignmentBundle\Entity\PromptItem", mappedBy="scale")
+     */
+    protected $promptitem;
+
+
+
     /**
     * @ORM\OneToMany(targetEntity="Marca\AssessmentBundle\Entity\Scaleitem", mappedBy="scale")
     */

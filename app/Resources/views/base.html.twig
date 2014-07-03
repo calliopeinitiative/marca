@@ -23,6 +23,8 @@
         <script src="{{ asset_url }}"></script>
         <script src="{{ asset('bundles/marcahome/js/jquery.form.js') }}"></script>
         <script src="{{ asset('bundles/marcahome/js/offline.min.js') }}"></script>
+        <script src="{{ asset('bundles/marcahome/js/jquery.tinysort.min.js') }}"></script>
+        <script src="{{ asset('bundles/marcahome/js/bootstrap-hover-dropdown.min.js') }}"></script>
         {% endjavascripts %}
         {% include '::external.html.twig' %}
         <script language="javascript">
@@ -48,7 +50,7 @@
 <body>
 
 
-{% if not is_granted('ROLE_USER') or 'doc' in app.request.attributes.get('_route') or 'portfolio_user' in app.request.attributes.get('_route') or 'ratingset' in app.request.attributes.get('_route')%}
+{% if not is_granted('ROLE_USER') or 'file_view' in app.request.attributes.get('_route') or 'doc' in app.request.attributes.get('_route') or 'portfolio_user' in app.request.attributes.get('_route') or 'ratingset' in app.request.attributes.get('_route')%}
     {% else %}
     <nav class="navbar navbar-inverse navbar-fixed-top">
         {% if is_granted('ROLE_USER') %}
@@ -68,14 +70,16 @@
                             <a href="#main_content">Skip Navigation</a>
                         </li>
                         {% block subnav %}
-                            <li>
-                                <a title='Select course' id='course_select' href="javascript:void(0);">Select Course &nbsp; <span alt='Select course' class="glyphicon glyphicon-list"></span></a>
+                            <li style="margin-left:15px;">
+                                <a title='Select course' id='course_select' href="javascript:void(0);">Select Course</a>
+
+
                             </li>
                         {% endblock %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right" id="account-dropdown">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dLabel"><span class="hidden-sm">{{ app.session.get('username') }}<b class="caret"></b></span><span class="visible-sm glyphicon glyphicon-user"><b class="caret"></b></span></a>
+                            <a href="#" class="dropdown-toggle" data-hover="dropdown" id="dLabel"><span class="hidden-sm">{{ app.session.get('username') }}<b class="caret"></b></span><span class="visible-sm glyphicon glyphicon-user"><b class="caret"></b></span></a>
                             <ul class="dropdown-menu" aria-labelledby="dLabel">
                                 <li><a href="{{ path('user_show') }}">Profile</a></li>
                                 <li><a class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll</a></li>

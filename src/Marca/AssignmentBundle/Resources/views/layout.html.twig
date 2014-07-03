@@ -1,0 +1,28 @@
+{# Marca/AssignmentBundle/Resources/views/layout.html.twig #}
+
+{% extends '::base.html.twig' %}
+{% block title %}{{ application_name }} | Rubrics{% endblock %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $('#file_new_rubric').click(function(){
+                $('#file_modal').load('{{path('reviewrubric_new') }}').modal();
+            });
+        });
+    </script>
+{% endblock %}
+
+
+{% block sidebar %}
+
+       <h1>Rubrics</h1>
+     
+             <a class="btn btn-primary" id='file_new_rubric' title='Create new rubric' href="javascript:void(0);">Create<i class="icon-pencil icon-white"></i></a>
+             <li><a href="{{ path('reviewrubric') }}">List Rubrics</a></li>  
+             
+
+{% endblock %}  

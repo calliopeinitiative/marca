@@ -193,7 +193,7 @@
                         </div>
                     </td>
 
-                    <td>{{ file.user.firstname|title }} {{ file.user.lastname|title }}</td>
+                    <td>{% if file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname|title }} {{ file.user.lastname|title }}{% endif %}</td>
                     <td class="hidden-xs">{% if app.request.get('project')=='recent' %}{% if app.request.get('resource')=='1' %}{{ file.project.course.name }}: {% endif %}{{ file.project.name }}{% endif %}</td>
                     <td class="labels hidden-xs">{% if file.access!=1 and file.portfolio|length ==0 and file.tag |length ==0%}&mdash;{% endif %}
                         {% for tag in file.tag %}<span class="label label-default margin-right" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
@@ -242,9 +242,7 @@
                                     </div>
                                     </div>
                                 </td>
-
-                                <td>{{ review.user.firstname|title }} {{ review.user.lastname|title }}</td>
-
+                                <td>{% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname|title }} {{ review.user.lastname|title }}{% endif %}</td>
                                 <td class="hidden-xs"></td>
                                 <td class="labels hidden-xs">
                                     {% for tag in review.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
@@ -277,5 +275,5 @@
 
     </div><!-- /.modal -->
 
-
 {% endblock %}
+

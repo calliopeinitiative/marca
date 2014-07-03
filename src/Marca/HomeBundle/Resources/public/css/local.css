@@ -262,11 +262,7 @@ div.inline label {
 }
 
 #course-home {
-    padding-left: 35px;
-}
-
-#course_select {
-  margin-left:20px;
+    margin-left: 15px;
 }
 
 .subnav-course-select {
@@ -313,6 +309,10 @@ ul.nav > li > input {
     margin-left:5px;
 }
 
+ul .dropdown-menu .glyphicon {
+    margin-right:10px;
+}
+
 .nav-header {
     display: block;
     padding: 0;
@@ -329,6 +329,10 @@ ul.nav > li > input {
 
 .project-sidebar {
     color:#464648;
+}
+
+.navbar-text>a {
+    color:white;
 }
 
 .current-filter {
@@ -391,14 +395,19 @@ ul.nav > li > input {
     height:100%;
 }
 
-.footer {
+.doc-header {
     margin-top: 3em;
     padding-top: 1em;
     border-top: grey solid 1px;
 }
 
+.doc-footer {
+    margin-top: 0px;
+    border: rgba(0, 0, 0, 0.05) solid 1px;
+}
+
 .sidebar {
-    background-color: rgba(255,255,255,0.85);
+    background-color: #f8f8f8;
     min-height: 100%;
     max-height: 100%;
     margin-top:-70px;
@@ -922,6 +931,32 @@ tr.review td .label {font-size: 90%;}
     border-radius: 3px;
 }
 
+.expand_feedback {
+    position: fixed;
+    right:0px;
+    top:80px;
+    z-index: 1000;
+    width: 50%;
+    height: 90%;
+    overflow-y: auto;
+    background: #F2F2F2;
+    padding: 20px;
+}
+
+.prompts {
+   border-bottom: 1px solid #e3e3e3;
+    padding: 5px;
+    margin-top: 0px;
+}
+
+.responses {
+    margin: 10px;
+}
+
+#file-container {
+    height: 100%;
+}
+
 /***** End 06c Doc displays *****/
 
 .label {font-weight: normal;}
@@ -970,6 +1005,7 @@ tr.review td .label {font-size: 90%;}
 
 .doc-body {
     margin:3.5em;
+    color:black;
 }
 
 .doc-body p {
@@ -977,7 +1013,7 @@ tr.review td .label {font-size: 90%;}
     margin-bottom: 0px;
 }
 
-#doctools {
+#doc-tools {
     overflow:auto;
 }
 .journal-body p, .forum-body p {
@@ -1266,5 +1302,6 @@ column-gap:           10px;
 .tc7 {background:#B14F4F;}
 .tc8 {background:#B1754F;}
 .tc9 {background:#4FB1AF;}
+
 
 /********** End 09. Colors **********/

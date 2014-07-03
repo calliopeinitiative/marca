@@ -1,0 +1,81 @@
+{# Marca/AssignmentBundle/Resources/Views/Review/show_ajax.html.twig #}
+
+<script language="javascript">
+    $(document).ready(function () {
+        $('.question').fadeIn();
+        $('#loading-feedback').fadeOut();
+        $('#review_edit').click(function () {
+            $('#loading-feedback').fadeIn();
+            $('#review_container').load('{{ course_path('review_edit_ajax', { 'id': review.id }) }}');
+        });
+        {# nice little jquery plugin for sorting: tinysort #}
+        $('div#responses>div').tsort({order:'asc',attr:'id'});
+    });
+</script>
+
+<div id="responses">
+{% for reviewresponse in review.reviewresponses %}
+    <div id="{{ reviewresponse.reviewPrompt.sortOrder }}" class="panel panel-default">
+        <div class="panel-heading">
+            <strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong>
+            </div>
+        <div class="panel-body">
+                {{ reviewresponse.responseShortText|raw }}
+                {{ reviewresponse.responseparagraphText|raw }}
+                {% if reviewresponse.scaleitem %}{{ reviewresponse.scaleitem.name }}{% endif %}
+            </div>
+        <div class="panel-footer">
+                {% if reviewresponse.helpful==1 %}
+                    <em>{{ reviewresponse.review.file.user.firstname }} {{ reviewresponse.review.file.user.lastname }}
+                    found
+                    this helpful.</em>
+                {% endif %}
+            </div>
+    </div>
+{% endfor %}
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Grading</strong>
+    </div>
+    <div class="panel-body">
+        {% if  (review.file.user==app.user or role==2) and review.grade!='' %}
+            <strong>Grade:</strong>
+            {{ review.grade }}
+            <hr/>
+        {% endif %}
+        {% if  (review.file.user==app.user or role==2) and review.notes!='' %}
+            <strong>Notes:</strong>
+            <div class="margin-left margin-top">
+                {{ review.notes|raw }}
+            </div>
+        {% endif %}
+
+        {% if  review.feedbackComment!='' %}
+            <strong>Notes:</strong>
+            <div class="margin-left margin-top">
+                {{ review.feedbackComment|raw }}
+            </div>
+        {% endif %}
+
+        {% if review.file.user==app.user or review.reviewer==app.user %}
+            <a id="review_edit" class="btn btn-default" href="javascript:void(0);">
+                {% if review.reviewer==app.user %}Edit{% else %}Respond{% endif %}
+            </a>
+        {% endif %}
+
+
+    </div>
+    <div class="panel-footer">
+        {% if role==2 %}
+        NB:  Grade and Notes are available only to the owner of the reviewed document and the instructor.
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+
+

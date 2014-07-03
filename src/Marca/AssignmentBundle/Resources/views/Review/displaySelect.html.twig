@@ -1,0 +1,37 @@
+{# Marca/AssignmentBundle/Resources/views/Review/displaySelect.html.twig #}
+
+<div class="modal-dialog">
+    <script language="javascript">
+        var options = {
+            target: '#review_container',
+            success: function() {
+                $('#review_container').show();
+                ;$('#doc_modal').modal('hide');
+            }
+        };
+        $('#assign').submit(function() {
+            $(this).ajaxSubmit(options);
+            return false;
+        });
+
+    </script>
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Select Review Rubric</h4>
+        </div>
+        <form id="assign" action="{{ path('assignrubric', {'courseid' : courseid, 'fileid': fileid}) }}" method="post" {{ form_enctype(form) }}>
+            <div class="modal-body">
+                {{ form_widget(form) }}
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary" type="submit">Select</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </form>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

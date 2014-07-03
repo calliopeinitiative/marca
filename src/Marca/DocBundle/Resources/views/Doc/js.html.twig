@@ -1,0 +1,56 @@
+{# Marca/DocBundle/Resources/views/Doc/js.html.twig #}
+
+{# js include in Doc Edit and Show #}
+
+{# Reviews here are Feedback prompts and responses, not documents #}
+
+$('#doc-tools').css('height', function () {
+return $(window).height() * .88;
+});
+
+{# Add Feedback #}
+$('#new_rubricreview').click(function () {
+$('#collapseFeedback').collapse('show');
+$('#doc_modal').load('{{ course_path('selectrubric', { 'fileid': file.id }) }}').modal();
+});
+
+{% for review in reviews %}
+    $('#review_{{ review.id }}').click(function () {
+    $('#loading-feedback').fadeIn();
+    $('#review_container').load('{{ course_path('review_show_ajax', { 'id': review.id }) }}').show();
+    $('.question').removeClass('active');
+    $(this).addClass('active');
+    });
+{% endfor %}
+$('#loading, #loading-feedback').hide();
+$('#toggle_docs').click(function () {
+if ($('#doc_container').is(':hidden')) {
+$('#doc_container').show();
+} else {
+$('#doc_container').hide();
+}
+});
+$('#expand').click(function () {
+$('#feedback').toggleClass("expand_feedback");
+$('#doc-container').toggleClass("col-sm-6");
+$('#doc-tools').toggleClass("col-sm-6");
+$('#glyph_expand').toggleClass("glyphicon-resize-small");
+});
+{# Review Feedback composite #}
+{% if app.request.get('_route') == 'doc_edit' or app.request.get('_route') == 'doc_ajax' %}
+    {% set fileid %}{{ file.id }}{% endset %}
+{% else %}
+    {% set fileid %}{{ parent_file.id }}{% endset %}
+{% endif %}
+
+$('#review_composite').click(function () {
+$('#loading-feedback').fadeIn();
+$('.question').removeClass('active');
+$(this).addClass('active');
+$('#review_container').show();
+$('#review_container').load('{{ course_path('review_index_ajax', { 'fileid': fileid}) }}');
+});
+
+
+
+

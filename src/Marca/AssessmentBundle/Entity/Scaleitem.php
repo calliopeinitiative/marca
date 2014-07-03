@@ -38,7 +38,12 @@ class Scaleitem
     /**
     * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Scale", inversedBy="scaleitems")
     */
-    protected $scale;     
+    protected $scale;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\AssignmentBundle\Entity\ReviewResponse", mappedBy="scaleitem")
+     */
+    protected $reviewresponse;
 
     /**
      * Get id
@@ -117,5 +122,58 @@ class Scaleitem
     public function getScale()
     {
         return $this->scale;
+    }
+
+    /**
+     * Set reviewresponse
+     *
+     * @param \Marca\AssignmentBundle\Entity\ReviewResponse $reviewresponse
+     * @return Scaleitem
+     */
+    public function setReviewresponse(\Marca\AssignmentBundle\Entity\ReviewResponse $reviewresponse = null)
+    {
+        $this->reviewresponse = $reviewresponse;
+    
+        return $this;
+    }
+
+    /**
+     * Get reviewresponse
+     *
+     * @return \Marca\AssignmentBundle\Entity\ReviewResponse 
+     */
+    public function getReviewresponse()
+    {
+        return $this->reviewresponse;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->reviewresponse = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add reviewresponse
+     *
+     * @param \Marca\AssignmentBundle\Entity\ReviewResponse $reviewresponse
+     * @return Scaleitem
+     */
+    public function addReviewresponse(\Marca\AssignmentBundle\Entity\ReviewResponse $reviewresponse)
+    {
+        $this->reviewresponse[] = $reviewresponse;
+    
+        return $this;
+    }
+
+    /**
+     * Remove reviewresponse
+     *
+     * @param \Marca\AssignmentBundle\Entity\ReviewResponse $reviewresponse
+     */
+    public function removeReviewresponse(\Marca\AssignmentBundle\Entity\ReviewResponse $reviewresponse)
+    {
+        $this->reviewresponse->removeElement($reviewresponse);
     }
 }

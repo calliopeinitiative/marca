@@ -39,15 +39,29 @@ class DocController extends Controller
         $role = $this->getCourseRole();
 
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+
         $doc = $file->getDoc();
         $text = $doc->getBody();
         $count = str_word_count($text);
         $file_owner = $file->getUser();
+
         $review_file = $file->getReviewed();
-        if ($review_file) {$review_owner = $review_file->getUser();} else {$review_owner = $file_owner;}
+        if ($review_file)
+           {
+               $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
+               $review_owner = $review_file->getUser();
+           }
+        else
+            {
+                $parent_file = $file;
+                $review_owner = $file_owner;
+            }
+        $fileid = $parent_file->getId();
         $file_access = $file->getAccess();
         
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
+        $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($fileid);
+        $local_resource = $projects = $em->getRepository('MarcaCourseBundle:Project')->findResourcesInSortOrder($course);
 
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
@@ -63,10 +77,55 @@ class DocController extends Controller
             'role'      => $role,
             'count'=> $count,
             'file'        => $file,
+            'parent_file'        => $parent_file,
             'markup' => $markup,
+            'reviews' => $reviews,
+            'local_resource' => $local_resource,
             'delete_form' => $deleteForm->createView(),        );
     }
-  
+
+    /**
+     * Finds and displays a Doc entity.
+     *
+     * @Route("/{courseid}/{id}/show_ajax", name="doc_show_ajax")
+     * @Template("MarcaDocBundle:Doc:show.html.twig")
+     */
+    public function show_ajaxAction($id,$courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $em = $this->getEm();
+        $course = $this->getCourse();
+        $user = $this->getUser();
+        $role = $this->getCourseRole();
+
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $fileid = $file->getId();
+        $doc = $file->getDoc();
+        $file_owner = $file->getUser();
+        $review_file = $file->getReviewed();
+        if ($review_file) {$review_owner = $review_file->getUser();} else {$review_owner = $file_owner;}
+        $file_access = $file->getAccess();
+
+        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
+        $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($fileid);
+
+        if (!$doc) {
+            throw $this->createNotFoundException('Unable to find Doc entity.');
+        }
+        else if ($file_owner != $user && $review_owner != $user && $file_access==0 && $role != 2 )  {
+            throw new AccessDeniedException();
+        }
+
+        return array(
+            'doc'      => $doc,
+            'role'      => $role,
+            'file'        => $file,
+            'markup' => $markup,      );
+    }
+
+
   
     /**
      * Displays a form to create a new Doc entity.
@@ -125,6 +184,7 @@ class DocController extends Controller
         };
         $doc = $file->getDoc();
         $markupsets = $course->getMarkupsets();
+        $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($id);
         
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
@@ -139,6 +199,7 @@ class DocController extends Controller
             'pages'        => $pages,
             'role'      => $role,
             'markupsets'      => $markupsets,
+            'reviews' => $reviews,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );

@@ -183,7 +183,7 @@ class FileController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $project = $course->getProjectDefault();
         $options = array('courseid' => $courseid, 'resource'=> $resource);
-        
+
         $file = new File();
         $file->setUser($user);
         $file->setProject($project);
@@ -245,7 +245,7 @@ class FileController extends Controller
            $em->persist($file);
            $em->flush();
            return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $file->getId(),'view'=>'app')));
-        }        
+        }
         elseif ($type == 'saveas'){
            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
            $file->setName('SaveAs Document');
@@ -259,8 +259,8 @@ class FileController extends Controller
                 'roll'        => $roll,
                 'course' => $course,
                 'form'   => $form->createView()
-            );  
-        }        
+            );
+        }
     }
       
     
@@ -290,21 +290,21 @@ class FileController extends Controller
         $postData = $request->get('marca_filebundle_filetype');
         $project = $postData['project'];
         $form    = $this->createForm(new FileType($options), $file);
-        $form->bind($request);
+        $form->submit($request);
         if ($type == 'doc') {
-        $doc  = new Doc();    
-        $doc->setFile($file); 
+        $doc  = new Doc();
+        $doc->setFile($file);
         $doc->setBody('<p> </p>');
         }
         elseif ($type == 'review'){
 
-        }        
+        }
         elseif ($type == 'saveas'){
             $doc = new Doc();
             $doc->setFile($file);
             $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
             $doc->setBody($reviewed_file->getDoc()->getBody());
-        }        
+        }
         if ($form->isValid()) {
             $em = $this->getEm();
             $em->persist($file);
@@ -312,14 +312,14 @@ class FileController extends Controller
             $em->persist($doc);
             }
             $em->flush();
-            
+
         if ($type == 'link') {
         return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'id'=> $file->getId(),'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource, 'user'=>'0')));
         }
         elseif ($type == 'doc' || $type == 'review' || $type == 'instr_review' || $type == 'saveas') {
         return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $file->getId(),'view'=>'app')));
         }
-        
+
         }
 
         return array(
@@ -333,7 +333,7 @@ class FileController extends Controller
             'form'   => $form->createView()
         );
     }
-    
+
 
     /**
      * Displays a form to edit an existing File entity.
@@ -346,7 +346,7 @@ class FileController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         $user = $this->getUser();
-        
+
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $course = $file->getCourse();
@@ -356,14 +356,14 @@ class FileController extends Controller
         $url = $file->getUrl();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($file_courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($file_courseid);
-              
+
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
         }
         elseif($user != $file->getUser()){
             throw new AccessDeniedException();
-        };   
-        
+        };
+
         //test to see if this is a link update
         if (empty($url)) {
             $editForm = $this->createForm(new FileType($options), $file);
@@ -381,8 +381,8 @@ class FileController extends Controller
             'edit_form'   => $editForm->createView(),
         );
     }
-    
-    
+
+
     /**
      * Edits an existing File entity.
      *
@@ -395,7 +395,7 @@ class FileController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         $user = $this->getUser();
-        
+
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $course = $file->getCourse();
@@ -410,7 +410,7 @@ class FileController extends Controller
         }
         elseif($user != $file->getUser()){
             throw new AccessDeniedException();
-        } 
+        }
 
         $editForm   = $this->createForm(new FileType($options), $file);
 
@@ -421,8 +421,8 @@ class FileController extends Controller
         $resource = $resource->getResource();
         if (!$resource)
         {$resource = '0';}
-        
-        
+
+
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -450,8 +450,8 @@ class FileController extends Controller
         );
     }
 
-    
-        
+
+
     /**
      * Deletes a File entity.
      *
@@ -462,11 +462,11 @@ class FileController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
+
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -540,7 +540,7 @@ class FileController extends Controller
 
 
          if ($this->getRequest()->getMethod() === 'POST') {
-             $form->bind($this->getRequest());
+             $form->submit($this->getRequest());
              if ($form->isValid()) {
                  $em = $this->getEm();
                  $em->persist($file);
@@ -613,7 +613,7 @@ class FileController extends Controller
 
 
         if ($this->getRequest()->getMethod() === 'POST') {
-            $form->bind($this->getRequest());
+            $form->submit($this->getRequest());
             if ($form->isValid()) {
                 $em = $this->getEm();
                 $em->persist($file);
@@ -725,8 +725,9 @@ class FileController extends Controller
                       default:
                       $response->headers->set('Content-Type', 'application/octet-stream');
                       }
-                
-                $response->setContent( file_get_contents($path));      
+
+		$response->setContent( file_get_contents( $path));
+
 
 		return $response;
 	}
@@ -759,6 +760,18 @@ class FileController extends Controller
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $role = $this->getCourseRole();
+        $review_file = $file->getReviewed();
+        $markup = null;
+        if ($review_file)
+        {
+            $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
+        }
+        else
+        {
+            $parent_file = $file;
+        }
+
+        $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($id);
 
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
@@ -766,13 +779,53 @@ class FileController extends Controller
 
             return array(
             'role'      => $role,
-            'file'        => $file
+            'file'        => $file,
+            'parent_file'        => $parent_file,
+            'reviews' => $reviews,
+            'markup' => $markup,
              );
 
 
     }
-    
-    
+
+    /**
+     * Finds and displays an ODF or PDF with Viewer.js
+     *
+     * @Route("/{courseid}/{id}/view_file_ajax", name="file_view_ajax")
+     * @Template("MarcaDocBundle:Doc:show.html.twig")
+     */
+    public function view_ajaxAction($id)
+    {
+        $em = $this->getEm();
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $role = $this->getCourseRole();
+        $review_file = $file->getReviewed();
+        $markup = null;
+        if ($review_file)
+        {
+            $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
+        }
+        else
+        {
+            $parent_file = $file;
+        }
+
+        $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($id);
+
+        if (!$file) {
+            throw $this->createNotFoundException('Unable to find File entity.');
+        }
+
+        return array(
+            'role'      => $role,
+            'file'        => $file,
+            'parent_file'        => $parent_file,
+            'reviews' => $reviews,
+            'markup' => $markup,
+        );
+
+
+    }
  
    /**
      * Finds and displays an XSL transformation of a File entity.

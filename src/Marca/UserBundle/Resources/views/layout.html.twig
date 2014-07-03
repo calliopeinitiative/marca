@@ -12,7 +12,9 @@
 <h1><a title="Click to list your current or pending courses" href="{{ path('user_home') }}" class="marca-gray">Home</a> </h1>
        {% if is_granted('ROLE_USER') %}
              <li><a title="Click to enroll in a new course" class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll in a course</a></li>
-
+                {% if app.request.get('_route') == 'user_home' or app.request.get('_route') == 'file_view_ajax' %}
+             {% if archive %}<li><a id="archive_toggle" title="Click to view Previous Courses" class="" href="javascript:void(0);">Previous Courses</a></li>{% endif %}
+                {% endif %}
        {% endif %}
        {% if is_granted('ROLE_INSTR') %}
              <h2 class="nav-header">Settings</h2>
@@ -24,10 +26,12 @@
        {% if is_granted('ROLE_ADMIN') %} 
              <h2 class="nav-header">Admin Settings</h2>
              <li><a title="Click to create or edit portfolio rubrics" href="{{ path('portset') }}">Portfolios</a></li>
-             <li><a title="Click to create or edit assessment tools" href="{{ path('assessmentset') }}">Assessment</a></li> 
+             <li><a title="Click to create or edit assessment tools" href="{{ path('assessmentset') }}">Assessment</a></li>
+           <li><a title="Click to create or edit Review Rubrics" href="{{ path('reviewrubric') }}">Review Rubrics</a></li>
              <li><a title="Click to administer terms" href="{{ path('term') }}">Terms</a></li>
              <li><a title="Click to administer users" href="{{ path('admin') }}">Users</a></li>
              <li><a title="Click to create or edit institutions" href="{{ path('institution') }}">Institutions</a></li>
              <li><a title="Click to create or edit information pages" href="{{ path('page') }}">Pages</a></li>
+
        {% endif %}      
 {% endblock %}  

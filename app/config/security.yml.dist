@@ -1,6 +1,10 @@
 # app/config/security.yml
 security:
     providers:
+        chain_provider:
+            chain:
+                providers: [fos_userbundle]
+
         fos_userbundle:
             id: fos_user.user_provider.username
 
@@ -11,13 +15,13 @@ security:
         main:
             pattern: ^/
             form_login:
-                provider: fos_userbundle
                 csrf_provider: form.csrf_provider
-                default_target_path: /user/home            
+                default_target_path: /user/home          
             logout:
                 path:   /logout
                 target: /home
             anonymous:    true
+            switch_user: true
 
     access_control:
         #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }

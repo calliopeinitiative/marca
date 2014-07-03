@@ -1,0 +1,33 @@
+{# Marca/AssignmentBundle/Resources/views/PromptItem/edit.html.twig #}
+
+<div class="modal-dialog">
+    <script language="javascript">
+        $(document).ready(function () {
+            $('#delete_prompt').click(function () {
+                $('#review_modal').load('{{path('promptitem_delete_modal',  { 'id': promptitem.id}) }}').modal();
+            });
+        });
+    </script>
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Edit Prompt</h4>
+        </div>
+        <form action="{{ path('promptitem_update', { 'id': promptitem.id }) }}"
+              method="post" {{ form_enctype(edit_form) }} style="margin-bottom:0;" novalidate="novalidate">
+            <div class="modal-body">
+                {{ form_widget(edit_form) }}
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group pull-left">
+                    <button type="submit" class="btn btn-primary" type="submit">Update</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                <a id="delete_prompt" class="btn btn-warning pull-right margin-top-small"
+                   title='Delete prompt' href="javascript:void(0);">Delete</a>
+            </div>
+        </form>
+    </div>
+    <!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

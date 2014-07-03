@@ -24,11 +24,16 @@
                         <a class="btn btn-default" href="{{ path('teams', { 'courseid': course.id }) }}">Manage Teams</a>
                         #}
                     {% endif %}
+                    {#
+
                     {% if course.module != 1 %}
                         <a class="btn btn-default"
                            href="{{ path('toggle_module', { 'courseid': course.id,'setting': 1  }) }}">Change to
                             Module</a>
                     {% endif %}
+
+                    #}
+
                 </div>
             </div>
         </div>

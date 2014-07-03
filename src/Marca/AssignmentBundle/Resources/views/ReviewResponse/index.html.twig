@@ -1,0 +1,55 @@
+{# Marca/AssignmentBundle/Resources/views/ReviewResponse/index.html.twig #}
+
+{% extends 'MarcaAssignmentBundle::layout.html.twig' %}
+
+
+
+
+{% block content %}
+<h1>ReviewResponse list</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Timecreated</th>
+            <th>Timemodified</th>
+            <th>ResponseShorttext</th>
+            <th>ResponseParagraphtext</th>
+            <th>Responsebool</th>
+            <th>Responseint</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('reviewresponse_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{% if entity.timeCreated %}{{ entity.timeCreated|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{% if entity.timeModified %}{{ entity.timeModified|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{{ entity.responseShortText }}</td>
+            <td>{{ entity.responseParagraphText }}</td>
+            <td>{{ entity.responseInt }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('reviewresponse_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('reviewresponse_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('reviewresponse_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
+{% endblock %}

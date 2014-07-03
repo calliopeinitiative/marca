@@ -12,19 +12,18 @@
 
 
 {% block sidebar %}
-<h1><a  title='Journal Home' href="{{ course_path('journal_list') }}" class="marca-gray">Journal</a></h1>
-             <a class="btn btn-primary margin-bottom-medium" href="{{ course_path('journal_new')  }}">Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
-             {% if role==2 %}
-             <li class="dropdown">
-                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">
-                    By {{ user.firstname|title }} {{ user.lastname|title }}
-                    <b class="caret"></b></a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                        {% for roll in roll %}
-                        <li><a title='View the Journal of {{roll.firstname}} {{roll.lastname}}' data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('journal_list', { 'userid': roll.userid, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
-                        {% endfor %}
-                    </ul>
-              </li>
-              {% endif %}   
-
-{% endblock %}  
+    <h1><a  title='Journal Home' href="{{ course_path('journal_list') }}" class="marca-gray">Journal</a></h1>
+    <a class="btn btn-primary margin-bottom-medium" href="{{ course_path('journal_new')  }}">Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+    {% if role==2 %}
+        <li class="dropdown">
+            <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">
+                By {{ user.firstname|title }} {{ user.lastname|title }}
+                <b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                {% for roll in roll %}
+                    <li><a title='View the Journal of {{roll.firstname}} {{roll.lastname}}' data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('journal_list', { 'userid': roll.userid, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endif %}
+{% endblock %}

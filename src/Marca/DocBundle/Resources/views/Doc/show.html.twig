@@ -1,273 +1,335 @@
 {# Marca/DocBundle/Resources/views/Doc/show.html.twig #}
 
-
-{% extends 'MarcaDocBundle::layout.html.twig' %}
+{% extends app.request.xmlHttpRequest
+? '::ajax.html.twig'
+: 'MarcaDocBundle::layout.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
     <script language="javascript">
-        $(document).ready(function()
-        {
-            var numNotes = $('.eDoc_note').length;
-            if (numNotes > 0)
-            {$('.eDoc_note').each(function(index) {
-                note_index = index + 1;
-                var note_number = '<span class="blue">' + note_index + '</span>';
-                var note = '<div>'+ note_number + $(this).html() + '</div>';
-                $('#notes_container').append(note);
-            });
-            }
-            else
-            {var note = '<div class="cell divider clear">There are no notes in this document.</div>';
-                $('#notes_container').append(note);
-            };
+        $(document).ready(function () {
 
-            $('.eDoc_highlight').each(function(index) {
+            {# Parent file/doc #}
+            $('#review_{{ parent_file.id }}').click(function () {
+                {% if parent_file.doc %}
+                $('#file-container').load('{{ course_path('doc_show_ajax', { 'id': parent_file.id}) }}');
+                {% elseif parent_file.ext == 'odt' or parent_file.ext == 'ods' or parent_file.ext == 'odp' or parent_file.ext == 'pdf' %}
+                $('#file-container').load('{{ course_path('file_view_ajax', { 'id': parent_file.id}) }}');
+                {% elseif parent_file.url %}
+                var win = window.open("{{ parent_file.url}}");
+                {% else %}
+                var win = window.open("{{ course_path('file_get', { 'id': parent_file.id}) }}");
+                {% endif %}
+                $('.document').removeClass('active');
+                $(this).addClass('active');
+                $('.review_nav, .review_info').hide();
+                $('#parent_nav, #parent_info').show();
+                $('#collapseNotes').collapse('hide');
+                $('#loading').fadeIn();
+            });
+
+            {# Review files/docs #}
+            {# Reviews here are documents, not Feedback prompts and responses,#}
+            $('.review_nav, .review_info').hide()
+            {% for review in parent_file.reviews%}
+            {% if review.id == app.request.get('id') %}
+            $('#parent_nav, #parent_info').hide();
+            $('#review_nav_{{ review.id }}, #review_info_{{ review.id }}').show();
+            {% endif %}
+            $('#review_{{ review.id }}').click(function () {
+                {% if review.doc %}
+                $('#file-container').load('{{ course_path('doc_show_ajax', { 'id': review.id}) }}');
+                {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
+                $('#file-container').load('{{ course_path('file_view_ajax', { 'id': review.id}) }}');
+                {% elseif parent_file.url %}
+                var win = window.open("{{ review.url}}");
+                {% else %}
+                var win = window.open("{{ course_path('file_get', { 'id': review.id}) }}");
+                {% endif %}
+                $('.document').removeClass('active');
+                $(this).addClass('active');
+                $('#parent_nav, #parent_info').hide();
+                $('.review_nav, .review_info').hide();
+                $('#review_nav_{{ review.id }}, #review_info_{{ review.id }}').show();
+                $('#collapseNotes').collapse('hide');
+                $('#loading').fadeIn();
+            });
+            {% endfor %}
+
+            {# Notes #}
+            $("#notes").click(function () {
+                $('#inline-toggle').text(($('#inline-toggle').text() == 'Inline' ? 'Marginal' : 'Inline'));
+                $('.eDoc_note, .eDoc_super').toggle();
+            });
+            {% if file.project.resource == 'true' %}
+            $('#notes, #feedback').hide();
+            {% endif %}
+            $('#collapseNotes').collapse('hide');
+
+            {# Markup #}
+            $('.eDoc_highlight').each(function (index) {
                 var span_number = index + 1;
                 var span_append = '<span class="eDoc_super">' + span_number + '</span>';
                 $(this).append(span_append);
             });
             $('.eDoc_super').toggle();
-
-            $('[title]').each( function() {
+            $('[title]').each(function () {
                 var $this = $(this);
-                $this.data('title',$this.attr('title'));
+                $this.data('title', $this.attr('title'));
                 $this.removeAttr('title');
             });
 
-            $('.markup').mouseover(function (){
-                var id = "div[data-id='" + $(this).attr('data-id') + "']";
-                var offset = $(this).offset();
-                $('.popover').hide();$(id).show().offset({ top: offset.top -30, left: offset.left + 80});
-            });
-
-            $('.popover-close, #doc-display').click(function(){
-                $('.popover').hide();
-            });
-
-            $('#close_window').click(function(){
+            {# Close window #}
+            $('#close_window').click(function () {
                 window.close();
             });
 
-            {% if file.project.resource %}{% set resource=1 %}{% else %}{% set resource=0 %}{% endif %}
-            $('#new_saveas').click(function(){
-                $('#file_modal').load('{{ course_path('file_new_modal', { 'resource' : resource, 'tag' : '0', 'type': 'saveas', 'fileid': file.id }) }}').modal();
-            });
-
-            var txt = $('.doc-body').text();
-            var count = txt.trim().replace(/\s+/gi, ' ').split(' ').length;
-            $("#word-count").text(count);
-
-
-            $('#doc-display').css('height', function(index) {
-                return $(window).height()* .88;
-            });
-
-            $('#doctools').css('height', function(index) {
-                return $(window).height() * .88;
-            });
-
-            $('iframe').css('height', function(index) {
-                return $(window).height() * .88;
-            });
-
+            {% include 'MarcaDocBundle:Doc:js.html.twig' %}
 
         });
     </script>
+
+
+
 {% endblock %}
 
-{% block content %} 
-<div class="col-sm-12 center">
-{# Doc nav #}
-    <nav class="navbar  navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="col-sm-12 center">
-        <div class="navbar-header col-sm-5">
+{% block content %}
+    {# Doc display #}
+    <div class="col-sm-12 center" style="margin-top: 20px;">
+    <div id="loading" class="col-sm-offset-3 col-sm-1 alert alert-info"
+         style="position:absolute;z-index: 1000;text-align: center">Loading
+    </div>
+
+    {# Doc Nav #}
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="max-height: 70px;">
+        <div class="navbar-header col-sm-0">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a name="top"></a>
-            <h2 style="margin-top:11px;color:white;" title="{{file.name}}">{{file.name|slice(0, 20)}}{% if file.name|length > 19 %}...{% endif %}</h2>
         </div>
 
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav pull-right">
-                <li id="skip"><a href="#main_content">Skip Navigation</a></li>
-                {% if app.request.get('_route') != 'file_view' %}
-                    {% if doc.isOwner(app.user.username) %}
-                        <li>
-                            <a title="Edit this document" class="" href="{{ course_path('doc_edit', { 'id': file.id,'view': app.request.get('view') }) }}">Edit</a>
+            <ul class="nav navbar-nav">
+                <li class="{% if parent_file.id == app.request.get('id') %}active{% endif %} document"
+                    id="review_{{ parent_file.id }}" style="margin-top: -2px;">
+                    <a href="javascript:void(0);" title="View {{ parent_file.name }}">
+                        <span style="font-size:18px;">{{ parent_file.name }} </span>
+                        <span class="small"
+                              style="font-family:proxima-nova;">by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}</span>
+                    </a>
+                </li>
+                {% for review in parent_file.reviews %}
+                    {% if (parent_file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
+                        <li class="{% if review.id == app.request.get('id') %}active{% endif %} document"
+                            id="review_{{ review.id }}">
+                            <a href="javascript:void(0);" title="{{ review.name }} by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}">
+                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review" alt="{{ review.name }} by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}"></span>
+                                {% if parent_file.reviews|length < 5 %}
+                                    Review
+                                <span class="small"
+                                      style="font-family:proxima-nova;">by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}</span>
+                                {% endif %}
+                            </a>
                         </li>
                     {% endif %}
+                {% endfor %}
+            </ul>
 
+            <ul class="nav navbar-nav navbar-right" style="padding-right: 25px">
+
+                {# Parent file #}
+                <span id='parent_nav'>
+                    {% if  parent_file.doc and parent_file.isOwner(app.user.username) %}
+                        <li class="navbar-text">
+                            <a title="Edit this document" class=""
+                               href="{{ course_path('doc_edit', { 'id': parent_file.id,'view': app.request.get('view') }) }}">Edit</a>
+                        </li>
+                    {% endif %}
                     {# Don't show Review button if it is a review or a Resource #}
-                    {% if file.reviewed|length == 0 and file.project.resource != 'true' %}
-                        <li>
-                            <a title="Create a copy of this document for peer review" id="new_review" class="" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create Review</a>
+                    {% if parent_file.doc and parent_file.reviewed|length == 0 and parent_file.project.resource != 'true' %}
+                        <li class="navbar-text">
+                            <a title="Create a copy of this document for peer review" id="new_review"
+                               class=""
+                               href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create
+                                Review</a>
                         </li>
                     {% endif %}
 
-                    {% if doc.isOwner(app.user.username) or file.project.resource == 'true' %}
-                        <li>
-                            <a title="Create a copy of this document" id="new_saveas" class="" href="javascript:void(0)">SaveAs</a>
+                    {# conditional to SaveAs project for students and Saveas Resource for instructors #}
+                    {% if (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource != 'true') or (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource == 'true'  and local_resource) or (not parent_file.isOwner(app.user.username) and parent_file.doc and file.project.resource == 'true') %}
+                        <li class="navbar-text"><a title="Create a copy of this document" id="new_saveas" class=""
+                                                   href="javascript:void(0)">SaveAs</a>
                         </li>
                     {% endif %}
-                    <li>
-                        <a title="Print this document" class="" href="{{ course_path('doc_pdf', { 'id': doc.id }) }}">Printable PDF</a>
-                    </li>
-                {% endif %}
-                <li>
+                    {% if parent_file.doc %}
+                        <li class="navbar-text"><a title="Print this document" class=""
+                                                   href="{{ course_path('doc_pdf', { 'id': parent_file.doc.id }) }}">Printable
+                                PDF</a>
+                        </li>
+                    {% elseif parent_file.ext == 'odt' or parent_file.ext == 'ods' or parent_file.ext == 'odp' or parent_file.ext == 'pdf' %}
+                        <li class="navbar-text">
+                            <a title="Download this document" class=""
+                               href="{{ course_path('file_get', { 'id': parent_file.id }) }}">Download</a>
+                        </li>
+
+                    {% endif %}
+                    </span>
+
+
+                {# Review docs #}
+                {% for review in parent_file.reviews %}
+                    <span id="review_nav_{{ review.id }}" class="review_nav">
+
+                        {% if review.doc and review.doc.isOwner(app.user.username) %}
+                            <li class="navbar-text">
+                                <a title="Edit this document" class=""
+                                   href="{{ course_path('doc_edit', { 'id': review.id,'view': app.request.get('view') }) }}">Edit</a>
+                            </li>
+                            <li class="navbar-text">
+                                <a title="Print this document" class=""
+                                   href="{{ course_path('doc_pdf', { 'id': review.doc.id }) }}">Printable PDF</a>
+                            </li>
+
+                        {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
+                            <li class="navbar-text">
+                                <a title="Download this document" class=""
+                                   href="{{ course_path('file_get', { 'id': review.id }) }}">Download</a>
+                            </li>
+                        {% endif %}
+                    </span>
+                {% endfor %}
+
+
+                {# Close #}
+                <li style="padding-right: 10px;margin-left:15px">
                     {% if app.request.get('view') == 'window' %}
-                        <a title="Close the current window or tab" id="close_window"  class="" href="javascript:void(0);">Close</a>
-                    {% elseif file.project.resource == 'true'%}
-                        {% if app.session.get('resource_referrer')%}
-                            <a title="Close this document" class="" href="{{app.session.get('resource_referrer')}} ">Close</a>
+                        <a title="Close the current window or tab" id="close_window" class=""
+                           href="javascript:void(0);">Close</a>
+                    {% elseif file.project.resource == 'true' %}
+                        {% if app.session.get('resource_referrer') %}
+                            <a title="Close this document" class=""
+                               href="{{ app.session.get('resource_referrer') }} ">Close</a>
                         {% else %}
-                            <a  title="Close this document" class="" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
-                        {%endif%}
+                            <a title="Close this document" class=""
+                               href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
+                        {% endif %}
                     {% else %}
-                        {% if app.session.get('referrer')%}
-                            <a title="Close this document" class="" href="{{app.session.get('referrer')}} ">Close</a>
+                        {% if app.session.get('referrer') %}
+                            <a title="Close this document" class=""
+                               href="{{ app.session.get('referrer') }} ">Close</a>
                         {% else %}
-                            <a title="Close this document" class="" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
-                        {%endif%}
+                            <a title="Close this document" class=""
+                               href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+                        {% endif %}
                     {% endif %}
                 </li>
-
             </ul>
-        </div>
         </div>
     </nav>
 
+    <div class="col-sm-11 center">
+    <a id="main_content"></a>
 
-{# Doc display #}
-<div class="col-sm-11 center">
-    {% if app.request.get('_route') == 'file_view' %}
-    <iframe class="col-sm-8" id="viewer" src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}" allowfullscreen="true" webkitallowfullscreen="true"></iframe>
-        {% else %}
-        <div id='doc-display' class="col-sm-8 well">
-            <div class="doc-body">
-                {{ doc.body|raw }}
-            </div>
-        </div>
-    {% endif %}
+    {# Ajax fragment  #}
+    {% block ajax %}
+        <script language="javascript">
+            $(document).ready(function () {
+                {% if file.project.resource and role==2 %}{% set resource=1 %}{% else %}{% set resource=0 %}{% endif %}
+                $('#new_saveas').click(function () {
+                    $('#doc_modal').load('{{ course_path('file_new_modal', { 'resource' : resource, 'tag' : '0', 'type': 'saveas', 'fileid': file.id }) }}').modal();
+                });
+                var txt = $('.doc-body').text();
+                var count = txt.trim().replace(/\s+/gi, ' ').split(' ').length;
+                $("#word-count").text(count);
+                $('#doc-display').css('height', function () {
+                    return $(window).height() * .88;
+                });
+                $('iframe').css('height', function () {
+                    return $(window).height() * .88;
+                });
+                $('.popover').hide();
+                $('.markup').mouseover(function () {
+                    var id = "div[data-id='" + $(this).attr('data-id') + "']";
+                    var offset = $(this).offset();
+                    $('.popover').hide();
+                    $(id).show().offset({ top: offset.top - 30, left: offset.left + 80});
+                });
+                $('.popover-close, #doc-display').click(function () {
+                    $('.popover').hide();
+                });
+                $('#notes_container').empty();
+                var numNotes = $('.eDoc_note').length;
+                if (numNotes > 0) {
+                    $('.eDoc_note').each(function (index) {
+                        var note_index = index + 1;
+                        var note_number = '<span class="blue">' + note_index + '</span>';
+                        var note = '<div>' + note_number + $(this).html() + '</div>';
+                        $('#notes_container').append(note);
+                    });
+                }
+                else {
+                    var note = '<div class="cell divider clear">There are no notes in this document.</div>';
+                    $('#notes_container').append(note);
+                }
+                $('.eDoc_highlight').each(function (index) {
+                    var span_number = index + 1;
+                    var span_append = '<span class="eDoc_super">' + span_number + '</span>';
+                    $(this).append(span_append);
+                });
+                $('.eDoc_super').toggle();
+                $('#inline-toggle').text('Inline');
+                $('#loading').fadeOut();
+            });
+        </script>
 
- 
-{# Doc tools #}        
-<div class="col-sm-4" id="doctools">
-
-    <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                        Info
-                    </a>
-                </h2>
-            </div>
-            <div id="collapseOne" class="panel-collapse collapse in">
-                <div class="panel-body">
-                    <dl>
-                        <dt>Author</dt>
-                        <dd>{{ file.user.firstname }} {{ file.user.lastname }}</dd>
-                        <dt>Document</dt>
-                        <dd>{{ file.name }}</dd>
-                        <dt>Updated</dt>
-                        <dd>{{ file.updated|date('m/d/y, g:i a') }}</dd>
-                        <dt>Created</dt>
-                        <dd>{{ file.created|date('m/d/y, g:i a') }}</dd>
-                        <dt>Word Count</dt>
-                        <dd><span id="word-count"></span> words approx.</dd>
-                    </dl>
-                    <strong>Labels</strong>
-                    {% for tag in file.tag %}<span class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
-                    {% if file.access==1 %} <span class="label label-success margin-left">Shared</span>
-                    {% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
-                    {% endif %}
-                    {% if file.portfolio|length !=0 %} <span class="label label-info">Portfolio</span>{% endif %}
-                </div>
-            </div>
-        </div>
-        {% if app.request.get('_route') != 'file_view' %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick=";$('.eDoc_note').toggle();$('.eDoc_super').toggle();" data-toggle="tab">Notes
-                    </a>
-                </h2>
-            </div>
-            <div id="collapseTwo" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <div id="docNotes">
-                        <div id='notes_container'>
+        {# Document display or File Viewer #}
+        <div id='file-container'>
+            {% if app.request.get('_route') == 'file_view' or app.request.get('_route') == 'file_view_ajax' %}
+                <iframe class="col-sm-8" id="viewer"
+                        src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}"
+                        allowfullscreen="true" webkitallowfullscreen="true"></iframe>
+            {% else %}
+                <div id="doc-container" class="col-sm-8">
+                    <div id='doc-display' class="col-sm-12 well">
+                        <div id='doc-body' class="doc-body">
+                            {{ doc.body|raw }}
                         </div>
                     </div>
+                    <div class="doc-footer col-sm-12"><span class="pull-right">Words: <span
+                                    id="word-count"></span></span>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        {# Markup pops for this document #}
+        {% for markup in markup %}
+            <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover left'>
+                <button type="button" class="close popover-close" data-dismiss="popover"
+                        aria-hidden="true">&times;</button>
+                <div class="popover-title">
+                    <span class="pull-left color-flag" style="background: {{ markup.color }};">&#183;</span>
+                    {{ markup.name }}</div>
+                <div class="popover-content">
+                    {{ markup.mouseover|raw }}
+                    {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}"
+                                                                          target="_blank">{{ markup.linktext }}</a>{% endif %}
                 </div>
             </div>
-        </div>
-        {% endif %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="panel-title">
+        {% endfor %}
+    {% endblock %}
 
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                        Feedback ({{ file.responses|length }} response{% if file.responses|length != 1 %}s{% endif %})
-                    </a>
-                </h2>
-                <a class="btn btn-primary btn-xs pull-right" href="{{ course_path('response_new', { 'sourceid': file.id, 'source': app.request.get('_route') ,'view': app.request.get('view'),'userid': file.user.id }) }}">Add<i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
+    {# Doc tools #}
+    <div id='doc-tools' class="col-sm-4">
+        {% include 'MarcaDocBundle:Doc:doctools.html.twig' %}
+    </div>
 
-            </div>
-            <div id="collapseThree" class="panel-collapse collapse">
-                <div class="panel-body">
-                    {# Responses #}
+    </div>
+    </div>
 
-                    {% for response in file.responses %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h2 class="panel-title">{{ response.user.firstname}} {{ response.user.lastname}} says:</h2>
-
-                            {% if response.isOwner(app.user.username) %}
-                                <a class="btn btn-default btn-xs pull-right" href="{{ course_path('response_edit', { 'id': response.id,'sourceid': file.id, 'source': app.request.get('_route'),'view': app.request.get('view'),'userid': file.user.id  }) }}">Edit</a>
-                            {% endif %}
-                        </div>
-                        <div class="panel-body">
-                            {{ response.body|raw }}
-                        </div>
-                        </div>
-
-                    {% else %}
-                        <div class="pad">No one has has offered feedback.</div>
-                    {% endfor %}
-                </div>
-            </div>
-            </div>
-</div>
-</div>
-
-</div>
-
-
-{# end of Doc tools #}
-{% if app.request.get('_route') != 'file_view' %}
-    {# Markup #}
-    {% for markup in markup %}
-        <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover left'>
-            <button type="button" class="close popover-close" data-dismiss="popover" aria-hidden="true">&times;</button>
-            <div class="popover-title">
-                <span class="pull-left color-flag" style="background: {{markup.color}};">&#183;</span>
-                {{ markup.name }}</div>
-            <div class="popover-content">
-                {{ markup.mouseover|raw }}
-                {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}
-            </div>
-        </div>
-    {% endfor %}
-{% endif %}
-
-</div>
     {# Modal #}
-    <div class="modal fade" id="file_modal" role="dialog" >
-
-    </div><!-- /.modal -->
+    <div class="modal fade" id="doc_modal" role="dialog">
+    </div>
 {% endblock %}

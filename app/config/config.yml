@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: fileSystem.yml }
     - { resource: '@MarcaCourseBundle/Resources/config/services.yml' }
 
 framework:
@@ -17,7 +18,6 @@ framework:
     session:
         handler_id:  session.handler.pdo
     default_locale: %locale%
-    trust_proxy_headers: false
     trusted_proxies: ~
 
 # Twig Configuration
@@ -96,28 +96,6 @@ swiftmailer:
     sender_address: %mailer_sender_address%
     spool: { type: memory }
 
-fr3d_ldap:
-    client:
-        host:                %ldap_host%
-        port:                %ldap_port%
-#       username:            foo    # Optional
-#       password:            bar    # Optional
-#       bindRequiresDn:      true   # Optional
-#       baseDn:              ou=users,o=uga
-#       accountFilterFormat: (&(uid=%s)) # Optional. sprintf format %s will be the username
-#       optReferrals:        false  # Optional
-        useSsl:              true   # Enable SSL negotiation. Optional
-#       useStartTls:         true   # Enable TLS negotiation. Optional
-    user:
-        baseDn: ou=users,o=uga
-        filter: (&(ObjectClass=Person))
-        attributes:          # Specify ldap attributes mapping [ldap attribute, user object method]
-           - { ldap_attr: uid,  user_method: setUsername }
-           - { ldap_attr: mail,   user_method: setEmail } 
-    service:
-        user_manager: fos_user.user_manager          # Overrides default user manager
-
- 
 fos_user:
     db_driver: orm
     firewall_name: main
@@ -130,7 +108,28 @@ fos_user:
             enabled:    true
     from_email:
         address:        %from_email%
-        sender_name:    Marca Dev 
+        sender_name:    Marca Dev
+
+fr3d_ldap:
+    driver:
+        host:                %ldap_host%
+        port:                %ldap_port%
+#       username:            foo    # Optional
+#       password:            bar    # Optional
+        bindRequiresDn:     true   # Optional
+        baseDn:            ou=users,o=uga
+        accountFilterFormat: (&(cn=%s)) # Optional. sprintf format %s will be the username
+#       optReferrals:        false  # Optional
+        useSsl:              true   # Enable SSL negotiation. Optional
+#       useStartTls:         true   # Enable TLS negotiation. Optional
+    user:
+        baseDn: ou=users,o=uga
+        filter: (&(ObjectClass=Person))
+        attributes:          # Specify ldap attributes mapping [ldap attribute, user object method]
+           - { ldap_attr: cn,  user_method: setUsername }
+           - { ldap_attr: mail,   user_method: setEmail }
+    service:
+        user_manager: fos_user.user_manager          # Overrides default user manager
 
 # Doctrine extensions    
 stof_doctrine_extensions:
@@ -149,35 +148,7 @@ knp_paginator:
         distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
     template:
         pagination: KnpPaginatorBundle:Pagination:sliding.html.twig     # sliding pagination controls template
-        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template 
-
-knp_gaufrette:
-    adapters:
-        uploads:
-            amazon_s3:
-                amazon_s3_id: ct_file_store.s3
-                bucket_name: %s3_bucket_name%
-                options:
-                    create: true
-
-    filesystems:
-        amazon_s3:
-            adapter:    uploads
-            
-    stream_wrapper: ~
-vich_uploader:
-    db_driver: orm # or mongodb
-    twig: true
-    gaufrette: true # set to true to enable gaufrette support
-    storage: vich_uploader.storage.gaufrette
-    mappings:
-        property_file:
-            uri_prefix: https://s3.amazonaws.com/%s3_bucket_name%
-            upload_destination: amazon_s3
-            namer: vich_uploader.namer_uniqid
-            delete_on_remove: true
-            delete_on_update: true
-            
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template             
 knp_snappy:
     pdf:
         enabled:    true
@@ -197,36 +168,42 @@ ivory_ck_editor:
             filename: "plugin.js"
     configs:
         editor_simple:
+            skin: "bootstrapck, ../../../../bundles/marcahome/ckeditor/skins/bootstrapck/"
             startupFocus: true
             toolbar: "toolbar_simple"
-            removePlugins: "elementspath"
+            removePlugins: "elementspath,contextmenu,liststyle,tabletools"
             allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong em; ol ul li span(*); img[*]{*}; iframe{*}[*];'
             disableNativeSpellChecker: false
-            height: 200
+            height: 150
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
         editor_default:
+            skin: "bootstrapck, ../../../../bundles/marcahome/ckeditor/skins/bootstrapck/"
             startupFocus: true
             toolbar: "toolbar_default"
             extraPlugins: 'wordcount,mediaembed'
-            removePlugins: "elementspath"
+            removePlugins: "elementspath,contextmenu,liststyle,tabletools"
             allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong em; ol ul li span(*){font-size,font-family,color,background-color}; img[*]{*}; iframe{*}[*];'
             disableNativeSpellChecker: false
             height: 300
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
+            stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckeditor_styles.js'
+
         editor_docs:
+            skin: "bootstrapck, ../../../../bundles/marcahome/ckeditor/skins/bootstrapck/"
             startupFocus: true
             toolbar: "toolbar_docs"
             extraPlugins: 'wordcount,mediaembed,maxheight'
-            removePlugins: "elementspath"
+            removePlugins: "elementspath,contextmenu,liststyle,tabletools"
             allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong s em; ol ul li span(*){font-size,font-family,color,background-color}[data-id]; img[*]{*}; iframe{*}[*];'
             disableNativeSpellChecker: false
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
             stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckeditor_styles.js'
         editor_page:
+            skin: "bootstrapck, ../../../../bundles/marcahome/ckeditor/skins/bootstrapck/"
             startupFocus: true
             toolbar: "toolbar_page"
             extraPlugins: 'wordcount,mediaembed,maxheight'
-            removePlugins: "elementspath"
+            removePlugins: "elementspath,contextmenu,liststyle,tabletools"
             allowedContent: true
             disableNativeSpellChecker: false
             height: 500
@@ -238,5 +215,3 @@ ivory_ck_editor:
             toolbar_default: [ ['Styles','Bold','Italic','Underline','Strike','JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor','FontSize'],['Link','Unlink','NumberedList','BulletedList','Outdent','Indent','Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'] ]
             toolbar_docs: [ ['Styles','Bold','Italic','Underline','Strike','JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor','FontSize'],['Link','Unlink','NumberedList','BulletedList','Outdent','Indent','Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'] ]
             toolbar_page: [ ['Source','Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight'],['TextColor','BGColor'],['Link','Unlink'],['NumberedList','BulletedList'],['Outdent','Indent'],['Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'],['About'] ]
-
-  
