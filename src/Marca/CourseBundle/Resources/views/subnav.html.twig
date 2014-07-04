@@ -2,10 +2,10 @@
 {# This subnav is the top navigation when inside a course.  Included from layout.html.twig #}
 
 {% if app.session.get('portReviewSwitch')!= 4 %}
-    <li class="dropdown">
+    <li class="dropdown" style="margin-left:-15px;">
         <a class="dropdown-toggle" data-hover="dropdown" title='Course Home' id="course-home" href="{{ course_path('course_home')}}">{% if app.session.get('course') %}{{ app.session.get('course')|slice(0, 15) }}{% else %}Course Home{% endif %}<b class="caret"></b></a>
 
-        <ul class="dropdown-menu" style="margin-left:15px;">
+        <ul class="dropdown-menu" style="margin-left:30px;">
             <li>
                 <a tabindex="-1" title='Select course' id='course_select' href="javascript:void(0);"><span class="glyphicon glyphicon-random"></span>Switch Course</a>
             </li>
