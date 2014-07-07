@@ -1,0 +1,28 @@
+{# Marca/DocBundle/Resources/views/Tracking/show.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1>Tracking</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tracking_item.id }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{{ tracking_item.created|date('Y-m-d H:i:s') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('tracking') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

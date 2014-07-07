@@ -84,7 +84,7 @@ class Course
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\GradebookBundle\Entity\Gradeset", inversedBy="course")
+     * @ORM\OneToOne(targetEntity="Marca\GradebookBundle\Entity\Gradeset", inversedBy="course")
      */
     protected $gradeset;
 

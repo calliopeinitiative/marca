@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Grade
  *
- * @ORM\Table()
+ * @ORM\Table(name="grade")
  * @ORM\Entity(repositoryClass="Marca\GradebookBundle\Entity\GradeRepository")
  */
 class Grade

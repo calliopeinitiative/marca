@@ -72,7 +72,7 @@
                                 <div id="collapseMarkup{{ markupset.id }}" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         {% for markup in markupset.markup %}
-                                            <a href="javascript:{{ markup.function }}('{{ markup.id }}', '{{ markup.value }}','{{ markup.color }}')"
+                                            <a href=" javascript:{{ markup.function }}('{{ markup.id }}', '{{ markup.value }}','{{ markup.color }}') "
                                                title="Submit entry"><span style='color:black;'
                                                                           class="label {{ markup.color }}">{{ markup.name }}</span></a>
                                         {% endfor %}

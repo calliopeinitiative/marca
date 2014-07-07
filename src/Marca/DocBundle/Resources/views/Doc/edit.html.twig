@@ -4,7 +4,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/marcahome/ckeditor/ckeditor_tools.js') }}"></script>
     <script language="javascript">
         $(document).ready(function () {
             var editorheight = $(document).height() * .88;
@@ -44,6 +43,38 @@
                 $( "#doc_form" ).submit();
             });
             {% include 'MarcaDocBundle:Doc:js.html.twig' %}
+        });
+        {# Markup insert and tracking #}
+        function markup(id, tag, color){
+            var nEditor = CKEDITOR.instances.marca_docbundle_doctype_body;
+            var id = id;
+            var tag = tag;
+            var color = color;
+            var marked = nEditor.getSelection().getNative();
+            var markup = CKEDITOR.dom.element.createFromHtml('<span data-id="' + id +'" title="'+ tag + '" class="markup ' + color +'">' + nEditor.getSelection().getNative() + ' </span>');
+            nEditor.insertElement( markup );
+            $.post("{{ course_path('tracking_add', { 'fileid': file.id }) }}", {markupid: id}, function (data) {
+            });
+        }
+        {# Note insert #}
+        function note()
+        {
+            var note_id = new Date().getTime();
+            var nEditor = CKEDITOR.instances.marca_docbundle_doctype_body;
+            if ( nEditor.mode == 'wysiwyg' )
+            {
+                var hightlight = CKEDITOR.dom.element.createFromHtml('<span class="eDoc_highlight ' + note_id + '">' + nEditor.getSelection().getNative() + ' </span>');
+                nEditor.insertElement( hightlight );
+                var note = CKEDITOR.dom.element.createFromHtml( '<span class="eDoc_note ' + note_id + '"> '+ document.getElementById('insert_value').value + ' </span>');
+                nEditor.insertElement( note );$('#insert_value').val('');
+            }
+            else
+                alert( 'You must be on WYSIWYG mode!' );
+        }
+        $(function(){
+            $('#note_insert_submit').click(function(){
+                note();
+            });
         });
     </script>
 {% endblock %}

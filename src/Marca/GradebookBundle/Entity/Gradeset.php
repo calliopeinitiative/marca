@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Gradeset
  *
- * @ORM\Table()
+ * @ORM\Table(name="gradeset")
  * @ORM\Entity(repositoryClass="Marca\GradebookBundle\Entity\GradesetRepository")
  */
 class Gradeset
@@ -34,7 +34,7 @@ class Gradeset
     protected $categories;
 
     /**
-     * @ORM\OneToOne(targetEntity="Marca\CourseBundle\Entity\Course")
+     * @ORM\OneToOne(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="gradeset")
      */
     protected $course;
 

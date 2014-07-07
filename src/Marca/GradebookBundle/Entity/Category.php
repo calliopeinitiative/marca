@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Category
  *
- * @ORM\Table()
+ * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="Marca\GradebookBundle\Entity\CategoryRepository")
  */
 class Category
@@ -36,7 +36,7 @@ class Category
     private $percent;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\GradebookBundle\Entity\Gradeset")
+     * @ORM\ManyToOne(targetEntity="Marca\GradebookBundle\Entity\Gradeset", inversedBy="categories")
      */
     protected $gradeset;
 

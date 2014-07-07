@@ -128,7 +128,7 @@ class Doc
     /**
      * Set file
      *
-     * @param Marca\FileBundle\Entity\File $file
+     * @param \Marca\FileBundle\Entity\File $file
      */
     public function setFile(\Marca\FileBundle\Entity\File $file)
     {
@@ -138,7 +138,7 @@ class Doc
     /**
      * Get file
      *
-     * @return Marca\FileBundle\Entity\File 
+     * @return \Marca\FileBundle\Entity\File
      */
     public function getFile()
     {
@@ -148,7 +148,7 @@ class Doc
     /**
      * Set autosave doc
      *
-     * @param Marca\DocBundle\Entity\Doc $doc
+     * @param \Marca\DocBundle\Entity\Doc $doc
      */
     public function setAutosaveDoc(\Marca\DocBundle\Entity\Doc $doc)
     {
@@ -158,7 +158,7 @@ class Doc
     /**
      * Get autosave doc
      *
-     * @return Marca\DocBundle\Entity\Doc
+     * @return \Marca\DocBundle\Entity\Doc
      */
     public function getAutosaveDoc()
     {
