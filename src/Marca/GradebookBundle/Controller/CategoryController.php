@@ -3,7 +3,7 @@
 namespace Marca\GradebookBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -27,7 +27,7 @@ class CategoryController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $categories = $em->getRepository('MarcaGradebookBundle:Category')->findAll();
 
@@ -49,7 +49,7 @@ class CategoryController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getEm();
             $em->persist($entity);
             $em->flush();
 
@@ -108,7 +108,7 @@ class CategoryController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaGradebookBundle:Category')->find($id);
 
@@ -133,7 +133,7 @@ class CategoryController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaGradebookBundle:Category')->find($id);
 
@@ -178,7 +178,7 @@ class CategoryController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $entity = $em->getRepository('MarcaGradebookBundle:Category')->find($id);
 
@@ -214,7 +214,7 @@ class CategoryController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getEm();
             $entity = $em->getRepository('MarcaGradebookBundle:Category')->find($id);
 
             if (!$entity) {

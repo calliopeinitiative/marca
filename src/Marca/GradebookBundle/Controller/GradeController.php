@@ -44,20 +44,23 @@ class GradeController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity = new Grade();
-        $form = $this->createCreateForm($entity);
+        $file = $request->request->get('marca_gradebookbundle_grade_file');
+        $gradesetid = $file->getCourse->getGradeset->getId();
+        $grade = new Grade();
+        $options = array('gradesetid' => $gradesetid);
+        $form = $this->createCreateForm($grade, $options);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            $em->persist($grade);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('grade_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('doc_show', array('id' => $file->getId())));
         }
 
         return array(
-            'entity' => $entity,
+            'grade' => $grade,
             'form'   => $form->createView(),
         );
     }
@@ -69,14 +72,14 @@ class GradeController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Grade $entity)
+    private function createCreateForm(Grade $grade, $options)
     {
-        $form = $this->createForm(new GradeType(), $entity, array(
+        $form = $this->createForm(new GradeType($options), $grade, array(
             'action' => $this->generateUrl('grade_create'),
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-default'),));
 
         return $form;
     }
@@ -84,17 +87,27 @@ class GradeController extends Controller
     /**
      * Displays a form to create a new Grade entity.
      *
-     * @Route("/new", name="grade_new")
+     * @Route("/{courseid}/{fileid}/{value}/new", name="grade_new")
      * @Method("GET")
-     * @Template()
+     * @Template("MarcaGradebookBundle:Grade:new_modal.html.twig")
      */
-    public function newAction()
+    public function newAction($courseid, $fileid, $value)
     {
-        $entity = new Grade();
-        $form   = $this->createCreateForm($entity);
+        $em = $this->getDoctrine()->getManager();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+        $gradesetid = $course->getGradeset()->getId();
+
+        $grade = new Grade();
+        $grade->setGrade($value);
+        $grade->setFile($file);
+
+        $options = array('gradesetid' => $gradesetid);
+        $form   = $this->createCreateForm($grade, $options);
+
 
         return array(
-            'entity' => $entity,
+            'grade' => $grade,
             'form'   => $form->createView(),
         );
     }

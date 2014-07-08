@@ -3,11 +3,12 @@
 namespace Marca\GradebookBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\GradebookBundle\Entity\Gradeset;
+use Marca\GradebookBundle\Entity\Category;
 use Marca\GradebookBundle\Form\GradesetType;
 
 /**
@@ -27,38 +28,12 @@ class GradesetController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $gradesets = $em->getRepository('MarcaGradebookBundle:Gradeset')->findAll();
 
         return array(
             'gradesets' => $gradesets,
-        );
-    }
-    /**
-     * Creates a new Gradeset entity.
-     *
-     * @Route("/", name="gradeset_create")
-     * @Method("POST")
-     * @Template("MarcaGradebookBundle:Gradeset:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $gradeset = new Gradeset();
-        $form = $this->createCreateForm($gradeset);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($gradeset);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('gradeset_show', array('id' => $gradeset->getId())));
-        }
-
-        return array(
-            'gradeset' => $gradeset,
-            'form'   => $form->createView(),
         );
     }
 
@@ -84,25 +59,60 @@ class GradesetController extends Controller
     /**
      * Displays a form to create a new Gradeset entity.
      *
-     * @Route("{courseid}/new", name="gradeset_new")
+     * @Route("/{courseid}/new", name="gradeset_new")
      * @Method("GET")
      * @Template()
      */
     public function newAction($courseid)
     {
+        $em = $this->getEm();
+        $gradeset = $em->getRepository('MarcaGradebookBundle:Gradeset')->findByCourse($courseid);
 
-        $em = $this->getDoctrine()->getManager();
+        if ($gradeset) {
+            return $this->redirect($this->generateUrl('course_show', array('id' => $courseid)));
+        }
 
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+
         $gradeset = new Gradeset();
+        $gradeset->setName('Default');
         $gradeset->setCourse($course);
 
-        $form   = $this->createCreateForm($gradeset);
+        $category1 = new Category();
+        $category1->setName('Paper 1');
+        $category1->setPercent('15');
+        $category1->setGradeset($gradeset);
 
-        return array(
-            'gradeset' => $gradeset,
-            'form'   => $form->createView(),
-        );
+        $category2 = new Category();
+        $category2->setName('Paper 2');
+        $category2->setPercent('20');
+        $category2->setGradeset($gradeset);
+
+        $category3 = new Category();
+        $category3->setName('Paper 3');
+        $category3->setPercent('20');
+        $category3->setGradeset($gradeset);
+
+        $category4 = new Category();
+        $category4->setName('Participation');
+        $category4->setPercent('15');
+        $category4->setGradeset($gradeset);
+
+        $category5 = new Category();
+        $category5->setName('Portfolio');
+        $category5->setPercent('30');
+        $category5->setGradeset($gradeset);
+
+        $em->persist($gradeset);
+        $em->persist($category1);
+        $em->persist($category2);
+        $em->persist($category3);
+        $em->persist($category4);
+        $em->persist($category5);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
+        
     }
 
     /**
@@ -114,7 +124,7 @@ class GradesetController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $gradeset = $em->getRepository('MarcaGradebookBundle:Gradeset')->find($id);
 
@@ -139,7 +149,7 @@ class GradesetController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $gradeset = $em->getRepository('MarcaGradebookBundle:Gradeset')->find($id);
 
@@ -184,7 +194,7 @@ class GradesetController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEm();
 
         $gradeset = $em->getRepository('MarcaGradebookBundle:Gradeset')->find($id);
 
@@ -220,7 +230,7 @@ class GradesetController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getEm();
             $gradeset = $em->getRepository('MarcaGradebookBundle:Gradeset')->find($id);
 
             if (!$gradeset) {

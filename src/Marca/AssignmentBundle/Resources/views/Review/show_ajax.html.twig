@@ -8,6 +8,9 @@
             $('#loading-feedback').fadeIn();
             $('#review_container').load('{{ course_path('review_edit_ajax', { 'id': review.id }) }}');
         });
+        $('#post_grade').click(function () {
+            $('#doc_modal').load('{{ course_path('grade_new', { 'fileid': review.file.id, 'value': review.grade }) }}').modal();
+        });
         {# nice little jquery plugin for sorting: tinysort #}
         $('div#responses>div').tsort({order:'asc',attr:'id'});
     });
@@ -63,6 +66,11 @@
             <a id="review_edit" class="btn btn-default" href="javascript:void(0);">
                 {% if review.reviewer==app.user %}Edit{% else %}Respond{% endif %}
             </a>
+        {% if review.file.user==app.user or review.reviewer==app.user %}
+            <a id="post_grade" class="btn btn-default" href="javascript:void(0);">
+                Post to Gradebook
+            </a>
+        {% endif %}
         {% endif %}
 
 

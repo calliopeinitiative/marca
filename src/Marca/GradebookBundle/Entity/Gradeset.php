@@ -34,7 +34,7 @@ class Gradeset
     protected $categories;
 
     /**
-     * @ORM\OneToOne(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="gradeset")
+     * @ORM\OneToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="gradeset")
      */
     protected $course;
 

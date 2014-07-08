@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class GradesetRepository extends EntityRepository
 {
+    public function findByCourse($courseid)
+    {
+        return $this->getEntityManager()
+            ->createQuery("SELECT g from MarcaGradebookBundle:Gradeset g join g.course c WHERE c.id = ?1")
+            ->setParameters(array('1' => $courseid))->getResult();
+    }
 }
