@@ -117,10 +117,10 @@
             <ul class="nav navbar-nav pull-right">
                 {% for roll in roll %}
                     {% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}
-                        <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname|title}} {{roll.lastname|title}} &gt;</a></li>
+                        <li><a data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.user.id }) }}">{{roll.firstname|title}} {{roll.lastname|title}} &gt;</a></li>
                     {% endif %}
                     {% if loop.index == app.request.get('user') - 1 and app.request.get('tag')!='3' %}
-                        <li><a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">&lt; {{roll.firstname|title}} {{roll.lastname|title}}</a></li>
+                        <li><a class='' data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.user.id }) }}">&lt; {{roll.firstname|title}} {{roll.lastname|title}}</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>

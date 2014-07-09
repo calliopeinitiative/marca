@@ -64,8 +64,12 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Course", mappedBy="user")
      */
     protected $course;
-    
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\GradebookBundle\Entity\Grade", mappedBy="user")
+     */
+    protected $grades;
+
      /**
      * @ORM\OneToMany(targetEntity="Marca\CourseBundle\Entity\Roll", mappedBy="user")
      */
@@ -193,7 +197,7 @@ class User extends BaseUser
     /**
      * Add roll
      *
-     * @param Marca\CourseBundle\Entity\Roll $roll
+     * @param \Marca\CourseBundle\Entity\Roll $roll
      */
     public function addRoll(\Marca\CourseBundle\Entity\Roll $roll)
     {
@@ -203,7 +207,7 @@ class User extends BaseUser
     /**
      * Get roll
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getRoll()
     {
@@ -213,7 +217,7 @@ class User extends BaseUser
     /**
      * Add roll
      *
-     * @param Marca\CourseBundle\Entity\Course $course
+     * @param \Marca\CourseBundle\Entity\Course $course
      */
     public function addCourse(\Marca\CourseBundle\Entity\Course $course)
     {
@@ -223,7 +227,7 @@ class User extends BaseUser
     /**
      * Get roll
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getCourse()
     {
@@ -234,7 +238,7 @@ class User extends BaseUser
     /**
      * Add markup
      *
-     * @param Marca\DocBundle\Entity\Markup $markup
+     * @param \Marca\DocBundle\Entity\Markup $markup
      */
     public function addMarkup(\Marca\DocBundle\Entity\Markup $markup)
     {
@@ -244,7 +248,7 @@ class User extends BaseUser
     /**
      * Get markup
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getMarkup()
     {
@@ -254,7 +258,7 @@ class User extends BaseUser
     /**
      * Add file
      *
-     * @param Marca\FileBundle\Entity\File $file
+     * @param \Marca\FileBundle\Entity\File $file
      */
     public function addFile(\Marca\FileBundle\Entity\File $file)
     {
@@ -264,7 +268,7 @@ class User extends BaseUser
     /**
      * Get file
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getFile()
     {
@@ -274,7 +278,7 @@ class User extends BaseUser
     /**
      * Add journal
      *
-     * @param Marca\JournalBundle\Entity\Journal $journal
+     * @param \Marca\JournalBundle\Entity\Journal $journal
      */
     public function addJournal(\Marca\JournalBundle\Entity\Journal $journal)
     {
@@ -284,7 +288,7 @@ class User extends BaseUser
     /**
      * Get journal
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getJournal()
     {
@@ -294,7 +298,7 @@ class User extends BaseUser
     /**
      * Add tag
      *
-     * @param Marca\TagBundle\Entity\Tag $tag
+     * @param \Marca\TagBundle\Entity\Tag $tag
      */
     public function addTag(\Marca\TagBundle\Entity\Tag $tag)
     {
@@ -304,7 +308,7 @@ class User extends BaseUser
     /**
      * Get tag
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getTag()
     {
@@ -314,7 +318,7 @@ class User extends BaseUser
     /**
      * Add tagset
      *
-     * @param Marca\TagBundle\Entity\Tagset $tagset
+     * @param \Marca\TagBundle\Entity\Tagset $tagset
      */
     public function addTagset(\Marca\TagBundle\Entity\Tagset $tagset)
     {
@@ -324,7 +328,7 @@ class User extends BaseUser
     /**
      * Get tagset
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getTagset()
     {
@@ -400,7 +404,7 @@ class User extends BaseUser
     /**
      * Remove course
      *
-     * @param Marca\CourseBundle\Entity\Course $course
+     * @param \Marca\CourseBundle\Entity\Course $course
      */
     public function removeCourse(\Marca\CourseBundle\Entity\Course $course)
     {
@@ -410,7 +414,7 @@ class User extends BaseUser
     /**
      * Remove roll
      *
-     * @param Marca\CourseBundle\Entity\Roll $roll
+     * @param \Marca\CourseBundle\Entity\Roll $roll
      */
     public function removeRoll(\Marca\CourseBundle\Entity\Roll $roll)
     {
@@ -420,7 +424,7 @@ class User extends BaseUser
     /**
      * Remove markup
      *
-     * @param Marca\DocBundle\Entity\Markup $markup
+     * @param \Marca\DocBundle\Entity\Markup $markup
      */
     public function removeMarkup(\Marca\DocBundle\Entity\Markup $markup)
     {
@@ -430,7 +434,7 @@ class User extends BaseUser
     /**
      * Remove file
      *
-     * @param Marca\FileBundle\Entity\File $file
+     * @param \Marca\FileBundle\Entity\File $file
      */
     public function removeFile(\Marca\FileBundle\Entity\File $file)
     {
@@ -440,7 +444,7 @@ class User extends BaseUser
     /**
      * Remove journal
      *
-     * @param Marca\JournalBundle\Entity\Journal $journal
+     * @param \Marca\JournalBundle\Entity\Journal $journal
      */
     public function removeJournal(\Marca\JournalBundle\Entity\Journal $journal)
     {
@@ -450,7 +454,7 @@ class User extends BaseUser
     /**
      * Remove tag
      *
-     * @param Marca\TagBundle\Entity\Tag $tag
+     * @param \Marca\TagBundle\Entity\Tag $tag
      */
     public function removeTag(\Marca\TagBundle\Entity\Tag $tag)
     {
@@ -460,7 +464,7 @@ class User extends BaseUser
     /**
      * Remove tagset
      *
-     * @param Marca\TagBundle\Entity\Tagset $tagset
+     * @param \Marca\TagBundle\Entity\Tagset $tagset
      */
     public function removeTagset(\Marca\TagBundle\Entity\Tagset $tagset)
     {
@@ -470,7 +474,7 @@ class User extends BaseUser
     /**
      * Add markupsets
      *
-     * @param Marca\DocBundle\Entity\MarkupSet $markupsets
+     * @param \Marca\DocBundle\Entity\MarkupSet $markupsets
      * @return User
      */
     public function addMarkupset(\Marca\DocBundle\Entity\MarkupSet $markupsets)
@@ -483,7 +487,7 @@ class User extends BaseUser
     /**
      * Remove markupsets
      *
-     * @param Marca\DocBundle\Entity\MarkupSet $markupsets
+     * @param \Marca\DocBundle\Entity\MarkupSet $markupsets
      */
     public function removeMarkupset(\Marca\DocBundle\Entity\MarkupSet $markupsets)
     {
@@ -493,7 +497,7 @@ class User extends BaseUser
     /**
      * Get markupsets
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getMarkupsets()
     {
@@ -645,5 +649,39 @@ class User extends BaseUser
     public function getOldcoupons()
     {
         return $this->oldcoupons;
+    }
+
+
+    /**
+     * Add grades
+     *
+     * @param \Marca\GradebookBundle\Entity\Grade $grades
+     * @return User
+     */
+    public function addGrade(\Marca\GradebookBundle\Entity\Grade $grades)
+    {
+        $this->grades[] = $grades;
+
+        return $this;
+    }
+
+    /**
+     * Remove grades
+     *
+     * @param \Marca\GradebookBundle\Entity\Grade $grades
+     */
+    public function removeGrade(\Marca\GradebookBundle\Entity\Grade $grades)
+    {
+        $this->grades->removeElement($grades);
+    }
+
+    /**
+     * Get grades
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGrades()
+    {
+        return $this->grades;
     }
 }

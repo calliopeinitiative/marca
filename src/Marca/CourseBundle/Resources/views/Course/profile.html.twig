@@ -92,17 +92,51 @@
                     <hr class="marca-spacer"/>
 
                     {% if user == app.user.username or role == 2 %}
+
+                        {# grades #}
                         <ul class="list-unstyled">
-                            <li>Forums:  {{ countForums|length }}  (class
+                            <li><strong>Grades</strong></li>
+                            {% for grade in profile.user.grades %}
+                                <li>{{ grade.category.name }}:  {{ grade.grade }}</li>
+                            {% endfor %}
+                        </ul>
+                        {# absences #}
+                        <ul class="list-unstyled">
+                            <li>
+                                {% set x=0 %}
+                                <strong>Absences:</strong> {% for attendance in profile.attendance if attendance.type==0 %}{% set x=x+1 %}{% endfor %}{{ x }}
+                                <br/>
+                                {% for attendance in profile.attendance if attendance.type==0 %}
+                                    <a class="margin-right" href="javascript:void(0);" title="Edit attendance"
+                                       id="edit_{{ attendance.id }}">{{ attendance.date|date('n/j (D)') }}</a>
+                                {% endfor %}
+                            </li>
+                        </ul>
+                        <ul class="list-unstyled">
+                            <li>
+                                {% set y=0 %}
+                                <strong>Tardies:</strong> {% for attendance in profile.attendance if attendance.type==1 %}{% set y=y+1 %}{% endfor %}{{ y }}
+                                <br/>
+                                {% for attendance in profile.attendance if attendance.type==1 %}
+                                    <a class="margin-right" href="javascript:void(0);" title="Edit attendance"
+                                       id="edit_{{ attendance.id }}">{{ attendance.date|date('n/j (D)') }}</a>
+                                {% endfor %}
+                            </li>
+                        </ul>
+                        {# usage #}
+                        <ul class="list-unstyled">
+                            <li><strong>Forums:</strong>  {{ countForums|length }}  (class
                                 average: {{ countCourseForums|length //roll|length }})
                             </li>
-                            <li>Comments:  {{ countComments|length }}  (class
+                            <li><strong>Comments:</strong>  {{ countComments|length }}  (class
                                 average: {{ countCourseComments|length//roll|length }})
                             </li>
-                            <li>Replies:  {{ countReplies|length }}  (class
+                            <li><strong>Replies:</strong>  {{ countReplies|length }}  (class
                                 average: {{ countCourseReplies|length//roll|length }})
                             </li>
-                            <li>Total:  {{ countForums|length + countComments|length + countReplies|length }}  (class
+                            <li>
+                                <strong>Total:</strong>  {{ countForums|length + countComments|length + countReplies|length }}
+                                (class
                                 average: {{ (countCourseForums|length + countCourseComments|length +countCourseReplies|length) //roll|length }}
                                 )
                             </li>
@@ -110,40 +144,20 @@
 
 
                         <ul class="list-unstyled">
-                            <li>Journal entries:  {{ countJournals|length }} (class
+                            <li><strong>Journal entries:</strong>  {{ countJournals|length }} (class
                                 average: {{ countCourseJournals|length //roll|length }})
                             </li>
                         </ul>
 
 
                         <ul class="list-unstyled">
-                            <li>Files:  {{ countFiles|length }} (class
+                            <li><strong>Files:</strong>  {{ countFiles|length }} (class
                                 average: {{ countCourseFiles|length //roll|length }})
                             </li>
                         </ul>
 
-                        <ul class="list-unstyled">
-                            <li>
-                            {% set x=0 %}
-                            Absences: {% for attendance in profile.attendance if attendance.type==0 %}{% set x=x+1 %}{% endfor %}{{ x }}
-                            <br/>
-                            {% for attendance in profile.attendance if attendance.type==0 %}
-                                 <a class="margin-right" href="javascript:void(0);" title="Edit attendance"
-                                   id="edit_{{ attendance.id }}">{{ attendance.date|date('n/j (D)') }}</a>
-                            {% endfor %}
-                            </li>
-                        </ul>
-                        <ul class="list-unstyled">
-                            <li>
-                            {% set y=0 %}
-                            Tardies: {% for attendance in profile.attendance if attendance.type==1 %}{% set y=y+1 %}{% endfor %}{{ y }}
-                            <br/>
-                            {% for attendance in profile.attendance if attendance.type==1 %}
-                                  <a class="margin-right" href="javascript:void(0);" title="Edit attendance"
-                                   id="edit_{{ attendance.id }}">{{ attendance.date|date('n/j (D)') }}</a>
-                            {% endfor %}
-                            </li>
-                        </ul>
+
+
                     {% endif %}
                 </div>
             </div>

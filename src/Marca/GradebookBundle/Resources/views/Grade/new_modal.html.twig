@@ -1,5 +1,22 @@
 {# Marca/FileBundle/Resources/views/File/new_modal.html.twig #}
 
+<script language="javascript">
+    $(document).ready(function () {
+        var options = {
+            target:        '#grade',
+            success:        close_modal
+        };
+        $('form').submit(function() {
+            $(this).ajaxSubmit(options);
+            return false;
+
+        });
+        function close_modal() {
+            $('#doc_modal').modal('hide');
+        };
+    });
+</script>
+
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">

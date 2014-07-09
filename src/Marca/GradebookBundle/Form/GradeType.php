@@ -28,6 +28,10 @@ class GradeType extends AbstractType
                 'class' => 'MarcaFileBundle:File',
                 'property' => 'name', 'label' => ' ', 'attr' => array('class' => 'btn btn-default margin-bottom disabled'),
             ))
+            ->add('user', 'entity', array(
+                'class' => 'MarcaUserBundle:User',
+                'property' => 'lastname', 'label' => ' ', 'attr' => array('class' => 'disabled hidden'),
+            ))
             ->add('grade','text', array('attr' => array('class' => 'text form-control'),))
             ->add('category', 'entity', array('class' => 'MarcaGradebookBundle:Category','property'=>'name','query_builder' =>
                 function(\Marca\GradebookBundle\Entity\CategoryRepository $er) use ($options) {

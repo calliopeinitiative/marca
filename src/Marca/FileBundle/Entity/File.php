@@ -56,7 +56,12 @@ class File
     /**
     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course")
     */
-    protected $course; 
+    protected $course;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Marca\GradebookBundle\Entity\Grade", mappedBy="file")
+     */
+    protected $grade;
     
      /**
      * @ORM\OneToMany(targetEntity="Marca\ResponseBundle\Entity\Response", mappedBy="file", cascade="remove")
@@ -247,7 +252,7 @@ class File
     /**
      * Set project
      *
-     * @param Marca\CourseBundle\Entity\Project $project
+     * @param \Marca\CourseBundle\Entity\Project $project
      */
     public function setProject(\Marca\CourseBundle\Entity\Project $project)
     {
@@ -257,7 +262,7 @@ class File
     /**
      * Get project
      *
-     * @return Marca\CourseBundle\Entity\Project 
+     * @return \Marca\CourseBundle\Entity\Project
      */
     public function getProject()
     {
@@ -267,7 +272,7 @@ class File
     /**
      * Set doc
      *
-     * @param Marca\DocBundle\Entity\Doc $doc
+     * @param \Marca\DocBundle\Entity\Doc $doc
      */
     public function setDoc(\Marca\DocBundle\Entity\Doc $doc)
     {
@@ -277,7 +282,7 @@ class File
     /**
      * Get doc
      *
-     * @return Marca\DocBundle\Entity\Doc 
+     * @return \Marca\DocBundle\Entity\Doc
      */
     public function getDoc()
     {
@@ -293,7 +298,7 @@ class File
     /**
      * Add tag
      *
-     * @param Marca\TagBundle\Entity\Tag $tag
+     * @param \Marca\TagBundle\Entity\Tag $tag
      */
     public function addTag(\Marca\TagBundle\Entity\Tag $tag)
     {
@@ -303,7 +308,7 @@ class File
     /**
      * Get tag
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTag()
     {
@@ -334,7 +339,7 @@ class File
     /**
      * Set user
      *
-     * @param Marca\UserBundle\Entity\User $user
+     * @param \Marca\UserBundle\Entity\User $user
      */
     public function setUser(\Marca\UserBundle\Entity\User $user)
     {
@@ -344,7 +349,7 @@ class File
     /**
      * Get user
      *
-     * @return Marca\UserBundle\Entity\User 
+     * @return \Marca\UserBundle\Entity\User
      */
     public function getUser()
     {
@@ -354,7 +359,7 @@ class File
     /**
      * Set course
      *
-     * @param Marca\CourseBundle\Entity\Course $course
+     * @param \Marca\CourseBundle\Entity\Course $course
      */
     public function setCourse(\Marca\CourseBundle\Entity\Course $course)
     {
@@ -364,7 +369,7 @@ class File
     /**
      * Get course
      *
-     * @return Marca\CourseBundle\Entity\Course 
+     * @return \Marca\CourseBundle\Entity\Course
      */
     public function getCourse()
     {
@@ -386,7 +391,7 @@ class File
     /**
      * Remove tag
      *
-     * @param Marca\TagBundle\Entity\Tag $tag
+     * @param \Marca\TagBundle\Entity\Tag $tag
      */
     public function removeTag(\Marca\TagBundle\Entity\Tag $tag)
     {
@@ -549,5 +554,28 @@ class File
     public function getPortfolio()
     {
         return $this->portfolio;
+    }
+
+    /**
+     * Set grade
+     *
+     * @param \Marca\GradebookBundle\Entity\Grade $grade
+     * @return File
+     */
+    public function setGrade(\Marca\GradebookBundle\Entity\Grade $grade = null)
+    {
+        $this->grade = $grade;
+
+        return $this;
+    }
+
+    /**
+     * Get grade
+     *
+     * @return \Marca\GradebookBundle\Entity\Grade 
+     */
+    public function getGrade()
+    {
+        return $this->grade;
     }
 }

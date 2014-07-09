@@ -22,12 +22,16 @@ class Grade
     private $id;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="grade", type="decimal")
+     * @ORM\Column(name="grade", type="integer")
      */
     private $grade;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="grades")
+     */
+    protected $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="Marca\GradebookBundle\Entity\Category")
@@ -36,7 +40,7 @@ class Grade
 
 
     /**
-     * @ORM\OneToOne(targetEntity="Marca\FileBundle\Entity\File")
+     * @ORM\OneToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="grade")
      */
     protected $file;
 
@@ -49,29 +53,6 @@ class Grade
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set grade
-     *
-     * @param string $grade
-     * @return Grade
-     */
-    public function setGrade($grade)
-    {
-        $this->grade = $grade;
-
-        return $this;
-    }
-
-    /**
-     * Get grade
-     *
-     * @return string 
-     */
-    public function getGrade()
-    {
-        return $this->grade;
     }
 
     /**
@@ -118,5 +99,52 @@ class Grade
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set grade
+     *
+     * @param integer $grade
+     * @return Grade
+     */
+    public function setGrade($grade)
+    {
+        $this->grade = $grade;
+
+        return $this;
+    }
+
+    /**
+     * Get grade
+     *
+     * @return integer 
+     */
+    public function getGrade()
+    {
+        return $this->grade;
+    }
+
+
+    /**
+     * Set user
+     *
+     * @param \Marca\UserBundle\Entity\User $user
+     * @return Grade
+     */
+    public function setUser(\Marca\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Marca\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

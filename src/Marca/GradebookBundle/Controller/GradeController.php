@@ -38,14 +38,12 @@ class GradeController extends Controller
     /**
      * Creates a new Grade entity.
      *
-     * @Route("/", name="grade_create")
+     * @Route("/{gradesetid}/", name="grade_create")
      * @Method("POST")
      * @Template("MarcaGradebookBundle:Grade:new.html.twig")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, $gradesetid)
     {
-        $file = $request->request->get('marca_gradebookbundle_grade_file');
-        $gradesetid = $file->getCourse->getGradeset->getId();
         $grade = new Grade();
         $options = array('gradesetid' => $gradesetid);
         $form = $this->createCreateForm($grade, $options);
@@ -56,7 +54,7 @@ class GradeController extends Controller
             $em->persist($grade);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('doc_show', array('id' => $file->getId())));
+            return $this->redirect($this->generateUrl('grade_show_ajax', array('id' => $grade->getId())));
         }
 
         return array(
@@ -74,8 +72,9 @@ class GradeController extends Controller
      */
     private function createCreateForm(Grade $grade, $options)
     {
+        $gradesetid = $options['gradesetid'];
         $form = $this->createForm(new GradeType($options), $grade, array(
-            'action' => $this->generateUrl('grade_create'),
+            'action' => $this->generateUrl('grade_create', array('gradesetid' => $gradesetid)),
             'method' => 'POST',
         ));
 
@@ -96,11 +95,13 @@ class GradeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+        $user = $file->getUser();
         $gradesetid = $course->getGradeset()->getId();
 
         $grade = new Grade();
         $grade->setGrade($value);
         $grade->setFile($file);
+        $grade->setUser($user);
 
         $options = array('gradesetid' => $gradesetid);
         $form   = $this->createCreateForm($grade, $options);
@@ -115,24 +116,24 @@ class GradeController extends Controller
     /**
      * Finds and displays a Grade entity.
      *
-     * @Route("/{id}", name="grade_show")
+     * @Route("/{id}", name="grade_show_ajax")
      * @Method("GET")
      * @Template()
      */
-    public function showAction($id)
+    public function show_ajaxAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('MarcaGradebookBundle:Grade')->find($id);
+        $grade = $em->getRepository('MarcaGradebookBundle:Grade')->find($id);
 
-        if (!$entity) {
+        if (!$grade) {
             throw $this->createNotFoundException('Unable to find Grade entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'grade'      => $grade,
             'delete_form' => $deleteForm->createView(),
         );
     }
