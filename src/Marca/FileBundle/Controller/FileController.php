@@ -727,8 +727,6 @@ class FileController extends Controller
                       }
 
 		$response->setContent( file_get_contents( $path));
-
-
 		return $response;
 	}
 
