@@ -252,15 +252,6 @@ ul.nav-list  {
     font-weight:normal;
 }
 
-div.inline input {
-    display:inline;
-}
-
-div.inline label {
-    display:inline;
-    padding:.5em;
-}
-
 #course-home {
     margin-left: 15px;
 }
@@ -563,36 +554,25 @@ span.btn-file {
 div.modal-body > div > label {width:100%;}
 
 div.checkbox > label {
-    padding:5px;
-    float:left;
-    display: inline;
-    margin-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .checkbox input[type="checkbox"] {
-    padding:5px;
-    float:left;
-    margin-left: 5px;
-    margin-right: 5px;
-    display: inline;
+    position: inherit;
+    margin-left: 10px;
 }
 
-div.radio {width:100%;float:left}
-
-div.checkbox {width:100%;float:left}
 
 div.radio > label {
-    padding:5px;
-    float:left;
-    display: inline;
-    margin-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .radio input[type="radio"] {
-    padding:5px;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-bottom: 20px;
+    position: inherit;
+    margin-left: 10px;
+
 }
 
 div input[type="text"] {
