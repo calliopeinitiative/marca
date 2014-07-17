@@ -564,7 +564,6 @@ div.modal-body > div > label {width:100%;}
 
 div.checkbox > label {
     padding:5px;
-    float:left;
     display: inline;
     margin-right: 5px;
 }
@@ -575,6 +574,7 @@ div.checkbox > label {
     margin-left: 5px;
     margin-right: 5px;
     display: inline;
+    position: relative;
 }
 
 div.radio {width:100%;float:left}
