@@ -583,7 +583,6 @@ div.checkbox {width:100%;float:left}
 
 div.radio > label {
     padding:5px;
-    float:left;
     display: inline;
     margin-right: 5px;
 }
@@ -593,6 +592,7 @@ div.radio > label {
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 20px;
+    position: relative;
 }
 
 div input[type="text"] {
