@@ -70,11 +70,11 @@
             <ul class="nav navbar-nav pull-right">
                 {% for roll in roll %}
                     {% if loop.index == app.request.get('user') + 1 %}
-                        <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
+                        <li><a data-index="{{loop.index}}" data-id='{{roll.user.id}}' href="{{ course_path('portfolio_user', { 'userid': roll.user.id, 'user': loop.index, }) }}">
                                 {{roll.firstname}} {{roll.lastname}}<i class="glyphicon glyphicon-chevron-right"></i></a></li>
                     {% endif %}
                     {% if loop.index == app.request.get('user') - 1%}
-                        <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('portfolio_user', { 'userid': roll.userid, 'user': loop.index, }) }}">
+                        <li><a data-index="{{loop.index}}" data-id='{{roll.user.id}}' href="{{ course_path('portfolio_user', { 'userid': roll.user.id, 'user': loop.index, }) }}">
                             <i class="glyphicon glyphicon-chevron-left"></i>{{roll.firstname}} {{roll.lastname}}<span style='margin-right:2em;'></span>
                         </a></li>{% endif %}
                 {% endfor %}

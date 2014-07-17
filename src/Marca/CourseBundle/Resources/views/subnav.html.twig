@@ -2,70 +2,100 @@
 {# This subnav is the top navigation when inside a course.  Included from layout.html.twig #}
 
 {% if app.session.get('portReviewSwitch')!= 4 %}
-    <li class="dropdown">
-        <a class="dropdown-toggle" data-hover="dropdown" title='Course Home' id="course-home" href="{{ course_path('course_home')}}">{% if app.session.get('course') %}{{ app.session.get('course')|slice(0, 15) }}{% else %}Course Home{% endif %}<b class="caret"></b></a>
 
-        <ul class="dropdown-menu" style="margin-left:15px;">
+    {# Course select #}
+    <li class="dropdown">
+        <a href="{{ course_path('course_home') }}" class="dropdown-toggle" data-toggle="dropdown"  data-hover="dropdown" title="Course Home">
+            {% if app.session.get('course') %}{{ app.session.get('course')|slice(0, 15) }}{% else %}Course Home{% endif %}
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
             <li>
-                <a tabindex="-1" title='Select course' id='course_select' href="javascript:void(0);"><span class="glyphicon glyphicon-random"></span>Switch Course</a>
+                <a title='Select course' id='course_select' href="javascript:void(0);"><span
+                            class="glyphicon glyphicon-random"></span>Switch Course</a>
             </li>
             <li class="divider"></li>
-            {% if app.session.get('module')== 0 %}<li><a tabindex="-1" href="{{ course_path('course_roll') }}">Class Roll</a></li>{%endif%}
+            {% if app.session.get('module')== 0 %}
+                <li><a href="{{ course_path('course_roll') }}">Class Roll</a></li>{% endif %}
             {% if is_granted('ROLE_INSTR') %}
-                <li><a tabindex="-1" href="{{ course_path('course_show') }}">{% if app.session.get('module')== 0 %}Course{% else %}Module{% endif %} Settings</a></li>
+                <li>
+                    <a href="{{ course_path('course_show') }}">{% if app.session.get('module')== 0 %}Course{% else %}Module{% endif %}
+                        Settings</a></li>
             {% endif %}
         </ul>
     </li>
 
-
+    {# Resources #}
     <li>
-        {% if app.session.get('resource_referrer')%}
-            <a title='Course Resources' href="{{app.session.get('resource_referrer')}} ">Resources</a>
-        {%else%}
-            <a title='Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Resources</a>
-        {%endif%}
+        {% if app.session.get('resource_referrer') %}
+            <a href="{{ app.session.get('resource_referrer') }} title='Course Resources' ">Resources</a>
+        {% else %}
+            <a title='Course Resources'
+               href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Resources</a>
+        {% endif %}
 
-            </li>
+    </li>
+
+    {# Projects #}
     {% if app.session.get('module')== 0 %}
         <li>
-            {% if app.session.get('referrer')%}
-                <a title='Course Projects' href="{{app.session.get('referrer')}} ">Projects</a>
-            {%else%}
-                <a title='Course Projects' href="{{ course_path('file_list', { 'project': 'default', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Projects</a>
-            {%endif%}
+            {% if app.session.get('referrer') %}
+                <a title='Course Projects' href="{{ app.session.get('referrer') }} ">Projects</a>
+            {% else %}
+                <a title='Course Projects'
+                   href="{{ course_path('file_list', { 'project': 'default', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Projects</a>
+            {% endif %}
 
         </li>
-    {%endif%}
-    <li class="dropdown"><a class="dropdown-toggle" data-hover="dropdown" title='Course Calendar' href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Calendar<b class="caret"></b></a>
+    {% endif %}
 
-        <ul class="dropdown-menu">
+    {# Calendar #}
+    <li class="dropdown">
+        <a href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" title='Course Calendar'>Calendar<b
+                    class="caret"></b></a>
+
+        <ul class="dropdown-menu" role="menu">
             {% if is_granted('ROLE_INSTR') %}
-            <li><a tabindex="-1"  href="{{ course_path('calendar_new', {'set_date': "now"|date("Y-m-d")} ) }}" ><span class="glyphicon glyphicon-calendar"></span>New Event</a></li>
+                <li><a href="{{ course_path('calendar_new', {'set_date': "now"|date("Y-m-d")} ) }}"><span
+                                class="glyphicon glyphicon-calendar"></span>New Event</a></li>
             {% endif %}
-            <li> <a tabindex="-1" href="{{ course_path('calendar_upcoming') }}">View Agenda</a></li>
+            <li><a href="{{ course_path('calendar_upcoming') }}">View Agenda</a></li>
         </ul>
 
     </li>
 
-    {% if app.session.get('journalSwitch')=='true' and app.session.get('module')== 0 %}<li class="dropdown"><a class="dropdown-toggle" data-hover="dropdown" title='Course Journal' href="{{ course_path('journal_list') }}">Journal<b class="caret"></b></a>
+    {# Journal #}
+    {% if app.session.get('journalSwitch')=='true' and app.session.get('module')== 0 %}
+        <li class="dropdown"><a class="dropdown-toggle" data-hover="dropdown" title='Course Journal'
+                                href="{{ course_path('journal_list') }}">Journal<b class="caret"></b></a>
         <ul class="dropdown-menu">
-            <li> <a tabindex="-1" href="{{ course_path('journal_new')  }}"><span class="glyphicon glyphicon-pencil"></span>New Journal</a></li>
+            <li><a href="{{ course_path('journal_new') }}"><span class="glyphicon glyphicon-pencil"></span>New
+                    Journal</a></li>
         </ul>
         </li>
-    {%endif%}
+    {% endif %}
 
-    {% if app.session.get('forumSwitch')=='true' and app.session.get('module')== 0 %}<li><a  title='Course Forum' href="{{ course_path('forum') }}">Forum</a></li>{%endif%}
+    {# Forum #}
+    {% if app.session.get('forumSwitch')=='true' and app.session.get('module')== 0 %}
+        <li><a title='Course Forum' href="{{ course_path('forum') }}">Forum</a></li>{% endif %}
 
-    {% if app.session.get('notesSwitch')=='true' and app.session.get('module')== 0 %}<li class="dropdown"><a class="dropdown-toggle" data-hover="dropdown" title='Course Notes' href="{{ course_path('note') }}">Notes<b class="caret"></b></a>
-        <ul class="dropdown-menu">
-            <li> <a tabindex="-1" href="{{ course_path('note_new')  }}"><span class="glyphicon glyphicon-pencil"></span>New Note</a></li>
+    {# Notes #}
+    {% if app.session.get('notesSwitch')=='true' and app.session.get('module')== 0 %}
+        <li class="dropdown">
+            <a class="dropdown-toggle"  data-toggle="dropdown" data-hover="dropdown" title='Course Notes'
+                                href="{{ course_path('note') }}">Notes<b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="{{ course_path('note_new') }}"><span class="glyphicon glyphicon-pencil"></span>New Note</a>
+            </li>
         </ul>
         </li>
-    {%endif%}
-{%endif%}
+    {% endif %}
+{% endif %}
+
+{# Portfolio #}
 {% if app.session.get('portSwitch')=='true' and app.session.get('module')== 0 %}
-    <li><a  title='Course Portfolio' href="{{ course_path('portfolio') }}">Portfolio</a></li>
-{%endif%}
+    <li><a title='Course Portfolio' href="{{ course_path('portfolio') }}">Portfolio</a></li>
+{% endif %}
 
 
 
