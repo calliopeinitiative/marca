@@ -4,3 +4,18 @@ services:
         arguments: ['@service_container']
         tags: 
             - { name:twig.extension}
+    ct_file_store.s3:
+        class: AmazonS3
+        arguments:
+            options: {key: %aws_key%, secret: %aws_secret%}
+    pdo:
+        class: PDO
+        arguments:
+            - "mysql:host=%database_host%;port=%database_port%;dbname=%database_name%"
+            - "%database_user%"
+            - "%database_password%"
+        calls:
+            - [setAttribute, [3, 2]] # \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION
+    session.handler.pdo:
+        class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        arguments: ["@pdo", "%pdo.db_options%"]

@@ -17,6 +17,7 @@ use Marca\FileBundle\Form\ReviewType;
 use Marca\FileBundle\Form\UploadType;
 use Marca\FileBundle\Form\UploadReviewType;
 use Marca\TagBundle\Entity\Tagset;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Marca\DocBundle\Entity\Doc;
 
 /**
@@ -61,7 +62,6 @@ class FileController extends Controller
         if ($project == 'default') {
             $project = $course->getProjectDefault()->getId();
         }
-
 
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser, $role);
 
@@ -648,6 +648,9 @@ class FileController extends Controller
      */     
     public function getAction($id)
 	{
+            
+               
+             
              $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
              $this->restrictAccessTo($allowed);
         
@@ -660,8 +663,7 @@ class FileController extends Controller
              $filename = $name.'.'.$ext;
 		
 		$response = new Response();
-
-		$response->setStatusCode(200);
+                $response->setStatusCode(200);
                 switch ($ext) {
                       case "png":
                       $response->headers->set('Content-Type', 'image/png');
@@ -698,6 +700,7 @@ class FileController extends Controller
                       case "docx":
                       $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
                       $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
+                      //$response->headers->set('Content-Length: ', $size );
                       break;
                       case "ppt":
                       $response->headers->set('Content-Type', 'application/vnd.mspowerpoint');
@@ -722,8 +725,8 @@ class FileController extends Controller
                       default:
                       $response->headers->set('Content-Type', 'application/octet-stream');
                       }
-		$response->setContent( file_get_contents( $path));
 
+		$response->setContent( file_get_contents( $path));
 		return $response;
 	}
 

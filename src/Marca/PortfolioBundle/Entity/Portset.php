@@ -40,7 +40,13 @@ class Portset
      *
      * @ORM\Column(name="shared", type="integer", nullable=true)
      */
-    private $shared=0;      
+    private $shared=0;   
+    
+    /** 
+     * @var boolean $private_port
+     * @ORM\Column(name="private_port", type="boolean")
+     */
+    private $private_port = false;
 
     /**
     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")
@@ -224,5 +230,28 @@ class Portset
     public function getShared()
     {
         return $this->shared;
+    }
+
+    /**
+     * Set private_port
+     *
+     * @param boolean $privatePort
+     * @return Portset
+     */
+    public function setPrivatePort($privatePort)
+    {
+        $this->private_port = $privatePort;
+    
+        return $this;
+    }
+
+    /**
+     * Get private_port
+     *
+     * @return boolean 
+     */
+    public function getPrivatePort()
+    {
+        return $this->private_port;
     }
 }

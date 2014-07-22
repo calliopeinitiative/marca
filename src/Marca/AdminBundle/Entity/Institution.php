@@ -48,6 +48,12 @@ class Institution
     +     * @ORM\Column(name="research", type="boolean", nullable=true)
     +     */
     private $research = false;
+    
+    /**
+     * @var integer 
+     * @ORM\Column(name="portfolio_type", type="integer")
+     */
+    private $portfolio_type = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="Marca\UserBundle\Entity\User", mappedBy="institution", cascade={"persist"})
@@ -270,5 +276,28 @@ class Institution
     public function getResearch()
     {
         return $this->research;
+    }
+
+    /**
+     * Set portfolio_type
+     *
+     * @param integer $portfolioType
+     * @return Institution
+     */
+    public function setPortfolioType($portfolioType)
+    {
+        $this->portfolio_type = $portfolioType;
+    
+        return $this;
+    }
+
+    /**
+     * Get portfolio_type
+     *
+     * @return integer 
+     */
+    public function getPortfolioType()
+    {
+        return $this->portfolio_type;
     }
 }

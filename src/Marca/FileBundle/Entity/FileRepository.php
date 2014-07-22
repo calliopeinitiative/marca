@@ -60,6 +60,26 @@ class FileRepository extends EntityRepository
        };
 
     }
+    
+ /**
+ * First all users files for portfolios allowing private documents
+ */
+  public function findFilesForPrivatePort($project, $user, $course)
+    {
+
+       if($project == 'recent') {
+         return $this->getEntityManager()
+            ->createQuery('SELECT f, p, d, t, r, o, s  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.responses s LEFT JOIN f.portfolio o LEFT JOIN f.tag t LEFT JOIN f.reviews r
+                WHERE f.course = ?1 AND p.resource = false AND f.reviewed IS NULL AND f.user = ?2 ORDER BY f.updated DESC')
+                ->setParameter('1',$course)->setParameter('2',$user)->getResult();
+       } else {
+          return $this->getEntityManager()
+            ->createQuery('SELECT f, p, d, t, r, o, s  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.responses s LEFT JOIN f.portfolio o LEFT JOIN f.tag t LEFT JOIN f.reviews r
+                WHERE f.project = ?1 AND f.reviewed IS NULL AND f.user = ?2 ORDER BY  f.name ASC')
+                ->setParameter('1',$project)->setParameter('2',$user)->getResult();
+       };
+
+    }
 
     /**
      * check for files for project delete

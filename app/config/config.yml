@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: fileSystem.yml }
     - { resource: '@MarcaCourseBundle/Resources/config/services.yml' }
 
 framework:
@@ -14,7 +15,8 @@ framework:
     csrf_protection: true
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
-    session: ~
+    session:
+        handler_id:  session.handler.pdo
     default_locale: %locale%
     trusted_proxies: ~
 
@@ -146,22 +148,7 @@ knp_paginator:
         distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
     template:
         pagination: KnpPaginatorBundle:Pagination:sliding.html.twig     # sliding pagination controls template
-        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template 
-        
-vich_uploader:
-    db_driver: orm # or mongodb
-    twig: true
-    gaufrette: false # set to true to enable gaufrette support
-    storage: vich_uploader.storage.file_system
-    mappings:
-        property_file:
-            uri_prefix: %upload_path%   # uri prefix to resource
-            upload_destination: %upload_path%   # gaufrette storage fs id, required
-            namer: vich_uploader.namer_origname # namer.upload_file  specify a file namer service id for this entity, null default
-            directory_namer: directory_namer.upload_file  # specify a directory namer service id for this entity, null default
-            delete_on_remove: true # determines whether to delete file upon removal of entity
-            inject_on_load: true # determines whether to inject a File instance upon load  
-            
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template             
 knp_snappy:
     pdf:
         enabled:    true
@@ -228,3 +215,4 @@ ivory_ck_editor:
             toolbar_default: [ ['Styles','Bold','Italic','Underline','Strike','JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor','FontSize'],['Link','Unlink','NumberedList','BulletedList','Outdent','Indent','Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'] ]
             toolbar_docs: [ ['Styles','Bold','Italic','Underline','Strike','JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor','FontSize'],['Link','Unlink','NumberedList','BulletedList','Outdent','Indent','Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'] ]
             toolbar_page: [ ['Source','Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight'],['TextColor','BGColor'],['Link','Unlink'],['NumberedList','BulletedList'],['Outdent','Indent'],['Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'],['About'] ]
+

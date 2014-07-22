@@ -43,8 +43,8 @@ class Portfolioset
      *
      * @ORM\Column(name="port_default", type="boolean")
      */
-    private $port_default = true;    
-    
+    private $port_default = true;
+  
     
     /**
     * @ORM\OneToMany(targetEntity="Marca\PortfolioBundle\Entity\Portfolio", mappedBy="portfolioset")
