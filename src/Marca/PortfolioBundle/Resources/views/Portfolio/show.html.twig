@@ -82,7 +82,7 @@
                         <li><a data-index="{{ loop.index }}" data-id='{{ roll.user.id }}'
                                href="{{ course_path('portfolio_user', { 'userid': roll.user.id, 'user': loop.index, }) }}">
                             <i class="glyphicon glyphicon-chevron-left"></i>{{ roll.firstname }} {{ roll.lastname }}
-                            
+
                         </a></li>{% endif %}
                 {% endfor %}
                 <li><a class="" href="{{ course_path('portfolio') }}">Close</a></li>
