@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Portitem
 {
+    const STATUS_HIDDEN=0;
+    const STATUS_VISIBLE=1;
+
     /**
      * @var integer $id
      *
@@ -41,6 +44,14 @@ class Portitem
      * @ORM\Column(name="sortorder", type="integer", nullable=true)
      */
     private $sortorder = 1;
+
+    /**
+     * @var integer $status
+     *
+     * @ORM\Column(name="status", type="integer")
+     */
+    private $status = 1;
+
     
     /**
     * @ORM\ManyToOne(targetEntity="Marca\PortfolioBundle\Entity\Portset", inversedBy="portitem")

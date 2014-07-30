@@ -2,10 +2,24 @@
 {# This subnav is the top navigation when inside a course.  Included from layout.html.twig #}
 
 {% if app.session.get('portReviewSwitch')!= 4 %}
-
+    <script language="javascript">
+        $(document).ready(function() {
+            //Add Hover effect to menus
+            $('ul.nav li.dropdown').hover(function() {
+                $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeIn();
+            }, function() {
+                $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeOut();
+            });
+            $('ul.nav li.dropdown a').focus(function() {
+                $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeIn();
+            }, function() {
+                $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeOut();
+            });
+        });
+    </script>
     {# Course select #}
     <li class="dropdown">
-        <a href="{{ course_path('course_home') }}" class="dropdown-toggle" data-toggle="dropdown"  data-hover="dropdown" title="Course Home">
+        <a href="{{ course_path('course_home') }}"  title="Course Home">
             {% if app.session.get('course') %}{{ app.session.get('course')|slice(0, 15) }}{% else %}Course Home{% endif %}
             <span class="caret"></span>
         </a>
@@ -51,7 +65,7 @@
 
     {# Calendar #}
     <li class="dropdown">
-        <a href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" title='Course Calendar'>Calendar<b
+        <a href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}" title='Course Calendar'>Calendar<b
                     class="caret"></b></a>
 
         <ul class="dropdown-menu" role="menu">
@@ -66,7 +80,7 @@
 
     {# Journal #}
     {% if app.session.get('journalSwitch')=='true' and app.session.get('module')== 0 %}
-        <li class="dropdown"><a class="dropdown-toggle" data-hover="dropdown" title='Course Journal'
+        <li class="dropdown"><a title='Course Journal'
                                 href="{{ course_path('journal_list') }}">Journal<b class="caret"></b></a>
         <ul class="dropdown-menu">
             <li><a href="{{ course_path('journal_new') }}"><span class="glyphicon glyphicon-pencil"></span>New
@@ -82,7 +96,7 @@
     {# Notes #}
     {% if app.session.get('notesSwitch')=='true' and app.session.get('module')== 0 %}
         <li class="dropdown">
-            <a class="dropdown-toggle"  data-toggle="dropdown" data-hover="dropdown" title='Course Notes'
+            <a title='Course Notes'
                                 href="{{ course_path('note') }}">Notes<b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu">
             <li><a href="{{ course_path('note_new') }}"><span class="glyphicon glyphicon-pencil"></span>New Note</a>
