@@ -22,7 +22,7 @@ class PortfolioRepository extends EntityRepository
     public function findShownOnly($user,$course)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT p from MarcaPortfolioBundle:Portfolio p join p.portitem i WHERE p.user = ?1 AND p.course = ?2 AND i.status!=0 ORDER BY p.portorder ASC')
+            ->createQuery('SELECT p from MarcaPortfolioBundle:Portfolio p join p.portitem i WHERE p.user = ?1 AND p.course = ?2 AND (i.status=1 or i.status is null) ORDER BY p.portorder ASC')
             ->setParameter('1',$user)->setParameter('2',$course)->getResult();
     }
 }
