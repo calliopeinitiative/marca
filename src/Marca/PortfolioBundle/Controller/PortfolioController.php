@@ -145,7 +145,7 @@ class PortfolioController extends Controller
         $paginator = $this->get('knp_paginator');
         if ($portfoliosets)
         {
-        $portfolio = $portfolioset->getPortfolioitems();
+        $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findShownOnly($user,$course);
         $portfoliosetid = $portfolioset->getId();
         $portfolio_docs = $paginator->paginate($portfolio,$this->get('request')->query->get('page', 1),1);
         $ratingset = $em->getRepository('MarcaAssessmentBundle:Ratingset')->ratingsetsByPortfolioset($portfolioset);
@@ -322,7 +322,7 @@ class PortfolioController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

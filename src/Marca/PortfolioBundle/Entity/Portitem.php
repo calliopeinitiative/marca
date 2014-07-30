@@ -48,7 +48,7 @@ class Portitem
     /**
      * @var integer $status
      *
-     * @ORM\Column(name="status", type="integer")
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status = 1;
 
@@ -133,7 +133,7 @@ class Portitem
     /**
      * Set portset
      *
-     * @param Marca\PortfolioBundle\Entity\Portset $portset
+     * @param \Marca\PortfolioBundle\Entity\Portset $portset
      */
     public function setPortset(\Marca\PortfolioBundle\Entity\Portset $portset)
     {
@@ -143,7 +143,7 @@ class Portitem
     /**
      * Get portset
      *
-     * @return Marca\PortfolioBundle\Entity\Portset 
+     * @return \Marca\PortfolioBundle\Entity\Portset
      */
     public function getPortset()
     {
@@ -155,4 +155,27 @@ class Portitem
     }
 
 
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     * @return Portitem
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 }

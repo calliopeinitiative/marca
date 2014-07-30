@@ -91,7 +91,7 @@ class ObjectiveController extends Controller
         $objective->setAssessmentset($assessmentset);
         $request = $this->getRequest();
         $form    = $this->createForm(new ObjectiveType(), $objective);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -184,7 +184,7 @@ class ObjectiveController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

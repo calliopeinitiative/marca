@@ -116,7 +116,7 @@ class Portset
     /**
      * Set user
      *
-     * @param Marca\UserBundle\Entity\User $user
+     * @param \Marca\UserBundle\Entity\User $user
      */
     public function setUser(\Marca\UserBundle\Entity\User $user)
     {
@@ -126,7 +126,7 @@ class Portset
     /**
      * Get user
      *
-     * @return Marca\UserBundle\Entity\User 
+     * @return \Marca\UserBundle\Entity\User 
      */
     public function getUser()
     {
@@ -136,7 +136,7 @@ class Portset
     /**
      * Add portitem
      *
-     * @param Marca\PortfolioBundle\Entity\Portset $portitem
+     * @param \Marca\PortfolioBundle\Entity\Portset $portitem
      */
     public function addPortset(\Marca\PortfolioBundle\Entity\Portset $portitem)
     {
@@ -146,7 +146,7 @@ class Portset
     /**
      * Get portitem
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPortitem()
     {
@@ -156,7 +156,7 @@ class Portset
     /**
      * Add course
      *
-     * @param Marca\CourseBundle\Entity\Course $course
+     * @param \Marca\CourseBundle\Entity\Course $course
      */
     public function addCourse(\Marca\CourseBundle\Entity\Course $course)
     {
@@ -166,7 +166,7 @@ class Portset
     /**
      * Get course
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCourse()
     {
@@ -176,7 +176,7 @@ class Portset
     /**
      * Add portitem
      *
-     * @param Marca\PortfolioBundle\Entity\Portitem $portitem
+     * @param \Marca\PortfolioBundle\Entity\Portitem $portitem
      */
     public function addPortitem(\Marca\PortfolioBundle\Entity\Portitem $portitem)
     {
