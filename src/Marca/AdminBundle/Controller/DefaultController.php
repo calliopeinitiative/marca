@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Marca\UserBundle\Entity\User;
+use Marca\AdminBundle\Form\AdminUserType;
 use FOS\UserBundle\Entity\UserManager;
 
 
@@ -68,6 +69,83 @@ class DefaultController extends Controller
         return array('count' => $count,'user' => $user,'users' => $users, 'form'=>$form->createView());
     }
 
+    /**
+     * Displays a form to edit an existing User entity.
+     *
+     * @Route("/{username}/edit", name="admin_user_edit")
+     * @Template("MarcaAdminBundle:Default:edit.html.twig")
+     */
+    public function editAction($username)
+    {
+        $userManager = $this->container->get('fos_user.user_manager');
+        $user = $userManager->findUserByUsername($username);
+
+        if (!$user) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+            $editForm = $this->createEditForm($user);
+
+        return array(
+            'user'      => $user,
+            'edit_form'   => $editForm->createView(),
+        );
+    }
+
+
+    /**
+     * Creates a form to edit a Grade entity.
+     *
+     * @param User $user The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(User $user)
+    {
+        $form = $this->createForm(new AdminUserType(), $user, array(
+            'action' => $this->generateUrl('admin_user_update', array('username' => $user->getUsername())),
+            'method' => 'POST',
+            'attr' => array('novalidate' => 'novalidate'),
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Update','attr' => array('class' => 'btn btn-default'),));
+
+        return $form;
+    }
+
+    /**
+     * Edits an existing User entity.
+     *
+     * @Route("/{username}/update", name="admin_user_update")
+     * @Method("post")
+     * @Template("MarcaAdminBundle:Default:edit.html.twig")
+     */
+    public function updateAction($username)
+    {
+        $userManager = $this->container->get('fos_user.user_manager');
+        $user = $userManager->findUserByUsername($username);
+
+        if (!$user) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+
+        $editForm = $this->createEditForm($user);
+
+        $request = $this->getRequest();
+
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+
+            $userManager->updateUser($user);
+
+            return $this->redirect($this->generateUrl('user_admin', array('username' => $user->getUsername())));
+        }
+
+        return array(
+            'user'      => $user,
+            'edit_form'   => $editForm->createView(),
+        );
+    }
 
     /**
      * Finds Users
