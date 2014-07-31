@@ -8,10 +8,10 @@
         $(document).ready(function () {
             {% for roll in roll %}
             $('#absent{{roll.id}}').click(function () {
-                $('#roll_container{{ roll.id }}').load('{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '0' }) }}');
+                $('#absent_container{{ roll.id }}').load('{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '0' }) }}');
             });
             $('#tardy{{ roll.id }}').click(function () {
-                $('#roll_container{{ roll.id }}').load('{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '1' }) }}');
+                $('#tardy_container{{ roll.id }}').load('{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '1' }) }}');
             });
             {% endfor %}
         });
@@ -60,14 +60,14 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="inline-block" id="roll_container{{ roll.id }}">
+                                <div class="inline-block" id="absent_container{{ roll.id }}">
                                       {% set x=0 %}
                                       {% for attendance in roll.attendance if attendance.type==0 %}{% set x=x+1 %}{% endfor %}{{ x }}
                                 </div>
                             </td>
 
                             <td>
-                                <div class="inline-block" id="roll_container{{ roll.id }}">
+                                <div class="inline-block" id="tardy_container{{ roll.id }}">
                                     {% set y=0 %}
                                     {% for attendance in roll.attendance if attendance.type==1 %}{% set y=y+1 %}{% endfor %}{{ y }}
                                 </div>

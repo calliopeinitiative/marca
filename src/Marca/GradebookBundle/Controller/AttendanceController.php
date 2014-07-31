@@ -18,23 +18,6 @@ use Marca\GradebookBundle\Form\AttendanceType;
 class AttendanceController extends Controller
 {
 
-    /**
-     * Lists all Attendance entities.
-     *
-     * @Route("/", name="attendance")
-     * @Method("GET")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $em = $this->getEm();
-
-        $entities = $em->getRepository('MarcaGradebookBundle:Attendance')->findAll();
-
-        return array(
-            'entities' => $entities,
-        );
-    }
 
     /**
      * Creates a new Attendance entity.
@@ -55,7 +38,7 @@ class AttendanceController extends Controller
         $em->persist($attendance);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('attendance_show_ajax', array('rollid' => $id)));
+        return $this->redirect($this->generateUrl('attendance_show_ajax', array('rollid' => $id, 'type' => $type)));
 
     }
 
@@ -63,20 +46,23 @@ class AttendanceController extends Controller
     /**
      * Finds and displays a Attendance entity.
      *
-     * @Route("/{rollid}", name="attendance_show_ajax")
+     * @Route("/{rollid}/{type}", name="attendance_show_ajax")
      * @Method("GET")
      * @Template("MarcaGradebookBundle:Attendance:show_ajax.html.twig")
      */
-    public function showAjaxAction($rollid)
+    public function showAjaxAction($rollid, $type)
     {
         $em = $this->getEm();
-        $absences = $em->getRepository('MarcaGradebookBundle:Attendance')->countAbsenses($rollid);
-        $tardies = $em->getRepository('MarcaGradebookBundle:Attendance')->countTardies($rollid);
-
+        if ($type==0) {
+            $update = $em->getRepository('MarcaGradebookBundle:Attendance')->countAbsenses($rollid);
+        }
+        else {
+            $update = $em->getRepository('MarcaGradebookBundle:Attendance')->countTardies($rollid);
+        }
         return array(
-            'tardies'      => $tardies,
-            'absences'      => $absences,
+            'update'      => $update,
         );
+
     }
 
     /**
