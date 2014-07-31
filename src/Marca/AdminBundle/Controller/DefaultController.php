@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Marca\UserBundle\Entity\User;
 use Marca\AdminBundle\Form\AdminUserType;
 use FOS\UserBundle\Entity\UserManager;
@@ -128,9 +129,22 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
+
+
         $editForm = $this->createEditForm($user);
 
         $request = $this->getRequest();
+        $postData = $request->get('marca_adminbundle_useradmin');
+        $new_username = $postData['username'];
+        $new_email = $postData['email'];
+
+        $username_requested = $userManager->findUserByUsername($new_username);
+        $email_requested = $userManager->findUserByEmail($new_email);
+
+        if ($username_requested or $email_requested) {
+            $this->get('session')->getFlashBag()->add('error', 'That username or email is already in use.  Please try another.');
+            return $this->redirect($this->generateUrl('user_admin', array('username' => $username)));
+        }
 
         $editForm->handleRequest($request);
 
