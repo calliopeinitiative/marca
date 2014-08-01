@@ -13,6 +13,7 @@ use Marca\DocBundle\Entity\Autosave;
 use Marca\DocBundle\Form\DocType;
 use Marca\FileBundle\Entity\File;
 use Marca\CourseBundle\Entity\Project;
+use Marca\CourseBundle\Entity\Roll;
 
 /**
  * Doc controller.
@@ -45,6 +46,8 @@ class DocController extends Controller
         $count = str_word_count($text);
         $file_owner = $file->getUser();
 
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
+
         $review_file = $file->getReviewed();
         if ($review_file)
            {
@@ -74,6 +77,7 @@ class DocController extends Controller
 
         return array(
             'doc'      => $doc,
+            'roll' => $roll,
             'role'      => $role,
             'count'=> $count,
             'file'        => $file,

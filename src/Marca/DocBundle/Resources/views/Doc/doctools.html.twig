@@ -10,30 +10,32 @@
     {# file/doc info #}
     <div class="panel panel-default">
         <div class="panel-body">
-                <p>
-                    <h1 style="font-size:18px;">{{ file.name }} </h1>
+            <p>
+
+            <h1 style="font-size:18px;">{{ file.name }} </h1>
                 <span class="small" style="font-family:proxima-nova;">
                     by {% if file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif %}
                 </span>
-                </p>
-                <p>
-                        {{ file.doc.created|date('m/d/y, g:i a') }}{% if file.doc.created != file.doc.updated %} / {{ file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
-                </p>
-                <p>
-                    {% for tag in file.tag %}
-                        <span class="label {{ tag.color }}">{{ tag.name }}</span>
-                    {% endfor %}
-                    {% if file.access==1 %}<span class="label label-success margin-left">Shared</span>
-                    {% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
-                    {% endif %}
-                    {% if file.portfolio|length !=0 %}
-                        <span class="label label-info">Portfolio</span>
-                    {% endif %}
-                </p>
+            </p>
+            <p>
+                {{ file.doc.created|date('m/d/y, g:i a') }}{% if file.doc.created != file.doc.updated %} / {{ file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
+            </p>
+
+            <p>
+                {% for tag in file.tag %}
+                    <span class="label {{ tag.color }}">{{ tag.name }}</span>
+                {% endfor %}
+                {% if file.access==1 %}<span class="label label-success margin-left">Shared</span>
+                {% elseif file.access==0 %}<span class="label label-success margin-left">Private</span>
+                {% endif %}
+                {% if file.portfolio|length !=0 %}
+                    <span class="label label-info">Portfolio</span>
+                {% endif %}
+            </p>
         </div>
     </div>
-    
-    
+
+
     <div class="panel-group margin-top" style="margin-bottom: 5px;" id="accordion">
         <div class="panel panel-default">
             <div class="panel-body">
@@ -107,7 +109,7 @@
             <span id="parent_info">
             {% if parent_file %}
                 <p>
-                    <h1 style="font-size:18px;">{{ parent_file.name }} </h1>
+                <h1 style="font-size:18px;">{{ parent_file.name }} </h1>
                 <span class="small" style="font-family:proxima-nova;">
                     by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}
                 </span>
@@ -130,8 +132,29 @@
                         <span class="label label-info">Portfolio</span>
                     {% endif %}
                 </p>
+                {% if  parent_file.user==app.user or role==2 %}
+
+                {% if  parent_file.grade %}
+                    <strong>Grade:</strong>
+                {{ parent_file.grade.grade }} ({{ parent_file.grade.category.name }})
+
+            {% else %}
+                    {% if role==2 %}
+                        <span id="grade">
+                <a id="post_parentfile_grade" class="btn btn-default btn-sm" href="javascript:void(0);">
+                    Post Grade
+                </a>
+                    </span>
+                    {% endif %}
+
+                {% endif %}
+            <br/>
+            (<a class=""
+                href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': '0' }) }}">Gradebook</a>)
             {% endif %}
-            </span>
+
+            {% endif %}
+         </span>
 
             {% for review in parent_file.reviews %}
                 <span id="review_info_{{ review.id }}" class="review_info">
@@ -140,15 +163,15 @@
                     <span class="small" style="font-family:proxima-nova;">
                     by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}
                     </span>
-                        </p>
+                    </p>
 
-                        <p>
-                            {% if review.doc %}
-                                {{ review.doc.created|date('m/d/y, g:i a') }}{% if review.doc.created != review.doc.updated %} / {{ review.doc.updated|date('m/d/y, g:i a') }}{% endif %}
-                            {% else %}
-                                {{ review.created|date('m/d/y, g:i a') }}{% if review.created != review.updated %} / {{ review.updated|date('m/d/y, g:i a') }}{% endif %}
-                            {% endif %}
-                        </p>
+                    <p>
+                        {% if review.doc %}
+                            {{ review.doc.created|date('m/d/y, g:i a') }}{% if review.doc.created != review.doc.updated %} / {{ review.doc.updated|date('m/d/y, g:i a') }}{% endif %}
+                        {% else %}
+                            {{ review.created|date('m/d/y, g:i a') }}{% if review.created != review.updated %} / {{ review.updated|date('m/d/y, g:i a') }}{% endif %}
+                        {% endif %}
+                    </p>
                     <p>
                         {% for tag in review.tag %}<span
                             class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}

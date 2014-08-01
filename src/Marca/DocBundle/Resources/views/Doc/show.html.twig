@@ -27,6 +27,9 @@
                 $('#collapseNotes').collapse('hide');
                 $('#loading').fadeIn();
             });
+            $('#post_parentfile_grade').click(function () {
+                $('#doc_modal').load('{{ course_path('grade_new', { 'fileid': parent_file.id, 'value': '00' }) }}').modal();
+            });
 
             {# Review files/docs #}
             {# Reviews here are documents, not Feedback prompts and responses,#}
