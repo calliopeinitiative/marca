@@ -20,18 +20,18 @@
 
     <li>
         {% if app.session.get('resource_referrer')%}
-            <a title='Course Resources' href="{{app.session.get('resource_referrer')}} ">Resources</a>
+            <a title='Editor's Desk' href="{{app.session.get('resource_referrer')}} ">Editor's Desk</a>
         {%else%}
-            <a title='Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Resources</a>
+            <a title='Editor's Desk href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Editor's Desk</a>
         {%endif%}
 
             </li>
     {% if app.session.get('module')== 0 %}
         <li>
             {% if app.session.get('referrer')%}
-                <a title='Course Projects' href="{{app.session.get('referrer')}} ">Projects</a>
+                <a title='Reporter's Desk href="{{app.session.get('referrer')}} ">Reporter's Desk</a>
             {%else%}
-                <a title='Course Projects' href="{{ course_path('file_list', { 'project': 'default', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Projects</a>
+                <a title='Reporter's Desk' href="{{ course_path('file_list', { 'project': 'default', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Reporter's Desk</a>
             {%endif%}
 
         </li>
@@ -54,7 +54,7 @@
         </li>
     {%endif%}
 
-    {% if app.session.get('forumSwitch')=='true' and app.session.get('module')== 0 %}<li><a  title='Course Forum' href="{{ course_path('forum') }}">Forum</a></li>{%endif%}
+    {% if app.session.get('forumSwitch')=='true' and app.session.get('module')== 0 %}<li><a  title='Discussion' href="{{ course_path('forum') }}">Discussion</a></li>{%endif%}
 
     {% if app.session.get('notesSwitch')=='true' and app.session.get('module')== 0 %}<li class="dropdown"><a class="dropdown-toggle" data-hover="dropdown" title='Course Notes' href="{{ course_path('note') }}">Notes<b class="caret"></b></a>
         <ul class="dropdown-menu">
