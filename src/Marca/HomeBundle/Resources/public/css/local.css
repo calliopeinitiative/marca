@@ -35,8 +35,7 @@ html, body {
 }
 
 body {
-    /*change to mark Grady install DO NOT KEEP*/
-    background:  #F2FFFF;
+    background: url('../img/bg/subtle_white_feathers.png');
     padding-top: 50px;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
