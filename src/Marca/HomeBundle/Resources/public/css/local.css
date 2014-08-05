@@ -1024,11 +1024,13 @@ tr.review td .label {font-size: 90%;}
 
 /********** 07. Media Queries **********/
 
+.navbar .nav > li > a {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
 @media (max-width: 1199px) {
-    .navbar .nav > li > a {
-        padding-left: 7px;
-        padding-right: 7px;
-    }
+
 
     #course-home {
         padding-left: 35px;
@@ -1041,10 +1043,7 @@ tr.review td .label {font-size: 90%;}
 }
 
 @media (max-width: 920px) {
-    .navbar .nav > li > a {
-        padding-left: 5px;
-        padding-right: 5px;
-    }
+
 
     #course-home {
         padding-left: 20px;

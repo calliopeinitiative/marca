@@ -36,7 +36,7 @@
 
         </li>
     {%endif%}
-    <li class="dropdown"><a class="dropdown-toggle" data-hover="dropdown" title='Course Calendar' href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Calendar<b class="caret"></b></a>
+    <li class="hidden-md dropdown"><a class="dropdown-toggle" data-hover="dropdown" title='Course Calendar' href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Calendar<b class="caret"></b></a>
 
         <ul class="dropdown-menu">
             {% if is_granted('ROLE_INSTR') %}
@@ -47,16 +47,16 @@
 
     </li>
 
-    {% if app.session.get('journalSwitch')=='true' and app.session.get('module')== 0 %}<li class="dropdown"><a class="dropdown-toggle" data-hover="dropdown" title='Course Journal' href="{{ course_path('journal_list') }}">Journal<b class="caret"></b></a>
-        <ul class="dropdown-menu">
+    {% if app.session.get('journalSwitch')=='true' and app.session.get('module')== 0 %}<li class="dropdown hidden-md"><a class="dropdown-toggle" data-hover="dropdown" title='Course Journal' href="{{ course_path('journal_list') }}">Journal<b class="caret"></b></a>
+        <ul class="dropdown-menu hidden-md">
             <li> <a tabindex="-1" href="{{ course_path('journal_new')  }}"><span class="glyphicon glyphicon-pencil"></span>New Journal</a></li>
         </ul>
         </li>
     {%endif%}
 
-    {% if app.session.get('forumSwitch')=='true' and app.session.get('module')== 0 %}<li><a  title='Discussion' href="{{ course_path('forum') }}">Discussion</a></li>{%endif%}
+    {% if app.session.get('forumSwitch')=='true' and app.session.get('module')== 0 %}<li class="hidden-md"><a  title='Discussion' href="{{ course_path('forum') }}">Discussion</a></li>{%endif%}
 
-    {% if app.session.get('notesSwitch')=='true' and app.session.get('module')== 0 %}<li class="dropdown"><a class="dropdown-toggle" data-hover="dropdown" title='Course Notes' href="{{ course_path('note') }}">Notes<b class="caret"></b></a>
+    {% if app.session.get('notesSwitch')=='true' and app.session.get('module')== 0 %}<li class="dropdown hidden-md"><a class="dropdown-toggle" data-hover="dropdown" title='Course Notes' href="{{ course_path('note') }}">Notes<b class="caret"></b></a>
         <ul class="dropdown-menu">
             <li> <a tabindex="-1" href="{{ course_path('note_new')  }}"><span class="glyphicon glyphicon-pencil"></span>New Note</a></li>
         </ul>
@@ -64,9 +64,19 @@
     {%endif%}
 {%endif%}
 {% if app.session.get('portSwitch')=='true' and app.session.get('module')== 0 %}
-    <li><a  title='Course Portfolio' href="{{ course_path('portfolio') }}">Portfolio</a></li>
+    <li class="hidden-md"><a  title='Course Portfolio' href="{{ course_path('portfolio') }}">Portfolio</a></li>
 {%endif%}
 
+<li class="dropdown visible-md">
+<a class="dropdown-toggle" data-hover="dropdown" title='Course Notes' href="{{ course_path('note') }}">Tools<b class="caret"></b></a>
+<ul class="dropdown-menu">
+    <li><a title='Course Calendar' href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Calendar</a></li>
+    {% if app.session.get('journalSwitch')=='true' and app.session.get('module')== 0 %}<li><a title='Course Journal' href="{{ course_path('journal_list') }}">Journal</a>{%endif%}
+    {% if app.session.get('forumSwitch')=='true' and app.session.get('module')== 0 %}<li><a  title='Discussion' href="{{ course_path('forum') }}">Discussion</a></li>{%endif%}
+    {% if app.session.get('notesSwitch')=='true' and app.session.get('module')== 0 %}<li><a title='Course Notes' href="{{ course_path('note') }}">Notes</a></li>{%endif%}
+    {% if app.session.get('portSwitch')=='true' and app.session.get('module')== 0 %}<li><a  title='Course Portfolio' href="{{ course_path('portfolio') }}">Portfolio</a></li>{%endif%}
+</ul>
+</li>
 
 
 
