@@ -203,17 +203,17 @@ class CourseController extends Controller
         if ($module == 0)
         {
         $project1 = new Project();
-        $project1->setName('Paper 1');
+        $project1->setName('Assignment 1');
         $project1->setSortOrder(1);
         $project1->setCourse($course);
         
         $project2 = new Project();
-        $project2->setName('Paper 2');
+        $project2->setName('Assignment 2');
         $project2->setSortOrder(2);
         $project2->setCourse($course);
         
         $project3 = new Project();
-        $project3->setName('Paper 3');
+        $project3->setName('Assignment 3');
         $project3->setSortOrder(3);
         $project3->setCourse($course);
         
