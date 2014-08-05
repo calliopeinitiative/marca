@@ -66,6 +66,8 @@
 {% if app.session.get('portSwitch')=='true' and app.session.get('module')== 0 %}
     <li class="hidden-sm hidden-md"><a  title='Course Portfolio' href="{{ course_path('portfolio') }}">Portfolio</a></li>
 {%endif%}
+    <li class="hidden-sm hidden-md"><a title="AP Stylebook" href="https://www.apstylebook.com/online/" target="_blank"><span class="glyphicon glyphicon-book" style="margin-right:5px;"></span>AP</a></li>
+
 
 <li class="dropdown visible-sm visible-md">
 <a class="dropdown-toggle" data-hover="dropdown" title='Course Notes' href="{{ course_path('note') }}">Tools<b class="caret"></b></a>
@@ -75,6 +77,7 @@
     {% if app.session.get('forumSwitch')=='true' and app.session.get('module')== 0 %}<li><a  title='Discussion' href="{{ course_path('forum') }}">Discussion</a></li>{%endif%}
     {% if app.session.get('notesSwitch')=='true' and app.session.get('module')== 0 %}<li><a title='Course Notes' href="{{ course_path('note') }}">Notes</a></li>{%endif%}
     {% if app.session.get('portSwitch')=='true' and app.session.get('module')== 0 %}<li><a  title='Course Portfolio' href="{{ course_path('portfolio') }}">Portfolio</a></li>{%endif%}
+    <li><a title="AP Stylebook" href="https://www.apstylebook.com/online/"><span class="glyphicon glyphicon-book" style="margin-right:5px;"></span>AP Stylebook</a></li>
 </ul>
 </li>
 
