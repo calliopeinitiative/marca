@@ -1314,5 +1314,15 @@ column-gap:           10px;
     }
 }
 
-
 /**********  End 10. Grady stuff **********/
+
+
+
+
+/**********  11. General stuff to merge **********/
+
+.panel-body {
+    word-wrap:break-word;
+}
+
+/**********  11. End General stuff to merge **********/

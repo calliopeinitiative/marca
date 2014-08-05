@@ -17,7 +17,9 @@
                             <span class="pull-right">{% if calendar.startDate %}{{ calendar.startDate|date('M j Y') }}  {{ calendar.startTime|date('g:i A') }}{% endif%}</span>
                         </div>
                         <div class="panel-body">
+                            <div>
                             {{ calendar.description|raw }}
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
