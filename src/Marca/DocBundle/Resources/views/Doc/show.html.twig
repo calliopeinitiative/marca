@@ -28,7 +28,7 @@
                 $('#loading').fadeIn();
             });
             $('#post_parentfile_grade').click(function () {
-                $('#doc_modal').load('{{ course_path('grade_new', { 'fileid': parent_file.id, 'value': '00' }) }}').modal();
+                $('#modal').load('{{ course_path('grade_new', { 'fileid': parent_file.id, 'value': '00' }) }}').modal();
             });
 
             {# Review files/docs #}
@@ -241,7 +241,7 @@
             $(document).ready(function () {
                 {% if file.project.resource and role==2 %}{% set resource=1 %}{% else %}{% set resource=0 %}{% endif %}
                 $('#new_saveas').click(function () {
-                    $('#doc_modal').load('{{ course_path('file_new_modal', { 'resource' : resource, 'tag' : '0', 'type': 'saveas', 'fileid': file.id }) }}').modal();
+                    $('#modal').load('{{ course_path('file_new_modal', { 'resource' : resource, 'tag' : '0', 'type': 'saveas', 'fileid': file.id }) }}').modal();
                 });
                 var txt = $('.doc-body').text();
                 var count = txt.trim().replace(/\s+/gi, ' ').split(' ').length;
@@ -333,6 +333,6 @@
     </div>
 
     {# Modal #}
-    <div class="modal fade" id="doc_modal" role="dialog">
+    <div class="modal fade" id="modal" role="dialog">
     </div>
 {% endblock %}

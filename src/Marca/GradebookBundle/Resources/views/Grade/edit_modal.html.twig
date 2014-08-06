@@ -2,16 +2,17 @@
 
 <script language="javascript">
     $(document).ready(function () {
+
         var options = {
             target:        '#grades',
-            success:        close_modal
+            success:        load_update
         };
         $('form').submit(function() {
             $(this).ajaxSubmit(options);
             return false;
 
         });
-        function close_modal() {
+        function load_update() {
             $('#modal').modal('hide');
         };
     });
@@ -21,10 +22,10 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Post Grade</h4>
+            <h4 class="modal-title">Edit Grade</h4>
         </div>
             <div class="modal-body">
-                {{ form(form) }}
+                {{ form(edit_form) }}
             </div>
             <div class="modal-footer">
             </div>

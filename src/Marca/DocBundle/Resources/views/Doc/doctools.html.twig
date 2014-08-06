@@ -132,7 +132,7 @@
                         <span class="label label-info">Portfolio</span>
                     {% endif %}
                 </p>
-                {% if  parent_file.user==app.user or role==2 %}
+                {% if (parent_file.user==app.user or role==2)  and file.course.gradeset%}
 
                 {% if  parent_file.grade %}
                     <strong>Grade:</strong>
