@@ -73,6 +73,7 @@ class RollController extends Controller
         $roll_user = $em->getRepository('MarcaCourseBundle:Roll')->findUserByRoll($rollid);
         $user = $em->getRepository('MarcaUserBundle:User')->find($roll_user);
         $course = $this->getCourse();
+        $grades = $em->getRepository('MarcaGradebookBundle:Grade')->findGradesByCourse($user,$course);
         $roll = $this->getRoll();
         $role = $this->getCourseRole();
         $profile = $em->getRepository('MarcaCourseBundle:Roll')->findRollUser($rollid);
@@ -93,6 +94,7 @@ class RollController extends Controller
             'role' => $role,
             'roll' => $roll,
             'profile' => $profile,
+            'grades' => $grades,
             'course' => $course,
             'countForums'=>$countForums,
             'countComments'=>$countComments,

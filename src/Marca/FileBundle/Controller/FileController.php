@@ -81,7 +81,7 @@ class FileController extends Controller
 
         //pagination for files
         $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),50);
+        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),25);
         $count = $files->getTotalItemCount();
 
         if ($resource==0) {$template = 'MarcaFileBundle:File:index.html.twig'; } else {$template = 'MarcaFileBundle:File:resource_index.html.twig';}

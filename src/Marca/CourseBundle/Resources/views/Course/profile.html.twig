@@ -12,7 +12,7 @@
                 $('#modal').load('{{ course_path('attendance_edit', { 'id': attendance.id, 'rollid': profile.id, 'user': app.request.get('user') }) }}').modal();
             });
             {% endfor %}
-            {% for grade in profile.user.grades %}
+            {% for grade in grades %}
             $('#edit_grade_{{grade.id}}').click(function () {
                 $('#modal').load('{{ course_path('grade_edit', { 'id': grade.id}) }}').modal();
             });
@@ -108,7 +108,7 @@
                                 {% endif %}
                             </p>
                             <ul id="grades" class="list-unstyled">
-                                {% for grade in profile.user.grades %}
+                                {% for grade in grades %}
                                     <li id="grade_{{ grade.id }}"><a class="margin-right" href="javascript:void(0);"
                                                                      title="Edit grade"
                                                                      id="edit_grade_{{ grade.id }}">{{ grade.category.name }}

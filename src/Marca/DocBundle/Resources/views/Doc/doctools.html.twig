@@ -132,7 +132,7 @@
                         <span class="label label-info">Portfolio</span>
                     {% endif %}
                 </p>
-                {% if (parent_file.user==app.user or role==2)  and file.course.gradeset%}
+                {% if (parent_file.user==app.user or role==2)  and file.course.gradeset %}
 
                 {% if  parent_file.grade %}
                     <strong>Grade:</strong>
@@ -140,17 +140,13 @@
 
             {% else %}
                     {% if role==2 %}
-                        <span id="grade">
-                <a id="post_parentfile_grade" class="btn btn-default btn-sm" href="javascript:void(0);">
-                    Post Grade
-                </a>
-                    </span>
+                        <span id="grades">
+                            <a id="post_parentfile_grade" class="btn btn-default btn-xs" href="javascript:void(0);">Post Grade</a>
+                        </span>
                     {% endif %}
-
-                {% endif %}
-            <br/>
-            (<a class=""
-                href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': '0' }) }}">Gradebook</a>)
+            {% endif %}
+            <a class="btn btn-default btn-xs"
+               href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': '0' }) }}">Gradebook</a>
             {% endif %}
 
             {% endif %}

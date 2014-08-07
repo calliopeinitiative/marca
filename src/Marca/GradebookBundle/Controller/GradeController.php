@@ -68,7 +68,12 @@ class GradeController extends Controller
             $em->persist($grade);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('grade_show_ajax', array('courseid'=>$courseid, 'id' => $grade->getUser()->getId())));
+            if ($file){
+            return $this->redirect($this->generateUrl('grade_show_ajax', array('courseid'=>$courseid, 'gradeid'=>$grade->getId(), 'id' => $grade->getUser()->getId())));
+            }
+            else {
+            return $this->redirect($this->generateUrl('grades_show_ajax', array('courseid'=>$courseid, 'gradeid'=>$grade->getId(), 'id' => $grade->getUser()->getId())));
+            }
         }
 
         return array(
@@ -138,24 +143,45 @@ class GradeController extends Controller
     /**
      * Finds and displays a Grade entity.
      *
-     * @Route("/{courseid}/{id}", name="grade_show_ajax")
+     * @Route("/{courseid}/{gradeid}/{id}/show_ajax", name="grade_show_ajax")
      * @Method("GET")
      * @Template()
      */
-    public function show_ajaxAction($id)
+    public function show_ajaxAction($gradeid)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $user = $em->getRepository('MarcaUserBundle:User')->find($id);
+        $grade = $em->getRepository('MarcaGradebookBundle:Grade')->find($gradeid);
 
-        if (!$user) {
-            throw $this->createNotFoundException('Unable to find User entity.');
+        if (!$grade) {
+            throw $this->createNotFoundException('Unable to find Grade entity.');
         }
 
         return array(
-            'user'      => $user,
+            'grade'      => $grade,
         );
     }
+
+    /**
+     * Finds and displays a Grade entity.
+     *
+     * @Route("/{courseid}/{gradeid}/{id}/grades_show_ajax", name="grades_show_ajax")
+     * @Method("GET")
+     * @Template()
+     */
+    public function show_grades_ajaxAction($courseid,$id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $user = $em->getRepository('MarcaUserBundle:User')->find($id);
+
+        $grades = $em->getRepository('MarcaGradebookBundle:Grade')->findGradesByCourse($user,$course);
+
+        return array(
+            'grades'      => $grades,
+        );
+    }
+
 
     /**
      * Displays a form to edit an existing Grade entity.
@@ -178,7 +204,7 @@ class GradeController extends Controller
         }
 
         $editForm = $this->createEditForm($grade, $courseid, $options);
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         return array(
             'grade'      => $grade,
@@ -225,14 +251,14 @@ class GradeController extends Controller
             throw $this->createNotFoundException('Unable to find Grade entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
         $editForm = $this->createEditForm($grade, $courseid, $options);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('grade_show_ajax', array('courseid'=>$courseid, 'id' => $grade->getUser()->getId())));
+            return $this->redirect($this->generateUrl('grades_show_ajax', array('courseid'=>$courseid, 'gradeid'=>$grade->getId(), 'id' => $grade->getUser()->getId())));
         }
 
         return array(
@@ -244,27 +270,29 @@ class GradeController extends Controller
     /**
      * Deletes a Grade entity.
      *
-     * @Route("/{id}", name="grade_delete")
+     * @Route("/{courseid}/{id}/delete", name="grade_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, $id, $courseid)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($id, $courseid);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('MarcaGradebookBundle:Grade')->find($id);
+            $grade = $em->getRepository('MarcaGradebookBundle:Grade')->find($id);
+            $userid = $grade->getUser()->getId();
 
-            if (!$entity) {
+            if (!$grade) {
                 throw $this->createNotFoundException('Unable to find Grade entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($grade);
             $em->flush();
+
         }
 
-        return $this->redirect($this->generateUrl('grade'));
+        return $this->redirect($this->generateUrl('grades_show_ajax', array('courseid'=>$courseid, 'gradeid'=>$id, 'id' => $userid)));
     }
 
     /**
@@ -274,12 +302,12 @@ class GradeController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    private function createDeleteForm($id, $courseid)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('grade_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('grade_delete', array('id' => $id,'courseid' => $courseid,)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-default btn-danger'),))
             ->getForm()
         ;
     }

@@ -1,18 +1,4 @@
 {# Marca/GradebookBundle/Resources/Views/Grade/show_ajax.html.twig #}
-<script language="javascript">
-    $(document).ready(function () {
-        {% for grade in user.grades %}
-        $('#edit_grade_{{grade.id}}').click(function () {
-            $('#modal').load('{{ course_path('grade_edit', { 'id': grade.id}) }}').modal();
-        });
-        {% endfor %}
-    });
-</script>
 
-{% for grade in user.grades %}
-    <li id="grade_{{ grade.id }}">
-        <a class="margin-right" href="javascript:void(0);" title="Edit grade" id="edit_grade_{{ grade.id }}">
-            {{ grade.category.name }} :  {{ grade.grade }}
-        </a>
-    </li>
-{% endfor %}
+<strong>Grade:</strong>
+{{ grade.grade }} ({{ grade.category.name }})
