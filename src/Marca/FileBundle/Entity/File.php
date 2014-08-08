@@ -66,9 +66,16 @@ class File
      /**
      * @ORM\OneToMany(targetEntity="Marca\ResponseBundle\Entity\Response", mappedBy="file", cascade="remove")
      */
-    protected $responses;  
-  
-     /**
+    protected $responses;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\DocBundle\Entity\Tracking", mappedBy="file", cascade="remove")
+     */
+    protected $tracking;
+
+
+    /**
      * @ORM\OneToMany(targetEntity="File", mappedBy="reviewed")
      */
     private $reviews;
@@ -577,5 +584,40 @@ class File
     public function getGrade()
     {
         return $this->grade;
+    }
+
+
+
+    /**
+     * Add tracking
+     *
+     * @param \Marca\DocBundle\Entity\Tracking $tracking
+     * @return File
+     */
+    public function addTracking(\Marca\DocBundle\Entity\Tracking $tracking)
+    {
+        $this->tracking[] = $tracking;
+
+        return $this;
+    }
+
+    /**
+     * Remove tracking
+     *
+     * @param \Marca\DocBundle\Entity\Tracking $tracking
+     */
+    public function removeTracking(\Marca\DocBundle\Entity\Tracking $tracking)
+    {
+        $this->tracking->removeElement($tracking);
+    }
+
+    /**
+     * Get tracking
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTracking()
+    {
+        return $this->tracking;
     }
 }

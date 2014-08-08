@@ -10,13 +10,10 @@
     {# file/doc info #}
     <div class="panel panel-default">
         <div class="panel-body">
-            <p>
-
-            <h1 style="font-size:18px;">{{ file.name }} </h1>
-                <span class="small" style="font-family:proxima-nova;">
+            <h2 style="font-size:18px;">{{ file.name }} </h2>
+                <span class="small" style="font-family:proxima-nova, sans-serif;">
                     by {% if file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif %}
                 </span>
-            </p>
             <p>
                 {{ file.doc.created|date('m/d/y, g:i a') }}{% if file.doc.created != file.doc.updated %} / {{ file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
             </p>
@@ -41,9 +38,10 @@
             <div class="panel-body">
                 {# INSERT NOTE #}
                 <form id='note_insert_form' name='note_insert_form'>
+                    <label for="insert_value">Insert Note</label>
                     <textarea class='form-control' id="insert_value" name="html_insert"></textarea>
                     <a id='note_insert_submit' href="javascript:void(0)" class="btn btn-default btn-sm"
-                       title="Insert Note">Insert Note</a>
+                       title="Insert Note">Submit</a>
                 </form>
             </div>
         </div>
@@ -108,58 +106,52 @@
 
             <span id="parent_info">
             {% if parent_file %}
-                <p>
-                <h1 style="font-size:18px;">{{ parent_file.name }} </h1>
-                <span class="small" style="font-family:proxima-nova;">
+                <h2 style="font-size:18px;">{{ parent_file.name }} </h2>
+                <span class="small">
                     by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}
                 </span>
-                </p>
                 <p>
                     {% if parent_file.doc %}
-                        {{ parent_file.doc.created|date('m/d/y, g:i a') }}{% if parent_file.doc.created != parent_file.doc.updated %} / {{ parent_file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
+                         {{ parent_file.doc.created|date('m/d/y, g:i a') }}{% if parent_file.doc.created != parent_file.doc.updated %} / {{ parent_file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
                     {% else %}
-                        {{ parent_file.created|date('m/d/y, g:i a') }}{% if parent_file.created != parent_file.updated %} / {{ parent_file.updated|date('m/d/y, g:i a') }}{% endif %}
+                         {{ parent_file.created|date('m/d/y, g:i a') }}{% if parent_file.created != parent_file.updated %} / {{ parent_file.updated|date('m/d/y, g:i a') }}{% endif %}
                     {% endif %}
                 </p>
                 <p>
-                    {% for tag in parent_file.tag %}
-                        <span class="label {{ tag.color }}">{{ tag.name }}</span>
-                    {% endfor %}
-                    {% if parent_file.access==1 %}<span class="label label-success margin-left">Shared</span>
-                    {% elseif parent_file.access==0 %}<span class="label label-success margin-left">Private</span>
-                    {% endif %}
-                    {% if parent_file.portfolio|length !=0 %}
-                        <span class="label label-info">Portfolio</span>
-                    {% endif %}
+                {% for tag in parent_file.tag %}
+                    <span class="label {{ tag.color }}">{{ tag.name }}</span>
+                {% endfor %}
+                {% if parent_file.access==1 %}<span class="label label-success margin-left">Shared</span>
+                {% elseif parent_file.access==0 %}<span class="label label-success margin-left">Private</span>
+                {% endif %}
+                {% if parent_file.portfolio|length !=0 %}
+                    <span class="label label-info">Portfolio</span>
+                {% endif %}
                 </p>
                 {% if (parent_file.user==app.user or role==2)  and file.course.gradeset %}
-
                 {% if  parent_file.grade %}
                     <strong>Grade:</strong>
                 {{ parent_file.grade.grade }} ({{ parent_file.grade.category.name }})
-
-            {% else %}
+                {% else %}
                     {% if role==2 %}
                         <span id="grades">
                             <a id="post_parentfile_grade" class="btn btn-default btn-xs" href="javascript:void(0);">Post Grade</a>
                         </span>
                     {% endif %}
-            {% endif %}
+                {% endif %}
             <a class="btn btn-default btn-xs"
                href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': '0' }) }}">Gradebook</a>
             {% endif %}
 
             {% endif %}
-         </span>
+             </span>
 
             {% for review in parent_file.reviews %}
-                <span id="review_info_{{ review.id }}" class="review_info">
-                        <p>
-                            <h1 style="font-size:18px;">{{ review.name }} </h1>
-                    <span class="small" style="font-family:proxima-nova;">
+                <div id="review_info_{{ review.id }}" class="review_info">
+                    <h2 style="font-size:18px;">{{ review.name }} </h2>
+                    <span class="small" style="font-family:proxima-nova, sans-serif;">
                     by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}
                     </span>
-                    </p>
 
                     <p>
                         {% if review.doc %}
@@ -168,6 +160,7 @@
                             {{ review.created|date('m/d/y, g:i a') }}{% if review.created != review.updated %} / {{ review.updated|date('m/d/y, g:i a') }}{% endif %}
                         {% endif %}
                     </p>
+
                     <p>
                         {% for tag in review.tag %}<span
                             class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
@@ -177,8 +170,30 @@
                         {% if review.portfolio|length !=0 %}<span
                                 class="label label-info">Portfolio</span>{% endif %}
                     </p>
-            </span>
+
+                    {# markup tracking#}
+                    <table class="table table-striped markup-table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for tracking_item in review.tracking %}
+                            <tr>
+                                <td>{{ tracking_item.markup.name }} <span class="pull-left color-flag {{ tracking_item.markup.color }}" >&#183;</span> </td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% endfor %}
+
+
+
+
         </div>
     </div>
 
@@ -187,9 +202,7 @@
         <div id="notes" class="panel panel-default">
             <div class="panel-heading">
                 <h2 class="panel-title" style="width: 100%">
-                    <a class="accordion-toggle " data-toggle="collapse" data-parent="#accordion"
-                       href="#collapseNotes"
-                       data-toggle="tab">
+                    <a class="accordion-toggle " data-toggle="collapse" data-parent="#accordion" href="#collapseNotes">
                         Comments
                         <span class="inline pull-right">Inline / Marginal</span>
                     </a>
@@ -224,15 +237,11 @@
             </h2>
 
             <div class="btn-group  pull-right">
-                <span id="expand" title="Create a new review" class="btn btn-default btn-xs pull-right"
-                      href="javascript:void(0);"><i id="glyph_expand"
-                                                    class="glyphicon glyphicon-resize-full glyphicon-white"
-                                                    style="margin-left: 0px;"></i></span>
+                <a id="expand" title="Create a new review" class="btn btn-default btn-xs pull-right"
+                      href="javascript:void(0);"><i id="glyph_expand" class="glyphicon glyphicon-resize-full glyphicon-white" style="margin-left: 0;"></i></a>
                 {% if not (app.request.get('_route') == 'doc_edit' or app.request.get('_route') == 'doc_ajax') %}
-                    <span id="new_rubricreview" title="Create a new review"
-                          class="btn btn-default btn-xs pull-right"
-                          href="javascript:void(0);">Add <i
-                                class="glyphicon glyphicon-plus glyphicon-white"></i></span>
+                    <a id="new_rubricreview" title="Create a new review" class="btn btn-default btn-xs pull-right" href="javascript:void(0);">
+                        Add <i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
                 {% endif %}
             </div>
         </div>
@@ -242,7 +251,7 @@
                      style="position:absolute;z-index: 1000;text-align: center;right:30px">Loading
                 </div>
                 <a title="View Feedback Composite" id="review_composite" class="list-group-item question"
-                   id="review_comp" href="javascript:void(0);">
+                   href="javascript:void(0);">
                     Composite <i class="glyphicon glyphicon-list glyphicon-white"></i>
                 </a>
                 {# Reviews #}

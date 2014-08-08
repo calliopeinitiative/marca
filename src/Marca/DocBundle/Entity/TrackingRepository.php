@@ -18,6 +18,11 @@ class TrackingRepository extends EntityRepository
         return $this->getEntityManager()
             ->createQuery('SELECT m.name,count(t.markup)as mcount FROM MarcaDocBundle:Tracking t JOIN t.markup m GROUP BY m.name')->getResult();
     }
-
+    public function countMarkupByFile($file)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT m.name,count(t.markup)as mcount,m.color FROM MarcaDocBundle:Tracking t JOIN t.markup m JOIN t.file f WHERE f.id= ?1 GROUP BY m.name')
+            ->setParameter('1',$file)->getResult();
+    }
 
 }

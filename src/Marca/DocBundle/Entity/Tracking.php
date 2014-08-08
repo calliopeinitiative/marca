@@ -39,7 +39,7 @@ class Tracking
     protected $markup;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File")
+     * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="tracking")
      */
     protected $file;
 
@@ -94,6 +94,8 @@ class Tracking
     {
         return $this->markup;
     }
+
+
 
     /**
      * Set file

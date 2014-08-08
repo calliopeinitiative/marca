@@ -47,6 +47,8 @@ class DocController extends Controller
         $file_owner = $file->getUser();
 
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
+        $tracking = $em->getRepository('MarcaDocBundle:Tracking')->countMarkupByFile($file);
+
 
         $review_file = $file->getReviewed();
         if ($review_file)
@@ -83,6 +85,7 @@ class DocController extends Controller
             'file'        => $file,
             'parent_file'        => $parent_file,
             'markup' => $markup,
+            'tracking' => $tracking,
             'reviews' => $reviews,
             'local_resource' => $local_resource,
             'delete_form' => $deleteForm->createView(),        );
@@ -105,6 +108,7 @@ class DocController extends Controller
         $role = $this->getCourseRole();
 
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $tracking = $em->getRepository('MarcaDocBundle:Tracking')->countMarkupByFile($file);
         $fileid = $file->getId();
         $doc = $file->getDoc();
         $file_owner = $file->getUser();
@@ -126,7 +130,9 @@ class DocController extends Controller
             'doc'      => $doc,
             'role'      => $role,
             'file'        => $file,
-            'markup' => $markup,      );
+            'markup' => $markup,
+            'tracking' => $tracking,
+        );
     }
 
 
@@ -236,7 +242,7 @@ class DocController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($doc);
