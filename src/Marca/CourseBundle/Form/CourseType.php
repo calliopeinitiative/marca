@@ -2,6 +2,7 @@
 
 namespace Marca\CourseBundle\Form;
 
+use Marca\PortfolioBundle\Entity\PortsetRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -40,7 +41,20 @@ class CourseType extends AbstractType
             ->add('forum', 'checkbox', array('label'  => 'Use the Forum','attr' => array('class' => 'checkbox'),))
             ->add('journal', 'checkbox', array('label'  => 'Use the Journal','attr' => array('class' => 'checkbox'),))
             ->add('portfolio', 'checkbox', array('label'  => 'Use the Portfolio','attr' => array('class' => 'checkbox inline'),))
-            ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'property'=>'name','expanded'=>true,'multiple'=>false, 'label' => 'Select the Portfolio Set','attr' => array('class' => 'radio'),))
+            ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'property'=>'name','expanded'=>true,'multiple'=>false,
+                'label' => 'Select the Portfolio Set','attr' => array('class' => 'radio'),))
+            ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'query_builder' => function(PortsetRepository $pr) {
+                    $qb = $pr->createQueryBuilder('MarcaPortfolioBundle:Portset');
+                    $qb->select('p')->from('MarcaPortfolioBundle:Portset', 'p')->where('p.shared > 0')->andwhere('p.shared < 3');
+                    return $qb;
+                }
+            ,'property'=>'name','expanded'=>true,'multiple'=>false, 'label' => 'Portfolio Set','attr' => array('class' => 'radio'),))
+            ->add('parents','entity', array('class'=> 'MarcaCourseBundle:Course', 'query_builder' => function(\Marca\CourseBundle\Entity\CourseRepository $cr) use             ($user){
+                    $qb = $cr->createQueryBuilder('MarcaCourseBundle:Course');
+                    $qb->select('c')->from('MarcaCourseBundle:Course', 'c')->where('c.user = ?1 AND c.module = 1')->orWhere('c.module = 2')->setParameter('1', $user);
+                    return $qb;
+                },
+            'property'=>'name','expanded'=>true,'multiple'=>false,'label' => 'Select the Portfolio Set','attr' => array('class' => 'radio'),))
             ->add('assessmentset','entity', array('class'=>'MarcaAssessmentBundle:Assessmentset', 'property'=>'name','expanded'=>true,'multiple'=>false, 'label' => 'Select the Assessment Set for the Portfolio','attr' => array('class' => 'radio'),))
             ->add('zine', 'hidden')
             ->add('module', 'hidden')        
