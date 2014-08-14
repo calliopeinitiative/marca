@@ -765,6 +765,11 @@ class FileController extends Controller
         $role = $this->getCourseRole();
         $review_file = $file->getReviewed();
         $markup = null;
+
+        $course = $this->getCourse();
+        $user = $this->getUser();
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
+
         if ($review_file)
         {
             $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
@@ -782,6 +787,7 @@ class FileController extends Controller
 
             return array(
             'role'      => $role,
+            'roll'      => $roll,
             'file'        => $file,
             'parent_file'        => $parent_file,
             'reviews' => $reviews,
@@ -804,6 +810,12 @@ class FileController extends Controller
         $role = $this->getCourseRole();
         $review_file = $file->getReviewed();
         $markup = null;
+
+        $course = $this->getCourse();
+        $user = $this->getUser();
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
+
+
         if ($review_file)
         {
             $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
@@ -821,6 +833,7 @@ class FileController extends Controller
 
         return array(
             'role'      => $role,
+            'roll'      => $roll,
             'file'        => $file,
             'parent_file'        => $parent_file,
             'reviews' => $reviews,

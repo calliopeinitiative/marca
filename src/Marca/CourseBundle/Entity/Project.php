@@ -133,7 +133,7 @@ class Project
     /**
      * Set course
      *
-     * @param Marca\CourseBundle\Entity\Course $course
+     * @param \Marca\CourseBundle\Entity\Course $course
      */
     public function setCourse(\Marca\CourseBundle\Entity\Course $course)
     {
@@ -143,7 +143,7 @@ class Project
     /**
      * Get course
      *
-     * @return Marca\CourseBundle\Entity\Course 
+     * @return \Marca\CourseBundle\Entity\Course
      */
     public function getCourse()
     {

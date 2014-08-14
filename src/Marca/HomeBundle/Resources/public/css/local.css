@@ -617,7 +617,7 @@ div input[type="email"] {
     margin-bottom:25px;
 }
 
-a.btn-warning {
+a#confirm {
     margin-top:-35px;
 }
 

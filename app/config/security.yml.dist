@@ -57,6 +57,13 @@ security:
         - { path: ^/tag/, role: ROLE_INSTR }
         - { path: ^/tagset/, role: ROLE_INSTR }
         - { path: ^/team/, role: ROLE_USER }
+        - { path: ^/promptitem/, role: ROLE_INSTR }
+        - { path: ^/reviewresponse/, role: ROLE_INSTR }
+        - { path: ^/reviewrubric/, role: ROLE_INSTR }
+        - { path: ^/attendance/, role: ROLE_INSTR }
+        - { path: ^/category/, role: ROLE_INSTR }
+        - { path: ^/gradeset/, role: ROLE_INSTR }
+        - { path: ^/grade/, role: ROLE_INSTR }
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
