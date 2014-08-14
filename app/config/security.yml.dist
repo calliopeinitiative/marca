@@ -25,9 +25,9 @@ security:
 
     access_control:
         #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: ^/home, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /print, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
@@ -57,6 +57,13 @@ security:
         - { path: ^/tag/, role: ROLE_INSTR }
         - { path: ^/tagset/, role: ROLE_INSTR }
         - { path: ^/team/, role: ROLE_USER }
+        - { path: ^/promptitem/, role: ROLE_INSTR }
+        - { path: ^/reviewresponse/, role: ROLE_INSTR }
+        - { path: ^/reviewrubric/, role: ROLE_INSTR }
+        - { path: ^/attendance/, role: ROLE_INSTR }
+        - { path: ^/category/, role: ROLE_INSTR }
+        - { path: ^/gradeset/, role: ROLE_INSTR }
+        - { path: ^/grade/, role: ROLE_INSTR }
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER

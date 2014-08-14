@@ -66,7 +66,7 @@ class ReplyController extends Controller
         
         $request = $this->getRequest();
         $form    = $this->createForm(new ReplyType(), $reply);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -176,7 +176,7 @@ class ReplyController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

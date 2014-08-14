@@ -107,7 +107,7 @@ class TermController extends Controller
         $term  = new Term();
         $request = $this->getRequest();
         $form    = $this->createForm(new TermType(), $term);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -202,7 +202,7 @@ class TermController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

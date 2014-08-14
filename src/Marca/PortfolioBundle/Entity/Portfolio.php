@@ -88,7 +88,7 @@ class Portfolio
     /**
      * Set user
      *
-     * @param Marca\UserBundle\Entity\User $user
+     * @param \Marca\UserBundle\Entity\User $user
      */
     public function setUser(\Marca\UserBundle\Entity\User $user)
     {
@@ -98,7 +98,7 @@ class Portfolio
     /**
      * Get user
      *
-     * @return Marca\UserBundle\Entity\User 
+     * @return \Marca\UserBundle\Entity\User 
      */
     public function getUser()
     {
@@ -108,7 +108,7 @@ class Portfolio
     /**
      * Set course
      *
-     * @param Marca\CourseBundle\Entity\Course $course
+     * @param \Marca\CourseBundle\Entity\Course $course
      */
     public function setCourse(\Marca\CourseBundle\Entity\Course $course)
     {
@@ -118,7 +118,7 @@ class Portfolio
     /**
      * Get course
      *
-     * @return Marca\CourseBundle\Entity\Course 
+     * @return \Marca\CourseBundle\Entity\Course 
      */
     public function getCourse()
     {
@@ -128,7 +128,7 @@ class Portfolio
     /**
      * Set file
      *
-     * @param Marca\FileBundle\Entity\File $file
+     * @param \Marca\FileBundle\Entity\File $file
      */
     public function setFile(\Marca\FileBundle\Entity\File $file)
     {
@@ -138,7 +138,7 @@ class Portfolio
     /**
      * Get file
      *
-     * @return Marca\FileBundle\Entity\File 
+     * @return \Marca\FileBundle\Entity\File 
      */
     public function getFile()
     {
@@ -148,7 +148,7 @@ class Portfolio
     /**
      * Set portitem
      *
-     * @param Marca\PortfolioBundle\Entity\Portitem $portitem
+     * @param \Marca\PortfolioBundle\Entity\Portitem $portitem
      */
     public function setPortitem(\Marca\PortfolioBundle\Entity\Portitem $portitem)
     {
@@ -158,7 +158,7 @@ class Portfolio
     /**
      * Get portitem
      *
-     * @return Marca\PortfolioBundle\Entity\Portitem 
+     * @return \Marca\PortfolioBundle\Entity\Portitem 
      */
     public function getPortitem()
     {

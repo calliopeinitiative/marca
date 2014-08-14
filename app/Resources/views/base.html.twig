@@ -24,7 +24,6 @@
         <script src="{{ asset('bundles/marcahome/js/jquery.form.js') }}"></script>
         <script src="{{ asset('bundles/marcahome/js/offline.min.js') }}"></script>
         <script src="{{ asset('bundles/marcahome/js/jquery.tinysort.min.js') }}"></script>
-        <script src="{{ asset('bundles/marcahome/js/bootstrap-hover-dropdown.min.js') }}"></script>
         {% endjavascripts %}
         {% include '::external.html.twig' %}
         <script language="javascript">
@@ -52,7 +51,7 @@
 
 {% if not is_granted('ROLE_USER') or 'file_view' in app.request.attributes.get('_route') or 'doc' in app.request.attributes.get('_route') or 'portfolio_user' in app.request.attributes.get('_route') or 'ratingset' in app.request.attributes.get('_route')%}
     {% else %}
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         {% if is_granted('ROLE_USER') %}
                 <div class="navbar-header col-sm-2">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -72,15 +71,13 @@
                         {% block subnav %}
                             <li style="margin-left:15px;">
                                 <a title='Select course' id='course_select' href="javascript:void(0);">Select Course</a>
-
-
                             </li>
                         {% endblock %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right" id="account-dropdown">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-hover="dropdown" id="dLabel"><span class="hidden-sm">{{ app.session.get('username') }}<b class="caret"></b></span><span class="visible-sm glyphicon glyphicon-user"><b class="caret"></b></span></a>
-                            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"  data-hover="dropdown"><span class="hidden-sm">{{ app.session.get('username') }}<b class="caret"></b></span><span class="visible-sm glyphicon glyphicon-user"><b class="caret"></b></span></a>
+                            <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ path('user_show') }}">Profile</a></li>
                                 <li><a class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll</a></li>
                                 {% if help_url or help_email %}
@@ -128,17 +125,17 @@
 
 
 {# Modal #}
-<div class="modal fade" id="base_modal" tabindex="-1" aria-labelledby="baseModalLabel" aria-hidden="true" role="dialog" >
+<div class="modal fade" id="base_modal" tabindex="-1" aria-labelledby="base-modal" aria-hidden="true" role="dialog" >
 
 </div><!-- /.modal -->
 
 {# Modal #}
-<div class="modal fade" id="help_modal" tabindex="-1" aria-labelledby="help-menuLabel" aria-hidden="true" role="dialog">
+<div class="modal fade" id="help_modal" tabindex="-1" aria-labelledby="help-modal" aria-hidden="true" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body" style="text-align:center;">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 style="font-size:2em;margin-bottom:20px;">Need help?</h3>
+                <h2 style="font-size:2em;margin-bottom:20px;">Need help?</h2>
                 {% if help_url %}
                 <p style="font-size:1.5em;">First, check out our Help Docs:</p>
 

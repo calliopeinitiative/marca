@@ -1,0 +1,36 @@
+{# Marca/GradebookBundle/Resources/views/Category/index.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+    {% block content %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="btn btn-primary pull-right margin-top-small" href="{{ path('category_new') }}">Create Category<i
+                            class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+
+                <h2 class="margin-top-small">Category</h2>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tbody>
+                    <tr style="border-top:none;">
+                        <th style="border-top:none;">Category Name</th>
+                        <th style="border-top:none;">Percentage</th>
+                    </tr>
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.name }}
+                            </td>
+                            <td>{{ category.percent }}%
+                            </td>
+
+                            <td><a class="btn btn-primary" href="{{ path('category_edit', { 'id': category.id }) }}">Edit</a>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endblock %}

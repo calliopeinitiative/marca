@@ -21,7 +21,12 @@ class File
      /**
      * @Assert\File(
      *     maxSize="10M",
-     *     mimeTypes={"application/vnd.ms-office", "image/gif", "image/png", "image/jpeg", "image/pjpeg", "application/pdf", "application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.presentation","application/vnd.oasis.opendocument.spreadsheet", "application/msword", "application/mspowerpoint", "application/excel", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.openxmlformats-officedocument.presentationml.presentation", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/zip"}
+     *     mimeTypes={"audio/mpeg", "application/vnd.ms-office", "image/gif", "image/png", "image/jpeg", "image/pjpeg", "application/pdf",
+      * "application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.presentation",
+      * "application/vnd.oasis.opendocument.spreadsheet", "application/msword", "application/mspowerpoint",
+      * "application/excel", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      * "application/vnd.openxmlformats-officedocument.presentationml.presentation", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      * "application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/zip"}
      * )
      * @Vich\UploadableField(mapping="property_file", fileNameProperty="path")
      *
@@ -51,14 +56,26 @@ class File
     /**
     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course")
     */
-    protected $course; 
+    protected $course;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Marca\GradebookBundle\Entity\Grade", mappedBy="file")
+     */
+    protected $grade;
     
      /**
      * @ORM\OneToMany(targetEntity="Marca\ResponseBundle\Entity\Response", mappedBy="file", cascade="remove")
      */
-    protected $responses;  
-  
-     /**
+    protected $responses;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\DocBundle\Entity\Tracking", mappedBy="file", cascade="remove")
+     */
+    protected $tracking;
+
+
+    /**
      * @ORM\OneToMany(targetEntity="File", mappedBy="reviewed")
      */
     private $reviews;
@@ -242,7 +259,7 @@ class File
     /**
      * Set project
      *
-     * @param Marca\CourseBundle\Entity\Project $project
+     * @param \Marca\CourseBundle\Entity\Project $project
      */
     public function setProject(\Marca\CourseBundle\Entity\Project $project)
     {
@@ -252,7 +269,7 @@ class File
     /**
      * Get project
      *
-     * @return Marca\CourseBundle\Entity\Project 
+     * @return \Marca\CourseBundle\Entity\Project
      */
     public function getProject()
     {
@@ -262,7 +279,7 @@ class File
     /**
      * Set doc
      *
-     * @param Marca\DocBundle\Entity\Doc $doc
+     * @param \Marca\DocBundle\Entity\Doc $doc
      */
     public function setDoc(\Marca\DocBundle\Entity\Doc $doc)
     {
@@ -272,7 +289,7 @@ class File
     /**
      * Get doc
      *
-     * @return Marca\DocBundle\Entity\Doc 
+     * @return \Marca\DocBundle\Entity\Doc
      */
     public function getDoc()
     {
@@ -288,7 +305,7 @@ class File
     /**
      * Add tag
      *
-     * @param Marca\TagBundle\Entity\Tag $tag
+     * @param \Marca\TagBundle\Entity\Tag $tag
      */
     public function addTag(\Marca\TagBundle\Entity\Tag $tag)
     {
@@ -298,7 +315,7 @@ class File
     /**
      * Get tag
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTag()
     {
@@ -329,7 +346,7 @@ class File
     /**
      * Set user
      *
-     * @param Marca\UserBundle\Entity\User $user
+     * @param \Marca\UserBundle\Entity\User $user
      */
     public function setUser(\Marca\UserBundle\Entity\User $user)
     {
@@ -339,7 +356,7 @@ class File
     /**
      * Get user
      *
-     * @return Marca\UserBundle\Entity\User 
+     * @return \Marca\UserBundle\Entity\User
      */
     public function getUser()
     {
@@ -349,7 +366,7 @@ class File
     /**
      * Set course
      *
-     * @param Marca\CourseBundle\Entity\Course $course
+     * @param \Marca\CourseBundle\Entity\Course $course
      */
     public function setCourse(\Marca\CourseBundle\Entity\Course $course)
     {
@@ -359,7 +376,7 @@ class File
     /**
      * Get course
      *
-     * @return Marca\CourseBundle\Entity\Course 
+     * @return \Marca\CourseBundle\Entity\Course
      */
     public function getCourse()
     {
@@ -381,7 +398,7 @@ class File
     /**
      * Remove tag
      *
-     * @param Marca\TagBundle\Entity\Tag $tag
+     * @param \Marca\TagBundle\Entity\Tag $tag
      */
     public function removeTag(\Marca\TagBundle\Entity\Tag $tag)
     {
@@ -544,5 +561,63 @@ class File
     public function getPortfolio()
     {
         return $this->portfolio;
+    }
+
+    /**
+     * Set grade
+     *
+     * @param \Marca\GradebookBundle\Entity\Grade $grade
+     * @return File
+     */
+    public function setGrade(\Marca\GradebookBundle\Entity\Grade $grade = null)
+    {
+        $this->grade = $grade;
+
+        return $this;
+    }
+
+    /**
+     * Get grade
+     *
+     * @return \Marca\GradebookBundle\Entity\Grade 
+     */
+    public function getGrade()
+    {
+        return $this->grade;
+    }
+
+
+
+    /**
+     * Add tracking
+     *
+     * @param \Marca\DocBundle\Entity\Tracking $tracking
+     * @return File
+     */
+    public function addTracking(\Marca\DocBundle\Entity\Tracking $tracking)
+    {
+        $this->tracking[] = $tracking;
+
+        return $this;
+    }
+
+    /**
+     * Remove tracking
+     *
+     * @param \Marca\DocBundle\Entity\Tracking $tracking
+     */
+    public function removeTracking(\Marca\DocBundle\Entity\Tracking $tracking)
+    {
+        $this->tracking->removeElement($tracking);
+    }
+
+    /**
+     * Get tracking
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTracking()
+    {
+        return $this->tracking;
     }
 }

@@ -55,13 +55,8 @@
                     theme : "bootstrap",
                     widthFixed: true,
                     headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
-                    widgets : [ "uitheme", "filter"],
-                    widgetOptions : {
-                        filter_reset : ".reset"
-                    }
+                    widgets : [ "uitheme"]
                 });
-            $('.tablesorter-filter-row').toggle();
-            $('.tablesorter-filter').addClass('form-control');
             $( "tr" ).hover(
                     function() {
                         $(".file-menu").hide();$( ".file-menu", this ).toggle();
@@ -73,9 +68,6 @@
                     }
             );
             $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
-            $('#sort_filter_toggle').click(function(){
-                $('.tablesorter-filter-row').toggle();
-            });
             var count_hidden = $('#file_list tr.hidden').length
             var count_displayed = $('#file_list tr').length -2;
             var count = count_displayed - count_hidden;
@@ -117,10 +109,10 @@
             <ul class="nav navbar-nav pull-right">
                 {% for roll in roll %}
                     {% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}
-                        <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname|title}} {{roll.lastname|title}} &gt;</a></li>
+                        <li><a data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.user.id }) }}">{{roll.firstname|title}} {{roll.lastname|title}} &gt;</a></li>
                     {% endif %}
                     {% if loop.index == app.request.get('user') - 1 and app.request.get('tag')!='3' %}
-                        <li><a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">&lt; {{roll.firstname|title}} {{roll.lastname|title}}</a></li>
+                        <li><a class='' data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.user.id }) }}">&lt; {{roll.firstname|title}} {{roll.lastname|title}}</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>

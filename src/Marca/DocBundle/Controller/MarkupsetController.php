@@ -82,13 +82,13 @@ class MarkupsetController extends Controller
         $markupset->setOwner($user);
         $request = $this->getRequest();
         $form    = $this->createForm(new MarkupsetType(), $markupset);
-        $form->bind($request);
+        $form->handleRequest($request);
         
         
         $entity  = new Markupset();
         $request = $this->getRequest();
         $form    = $this->createForm(new MarkupsetType(), $entity);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -180,7 +180,7 @@ class MarkupsetController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

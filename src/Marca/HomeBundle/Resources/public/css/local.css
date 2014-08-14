@@ -114,6 +114,7 @@ iframe {border:0px;}
     display: inline-block;
     width:auto;
     height:auto;
+    margin-bottom: -10px;
 }
 
 /********** End 01a. Accessibility **********/
@@ -274,6 +275,14 @@ ul.nav-list  {
 
 .navbar-inverse .navbar-nav > li > a {
     color: #fff;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    background-color: black;
+}
+
+.navbar-inverse .navbar-nav > li > a:focus {
+    background-color: black;
 }
 
 .navbar-inverse .navbar-nav > li > div {
@@ -608,15 +617,9 @@ div input[type="email"] {
     margin-bottom:25px;
 }
 
-/* form > div.btn-group {
-    margin-top:20px;
+a#confirm {
+    margin-top:-35px;
 }
-
-form > a.btn-warning {
-    margin-top:20px;
-}
-
-*/
 
 .btn.btn-primary.btn-lg.btn-block {
     margin-top:20px;

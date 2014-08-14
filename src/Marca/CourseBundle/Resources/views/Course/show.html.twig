@@ -84,7 +84,51 @@
                 </ul>
             </div>
         </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="margin-top-small">Grade Book (Under Development)</h3>
+
+                <p>Categories and percentages for grades</p>
+            </div>
+            <div class="panel-body">
+                <table class="table table-condensed table-striped">
+                    {% if course.gradeset %}
+                        <tbody>
+                        {% for category in course.gradeset.categories %}
+                            <tr>
+                                <td>{{ category.name }}: {{ category.percent }}%</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% else %}
+                        <tr>
+                            <td>
+
+
+                                {#
+                                This course does not have a Grade Book.
+                                <a class="btn btn-primary btn-sm pull-right margin-top-small" href="{{ path('gradeset_new', { 'courseid': course.id }) }}">Create Grade Book<i
+                                            class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+                                #}
+
+
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+
     </div>
+
+
+
+
+
+
 
     {% if course.module == 0 %}
         <div class="col-sm-6">
@@ -198,8 +242,9 @@
 
                     </tbody>
                 </table>
-                {% endif %}
             </div>
+            {% endif %}
+
         </div>
     </div>
 

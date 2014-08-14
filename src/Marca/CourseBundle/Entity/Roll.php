@@ -42,16 +42,21 @@ class Roll
     private $status = 0;
 
     /**
-* @ORM\ManyToOne(targetEntity="Course", inversedBy="roll")
-* @ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")
-*/
+    * @ORM\ManyToOne(targetEntity="Course", inversedBy="roll")
+    * @ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")
+    */
     protected $course;
     
     /**
-* @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="roll")
-*/
+    * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="roll")
+    */
     protected $user;
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\GradebookBundle\Entity\Attendance", mappedBy="roll")
+     */
+    protected $attendance;
+
     /**
      *@ORM\ManyToMany(targetEntity="Marca\CourseBundle\Entity\Team") 
      */
@@ -116,7 +121,7 @@ class Roll
     /**
 * Set course
 *
-* @param Marca\CourseBundle\Entity\Course $course
+* @param \Marca\CourseBundle\Entity\Course $course
 */
     public function setCourse(\Marca\CourseBundle\Entity\Course $course)
     {
@@ -126,7 +131,7 @@ class Roll
     /**
 * Get course
 *
-* @return Marca\CourseBundle\Entity\Course
+* @return \Marca\CourseBundle\Entity\Course
 */
     public function getCourse()
     {
@@ -136,7 +141,7 @@ class Roll
     /**
 * Set user
 *
-* @param Marca\UserBundle\Entity\User $user
+* @param \Marca\UserBundle\Entity\User $user
 */
     public function setUser(\Marca\UserBundle\Entity\User $user)
     {
@@ -146,7 +151,7 @@ class Roll
     /**
 * Get user
 *
-* @return Marca\UserBundle\Entity\User
+* @return \Marca\UserBundle\Entity\User
 */
     public function getUser()
     {
@@ -186,7 +191,7 @@ class Roll
     /**
      * Add teams
      *
-     * @param Marca\CourseBundle\Team $teams
+     * @param \Marca\CourseBundle\Team $teams
      */
     public function addTeam(\Marca\CourseBundle\Entity\Team $team)
     {
@@ -196,11 +201,55 @@ class Roll
     /**
      * Get teams
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTeams()
     {
         return $this->teams;
     }
     
+
+    /**
+     * Remove teams
+     *
+     * @param \Marca\CourseBundle\Entity\Team $teams
+     */
+    public function removeTeam(\Marca\CourseBundle\Entity\Team $teams)
+    {
+        $this->teams->removeElement($teams);
+    }
+    
+
+    /**
+     * Add attendance
+     *
+     * @param \Marca\GradebookBundle\Entity\Attendance $attendance
+     * @return Roll
+     */
+    public function addAttendance(\Marca\GradebookBundle\Entity\Attendance $attendance)
+    {
+        $this->attendance[] = $attendance;
+
+        return $this;
+    }
+
+    /**
+     * Remove attendance
+     *
+     * @param \Marca\GradebookBundle\Entity\Attendance $attendance
+     */
+    public function removeAttendance(\Marca\GradebookBundle\Entity\Attendance $attendance)
+    {
+        $this->attendance->removeElement($attendance);
+    }
+
+    /**
+     * Get attendance
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAttendance()
+    {
+        return $this->attendance;
+    }
 }

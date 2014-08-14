@@ -88,7 +88,7 @@ class ResponseController extends Controller
             $response->setJournal($journal);
             $request = $this->getRequest();
             $form    = $this->createForm(new ResponseType(), $response);
-            $form->bind($request);
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
             $em->persist($response);
@@ -118,7 +118,7 @@ class ResponseController extends Controller
             $journal = '';
             $request = $this->getRequest();
             $form    = $this->createForm(new ResponseType(), $response);
-            $form->bind($request);
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
             $em = $this->getEm();
@@ -293,7 +293,7 @@ class ResponseController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

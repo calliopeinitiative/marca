@@ -94,7 +94,7 @@ class MarkupController extends Controller
         $form    = $this->createForm(new MarkupType(), $markup, array(
             'em'=>$this->getDoctrine()->getManager(),
         ));
-        $form->bind($request);
+        $form->handleRequest($request);
 
         $name = $markup->getName();
         $name = preg_replace('/[^[:alpha:] ]/', '', $name);
@@ -196,7 +196,7 @@ class MarkupController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

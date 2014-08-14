@@ -1,0 +1,39 @@
+{# Marca/DocBundle/Resources/views/Tracking/show.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function () {
+            {# nice little jquery plugin for sorting: tinysort #}
+            $('tbody>tr').tsort('td.mcount', {order: 'desc'});
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading"><h2>Markup Tracking</h2></div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for tracking_item in tracking %}
+                    <tr>
+                        <td class="mcount">{{ tracking_item.mcount }}</td>
+                        <td>{{ tracking_item.name }}  </td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer"></div>
+    </div>
+{% endblock %}

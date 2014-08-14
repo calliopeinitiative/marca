@@ -81,7 +81,7 @@ class FileController extends Controller
 
         //pagination for files
         $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),50);
+        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),25);
         $count = $files->getTotalItemCount();
 
         if ($resource==0) {$template = 'MarcaFileBundle:File:index.html.twig'; } else {$template = 'MarcaFileBundle:File:resource_index.html.twig';}
@@ -679,6 +679,14 @@ class FileController extends Controller
                       $response->headers->set('Content-Type', 'image/jpeg');
                       $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
                       break;
+                      case "mpeg":
+                      $response->headers->set('Content-Type', 'audio/mpeg');
+                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
+                      break;
+                      case "mp3":
+                      $response->headers->set('Content-Type', 'audio/mp3');
+                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
+                      break;
                       case "odt":
                       $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.text');
                       $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
@@ -757,6 +765,11 @@ class FileController extends Controller
         $role = $this->getCourseRole();
         $review_file = $file->getReviewed();
         $markup = null;
+
+        $course = $this->getCourse();
+        $user = $this->getUser();
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
+
         if ($review_file)
         {
             $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
@@ -774,6 +787,7 @@ class FileController extends Controller
 
             return array(
             'role'      => $role,
+            'roll'      => $roll,
             'file'        => $file,
             'parent_file'        => $parent_file,
             'reviews' => $reviews,
@@ -796,6 +810,12 @@ class FileController extends Controller
         $role = $this->getCourseRole();
         $review_file = $file->getReviewed();
         $markup = null;
+
+        $course = $this->getCourse();
+        $user = $this->getUser();
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
+
+
         if ($review_file)
         {
             $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
@@ -813,6 +833,7 @@ class FileController extends Controller
 
         return array(
             'role'      => $role,
+            'roll'      => $roll,
             'file'        => $file,
             'parent_file'        => $parent_file,
             'reviews' => $reviews,

@@ -1,0 +1,23 @@
+{# Marca/UserBundle/Resources/views/Default/edit.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-sm-8 center">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="small">Admin User Update</h2>
+            </div>
+
+            <div class="panel-body">
+                    {{ form(edit_form) }}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
