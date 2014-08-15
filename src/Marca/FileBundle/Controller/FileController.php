@@ -423,7 +423,7 @@ class FileController extends Controller
         {$resource = '0';}
 
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($file);
