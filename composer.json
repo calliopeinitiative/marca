@@ -53,7 +53,7 @@
         "knplabs/knp-snappy-bundle": "dev-master",
         "egeloen/ckeditor-bundle": "2.*",
         "components/jquery": "1.11.*",
-        "components/jqueryui": "1.11.*",
+        "components/jqueryui": "1.10.*",
         "twbs/bootstrap" : "*" ,
         "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1",
         "amazonwebservices/aws-sdk-for-php": "dev-master"
