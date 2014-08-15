@@ -8,10 +8,17 @@ $('#doc-tools').css('height', function () {
 return $(window).height() * .88;
 });
 
+{% if app.request.get('_route') == 'doc_edit' or app.request.get('_route') == 'doc_ajax' %}
+    {% set fileid %}{{ file.id }}{% endset %}
+{% else %}
+    {% set fileid %}{{ parent_file.id }}{% endset %}
+{% endif %}
+
+
 {# Add Feedback #}
 $('#new_rubricreview').click(function () {
 $('#collapseFeedback').collapse('show');
-$('#modal').load('{{ course_path('selectrubric', { 'fileid': parent_file.id }) }}').modal();
+$('#modal').load('{{ course_path('selectrubric', { 'fileid': fileid }) }}').modal();
 });
 
 {% for review in reviews %}
@@ -36,13 +43,9 @@ $('#doc-container').toggleClass("col-sm-6");
 $('#doc-tools').toggleClass("col-sm-6");
 $('#glyph_expand').toggleClass("glyphicon-resize-small");
 });
-{# Review Feedback composite #}
-{% if app.request.get('_route') == 'doc_edit' or app.request.get('_route') == 'doc_ajax' %}
-    {% set fileid %}{{ file.id }}{% endset %}
-{% else %}
-    {% set fileid %}{{ parent_file.id }}{% endset %}
-{% endif %}
 
+
+{# Review Feedback composite #}
 $('#review_composite').click(function () {
 $('#loading-feedback').fadeIn();
 $('.question').removeClass('active');

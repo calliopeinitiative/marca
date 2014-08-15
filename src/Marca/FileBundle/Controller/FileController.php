@@ -186,10 +186,12 @@ class FileController extends Controller
 
         $file = new File();
         $file->setUser($user);
-        $file->setProject($project);
         $file->setCourse($course);
-
-        if ($resource!=0){$file->setAccess(1);}
+        if ($resource!=0){
+            $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
+            $file->setAccess(1);
+        }
+        $file->setProject($project);
 
         if ($type == 'link') {
         $file->setName('New Link');
@@ -517,7 +519,10 @@ class FileController extends Controller
          $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
          $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
          $file = new File();
-         if ($resource!=0){$file->setAccess(1);}
+         if ($resource!=0){
+             $file->setAccess(1);
+             $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
+         }
          $file->setUser($user);
          $file->setCourse($course);
          $file->setName('New Upload');
