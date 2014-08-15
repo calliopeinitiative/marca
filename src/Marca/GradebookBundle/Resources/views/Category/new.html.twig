@@ -1,0 +1,22 @@
+{# Marca/GradebookBundle/Resources/views/Category/new.html.twig #}
+
+{% extends 'MarcaUserBundle::dialog.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="col-sm-8 center">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title small">Category</h2>
+            </div>
+                <div class="panel-body">
+                    {{ form(form) }}
+                    <a class="btn btn-default" href="{{ path('category') }}">Cancel</a>
+                </div>
+        </div>
+    </div>
+{% endblock %}
+

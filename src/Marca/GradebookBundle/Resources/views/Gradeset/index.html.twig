@@ -1,0 +1,37 @@
+{# Marca/GradebookBundle/Resources/views/Gradeset/index.html.twig #}
+
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
+    {% block content %}
+        <a class="btn btn-primary pull-right margin-top-small" href="{{ path('gradeset_new') }}">Create Grade set<i
+                    class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+        {% for gradeset in gradesets %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="margin-top-small">{{ gradeset.name }}</h2>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tbody>
+                    <tr style="border-top:none;">
+                        <th style="border-top:none;">Category Name</th>
+                        <th style="border-top:none;">Percentage</th>
+                    </tr>
+                    {% for category in gradeset.categories %}
+                        <tr>
+                            <td>{{ category.name }}
+                            </td>
+                            <td>{{ category.percent }}%
+                            </td>
+
+                            <td><a class="btn btn-primary" href="{{ path('category_edit', { 'id': category.id }) }}">Edit</a>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    {% endblock %}

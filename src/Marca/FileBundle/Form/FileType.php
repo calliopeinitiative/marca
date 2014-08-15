@@ -30,7 +30,7 @@ class FileType extends AbstractType
                 ->andWhere('p.resource = :resource')        
                 ->setParameter('course', $courseid)  
                 ->setParameter('resource', $resource)        
-                ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'label'  => 'Select', 'expanded' => true,'attr' => array('class' => 'radio'),))
+                ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'label'  => 'Select', 'attr' => array('class' => 'radio'),))
              ->add('tag', 'entity', array('class' => 'MarcaTagBundle:Tag','property'=>'name','query_builder' => 
                   function(\Marca\TagBundle\Entity\TagRepository $er) use ($options) {
                   $courseid = $options['courseid'] ;  
@@ -44,7 +44,7 @@ class FileType extends AbstractType
                         ->orderBy('c.name', 'ASC');
                 }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Select Labels', 'attr' => array('class' => 'checkbox'),
               ))  
-             ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
+             ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing','attr' => array('class' => 'radio'),))
             ;
     }
     

@@ -83,12 +83,16 @@ class ReviewController extends Controller
      * @Route("/{courseid}/{id}/show_ajax", name="review_show_ajax")
      * @Template()
      */
-    public function show_ajaxAction($id)
+    public function show_ajaxAction($id, $courseid)
     {
         $em = $this->getDoctrine()->getManager();
         $role = $this->getCourseRole();
 
+        $course= $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
+        $user=$review->getFile()->getUser();
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
+        $rollid = $roll->getId();
 
 
         if (!$review) {
@@ -98,6 +102,7 @@ class ReviewController extends Controller
         return array(
             'review'      => $review,
             'role'      => $role,
+            'rollid'      => $rollid,
         );
     }
 

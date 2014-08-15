@@ -89,7 +89,7 @@ class ReviewRubricController extends Controller
         
         $entity  = new ReviewRubric();
         $form = $this->createForm(new ReviewRubricType(), $entity);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -199,7 +199,7 @@ class ReviewRubricController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

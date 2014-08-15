@@ -2,44 +2,113 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function () {
+            {% for roll in roll %}
+            $('#absent{{roll.id}}').click(function () {
+                $('#absent_container{{ roll.id }}').load('{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '0' }) }}');
+            });
+            $('#tardy{{ roll.id }}').click(function () {
+                $('#tardy_container{{ roll.id }}').load('{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '1' }) }}');
+            });
+            {% endfor %}
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
     <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="btn-group pull-right margin-top">
-                    {#{% if course.hasPendingStudents %}#}<a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>{#{% endif %}#}
+                    {#{% if course.hasPendingStudents %}#}<a class="btn btn-primary"
+                                                             href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve
+                        All Pending</a>{#{% endif %}#}
                     <a class="btn btn-default" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh this list</a>
-                    <a class="btn btn-default" href="{{ path('course_show', { 'courseid': course.id }) }}">Course Settings </a>
+                    <a class="btn btn-default" href="{{ path('course_show', { 'courseid': course.id }) }}">Course
+                        Settings </a>
                 </div>
-                <h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{course.name}}</a> Roll</h2>
+                <h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{ course.name }}</a> Roll</h2>
 
             </div>
             <div class="panel-body">
                 <table class="table table-condensed">
-                    <thead><tr><th>Name</th><th>Role</th><th>Approve/Change Role</th></tr></thead>
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th></th>
+                        <th>Absences</th>
+                        <th>Tardies</th>
+                        <th>Role</th>
+                        <th>Approve/Change Role</th>
+                    </tr>
+                    </thead>
                     <tbody>
                     {% for roll in roll %}
                         <tr>
-                            <td><a class="" href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}, {{ roll.firstname|capitalize }}</a></td>
+                            <td><a class=""
+                                   href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}
+                                    , {{ roll.firstname|capitalize }}</a></td>
+                            <td>
+                                <div class="margin-left btn-group inline-block">
+                                    <a id="absent{{ roll.id }}" class="btn btn-default btn-xs"
+                                       href="javascript:void(0);">Absent</a>
+                                    <a id="tardy{{ roll.id }}" class="btn btn-default btn-xs"
+                                       href="javascript:void(0);">Tardy</a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="inline-block" id="absent_container{{ roll.id }}">
+                                      {% set x=0 %}
+                                      {% for attendance in roll.attendance if attendance.type==0 %}{% set x=x+1 %}{% endfor %}{{ x }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="inline-block" id="tardy_container{{ roll.id }}">
+                                    {% set y=0 %}
+                                    {% for attendance in roll.attendance if attendance.type==1 %}{% set y=y+1 %}{% endfor %}{{ y }}
+                                </div>
+                            </td>
+
+
                             <td>{% if roll.role == 2 %}Instructor{% elseif roll.role == 3 %}TA{% elseif roll.role == 4 %}Portfolio Review{% else %}Student{% endif %}</td>
                             <td>
-                                {% if roll.userid != app.user.id %}
-                                {% if roll.role == 0 %}
-                                    Pending:
-                                    <div class="btn-group">
-                                        <a class="btn btn-default btn-xs" href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>
-                                        <a class="btn btn-default btn-xs" href="{{ path('roll_show', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a>
-                                    </div>
-                                {% else %}
-                                    Change role to:
-                                    <div class="btn-group">
-                                        <a class="btn btn-default btn-xs " href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'1'}) }}">Student</a>
-                                        <a class="btn btn-default btn-xs " href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'3'}) }}">TA</a>
-                                        <a class="btn btn-default btn-xs " href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'2'}) }}">Instructor</a>
-                                        <a class="btn btn-default btn-xs " href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'4'}) }}">Portfolio Review</a>
-                                        <a class="btn btn-default btn-xs" href="{{ path('roll_show', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a>
-                                    </div>
-                                {% endif %}
+                                {% if roll.user.id != app.user.id %}
+                                    {% if roll.role == 0 %}
+                                        Pending:
+                                        <div class="btn-group">
+                                            <a class="btn btn-default btn-xs"
+                                               href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>
+                                            <a class="btn btn-default btn-xs"
+                                               href="{{ path('roll_show', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a>
+                                        </div>
+                                    {% else %}
+                                        Change role to:
+                                        <div class="btn-group">
+                                            <a class="btn btn-default btn-xs "
+                                               href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'1'}) }}">Student</a>
+
+                                            {# not ready for use
+
+                                            <a class="btn btn-default btn-xs "
+                                               href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'3'}) }}">TA</a>
+
+                                            #}
+
+
+
+                                            <a class="btn btn-default btn-xs "
+                                               href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'2'}) }}">Instructor</a>
+                                            <a class="btn btn-default btn-xs "
+                                               href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'4'}) }}">Portfolio
+                                                Review</a>
+                                            <a class="btn btn-default btn-xs"
+                                               href="{{ path('roll_show', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a>
+                                        </div>
+                                    {% endif %}
                                 {% endif %}
                             </td>
                         </tr>

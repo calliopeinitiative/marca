@@ -40,6 +40,7 @@ class AppKernel extends Kernel
             new Marca\ResponseBundle\MarcaResponseBundle(),
             new Marca\AssessmentBundle\MarcaAssessmentBundle(),
             new Marca\AssignmentBundle\MarcaAssignmentBundle(),
+            new Marca\GradebookBundle\MarcaGradebookBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

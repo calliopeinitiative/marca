@@ -47,16 +47,8 @@
                     theme : "bootstrap",
                     widthFixed: true,
                     headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
-                    widgets : [ "uitheme", "filter"],
-                    widgetOptions : {
-                        filter_reset : ".reset"
-                    }
+                    widgets : [ "uitheme"]
                 });
-            $('.tablesorter-filter-row').toggle();
-            $('#sort_filter_toggle').click(function(){
-                $('.tablesorter-filter-row').toggle();
-            });
-            $('.tablesorter-filter').addClass('form-control');
             $( "tr" ).hover(
                     function() {
                         $(".file-menu").hide();$( ".file-menu", this ).toggle();

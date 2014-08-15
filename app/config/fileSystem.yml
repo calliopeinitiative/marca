@@ -14,15 +14,4 @@ knp_gaufrette:
             adapter:    uploads
             
     stream_wrapper: ~
-vich_uploader:
-    db_driver: orm # or mongodb
-    twig: true
-    gaufrette: true # set to true to enable gaufrette support
-    storage: vich_uploader.storage.gaufrette
-    mappings:
-        property_file:
-            uri_prefix: https://s3.amazonaws.com/%s3_bucket_name%
-            upload_destination: amazon_s3
-            namer: vich_uploader.namer_uniqid
-            delete_on_remove: true
-            delete_on_update: true
+

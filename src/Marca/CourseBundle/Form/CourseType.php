@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Marca\DocBundle\Entity\MarkupsetRepository;
 use Marca\TagBundle\Entity\TagsetRepository;
 use Marca\CourseBundle\Entity\TermRepository;
+use Marca\PortfolioBundle\Entity\PortsetRepository;
 
 class CourseType extends AbstractType
 {
@@ -40,7 +41,12 @@ class CourseType extends AbstractType
             ->add('forum', 'checkbox', array('label'  => 'Use the Forum','attr' => array('class' => 'checkbox'),))
             ->add('journal', 'checkbox', array('label'  => 'Use the Journal','attr' => array('class' => 'checkbox'),))
             ->add('portfolio', 'checkbox', array('label'  => 'Use the Portfolio','attr' => array('class' => 'checkbox inline'),))
-            ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'property'=>'name','expanded'=>true,'multiple'=>false, 'label' => 'Select the Portfolio Set','attr' => array('class' => 'radio'),))
+            ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'query_builder' => function(PortsetRepository $pr) {
+                    $qb = $pr->createQueryBuilder('MarcaPortfolioBundle:Portset');
+                    $qb->select('p')->from('MarcaPortfolioBundle:Portset', 'p')->where('p.shared > 0')->andwhere('p.shared < 3');
+                    return $qb;
+                }
+            ,'property'=>'name','expanded'=>true,'multiple'=>false, 'label' => 'Portset','attr' => array('class' => 'radio'),))
             ->add('assessmentset','entity', array('class'=>'MarcaAssessmentBundle:Assessmentset', 'property'=>'name','expanded'=>true,'multiple'=>false, 'label' => 'Select the Assessment Set for the Portfolio','attr' => array('class' => 'radio'),))
             ->add('zine', 'hidden')
             ->add('module', 'hidden')        

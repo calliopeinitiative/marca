@@ -21,7 +21,7 @@
                 <b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                 {% for roll in roll %}
-                    <li><a title='View the Journal of {{roll.firstname}} {{roll.lastname}}' data-index="{{loop.index}}" data-id='{{roll.userid}}' href="{{ course_path('journal_list', { 'userid': roll.userid, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
+                    <li><a title='View the Journal of {{roll.firstname}} {{roll.lastname}}' data-index="{{loop.index}}" data-id='{{roll.user.id}}' href="{{ course_path('journal_list', { 'userid': roll.user.id, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
                 {% endfor %}
             </ul>
         </li>

@@ -204,7 +204,7 @@ class CalendarController extends Controller
         $startDate = strtotime($postData['startDate']);
         $gotodate = date("Y-m-d", $startDate);
         $form    = $this->createForm(new CalendarType(), $calendar);
-        $form->bind($request);
+        $form->handleRequest($request);
         
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -316,7 +316,7 @@ class CalendarController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

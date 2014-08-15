@@ -83,7 +83,7 @@ class ScaleController extends Controller
         $scale  = new Scale();
         $request = $this->getRequest();
         $form    = $this->createForm(new ScaleType(), $scale);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -175,7 +175,7 @@ class ScaleController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

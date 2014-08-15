@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Portitem
 {
+    const STATUS_HIDDEN=0;
+    const STATUS_VISIBLE=1;
+
     /**
      * @var integer $id
      *
@@ -41,6 +44,14 @@ class Portitem
      * @ORM\Column(name="sortorder", type="integer", nullable=true)
      */
     private $sortorder = 1;
+
+    /**
+     * @var integer $status
+     *
+     * @ORM\Column(name="status", type="integer", nullable=true)
+     */
+    private $status = 1;
+
     
     /**
     * @ORM\ManyToOne(targetEntity="Marca\PortfolioBundle\Entity\Portset", inversedBy="portitem")
@@ -122,7 +133,7 @@ class Portitem
     /**
      * Set portset
      *
-     * @param Marca\PortfolioBundle\Entity\Portset $portset
+     * @param \Marca\PortfolioBundle\Entity\Portset $portset
      */
     public function setPortset(\Marca\PortfolioBundle\Entity\Portset $portset)
     {
@@ -132,7 +143,7 @@ class Portitem
     /**
      * Get portset
      *
-     * @return Marca\PortfolioBundle\Entity\Portset 
+     * @return \Marca\PortfolioBundle\Entity\Portset
      */
     public function getPortset()
     {
@@ -144,4 +155,27 @@ class Portitem
     }
 
 
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     * @return Portitem
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 }

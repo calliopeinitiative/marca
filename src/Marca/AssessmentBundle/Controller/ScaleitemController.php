@@ -88,7 +88,7 @@ class ScaleitemController extends Controller
         $scaleitem->setScale($scale);
         $request = $this->getRequest();
         $form    = $this->createForm(new ScaleitemType(), $scaleitem);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -184,7 +184,7 @@ class ScaleitemController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

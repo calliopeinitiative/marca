@@ -83,7 +83,7 @@ class AssessmentsetController extends Controller
         $assessmentset  = new Assessmentset();
         $request = $this->getRequest();
         $form    = $this->createForm(new AssessmentsetType(), $assessmentset);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -175,7 +175,7 @@ class AssessmentsetController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
