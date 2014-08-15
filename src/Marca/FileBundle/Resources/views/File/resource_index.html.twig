@@ -115,7 +115,7 @@
                             {% if file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
                                 <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}" title="Download {{ file.name }}" >Download</a>
                             {% endif %}
-                            {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}
+                            {% if file.isOwner(app.user.username) and file.portfolio|length == 0  and file.project.course==course %}
                                 <a class="delete" id='file_show_{{file.id}}' href='javascript:void(0);' title="Delete this file.">Delete</a>
                             {% endif%}
                         </div>
