@@ -99,14 +99,22 @@
                         {% if user == app.user.username or role == 2 %}
 
                             {# grades #}
-                            <p><strong>Grades</strong>
+
+                                {# commented out for now
+
+                                <p><strong>Grades</strong>
+
+
                                 {% if role==2 %}
                                     <a id="post_grade" class="btn btn-default btn-sm"
                                        href="javascript:void(0);">
                                         Post Grade
                                     </a>
                                 {% endif %}
-                            </p>
+
+
+
+                                </p>
                             <ul id="grades" class="list-unstyled">
                                 {% for grade in grades %}
                                     <li id="grade_{{ grade.id }}"><a class="margin-right" href="javascript:void(0);"
@@ -116,6 +124,7 @@
                                     </li>
                                 {% endfor %}
                             </ul>
+                             #}
                             {# absences #}
                             <p>
                                 {% set x=0 %}
