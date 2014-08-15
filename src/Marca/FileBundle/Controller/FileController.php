@@ -349,13 +349,11 @@ class FileController extends Controller
 
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $url = $file->getUrl();
         $course = $file->getCourse();
         $file_courseid = $course->getId();
         $options = array('courseid' => $file_courseid, 'resource'=> $resource);
-        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-        $url = $file->getUrl();
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($file_courseid);
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($file_courseid);
+
 
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
@@ -375,8 +373,6 @@ class FileController extends Controller
 
         return array(
             'file'      => $file,
-            'tags'        => $tags,
-            'roll'        => $roll,
             'course' => $course,
             'edit_form'   => $editForm->createView(),
         );
@@ -395,13 +391,14 @@ class FileController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         $user = $this->getUser();
+        $role = $this->getCourseRole();
 
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $course = $file->getCourse();
         $file_courseid = $course->getId();
         $options = array('courseid' => $file_courseid, 'resource'=> $resource);
-        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
@@ -425,10 +422,9 @@ class FileController extends Controller
 
         $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
             $em->persist($file);
             $em->flush();
-            }
+
             $session = $this->getRequest()->getSession();
             if (!$session){$uri='../../../file/1/default/0/mine/0/0/0/list';}
             else {
@@ -439,15 +435,9 @@ class FileController extends Controller
                     $uri = $session->get('resource_referrer');
                 }
             return $this->redirect($uri);
+
         }
 
-        return array(
-            'file'      => $file,
-            'tags'        => $tags,
-            'roll'        => $roll,
-            'course' => $course,
-            'edit_form'   => $editForm->createView(),
-        );
     }
 
 
