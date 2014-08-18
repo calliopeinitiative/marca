@@ -5,7 +5,6 @@ parameters:
     database_name:     marca_db
     database_user:     dbusername
     database_password: dbpassword
-
     mailer_transport:  smtp
     mailer_host:       localhost
     mailer_port:       false
@@ -14,21 +13,15 @@ parameters:
     mailer_password:   ~
     mailer_encryption:  ~
     from_email:        marca@yourserver.edu
-
     ldap:              no
     ldap_host:         ldap://example.com
     ldap_port:         389
-
     locale:            en
     secret:            agr8hqoiugq34iqn34g8q0348gq7435
     app_name:          Marca
-
     help_email:        help@yourserver.edu
     help_url:          http://www.gomarca.com/using-marca/
-
-    upload_path:       %kernel.root_dir%/../uploads/files
     wkhtmltopdf_path: /usr/local/bin/wkhtmltopdf-amd64
-
     pdo.db_options:
         db_table: session
         db_id_col:   session_id
@@ -36,3 +29,9 @@ parameters:
         db_time_col: session_time
     
     s3_bucket_name: testdocs.gomarca
+    gaufrette:        true
+    vich_storage:     vich_uploader.storage.file_system
+    vich_uri_prefix:       %kernel.root_dir%/../uploads/files
+    vich_upload_destination:  %kernel.root_dir%/../uploads/files
+
+

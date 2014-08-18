@@ -47,16 +47,8 @@
                     theme : "bootstrap",
                     widthFixed: true,
                     headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
-                    widgets : [ "uitheme", "filter"],
-                    widgetOptions : {
-                        filter_reset : ".reset"
-                    }
+                    widgets : [ "uitheme"]
                 });
-            $('.tablesorter-filter-row').toggle();
-            $('#sort_filter_toggle').click(function(){
-                $('.tablesorter-filter-row').toggle();
-            });
-            $('.tablesorter-filter').addClass('form-control');
             $( "tr" ).hover(
                     function() {
                         $(".file-menu").hide();$( ".file-menu", this ).toggle();
@@ -114,27 +106,24 @@
                         </a>
                         <span class="label label-file pull-left" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                     {% endif %}
+                    {% if file.access==1 %} <span class="label label-success pull-right margin-left" title="This file is shared with the class.">Shared</span>{% endif %}
                     <div class="hidden-xs">
                         <div class="file-menu">
-                            {% if file.isOwner(app.user.username) %}
-                            <a  class="edit_{{file.id}}" href="javascript:void(0);" title="Edit the setting for this file." >Settings</a>{% endif%}
+                            {% if file.isOwner(app.user.username) and file.project.course==course %}
+                            <a  class="edit_{{file.id}}" href="javascript:void(0);" title="Edit the setting for this file." >Settings</a>
+                            {% endif%}
                             {% if file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
                                 <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}" title="Download {{ file.name }}" >Download</a>
                             {% endif %}
-
-                            {% if role == 2 and app.request.get('resource')=='0' %}
-                                <a class="" title="Create a copy of this document for review" id="new_grade_{{file.id}}" href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'instr_review', 'fileid': file.id }) }}">Instructor Review</a>
-                            {% endif %}
-                            {% if role == 2 and app.request.get('resource')=='0' %}
-                                <a class="" title="Upload a file for review" id="upload_{{file.id}}" href="javascript:void(0);">Upload Review</a>
-                            {% endif %}
-                            {% if file.isOwner(app.user.username) and file.portfolio|length == 0 %}
+                            {% if file.isOwner(app.user.username) and file.portfolio|length == 0  and file.project.course==course %}
                                 <a class="delete" id='file_show_{{file.id}}' href='javascript:void(0);' title="Delete this file.">Delete</a>
                             {% endif%}
                         </div>
                     </div>
                 </td>
-                <td>{{ file.project.course.name }}: {{ file.project.name }}</td>
+                <td>{{ file.project.course.name }}: {{ file.project.name }}
+
+                </td>
                 <td>
                     {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
                 </td>

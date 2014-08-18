@@ -114,7 +114,7 @@ class TagController extends Controller
         $tag->addTagset($tagset);
         $request = $this->getRequest();
         $form    = $this->createForm(new TagType(), $tag);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -209,7 +209,7 @@ class TagController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

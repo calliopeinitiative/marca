@@ -29,12 +29,12 @@ class FileRepository extends EntityRepository
 
         if($project == 'recent') {
          return $this->getEntityManager()
-            ->createQuery('SELECT f, p, d, t, r, o, s  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.responses s LEFT JOIN f.portfolio o LEFT JOIN f.tag t LEFT JOIN f.reviews r
+            ->createQuery('SELECT f, p, d, t, r, o, s, g  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.grade g LEFT JOIN f.responses s LEFT JOIN f.portfolio o LEFT JOIN f.tag t LEFT JOIN f.reviews r
                 WHERE f.course = ?1 AND p.resource = ?3 AND f.reviewed IS NULL AND (f.user = ?2'.$scopeQuery.') AND (t.id = ?4'.$tagQuery.') ORDER BY f.updated DESC')
                 ->setParameter('1',$course)->setParameter('2',$user)->setParameter('3',$resource)->setParameter('4',$tag)->getResult();
        } else {
           return $this->getEntityManager()
-            ->createQuery('SELECT f, p, d, t, r, o, s  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.responses s LEFT JOIN f.portfolio o  LEFT JOIN f.tag t LEFT JOIN f.reviews r
+            ->createQuery('SELECT f, p, d, t, r, o, s, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.grade g LEFT JOIN f.responses s LEFT JOIN f.portfolio o  LEFT JOIN f.tag t LEFT JOIN f.reviews r
                 WHERE f.project = ?1 AND f.reviewed IS NULL AND (f.user = ?3'.$scopeQuery.') AND (t.id = ?4'.$tagQuery.') ORDER BY  f.updated DESC')
                 ->setParameter('1',$project)->setParameter('3',$user)->setParameter('4',$tag)->getResult();
        };
@@ -143,11 +143,11 @@ class FileRepository extends EntityRepository
             ->createQuery('SELECT p.id from MarcaCourseBundle:Course c JOIN c.parents p WHERE c.id = ?1')->setParameter('1',$course)->getResult();
         if ($parents) {
             return $this->getEntityManager()
-                ->createQuery('SELECT f from MarcaFileBundle:File f JOIN f.project p WHERE (f.course = ?1 OR f.course in (?2)) AND p.coursehome=true')
+                ->createQuery('SELECT f from MarcaFileBundle:File f JOIN f.project p WHERE (f.course = ?1 OR f.course in (?2)) AND p.coursehome=true AND f.access = 1')
                 ->setParameters(array('1' =>  $course))->setParameter('2',$parents)->getResult();
         } else {
             return $this->getEntityManager()
-                ->createQuery('SELECT f from MarcaFileBundle:File f JOIN f.project p WHERE f.course = ?1 AND p.coursehome=true')
+                ->createQuery('SELECT f from MarcaFileBundle:File f JOIN f.project p WHERE f.course = ?1 AND p.coursehome=true AND f.access = 1')
                 ->setParameters(array('1' =>  $course))->getResult();
         }
 

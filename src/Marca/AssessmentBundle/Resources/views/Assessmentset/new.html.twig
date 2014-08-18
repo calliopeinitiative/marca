@@ -12,17 +12,17 @@
             <div class="panel-heading">
                 <h2 class="panel-title small">Assessment Set</h2>
             </div>
-            <div class="panel-body">
-                <form action="{{ path('assessmentset_create') }}" method="post" {{ form_enctype(form) }}>
+            <form action="{{ path('assessmentset_create') }}" method="post" {{ form_enctype(form) }}>
+                <div class="panel-body">
                     {{ form_widget(form) }}
-            </div>
-            <div class="panel-footer">
-                <div class="btn-group">
-                    <button class="btn btn-primary" type="submit">Create</button>
-                    <a class="btn btn-default" href="{{ path('assessmentset') }}">Cancel</a>
                 </div>
-                </form>
-            </div>
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                        <a class="btn btn-default" href="{{ path('assessmentset') }}">Cancel</a>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}

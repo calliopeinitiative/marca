@@ -2,28 +2,24 @@
 
 namespace Marca\FileBundle\Namer;
 
-use Marca\FileBundle\Entity\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-
-use Vich\UploaderBundle\Mapping\PropertyMapping;
 use Vich\UploaderBundle\Naming\DirectoryNamerInterface;
 
-
 /**
- * OrignameNamer
- *
- * @author Ivan Borzenkov <ivan.borzenkov@gmail.com>
+ * Namer class.
  */
 class DirectoryNamer implements DirectoryNamerInterface
 {
     /**
-     * {@inheritDoc}
+     * Creates a name for the file being uploaded.
+     *
+     * @param object $obj The object the upload is attached to.
+     * @param string $field The name of the uploadable field to generate a name for.
+     * @return string The file name.
      */
-    public function directoryName($object, PropertyMapping $mapping)
+    function directoryName($obj, $field, $uploadDir)
     {
-        $courseid = $object->getCourse()->getId();
-        $new_path = '/'.$courseid;
-        return $new_path;
+        $course = $obj->getCourse();
+        $courseid = $course->getID();
+        return $uploadDir.'/'.$courseid;
     }
 }
-

@@ -102,7 +102,7 @@ class PromptItemController extends Controller
         $promptitem->setSortOrder($count + 1);
        
         $form = $this->createForm(new PromptItemType(), $promptitem);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -266,7 +266,7 @@ class PromptItemController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

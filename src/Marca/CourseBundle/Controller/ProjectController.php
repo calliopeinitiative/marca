@@ -100,7 +100,7 @@ class ProjectController extends Controller
         $project->setCourse($course);
         $request = $this->getRequest();
         $form = $this->createForm(new ProjectType(), $project);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             //iterates over current courses, updates sort orders
@@ -213,7 +213,7 @@ class ProjectController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
         $em = $this->getEm();
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($id);
         $courseid = $project->getCourse()->getId();

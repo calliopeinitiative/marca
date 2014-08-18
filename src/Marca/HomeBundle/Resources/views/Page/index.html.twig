@@ -2,32 +2,24 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script language="javascript">
-        $(document).ready(function()
-        {
-
-        });
-    </script>
-{% endblock %}
-
 {% block content %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <a class="btn btn-primary pull-right margin-top-small" href="{{ path('page_new') }}">Create Page<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+            <a class="btn btn-primary pull-right margin-top-small" href="{{ path('page_new') }}">Create Page<i
+                        class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+
             <h2 class="margin-top-small">Pages</h2>
         </div>
         <div class="panel-body">
             <table class="table">
                 <tbody>
-                    <tr style="border-top:none;">
-                        <th style="border-top:none;">Page Title</th>
-                        <th style="border-top:none;">Page Type</th>
-                        <th style="border-top:none;"></th>
-                    </tr>
-                    {% for page in pages %}
-                        <tr>
+                <tr style="border-top:none;">
+                    <th style="border-top:none;">Page Title</th>
+                    <th style="border-top:none;">Page Type</th>
+                    <th style="border-top:none;"></th>
+                </tr>
+                {% for page in pages %}
+                    <tr>
                         <td><a href="{{ path('page_show', { 'id': page.id }) }}">{{ page.title }}</a></td>
                         <td>{% if page.type ==1 %}Research consent form{% elseif page.type ==2 %}Rubric{% else %}Display on Homepage{% endif %}</td>
                         <td><a class="btn btn-primary" href="{{ path('page_edit', { 'id': page.id }) }}">Edit</a>
@@ -37,9 +29,6 @@
                 {% endfor %}
                 </tbody>
             </table>
-
         </div>
-
     </div>
-
 {% endblock %}

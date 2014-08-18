@@ -69,7 +69,7 @@
             <li class="dropdown"><a href="javascript:void(0);" role="button" class="project-sidebar {% if app.request.get('scope')=='byuser' %}current-filter{% endif %}" data-toggle="dropdown" id="findByAuthor">{% if app.request.get('scope')=='byuser' %}Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}{% else %}Files By Reporter{% endif %}<b class="caret" style="margin-left:6px;"></b></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">
                     {% for roll in roll %}
-                        <li><a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.userid }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
+                        <li><a data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.user.id }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
                     {% endfor %}
                 </ul>
             </li>
@@ -83,7 +83,7 @@
         {% for project in projects %}
             <li id="project_list">
                 <a title='{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}' class="project-sidebar {% if active_project == project.id %}current-filter{% endif %}"  href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-                    {% if app.request.get('resource')=='1' and project.course.name!=app.session.get('course') %}{{ project.course.name }}: {%endif%}{{ project.name }}{% if project == course.projectDefault %} {%endif%}</a>
+                    {% if app.request.get('resource')=='1'%}{{ project.course.name }}: {%endif%}{{ project.name }}{% if project == course.projectDefault %} {%endif%}</a>
             {% if role == '2' and app.request.get('resource')==0 %}<a class="default project-sidebar small" style="display:none;" href="{{ course_path('project_set_default', {'projectId': project.id}) }}">Set Default</a>{% endif %}
             </li>
         {% endfor %}
@@ -115,7 +115,6 @@
     {% if role == '2' and app.request.get('resource')==0 %}
         <li><a class="project-sidebar" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a></li>
     {% endif %}
-    <li><a id="sort_filter_toggle" class="project-sidebar" href="javascript:void(0);">Filter Files</a></li>
 
 
 {% endblock %}

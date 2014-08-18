@@ -80,8 +80,14 @@ class Course
     /**
     * @ORM\ManyToOne(targetEntity="Marca\AssessmentBundle\Entity\Assessmentset", inversedBy="course")
     */
-    protected $assessmentset; 
-    
+    protected $assessmentset;
+
+
+    /**
+     * @ORM\OneToOne(targetEntity="Marca\GradebookBundle\Entity\Gradeset", mappedBy="course")
+     */
+    protected $gradeset;
+
 
     /**
      * @var boolean $studentForum
@@ -556,7 +562,7 @@ class Course
     /**
      * Set term
      *
-     * @param Marca\CourseBundle\Entity\Term $term
+     * @param \Marca\CourseBundle\Entity\Term $term
      */
     public function setTerm(\Marca\CourseBundle\Entity\Term $term)
     {
@@ -566,7 +572,7 @@ class Course
     /**
      * Get term
      *
-     * @return Marca\CourseBundle\Entity\Term 
+     * @return \Marca\CourseBundle\Entity\Term
      */
     public function getTerm()
     {
@@ -576,7 +582,7 @@ class Course
     /**
      * Set user
      *
-     * @param Marca\UserBundle\Entity\User $user
+     * @param \Marca\UserBundle\Entity\User $user
      */
     public function setUser(\Marca\UserBundle\Entity\User $user)
     {
@@ -586,7 +592,7 @@ class Course
     /**
      * Get user
      *
-     * @return Marca\UserBundle\Entity\User
+     * @return \Marca\UserBundle\Entity\User
      */
     public function getUser()
     {
@@ -596,7 +602,7 @@ class Course
     /**
      * Add roll
      *
-     * @param Marca\CourseBundle\Entity\Roll $roll
+     * @param \Marca\CourseBundle\Entity\Roll $roll
      */
     public function addRoll(\Marca\CourseBundle\Entity\Roll $roll)
     {
@@ -606,7 +612,7 @@ class Course
     /**
      * Get roll
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getRoll()
     {
@@ -616,7 +622,7 @@ class Course
     /**
      * Add project
      *
-     * @param Marca\CourseBundle\Entity\Project $project
+     * @param \Marca\CourseBundle\Entity\Project $project
      */
     public function addProject(\Marca\CourseBundle\Entity\Project $project)
     {
@@ -626,7 +632,7 @@ class Course
     /**
      * Get project
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProjects()
     {
@@ -656,7 +662,7 @@ class Course
     /**
      * Add tagset
      *
-     * @param Marca\TagBundle\Entity\Tagset $tagset
+     * @param \Marca\TagBundle\Entity\Tagset $tagset
      */
     public function addTagset(\Marca\TagBundle\Entity\Tagset $tagset)
     {
@@ -666,7 +672,7 @@ class Course
     /**
      * Get tagset
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTagset()
     {
@@ -676,7 +682,7 @@ class Course
     /**
      * Set projectDefault
      *
-     * @param Marca\CourseBundle\Entity\Project $projectDefault
+     * @param \Marca\CourseBundle\Entity\Project $projectDefault
      */
     public function setProjectDefault(\Marca\CourseBundle\Entity\Project $projectDefault)
     {
@@ -686,7 +692,7 @@ class Course
     /**
      * Get projectDefault
      *
-     * @return Marca\CourseBundle\Entity\Project 
+     * @return \Marca\CourseBundle\Entity\Project
      */
     public function getProjectDefault()
     {
@@ -707,7 +713,7 @@ class Course
     /**
      * Set portset
      *
-     * @param Marca\PortfolioBundle\Entity\Portset $portset
+     * @param \Marca\PortfolioBundle\Entity\Portset $portset
      */
     public function setPortset(\Marca\PortfolioBundle\Entity\Portset $portset)
     {
@@ -717,7 +723,7 @@ class Course
     /**
      * Get portSet
      *
-     * @return Marca\PortfolioBundle\Entity\Portset 
+     * @return \Marca\PortfolioBundle\Entity\Portset
      */
     public function getPortset()
     {
@@ -727,7 +733,7 @@ class Course
     /**
      * Add teams
      *
-     * @param Marca\CourseBundle\Entity\Team $teams
+     * @param \Marca\CourseBundle\Entity\Team $teams
      */
     public function addTeam(\Marca\CourseBundle\Entity\Team $teams)
     {
@@ -737,7 +743,7 @@ class Course
     /**
      * Get teams
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTeams()
     {
@@ -788,7 +794,7 @@ class Course
     /**
      * Remove projects
      *
-     * @param Marca\CourseBundle\Entity\Project $projects
+     * @param \Marca\CourseBundle\Entity\Project $projects
      */
     public function removeProject(\Marca\CourseBundle\Entity\Project $projects)
     {
@@ -798,7 +804,7 @@ class Course
     /**
      * Remove roll
      *
-     * @param Marca\CourseBundle\Entity\Roll $roll
+     * @param \Marca\CourseBundle\Entity\Roll $roll
      */
     public function removeRoll(\Marca\CourseBundle\Entity\Roll $roll)
     {
@@ -808,7 +814,7 @@ class Course
     /**
      * Remove teams
      *
-     * @param Marca\CourseBundle\Entity\Team $teams
+     * @param \Marca\CourseBundle\Entity\Team $teams
      */
     public function removeTeam(\Marca\CourseBundle\Entity\Team $teams)
     {
@@ -818,7 +824,7 @@ class Course
     /**
      * Remove tagset
      *
-     * @param Marca\TagBundle\Entity\Tagset $tagset
+     * @param \Marca\TagBundle\Entity\Tagset $tagset
      */
     public function removeTagset(\Marca\TagBundle\Entity\Tagset $tagset)
     {
@@ -830,7 +836,7 @@ class Course
     /**
      * Add parents
      *
-     * @param Marca\CourseBundle\Entity\Course $parents
+     * @param \Marca\CourseBundle\Entity\Course $parents
      * @return Course
      */
     public function addParent(\Marca\CourseBundle\Entity\Course $parents)
@@ -843,7 +849,7 @@ class Course
     /**
      * Remove parents
      *
-     * @param Marca\CourseBundle\Entity\Course $parents
+     * @param \Marca\CourseBundle\Entity\Course $parents
      */
     public function removeParent(\Marca\CourseBundle\Entity\Course $parents)
     {
@@ -853,7 +859,7 @@ class Course
     /**
      * Get parents
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getParents()
     {
@@ -863,7 +869,7 @@ class Course
     /**
      * Add markupsets
      *
-     * @param Marca\DocBundle\Entity\Markupset $markupsets
+     * @param \Marca\DocBundle\Entity\Markupset $markupsets
      * @return Course
      */
     public function addMarkupset(\Marca\DocBundle\Entity\Markupset $markupsets)
@@ -876,7 +882,7 @@ class Course
     /**
      * Remove markupsets
      *
-     * @param Marca\DocBundle\Entity\Markupset $markupsets
+     * @param \Marca\DocBundle\Entity\Markupset $markupsets
      */
     public function removeMarkupset(\Marca\DocBundle\Entity\Markupset $markupsets)
     {
@@ -886,7 +892,7 @@ class Course
     /**
      * Get markupsets
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMarkupsets()
     {
@@ -962,5 +968,61 @@ class Course
     public function getModule()
     {
         return $this->module;
+    }
+
+    /**
+     * Set gradeset
+     *
+     * @param \Marca\GradebookBundle\Entity\Gradeset $gradeset
+     * @return Course
+     */
+    public function setGradeset(\Marca\GradebookBundle\Entity\Gradeset $gradeset = null)
+    {
+        $this->gradeset = $gradeset;
+
+        return $this;
+    }
+
+    /**
+     * Get gradeset
+     *
+     * @return \Marca\GradebookBundle\Entity\Gradeset 
+     */
+    public function getGradeset()
+    {
+        return $this->gradeset;
+    }
+
+    /**
+     * Add reviewrubrics
+     *
+     * @param \Marca\AssignmentBundle\Entity\ReviewRubric $reviewrubrics
+     * @return Course
+     */
+    public function addReviewrubric(\Marca\AssignmentBundle\Entity\ReviewRubric $reviewrubrics)
+    {
+        $this->reviewrubrics[] = $reviewrubrics;
+
+        return $this;
+    }
+
+    /**
+     * Remove reviewrubrics
+     *
+     * @param \Marca\AssignmentBundle\Entity\ReviewRubric $reviewrubrics
+     */
+    public function removeReviewrubric(\Marca\AssignmentBundle\Entity\ReviewRubric $reviewrubrics)
+    {
+        $this->reviewrubrics->removeElement($reviewrubrics);
+    }
+
+    /**
+     * Get reviewrubrics
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReviewrubrics()
+    {
+        return $this->reviewrubrics;
     }
 }

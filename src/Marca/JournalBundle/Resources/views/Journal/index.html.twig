@@ -36,12 +36,12 @@
                     {% for roll in roll %}
                         {% if loop.index == app.request.get('user') + 1 %}
                             <li>
-                                <a data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_list', { 'userid': roll.userid, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}} &gt;</a>
+                                <a data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_list', { 'userid': roll.user.id, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}} &gt;</a>
                             </li>
                         {% endif %}
                         {% if loop.index == app.request.get('user') - 1 %}
                             <li>
-                                <a class='' data-index="{{loop.index}}" data-id='{{roll.userid}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_list', { 'userid': roll.userid, 'user': loop.index }) }}">&lt; {{roll.firstname}} {{roll.lastname}}</a>
+                                <a class='' data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_list', { 'userid': roll.user.id, 'user': loop.index }) }}">&lt; {{roll.firstname}} {{roll.lastname}}</a>
                             </li>
                         {% endif %}
                     {% endfor %}

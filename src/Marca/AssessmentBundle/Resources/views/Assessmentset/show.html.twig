@@ -7,11 +7,15 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="btn-group pull-right">
-                    <a class="btn btn-default btn-sm" href="{{ path('assessmentset_edit', { 'id': assessmentset.id }) }}">Edit Assessment Set</a>
-                    <a class="btn btn-default btn-sm" href="{{ path('objective_new', { 'assessmentsetid': assessmentset.id }) }}">Add Learning Objective</a>
+                    <a class="btn btn-default btn-sm"
+                       href="{{ path('assessmentset_edit', { 'id': assessmentset.id }) }}">Edit Assessment Set</a>
+                    <a class="btn btn-default btn-sm"
+                       href="{{ path('objective_new', { 'assessmentsetid': assessmentset.id }) }}">Add Learning
+                        Objective</a>
                     <a class="btn btn-default btn-sm" href="{{ path('assessmentset') }}">List Assessment Sets</a>
                 </div>
                 <h2 class="margin-top-small">{{ assessmentset.name }}</h2>
+
                 <p>{{ assessmentset.description|raw }}</p>
             </div>
             <div class="panel-body">
@@ -24,7 +28,7 @@
                             <strong>{{ objective.scale.name }}</strong>:
                             <p>
                                 {% for scaleitem in objective.scale.scaleitems %}
-                                <strong>{{ scaleitem.name }}</strong> (value:{{ scaleitem.value }})
+                                    <strong>{{ scaleitem.name }}</strong> (value:{{ scaleitem.value }})
                                 {% endfor %}
                             </p>
                         </a>

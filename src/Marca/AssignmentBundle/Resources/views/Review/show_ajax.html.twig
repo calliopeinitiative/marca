@@ -9,30 +9,30 @@
             $('#review_container').load('{{ course_path('review_edit_ajax', { 'id': review.id }) }}');
         });
         {# nice little jquery plugin for sorting: tinysort #}
-        $('div#responses>div').tsort({order:'asc',attr:'id'});
+        $('div#responses>div').tsort({order: 'asc', attr: 'id'});
     });
 </script>
 
 <div id="responses">
-{% for reviewresponse in review.reviewresponses %}
-    <div id="{{ reviewresponse.reviewPrompt.sortOrder }}" class="panel panel-default">
-        <div class="panel-heading">
-            <strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong>
+    {% for reviewresponse in review.reviewresponses %}
+        <div id="{{ reviewresponse.reviewPrompt.sortOrder }}" class="panel panel-default">
+            <div class="panel-heading">
+                <strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong>
             </div>
-        <div class="panel-body">
+            <div class="panel-body">
                 {{ reviewresponse.responseShortText|raw }}
                 {{ reviewresponse.responseparagraphText|raw }}
                 {% if reviewresponse.scaleitem %}{{ reviewresponse.scaleitem.name }}{% endif %}
             </div>
-        <div class="panel-footer">
+            <div class="panel-footer">
                 {% if reviewresponse.helpful==1 %}
                     <em>{{ reviewresponse.review.file.user.firstname }} {{ reviewresponse.review.file.user.lastname }}
-                    found
-                    this helpful.</em>
+                        found
+                        this helpful.</em>
                 {% endif %}
             </div>
-    </div>
-{% endfor %}
+        </div>
+    {% endfor %}
 </div>
 
 <div class="panel panel-default">
@@ -43,6 +43,19 @@
         {% if  (review.file.user==app.user or role==2) and review.grade!='' %}
             <strong>Grade:</strong>
             {{ review.grade }}
+            {% if review.file.grade %}
+                <br/><span id="grade" class="small">
+                (posted to
+                <a class="" href="{{ course_path('course_roll_profile', { 'rollid': rollid, 'user': '0' }) }}">
+                   gradebook
+                </a>
+                 as {{ review.file.grade.category.name }}: {{ review.file.grade.grade }})
+                {% if review.file.grade.grade != review.grade %}
+                    <br/>NB:  The grade posted in the gradebook does not match this one.
+                {% endif %}
+            </span>
+                <span id="grade" class="small"></span>
+            {% endif %}
             <hr/>
         {% endif %}
         {% if  (review.file.user==app.user or role==2) and review.notes!='' %}
@@ -69,7 +82,7 @@
     </div>
     <div class="panel-footer">
         {% if role==2 %}
-        NB:  Grade and Notes are available only to the owner of the reviewed document and the instructor.
+            NB:  Grade and Notes are available only to the owner of the reviewed document and the instructor.
         {% endif %}
     </div>
 </div>

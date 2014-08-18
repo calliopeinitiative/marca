@@ -1,0 +1,17 @@
+{# Marca/GradebookBundle/Resources/views/layout.html.twig #}
+
+{% extends '::base.html.twig' %}
+{% block title %}{{ application_name }} | Gradebook{% endblock %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block javascripts %}{{ parent() }}{% endblock %}
+
+{% block subnav %}
+{% endblock %}
+
+
+{% block sidebar %}
+    <h1><a  title='Gradebook Home' href="{{ path('category') }}" class="marca-gray">Gradebook</a></h1>
+
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{# Marca/GradebookBundle/Resources/views/Attendance/edit_modal.html.twig #}
+
+
+<script language="javascript">
+    $(document).ready(function () {
+        $('#marca_gradebookbundle_attendance_date').datepicker({
+            showButtonPanel: true
+        });
+    });
+</script>
+
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
+<link type="text/css" rel="stylesheet"
+      href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <span class="modal-title">Attendance</span>
+        </div>
+        <div class="modal-body">
+            {{ form(edit_form) }}
+            {{ form(delete_form) }}
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+    <!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+

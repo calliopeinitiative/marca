@@ -13,6 +13,7 @@ use Marca\DocBundle\Entity\Autosave;
 use Marca\DocBundle\Form\DocType;
 use Marca\FileBundle\Entity\File;
 use Marca\CourseBundle\Entity\Project;
+use Marca\CourseBundle\Entity\Roll;
 
 /**
  * Doc controller.
@@ -45,6 +46,9 @@ class DocController extends Controller
         $count = str_word_count($text);
         $file_owner = $file->getUser();
 
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
+
+
         $review_file = $file->getReviewed();
         if ($review_file)
            {
@@ -74,6 +78,7 @@ class DocController extends Controller
 
         return array(
             'doc'      => $doc,
+            'roll' => $roll,
             'role'      => $role,
             'count'=> $count,
             'file'        => $file,
@@ -122,7 +127,8 @@ class DocController extends Controller
             'doc'      => $doc,
             'role'      => $role,
             'file'        => $file,
-            'markup' => $markup,      );
+            'markup' => $markup,
+        );
     }
 
 
@@ -232,7 +238,7 @@ class DocController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($doc);
@@ -293,7 +299,7 @@ class DocController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();

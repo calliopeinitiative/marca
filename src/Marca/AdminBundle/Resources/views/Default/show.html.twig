@@ -3,9 +3,13 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger" role="alert">{{ flashMessage }}</div>
+    {% endfor %}
+
     <div class="panel panel-default">
         <div class="panel-heading">
-            <a class="btn btn-small btn-primary pull-right" href="{{ path('admin') }}">New Find</a>
+            <a class="btn btn-small btn-default pull-right" href="{{ path('admin') }}">New Find</a>
             <h2 class="margin-top-small">User Admin</h2>
         </div>
         <div class="panel-body">
@@ -17,6 +21,7 @@
                 <li><strong>Roles:</strong>  {% for role in user.roles %}{{ role }} {% endfor %}</li>
                 <li><a href="{{ path('user_promote', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Promote Instr.</a> / <a href="{{ path('user_demote', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Demote Instr.</a></li>
                 <li><a href="{{ path('user_promote', { 'username': user.username, 'role': 'ROLE_ADMIN' }) }}">Promote Admin.</a> / <a href="{{ path('user_demote', { 'username': user.username, 'role': 'ROLE_ADMIN' }) }}">Demote Admin.</a></li>
+                <li><a href="{{ path('admin_user_edit', { 'username': user.username}) }}">Edit Username and Email</a></li>
             </ul>
         </div>
 
