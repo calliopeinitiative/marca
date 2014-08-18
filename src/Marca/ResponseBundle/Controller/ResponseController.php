@@ -227,7 +227,7 @@ class ResponseController extends Controller
              $editForm   = $this->createForm(new ResponseType(), $response);
              $deleteForm = $this->createDeleteForm($id);
              $request = $this->getRequest();
-             $editForm->bind($request);
+             $editForm->handleRequest($request);
 
             if ($editForm->isValid()) {
             $em->persist($response);
@@ -253,7 +253,7 @@ class ResponseController extends Controller
              $editForm   = $this->createForm(new ResponseType(), $response);
              $deleteForm = $this->createDeleteForm($id);
              $request = $this->getRequest();
-             $editForm->bind($request);
+             $editForm->handleRequest($request);
             $file = $em->getRepository('MarcaFileBundle:File')->find($sourceid);
             if ($file->getDoc()){
                 $doc = $file->getDoc();

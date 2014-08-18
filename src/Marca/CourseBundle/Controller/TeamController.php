@@ -127,7 +127,7 @@ class TeamController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             
