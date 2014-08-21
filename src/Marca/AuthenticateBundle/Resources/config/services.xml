@@ -6,7 +6,7 @@
 
     <services>
         <service id="marca.ldap.ldap_manager" class="Marca\AuthenticateBundle\Ldap\LdapManager">
-            <argument>fr3d_ldap.driver</argument>
+            <argument type="service" id="fr3d_ldap.ldap_driver.zend.driver" />
             <argument type="service" id="fr3d_ldap.user_manager" />
             <argument>%fr3d_ldap.ldap_manager.parameters%</argument>
         </service>
