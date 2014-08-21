@@ -9,16 +9,16 @@
 namespace Marca\AuthenticateBundle\Ldap;
 
 use FR3D\LdapBundle\Ldap\LdapManager as BaseLdapManager;
-use FR3D\LdapBundle\Model\LdapUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class LdapManager extends BaseLdapManager
 {
-    protected function hydrate(LdapUserInterface $user, array $entry)
+    protected function hydrate(UserInterface $user, array $entry)
     {
         parent::hydrate($user, $entry);
 
-            $email= $user->getUsername().'@uga.edu';
-            $user->setEmail($email);
+        $email= $user->getUsername().'@uga.edu';
+        $user->setEmail($email);
 
     }
 }
