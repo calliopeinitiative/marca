@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: fileSystem.yml }
     - { resource: '@MarcaCourseBundle/Resources/config/services.yml' }
+    - { resource: '@MarcaAuthenticateBundle/Resources/config/services.xml' }
 
 framework:
     #esi:             ~
@@ -128,8 +129,8 @@ fr3d_ldap:
            - { ldap_attr: cn,  user_method: setUsername }
            - { ldap_attr: mail,   user_method: setEmail }
     service:
-        user_manager: fos_user.user_manager          # Overrides default user manager
-
+        user_manager: fos_user.user_manager  # Overrides default user manager
+        ldap_manager:  marca.ldap.ldap_manager
 # Doctrine extensions    
 stof_doctrine_extensions:
     default_locale: en_US
