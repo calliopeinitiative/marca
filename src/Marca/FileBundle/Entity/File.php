@@ -26,7 +26,7 @@ class File
       * "application/vnd.oasis.opendocument.spreadsheet", "application/msword", "application/mspowerpoint",
       * "application/excel", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       * "application/vnd.openxmlformats-officedocument.presentationml.presentation", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      * "application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/zip"}
+      * "application/zip"}
      * )
      * @Vich\UploadableField(mapping="property_file", fileNameProperty="path")
      *
