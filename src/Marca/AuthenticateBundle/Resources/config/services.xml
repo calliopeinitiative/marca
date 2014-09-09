@@ -9,6 +9,7 @@
             <argument type="service" id="fr3d_ldap.ldap_driver" />
             <argument type="service" id="fr3d_ldap.user_manager" />
             <argument>%fr3d_ldap.ldap_manager.parameters%</argument>
+            <argument>%ldap_email_host%</argument>
         </service>
     </services>
 

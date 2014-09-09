@@ -26,4 +26,5 @@ parameters:
     vich_storage:     vich_uploader.storage.file_system
     vich_uri_prefix:       %kernel.root_dir%/../uploads/files
     vich_upload_destination:  %kernel.root_dir%/../uploads/files
+    ldap_email_host: uga.edu
 
