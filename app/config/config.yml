@@ -48,7 +48,7 @@ assetic:
         filters: [?yui_js]
     jqueryui_js:
         inputs:
-            - '%kernel.root_dir%/../vendor/components/jqueryui/ui/jquery-ui.js'
+            - '%kernel.root_dir%/../vendor/components/jqueryui/jquery-ui.js'
         filters: [?yui_js]
     bootstrap_js:
         inputs:

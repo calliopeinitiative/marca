@@ -64,13 +64,18 @@ class File
     protected $grade;
     
      /**
-     * @ORM\OneToMany(targetEntity="Marca\ResponseBundle\Entity\Response", mappedBy="file", cascade="remove")
+     * @ORM\OneToMany(targetEntity="Marca\ResponseBundle\Entity\Response", mappedBy="file")
      */
     protected $responses;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\AssignmentBundle\Entity\Review", mappedBy="file")
+     */
+    protected $feedback;
+
 
     /**
-     * @ORM\OneToMany(targetEntity="Marca\DocBundle\Entity\Tracking", mappedBy="file", cascade="remove")
+     * @ORM\OneToMany(targetEntity="Marca\DocBundle\Entity\Tracking", mappedBy="file")
      */
     protected $tracking;
 
@@ -82,7 +87,7 @@ class File
 
     /**
      * @ORM\ManyToOne(targetEntity="File", inversedBy="reviews")
-     * @ORM\JoinColumn(name="reviewed_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $reviewed;
     
@@ -619,5 +624,38 @@ class File
     public function getTracking()
     {
         return $this->tracking;
+    }
+
+    /**
+     * Add feedback
+     *
+     * @param \Marca\AssignmentBundle\Entity\Review $feedback
+     * @return File
+     */
+    public function addFeedback(\Marca\AssignmentBundle\Entity\Review $feedback)
+    {
+        $this->feedback[] = $feedback;
+
+        return $this;
+    }
+
+    /**
+     * Remove feedback
+     *
+     * @param \Marca\AssignmentBundle\Entity\Review $feedback
+     */
+    public function removeFeedback(\Marca\AssignmentBundle\Entity\Review $feedback)
+    {
+        $this->feedback->removeElement($feedback);
+    }
+
+    /**
+     * Get feedback
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFeedback()
+    {
+        return $this->feedback;
     }
 }
