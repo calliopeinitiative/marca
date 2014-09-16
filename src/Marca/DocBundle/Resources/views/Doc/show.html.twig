@@ -114,7 +114,7 @@
     </div>
 
     {# Doc Nav #}
-    <nav class="navbar navbar-inverse navbar-fixed-top" style="max-height: 70px;">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-header col-sm-0">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
@@ -128,7 +128,7 @@
                 <li class="{% if parent_file.id == app.request.get('id') %}active{% endif %} document"
                     id="review_{{ parent_file.id }}" style="margin-top: -2px;">
                     <a href="javascript:void(0);" title="View {{ parent_file.name }}">
-                        <span style="font-size:18px;">{{ parent_file.name }} </span>
+                        <span style="font-size:18px;">{{ parent_file.name|slice(0,20) }} {% if parent_file.name|length > 20 %}...{% endif %}</span>
                         <span class="small"
                               style="font-family:proxima-nova, sans-serif;">by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}</span>
                     </a>
@@ -137,13 +137,10 @@
                     {% if (parent_file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
                         <li class="{% if review.id == app.request.get('id') %}active{% endif %} document"
                             id="review_{{ review.id }}">
-                            <a href="javascript:void(0);" title="{{ review.name }} by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}">
-                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review" alt="{{ review.name }} by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}"></span>
-                                {% if parent_file.reviews|length < 5 %}
-                                    Review
-                                <span class="small"
+                            <a title="Review by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}" href="javascript:void(0);">
+                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review" alt="Review by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}"></span>
+                                <span class="small hidden-md hidden-sm"
                                       style="font-family:proxima-nova, sans-serif;">by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}</span>
-                                {% endif %}
                             </a>
                         </li>
                     {% endif %}
@@ -172,17 +169,17 @@
 
                     {# conditional to SaveAs project for students and Saveas Resource for instructors #}
                     {% if (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource != 'true') or (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource == 'true'  and local_resource) or (not parent_file.isOwner(app.user.username) and parent_file.doc and file.project.resource == 'true') %}
-                        <li class="navbar-text"><a title="Create a copy of this document" id="new_saveas" class=""
+                        <li class="navbar-text hidden-sm"><a title="Create a copy of this document" id="new_saveas" class=""
                                                    href="javascript:void(0)">SaveAs</a>
                         </li>
                     {% endif %}
                     {% if parent_file.doc %}
-                        <li class="navbar-text"><a title="Print this document" class=""
+                        <li class="navbar-text hidden-sm"><a title="Print this document" class=""
                                                    href="{{ course_path('doc_pdf', { 'id': parent_file.doc.id }) }}">Printable
                                 PDF</a>
                         </li>
                     {% elseif parent_file.ext == 'odt' or parent_file.ext == 'ods' or parent_file.ext == 'odp' or parent_file.ext == 'pdf' %}
-                        <li class="navbar-text">
+                        <li class="navbar-text hidden-sm">
                             <a title="Download this document" class=""
                                href="{{ course_path('file_get', { 'id': parent_file.id }) }}">Download</a>
                         </li>
@@ -200,7 +197,7 @@
                                 <a title="Edit this document" class=""
                                    href="{{ course_path('doc_edit', { 'id': review.id,'view': app.request.get('view') }) }}">Edit</a>
                             </li>
-                            <li class="navbar-text">
+                            <li class="navbar-text hidden-sm">
                                 <a title="Print this document" class=""
                                    href="{{ course_path('doc_pdf', { 'id': review.doc.id }) }}">Printable PDF</a>
                             </li>
