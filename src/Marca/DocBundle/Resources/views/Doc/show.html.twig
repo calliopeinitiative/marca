@@ -90,15 +90,6 @@
             });
 
             {% include 'MarcaDocBundle:Doc:js.html.twig' %}
-
-            {# needs debugged
-            $('.markup-table').dataTable({ "paging": false, "searching": false, "info":false}).rowGrouping({bExpandableGrouping: true,bExpandSingleGroup: true,
-                fnOnGroupCompleted: function( oGroup ) {
-                    var length = $('.markup-table tr' + oGroup.groupItemClass).length;
-                    $(oGroup.nGroup).find("td").append("<span>"+length+"</span>");
-                }
-            });
-            #}
         });
     </script>
 

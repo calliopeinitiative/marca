@@ -54,7 +54,7 @@ $('#review_container').show();
 $('#review_container').load('{{ course_path('review_index_ajax', { 'fileid': fileid}) }}');
 });
 
-
+{# Group the markup items and count #}
 $(function() {
 function groupTable($rows, startIndex, total){
 if (total === 0){
@@ -69,7 +69,6 @@ for (i=1;i<=tds.length;i++){
 if (ctrl.text() ==  $(tds[i]).text()){
 count++;
 $(tds[i]).addClass('deleted');
-lst.push($rows[i]);
 }
 else{
 if (count>1){
@@ -79,12 +78,11 @@ groupTable($(lst),startIndex+1,total-1)
 count=1;
 lst = [];
 ctrl=$(tds[i]);
-lst.push($rows[i]);
 }
 }
 }
-groupTable($('.tracking tr:has(td)'),0,1);
-$('.tracking .deleted').remove();
+groupTable($('.markup-table tr:has(td)'),0,1);
+$('.markup-table .deleted').remove();
 });
 
 

@@ -136,7 +136,7 @@
 
                 {# parent file markup tracking #}
                 {% if parent_file.tracking|length > 0 %}
-                <table class="table table-bordered markup-table tracking">
+                <table class="table table-default markup-table">
                     <thead>
                     <tr>
                         <th>Markup</th>
@@ -145,8 +145,8 @@
                     <tbody>
                     {% for tracking_item in parent_file.tracking %}
                         <tr>
-                            <td>{{ tracking_item.markup.name }} <span
-                                        class="pull-left color-flag {{ tracking_item.markup.color }}">&#183;</span>
+                            <td>{{ tracking_item.markup.name }} <span data-id="{{ tracking_item.markup.id }}"
+                                        class="markup pull-left color-flag {{ tracking_item.markup.color }}">&#183;</span>
                             </td>
                         </tr>
                     {% endfor %}
@@ -205,7 +205,7 @@
 
                     {# review file markup tracking #}
                     {% if parent_file.tracking|length > 0 %}
-                    <table class="table table-striped markup-table tracking">
+                    <table class="table table-default markup-table">
                         <thead>
                         <tr>
                             <th>Markup</th>
