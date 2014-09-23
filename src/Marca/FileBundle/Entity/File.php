@@ -76,6 +76,7 @@ class File
 
     /**
      * @ORM\OneToMany(targetEntity="Marca\DocBundle\Entity\Tracking", mappedBy="file")
+     * @ORM\OrderBy({"markup" = "ASC"})
      */
     protected $tracking;
 

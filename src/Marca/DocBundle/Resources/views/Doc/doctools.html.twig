@@ -134,13 +134,12 @@
             </p>
 
 
-                 {# parent file markup tracking #}
-                 {# markup tracking not ready for prime time #}
-                <table class="table table-striped markup-table">
+                {# parent file markup tracking #}
+                {% if parent_file.tracking|length > 0 %}
+                <table class="table table-bordered markup-table tracking">
                     <thead>
                     <tr>
-                        <th></th>
-                        <th></th>
+                        <th>Markup</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -149,11 +148,11 @@
                             <td>{{ tracking_item.markup.name }} <span
                                         class="pull-left color-flag {{ tracking_item.markup.color }}">&#183;</span>
                             </td>
-                            <td></td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
+                {% endif %}
 
 
 
@@ -205,12 +204,11 @@
                     </p>
 
                     {# review file markup tracking #}
-                    {# markup tracking not ready for prime time #}
-                    <table class="table table-striped markup-table">
+                    {% if parent_file.tracking|length > 0 %}
+                    <table class="table table-striped markup-table tracking">
                         <thead>
                         <tr>
-                            <th></th>
-                            <th></th>
+                            <th>Markup</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -219,11 +217,11 @@
                                 <td>{{ tracking_item.markup.name }} <span
                                             class="pull-left color-flag {{ tracking_item.markup.color }}">&#183;</span>
                                 </td>
-                                <td></td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
+                    {% endif %}
 
                 </div>
             {% endfor %}
