@@ -164,6 +164,7 @@
                         {% endif %}
                         {% if file.access==1 %} <span class="label label-success pull-right margin-left" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
                         {% if file.portfolio|length !=0 %} <span class="label label-info pull-right margin-left" title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
+                        {% if file.feedback|length != 0 %} <span class="label label-primary pull-right margin-left" title="Someone has offered feedback on this file.">Feedback</span>{% endif %}
                         <div class="hidden-xs">
                         <div class="file-menu">
                             {% if file.isOwner(app.user.username) %}
