@@ -139,6 +139,7 @@
                             id="review_{{ review.id }}">
                             <a title="Review by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}" href="javascript:void(0);">
                                 <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review" alt="Review by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}"></span>
+                                <span class="small hidden-lg hidden-md hidden-sm hidden-xs" style="font-family:proxima-nova, sans-serif;">Review</span>
                                 <span class="small hidden-md hidden-sm"
                                       style="font-family:proxima-nova, sans-serif;">by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}</span>
                             </a>
@@ -179,7 +180,7 @@
                                 PDF</a>
                         </li>
                     {% elseif parent_file.ext == 'odt' or parent_file.ext == 'ods' or parent_file.ext == 'odp' or parent_file.ext == 'pdf' %}
-                        <li class="navbar-text hidden-sm">
+                        <li class="navbar-text hidden-sm hidden-xs">
                             <a title="Download this document" class=""
                                href="{{ course_path('file_get', { 'id': parent_file.id }) }}">Download</a>
                         </li>
@@ -197,7 +198,7 @@
                                 <a title="Edit this document" class=""
                                    href="{{ course_path('doc_edit', { 'id': review.id,'view': app.request.get('view') }) }}">Edit</a>
                             </li>
-                            <li class="navbar-text hidden-sm">
+                            <li class="navbar-text hidden-sm hidden-xs">
                                 <a title="Print this document" class=""
                                    href="{{ course_path('doc_pdf', { 'id': review.doc.id }) }}">Printable PDF</a>
                             </li>

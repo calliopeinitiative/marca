@@ -6,7 +6,7 @@
 {# conditional for show or edit #}
 {% if app.request.get('_route') == 'doc_edit' or app.request.get('_route') == 'doc_ajax' %}
 
-    {# id doc edit #}
+    {# doc edit #}
     {# file/doc info #}
     <div class="panel panel-default">
         <div class="panel-body">
@@ -14,6 +14,7 @@
                 <span class="small" style="font-family:proxima-nova, sans-serif;">
                     by {% if file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname }} {{ file.user.lastname }}{% endif %}
                 </span>
+
             <p>
                 {{ file.doc.created|date('m/d/y, g:i a') }}{% if file.doc.created != file.doc.updated %} / {{ file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
             </p>
@@ -104,6 +105,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
 
+            {# parent file info #}
             <span id="parent_info">
             {% if parent_file %}
                 <h2 style="font-size:18px;">{{ parent_file.name }} </h2>
@@ -112,11 +114,13 @@
                 </span>
                 <p>
                     {% if parent_file.doc %}
-                         {{ parent_file.doc.created|date('m/d/y, g:i a') }}{% if parent_file.doc.created != parent_file.doc.updated %} / {{ parent_file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
+                        {{ parent_file.doc.created|date('m/d/y, g:i a') }}{% if parent_file.doc.created != parent_file.doc.updated %} / {{ parent_file.doc.updated|date('m/d/y, g:i a') }}{% endif %}
                     {% else %}
-                         {{ parent_file.created|date('m/d/y, g:i a') }}{% if parent_file.created != parent_file.updated %} / {{ parent_file.updated|date('m/d/y, g:i a') }}{% endif %}
+                        {{ parent_file.created|date('m/d/y, g:i a') }}{% if parent_file.created != parent_file.updated %} / {{ parent_file.updated|date('m/d/y, g:i a') }}{% endif %}
                     {% endif %}
                 </p>
+
+                {# parent file labels #}
                 <p>
                 {% for tag in parent_file.tag %}
                     <span class="label {{ tag.color }}">{{ tag.name }}</span>
@@ -127,7 +131,33 @@
                 {% if parent_file.portfolio|length !=0 %}
                     <span class="label label-info">Portfolio</span>
                 {% endif %}
-                </p>
+            </p>
+
+
+                 {# parent file markup tracking #}
+                 {# markup tracking not ready for prime time #}
+                <table class="table table-striped markup-table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for tracking_item in parent_file.tracking %}
+                        <tr>
+                            <td>{{ tracking_item.markup.name }} <span
+                                        class="pull-left color-flag {{ tracking_item.markup.color }}">&#183;</span>
+                            </td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+
+                {# parent file grades #}
                 {% if (parent_file.user==app.user or role==2)  and file.course.gradeset %}
                 {% if  parent_file.grade %}
                     <strong>Grade:</strong>
@@ -135,7 +165,8 @@
                 {% else %}
                     {% if role==2 %}
                         <span id="grades">
-                            <a id="post_parentfile_grade" class="btn btn-default btn-xs" href="javascript:void(0);">Post Grade</a>
+                            <a id="post_parentfile_grade" class="btn btn-default btn-xs" href="javascript:void(0);">Post
+                                Grade</a>
                         </span>
                     {% endif %}
                 {% endif %}
@@ -146,6 +177,7 @@
             {% endif %}
              </span>
 
+            {# review files info #}
             {% for review in parent_file.reviews %}
                 <div id="review_info_{{ review.id }}" class="review_info">
                     <h2 style="font-size:18px;">{{ review.name }} </h2>
@@ -161,6 +193,7 @@
                         {% endif %}
                     </p>
 
+                    {# review file labels #}
                     <p>
                         {% for tag in review.tag %}<span
                             class="label {{ tag.color }}">{{ tag.name }}</span>{% endfor %}
@@ -171,7 +204,8 @@
                                 class="label label-info">Portfolio</span>{% endif %}
                     </p>
 
-                    {# markup tracking not ready for prime time
+                    {# review file markup tracking #}
+                    {# markup tracking not ready for prime time #}
                     <table class="table table-striped markup-table">
                         <thead>
                         <tr>
@@ -182,17 +216,17 @@
                         <tbody>
                         {% for tracking_item in review.tracking %}
                             <tr>
-                                <td>{{ tracking_item.markup.name }} <span class="pull-left color-flag {{ tracking_item.markup.color }}" >&#183;</span> </td>
+                                <td>{{ tracking_item.markup.name }} <span
+                                            class="pull-left color-flag {{ tracking_item.markup.color }}">&#183;</span>
+                                </td>
                                 <td></td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-                    #}
+
                 </div>
             {% endfor %}
-
-
 
 
         </div>
@@ -239,9 +273,12 @@
 
             <div class="btn-group  pull-right">
                 <a id="expand" title="Offer guided feedback" class="btn btn-default btn-xs pull-right"
-                      href="javascript:void(0);"><i id="glyph_expand" class="glyphicon glyphicon-resize-full glyphicon-white" style="margin-left: 0;"></i></a>
+                   href="javascript:void(0);"><i id="glyph_expand"
+                                                 class="glyphicon glyphicon-resize-full glyphicon-white"
+                                                 style="margin-left: 0;"></i></a>
                 {% if not (app.request.get('_route') == 'doc_edit' or app.request.get('_route') == 'doc_ajax') %}
-                    <a id="new_rubricreview" title="Offer guided feedback" class="btn btn-default btn-xs pull-right" href="javascript:void(0);">
+                    <a id="new_rubricreview" title="Offer guided feedback" class="btn btn-default btn-xs pull-right"
+                       href="javascript:void(0);">
                         Add <i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
                 {% endif %}
             </div>

@@ -19,3 +19,4 @@ app/config/parameters.ini
 /composer.phar
 .idea
 /node_modules
+.elasticbeanstalk/

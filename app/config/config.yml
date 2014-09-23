@@ -35,21 +35,20 @@ assetic:
   java: /usr/bin/java
   filters:
     yui_js:
-      jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
-    less:
-       node: /usr/bin/node
-       node_paths: [%kernel.root_dir%/../node_modules]
-       apply_to: "\.less$"
+      jar: %kernel.root_dir%/../vendor/packagist/yuicompressor-bin/bin/yuicompressor.jar
+    lessphp:
+      apply_to: "\.less$"
+      #file:   %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
     cssrewrite: ~
   assets:
     jquery_js:
         inputs:
             - '%kernel.root_dir%/../vendor/components/jquery/jquery.js'
-        filters: [?yui_js]
+        filters: [yui_js]
     jqueryui_js:
         inputs:
             - '%kernel.root_dir%/../vendor/components/jqueryui/jquery-ui.js'
-        filters: [?yui_js]
+        filters: [yui_js]
     bootstrap_js:
         inputs:
             - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/transition.js'
@@ -64,11 +63,11 @@ assetic:
             - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/collapse.js'
             - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/carousel.js'
             - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/affix.js'
-        filters: [?yui_js]
+        filters: [yui_js]
     bootstrap_less:
         inputs:
             - '%kernel.root_dir%/../vendor/twbs/bootstrap/less/bootstrap.less'
-        filters: [less]
+        filters: [lessphp]
 
 # Doctrine Configuration
 doctrine:

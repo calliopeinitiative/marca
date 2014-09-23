@@ -25,14 +25,11 @@ class RollController extends Controller
      */
     public function indexAction($courseid)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
 
         $em = $this->getEm();
-        $user = $this->getUser();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-
-        if(!$course or $user != $course->getUser()){
-            throw new AccessDeniedException();
-        }
 
         $courseRoll = $this->getRoll();
         $paginator = $this->get('knp_paginator');
@@ -69,6 +66,9 @@ class RollController extends Controller
      */
     public function courseRollProfileAction($rollid)
     {
+        $allowed = array(self::ROLE_STUDENT, self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+
         $em = $this->getEm();
         $roll_user = $em->getRepository('MarcaCourseBundle:Roll')->findUserByRoll($rollid);
         $user = $em->getRepository('MarcaUserBundle:User')->find($roll_user);
@@ -144,6 +144,8 @@ class RollController extends Controller
      */
     public function showRollModalAction($courseid,$id)
     {
+        //NB security is handled in the conditional below
+
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
@@ -165,86 +167,6 @@ class RollController extends Controller
             'course' => $course,);
     }
 
-    /**
-     * Displays a form to create a new Roll roll.
-     *
-     * @Route("/new", name="roll_new")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
-        
-        $roll = new Roll();
-        $form   = $this->createForm(new RollType(), $roll);
-
-        return array(
-            'roll' => $roll,
-            'form'   => $form->createView()
-        );
-    }
-
-    /**
-     * Creates a new Roll roll.
-     *
-     * @Route("/create", name="roll_create")
-     * @Method("post")
-     * @Template("MarcaCourseBundle:Roll:new.html.twig")
-     */
-    public function createAction()
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
-        
-        $roll  = new Roll();
-        $request = $this->getRequest();
-        $form    = $this->createForm(new RollType(), $roll);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getEm();
-            $em->persist($roll);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('roll_show', array('id' => $roll->getId())));
-            
-        }
-
-        return array(
-            'roll' => $roll,
-            'form'   => $form->createView()
-        );
-    }
-
-    /**
-     * Displays a form to edit an existing Roll roll.
-     *
-     * @Route("/{courseid}/{id}/edit", name="roll_edit")
-     * @Template()
-     */
-    public function editAction($id)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
-
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
-
-        if (!$roll) {
-            throw $this->createNotFoundException('Unable to find Roll roll.');
-        }
-
-        $editForm = $this->createForm(new RollType(), $roll);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'roll'      => $roll,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
 
     /**
      * Edits an existing Roll roll.
@@ -335,6 +257,7 @@ class RollController extends Controller
      */
     public function rollPendingDelete($id, $courseid)
     {
+        //NB security is handled in the conditional below
 
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
