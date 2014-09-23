@@ -181,9 +181,9 @@
                             {% endif %}
                             {% if file.isOwner(app.user.username) and file.portfolio|length == 0 and file.responses|length == 0 and file.reviews|length == 0 and file.feedback|length == 0 %}
                                 <a class="delete disabled" id='file_show_{{file.id}}' href='javascript:void(0);' title="Delete this file.">Delete</a>
-                            {% elseif file.portfolio|length != 0 %}Files in the Portfolio can not be deleted.
-                            {% elseif file.reviews|length != 0 %}Files that have reviews can not be deleted.
-                            {% elseif file.feedback|length != 0 %}Files that have feedback can not be deleted.
+                            {% elseif file.isOwner(app.user.username) and file.portfolio|length != 0 %}Files in the Portfolio can not be deleted.
+                            {% elseif file.isOwner(app.user.username) and file.reviews|length != 0 %}Files that have reviews can not be deleted.
+                            {% elseif file.isOwner(app.user.username) and file.feedback|length != 0 %}Files that have feedback can not be deleted.
                             {% endif%}
                         </div>
                         </div>
@@ -237,7 +237,7 @@
                                         {% if role==2 and review.isOwner(app.user.username) %}<a class='' href="{{ course_path('file_toggle_release', { 'id': review.id }) }}"  title="Instructor reviews can be hidden or released to students.  Click to hide or release.">{% if review.access==2 %}Release{% else %}Hide{% endif %}</a>{% endif%}
                                         {% if review.isOwner(app.user.username) and review.portfolio|length == 0 %}
                                             <a class='delete' id='file_show_{{review.id}}' href='javascript:void(0);'  title="Delete this file.">Delete</a>
-                                            {% elseif review.portfolio|length != 0 %}Files in the Portfolio can not be deleted.
+                                            {% elseif review.isOwner(app.user.username) and review.portfolio|length != 0 %}Files in the Portfolio can not be deleted.
                                         {% endif%}
                                     </div>
                                     </div>
