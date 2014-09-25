@@ -29,6 +29,7 @@ class CalendarController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
+        $role = $this->getCourseRole();
         $course = $this->getCourse();
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         $gotodate = \date("Y-m-d");
@@ -37,7 +38,7 @@ class CalendarController extends Controller
         $paginator = $this->get('knp_paginator');
         $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),10);
         
-        return array('calendar' => $calendar, 'gotodate' => $gotodate);
+        return array('calendar' => $calendar, 'role' => $role, 'gotodate' => $gotodate);
     }
     
     /**
@@ -52,6 +53,7 @@ class CalendarController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
+        $role = $this->getCourseRole();
         $course = $this->getCourse();
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseStart($course);
         $gotodate = \date("Y-m-d");
@@ -60,7 +62,7 @@ class CalendarController extends Controller
         $paginator = $this->get('knp_paginator');
         $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),10);
         
-        return array('calendar' => $calendar, 'gotodate' => $gotodate);
+        return array('calendar' => $calendar, 'role' => $role, 'gotodate' => $gotodate);
     }
     
     /**
@@ -75,6 +77,7 @@ class CalendarController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
+        $role = $this->getCourseRole();
         $course = $this->getCourse();
         $events = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         
@@ -91,7 +94,7 @@ class CalendarController extends Controller
         
         $form   = $this->createForm(new CalendarType(), $calendar);
 
-        return array('events' => $events, 'gotodate' => $gotodate, 'form'   => $form->createView(),);
+        return array('events' => $events, 'role' => $role, 'gotodate' => $gotodate, 'form'   => $form->createView(),);
     }    
 
     /**
@@ -106,7 +109,7 @@ class CalendarController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-
+        $role = $this->getCourseRole();
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
 
         if (!$calendar) {
@@ -116,8 +119,7 @@ class CalendarController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'calendar'      => $calendar,
-            'delete_form' => $deleteForm->createView(),        );
+            'calendar'      => $calendar, 'role' => $role, 'delete_form' => $deleteForm->createView(),        );
     }
     
     
@@ -133,7 +135,7 @@ class CalendarController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-
+        $role = $this->getCourseRole();
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
 
         if (!$calendar) {
@@ -141,7 +143,7 @@ class CalendarController extends Controller
         }
 
 
-        return array( 'calendar'      => $calendar, );
+        return array( 'calendar' => $calendar, 'role' => $role, );
     }
     
 
@@ -153,11 +155,11 @@ class CalendarController extends Controller
      */
     public function newAction($courseid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-
+        $role = $this->getCourseRole();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         
         $startTime = $course->getTime();
@@ -173,8 +175,7 @@ class CalendarController extends Controller
         $form   = $this->createForm(new CalendarType(), $calendar);
 
         return array(
-            'calendar' => $calendar,
-            'form'   => $form->createView()
+            'calendar' => $calendar, 'role' => $role, 'form'   => $form->createView()
         );
     }
 
@@ -189,10 +190,11 @@ class CalendarController extends Controller
      */
     public function createAction($courseid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
+        $role = $this->getCourseRole();
         $user = $this->getUser();       
         $course = $this->getCourse();
         
@@ -216,8 +218,7 @@ class CalendarController extends Controller
         }
 
         return array(
-            'calendar' => $calendar,
-            'form'   => $form->createView()
+            'calendar' => $calendar, 'role' => $role, 'form'   => $form->createView()
         );
     }
 
@@ -229,10 +230,11 @@ class CalendarController extends Controller
      */
     public function editAction($id, $gotodate)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
+        $role = $this->getCourseRole();
         $course = $this->getCourse();
         $events = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
@@ -246,6 +248,7 @@ class CalendarController extends Controller
 
         return array(
             'events' => $events,
+            'role' => $role,
             'gotodate' => $gotodate,
             'calendar'      => $calendar,
             'edit_form'   => $editForm->createView(),
@@ -263,10 +266,11 @@ class CalendarController extends Controller
      */
     public function updateAction($id,$courseid,$gotodate)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
+        $role = $this->getCourseRole();
         $course = $this->getCourse();
         $events = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
@@ -293,6 +297,7 @@ class CalendarController extends Controller
 
         return array(
             'events' => $events,
+            'role' => $role,
             'gotodate' => $gotodate,
             'calendar'      => $calendar,
             'edit_form'   => $editForm->createView(),
@@ -310,8 +315,10 @@ class CalendarController extends Controller
      */
     public function deleteAction($id, $courseid, $gotodate)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
+
+        $role = $this->getCourseRole();
         $gotodate = \date("Y-m-d");
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -341,21 +348,6 @@ class CalendarController extends Controller
         ;
     }
     
-     /**
-     * Edits an existing Calendar entity.
-     * @Template("MarcaCalendarBundle:Calendar:display.json.twig")
-     */
- public function feedAction() { 
-     
-     $em = $this->getEm();
-     
-     $dql1 = "SELECT c FROM MarcaCalendarBundle:Calendar c";    
-     $query = $em->createQuery($dql1);
-     $feed = $query->getResult();
-     
-     return array('feed' => $feed);
-    
-}
 
     /**
      * Creates HTML for printing
@@ -367,6 +359,7 @@ class CalendarController extends Controller
     {
         $em = $this->getEm();
         $course = $this->getCourse();
+        $role = $this->getCourseRole();
         $ip = $this->get('request')->getClientIp();
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
 
@@ -374,7 +367,7 @@ class CalendarController extends Controller
             throw $this->createNotFoundException('Unable to find Calendar entity.');
         }
 
-        return array('calendar' => $calendar, 'ip' => $ip);
+        return array('calendar' => $calendar, 'role' => $role, 'ip' => $ip);
     }
 
 
@@ -389,7 +382,7 @@ class CalendarController extends Controller
         $this->restrictAccessTo($allowed);
 
         $filename = 'attachment; filename="agenda.pdf"';
-
+        $role = $this->getCourseRole();
         $pageUrl = $this->generateUrl('agenda_print', array('courseid'=> $courseid),  true); // use absolute path!
 
         return new Response(

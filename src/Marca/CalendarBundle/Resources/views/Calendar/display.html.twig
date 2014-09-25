@@ -10,8 +10,9 @@
         $(document).ready(function() {
             $('#calendar').fullCalendar(
                     {
-                        dayClick: function(date, allDay, jsEvent, view) {
-                            {% if is_granted('ROLE_INSTR') %}
+                        dayClick: function(date, allDay, jsEvent, view)
+                        {
+                            {% if role==2 %}
                             var format_date = $.datepicker.formatDate('yy-mm-dd', date)
                             var route = "{{ course_path('calendar_new', {'set_date': "event_gotodate" }) }}";
                             route = route.replace("event_gotodate", format_date);
@@ -19,7 +20,8 @@
                             {% endif %}
                         },
                         eventClick: function(calEvent, jsEvent, view) {
-                            if (calEvent.isOwner == 'yes') {
+                            var role = "{{ role }}";
+                            if (calEvent.isOwner == 'yes' && role == '2') {
                                 var route = "{{ course_path('calendar_edit', { 'id': "event_id", 'gotodate': "event_gotodate" }) }}";
                                 route = route.replace("event_id", calEvent.id);
                                 route = route.replace("event_gotodate", calEvent.gotodate);
