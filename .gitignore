@@ -11,8 +11,6 @@
 app/config/parameters.ini
 /app/config/parameters.yml
 /app/config/security.yml
-/app/Resources/views/external.html.twig
-/src/Marca/HomeBundle/Resources/public/css/external.css
 /nbproject
 /uploads
 /temp

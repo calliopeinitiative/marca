@@ -1,0 +1,11 @@
+/* 
+    Document   : external.css
+    Created on : Nov 30, 2012, 1:24:28 PM
+    Author     : rlbaltha
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+html, body {height:100%;font-family:"proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;}
+h1,h2,h3,h4,h5,h6,legend,.navbar-fixed-top,.skippy  {font-family:"museo-slab", Cambria, Georgia, sans-serif;}
+#file_list thead th {font-family:"museo-slab", Cambria, Georgia, sans-serif;}
