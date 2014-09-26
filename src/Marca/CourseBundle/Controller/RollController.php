@@ -33,7 +33,7 @@ class RollController extends Controller
 
         $courseRoll = $this->getRoll();
         $paginator = $this->get('knp_paginator');
-        $roll = $paginator->paginate($courseRoll,$this->get('request')->query->get('page',1),25);
+        $roll = $paginator->paginate($courseRoll,$this->get('request')->query->get('page',1),100);
         
         return array('roll' => $roll, 'course' => $course);
     }
@@ -53,7 +53,7 @@ class RollController extends Controller
         $course = $this->getCourse();
         $full_roll = $this->getRoll();
         $paginator = $this->get('knp_paginator');
-        $roll = $paginator->paginate($full_roll,$this->get('request')->query->get('page',1),20);
+        $roll = $paginator->paginate($full_roll,$this->get('request')->query->get('page',1),100);
         
         return array('roll' => $roll,'full_roll' => $full_roll, 'course' => $course);
     }
