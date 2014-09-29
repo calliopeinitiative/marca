@@ -103,8 +103,9 @@ class LoadMarkupsetData extends AbstractFixture implements OrderedFixtureInterfa
        
         $manager->flush();
         
-           
-        
+        $this->addReference('markupset2', $markupset2);
+        $this->addReference('markupset3', $markupset3);
+        $this->addReference('markupset4', $markupset4);
     }
     
     /**

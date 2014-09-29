@@ -33,7 +33,7 @@ class LoadPortData extends AbstractFixture implements OrderedFixtureInterface
        $portset->setUser($user);
        $portset->setName('FYC Standard');
        $portset->setDescription('The standard portfolio for UGA FYC');
-       
+       $portset->setShared(2); //Make default
        
        $portitem1  = new Portitem();
        $portitem1->setPortset($portset);
@@ -138,6 +138,8 @@ class LoadPortData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($portitem13);
         
         $manager->flush();
+
+        $this->addReference('portset', $portset);
        
     
     }
@@ -147,7 +149,7 @@ class LoadPortData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 5;
+        return 3;
     }
 }
 
