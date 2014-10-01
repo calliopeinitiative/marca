@@ -10,19 +10,12 @@
             $('#toggle_modal').click(function(){
                 $('#delete_modal').modal();
             });
-            $('#doc-display').css('height', function(index) {
-                return $(window).height()* .88;
-            });
-            $('iframe').css('height', function(index) {
-                return $(window).height() * .88;
-            });
         });
     </script>
 {% endblock %}
 
 {% block content %}
     <div class="col-sm-11 center">
-        {% if journal %}
             <div class="col-sm-8">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -37,28 +30,13 @@
                 </div>
             </div>
 
-
-        {% else %}
-            {% if not file.doc %}
-                <iframe class="col-sm-8" id="viewer" src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}" allowfullscreen="true" webkitallowfullscreen="true"></iframe>
-            {% else %}
-                <div id='doc-display' class="col-sm-8 well">
-                    <div class="doc-body">
-                        {{ doc.body|raw }}
-                    </div>
-                </div>
-            {% endif %}
-
-        {%endif %}
-
-
         <div class="col-sm-4">
-            <form action="{{ course_path('response_create', { 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user') }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+            <form action="{{ course_path('response_create', { 'sourceid': sourceid,'page': app.request.get('page'),'user': app.request.get('user') }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
 
             <div class="panel panel-default">
                     <div class="panel-heading">
                         <h2 class="panel-title small">
-                            {% if journal %}Journal Response{% else %}Feedback{% endif %}
+                            Journal Response
                         </h2>
                     </div>
                     <div class="panel-body">
@@ -67,11 +45,7 @@
                     <div class="panel-footer">
                         <div class="btn-group">
                             <button class="btn btn-primary" type="submit">Submit</button>
-                            {% if journal %}
-                                <a class="btn btn-default" href="{{ course_path('journal_list', { 'id': response.id, 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user'),'userid':app.request.get('userid') }) }}">Cancel</a>
-                            {%else %}
-                                <a class="btn btn-default" href="{{ course_path(source, { 'id': sourceid,'view': app.request.get('view') }) }}">Cancel</a>
-                            {%endif %}
+                                <a class="btn btn-default" href="{{ course_path('journal_list', { 'id': response.id, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user'),'userid':app.request.get('userid') }) }}">Cancel</a>
                         </div>
                     </div>
                 </div>

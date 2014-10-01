@@ -19,10 +19,10 @@ class ResponseController extends Controller
     /**
      * Displays a form to create a new Response response.
      *
-     * @Route("/{courseid}/{source}/{sourceid}/{view}/{page}/{user}/{userid}/new", name="response_new", defaults={"page" = 1,"user" = 1})
+     * @Route("/{courseid}/{sourceid}/{page}/{user}/{userid}/new", name="response_new", defaults={"page" = 1,"user" = 1})
      * @Template()
      */
-    public function newAction($source, $sourceid, $page)
+    public function newAction($courseid, $sourceid, $page)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -31,28 +31,12 @@ class ResponseController extends Controller
         $response = new Response();
         $response->setBody('<p></p>');
         $form   = $this->createForm(new ResponseType(), $response);
-        $doc = '';
-        $journal = '';
-        $file = '';
 
-        if ($source == 'journal_list')
-        {
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($sourceid);
-        }
-        else
-        {
-        $file = $em->getRepository('MarcaFileBundle:File')->find($sourceid);
-        if ($file->getDoc()){
-            $doc = $file->getDoc();
-        }
-        };        
 
         return array(
             'response' => $response,
-            'source' => $source,
             'journal' => $journal,
-            'doc' => $doc,
-            'file' => $file,
             'sourceid' => $sourceid,
             'form'   => $form->createView()
         );
@@ -61,11 +45,11 @@ class ResponseController extends Controller
     /**
      * Creates a new Response response.
      *
-     * @Route("/{courseid}/{source}/{sourceid}/{view}/{page}/{user}/create", name="response_create", defaults={"page" = 1,"user" = 1})
+     * @Route("/{courseid}/{sourceid}/{page}/{user}/create", name="response_create", defaults={"page" = 1,"user" = 1})
      * @Method("post")
      * @Template("MarcaResponseBundle:Response:new.html.twig")
      */
-    public function createAction($courseid, $source, $sourceid, $view, $page, $user)
+    public function createAction($courseid, $sourceid, $page, $user)
     {
         
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
@@ -77,12 +61,7 @@ class ResponseController extends Controller
         $response  = new Response();
         $response->setUser($user);
         $response->setBody('<p></p>');
-        $doc = '';
-        $journal = '';
-        $file = '';
-        
-        if ($source == 'journal_list')
-        {
+
             $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($sourceid);
             $userid = $journal->getUser()->getId();
             $response->setJournal($journal);
@@ -100,132 +79,94 @@ class ResponseController extends Controller
             return array(
             'response' => $response,
             'journal' => $journal,
-            'doc' => $doc,
-            'file' => $file,
-            'source' => $source,
             'sourceid' => $sourceid,
             'form'   => $form->createView()
             );
         }
-            else
-        {
-
-            $file = $em->getRepository('MarcaFileBundle:File')->find($sourceid);
-            if ($file->getDoc()){
-                $doc = $file->getDoc();
-            }
-            $response->setFile($file);
-            $journal = '';
-            $request = $this->getRequest();
-            $form    = $this->createForm(new ResponseType(), $response);
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {
-            $em = $this->getEm();
-            $em->persist($response);
-            $em->flush();
-
-            if ($file->getDoc())    {
-                return $this->redirect($this->generateUrl('doc_show', array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));
-            }
-                else {
-                    return $this->redirect($this->generateUrl('file_view', array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));
-                }
-
-            }
-
-            return array(
-            'response' => $response,
-            'journal' => $journal,
-            'doc' => $doc,
-            'file' => $file,
-            'source' => $source,
-            'sourceid' => $sourceid,
-            'form'   => $form->createView()
-            );
-            
-        };
-
-    }
 
     /**
      * Displays a form to edit an existing Response response.
      *
-     * @Route("/{courseid}/{source}/{sourceid}/{id}/{view}/{page}/{user}/{userid}/edit", name="response_edit", defaults={"page" = 1,"user" = 1})
+     * @Route("/{courseid}/{sourceid}/{id}/{page}/{user}/{userid}/edit", name="response_edit", defaults={"page" = 1,"user" = 1})
      * @Template()
      */
-    public function editAction($id, $source, $sourceid, $view, $page)
+    public function editAction($id, $courseid, $sourceid, $page, $user, $userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
         $response = $em->getRepository('MarcaResponseBundle:Response')->find($id);
-        $journal = '';
-        $doc = '';
-        $file = '';
 
-        if ($source == 'journal_list')
-        {    
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($sourceid);
-        }
-        else {
-            $file = $em->getRepository('MarcaFileBundle:File')->find($sourceid);
-            if ($file->getDoc()){
-                $doc = $file->getDoc();
-            }
-        }
+
 
         if (!$response) {
             throw $this->createNotFoundException('Unable to find Response response.');
         }
 
-        $editForm = $this->createForm(new ResponseType(), $response);
-        $deleteForm = $this->createDeleteForm($id);
+        $options = array();
+        $editForm = $this->createEditForm($response, $courseid, $sourceid, $options, $page, $user, $userid);
+        $deleteForm = $this->createDeleteForm($id, $courseid, $page, $user, $userid);
 
         return array(
             'response'      => $response,
-            'source' => $source,
             'sourceid' => $sourceid,
             'journal' => $journal,
-            'doc' => $doc,
-            'file' => $file,
-            'view' => $view,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
 
+
+    /**
+     * Creates a form to edit a Response entity.
+     *
+     * @param Response $response
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Response $response, $courseid, $sourceid, $options, $page, $user, $userid)
+    {
+        $form = $this->createForm(new ResponseType($options), $response, array(
+            'action' => $this->generateUrl('response_update', array('id' => $response->getId(),'courseid' => $courseid, 'sourceid' => $sourceid,'page' => $page,'user' => $user,'userid' => $userid, )),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
+    }
+
+
+
     /**
      * Edits an existing Response response.
      *
-     * @Route("/{courseid}/{source}/{sourceid}/{id}/{view}/{page}/{user}/update", name="response_update", defaults={"page" = 1,"user" = 1})
+     * @Route("/{courseid}/{sourceid}/{id}/{page}/{user}/update", name="response_update", defaults={"page" = 1,"user" = 1})
      * @Method("post")
      * @Template("MarcaResponseBundle:Response:edit.html.twig")
      */
-    public function updateAction($id, $source, $sourceid, $courseid, $view, $page, $user)
+    public function updateAction($id, $sourceid, $courseid, $page, $user)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
         $response = $em->getRepository('MarcaResponseBundle:Response')->find($id);
-        $journal = '';
-        $doc = '';
-        $file = '';
 
         if (!$response) {
             throw $this->createNotFoundException('Unable to find Response response.');
         }
-        
-        if ($source == 'journal_list')
-        {
+
              $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($sourceid);          
              $journal_list = $journal->getUser();
              $userid = $journal_list->getId();
              $response->setJournal($journal);
-             $editForm   = $this->createForm(new ResponseType(), $response);
-             $deleteForm = $this->createDeleteForm($id);
+
+             $options = array();
+             $editForm = $this->createEditForm($response, $courseid, $sourceid, $options, $page, $user, $userid);
+             $deleteForm = $this->createDeleteForm($id, $courseid,  $page, $user, $userid);
+
              $request = $this->getRequest();
              $editForm->handleRequest($request);
 
@@ -238,59 +179,25 @@ class ResponseController extends Controller
 
             return array(
             'response'      => $response,
-            'source' => $source,
             'sourceid' => $sourceid,
             'journal' => $journal,
-            'doc' => $doc,
-            'file' => $file,
-            'view' => $view,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
-        }
-            else
-        {
-             $editForm   = $this->createForm(new ResponseType(), $response);
-             $deleteForm = $this->createDeleteForm($id);
-             $request = $this->getRequest();
-             $editForm->handleRequest($request);
-            $file = $em->getRepository('MarcaFileBundle:File')->find($sourceid);
-            if ($file->getDoc()){
-                $doc = $file->getDoc();
-            }
-
-            if ($editForm->isValid()) {
-            $em->persist($response);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));
-            }
-
-            return array(
-            'response' => $response,
-            'source' => $source,
-            'journal' => $journal,
-            'doc' => $doc,
-            'file' => $file,
-            'sourceid' => $sourceid,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ); 
-        };
     }
 
     /**
      * Deletes a Response response.
      *
-     * @Route("/{courseid}/{source}/{sourceid}/{id}/{view}/{page}/{user}/{userid}/delete", name="response_delete")
+     * @Route("/{courseid}/{id}/{page}/{user}/{userid}/delete", name="response_delete")
      * @Method("post")
      */
-    public function deleteAction($id, $courseid, $source, $sourceid, $view, $page,$user,$userid)
+    public function deleteAction($id, $courseid, $page, $user, $userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($id, $courseid, $page, $user, $userid);
         $request = $this->getRequest();
 
         $form->handleRequest($request);
@@ -306,21 +213,26 @@ class ResponseController extends Controller
             $em->remove($response);
             $em->flush();
         }
-        if ($source == 'journal_list')
-        {
-        return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'page' => $page,'userid'=>$userid, 'user'=>$user)));
-        }
-        else
-        {
-        return $this->redirect($this->generateUrl($source, array('courseid' => $courseid, 'id' => $sourceid, 'view' => $view)));
-        }
+        return $this->redirect($this->generateUrl('journal_list', array('courseid' => $courseid, 'page' => $page,'userid'=>$userid, 'user'=>$user)));
     }
 
-    private function createDeleteForm($id)
+
+    /**
+     * Creates a form to delete a Journal entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id, $courseid, $page, $user, $userid)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('response_delete', array('id' => $id,'courseid' => $courseid, 'page' => $page,'user' => $user,'userid' => $userid,)))
+            ->setMethod('POST')
+            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
-        ;
+            ;
     }
+
+
 }
