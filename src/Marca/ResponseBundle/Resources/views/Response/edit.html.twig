@@ -41,16 +41,8 @@
                         </h2>
                     </div>
                     <div class="panel-body">
-                        {{ form_widget(edit_form) }}
-                    </div>
-                    <div class="panel-footer">
-                        <div class="btn-group">
-                            <button class="btn btn-primary" type="submit">Update</button>
-
-                                <a class="btn btn-default" href="{{ course_path('journal_list', { 'id': response.id, 'sourceid': sourceid,'page': app.request.get('page'),'user': app.request.get('user'),'userid':app.request.get('userid') }) }}">Cancel</a>
-
-                        </div>
-                        <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                        {{ form(edit_form) }}
+                        <a class="btn btn-warning" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
                     </div>
                 </div>
             </form>
@@ -67,13 +59,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete?</p>
-                    <form action="{{ course_path('response_delete', { 'id': response.id, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user'),'userid':app.request.get('userid')  }) }}" method="post">
-                        {{ form_widget(delete_form) }}
-                        <div class="btn-group">
-                            <button class="btn btn-danger" type="submit">Delete</button>
-                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
-                        </div>
-                    </form>
+                    {{ form(delete_form) }}
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

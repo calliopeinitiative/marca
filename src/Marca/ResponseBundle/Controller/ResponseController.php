@@ -22,7 +22,7 @@ class ResponseController extends Controller
      * @Route("/{courseid}/{sourceid}/{page}/{user}/{userid}/new", name="response_new", defaults={"page" = 1,"user" = 1})
      * @Template()
      */
-    public function newAction($courseid, $sourceid, $page)
+    public function newAction($courseid, $sourceid, $page, $user, $userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -30,7 +30,8 @@ class ResponseController extends Controller
         $em = $this->getEm();
         $response = new Response();
         $response->setBody('<p></p>');
-        $form   = $this->createForm(new ResponseType(), $response);
+        $options = array();
+        $form = $this->createCreateForm($response, $courseid, $sourceid, $options, $page, $user, $userid);
 
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($sourceid);
 
@@ -41,6 +42,26 @@ class ResponseController extends Controller
             'form'   => $form->createView()
         );
     }
+
+
+    /**
+     * Creates a form to create a Grade entity.
+     *
+     * @param Response $response The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateForm(Response $response, $courseid, $sourceid, $options, $page, $user, $userid)
+    {
+        $form = $this->createForm(new ResponseType($options), $response, array(
+            'action' => $this->generateUrl('response_create', array('courseid' => $courseid, 'sourceid' => $sourceid,'page' => $page,'user' => $user,'userid' => $userid, )),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
+    }
+
 
     /**
      * Creates a new Response response.
@@ -60,23 +81,23 @@ class ResponseController extends Controller
         $user = $this->getUser();
         $response  = new Response();
         $response->setUser($user);
-        $response->setBody('<p></p>');
 
-            $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($sourceid);
-            $userid = $journal->getUser()->getId();
-            $response->setJournal($journal);
-            $request = $this->getRequest();
-            $form    = $this->createForm(new ResponseType(), $response);
-            $form->handleRequest($request);
+        $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($sourceid);
+        $userid = $journal->getUser()->getId();
+        $response->setJournal($journal);
+        $request = $this->getRequest();
+        $options = array();
+        $form = $this->createCreateForm($response, $courseid, $sourceid, $options, $page, $user, $userid);
+        $form->handleRequest($request);
 
-            if ($form->isValid()) {
+        if ($form->isValid()) {
             $em->persist($response);
             $em->flush();
 
             return $this->redirect($this->generateUrl('journal_list', array('courseid' => $courseid, 'page' => $page,'userid'=>$userid, 'user'=>$journal_list)));   
             }
 
-            return array(
+        return array(
             'response' => $response,
             'journal' => $journal,
             'sourceid' => $sourceid,

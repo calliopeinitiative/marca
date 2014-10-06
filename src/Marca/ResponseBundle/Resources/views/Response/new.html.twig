@@ -7,9 +7,6 @@
     <script language="javascript">
         $(document).ready(function()
         {
-            $('#toggle_modal').click(function(){
-                $('#delete_modal').modal();
-            });
         });
     </script>
 {% endblock %}
@@ -31,25 +28,16 @@
             </div>
 
         <div class="col-sm-4">
-            <form action="{{ course_path('response_create', { 'sourceid': sourceid,'page': app.request.get('page'),'user': app.request.get('user') }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-
-            <div class="panel panel-default">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h2 class="panel-title small">
                             Journal Response
                         </h2>
                     </div>
                     <div class="panel-body">
-                        {{ form_widget(form) }}
-                    </div>
-                    <div class="panel-footer">
-                        <div class="btn-group">
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                                <a class="btn btn-default" href="{{ course_path('journal_list', { 'id': response.id, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user'),'userid':app.request.get('userid') }) }}">Cancel</a>
-                        </div>
+                        {{ form(form) }}
                     </div>
                 </div>
-            </form>
         </div>
     </div>
 

@@ -77,6 +77,7 @@ class File
     /**
      * @ORM\OneToMany(targetEntity="Marca\DocBundle\Entity\Tracking", mappedBy="file")
      * @ORM\OrderBy({"markup" = "ASC"})
+     * though this orderBy throws an invalid entity error, it works for the sort on doc display
      */
     protected $tracking;
 
