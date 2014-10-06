@@ -40,11 +40,7 @@ class Response
     */
     protected $journal;       
  
-    /**
-    * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="responses")
-    */
-    protected $file;       
-    
+
     /**
     * @ORM\Column(type="datetime", nullable=true)
     * @Gedmo\Timestampable(on="create")
@@ -193,26 +189,4 @@ class Response
         }
     }    
 
-    /**
-     * Set file
-     *
-     * @param \Marca\FileBundle\Entity\File $file
-     * @return Response
-     */
-    public function setFile(\Marca\FileBundle\Entity\File $file = null)
-    {
-        $this->file = $file;
-    
-        return $this;
-    }
-
-    /**
-     * Get file
-     *
-     * @return \Marca\FileBundle\Entity\File 
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
 }

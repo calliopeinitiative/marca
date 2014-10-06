@@ -7,10 +7,12 @@
     <script language="javascript">
         $(document).ready(function()
         {
+            {# standard delete confirmation #}
             $('#toggle_modal').click(function(){
                 $('#delete_modal').modal();
             });
-            $('form li').addClass('alert alert-error');
+
+            {# autosave scripts #}
             $('#saving_alert').toggle();
             var editor = CKEDITOR.instances.marca_journalbundle_journaltype_body;
             var autoSave = setInterval(function(){var buffer = editor.checkDirty(); if (buffer==1) {editor.resetDirty(); var title = $('#marca_journalbundle_journaltype_title').val(); var body =  editor.getData();$.post("{{ course_path('journal_ajax', { 'id': journal.id }) }}", {journalBody:body, journalTitle:title}, function(data){});$('#saving_alert').fadeIn();$('#saving_alert').delay(2000).fadeOut();}}, 30000);
