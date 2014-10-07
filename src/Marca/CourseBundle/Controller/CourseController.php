@@ -25,6 +25,23 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class CourseController extends Controller
 {
+
+    /**
+     * Creates ESI fragment for course nav
+     *
+     * @Route("/{courseid}/nav", name="course_nav")
+     * @Template("MarcaCourseBundle::nav.html.twig")
+     */
+    public function createNavAction()
+    {
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $course = $this->getCourse();
+        $role = $this->getCourseRole();
+        $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUser($user);
+        return array('course' => $course,'courses' => $courses, 'role'=> $role, 'user' => $user);
+    }
+
     /**
      * Lists all Course entities.
      *
@@ -38,7 +55,8 @@ class CourseController extends Controller
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUser($user);
         return array('courses' => $courses);
     }
-    
+
+
     /**
      * Landing page once in a course
      * @Route("/{courseid}/home", name="course_home")
@@ -48,23 +66,14 @@ class CourseController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
 
-        
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();
         $session = $this->get('session'); 
         $session->clear();
-        $session->set('module', $course->getModule());
-        $session->set('portSwitch', $course->getPortfolio()); 
-        $session->set('notesSwitch', $course->getNotes()); 
-        $session->set('journalSwitch', $course->getJournal()); 
-        $session->set('forumSwitch', $course->getForum());         
-        $session->set('course', $course->getName());        
         $username = $user->getFirstname().' '.$user->getLastname();
         $session->set('username', $username);
-        $session->set('portReviewSwitch', $this->getCourseRole()); 
         
         if ($this->getCourseRole()== Roll::ROLE_PORTREVIEWER){
             return $this->redirect($this->generateUrl('portfolio', array('courseid' => $courseid)));

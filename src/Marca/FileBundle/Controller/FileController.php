@@ -25,7 +25,58 @@ use Marca\DocBundle\Entity\Doc;
  * @Route("/file")
  */
 class FileController extends Controller
-{ 
+{
+
+    /**
+     * Lists all Course entities.
+     *
+     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/sidebar", name="file_sidebar")
+     * @Template("MarcaFileBundle::sidebar.html.twig")
+     */
+    public function createSidebarAction($courseid, $resource, $project, $tag, $userid)
+    {
+        $em = $this->getEm();
+        $role = $this->getCourseRole();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $byuser = $em->getRepository('MarcaUserBundle:User')->find($userid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
+        $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
+        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
+        if ($project == 'recent' and $resource!=0) {
+            $default_project = $projects[0]->getId();
+            $project = $default_project;
+        }
+        //tags appropriate for the find
+        if($resource!=0){
+            $projectForTags = $em->getRepository('MarcaCourseBundle:Project')->find($project);
+            $courseForTags =  $projectForTags->getCourse();
+            $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseForTags);
+        }
+        else {$tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($course);}
+
+
+        if ($project == 'default') {
+            $project = $course->getProjectDefault()->getId();
+        }
+
+        return array('roll' => $roll,'projects' => $projects, 'active_project' => $project,'tags' => $tags,'tag' => $tag, 'systemtags' => $systemtags, 'role'=> $role,'course' => $course,'byuser' => $byuser,);
+    }
+
+    /**
+     * Creates ESI fragment for course subnav
+     *
+     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/subnav", name="course_subnav")
+     * @Template("MarcaFileBundle::subnav.html.twig")
+     */
+    public function createSubnavAction($courseid, $userid)
+    {
+        $em = $this->getEm();
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $byuser = $em->getRepository('MarcaUserBundle:User')->find($userid);
+        return array('roll' => $roll, 'byuser' => $byuser,);
+    }
+
 
     /**
      * Lists all File entities by Project.
@@ -33,7 +84,7 @@ class FileController extends Controller
      * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/list", name="file_list")
      * @Template("MarcaFileBundle:File:index.html.twig")
      */
-    public function indexByProjectAction($project, $scope, $courseid, $tag, $resource,$userid)
+    public function indexByProjectAction($project, $scope, $courseid, $tag, $resource, $userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -45,49 +96,19 @@ class FileController extends Controller
         else {
         $session->set('resource_referrer', $request->getRequestUri());
         }
-        
         $em = $this->getEm();
-        $user = $this->getUser();
-        $role = $this->getCourseRole();
-        $byuser = $course = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
-
-        if ($project == 'recent' and $resource!=0) {
-            $default_project = $projects[0]->getId();
-            $project = $default_project;
-        }
-
-        if ($project == 'default') {
-            $project = $course->getProjectDefault()->getId();
-        }
-
-
+        $byuser = $em->getRepository('MarcaUserBundle:User')->find($userid);
+        $role = $this->getCourseRole();
+        $user = $this->getUser();
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser, $role);
-
-
-
-        $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
-        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-
-        //tags appropriate for the find
-        if($resource!=0){
-            $projectForTags = $em->getRepository('MarcaCourseBundle:Project')->find($project);
-            $courseForTags =  $projectForTags->getCourse();
-            $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseForTags);
-        }
-        else {$tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($course);}
 
         //pagination for files
         $paginator = $this->get('knp_paginator');
         $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),25);
-        $count = $files->getTotalItemCount();
-
         if ($resource==0) {$template = 'MarcaFileBundle:File:index.html.twig'; } else {$template = 'MarcaFileBundle:File:resource_index.html.twig';}
 
-        return $this->render($template, array('files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project,
-                'tags' => $tags, 'systemtags' => $systemtags, 'tag' => $tag, 'byuser' => $byuser, 'course' => $course, 'roll' => $roll, 'role'=> $role));
+        return $this->render($template, array('files' => $files, 'role'=> $role,'course' => $course));
     }  
            
  

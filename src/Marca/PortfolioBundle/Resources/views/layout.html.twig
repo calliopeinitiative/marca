@@ -1,14 +1,12 @@
 {# Marca/PortfolioBundle/Resources/views/layout.html.twig #}
 
 {% extends '::base.html.twig' %}
+
 {% block title %}{{ application_name }} | Portfolio{% endblock %}
-
 {% block stylesheets %}{{ parent() }}{% endblock %}
-
 {% block javascripts %}{{ parent() }}{% endblock %}
-
 {% block subnav %}
-    {%include 'MarcaCourseBundle::subnav.html.twig' %}
+    {{ render_esi(controller('MarcaCourseBundle:Course:createNav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}
 
 {% block sidebar %}

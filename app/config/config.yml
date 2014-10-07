@@ -6,7 +6,8 @@ imports:
     - { resource: '@MarcaAuthenticateBundle/Resources/config/services.xml' }
 
 framework:
-    #esi:             ~
+    esi: { enabled: true }
+    fragments: { path: /_fragment }
     translator:      { fallback: %locale% }
     secret:          %secret%
     router:

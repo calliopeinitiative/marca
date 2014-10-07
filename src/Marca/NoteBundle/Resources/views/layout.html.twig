@@ -5,9 +5,8 @@
 
 {% block stylesheets %}{{ parent() }}{% endblock %}
 {% block javascripts %}{{ parent() }}{% endblock %}
-
 {% block subnav %}
-{%include 'MarcaCourseBundle::subnav.html.twig' %}
+    {{ render_esi(controller('MarcaCourseBundle:Course:createNav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}
 
 {% block sidebar %}
