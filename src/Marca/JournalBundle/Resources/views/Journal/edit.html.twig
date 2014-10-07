@@ -29,7 +29,9 @@
                 </div>
                 <div class="panel-body">
                     {{ form(edit_form) }}
+                    {# if journal has responses, do no show delete button #}
                     {% if journal.responses|length == 0%}
+                        {# standard delete button for confirm #}
                         <a class="btn btn-warning" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
                     {% else %}
                         <span  class='alert' >Since this journal entry has at least one response, it can not be deleted.</span>
