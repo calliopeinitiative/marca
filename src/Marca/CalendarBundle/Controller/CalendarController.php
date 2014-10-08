@@ -357,9 +357,9 @@ class CalendarController extends Controller
      */
     public function htmlPrintAction()
     {
+
         $em = $this->getEm();
         $course = $this->getCourse();
-        $role = $this->getCourseRole();
         $ip = $this->get('request')->getClientIp();
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
 
@@ -367,7 +367,7 @@ class CalendarController extends Controller
             throw $this->createNotFoundException('Unable to find Calendar entity.');
         }
 
-        return array('calendar' => $calendar, 'role' => $role, 'ip' => $ip);
+        return array('calendar' => $calendar,'ip' => $ip);
     }
 
 
@@ -378,11 +378,9 @@ class CalendarController extends Controller
      */
     public function createPdfAction($courseid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
 
         $filename = 'attachment; filename="agenda.pdf"';
-        $role = $this->getCourseRole();
+
         $pageUrl = $this->generateUrl('agenda_print', array('courseid'=> $courseid),  true); // use absolute path!
 
         return new Response(
