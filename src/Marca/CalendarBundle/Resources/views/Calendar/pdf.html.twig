@@ -7,7 +7,6 @@
         <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/external.css') }}">
-        <link type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
         {% endstylesheets %}
     {% endblock %}
     <style>
@@ -19,7 +18,7 @@
 {# Agenda display #}
     <div class="col-sm-12">
         <div class="agenda">
-            <h1>Agenda</h1>
+            <h1>Agenda for {{ calendar[0].course.name }}</h1>
             <table class="table">
                 <tbody>
                 {% for calendar in calendar %}
