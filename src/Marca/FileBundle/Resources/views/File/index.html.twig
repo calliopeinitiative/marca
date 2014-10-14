@@ -95,8 +95,8 @@
     {% endif %}
 
 
-    {# esi subnav for next user #}
-        {{ render_esi(controller('MarcaFileBundle:File:createSubnav', { 'courseid': app.request.get('courseid'),
+    {# esi submenu for next user #}
+        {{ render_esi(controller('MarcaFileBundle:File:createSubmenu', { 'courseid': app.request.get('courseid'),
         'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'project': app.request.get('project'),
         'userid': app.request.get('userid'),'user': app.request.get('user'), 'scope': app.request.get('scope')})) }}
 

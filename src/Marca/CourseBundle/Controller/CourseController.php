@@ -30,9 +30,9 @@ class CourseController extends Controller
      * Creates ESI fragment for course nav
      *
      * @Route("/{courseid}/nav", name="course_nav")
-     * @Template("MarcaCourseBundle::nav.html.twig")
+     * @Template("MarcaCourseBundle::coursenav.html.twig")
      */
-    public function createNavAction()
+    public function createCoursenavAction()
     {
         $em = $this->getEm();
         $user = $this->getUser();

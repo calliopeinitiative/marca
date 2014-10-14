@@ -6,8 +6,8 @@
 {% block stylesheets %}{{ parent() }}{% endblock %}
 {% block javascripts %}{{ parent() }}{% endblock %}
 
-{% block subnav %}
-    {{ render_esi(controller('MarcaCourseBundle:Course:createNav', { 'courseid': app.request.get('courseid') })) }}
+{% block coursenav %}
+    {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}
 
 

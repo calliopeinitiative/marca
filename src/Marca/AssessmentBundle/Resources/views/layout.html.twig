@@ -5,14 +5,7 @@
 
 {% block stylesheets %}{{ parent() }}{% endblock %}
 {% block javascripts %}{{ parent() }}{% endblock %}
-
-{% block subnav %}
-{%include 'MarcaCourseBundle::subnav.html.twig' %}
-{% endblock %}
-
-
+{% block coursenav %}{{ parent() }}{% endblock %}
 {% block sidebar %}
-
-             
 {% endblock %}  
  

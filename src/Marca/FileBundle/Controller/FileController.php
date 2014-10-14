@@ -64,12 +64,12 @@ class FileController extends Controller
     }
 
     /**
-     * Creates ESI fragment for course subnav
+     * Creates ESI fragment for course submenu
      *
      * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/subnav", name="course_subnav")
-     * @Template("MarcaFileBundle::subnav.html.twig")
+     * @Template("MarcaFileBundle::submenu.html.twig")
      */
-    public function createSubnavAction($courseid, $userid)
+    public function createSubmenuAction($courseid, $userid)
     {
         $em = $this->getEm();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);

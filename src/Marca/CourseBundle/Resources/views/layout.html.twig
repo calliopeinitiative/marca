@@ -6,12 +6,11 @@
 {% block stylesheets %}{{ parent() }}{% endblock %}
 {% block javascripts %}{{ parent() }}{% endblock %}
 
-{% block subnav %}
-    {{ render_esi(controller('MarcaCourseBundle:Course:createNav', { 'courseid': app.request.get('courseid') })) }}
+{% block coursenav %}
+    {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}
 
 {% block sidebar %}
-
     <h1><a href="{{ course_path('course_home') }}" class="marca-gray">Home</a></h1>
     {# condition for display if not module #}
     {% if app.session.get('module')== 0 %}
