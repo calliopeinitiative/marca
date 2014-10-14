@@ -7,12 +7,10 @@
 {% block javascripts %}{{ parent() }}{% endblock %}
 
 {% block coursenav %}
-{%include 'MarcaCourseBundle::subnav.html.twig' %}
+    {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}
 
 {% block body %}
-
     {% block content %}
     {% endblock %}
-
 {% endblock %}

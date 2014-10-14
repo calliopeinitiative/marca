@@ -17,6 +17,21 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CalendarController extends Controller
 {
+
+    /**
+     * Create Sidebar fragment
+     *
+     * @Route("/{courseid}/sidebar", name="calendar_sidebar")
+     * @Template("MarcaCalendarBundle::sidebar.html.twig")
+     */
+    public function createSidebarAction($courseid)
+    {
+        $role = $this->getCourseRole();
+        $gotodate = \date("Y-m-d");
+        return array('gotodate' => $gotodate, 'role' => $role);
+    }
+
+
     /**
      * Lists all Calendar entities.
      *
@@ -32,13 +47,13 @@ class CalendarController extends Controller
         $role = $this->getCourseRole();
         $course = $this->getCourse();
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
-        $gotodate = \date("Y-m-d");
+
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
         $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),10);
         
-        return array('calendar' => $calendar, 'role' => $role, 'gotodate' => $gotodate);
+        return array('calendar' => $calendar, 'role' => $role);
     }
     
     /**
@@ -225,10 +240,10 @@ class CalendarController extends Controller
     /**
      * Displays a form to edit an existing Calendar entity.
      *
-     * @Route("/{courseid}/{id}/{gotodate}/edit", name="calendar_edit")
+     * @Route("/{courseid}/{id}/edit", name="calendar_edit")
      * @Template()
      */
-    public function editAction($id, $gotodate)
+    public function editAction($id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
@@ -238,6 +253,7 @@ class CalendarController extends Controller
         $course = $this->getCourse();
         $events = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
+        $gotodate = \date("Y-m-d");
 
         if (!$calendar) {
             throw $this->createNotFoundException('Unable to find Calendar entity.');
