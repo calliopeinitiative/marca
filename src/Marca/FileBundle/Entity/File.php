@@ -63,10 +63,6 @@ class File
      */
     protected $grade;
     
-     /**
-     * @ORM\OneToMany(targetEntity="Marca\ResponseBundle\Entity\Response", mappedBy="file")
-     */
-    protected $responses;
 
     /**
      * @ORM\OneToMany(targetEntity="Marca\AssignmentBundle\Entity\Review", mappedBy="file")
@@ -77,6 +73,7 @@ class File
     /**
      * @ORM\OneToMany(targetEntity="Marca\DocBundle\Entity\Tracking", mappedBy="file")
      * @ORM\OrderBy({"markup" = "ASC"})
+     * though this orderBy throws an invalid entity error, it works for the sort on doc display
      */
     protected $tracking;
 
@@ -411,39 +408,6 @@ class File
         $this->tag->removeElement($tag);
     }
 
-
-    /**
-     * Add responses
-     *
-     * @param \Marca\ResponseBundle\Entity\Response $responses
-     * @return File
-     */
-    public function addResponse(\Marca\ResponseBundle\Entity\Response $responses)
-    {
-        $this->responses[] = $responses;
-    
-        return $this;
-    }
-
-    /**
-     * Remove responses
-     *
-     * @param \Marca\ResponseBundle\Entity\Response $responses
-     */
-    public function removeResponse(\Marca\ResponseBundle\Entity\Response $responses)
-    {
-        $this->responses->removeElement($responses);
-    }
-
-    /**
-     * Get responses
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getResponses()
-    {
-        return $this->responses;
-    }
 
     /**
      * Set url

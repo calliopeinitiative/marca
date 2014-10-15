@@ -159,7 +159,7 @@
                             {% if app.request.get('resource')=='0' %}
                                 <a class="" title="Upload a file for review" id="upload_{{file.id}}" href="javascript:void(0);">Upload Review</a>
                             {% endif %}
-                            {% if file.isOwner(app.user.username) and file.portfolio|length == 0 and file.responses|length == 0 and file.reviews|length == 0 and file.feedback|length == 0 %}
+                            {% if file.isOwner(app.user.username) and file.portfolio|length == 0 and file.reviews|length == 0 and file.feedback|length == 0 %}
                                 <a class="delete disabled" id='file_show_{{file.id}}' href='javascript:void(0);' title="Delete this file.">Delete</a>
                             {% elseif file.isOwner(app.user.username) and file.portfolio|length != 0 %}Files in the Portfolio can not be deleted.
                             {% elseif file.isOwner(app.user.username) and file.reviews|length != 0 %}Files that have reviews can not be deleted.

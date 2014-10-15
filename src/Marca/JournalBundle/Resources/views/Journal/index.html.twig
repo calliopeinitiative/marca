@@ -74,7 +74,7 @@
                             <a class="btn btn-default btn-sm" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
                             {% endif %}
                             {% if role==2 %}
-                            <a class="btn btn-default btn-sm" href="{{ course_path('response_new',{ 'sourceid': journal.id, 'source': 'journal_list','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id }) }}">Respond</a>
+                            <a class="btn btn-default btn-sm" href="{{ course_path('response_new',{ 'sourceid': journal.id, 'page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id }) }}">Respond</a>
                             {% endif %}
                         </div>
 
@@ -92,7 +92,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 {% if response.isOwner(app.user.username) %}
-                                    <a class="btn btn-default btn-sm pull-right" href="{{ course_path('response_edit',{ 'id': response.id,'sourceid': journal.id, 'source': 'journal_list','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id  }) }}">Edit</a>
+                                    <a class="btn btn-default btn-sm pull-right" href="{{ course_path('response_edit',{ 'id': response.id,'sourceid': journal.id, 'page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id  }) }}">Edit</a>
                                 {% endif %}
                                 <h3>Response by {{ response.user.firstname}} {{ response.user.lastname}}</h3>
                             </div>
