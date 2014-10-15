@@ -17,11 +17,36 @@ use Marca\JournalBundle\Form\JournalType;
  */
 class JournalController extends Controller
 {
+
+    /**
+     * Create Sidebar fragment
+     *
+     * @Route("/{courseid}/{user}/{userid}/sidebar", name="journal_sidebar")
+     */
+    public function createSidebarAction($courseid,$user,$userid)
+    {
+        $em = $this->getEm();
+        if ($user==0){
+            $user = $this->getUser();
+        }
+        else {
+            $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+        }
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $role = $this->getCourseRole();
+        return $this->render('MarcaJournalBundle::sidebar.html.twig', array(
+            'roll' => $roll,
+            'user' => $user,
+            'userid' => $userid,
+            'role' => $role
+        ));
+    }
+
+
     /**
      * Lists all Journal entities.
      *
      * @Route("/{courseid}/{page}/{userid}/{user}/list", name="journal_list", defaults={"page" = 1,"userid" = 0,"user" = 0}))
-     * @Template()
      */
     public function indexAction($courseid,$page,$user,$userid)
     {
@@ -47,7 +72,14 @@ class JournalController extends Controller
         $paginator = $this->get('knp_paginator');
         $journal = $paginator->paginate($journals,$this->get('request')->query->get('page', $page),1);
         
-        return array('journal' => $journal, 'journals' => $journals, 'roll' => $roll, 'role' => $role, 'user' => $user, 'userid' => $userid);
+        return $this->render('MarcaJournalBundle:Journal:index.html.twig',array(
+            'journal' => $journal,
+            'journals' => $journals,
+            'roll' => $roll,
+            'role' => $role,
+            'user' => $user,
+            'userid' => $userid
+        ));
     }
 
 
@@ -55,7 +87,6 @@ class JournalController extends Controller
      * To use the autosave, new persists the entity and redirects to edit.
      *
      * @Route("/{courseid}/new", name="journal_new")
-     * @Template()
      */
     public function newAction($courseid)
     {
@@ -74,9 +105,9 @@ class JournalController extends Controller
         $em->persist($journal);
         $em->flush();
 
-            return $this->redirect($this->generateUrl('journal_edit', array('id' => $journal->getId(), 'courseid'=> $courseid,)));
+        return $this->redirect($this->generateUrl('journal_edit', array('id' => $journal->getId(), 'courseid'=> $courseid,)));
             
-        }
+    }
         
 
    
@@ -84,7 +115,6 @@ class JournalController extends Controller
      * Displays a form to edit an existing Journal entity.
      *
      * @Route("/{courseid}/{id}/edit", name="journal_edit")
-     * @Template()
      */
     public function editAction($courseid, $id)
     {
@@ -107,14 +137,14 @@ class JournalController extends Controller
         $editForm = $this->createForm(new JournalType(), $journal);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaJournalBundle:Journal:edit.html.twig',array(
             'journal'      => $journal,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'roll' => $roll,
             'role' => $role,
             'user' => $user
-        );
+        ));
     }
 
     /**
@@ -122,7 +152,6 @@ class JournalController extends Controller
      *
      * @Route("/{courseid}/{id}/update", name="journal_update")
      * @Method("post")
-     * @Template("MarcaJournalBundle:Journal:edit.html.twig")
      */
     public function updateAction($id, $courseid)
     {
@@ -153,14 +182,14 @@ class JournalController extends Controller
             return $this->redirect($this->generateUrl('journal_list', array('courseid'=> $courseid,)));
         }
 
-        return array(
+        return $this->render('MarcaJournalBundle:Journal:edit.html.twig',array(
             'journal'      => $journal,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'roll' => $roll,
             'role' => $role,
             'user' => $user
-        );
+        ));
     }
     
     
