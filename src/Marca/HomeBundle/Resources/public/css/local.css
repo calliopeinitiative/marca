@@ -407,14 +407,24 @@ ul .dropdown-menu .glyphicon {
 }
 
 .sidebar {
-    background-color: #f8f8f8;
+    background-color: #464648;
     min-height: 100%;
     max-height: 100%;
+    margin-right: 20px;
     margin-top:-70px;
     padding-top:55px;
     border-right:1px solid #D9d9d9;
     position: fixed;
     overflow:auto;
+    color: #fff;
+}
+
+.sidebar a {
+    color: #fff
+}
+
+.sidebar a:hover {
+    color: #006DCC
 }
 
 .sidebar-mobile {
@@ -630,9 +640,10 @@ a#confirm {
 /***** 06b. File list *****/
 
 nav.subnav {
-    height:25px;
+    height:15px;
     margin-top: -20px;
     margin-bottom: 10px;
+    border-color: #cccccc;
 }
 
 .file-wrapper {

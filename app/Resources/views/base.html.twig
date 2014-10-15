@@ -13,8 +13,6 @@
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/offline-theme-default.css') }}">
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/external.css') }}">
-        {# theme test #}
-
         {% endstylesheets %}
     {% endblock %}
 
@@ -48,7 +46,7 @@
 </head>
 <body>
 
-
+{# top navigation bar; block coursenav for when user is in a course #}
 {% if not is_granted('ROLE_USER') or 'file_view' in app.request.attributes.get('_route') or 'doc' in app.request.attributes.get('_route') or 'portfolio_user' in app.request.attributes.get('_route') or 'ratingset' in app.request.attributes.get('_route')%}
     {% else %}
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -97,9 +95,9 @@
     {%if block('sidebar') %}
         {% if 'fos_user' not in app.request.attributes.get('_route')  %}
             <div class="col-sm-2 sidebar hidden-xs">
-                <ul class="nav nav-list">
-                    {{block('sidebar')}}
-                </ul>
+                     <ul class="nav nav-list">
+                        {{block('sidebar')}}
+                    </ul>
             </div>
             <div class="col-xs-12 visible-xs sidebar-mobile">
                 <a id="main_content" name="main_content"></a>
@@ -118,6 +116,7 @@
         </div>
     {% else %}
         <a id="main_content" name="main_content"></a>
+        {{block('subnav')}}
         {{block('body')}}
     {% endif %}
 
@@ -126,7 +125,6 @@
 
 {# Modal #}
 <div class="modal fade" id="base_modal" tabindex="-1" aria-labelledby="base-modal" aria-hidden="true" role="dialog" >
-
 </div><!-- /.modal -->
 
 {# Modal #}
@@ -138,7 +136,6 @@
                 <h2 style="font-size:2em;margin-bottom:20px;">Need help?</h2>
                 {% if help_url %}
                 <p style="font-size:1.5em;">First, check out our Help Docs:</p>
-
                 <div class="well">
                     <a href="{{ help_url }}" title="Help Docs" style="color:#006183;" target="_blank">
                         <p><i class="glyphicon glyphicon-book" style="font-size:6em;"></i></p>
