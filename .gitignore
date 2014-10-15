@@ -15,7 +15,6 @@ app/config/parameters.ini
 /uploads
 /temp
 /buildNotes
-/composer.lock
 /composer.phar
 .idea
 /node_modules
