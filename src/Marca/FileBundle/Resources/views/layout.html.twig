@@ -34,6 +34,14 @@
     {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}
 
+{% block subnav %}
+    {% if app.request.get('resource')=='0' %}
+    {{ render_esi(controller('MarcaFileBundle:File:createSubnav', { 'courseid': app.request.get('courseid'),
+    'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'project': app.request.get('project'),
+    'userid': app.request.get('userid'),'user': app.request.get('user'), 'scope': app.request.get('scope')})) }}
+    {% endif %}
+{% endblock %}
+
 {% block sidebar %}
     {{ render_esi(controller('MarcaFileBundle:File:createSidebar', { 'courseid': app.request.get('courseid'),
     'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'project': app.request.get('project'),

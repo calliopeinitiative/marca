@@ -72,7 +72,7 @@
             var count_displayed = $('#file_list tr').length -2;
             var count = count_displayed - count_hidden;
             var count_text = '';
-            if (count > 1) {count_text = ' ' + count + ' files found';$('li.file_count').append(count_text);}
+            if (count > 1) {count_text = ' ' + count + ' files found';$('p.file_count').append(count_text);}
 
 
         });
@@ -85,7 +85,7 @@
 {% endblock %}
 
 {% block content %}
-    {# Breadcrumbs #}
+
     {% if app.request.get('project') == 'recent' and app.request.get('resource')!=0 %}
         {% for flashMessage in app.session.flashbag.get('message') %}
             <div class="alert alert-info pad5 col-sm-11">
@@ -93,12 +93,6 @@
             </div>
         {% endfor %}
     {% endif %}
-
-
-    {# esi submenu for next user #}
-        {{ render_esi(controller('MarcaFileBundle:File:createSubmenu', { 'courseid': app.request.get('courseid'),
-        'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'project': app.request.get('project'),
-        'userid': app.request.get('userid'),'user': app.request.get('user'), 'scope': app.request.get('scope')})) }}
 
     <div class="file-wrapper well">
 

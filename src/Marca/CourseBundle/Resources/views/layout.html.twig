@@ -11,28 +11,10 @@
 {% endblock %}
 
 {% block subnav %}
-    <!-- Static navbar -->
-    <nav class="navbar navbar-default subnav" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#subnav">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ course_path('course_home') }}" class="marca-gray">Home</a>
-            </div>
-            <div id="subnav" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li></li>
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
-    </nav>
 {% endblock %}
 
 {% block sidebar %}
+    <h1><a href="{{ course_path('course_home') }}" class="marca-gray">Course Home</a></h1>
     {# condition for display if not module #}
     {% if app.session.get('module')== 0 %}
         <li class=""><a href="{{ course_path('course_roll') }}">Class Roll</a></li>{% endif %}

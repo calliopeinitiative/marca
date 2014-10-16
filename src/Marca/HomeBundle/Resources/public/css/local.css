@@ -220,7 +220,7 @@ a:hover {
 }
 
 .navbar-inverse {
-    background-color:#464648;
+    background-color:#333333;
 }
 
 .navbar-inverse .navbar-brand {
@@ -233,6 +233,11 @@ a:hover {
 
 .navbar-icon {
     margin-left: -1.5em;
+}
+
+.navbar-brand {
+    color: #000000;
+    font-size: larger;
 }
 
 ul.nav-list  {
@@ -328,7 +333,7 @@ ul .dropdown-menu .glyphicon {
 }
 
 .project-sidebar {
-    color:#464648;
+    color:#ffffff;
 }
 
 .navbar-text>a {
@@ -338,6 +343,10 @@ ul .dropdown-menu .glyphicon {
 .current-filter {
     color: #006DCC;
     font-weight:bold;
+}
+
+.navbar-default .navbar-nav > li > a.current-filter {
+    color: #006DCC;
 }
 
 .marca-spacer {
@@ -407,7 +416,7 @@ ul .dropdown-menu .glyphicon {
 }
 
 .sidebar {
-    background-color: #464648;
+    background-color: #333333;
     min-height: 100%;
     max-height: 100%;
     margin-right: 20px;
@@ -419,12 +428,8 @@ ul .dropdown-menu .glyphicon {
     color: #fff;
 }
 
-.sidebar a {
-    color: #fff
-}
-
-.sidebar a:hover {
-    color: #006DCC
+.sidebar h1 a {
+    color: #ffffff;
 }
 
 .sidebar-mobile {

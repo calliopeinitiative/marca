@@ -38,8 +38,6 @@ class FileController extends Controller
         $em = $this->getEm();
         $role = $this->getCourseRole();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $byuser = $em->getRepository('MarcaUserBundle:User')->find($userid);
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
@@ -60,21 +58,22 @@ class FileController extends Controller
             $project = $course->getProjectDefault()->getId();
         }
 
-        return array('roll' => $roll,'projects' => $projects, 'active_project' => $project,'tags' => $tags,'tag' => $tag, 'systemtags' => $systemtags, 'role'=> $role,'course' => $course,'byuser' => $byuser,);
+        return array('projects' => $projects, 'active_project' => $project,'tags' => $tags,'tag' => $tag, 'systemtags' => $systemtags, 'role'=> $role,'course' => $course);
     }
 
     /**
      * Creates ESI fragment for course submenu
      *
      * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/subnav", name="course_subnav")
-     * @Template("MarcaFileBundle::submenu.html.twig")
+     * @Template("MarcaFileBundle::subnav.html.twig")
      */
-    public function createSubmenuAction($courseid, $userid)
+    public function createSubnavAction($courseid, $userid)
     {
         $em = $this->getEm();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $role = $this->getCourseRole();
         $byuser = $em->getRepository('MarcaUserBundle:User')->find($userid);
-        return array('roll' => $roll, 'byuser' => $byuser,);
+        return array('roll' => $roll, 'byuser' => $byuser,'role'=> $role);
     }
 
 
