@@ -1,0 +1,58 @@
+{# Marca/JournalBundle/Resources/views/subnav.html.twig #}
+{# esi fragment for journal subnav #}
+
+
+<nav class="subnav navbar navbar-default" role="navigation">
+    <div class="navbar-header col-sm-2">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"
+           title="Journal entries by {{ user.firstname }} {{ user.lastname }}">{{ user.firstname }} {{ user.lastname }}</a>
+    </div>
+
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            {# next previous users on roll #}
+            {% for roll in roll %}
+                {% if loop.index == app.request.get('user') - 1 %}
+                    <li>
+                        <a class='' data-index="{{ loop.index }}" data-id='{{ roll.user.id }}'
+                           data-project='{{ app.request.get('project') }}' data-tag='{{ app.request.get('tag') }}'
+                           href="{{ course_path('journal_list', { 'userid': roll.user.id, 'user': loop.index }) }}">
+                            &lt; {{ roll.firstname }} {{ roll.lastname }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            <li class="dropdown">
+                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" id="dLabel">
+                    Select Author
+                    <b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    {% for roll in roll %}
+                        <li><a title='View the Journal of {{ roll.firstname }} {{ roll.lastname }}'
+                               data-index="{{ loop.index }}" data-id='{{ roll.user.id }}'
+                               href="{{ course_path('journal_list', { 'userid': roll.user.id, 'user': loop.index }) }}">{{ roll.firstname }} {{ roll.lastname }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% for roll in roll %}
+                {% if loop.index == app.request.get('user') + 1 %}
+                    <li>
+                        <a data-index="{{ loop.index }}" data-id='{{ roll.user.id }}'
+                           data-project='{{ app.request.get('project') }}' data-tag='{{ app.request.get('tag') }}'
+                           href="{{ course_path('journal_list', { 'userid': roll.user.id, 'user': loop.index }) }}">{{ roll.firstname }} {{ roll.lastname }}
+                            &gt;</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+        </ul>
+    </div>
+</nav>
+
+
+

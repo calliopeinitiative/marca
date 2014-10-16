@@ -10,7 +10,12 @@
     {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}
 
+{% block subnav %}
+    {% if role==2 %}
+    {{ render_esi(controller('MarcaJournalBundle:Journal:createSubnav', { 'courseid': app.request.get('courseid'),'userid': app.request.get('userid'),'user': app.request.get('user'),})) }}
+    {% endif %}
+{% endblock %}
 
 {% block sidebar %}
-    {{ render_esi(controller('MarcaJournalBundle:Journal:createSidebar', { 'courseid': app.request.get('courseid'),'userid': app.request.get('userid'),'user': app.request.get('user'),})) }}
+    {{ render_esi(controller('MarcaJournalBundle:Journal:createSidebar', { 'courseid': app.request.get('courseid') } )) }}
 {% endblock %}

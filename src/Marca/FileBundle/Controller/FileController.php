@@ -30,10 +30,9 @@ class FileController extends Controller
     /**
      * Lists all Course entities.
      *
-     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/sidebar", name="file_sidebar")
-     * @Template("MarcaFileBundle::sidebar.html.twig")
+     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/resources_sidebar", name="file_resources_sidebar")
      */
-    public function createSidebarAction($courseid, $resource, $project, $tag, $userid)
+    public function createResources_sidebarAction($courseid, $resource, $project, $tag)
     {
         $em = $this->getEm();
         $role = $this->getCourseRole();
@@ -41,24 +40,31 @@ class FileController extends Controller
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
-        if ($project == 'recent' and $resource!=0) {
+        if ($project == 'recent') {
             $default_project = $projects[0]->getId();
             $project = $default_project;
         }
-        //tags appropriate for the find
-        if($resource!=0){
-            $projectForTags = $em->getRepository('MarcaCourseBundle:Project')->find($project);
-            $courseForTags =  $projectForTags->getCourse();
-            $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseForTags);
-        }
-        else {$tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($course);}
+        $projectForTags = $em->getRepository('MarcaCourseBundle:Project')->find($project);
+        $courseForTags =  $projectForTags->getCourse();
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseForTags);
+        return $this->render('MarcaFileBundle::resources_sidebar.html.twig', array('projects' => $projects, 'tags' => $tags,'tag' => $tag, 'systemtags' => $systemtags, 'role'=> $role));
+    }
 
-
-        if ($project == 'default') {
-            $project = $course->getProjectDefault()->getId();
-        }
-
-        return array('projects' => $projects, 'active_project' => $project,'tags' => $tags,'tag' => $tag, 'systemtags' => $systemtags, 'role'=> $role,'course' => $course);
+    /**
+     * Lists all Course entities.
+     *
+     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/projects_sidebar", name="file_projects_sidebar")
+     */
+    public function createProjects_sidebarAction($courseid, $resource, $project, $tag, $userid)
+    {
+        $em = $this->getEm();
+        $role = $this->getCourseRole();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
+        $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
+        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($course);
+        return $this->render('MarcaFileBundle::projects_sidebar.html.twig', array('projects' => $projects, 'tags' => $tags,'tag' => $tag, 'systemtags' => $systemtags, 'role'=> $role));
     }
 
     /**
@@ -73,7 +79,7 @@ class FileController extends Controller
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $role = $this->getCourseRole();
         $byuser = $em->getRepository('MarcaUserBundle:User')->find($userid);
-        return array('roll' => $roll, 'byuser' => $byuser,'role'=> $role);
+        return $this->render('MarcaFileBundle::subnav.html.twig', array('roll' => $roll, 'byuser' => $byuser,'role'=> $role));
     }
 
 
@@ -81,7 +87,6 @@ class FileController extends Controller
      * Lists all File entities by Project.
      *
      * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/list", name="file_list")
-     * @Template("MarcaFileBundle:File:index.html.twig")
      */
     public function indexByProjectAction($project, $scope, $courseid, $tag, $resource, $userid)
     {
@@ -105,7 +110,7 @@ class FileController extends Controller
         //pagination for files
         $paginator = $this->get('knp_paginator');
         $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),25);
-        if ($resource==0) {$template = 'MarcaFileBundle:File:index.html.twig'; } else {$template = 'MarcaFileBundle:File:resource_index.html.twig';}
+        if ($resource==0) {$template = 'MarcaFileBundle:File:projects_index.html.twig'; } else {$template = 'MarcaFileBundle:File:resources_index.html.twig';}
 
         return $this->render($template, array('files' => $files, 'role'=> $role,'course' => $course));
     }  
@@ -115,7 +120,6 @@ class FileController extends Controller
      * Finds and displays a File entity.
      *
      * @Route("/{courseid}/{id}/{resource}/show_modal", name="file_show_modal")
-     * @Template("MarcaFileBundle:File:show_modal.html.twig")
      */
     public function showModalAction($id, $courseid)
     {
@@ -127,7 +131,7 @@ class FileController extends Controller
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
         }
-        return array('file' => $file, 'delete_form' => $deleteForm->createView(),);
+        return $this->render('MarcaFileBundle:File:show_modal.html.twig', array('file' => $file, 'delete_form' => $deleteForm->createView(),));
     }
     
     /**
@@ -188,7 +192,6 @@ class FileController extends Controller
      * Displays a form to create a new File entity for a LINK listing.
      *
      * @Route("/{courseid}/{resource}/{tag}/{type}/{fileid}/new_modal", name="file_new_modal")
-     * @Template("MarcaFileBundle:File:new_modal.html.twig")
      */
     public function newModalAction($courseid, $resource, $tag, $type, $fileid)
     {
@@ -217,7 +220,7 @@ class FileController extends Controller
         $file->setName('New Link');
         $file->setUrl('http://newlink.edu');
         $form   = $this->createForm(new LinkType($options), $file);
-        return array(
+        return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
             'file'      => $file,
             'resource'      => $resource,
             'tag'      => $tag,
@@ -226,12 +229,12 @@ class FileController extends Controller
             'roll'        => $roll,
             'course' => $course,
             'form'   => $form->createView()
-        );
+        ));
         }
         elseif ($type == 'doc') {
         $file->setName('New Document'); 
         $form   = $this->createForm(new DocType($options), $file);
-        return array(
+        return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
             'file'      => $file,
             'resource'      => $resource,
             'tag'      => $tag,
@@ -240,7 +243,7 @@ class FileController extends Controller
             'roll'        => $roll,
             'course' => $course,
             'form'   => $form->createView()
-        );
+        ));
         }
         elseif ($type == 'review'){
            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
@@ -272,7 +275,7 @@ class FileController extends Controller
            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
            $file->setName('SaveAs Document');
            $form   = $this->createForm(new DocType($options), $file);
-           return array(
+           return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
                 'file'      => $file,
                 'resource'      => $resource,
                 'tag'      => $tag,
@@ -281,7 +284,7 @@ class FileController extends Controller
                 'roll'        => $roll,
                 'course' => $course,
                 'form'   => $form->createView()
-            );
+            ));
         }
     }
       
@@ -292,7 +295,6 @@ class FileController extends Controller
      *
      * @Route("/{courseid}/{resource}/{tag}/{type}/{fileid}/create", defaults={ "fileid" = 0 }, name="file_create")
      * @Method("post")
-     * @Template("MarcaFileBundle:File:new.html.twig")
      */
     public function createAction($courseid,$resource, $tag, $type, $fileid)
     {
@@ -344,7 +346,7 @@ class FileController extends Controller
 
         }
 
-        return array(
+        return $this->render('MarcaFileBundle:File:new.html.twig', array(
             'file'      => $file,
             'resource'      => $resource,
             'tag'      => $tag,
@@ -353,7 +355,7 @@ class FileController extends Controller
             'roll'        => $roll,
             'course' => $course,
             'form'   => $form->createView()
-        );
+        ));
     }
 
 
@@ -361,7 +363,6 @@ class FileController extends Controller
      * Displays a form to edit an existing File entity.
      *
      * @Route("/{courseid}/{resource}/{tag}/{id}/edit_modal", name="file_edit_modal")
-     * @Template("MarcaFileBundle:File:edit_modal.html.twig")
      */
     public function editModalAction($id, $courseid, $resource)
     {
@@ -393,11 +394,11 @@ class FileController extends Controller
         }
 
 
-        return array(
+        return $this->render('MarcaFileBundle:File:edit_modal.html.twig', array(
             'file'      => $file,
             'course' => $course,
             'edit_form'   => $editForm->createView(),
-        );
+        ));
     }
 
 
@@ -521,7 +522,6 @@ class FileController extends Controller
      * Uploads a file with a Document entity.
      *
      * @Route("/{courseid}/{resource}/upload", name="file_upload")
-     * @Template("MarcaFileBundle:File:upload_modal.html.twig")
      */    
      public function uploadAction($courseid, $resource)
      {
@@ -578,7 +578,13 @@ class FileController extends Controller
              
          }
 
-    return array('form' => $form->createView(),'tags'  => $tags, 'systemtags'  => $systemtags, 'roll'  => $roll,'role'  => $role,'course' => $course,);
+    return $this->render('MarcaFileBundle:File:upload_modal.html.twig', array(
+        'form' => $form->createView(),
+        'tags'  => $tags,
+        'systemtags'  => $systemtags,
+        'roll'  => $roll,
+        'role'  => $role,
+        'course' => $course,));
      }
 
 
@@ -586,7 +592,6 @@ class FileController extends Controller
      * Uploads a file with a Document entity.
      *
      * @Route("/{courseid}/{fileid}/reviewupload", name="review_upload")
-     * @Template("MarcaFileBundle:File:upload_modal.html.twig")
      */
     public function uploadReviewAction($courseid, $fileid)
     {
@@ -650,7 +655,11 @@ class FileController extends Controller
 
         }
 
-        return array('form' => $form->createView(),'tags'  => $tags, 'systemtags'  => $systemtags, 'roll'  => $roll,'course' => $course,);
+        return $this->render('MarcaFileBundle:File:upload_modal.html.twig', array(
+            'form' => $form->createView(),
+            'tags'  => $tags, 'systemtags'  => $systemtags,
+            'roll'  => $roll,
+            'course' => $course,));
     }
 
 
@@ -771,7 +780,6 @@ class FileController extends Controller
      * Finds and displays an ODF or PDF with Viewer.js
      *
      * @Route("/{courseid}/{id}/{view}/view_file", name="file_view")
-     * @Template("MarcaDocBundle:Doc:show.html.twig")
      */
     public function viewAction($id)
     {
@@ -800,14 +808,14 @@ class FileController extends Controller
             throw $this->createNotFoundException('Unable to find File entity.');
         }
 
-            return array(
+            return $this->render('MarcaDocBundle:Doc:show.html.twig', array(
             'role'      => $role,
             'roll'      => $roll,
             'file'        => $file,
             'parent_file'        => $parent_file,
             'reviews' => $reviews,
             'markup' => $markup,
-             );
+             ));
 
 
     }
@@ -816,7 +824,6 @@ class FileController extends Controller
      * Finds and displays an ODF or PDF with Viewer.js
      *
      * @Route("/{courseid}/{id}/view_file_ajax", name="file_view_ajax")
-     * @Template("MarcaDocBundle:Doc:show.html.twig")
      */
     public function view_ajaxAction($id)
     {
@@ -846,14 +853,14 @@ class FileController extends Controller
             throw $this->createNotFoundException('Unable to find File entity.');
         }
 
-        return array(
+        return $this->render('MarcaDocBundle:Doc:show.html.twig', array(
             'role'      => $role,
             'roll'      => $roll,
             'file'        => $file,
             'parent_file'        => $parent_file,
             'reviews' => $reviews,
             'markup' => $markup,
-        );
+        ));
 
 
     }
@@ -862,7 +869,6 @@ class FileController extends Controller
      * Finds and displays an XSL transformation of a File entity.
      *
      * @Route("/{courseid}/{id}/{view}/convert_odt", name="file_convert_odt")
-     * @Template("MarcaDocBundle:Doc:show.html.twig")
      */
     public function convertOdtAction($id)
     {
@@ -895,12 +901,12 @@ class FileController extends Controller
             $em->persist($file);
             $em->persist($doc);
             $em->flush();
-            return array(
+            return $this->render('MarcaDocBundle:Doc:show.html.twig', array(
             'doc'      => $doc,
             'role'      => $role,    
             'file'        => $file,
             'markup' => $markup,
-             );
+             ));
           
 
     }    

@@ -1,11 +1,20 @@
 {# Marca/FileBundle/Resources/views/layout.html.twig #}
 
 {% extends '::base.html.twig' %}
+
 {% block title %}{{ application_name }} {% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}{% endblock %}
 
-{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/theme.bootstrap.css') }}">
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
+    <!-- tablesorter plugin -->
+    <script src="{{ asset('bundles/marcahome/js/jquery.tablesorter.min.js') }}"></script>
+    <!-- tablesorter widget file - loaded after the plugin -->
+    <script src="{{ asset('bundles/marcahome/js/jquery.tablesorter.widgets.min.js') }}"></script>
     <script language="javascript">
         $(document).ready(function()
         {
@@ -26,6 +35,80 @@
                         $(".default").hide();$( ".default", this ).show();
                     }
             );
+
+            $('.modal-body').css('max-height', function(index) {
+                return $(window).height() * .90;
+            });
+            {% for file in files%}
+            $('.edit_{{file.id}}').click(function(){
+                $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}').modal();
+            });
+            $('#upload_{{file.id}}').click(function(){
+                $('#file_modal').load('{{ course_path('review_upload', { 'resource' : '0', 'tag' : '3', 'fileid': file.id }) }}').modal();
+            });
+            $('#file_show_{{file.id}}').click(function(){
+                $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}').modal();
+            });
+            {% for file in file.reviews%}
+            $('.edit_{{file.id}}').click(function(){
+                $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}').modal();
+            });
+            $('#file_show_{{file.id}}').click(function(){
+                $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}').modal();
+            });
+            {% endfor %}
+            {% endfor %}
+            $('.file-wrapper').css('max-height', function(index) {
+                return $(window).height()* .88;
+            });
+            $.extend($.tablesorter.themes.bootstrap, {
+                table      : 'table',
+                header     : 'bootstrap-header', // give the header a gradient background
+                footerRow  : '',
+                footerCells: '',
+                icons      : '', // add "icon-white" to make them white; this icon class is added to the <i> in the header
+                sortNone   : 'glyphicon glyphicon-sort',
+                sortAsc    : 'glyphicon glyphicon-arrow-up',     // includes classes for Bootstrap v2 & v3
+                sortDesc   : 'glyphicon glyphicon-arrow-down', // includes classes for Bootstrap v2 & v3
+                active     : '', // applied when column is sorted
+                hover      : '', // use custom css here - bootstrap class may not override it
+                filterRow  : '', // filter row class
+                even       : '', // odd row zebra striping
+                odd        : ''  // even row zebra striping
+            });
+            // call the tablesorter plugin and apply the uitheme widget
+            $("table").tablesorter({
+                theme : "bootstrap",
+                widthFixed: true,
+                headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+                widgets : [ "uitheme"]
+            });
+            $( "tr" ).hover(
+                    function() {
+                        $(".file-menu").hide();$( ".file-menu", this ).toggle();
+                    }
+            );
+            $( "i" ).hover(
+                    function() {
+                        $(".tablesorter-icon").show();$( ".tablesorter-icon", this ).toggle();
+                    }
+            );
+            $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
+            // count files
+            var count_hidden = $('#file_list tr.hidden').length
+            var count_displayed = $('#file_list tr').length -2;
+            var count = count_displayed - count_hidden;
+            var count_text = '';
+            if (count > 1) {count_text = ' ' + count + ' files found';$('p.file_count').append(count_text);}
+            //add current-filter to active items
+            var project_index = 'a[data-project-index=' + '{{ app.request.get("project") }}' + ']';
+            $(project_index).addClass('current-filter');
+            var tag_index = 'a[data-tag-index=' + '{{ app.request.get("tag") }}' + ']';
+            $(tag_index).addClass('current-filter');
+            var scope_index = 'a[data-scope-index=' + '{{ app.request.get("scope") }}' + ']';
+            $(scope_index).addClass('current-filter');
+
+
         });
     </script>
 {% endblock %}
@@ -43,7 +126,13 @@
 {% endblock %}
 
 {% block sidebar %}
-    {{ render_esi(controller('MarcaFileBundle:File:createSidebar', { 'courseid': app.request.get('courseid'),
+    {% if app.request.get('resource')=='0' %}
+    {{ render_esi(controller('MarcaFileBundle:File:createProjects_sidebar', { 'courseid': app.request.get('courseid'),
     'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'project': app.request.get('project'),
     'userid': app.request.get('userid'),'user': app.request.get('user'), 'scope': app.request.get('scope')})) }}
+    {% else %}
+    {{ render_esi(controller('MarcaFileBundle:File:createResources_sidebar', { 'courseid': app.request.get('courseid'),
+    'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'project': app.request.get('project'),
+    'userid': app.request.get('userid'),'user': app.request.get('user'), 'scope': app.request.get('scope')})) }}
+    {% endif %}
 {% endblock %}

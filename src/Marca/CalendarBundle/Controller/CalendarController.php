@@ -22,13 +22,15 @@ class CalendarController extends Controller
      * Create Sidebar fragment
      *
      * @Route("/{courseid}/sidebar", name="calendar_sidebar")
-     * @Template("MarcaCalendarBundle::sidebar.html.twig")
      */
     public function createSidebarAction($courseid)
     {
         $role = $this->getCourseRole();
         $gotodate = \date("Y-m-d");
-        return array('gotodate' => $gotodate, 'role' => $role);
+        return $this->render('MarcaCalendarBundle::sidebar.html.twig', array(
+            'gotodate' => $gotodate,
+            'role' => $role
+        ));
     }
 
 
@@ -53,14 +55,16 @@ class CalendarController extends Controller
         $paginator = $this->get('knp_paginator');
         $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),10);
         
-        return array('calendar' => $calendar, 'role' => $role);
+        return $this->render('MarcaCalendarBundle:Calendar:index.html.twig', array(
+            'calendar' => $calendar,
+            'role' => $role
+        ));
     }
     
     /**
      * Lists all Calendar entities.
      *
      * @Route("/{courseid}/upcoming", name="calendar_upcoming")
-     * @Template("MarcaCalendarBundle:Calendar:index.html.twig")
      */
     public function upcomingAction()
     {
@@ -77,14 +81,17 @@ class CalendarController extends Controller
         $paginator = $this->get('knp_paginator');
         $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),10);
         
-        return array('calendar' => $calendar, 'role' => $role, 'gotodate' => $gotodate);
+        return $this->render('MarcaCalendarBundle:Calendar:index.html.twig', array(
+            'calendar' => $calendar,
+            'role' => $role,
+            'gotodate' => $gotodate
+        ));
     }
     
     /**
      * Lists all Calendar entities.
      *
      * @Route("/{courseid}/{gotodate}/display", name="calendar_display")
-     * @Template()
      */
     public function displayAction($gotodate)
     {
@@ -109,40 +116,18 @@ class CalendarController extends Controller
         
         $form   = $this->createForm(new CalendarType(), $calendar);
 
-        return array('events' => $events, 'role' => $role, 'gotodate' => $gotodate, 'form'   => $form->createView(),);
+        return $this->render('MarcaCalendarBundle:Calendar:display.html.twig', array(
+            'events' => $events,
+            'role' => $role,
+            'gotodate' => $gotodate,
+            'form'   => $form->createView()
+        ));
     }    
 
     /**
      * Finds and displays a Calendar entity.
      *
-     * @Route("/{courseid}/{id}/show", name="calendar_show")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
-        $role = $this->getCourseRole();
-        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
-
-        if (!$calendar) {
-            throw $this->createNotFoundException('Unable to find Calendar entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'calendar'      => $calendar, 'role' => $role, 'delete_form' => $deleteForm->createView(),        );
-    }
-    
-    
-    /**
-     * Finds and displays a Calendar entity.
-     *
      * @Route("/{courseid}/{id}/show_modal", name="calendar_show_modal")
-     * @Template("MarcaCalendarBundle:Calendar:show_modal.html.twig")
      */
     public function showModalAction($id)
     {
@@ -157,8 +142,10 @@ class CalendarController extends Controller
             throw $this->createNotFoundException('Unable to find Calendar entity.');
         }
 
-
-        return array( 'calendar' => $calendar, 'role' => $role, );
+        return $this->render('MarcaCalendarBundle:Calendar:show_modal.html.twig', array(
+            'calendar' => $calendar,
+            'role' => $role
+        ));
     }
     
 
@@ -186,29 +173,46 @@ class CalendarController extends Controller
         $calendar->setEndTime($startTime);
         $calendar->setStartDate($startDate);
         $calendar->setEndDate($startDate);
-        
-        $form   = $this->createForm(new CalendarType(), $calendar);
 
-        return array(
-            'calendar' => $calendar, 'role' => $role, 'form'   => $form->createView()
-        );
+        $form = $this->createCreateForm($calendar, $courseid);
+
+        return $this->render('MarcaCalendarBundle:Calendar:new.html.twig', array(
+            'calendar' => $calendar,
+            'role' => $role,
+            'form'   => $form->createView()
+        ));
     }
 
-    
+    /**
+     * Creates a form to create a Calendar entity.
+     *
+     * @param Response $response The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateForm(Calendar $calendar, $courseid)
+    {
+        $form = $this->createForm(new CalendarType(), $calendar, array(
+            'action' => $this->generateUrl('calendar_create', array('courseid' => $courseid)),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
+    }
+
     
     /**
      * Creates a new Calendar entity.
      *
      * @Route("/{courseid}/create", name="calendar_create")
      * @Method("post")
-     * @Template("MarcaCalendarBundle:Calendar:new.html.twig")
      */
     public function createAction($courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
+
         $role = $this->getCourseRole();
         $user = $this->getUser();       
         $course = $this->getCourse();
@@ -220,7 +224,7 @@ class CalendarController extends Controller
         $postData = $request->request->get('marca_calendarbundle_calendartype');
         $startDate = strtotime($postData['startDate']);
         $gotodate = date("Y-m-d", $startDate);
-        $form    = $this->createForm(new CalendarType(), $calendar);
+        $form = $this->createCreateForm($calendar, $courseid);
         $form->handleRequest($request);
         
         if ($form->isValid()) {
@@ -229,21 +233,21 @@ class CalendarController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,'gotodate'=> $gotodate,)));
-            
         }
 
-        return array(
-            'calendar' => $calendar, 'role' => $role, 'form'   => $form->createView()
-        );
+        return $this->render('MarcaCalendarBundle:Calendar:new.html.twig', array(
+            'calendar' => $calendar,
+            'role' => $role,
+            'form'   => $form->createView()
+        ));
     }
 
     /**
      * Displays a form to edit an existing Calendar entity.
      *
      * @Route("/{courseid}/{id}/edit", name="calendar_edit")
-     * @Template()
      */
-    public function editAction($id)
+    public function editAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
@@ -259,28 +263,46 @@ class CalendarController extends Controller
             throw $this->createNotFoundException('Unable to find Calendar entity.');
         }
 
-        $editForm = $this->createForm(new CalendarType(), $calendar);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($calendar, $courseid);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
-        return array(
+        return $this->render('MarcaCalendarBundle:Calendar:edit.html.twig', array(
             'events' => $events,
             'role' => $role,
             'gotodate' => $gotodate,
             'calendar'      => $calendar,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
+    }
+
+
+    /**
+     * Creates a form to edit a Calendar entity.
+     *
+     * @param Response $response The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Calendar $calendar, $courseid)
+    {
+        $form = $this->createForm(new CalendarType(), $calendar, array(
+            'action' => $this->generateUrl('calendar_update', array('id' => $calendar->getId(),'courseid' => $courseid)),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
     }
 
 
     /**
      * Edits an existing Calendar entity.
      *
-     * @Route("/{courseid}/{id}/{gotodate}/update", name="calendar_update")
+     * @Route("/{courseid}/{id}/update", name="calendar_update")
      * @Method("post")
-     * @Template("MarcaCalendarBundle:Calendar:edit.html.twig")
      */
-    public function updateAction($id,$courseid,$gotodate)
+    public function updateAction($id,$courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
@@ -295,8 +317,8 @@ class CalendarController extends Controller
             throw $this->createNotFoundException('Unable to find Calendar entity.');
         }
 
-        $editForm   = $this->createForm(new CalendarType(), $calendar);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($calendar, $courseid);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         $request = $this->getRequest();
         $postData = $request->request->get('marca_calendarbundle_calendartype');
@@ -311,14 +333,14 @@ class CalendarController extends Controller
             return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,'gotodate'=> $gotodate,)));
         }
 
-        return array(
+        return $this->render('MarcaCalendarBundle:Calendar:edit.html.twig', array(
             'events' => $events,
             'role' => $role,
             'gotodate' => $gotodate,
             'calendar'      => $calendar,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     
@@ -326,17 +348,16 @@ class CalendarController extends Controller
     /**
      * Deletes a Calendar entity.
      *
-     * @Route("/{courseid}/{id}/{gotodate}/delete", name="calendar_delete")
+     * @Route("/{courseid}/{id}/delete", name="calendar_delete")
      * @Method("post")
      */
-    public function deleteAction($id, $courseid, $gotodate)
+    public function deleteAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
 
-        $role = $this->getCourseRole();
         $gotodate = \date("Y-m-d");
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($id, $courseid);
         $request = $this->getRequest();
 
         $form->handleRequest($request);
@@ -356,12 +377,22 @@ class CalendarController extends Controller
         return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid, 'gotodate' => $gotodate)));
     }
 
-    private function createDeleteForm($id)
+
+    /**
+     * Creates a form to delete a Calendar entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id, $courseid)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('calendar_delete', array('id' => $id, 'courseid' => $courseid)))
+            ->setMethod('POST')
+            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
-        ;
+            ;
     }
     
 
@@ -369,7 +400,6 @@ class CalendarController extends Controller
      * Creates HTML for printing
      *
      * @Route("/{courseid}/print", name="agenda_print")
-     * @Template("MarcaCalendarBundle:Calendar:pdf.html.twig")
      */
     public function htmlPrintAction()
     {
@@ -383,7 +413,10 @@ class CalendarController extends Controller
             throw $this->createNotFoundException('Unable to find Calendar entity.');
         }
 
-        return array('calendar' => $calendar,'ip' => $ip);
+        return $this->render('MarcaCalendarBundle:Calendar:pdf.html.twig', array(
+            'calendar' => $calendar,
+            'ip' => $ip
+        ));
     }
 
 
@@ -396,7 +429,6 @@ class CalendarController extends Controller
     {
 
         $filename = 'attachment; filename="agenda.pdf"';
-
         $pageUrl = $this->generateUrl('agenda_print', array('courseid'=> $courseid),  true); // use absolute path!
 
         return new Response(
