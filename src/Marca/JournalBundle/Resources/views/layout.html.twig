@@ -3,9 +3,6 @@
 {% extends '::base.html.twig' %}
 {% block title %}{{ application_name }} | Journal{% endblock %}
 
-{% block stylesheets %}{{ parent() }}{% endblock %}
-{% block javascripts %}{{ parent() }}{% endblock %}
-
 {% block coursenav %}
     {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}

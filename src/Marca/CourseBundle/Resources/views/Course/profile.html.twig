@@ -39,14 +39,6 @@
                     </button>
                 </div>
                 <div class="collapse navbar-collapse" id="profile_nav">
-
-                    <ul class="nav navbar-nav">
-                        {% if app.session.get('module')== 0 %}
-                            <li>
-                                <a href="{{ course_path('roll') }}">List Roll</a>
-                            </li>
-                        {% endif %}
-                    </ul>
                     <div class="inline-block pull-right">
                         {% for roll in roll %}
                             {% if loop.index == app.request.get('user') + 1 %}

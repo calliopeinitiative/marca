@@ -30,7 +30,6 @@ class CourseController extends Controller
      * Creates ESI fragment for course nav
      *
      * @Route("/{courseid}/nav", name="course_nav")
-     * @Template("MarcaCourseBundle::coursenav.html.twig")
      */
     public function createCoursenavAction()
     {
@@ -39,7 +38,12 @@ class CourseController extends Controller
         $course = $this->getCourse();
         $role = $this->getCourseRole();
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUser($user);
-        return array('course' => $course,'courses' => $courses, 'role'=> $role, 'user' => $user);
+        return $this->render('MarcaCourseBundle::coursenav.html.twig', array(
+            'course' => $course,
+            'courses' => $courses,
+            'role'=> $role,
+            'user' => $user
+        ));
     }
 
     /**
@@ -53,14 +57,15 @@ class CourseController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUser($user);
-        return array('courses' => $courses);
+        return $this->render('MarcaCourseBundle:Course:index.html.twig', array(
+            'courses' => $courses
+        ));
     }
 
 
     /**
      * Landing page once in a course
      * @Route("/{courseid}/home", name="course_home")
-     * @Template()
      */
     public function homeAction($courseid)
     {
@@ -83,14 +88,17 @@ class CourseController extends Controller
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseStart($course);
         $paginator = $this->get('knp_paginator');
         $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),5);
-        return array('course' => $course, 'calendar' => $calendar, 'files'=>$files);
+        return $this->render('MarcaCourseBundle:Course:home.html.twig', array(
+            'course' => $course,
+            'calendar' => $calendar,
+            'files'=>$files
+        ));
     }    
 
     /**
      * Finds and displays a Course entity.
      *
      * @Route("/{courseid}/show", name="course_show")
-     * @Template()
      */
     public function showAction($courseid)
     {
@@ -111,14 +119,15 @@ class CourseController extends Controller
 
         $deleteForm = $this->createDeleteForm($courseid);
 
-        return array(
+        return $this->render('MarcaCourseBundle:Course:show.html.twig', array(
             'course'      => $course,
             'projects'    => $projects,
             'resources'    => $resources,
             'parentProjects'    => $parentProjects,            
             'tagsets'     => $tagsets,
             'portset'     => $portset,
-            'delete_form' => $deleteForm->createView(),        );
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
   
     
@@ -126,7 +135,6 @@ class CourseController extends Controller
      * Displays a form to create a new Course entity.
      *
      * @Route("/{type}/new", name="course_new")
-     * @Template()
      */
     public function newAction($type)
     {
@@ -138,12 +146,12 @@ class CourseController extends Controller
         if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
         throw new AccessDeniedException();
         }
-        $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution); 
+        $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution);
         if ($type==0)
         {$name = 'New Course';}
         else {$name = 'New Module';}
         $time = new \DateTime('08:00');
-        
+
         $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findDefault();
         $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findDefault();
         $portset = $em->getRepository('MarcaPortfolioBundle:Portset')->findDefault();  
@@ -170,14 +178,14 @@ class CourseController extends Controller
 
         $type= Page::TYPE_COURSE;
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
-        
+        $options = '';
         $form   = $this->createForm(new CourseType($options), $course);
 
-        return array(
+        return $this->render('MarcaCourseBundle:Course:new.html.twig', array(
             'course' => $course,
             'pages' => $pages,
             'form'   => $form->createView()
-        );
+        ));
     }
       
 
@@ -186,7 +194,6 @@ class CourseController extends Controller
      *
      * @Route("/create", name="course_create")
      * @Method("post")
-     * @Template("MarcaCourseBundle:Course:new.html.twig")
      */
     public function createAction()
     {
@@ -194,7 +201,7 @@ class CourseController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $institution = $user->getInstitution();
-        
+        $options ='';
         $course  = new Course();
         $course->setUser($user);
         $course->setInstitution($institution);
@@ -273,10 +280,10 @@ class CourseController extends Controller
             
         }
 
-        return array(
+        return $this->render('MarcaCourseBundle:Course:new.html.twig', array(
             'course' => $course,
             'form'   => $form->createView()
-        );
+        ));
     }
  
     
@@ -284,7 +291,6 @@ class CourseController extends Controller
      * Displays a form to edit an existing Course entity.
      *
      * @Route("/{courseid}/edit", name="course_edit")
-     * @Template()
      */
     public function editAction($courseid)
     {
@@ -311,12 +317,12 @@ class CourseController extends Controller
         $editForm = $this->createForm(new CourseType($options), $course);
         $deleteForm = $this->createDeleteForm($courseid);
 
-        return array(
+        return $this->render('MarcaCourseBundle:Course:edit.html.twig', array(
             'course'      => $course,
             'pages'      => $pages,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     
@@ -325,7 +331,6 @@ class CourseController extends Controller
      *
      * @Route("/{courseid}/update", name="course_update")
      * @Method("post")
-     * @Template("MarcaCourseBundle:Course:edit.html.twig")
      */
     public function updateAction($courseid)
     {
@@ -357,12 +362,12 @@ class CourseController extends Controller
             return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
         }
 
-        return array(
+        return $this->render('MarcaCourseBundle:Course:edit.html.twig', array(
             'course'      => $course,
             'pages'      => $pages,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -420,7 +425,6 @@ class CourseController extends Controller
      * Displays a form to edit an course announcements.
      *
      * @Route("/{courseid}/announce_edit", name="announce_edit")
-     * @Template("MarcaCourseBundle:Course:announce_edit.html.twig")
      */
     public function editAnnouncementAction($courseid)
     {
@@ -443,10 +447,10 @@ class CourseController extends Controller
         
         $editForm = $this->createForm(new AnnounceType($options), $course);
 
-        return array(
+        return $this->render('MarcaCourseBundle:Course:announce_edit.html.twig', array(
             'course'      => $course,
             'edit_form'   => $editForm->createView(),
-        );
+        ));
     }
 
     
@@ -455,7 +459,6 @@ class CourseController extends Controller
      *
      * @Route("/{courseid}/annouce_update", name="announce_update")
      * @Method("post")
-     * @Template("MarcaCourseBundle:Course:announce_edit.html.twig")
      */
     public function updateAnnouncementAction($courseid)
     {
@@ -483,10 +486,10 @@ class CourseController extends Controller
             return $this->redirect($this->generateUrl('course_home', array('courseid' => $courseid)));
         }
 
-        return array(
+        return $this->render('MarcaCourseBundle:Course:announce_edit.html.twig', array(
             'course'      => $course,
             'edit_form'   => $editForm->createView(),
-        );
+        ));
     }    
     
     

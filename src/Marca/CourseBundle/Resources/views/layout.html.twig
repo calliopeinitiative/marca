@@ -17,20 +17,14 @@
     <h1><a href="{{ course_path('course_home') }}" class="marca-gray">Course Home</a></h1>
     {# condition for display if not module #}
     {% if app.session.get('module')== 0 %}
-        <li class=""><a href="{{ course_path('course_roll') }}">Class Roll</a></li>{% endif %}
+        <li class=""><a href="{{ course_path('roll') }}">Course Roll</a></li>{% endif %}
 
     {% if is_granted('ROLE_INSTR') %}
         <h2 class="nav-header">Settings</h2>
         <li>
             <a href="{{ course_path('course_show') }}">{% if app.session.get('module')== 0 %}Course{% else %}Module{% endif %}
-                Settings</a></li>
-        {# condition for display if not module #}
-        {% if app.session.get('module')== 0 %}
-            <li><a href="{{ course_path('roll') }}">Manage Roll</a></li>{% endif %}
-
-        {# Teams commented out until more fully developed
-        <li><a href="{{ course_path('teams') }}">Manage Teams</a></li>
-        #}
+                Settings</a>
+        </li>
     {% endif %}
 {% endblock %} 
 
