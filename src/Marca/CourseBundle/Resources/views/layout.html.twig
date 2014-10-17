@@ -3,24 +3,19 @@
 {% extends '::base.html.twig' %}
 {% block title %}{{ application_name }} | {{ course.name }} Home{% endblock %}
 
-{% block stylesheets %}{{ parent() }}{% endblock %}
-{% block javascripts %}{{ parent() }}{% endblock %}
-
 {% block coursenav %}
     {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
-{% endblock %}
-
-{% block subnav %}
 {% endblock %}
 
 {% block sidebar %}
     <h1><a href="{{ course_path('course_home') }}" class="marca-gray">Course Home</a></h1>
     {# condition for display if not module #}
     {% if app.session.get('module')== 0 %}
-        <li class=""><a href="{{ course_path('roll') }}">Course Roll</a></li>{% endif %}
-
+        <li>
+            <a href="{{ course_path('roll') }}">Course Roll</a>
+        </li>
+    {% endif %}
     {% if is_granted('ROLE_INSTR') %}
-        <h2 class="nav-header">Settings</h2>
         <li>
             <a href="{{ course_path('course_show') }}">{% if app.session.get('module')== 0 %}Course{% else %}Module{% endif %}
                 Settings</a>
