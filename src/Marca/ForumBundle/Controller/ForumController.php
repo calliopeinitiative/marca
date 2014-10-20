@@ -17,11 +17,22 @@ use Marca\ForumBundle\Form\ForumType;
  */
 class ForumController extends Controller
 {
+
+    /**
+     * Create Sidebar fragment
+     *
+     * @Route("/{courseid}/sidebar", name="forum_sidebar")
+     */
+    public function createSidebarAction($courseid)
+    {
+        return $this->render('MarcaForumBundle::sidebar.html.twig', array( ));
+    }
+
+
     /**
      * Lists all Forum entities.
      *
      * @Route("/{courseid}/page", name="forum")
-     * @Template()
      */
     public function indexAction()
     {
@@ -35,16 +46,17 @@ class ForumController extends Controller
         
         //pagination
         $paginator = $this->get('knp_paginator');
-        $forumEntries = $paginator->paginate($forumEntries,$this->get('request')->query->get('page', 1),5);
+        $forumEntries = $paginator->paginate($forumEntries,$this->get('request')->query->get('page', 1),10);
         
-        return array('forumEntries' => $forumEntries);
+        return $this->render('MarcaForumBundle:Forum:index.html.twig', array(
+            'forumEntries' => $forumEntries
+        ));
     }
 
     /**
      * Finds and displays a Forum entity.
      *
      * @Route("/{courseid}/{id}/show", name="forum_show")
-     * @Template()
      */
     public function showAction($id)
     {
@@ -59,16 +71,15 @@ class ForumController extends Controller
             throw $this->createNotFoundException('Unable to find Forum entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array('forum'      => $forum,);
+        return $this->render('MarcaForumBundle:Forum:show.html.twig', array(
+            'forum'=> $forum
+        ));
     }
 
     /**
      * Displays a form to create a new Forum entity.
      *
      * @Route("/{courseid}/new", name="forum_new")
-     * @Template()
      */
     public function newAction()
     {
@@ -79,10 +90,10 @@ class ForumController extends Controller
         $newForum->setBody('<p></p>');
         $form   = $this->createForm(new ForumType(), $newForum);
 
-        return array(
+        return $this->render('MarcaForumBundle:Forum:new.html.twig', array(
             'newForum' => $newForum,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
@@ -90,14 +101,12 @@ class ForumController extends Controller
      *
      * @Route("/{courseid}/create", name="forum_create")
      * @Method("post")
-     * @Template("MarcaForumBundle:Forum:new.html.twig")
      */
     public function createAction($courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
+
         $user = $this->getUser();
         $course = $this->getCourse();
         $newForum  = new Forum();
@@ -116,19 +125,18 @@ class ForumController extends Controller
             
         }
 
-        return array(
+        return $this->render('MarcaForumBundle:Forum:new.html.twig', array(
             'newForum' => $newForum,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Forum entity.
      *
      * @Route("/{courseid}/{id}/edit", name="forum_edit")
-     * @Template()
      */
-    public function editAction($id)
+    public function editAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -145,14 +153,33 @@ class ForumController extends Controller
             throw new AccessDeniedException();
         }
 
-        $editForm = $this->createForm(new ForumType(), $forum);
-        $deleteForm = $this->createDeleteForm($id);
+        $options = array();
+        $editForm = $this->createEditForm($forum, $courseid, $options);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
-        return array(
+        return $this->render('MarcaForumBundle:Forum:edit.html.twig', array(
             'forum'      => $forum,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
+    }
+
+    /**
+     * Creates a form to edit a Journal entity.
+     *
+     * @param Forum $forum
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Forum $forum, $courseid, $options)
+    {
+        $form = $this->createForm(new ForumType($options), $forum, array(
+            'action' => $this->generateUrl('forum_update', array('id' => $forum->getId(),'courseid' => $courseid,)),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
     }
 
     /**
@@ -160,7 +187,6 @@ class ForumController extends Controller
      *
      * @Route("/{courseid}/{id}/update", name="forum_update")
      * @Method("post")
-     * @Template("MarcaForumBundle:Forum:edit.html.twig")
      */
     public function updateAction($courseid, $id)
     {
@@ -174,9 +200,9 @@ class ForumController extends Controller
         if (!$forum) {
             throw $this->createNotFoundException('Unable to find Forum.');
         }
-
-        $editForm   = $this->createForm(new ForumType(), $forum);
-        $deleteForm = $this->createDeleteForm($id);
+        $options = array();
+        $editForm = $this->createEditForm($forum, $courseid, $options);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         $request = $this->getRequest();
 
@@ -189,11 +215,11 @@ class ForumController extends Controller
             return $this->redirect($this->generateUrl('forum', array('courseid' => $courseid, 'set' => 0)));
         }
 
-        return array(
+        return $this->render('MarcaForumBundle:Forum:edit.html.twig', array(
             'forum'      => $forum,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -208,7 +234,7 @@ class ForumController extends Controller
         $this->restrictAccessTo($allowed);
         $user = $this->getUser();
         
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($id, $courseid);
         $request = $this->getRequest();
 
         $form->handleRequest($request);
@@ -231,12 +257,20 @@ class ForumController extends Controller
         return $this->redirect($this->generateUrl('forum', array('courseid' => $courseid, 'set' => 0)));
     }
 
-    private function createDeleteForm($id)
+    /**
+     * Creates a form to delete a Forum entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id, $courseid)
     {
-        //currently unused!
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('forum_delete', array('id' => $id,'courseid' => $courseid,)))
+            ->setMethod('POST')
+            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
-        ;
+            ;
     }
 }

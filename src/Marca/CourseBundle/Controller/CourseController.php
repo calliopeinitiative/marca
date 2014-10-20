@@ -47,6 +47,16 @@ class CourseController extends Controller
     }
 
     /**
+     * Create Delete modal fragment
+     *
+     * @Route("/{courseid}/delete_modal", name="delete_modal")
+     */
+    public function createDeletemodalAction($delete_form)
+    {
+        return $this->render('MarcaCourseBundle::Delete_modal.html.twig', array('delete_form'=>$delete_form ));
+    }
+
+    /**
      * Lists all Course entities.
      *
      * @Route("/", name="course")

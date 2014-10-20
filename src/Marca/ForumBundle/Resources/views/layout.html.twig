@@ -3,18 +3,11 @@
 {% extends '::base.html.twig' %}
 {% block title %}{{ application_name }} | Forum{% endblock %}
 
-{% block stylesheets %}{{ parent() }}{% endblock %}
-{% block javascripts %}{{ parent() }}{% endblock %}
-
 {% block coursenav %}
     {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}
 
 
 {% block sidebar %}
-    <h1><a  title='Course Forum' href="{{ course_path('forum') }}" class="marca-gray">Forum</a></h1>
-       {% if is_granted('ROLE_INSTR') %}
-             <a class='btn btn-primary margin-bottom-medium' href="{{ course_path('forum_new') }}">Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
-             {% endif %} 
-             <li><a href="{{ course_path('forum', { 'set': 0 }) }}">All Discussions</a></li>
+    {{ render_esi(controller('MarcaForumBundle:Forum:createSidebar', { 'courseid': app.request.get('courseid') } )) }}
 {% endblock %}  
