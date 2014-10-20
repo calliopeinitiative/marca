@@ -22,9 +22,8 @@ class CommentController extends Controller
      * Displays a form to create a new Comment entity.
      *
      * @Route("/{courseid}/{forumid}/{parentid}/new", name="comment_new")
-     * @Template()
      */
-    public function newAction($forumid,$courseid,$parentid)
+    public function newAction($forumid,$parentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -35,14 +34,18 @@ class CommentController extends Controller
         $comment->setBody('<p></p>');        
         $form   = $this->createForm(new CommentType(), $comment);
 
-        return array(
+        return $this->render('MarcaForumBundle:Comment:new.html.twig', array(
             'forumid' => $forumid,
             'parentid' => $parentid,
             'parent' => $parent,
             'comment' => $comment,
             'form'   => $form->createView()
-        );
+        ));
     }
+
+
+
+
 
     /**
      * Creates a new Comment entity.
@@ -77,22 +80,21 @@ class CommentController extends Controller
             
         }
 
-        return array(
+        return $this->render('MarcaForumBundle:Comment:new.html.twig', array(
             'forumid' => $forumid,
             'parentid' => $parentid,
             'parent' => $parent,
             'comment' => $comment,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Comment entity.
      *
      * @Route("/{courseid}/{parentid}/{id}/edit", name="comment_edit")
-     * @Template()
      */
-    public function editAction($id,$courseid,$parentid)
+    public function editAction($id, $parentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -112,12 +114,12 @@ class CommentController extends Controller
         $editForm = $this->createForm(new CommentType(), $comment);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaForumBundle:Comment:edit.html.twig', array(
             'comment'      => $comment,
             'parent' => $parent,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -125,7 +127,6 @@ class CommentController extends Controller
      *
      * @Route("/{courseid}/{parentid}/{id}/update", name="comment_update")
      * @Method("post")
-     * @Template("MarcaForumBundle:Comment:edit.html.twig")
      */
     public function updateAction($id,$courseid,$parentid)
     {
@@ -154,12 +155,12 @@ class CommentController extends Controller
             return $this->redirect($this->generateUrl('forum_show', array('courseid' => $courseid,'id' => $comment->getForum()->getId(),)));
         }
 
-        return array(
+        return $this->render('MarcaForumBundle:Comment:edit.html.twig', array(
             'comment'      => $comment,
             'parent' => $parent,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**

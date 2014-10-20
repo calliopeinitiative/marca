@@ -853,7 +853,7 @@ class FileController extends Controller
             throw $this->createNotFoundException('Unable to find File entity.');
         }
 
-        return $this->render('MarcaDocBundle:Doc:show.html.twig', array(
+        return $this->render('MarcaDocBundle:Doc:show_ajax.html.twig', array(
             'role'      => $role,
             'roll'      => $roll,
             'file'        => $file,

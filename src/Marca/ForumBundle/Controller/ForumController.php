@@ -23,7 +23,7 @@ class ForumController extends Controller
      *
      * @Route("/{courseid}/sidebar", name="forum_sidebar")
      */
-    public function createSidebarAction($courseid)
+    public function createSidebarAction()
     {
         return $this->render('MarcaForumBundle::sidebar.html.twig', array( ));
     }
@@ -64,7 +64,6 @@ class ForumController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-
         $forum = $em->getRepository('MarcaForumBundle:Forum')->findForumDesc($id);
 
         if (!$forum) {
@@ -81,19 +80,38 @@ class ForumController extends Controller
      *
      * @Route("/{courseid}/new", name="forum_new")
      */
-    public function newAction()
+    public function newAction($courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
-        $newForum = new Forum();
-        $newForum->setBody('<p></p>');
-        $form   = $this->createForm(new ForumType(), $newForum);
+        $forum = new Forum();
+        $forum->setBody('<p></p>');
+        $form = $this->createCreateForm($forum, $courseid);
 
         return $this->render('MarcaForumBundle:Forum:new.html.twig', array(
-            'newForum' => $newForum,
+            '$forum' => $forum,
             'form'   => $form->createView()
         ));
+    }
+
+
+    /**
+     * Creates a form to create a Forum entity.
+     *
+     * @param Forum $forum entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateForm(Forum $forum, $courseid)
+    {
+        $form = $this->createForm(new ForumType(), $forum, array(
+            'action' => $this->generateUrl('forum_create', array('courseid' => $courseid)),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
     }
 
     /**
@@ -109,16 +127,16 @@ class ForumController extends Controller
 
         $user = $this->getUser();
         $course = $this->getCourse();
-        $newForum  = new Forum();
-        $newForum->setUser($user);
-        $newForum->setCourse($course);
+        $forum  = new Forum();
+        $forum->setUser($user);
+        $forum->setCourse($course);
         $request = $this->getRequest();
-        $form    = $this->createForm(new ForumType(), $newForum);
+        $form = $this->createCreateForm($forum, $courseid);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $em->persist($newForum);
+            $em->persist($forum);
             $em->flush();
 
             return $this->redirect($this->generateUrl('forum', array('courseid' => $courseid, 'set' => 0)));
@@ -126,7 +144,7 @@ class ForumController extends Controller
         }
 
         return $this->render('MarcaForumBundle:Forum:new.html.twig', array(
-            'newForum' => $newForum,
+            'forum' => $forum,
             'form'   => $form->createView()
         ));
     }
@@ -164,23 +182,25 @@ class ForumController extends Controller
         ));
     }
 
+
     /**
-     * Creates a form to edit a Journal entity.
+     * Creates a form to edit a Calendar entity.
      *
-     * @param Forum $forum
+     * @param Forum $forum entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createEditForm(Forum $forum, $courseid, $options)
+    private function createEditForm(Forum $forum, $courseid)
     {
-        $form = $this->createForm(new ForumType($options), $forum, array(
-            'action' => $this->generateUrl('forum_update', array('id' => $forum->getId(),'courseid' => $courseid,)),
+        $form = $this->createForm(new ForumType(), $forum, array(
+            'action' => $this->generateUrl('forum_update', array('id' => $forum->getId(),'courseid' => $courseid)),
             'method' => 'POST',
         ));
 
         $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
         return $form;
     }
+
 
     /**
      * Edits an existing Forum entity.
@@ -194,18 +214,16 @@ class ForumController extends Controller
         $this->restrictAccessTo($allowed);
         
         $em = $this->getEm();
-
         $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
 
         if (!$forum) {
             throw $this->createNotFoundException('Unable to find Forum.');
         }
-        $options = array();
-        $editForm = $this->createEditForm($forum, $courseid, $options);
+
+        $editForm = $this->createEditForm($forum, $courseid);
         $deleteForm = $this->createDeleteForm($id, $courseid);
 
         $request = $this->getRequest();
-
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {

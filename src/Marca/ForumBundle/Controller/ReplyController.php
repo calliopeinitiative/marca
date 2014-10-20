@@ -36,12 +36,12 @@ class ReplyController extends Controller
         $form   = $this->createForm(new ReplyType(), $reply);
         
 
-        return array(
+        return $this->render('MarcaForumBundle:Reply:new.html.twig', array(
             'commentid' => $commentid,
             'comment' => $comment,
             'reply' => $reply,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
@@ -49,7 +49,6 @@ class ReplyController extends Controller
      *
      * @Route("/{courseid}/{commentid}/create", name="reply_create")
      * @Method("post")
-     * @Template("MarcaForumBundle:Reply:new.html.twig")
      */
     public function createAction($commentid,$courseid)
     {
@@ -58,7 +57,7 @@ class ReplyController extends Controller
         
         $em = $this->getEm();
         $comment = $em->getRepository('MarcaForumBundle:Comment')->find($commentid);
-        $forumid = $comment->getForum()->getid();
+        $forum = $comment->getForum();
         $reply  = new Reply();
         $user = $this->getUser();    
         $reply->setUser($user);
@@ -73,25 +72,24 @@ class ReplyController extends Controller
             $em->persist($reply);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('forum_show', array('courseid' => $courseid,'id' => $forumid)));
+            return $this->redirect($this->generateUrl('forum_show', array('courseid' => $courseid,'id' => $forum->getId())));
             
         }
 
-        return array(
+        return $this->render('MarcaForumBundle:Reply:new.html.twig', array(
             'commentid' => $commentid,
             'comment' => $comment,
             'reply' => $reply,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Reply entity.
      *
      * @Route("/{courseid}/{commentid}/{id}/edit", name="reply_edit")
-     * @Template()
      */
-    public function editAction($id,$commentid,$courseid)
+    public function editAction($id,$commentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -112,12 +110,12 @@ class ReplyController extends Controller
         $editForm = $this->createForm(new ReplyType(), $reply);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaForumBundle:Reply:edit.html.twig', array(
             'reply'      => $reply,
             'comment' => $comment,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -125,7 +123,6 @@ class ReplyController extends Controller
      *
      * @Route("/{courseid}/{commentid}/{id}/update", name="reply_update")
      * @Method("post")
-     * @Template("MarcaForumBundle:Reply:edit.html.twig")
      */
     public function updateAction($id,$commentid,$courseid)
     {
@@ -154,12 +151,12 @@ class ReplyController extends Controller
             return $this->redirect($this->generateUrl('forum_show', array('courseid' => $courseid,'id' => $reply->getComment()->getForum()->getId(),)));
         }
 
-        return array(
+        return $this->render('MarcaForumBundle:Reply:edit.html.twig', array(
             'reply'      => $reply,
             'comment' => $comment,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**

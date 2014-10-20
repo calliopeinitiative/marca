@@ -1,0 +1,90 @@
+{# Marca/DocBundle/Resources/views/Doc/show_ajax.html.twig #}
+
+
+            <script language="javascript">
+                $(document).ready(function () {
+                    {% if file.project.resource and role==2 %}{% set resource=1 %}{% else %}{% set resource=0 %}{% endif %}
+                    $('#new_saveas').click(function () {
+                        $('#modal').load('{{ course_path('file_new_modal', { 'resource' : resource, 'tag' : '0', 'type': 'saveas', 'fileid': file.id }) }}').modal();
+                    });
+                    var txt = $('.doc-body').text();
+                    var count = txt.trim().replace(/\s+/gi, ' ').split(' ').length;
+                    $("#word-count").text(count);
+                    $('#doc-display').css('height', function () {
+                        return $(window).height() * .88;
+                    });
+                    $('iframe').css('height', function () {
+                        return $(window).height() * .88;
+                    });
+                    $('.popover').hide();
+                    $('.markup').mouseover(function () {
+                        var id = "div[data-id='" + $(this).attr('data-id') + "']";
+                        var offset = $(this).offset();
+                        $('.popover').hide();
+                        $(id).show().offset({ top: offset.top - 30, left: offset.left + 80});
+                    });
+                    $('.popover-close, #doc-display').click(function () {
+                        $('.popover').hide();
+                    });
+                    $('#notes_container').empty();
+                    var numNotes = $('.eDoc_note').length;
+                    if (numNotes > 0) {
+                        $('.eDoc_note').each(function (index) {
+                            var note_index = index + 1;
+                            var note_number = '<span class="blue">' + note_index + '</span>';
+                            var note = '<div>' + note_number + $(this).html() + '</div>';
+                            $('#notes_container').append(note);
+                        });
+                    }
+                    else {
+                        var note = '<div class="cell divider clear">There are no notes in this document.</div>';
+                        $('#notes_container').append(note);
+                    }
+                    $('.eDoc_highlight').each(function (index) {
+                        var span_number = index + 1;
+                        var span_append = '<span class="eDoc_super">' + span_number + '</span>';
+                        $(this).append(span_append);
+                    });
+                    $('.eDoc_super').toggle();
+                    $('#inline-toggle').text('Inline');
+                    $('#loading').fadeOut();
+
+
+                });
+            </script>
+
+            {# Document display or File Viewer #}
+            <div id='file-container'>
+                {% if app.request.get('_route') == 'file_view' or app.request.get('_route') == 'file_view_ajax' %}
+                    <iframe class="col-sm-8" id="viewer"
+                            src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}"
+                            allowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                {% else %}
+                    <div id="doc-container" class="col-sm-8">
+                        <div id='doc-display' class="col-sm-12 well">
+                            <div id='doc-body' class="doc-body">
+                                {{ doc.body|raw }}
+                            </div>
+                        </div>
+                        <div class="doc-footer col-sm-12"><span class="pull-right">Words: <span
+                                        id="word-count"></span></span>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Markup pops for this document #}
+            {% for markup in markup %}
+                <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover left'>
+                    <button type="button" class="close popover-close" data-dismiss="popover" aria-hidden="true">&times;</button>
+                    <div class="popover-title">
+                        <span class="pull-left color-flag" style="background: {{ markup.color }};">&#183;</span>
+                        {{ markup.name }}</div>
+                    <div class="popover-content">
+                        {{ markup.mouseover|raw }}
+                        {% if markup.url != '' or markup.url is not null %}
+                            <a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+
