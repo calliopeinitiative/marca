@@ -244,7 +244,7 @@ class DocController extends Controller
             return $this->redirect($this->generateUrl('doc_show', array('id' => $fileid, 'courseid'=> $courseid, 'view' => $view)));
         }
 
-        return $this->render('MarcaDocBundle:Doc:edi.html.twig', array(
+        return $this->render('MarcaDocBundle:Doc:edit.html.twig', array(
             'doc'      => $doc,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
