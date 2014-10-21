@@ -45,7 +45,7 @@
             <a href="{{ app.session.get('resource_referrer') }}" title="Course Resources">Resources</a>
         {% else %}
             <a title='Course Resources'
-               href="{{ course_path('file_list', { 'project': default_resource, 'resource': 1}) }}">Resources</a>
+               href="{{ course_path('file_list', { 'project': default_resource, 'resource': 1, 'scope': 'all'}) }}">Resources</a>
         {% endif %}
 
     </li>
