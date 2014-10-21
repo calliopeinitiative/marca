@@ -17,48 +17,30 @@ class FileRepository extends EntityRepository
  * Second conditional catches Recent Files listing (with no associated project defined so it can be omitted from seach.
  * Sort is not currently working; need to refactor the join
  */
-   public function findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser, $role)
+   public function findFilesByProject($project, $user, $scope, $tag, $byuser, $role)
     {
         if($scope == 'all' and $role == 2) {$scopeQuery = ' or f.access = 1 or f.access = 0';}
         elseif($scope == 'all' and $role != 2) {$scopeQuery = ' or f.access = 1';}
         elseif($scope == 'byuser' and $role == 2) {$user = $byuser; $scopeQuery = '';}
         elseif($scope == 'byuser' and $role != 2) {$user = $byuser; $scopeQuery = ' AND f.access = 1';}
         else {$scopeQuery = '';};
-       
         if ($tag != 0) {$tagQuery = '';} else {$tagQuery = ' OR t.id != 0 OR t.id is NULL';}
-
-        if($project == 'recent') {
-         return $this->getEntityManager()
-            ->createQuery('SELECT f, p, d, t, r, o, g, b FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.grade g LEFT JOIN f.portfolio o LEFT JOIN f.tag t LEFT JOIN f.reviews r LEFT JOIN f.feedback b
-                WHERE f.course = ?1 AND p.resource = ?3 AND f.reviewed IS NULL AND (f.user = ?2'.$scopeQuery.') AND (t.id = ?4'.$tagQuery.') ORDER BY f.updated DESC')
-                ->setParameter('1',$course)->setParameter('2',$user)->setParameter('3',$resource)->setParameter('4',$tag)->getResult();
-       } else {
           return $this->getEntityManager()
-            ->createQuery('SELECT f, p, d, t, r, o, g, b FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.grade g LEFT JOIN f.portfolio o  LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
+            ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
                 WHERE f.project = ?1 AND f.reviewed IS NULL AND (f.user = ?3'.$scopeQuery.') AND (t.id = ?4'.$tagQuery.') ORDER BY  f.updated DESC')
                 ->setParameter('1',$project)->setParameter('3',$user)->setParameter('4',$tag)->getResult();
-       };
-
     }
 
 /**
  * First users files with shared access for portfolio
  */
-  public function findFilesForPort($project, $user, $course)
+  public function findFilesForPort($project, $user)
     {
 
-       if($project == 'recent') {
-         return $this->getEntityManager()
-            ->createQuery('SELECT f, p, d, t, r, o  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o LEFT JOIN f.tag t LEFT JOIN f.reviews r
-                WHERE f.course = ?1 AND p.resource = false AND f.reviewed IS NULL AND f.user = ?2 AND f.access = 1  ORDER BY f.updated DESC')
-                ->setParameter('1',$course)->setParameter('2',$user)->getResult();
-       } else {
           return $this->getEntityManager()
             ->createQuery('SELECT f, p, d, t, r, o  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o LEFT JOIN f.tag t LEFT JOIN f.reviews r
                 WHERE f.project = ?1 AND f.reviewed IS NULL AND f.user = ?2 AND f.access = 1  ORDER BY  f.name ASC')
                 ->setParameter('1',$project)->setParameter('2',$user)->getResult();
-       };
-
     }
 
     /**
@@ -72,21 +54,17 @@ class FileRepository extends EntityRepository
     }
 
 
-   public function findPeerReviewFiles ($project, $user, $scope, $course, $tag, $resource, $byuser, $role)
+   public function findReviewFiles ($project, $user, $scope, $byuser, $role)
     {
-
-        if($project == 'recent') {
-         return $this->getEntityManager()
-            ->createQuery('SELECT f, p, d, t, r, o  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.tag t LEFT JOIN f.reviews r
-                WHERE f.course = ?1 AND p.resource = ?3 AND (r.user = ?2) ORDER BY f.updated DESC')
-                ->setParameter('1',$course)->setParameter('2',$user)->setParameter('3',$resource)->getResult();
-       } else {
-          return $this->getEntityManager()
-            ->createQuery('SELECT f, p, d, t, r, o  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.tag t LEFT JOIN f.reviews r
-                WHERE f.project = ?1 AND (r.user = ?3) ORDER BY  f.name ASC')
-                ->setParameter('1',$project)->setParameter('3',$user)->getResult();
-       };
-
+        if($scope == 'all' and $role == 2) {$scopeQuery = ' or f.access = 1 or f.access = 0';}
+        elseif($scope == 'all' and $role != 2) {$scopeQuery = ' or f.access = 1';}
+        elseif($scope == 'byuser' and $role == 2) {$user = $byuser; $scopeQuery = '';}
+        elseif($scope == 'byuser' and $role != 2) {$user = $byuser; $scopeQuery = ' AND f.access = 1';}
+        else {$scopeQuery = '';};
+        return $this->getEntityManager()
+            ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviewed r  LEFT JOIN f.feedback b
+                WHERE f.project = ?1 AND f.reviewed IS NOT NULL AND (f.user = ?2'.$scopeQuery.') ORDER BY  f.updated DESC')
+            ->setParameter('1',$project)->setParameter('2',$user)->getResult();
    }
     
     public function deleteEdoc($id)

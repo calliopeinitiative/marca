@@ -733,9 +733,6 @@ tr.review > td > a {
     font-size: 13px;
 }
 
-tr.review > td:first-of-type > span {
-    margin-left:30px;
-}
 
 #file_list thead tr {
     height:22px;

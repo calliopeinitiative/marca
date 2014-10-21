@@ -49,14 +49,6 @@
             $('#file_show_{{file.id}}').click(function(){
                 $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}').modal();
             });
-            {% for file in file.reviews%}
-            $('.edit_{{file.id}}').click(function(){
-                $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}').modal();
-            });
-            $('#file_show_{{file.id}}').click(function(){
-                $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}').modal();
-            });
-            {% endfor %}
             {% endfor %}
             $('.file-wrapper').css('max-height', function(index) {
                 return $(window).height()* .88;
@@ -103,8 +95,10 @@
             //add current-filter to active items
             var project_index = 'a[data-project-index=' + '{{ app.request.get("project") }}' + ']';
             $(project_index).addClass('current-filter');
+            $('p.project').append($(project_index).html());
             var tag_index = 'a[data-tag-index=' + '{{ app.request.get("tag") }}' + ']';
             $(tag_index).addClass('current-filter');
+            $('p.tags').append($(tag_index).html());
             var scope_index = 'a[data-scope-index=' + '{{ app.request.get("scope") }}' + ']';
             $(scope_index).addClass('current-filter');
 

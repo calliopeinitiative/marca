@@ -30,20 +30,18 @@ class FileController extends Controller
     /**
      * Lists all Course entities.
      *
-     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/resources_sidebar", name="file_resources_sidebar")
+     * @Route("/{courseid}/{tag}/{scope}/{user}/{resource}/{userid}/resources_sidebar", name="file_resources_sidebar")
      */
-    public function createResources_sidebarAction($courseid, $resource, $project, $tag)
+    public function createResources_sidebarAction($courseid, $resource,$tag)
     {
         $em = $this->getEm();
         $role = $this->getCourseRole();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
+        $default_project = $projects[0]->getId();
+        $project = $default_project;
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
-        if ($project == 'recent') {
-            $default_project = $projects[0]->getId();
-            $project = $default_project;
-        }
         $projectForTags = $em->getRepository('MarcaCourseBundle:Project')->find($project);
         $courseForTags =  $projectForTags->getCourse();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseForTags);
@@ -53,9 +51,9 @@ class FileController extends Controller
     /**
      * Lists all Course entities.
      *
-     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/projects_sidebar", name="file_projects_sidebar")
+     * @Route("/{courseid}/{tag}/{scope}/{user}/{resource}/{userid}/projects_sidebar", name="file_projects_sidebar")
      */
-    public function createProjects_sidebarAction($courseid, $resource, $project, $tag, $userid)
+    public function createProjects_sidebarAction($courseid, $resource,$tag, $userid)
     {
         $em = $this->getEm();
         $role = $this->getCourseRole();
@@ -86,12 +84,13 @@ class FileController extends Controller
     /**
      * Lists all File entities by Project.
      *
-     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/list", name="file_list")
+     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/list", name="file_list", defaults={"project" = 0, "scope" = "mine","user" = 0,"resource" = 1, "tag" = 0,"userid" = 0})
      */
     public function indexByProjectAction($project, $scope, $courseid, $tag, $resource, $userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
+
         $session = $this->get('session');
         $request = $this->getRequest();
         if ($resource == 0) {
@@ -105,11 +104,12 @@ class FileController extends Controller
         $byuser = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $role = $this->getCourseRole();
         $user = $this->getUser();
-        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $course, $tag, $resource, $byuser, $role);
+        if ($scope == 'reviews')
+            $files = $em->getRepository('MarcaFileBundle:File')->findReviewFiles($project, $user, $scope, $byuser, $role);
+        else {
+            $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $user, $scope, $tag, $byuser, $role);
+        }
 
-        //pagination for files
-        $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),25);
         if ($resource==0) {$template = 'MarcaFileBundle:File:projects_index.html.twig'; } else {$template = 'MarcaFileBundle:File:resources_index.html.twig';}
 
         return $this->render($template, array('files' => $files, 'role'=> $role,'course' => $course));

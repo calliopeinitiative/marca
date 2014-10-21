@@ -36,13 +36,17 @@ class CourseController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();
+        //find default for resources
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, 1);
+        $default_resource = $projects[0]->getId();
         $role = $this->getCourseRole();
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUser($user);
         return $this->render('MarcaCourseBundle::coursenav.html.twig', array(
             'course' => $course,
             'courses' => $courses,
             'role'=> $role,
-            'user' => $user
+            'user' => $user,
+            'default_resource' => $default_resource
         ));
     }
 

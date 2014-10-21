@@ -11,13 +11,19 @@
             <a class="navbar-brand" href="#" title="File listing">
                 {% if byuser %}{{ byuser.firstname }} {{ byuser.lastname }}
                 {% elseif app.request.get('scope')=='mine' %}My Files
+                {% elseif app.request.get('scope')=='reviews' %}Reviews
                 {% else  %}Shared Files
                 {% endif %}</a>
         </div>
 
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+                <p class="navbar-text project"></p>
+                <p class="navbar-text tags"></p>
                 <p class="navbar-text file_count"></p>
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
                 {% for roll in roll %}
                     {% if loop.index == app.request.get('user') - 1 and app.request.get('tag')!='3' %}
                         <li><a class='' data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.user.id }) }}">&lt; {{roll.firstname|title}} {{roll.lastname|title}}</a></li>
