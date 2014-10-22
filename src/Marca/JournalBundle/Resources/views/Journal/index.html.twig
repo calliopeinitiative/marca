@@ -21,6 +21,38 @@
                 url = url.replace("index", index);
                 $(this).attr("href", url).click();
             });
+
+            var previous_index = {{ app.request.get('user') }} - 1;
+            var previous_selector ='a[data-index=' + previous_index + ']';
+            var previous_name = '<' + $(previous_selector).text();
+            if (previous_index < 1) previous_name = '';
+            $('a.roll_previous').text(previous_name);
+
+            var next_index = {{ app.request.get('user') }} + 1;
+            var next_selector ='a[data-index=' + next_index + ']';
+            var next_id = $(next_selector).data('id');
+            if (next_id > 0) var next_name = $(next_selector).text() + '>'; else var next_name = '';
+            $('a.roll_next').text(next_name);
+
+
+            $('a.roll_previous').click(function() {
+                var index = {{ app.request.get('user') }} - 1;
+                var selector ='a[data-index=' + index + ']';
+                var id = $(selector).data('id');
+                var url = "{{ course_path('journal_list', { 'userid': 'id', 'user': 'index' }) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                $(this).attr("href", url).click();
+            });
+            $('a.roll_next').click(function() {
+                var index = {{ app.request.get('user') }} + 1;
+                var selector ='a[data-index=' + index + ']';
+                var id = $(selector).data('id');
+                var url = "{{ course_path('journal_list', { 'userid': 'id', 'user': 'index' }) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                $(this).attr("href", url).click();
+            });
         });
     </script>
 {% endblock %}

@@ -2,6 +2,8 @@
 {# esi fragment for course roll #}
 
 <ul class="nav navbar-nav navbar-right">
+    <li><a class="roll_previous" data-index="0" data-id='0' href="javascript:void(0);">
+            &lt; Previous</a></li>
     <li class="dropdown">
         <a class="" href="#" title="Select by Author">Select Author <b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">
@@ -11,4 +13,6 @@
             {% endfor %}
         </ul>
     </li>
+    <li><a class="roll_next" data-index="0" data-id='0' href="javascript:void(0);">
+            Next &gt;</a></li>
 </ul>

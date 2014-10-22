@@ -1,5 +1,6 @@
 <?php
 
+use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
 
@@ -19,6 +20,9 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 
 $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
 Debug::enable();
+
+$loader = new ApcClassLoader('sf2', $loader);
+$loader->register(true);
 
 require_once __DIR__.'/../app/AppKernel.php';
 require_once __DIR__.'/../app/AppCache.php';
