@@ -1,0 +1,102 @@
+{# Marca/FileBundle/Resources/views/File/index.html.twig #}
+
+{% extends 'MarcaFileBundle::layout.html.twig' %}
+
+{% block content %}
+    <div class="file-wrapper well">
+        <table id="file_list" class="col-sm-12 table">
+            <thead>
+            <tr class="file">
+                <th><span>Title</span></th>
+                <th>Unit</th>
+                <th>Labels</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for file in files %}
+                {# main list of files #}
+                <tr class="file">
+                    <td>
+                        {# different functions for different file types #}
+                        {# doc files #}
+                        {% if file.doc %}
+                            <a class="file_name" href="{{ course_path('doc_show', { 'id': file.id, 'view': 'app' }) }}"
+                               title="View {{ file.name }}">
+                                {{ file.name }}
+                            </a>
+                            <span class="label label-file pull-left" data-toggle="tooltip" title="This an html file ">html</span>
+                            {# links #}
+                        {% elseif file.url %}
+                            <a class="file_name" href="{{ file.url }}" target="_blank"
+                               title='This link will open in a new window or tab.'>
+                                {{ file.name }}
+                            </a>
+                            <span class="label label-file pull-left" data-toggle="tooltip"
+                                  title="This a link ">link</span>
+                            {# ODT files #}
+                        {% elseif file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
+                            <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'app' }) }}"
+                               title="View {{ file.name }}">
+                                {{ file.name }}
+                            </a>
+                            <span class="label label-file pull-left" data-toggle="tooltip"
+                                  title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                        {% else %}
+                            <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}"
+                               title="View {{ file.name }}">
+                                {{ file.name }}
+                            </a>
+                            <span class="label label-file pull-left" data-toggle="tooltip"
+                                  title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                        {% endif %}
+                        {% if file.access==1 %} <span class="label label-success pull-right margin-left"
+                                                      title="This file is shared with the class.">Shared</span>{% endif %}
+                        <div class="hidden-xs">
+                            <div class="file-menu">
+                                {% if file.isOwner(app.user.username) and file.project.course==course %}
+                                    <a class="edit_{{ file.id }}" href="javascript:void(0);"
+                                       title="Edit the setting for this file.">Settings</a>
+                                {% endif %}
+                                {% if file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
+                                    <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}"
+                                       title="Download {{ file.name }}">Download</a>
+                                {% endif %}
+                                {% if file.isOwner(app.user.username) and file.portfolio|length == 0  and file.project.course==course %}
+                                    <a class="delete" id='file_show_{{ file.id }}' href='javascript:void(0);'
+                                       title="Delete this file.">Delete</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ file.project.course.name }}: {{ file.project.name }}
+
+                    </td>
+                    <td>
+                        {% for tag in file.tag %}<span class="label label-default"
+                                                       style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">
+                        No files match your request.
+                        {% for flashMessage in app.session.flashbag.get('message') %}
+                            <div class="alert alert-info pad5 col-sm-11">
+                                {{ flashMessage }}
+                            </div>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+    {# Modal #}
+    <div class="modal fade" id="file_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+    </div><!-- /.modal -->
+
+
+{% endblock %}

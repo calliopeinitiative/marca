@@ -1,0 +1,208 @@
+{# Marca/FileBundle/Resources/views/File/index.html.twig #}
+
+{% extends 'MarcaFileBundle::layout.html.twig' %}
+
+{% block content %}
+    <div class="file-wrapper well">
+
+        <table id="file_list" class="col-sm-12 table">
+            <thead>
+            <tr class="file">
+                <th><span>Title</span></th>
+                <th>Author</th>
+                <th class="hidden-xs">Folder</th>
+                <th class="hidden-xs">Labels</th>
+                <th>Modified</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% if app.request.get('scope') != 'reviews' %}
+                {% for file in files %}
+                    {# main list of files #}
+                    <tr class="file">
+                        <td>
+                            {# different functions for different file types #}
+                            {# doc files #}
+                            {% if file.doc %}
+                                <a class="file_name"
+                                   href="{{ course_path('doc_show', { 'id': file.id, 'view': 'app' }) }}"
+                                   title="View {{ file.name }}">
+                                    {{ file.name|slice(0,20) }}{% if file.name|length > 20 %}...{% endif %}
+                                </a>
+                                <span class="label label-file pull-left" data-toggle="tooltip"
+                                      title="This an html file ">html</span>
+                                {# links #}
+                            {% elseif file.url %}
+                                <a class="file_name" href="{{ file.url }}" target="_blank"
+                                   title='This link will open in a new window or tab.'>
+                                    {{ file.name|slice(0,20) }}{% if file.name|length > 20 %}...{% endif %}
+                                </a>
+                                <span class="label label-file pull-left" data-toggle="tooltip"
+                                      title="This a link ">link</span>
+                                {# ODT files #}
+                            {% elseif file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
+                                <a class="file_name"
+                                   href="{{ course_path('file_view', { 'id': file.id, 'view': 'app' }) }}"
+                                   title="View {{ file.name }}">
+                                    {{ file.name|slice(0,20) }}{% if file.name|length > 20 %}...{% endif %}
+                                </a>
+                                <span class="label label-file pull-left" data-toggle="tooltip"
+                                      title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                            {% else %}
+                                <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}"
+                                   title="View {{ file.name }}">
+                                    {{ file.name|slice(0,20) }}{% if file.name|length > 20 %}...{% endif %}
+                                </a>
+                                <span class="label label-file pull-left" data-toggle="tooltip"
+                                      title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                            {% endif %}
+                            {% if file.reviews|length != 0 %} <span
+                                    class="label label-default darkorange pull-right margin-left"
+                                    title="{% if file.reviews|length != 0 %}Reviews by {% for review in file.reviews %}{{ review.user.firstname }} {{ review.user.lastname }}{% if not loop.last %},{% endif %} {% endfor %} {% endif %}">
+                                {{ file.reviews|length }} Reviews</span>{% endif %}
+                            {% if file.access==1 %} <span class="label label-success pull-right margin-left"
+                                                          title="This file is shared with the rest of the class.">Shared</span>{% endif %}
+                            {% if file.portfolio|length !=0 %} <span class="label label-info pull-right margin-left"
+                                                                     title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
+                            {% if file.feedback|length != 0 %} <span class="label label-primary pull-right margin-left"
+                                                                     title="Someone has offered feedback on this file.">Feedback</span>{% endif %}
+                            <div class="hidden-xs">
+                                <div class="file-menu">
+                                    {% if file.isOwner(app.user.username) %}
+                                        <a class="edit_{{ file.id }}" href="javascript:void(0);"
+                                           title="Edit the setting for this file.">Settings</a>
+                                    {% endif %}
+                                    {% if file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
+                                        <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}"
+                                           title="Download {{ file.name }}">Download</a>
+                                    {% endif %}
+                                    {% if file.doc or file.ext == 'odt' %}
+                                        <a class="" title="Create a copy of this document for review"
+                                           id="new_grade_{{ file.id }}"
+                                           href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create
+                                            Review</a>
+                                    {% endif %}
+                                    <a class="" title="Upload a file for review" id="upload_{{ file.id }}"
+                                       href="javascript:void(0);">Upload Review</a>
+                                    {% if file.isOwner(app.user.username) and file.portfolio|length == 0 and file.reviews|length == 0 and file.feedback|length == 0 %}
+                                        <a class="delete disabled" id='file_show_{{ file.id }}'
+                                           href='javascript:void(0);'
+                                           title="Delete this file.">Delete</a>
+                                    {% elseif file.isOwner(app.user.username) and file.portfolio|length != 0 %}Files in the Portfolio can not be deleted.
+                                    {% elseif file.isOwner(app.user.username) and file.reviews|length != 0 %}Files that have reviews can not be deleted.
+                                    {% elseif file.isOwner(app.user.username) and file.feedback|length != 0 %}Files that have feedback can not be deleted.
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>{% if file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname|title }} {{ file.user.lastname|title }}{% endif %}
+
+                        </td>
+                        <td class="hidden-xs">{{ file.project.name }}</td>
+                        <td class="labels hidden-xs">{% if file.access!=1 and file.portfolio|length ==0 and file.tag |length ==0 %}&mdash;{% endif %}
+                            {% for tag in file.tag %}<span class="label label-default margin-right"
+                                                           style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
+                        </td>
+                        <td>{{ file.updated|date('m/d/y, g:i a') }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                {% for review in files %}
+                    <tr class="review">
+                        <td>
+                            {# different functions for different file types #}
+                            {# doc files #}
+                            {% if review.doc %}
+                                <span class="label label-file" title="This an html file ">html</span>
+                                <a class="file_name"
+                                   href="{{ course_path('doc_show', { 'id': review.id, 'view': 'app' }) }}"
+                                   title="View {{ review.name }}">
+                                    Review of
+                                    <i>{{ review.reviewed.name|slice(0,15) }}</i>
+                                    for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
+                                    <span class="glyphicon glyphicon-comment" style="color:#888;"
+                                          title="Review"></span>
+                                </a>
+                                {# links #}
+                            {% elseif review.url %}
+                                <span class="label label-file" title="This a link ">link</span>
+                                <a class="file_name" href="{{ review.url }}" target="_blank"
+                                   title='This link will open in a new window or tab.'>
+                                    Review of
+                                    <i>{{ review.reviewed.name|slice(0,15) }}{% if file.name|length > 10 %}...{% endif %}</i>
+                                    for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
+                                    <span class="glyphicon glyphicon-comment" style="color:#888;"
+                                          title="Review"></span>
+                                </a>
+                                {# ODT files #}
+                            {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
+                                <span class="label label-file"
+                                      title="This an {{ review.ext }} file ">{{ review.ext }}</span>
+                                <a class="file_name"
+                                   href="{{ course_path('file_view', { 'id': review.id, 'view': 'app' }) }}"
+                                   title="View {{ review.name }}">
+                                    Review of
+                                    <i>{{ review.reviewed.name|slice(0,15) }}</i>
+                                    for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
+                                    <span class="glyphicon glyphicon-comment" style="color:#888;"
+                                          title="Review"></span>
+                                </a>
+                            {% else %}
+                                <span class="label label-file"
+                                      title="This an {{ review.ext }} file ">{{ review.ext }}</span>
+                                <a class="file_name" href="{{ course_path('file_get', { 'id': review.id}) }}"
+                                   title="View {{ review.name }}">
+                                    Review of
+                                    <i>{{ review.reviewed.name|slice(0,15) }}</i>
+                                    for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
+                                    <span class="glyphicon glyphicon-comment" style="color:#888;"
+                                          title="Review"></span>
+                                </a>
+                            {% endif %}
+                            {% if review.access==1 %} <span class="label label-success pull-right">Shared</span>
+                            {% elseif review.access==2 %} <span title="This review is currently hidden from view."
+                                                                class="label label-default black pull-right">Hidden</span>{% endif %}
+                            {% if review.portfolio|length !=0 %} <span
+                                    class="label label-info pull-right margin-left"
+                                    title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
+                            <div class="hidden-xs">
+                                <div class="file-menu">
+                                    {% if review.isOwner(app.user.username) and review.access!=2 %}<a
+                                        class='edit_{{ review.id }}' href="javascript:void(0);"
+                                        title="Edit the setting for this file.">Settings</a>{% endif %}
+                                    {% if role==2 and review.isOwner(app.user.username) %}<a class=''
+                                                                                             href="{{ course_path('file_toggle_release', { 'id': review.id }) }}"
+                                                                                             title="Instructor reviews can be hidden or released to students.  Click to hide or release.">{% if review.access==2 %}Release{% else %}Hide{% endif %}</a>{% endif %}
+                                    {% if review.isOwner(app.user.username) and review.portfolio|length == 0 %}
+                                        <a class='delete' id='file_show_{{ review.id }}' href='javascript:void(0);'
+                                           title="Delete this file.">Delete</a>
+                                    {% elseif review.isOwner(app.user.username) and review.portfolio|length != 0 %}Files in the Portfolio can not be deleted.
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td>{% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname|title }} {{ review.user.lastname|title }}{% endif %}</td>
+                        <td class="hidden-xs">{{ review.project.name }}</td>
+                        <td class="labels hidden-xs">
+                            {% for tag in review.tag %}<span class="label label-default"
+                                                             style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
+                        </td>
+                        <td>
+                            {{ review.updated|date('m/d/y, g:i a') }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+
+    </div>
+
+    {# Modal #}
+    <div class="modal fade" id="file_modal" role="dialog">
+    </div><!-- /.modal -->
+
+{% endblock %}
+

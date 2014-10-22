@@ -1,6 +1,6 @@
 {# Marca/CourseBundle/Resources/views/Roll/index.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaCourseBundle::layout.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -23,58 +23,44 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="btn-group pull-right margin-top">
-                    {#{% if course.hasPendingStudents %}#}<a class="btn btn-primary"
-                                                             href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve
-                        All Pending</a>{#{% endif %}#}
-                    <a class="btn btn-default" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh this list</a>
-                    <a class="btn btn-default" href="{{ path('course_show', { 'courseid': course.id }) }}">Course
-                        Settings </a>
-                </div>
-                <h2><a href="{{ path('course_home',{'courseid':course.id}) }}">{{ course.name }}</a> Roll</h2>
+                    <a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>
 
+                    <a class="btn btn-default" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh this list</a>
+                </div>
+                <h2>{{ course.name }} Roll</h2>
             </div>
             <div class="panel-body">
                 <table class="table table-condensed">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th></th>
-                        <th>Absences</th>
-                        <th>Tardies</th>
-                        <th>Role</th>
-                        <th>Approve/Change Role</th>
-                    </tr>
-                    </thead>
                     <tbody>
                     {% for roll in roll %}
                         <tr>
-                            <td><a class=""
-                                   href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}
-                                    , {{ roll.firstname|capitalize }}</a></td>
                             <td>
-                                <div class="margin-left btn-group inline-block">
-                                    <a id="absent{{ roll.id }}" class="btn btn-default btn-xs"
-                                       href="javascript:void(0);">Absent</a>
-                                    <a id="tardy{{ roll.id }}" class="btn btn-default btn-xs"
-                                       href="javascript:void(0);">Tardy</a>
-                                </div>
+                                {% if roll.user.photo != '' %}
+                                <img alt="Photo" src="{{ roll.user.photo }}" class="user-photo-sm img-rounded pull-left margin-top-small"/>
+                                {% endif %}
                             </td>
                             <td>
+                                <a href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}
+                                    , {{ roll.firstname|capitalize }}</a>
+                            </td>
+                            <td>
+                                <a target="_blank"  href="mailto:{{ roll.user.email }}">{{ roll.user.email }}</a>
+                            </td>
+                            {% if role == 2 %}
+                            <td>
+                                <a id="absent{{ roll.id }}" class="btn btn-default btn-xs"
+                                   href="javascript:void(0);">Absent</a>
                                 <div class="inline-block" id="absent_container{{ roll.id }}">
-                                      {% set x=0 %}
-                                      {% for attendance in roll.attendance if attendance.type==0 %}{% set x=x+1 %}{% endfor %}{{ x }}
+                                    {% set x=0 %}
+                                    {% for attendance in roll.attendance if attendance.type==0 %}{% set x=x+1 %}{% endfor %}{{ x }}
                                 </div>
-                            </td>
-
-                            <td>
+                                <a id="tardy{{ roll.id }}" class="margin-left btn btn-default btn-xs"
+                                   href="javascript:void(0);">Tardy</a>
                                 <div class="inline-block" id="tardy_container{{ roll.id }}">
                                     {% set y=0 %}
                                     {% for attendance in roll.attendance if attendance.type==1 %}{% set y=y+1 %}{% endfor %}{{ y }}
                                 </div>
                             </td>
-
-
-                            <td>{% if roll.role == 2 %}Instructor{% elseif roll.role == 3 %}TA{% elseif roll.role == 4 %}Portfolio Review{% else %}Student{% endif %}</td>
                             <td>
                                 {% if roll.user.id != app.user.id %}
                                     {% if roll.role == 0 %}
@@ -86,40 +72,37 @@
                                                href="{{ path('roll_show', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a>
                                         </div>
                                     {% else %}
-                                        Change role to:
+                                        Change role:
                                         <div class="btn-group">
-                                            <a class="btn btn-default btn-xs "
+                                            <a class="btn btn-default {% if roll.role == 1 %}btn-primary{% endif %} btn-xs "
                                                href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'1'}) }}">Student</a>
-
-                                            {# not ready for use
-
-                                            <a class="btn btn-default btn-xs "
-                                               href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'3'}) }}">TA</a>
-
-                                            #}
-
-
-
-                                            <a class="btn btn-default btn-xs "
+                                            <a class="btn btn-default {% if roll.role == 2 %}btn-primary{% endif %} btn-xs "
                                                href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'2'}) }}">Instructor</a>
-                                            <a class="btn btn-default btn-xs "
+                                            <a class="btn btn-default {% if roll.role == 4 %}btn-primary{% endif %} btn-xs "
                                                href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'4'}) }}">Portfolio
                                                 Review</a>
                                             <a class="btn btn-default btn-xs"
-                                               href="{{ path('roll_show', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a>
+                                               href="{{ path('roll_confirm_delete', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a>
                                         </div>
                                     {% endif %}
                                 {% endif %}
                             </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-
-                {{ knp_pagination_render(roll) }}
-
             </div>
-
+            {{ knp_pagination_render(roll) }}
+            <div class="panel-footer">
+                <h3>Semicolon list of emails</h3>
+                <a class="" target="_blank"
+                   href="mailto:{% for roll in full_roll %}{{ roll.user.email }}{% if not loop.last %}; {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.user.email }}{% if not loop.last %}; {% endif %}{% endfor %}</a>
+                <hr/>
+                <h3>Comma list of emails</h3>
+                <a class="" target="_blank"
+                   href="mailto:{% for roll in full_roll %}{{ roll.user.email }}{% if not loop.last %}, {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.user.email }}{% if not loop.last %}, {% endif %}{% endfor %}</a>
+            </div>
         </div>
     </div>
 {% endblock %}

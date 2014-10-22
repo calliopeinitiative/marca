@@ -3,52 +3,23 @@
 {% extends '::base.html.twig' %}
 {% block title %}{{ application_name }} | {{ course.name }} Home{% endblock %}
 
-{% block stylesheets %}{{ parent() }}{% endblock %}
-{% block javascripts %}{{ parent() }}{% endblock %}
-
 {% block coursenav %}
     {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}
 
-{% block subnav %}
-    <!-- Static navbar -->
-    <nav class="navbar navbar-default subnav" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#subnav">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ course_path('course_home') }}" class="marca-gray">Home</a>
-            </div>
-            <div id="subnav" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li></li>
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
-    </nav>
-{% endblock %}
-
 {% block sidebar %}
+    <h1><a href="{{ course_path('course_home') }}" class="marca-gray">Course Home</a></h1>
     {# condition for display if not module #}
     {% if app.session.get('module')== 0 %}
-        <li class=""><a href="{{ course_path('course_roll') }}">Class Roll</a></li>{% endif %}
-
+        <li>
+            <a href="{{ course_path('roll') }}">Course Roll</a>
+        </li>
+    {% endif %}
     {% if is_granted('ROLE_INSTR') %}
-        <h2 class="nav-header">Settings</h2>
         <li>
             <a href="{{ course_path('course_show') }}">{% if app.session.get('module')== 0 %}Course{% else %}Module{% endif %}
-                Settings</a></li>
-        {# condition for display if not module #}
-        {% if app.session.get('module')== 0 %}
-            <li><a href="{{ course_path('roll') }}">Manage Roll</a></li>{% endif %}
-
-        {# Teams commented out until more fully developed
-        <li><a href="{{ course_path('teams') }}">Manage Teams</a></li>
-        #}
+                Settings</a>
+        </li>
     {% endif %}
 {% endblock %} 
 

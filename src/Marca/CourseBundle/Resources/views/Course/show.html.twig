@@ -1,13 +1,12 @@
 {# Marca/CourseBundle/Resources/views/Course/show.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaCourseBundle::layout.html.twig' %}
 
 {% block content %}
     <div class="col-sm-6">
         <div class="panel panel-default ">
             <div class="panel-heading">
-                <h2 class="margin-top-small"><a
-                            href="{{ path('course_home',{'courseid':course.id}) }}">{{ course.name }}</a></h2>
+                <h2 class="margin-top-small">{{ course.name }}</h2>
                 {% if course.module == 2 %}
                     <div class='alert alert-success'>This module is shared with all instructors.</div>{% endif %}
                 <p>
@@ -18,22 +17,6 @@
                 <div class="btn-group">
                     <a class="btn btn-primary" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit
                         Settings </a>
-                    {% if course.module == 0 %}
-                        <a class="btn btn-default" href="{{ path('roll', { 'courseid': course.id }) }}">Manage Roll</a>
-                        {#  commented out until fully functional
-                        <a class="btn btn-default" href="{{ path('teams', { 'courseid': course.id }) }}">Manage Teams</a>
-                        #}
-                    {% endif %}
-                    {#
-
-                    {% if course.module != 1 %}
-                        <a class="btn btn-default"
-                           href="{{ path('toggle_module', { 'courseid': course.id,'setting': 1  }) }}">Change to
-                            Module</a>
-                    {% endif %}
-
-                    #}
-
                 </div>
             </div>
         </div>

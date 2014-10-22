@@ -111,12 +111,12 @@
             </div>
         {% endif %}
         <div class="{% if 'fos_user' not in app.request.attributes.get('_route')  %}col-sm-push-2 col-sm-10 col-sm-push-2{% else %}col-sm-12 col-sm-12{% endif %} col-xs-12" role="main">
+            {{block('subnav')}}
             {% block content %}
             {% endblock %}
         </div>
     {% else %}
         <a id="main_content" name="main_content"></a>
-        {{block('subnav')}}
         {{block('body')}}
     {% endif %}
 

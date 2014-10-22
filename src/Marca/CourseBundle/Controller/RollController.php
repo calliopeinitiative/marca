@@ -3,7 +3,7 @@
 namespace Marca\CourseBundle\Controller;
 
 use Marca\HomeBundle\Controller\Controller;
-use Marca\CourseBundle\roll\Roll;
+use Marca\CourseBundle\Entity\Roll;
 use Marca\CourseBundle\Form\RollType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -21,48 +21,30 @@ class RollController extends Controller
      * Lists all Roll entities.
      *
      * @Route("/{courseid}/", name="roll")
-     * @Template()
      */
     public function indexAction($courseid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
-
-        $em = $this->getEm();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-
-        $courseRoll = $this->getRoll();
-        $paginator = $this->get('knp_paginator');
-        $roll = $paginator->paginate($courseRoll,$this->get('request')->query->get('page',1),100);
-        
-        return array('roll' => $roll, 'course' => $course);
-    }
-    
-    
-    /**
-     * Lists Roll for Course home.
-     *
-     * @Route("/{courseid}/course_roll", name="course_roll")
-     * @Template("MarcaCourseBundle:Course:roll.html.twig")
-     */
-    public function courseRollAction()
-    {
         $allowed = array(self::ROLE_STUDENT, self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
-        
+
         $course = $this->getCourse();
         $full_roll = $this->getRoll();
+        $role = $this->getCourseRole();
         $paginator = $this->get('knp_paginator');
         $roll = $paginator->paginate($full_roll,$this->get('request')->query->get('page',1),100);
-        
-        return array('roll' => $roll,'full_roll' => $full_roll, 'course' => $course);
+
+        return $this->render('MarcaCourseBundle:Roll:index.html.twig', array(
+            'roll' => $roll,
+            'full_roll' => $full_roll,
+            'course' => $course,
+            'role'=> $role
+        ));
     }
-    
+
     /**
      * Lists Profile
      *
      * @Route("/{courseid}/{rollid}/{user}/course_roll_profile", name="course_roll_profile")
-     * @Template("MarcaCourseBundle:Course:profile.html.twig")
      */
     public function courseRollProfileAction($rollid)
     {
@@ -89,7 +71,7 @@ class RollController extends Controller
         $countFiles = $em->getRepository('MarcaFileBundle:File')->countFilesByUser($user,$course);
         $countCourseFiles = $em->getRepository('MarcaFileBundle:File')->countFilesByCourse($course);
 
-        return array(
+        return $this->render('MarcaCourseBundle:Course:profile.html.twig', array(
             'user'=> $user,
             'role' => $role,
             'roll' => $roll,
@@ -106,41 +88,14 @@ class RollController extends Controller
             'countCourseJournals'=>$countCourseJournals,
             'countFiles'=>$countFiles,
             'countCourseFiles'=>$countCourseFiles,
-        );
+        ));
     }     
 
-    /**
-     * Finds and displays a Roll roll.
-     *
-     * @Route("/{courseid}/{id}/show", name="roll_show")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $allowed = array(self::ROLE_STUDENT, self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
-        $course = $this->getCourse();
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
-
-        if (!$roll) {
-            throw $this->createNotFoundException('Unable to find Roll roll.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'roll'      => $roll,
-            'delete_form' => $deleteForm->createView(), 
-            'course' => $course,);
-    }
 
     /**
      * Finds and displays a Roll for deletion.
      *
      * @Route("/{courseid}/{id}/roll_modal", name="user_roll_modal")
-     * @Template("MarcaCourseBundle:Roll:delete_modal.html.twig")
      */
     public function showRollModalAction($courseid,$id)
     {
@@ -161,53 +116,41 @@ class RollController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaCourseBundle:Roll:delete_modal.html.twig', array(
             'roll'      => $roll,
             'delete_form' => $deleteForm->createView(),
-            'course' => $course,);
+            'course' => $course
+        ));
     }
 
-
     /**
-     * Edits an existing Roll roll.
+     * Dialog for Instructor delete of roll listing
      *
-     * @Route("/{courseid}/{id}/update", name="roll_update")
-     * @Method("post")
-     * @Template("MarcaCourseBundle:Roll:edit.html.twig")
+     * @Route("/{courseid}/{id}/confirm_delete", name="roll_confirm_delete")
+     * @Template()
      */
-    public function updateAction($id,$courseid)
+    public function confirmDeleteAction($id)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR);
+        $allowed = array(self::ROLE_STUDENT, self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
 
+        $em = $this->getEm();
+        $course = $this->getCourse();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
 
         if (!$roll) {
             throw $this->createNotFoundException('Unable to find Roll roll.');
         }
 
-        $editForm   = $this->createForm(new RollType(), $roll);
         $deleteForm = $this->createDeleteForm($id);
 
-        $request = $this->getRequest();
-
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->persist($roll);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('roll', array('courseid' => $courseid)));
-        }
-
-        return array(
+        return $this->render('MarcaCourseBundle:Roll:confirm_delete.html.twig', array(
             'roll'      => $roll,
-            'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            'course' => $course
+        ));
     }
+
 
     /**
      * Deletes a Roll roll.

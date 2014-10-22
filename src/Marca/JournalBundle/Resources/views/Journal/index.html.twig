@@ -13,42 +13,19 @@
             {% for journal in journals %}
             {% if app.request.get('page')==loop.index %}$('#journal_{{loop.index}}').addClass('active');{% endif %}
             {% endfor %}
+            $('a.roll').click(function() {
+                var id = $(this).data("id");
+                var index = $(this).data("index");
+                var url = "{{ course_path('journal_list', { 'userid': 'id', 'user': 'index' }) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                $(this).attr("href", url).click();
+            });
         });
     </script>
 {% endblock %}
 
 {% block content %}
-
-    <nav class="subnav navbar navbar-default" role="navigation">
-        <div class="navbar-header col-sm-6">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#" title="Journal entries by {{ user.firstname }} {{ user.lastname }}"><div class="panel-title small">Journal entries by {{ user.firstname }} {{ user.lastname }}</div></a>
-        </div>
-
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav pull-right">
-                {% if role==2 %}
-                    {# next previous users on roll #}
-                    {% for roll in roll %}
-                        {% if loop.index == app.request.get('user') + 1 %}
-                            <li>
-                                <a data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_list', { 'userid': roll.user.id, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}} &gt;</a>
-                            </li>
-                        {% endif %}
-                        {% if loop.index == app.request.get('user') - 1 %}
-                            <li>
-                                <a class='' data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_list', { 'userid': roll.user.id, 'user': loop.index }) }}">&lt; {{roll.firstname}} {{roll.lastname}}</a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
 
 <div class="navbar-header col-sm-3">
     <ul class="list-group">

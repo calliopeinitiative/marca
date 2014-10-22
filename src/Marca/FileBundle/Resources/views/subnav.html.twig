@@ -1,0 +1,55 @@
+{# Marca/FileBundle/Resources/views/subnav.html.twig #}
+{# esi fragment for file subnav #}
+
+    <nav class="subnav navbar navbar-default hidden-xs" role="navigation">
+        <div class="navbar-header col-sm-2">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" title="File listing">
+                {% if byuser %}{{ byuser.firstname }} {{ byuser.lastname }}
+                {% elseif app.request.get('scope')=='mine' %}My Files
+                {% elseif app.request.get('scope')=='reviews' %}Reviews
+                {% else  %}Shared Files
+                {% endif %}</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <p class="navbar-text project"></p>
+                <p class="navbar-text tags"></p>
+                <p class="navbar-text file_count"></p>
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% for roll in roll %}
+                    {% if loop.index == app.request.get('user') - 1 and app.request.get('tag')!='3' %}
+                        <li><a class='' data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.user.id }) }}">&lt; {{roll.firstname|title}} {{roll.lastname|title}}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                <li class="dropdown">
+                    <a class="" href="#" title="Select by Author">Select Author
+                    <b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">
+                        {% for roll in roll %}
+                            <li><a data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.user.id }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% for roll in roll %}
+                    {% if loop.index == app.request.get('user') + 1 and app.request.get('tag')!='3' %}
+                        <li><a data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.user.id }) }}">{{roll.firstname|title}} {{roll.lastname|title}} &gt;</a></li>
+                    {% endif %}
+                {% endfor %}
+
+            </ul>
+            {% if role == '2' and app.request.get('resource')==0 %}
+                <a class="btn btn-default btn-sm navbar-btn pull-right margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>
+            {% endif %}
+        </div>
+    </nav>
+
+

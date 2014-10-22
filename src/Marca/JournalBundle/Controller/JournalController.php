@@ -21,9 +21,19 @@ class JournalController extends Controller
     /**
      * Create Sidebar fragment
      *
-     * @Route("/{courseid}/{user}/{userid}/sidebar", name="journal_sidebar")
+     * @Route("/{courseid}/sidebar", name="journal_sidebar")
      */
-    public function createSidebarAction($courseid,$user,$userid)
+    public function createSidebarAction($courseid)
+    {
+        return $this->render('MarcaJournalBundle::sidebar.html.twig', array( ));
+    }
+
+    /**
+     * Create Subnav fragment
+     *
+     * @Route("/{courseid}/{user}/{userid}/subnav", name="journal_subnav")
+     */
+    public function createSubnavAction($courseid,$user,$userid)
     {
         $em = $this->getEm();
         if ($user==0){
@@ -34,14 +44,13 @@ class JournalController extends Controller
         }
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $role = $this->getCourseRole();
-        return $this->render('MarcaJournalBundle::sidebar.html.twig', array(
+        return $this->render('MarcaJournalBundle::subnav.html.twig', array(
             'roll' => $roll,
             'user' => $user,
             'userid' => $userid,
             'role' => $role
         ));
     }
-
 
     /**
      * Lists all Journal entities.

@@ -76,7 +76,7 @@ td.active {
 ::-webkit-scrollbar-thumb {
     background: #393812;
     -webkit-border-radius: 1ex;
-    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
 }
 
 ::-webkit-scrollbar-corner {
@@ -95,13 +95,13 @@ td.active {
     color:#333;
 }
 
-iframe {border:0px;}
+iframe {border:0;}
 /********** 01a. Accessibility **********/
 
 #skip a, #skip a:hover, #skip a:visited
 {
     position:absolute;
-    left:0px;
+    left:0;
     top:-500px;
     width:1px;
     height:1px;
@@ -220,7 +220,7 @@ a:hover {
 }
 
 .navbar-inverse {
-    background-color:#464648;
+    background-color:#333333;
 }
 
 .navbar-inverse .navbar-brand {
@@ -235,9 +235,22 @@ a:hover {
     margin-left: -1.5em;
 }
 
+.navbar-brand {
+    color: #000000;
+    font-size: larger;
+}
+
 ul.nav-list  {
     margin: 0;
     padding-left: 0;
+}
+
+.sidebar a {
+    color: #ffffff;
+}
+
+.sidebar .nav li a:hover {
+    background-color: #000000;
 }
 
 .nav-list li a {
@@ -328,16 +341,20 @@ ul .dropdown-menu .glyphicon {
 }
 
 .project-sidebar {
-    color:#464648;
+    color:#ffffff;
 }
 
 .navbar-text>a {
     color:white;
 }
 
-.current-filter {
+.sidebar .current-filter {
     color: #006DCC;
     font-weight:bold;
+}
+
+.navbar-default .navbar-nav > li > a.current-filter {
+    color: #006DCC;
 }
 
 .marca-spacer {
@@ -354,14 +371,14 @@ ul .dropdown-menu .glyphicon {
 }
 
 #project_breadcrumbs {
-    padding:0px;
+    padding:0;
     padding-left: 20px;
     padding-right: 20px;
 }
 
 #project_nav_pills {
-    padding:0px;
-    margin-bottom:0px;
+    padding:0;
+    margin-bottom:0;
 }
 
 #findBy_nav {
@@ -372,7 +389,7 @@ ul .dropdown-menu .glyphicon {
 }
 
 #findBy_nav_pills {
-    padding:0px;
+    padding:0;
     margin-bottom:6px;
 }
 
@@ -402,12 +419,12 @@ ul .dropdown-menu .glyphicon {
 }
 
 .doc-footer {
-    margin-top: 0px;
+    margin-top: 0;
     border: rgba(0, 0, 0, 0.05) solid 1px;
 }
 
 .sidebar {
-    background-color: #464648;
+    background-color: #333333;
     min-height: 100%;
     max-height: 100%;
     margin-right: 20px;
@@ -419,12 +436,8 @@ ul .dropdown-menu .glyphicon {
     color: #fff;
 }
 
-.sidebar a {
-    color: #fff
-}
-
-.sidebar a:hover {
-    color: #006DCC
+.sidebar h1 a {
+    color: #ffffff;
 }
 
 .sidebar-mobile {
@@ -446,9 +459,14 @@ ul .dropdown-menu .glyphicon {
     width:1.5em;
     text-align:center;
     margin-right:6px;
-    border-radius: 0px 4px 4px 0px;
+    border-radius: 0 4px 4px 0;
     color: #006DCC;
     background-color: #006DCC;
+}
+
+/**calendar**/
+.fc-event-title, .fc-event-time {
+    cursor: pointer;
 }
 
 /********** End 04. Content **********/
@@ -472,7 +490,6 @@ ul .dropdown-menu .glyphicon {
     min-height: 100%;
     font-size: 999px;
     text-align: right;
-    filter: alpha(opacity=0);
     opacity: 0;
     background: red;
     cursor: inherit;
@@ -487,36 +504,6 @@ span.btn-file {
 
 #markup {
     width:100%;
-}
-
-#project_nav {
-    padding:5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-bottom:5px;
-}
-
-#project_breadcrumbs {
-    padding:0px;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-#project_nav_pills {
-    padding:0px;
-    margin-bottom:0px;
-}
-
-#findBy_nav {
-    padding:5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-bottom:5px;
-}
-
-#findBy_nav_pills {
-    padding:0px;
-    margin-bottom:6px;
 }
 
 .popover {min-width: 200px;}
@@ -707,7 +694,7 @@ td.labels {
 }
 
 .file-menu {
-   margin-top: 0px; margin-bottom: -5px; padding-top:2px; margin-left: 40px; display:none;
+   margin-top: 0; margin-bottom: -5px; padding-top:2px; margin-left: 40px; display:none;
 }
 
 .file-menu > a {
@@ -746,9 +733,6 @@ tr.review > td > a {
     font-size: 13px;
 }
 
-tr.review > td:first-of-type > span {
-    margin-left:30px;
-}
 
 #file_list thead tr {
     height:22px;
@@ -846,7 +830,7 @@ tr.review td .label {font-size: 90%;}
     color:blue;
     background:white;
     border:#e3e3e3 1px solid;
-    border-radius: 0px 4px 4px 0px;
+    border-radius: 0 4px 4px 0;
     margin-left:-1px;
     margin-right: 4px;
     padding:2px 2px 2px 6px;
@@ -856,7 +840,7 @@ tr.review td .label {font-size: 90%;}
     background:#FFFFD3;
     padding:2px 2px 2px 6px;
     border:#e3e3e3 1px solid;
-    border-radius: 4px 0px 0px 4px;
+    border-radius: 4px 0 0 4px;
 }
 
 .eDoc_error {
@@ -927,7 +911,7 @@ tr.review td .label {font-size: 90%;}
 
 .expand_feedback {
     position: fixed;
-    right:0px;
+    right:0;
     top:80px;
     z-index: 1000;
     width: 50%;
@@ -940,7 +924,7 @@ tr.review td .label {font-size: 90%;}
 .prompts {
    border-bottom: 1px solid #e3e3e3;
     padding: 5px;
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .responses {
@@ -977,12 +961,12 @@ tr.review td .label {font-size: 90%;}
 
 #note_sub {
     overflow:auto;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 #note_list {
     overflow:auto;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 
@@ -993,7 +977,7 @@ tr.review td .label {font-size: 90%;}
 
 #doc-display {
     overflow:auto;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     background: #fff;
 }
 
@@ -1004,7 +988,7 @@ tr.review td .label {font-size: 90%;}
 
 .doc-body p {
     font-size: 14px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 #doc-tools {
@@ -1018,11 +1002,6 @@ tr.review td .label {font-size: 90%;}
 
 .journal-body {
     margin-bottom:60px;
-}
-
-.fc-event-title, .fc-event-time {
-    cursor: pointer;
-    cursor: hand;
 }
 
 .cke {

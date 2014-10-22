@@ -30,7 +30,7 @@
             </li>
             <li class="divider"></li>
             {% if course.module== 0 %}
-                <li><a href="{{ course_path('course_roll') }}">Class Roll</a></li>{% endif %}
+                <li><a href="{{ course_path('roll') }}">Course Roll</a></li>{% endif %}
             {% if is_granted('ROLE_INSTR') %}
                 <li>
                     <a href="{{ course_path('course_show') }}">{% if course.module== 0 %}Course{% else %}Module{% endif %}
@@ -45,7 +45,7 @@
             <a href="{{ app.session.get('resource_referrer') }}" title="Course Resources">Resources</a>
         {% else %}
             <a title='Course Resources'
-               href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">Resources</a>
+               href="{{ course_path('file_list', { 'project': default_resource, 'resource': 1, 'scope': 'all'}) }}">Resources</a>
         {% endif %}
 
     </li>
@@ -57,7 +57,7 @@
                 <a title='Course Projects' href="{{ app.session.get('referrer') }} ">Projects</a>
             {% else %}
                 <a title='Course Projects'
-                   href="{{ course_path('file_list', { 'project': 'default', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Projects</a>
+                   href="{{ course_path('file_list', { 'project': course.projectDefault.id, 'resource': 0}) }}">Projects</a>
             {% endif %}
 
         </li>
