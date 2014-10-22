@@ -13,6 +13,14 @@
             {% for journal in journals %}
             {% if app.request.get('page')==loop.index %}$('#journal_{{loop.index}}').addClass('active');{% endif %}
             {% endfor %}
+            $('a.roll').click(function() {
+                var id = $(this).data("id");
+                var index = $(this).data("index");
+                var url = "{{ course_path('journal_list', { 'userid': 'id', 'user': 'index' }) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                $(this).attr("href", url).click();
+            });
         });
     </script>
 {% endblock %}

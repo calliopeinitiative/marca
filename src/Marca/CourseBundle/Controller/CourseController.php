@@ -50,6 +50,21 @@ class CourseController extends Controller
         ));
     }
 
+
+    /**
+     * Creates ESI fragment for course roll
+     *
+     * @Route("/{courseid}/roll", name="course_roll")
+     */
+    public function createRollAction()
+    {
+        $roll = $this->getRoll();
+        return $this->render('MarcaCourseBundle::roll.html.twig', array(
+            'roll' => $roll,
+        ));
+    }
+
+
     /**
      * Create Delete modal fragment
      *
