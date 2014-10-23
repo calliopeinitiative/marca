@@ -92,6 +92,7 @@
             var count = count_displayed - count_hidden;
             var count_text = '';
             if (count > 1) {count_text = ' ' + count + ' files found';$('p.file_count').append(count_text);}
+
             //add current-filter to active items
             var project_index = 'a[data-project-index=' + '{{ app.request.get("project") }}' + ']';
             $(project_index).addClass('current-filter');
@@ -102,7 +103,59 @@
             var scope_index = 'a[data-scope-index=' + '{{ app.request.get("scope") }}' + ']';
             $(scope_index).addClass('current-filter');
 
+            // url creation for roll file listing from esi fragment in subnav
+            $('a.roll').click(function() {
+                var id = $(this).data("id");
+                var index = $(this).data("index");
+                var project = {{app.request.get("project")}};
+                var tag = {{app.request.get("tag")}};
+                var url = "{{ course_path('file_list', { 'userid': 'id', 'user': 'index', 'project': 'project', 'tag': 'tag', 'scope': 'byuser'}) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                url = url.replace("project", project);
+                url = url.replace("tag", tag);
+                $(this).attr("href", url).click();
+            });
+            // next previous for roll file listing
+            var previous_index = {{ app.request.get('user') }} - 1;
+            var previous_selector ='a[data-index=' + previous_index + ']';
+            var previous_name = '<' + $(previous_selector).text();
+            if (previous_index < 1) previous_name = '';
+            $('a.roll_previous').text(previous_name);
 
+            var next_index = {{ app.request.get('user') }} + 1;
+            var next_selector ='a[data-index=' + next_index + ']';
+            var next_id = $(next_selector).data('id');
+            if (next_id > 0) var next_name = $(next_selector).text() + '>'; else var next_name = '';
+            $('a.roll_next').text(next_name);
+
+
+            $('a.roll_previous').click(function() {
+                var index = {{ app.request.get('user') }} - 1;
+                var selector ='a[data-index=' + index + ']';
+                var id = $(selector).data('id');
+                var project = {{app.request.get("project")}};
+                var tag = {{app.request.get("tag")}};
+                var url = "{{ course_path('file_list', { 'userid': 'id', 'user': 'index', 'project': 'project', 'tag': 'tag', 'scope': 'byuser'}) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                url = url.replace("project", project);
+                url = url.replace("tag", tag);
+                $(this).attr("href", url).click();
+            });
+            $('a.roll_next').click(function() {
+                var index = {{ app.request.get('user') }} + 1;
+                var selector ='a[data-index=' + index + ']';
+                var id = $(selector).data('id');
+                var project = {{app.request.get("project")}};
+                var tag = {{app.request.get("tag")}};
+                var url = "{{ course_path('file_list', { 'userid': 'id', 'user': 'index', 'project': 'project', 'tag': 'tag', 'scope': 'byuser'}) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                url = url.replace("project", project);
+                url = url.replace("tag", tag);
+                $(this).attr("href", url).click();
+            });
         });
     </script>
 {% endblock %}

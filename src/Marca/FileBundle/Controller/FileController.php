@@ -84,7 +84,7 @@ class FileController extends Controller
     /**
      * Lists all File entities by Project.
      *
-     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/list", name="file_list", defaults={"project" = 0, "scope" = "mine","user" = 0,"resource" = 1, "tag" = 0,"userid" = 0})
+     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/list", name="file_list", defaults={"project" = 0, "scope" = "mine","user" = 0,"resource" = 0, "tag" = 0,"userid" = 0})
      */
     public function indexByProjectAction($project, $scope, $courseid, $tag, $resource, $userid)
     {
