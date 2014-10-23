@@ -21,7 +21,7 @@
                 <p class="navbar-text project"></p>
                 <p class="navbar-text tags"></p>
                 <p class="navbar-text file_count"></p>
-                {% if role == '2' and app.request.get('resource')==0 %}
+                {% if role == '2' and app.request.get('scope')=='reviews' %}
                     <a class="btn btn-default btn-sm navbar-btn pull-right margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>
                 {% endif %}
             </ul>
