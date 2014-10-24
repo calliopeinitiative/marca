@@ -2,10 +2,12 @@
 {# esi fragment for file projects_sidebar #}
 
 <h1>
-    <a title='Projects' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}" class="">Projects</a>
+    <a title='Projects'
+       href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}"
+       class="">Projects</a>
 </h1>
 
-    {# check to see if projects are in the current course  #}
+{# check to see if projects are in the current course  #}
     {% for project in projects if project.course.id == app.request.get('courseid') %}
         {# if for resources (only instructor can post to resources)  #}
         {% if loop.first %}
@@ -15,47 +17,66 @@
                     <i class="glyphicon glyphicon-pencil glyphicon-white"></i>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a id='file_new_doc' title='Create new document' href='javascript:void(0);'><i class="glyphicon glyphicon-edit"></i> Document</a></li>
-                    <li><a id='file_new_upload' title='Upload document' href="javascript:void(0);"><i class="glyphicon glyphicon-upload"></i> Upload</a></li>
-                    <li><a id='file_new_link' title='Create new link' href="javascript:void(0);"><i class="glyphicon glyphicon-adjust"></i> Link</a></li>
+                    <li><a id='file_new_doc' title='Create new document' href='javascript:void(0);'><i
+                                    class="glyphicon glyphicon-edit"></i> Document</a></li>
+                    <li><a id='file_new_upload' title='Upload document' href="javascript:void(0);"><i
+                                    class="glyphicon glyphicon-upload"></i> Upload</a></li>
+                    <li><a id='file_new_link' title='Create new link' href="javascript:void(0);"><i
+                                    class="glyphicon glyphicon-adjust"></i> Link</a></li>
                 </ul>
             </div>
         {% endif %}
     {% else %}
     {% endfor %}
 
-        <hr class="marca-spacer" />
-        <li><a data-scope-index="mine" class="project-sidebar" href="{{ course_path('file_list', { 'project':  app.request.get('project'), 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a></li>
-        <li><a data-scope-index="reviews" class="project-sidebar" href="{{ course_path('file_list', { 'project':  app.request.get('project'), 'scope': 'reviews', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Reviews</a></li>
-        <li><a data-scope-index="all" class="project-sidebar" href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">Shared Files</a></li>
+<hr class="marca-spacer"/>
+<li><a data-scope-index="mine" class="project-sidebar"
+       href="{{ course_path('file_list', { 'project':  app.request.get('project'), 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My
+        Files</a></li>
+<li><a data-scope-index="reviews" class="project-sidebar"
+       href="{{ course_path('file_list', { 'project':  app.request.get('project'), 'scope': 'reviews', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My
+        Reviews</a></li>
+{{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
+<li><a data-scope-index="all" class="project-sidebar"
+       href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">Shared
+        Files</a></li>
 
-    <hr class="marca-spacer" />
+<hr class="marca-spacer"/>
 
-    {# Projects  Find #}
-
+{# Projects  Find #}
     {% for project in projects %}
         <li id="project_list">
-            <a data-project-index="{{ project.id }}" title='{{ project.name }}' class="project-sidebar"  href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
+            <a data-project-index="{{ project.id }}" title='{{ project.name }}' class="project-sidebar"
+               href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
                 {{ project.name }}</a>
-            {% if role == '2' and app.request.get('resource')==0 %}<a class="default project-sidebar small" style="display:none;" href="{{ course_path('project_set_default', {'projectId': project.id}) }}">Set Default</a>{% endif %}
+            {% if role == '2' and app.request.get('resource')==0 %}<a class="default project-sidebar small"
+                                                                      style="display:none;"
+                                                                      href="{{ course_path('project_set_default', {'projectId': project.id}) }}">
+                    Set Default</a>{% endif %}
         </li>
     {% endfor %}
-        <li><a class="project-sidebar {% if app.request.get('project') == 0 %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-                All Folders </a>
-        </li>
-    <hr class="marca-spacer" />
+<li><a class="project-sidebar {% if app.request.get('project') == 0 %}current-filter{% endif %}"
+       href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
+        All Folders </a>
+</li>
+<hr class="marca-spacer"/>
 
-    {# Labels  Find #}
+{# Labels  Find #}
 
     {% for tag in tags %}
         <li>
-            <a data-tag-index="{{ tag.id }}" href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}" class="project-sidebar">
+            <a data-tag-index="{{ tag.id }}"
+               href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}"
+               class="project-sidebar">
                 {{ tag.name }}
-                <span class="pull-left color-flag" style="{% if tag.color != '' %}background: {{tag.color}};color:{{tag.color}};{% endif%}">&#183;</span>
+                <span class="pull-left color-flag"
+                      style="{% if tag.color != '' %}background: {{tag.color}};color:{{tag.color}};{% endif %}">&#183;</span>
             </a>
         </li>
     {% endfor %}
-    <li>
-        <a data-tag-index="0" href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}" class="project-sidebar">All Labels</a>
-    </li>
+<li>
+    <a data-tag-index="0"
+       href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}"
+       class="project-sidebar">All Labels</a>
+</li>
 

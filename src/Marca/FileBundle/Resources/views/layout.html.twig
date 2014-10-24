@@ -119,16 +119,18 @@
             // next previous for roll file listing
             var previous_index = {{ app.request.get('user') }} - 1;
             var previous_selector ='a[data-index=' + previous_index + ']';
-            var previous_name = '<' + $(previous_selector).text();
+            var previous_name = '<' + $(previous_selector).html();
             if (previous_index < 1) previous_name = '';
             $('a.roll_previous').text(previous_name);
 
             var next_index = {{ app.request.get('user') }} + 1;
             var next_selector ='a[data-index=' + next_index + ']';
             var next_id = $(next_selector).data('id');
-            if (next_id > 0) var next_name = $(next_selector).text() + '>'; else var next_name = '';
+            if (next_id > 0) var next_name = $(next_selector).html() + '>'; else var next_name = '';
             $('a.roll_next').text(next_name);
 
+            var scope = '{{ app.request.get("scope") }}';
+            if (scope != 'byuser') $('#subnav-roll').toggle();
 
             $('a.roll_previous').click(function() {
                 var index = {{ app.request.get('user') }} - 1;

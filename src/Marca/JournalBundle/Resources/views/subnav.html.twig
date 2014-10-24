@@ -1,7 +1,6 @@
 {# Marca/JournalBundle/Resources/views/subnav.html.twig #}
 {# esi fragment for journal subnav #}
 
-
 <nav class="subnav navbar navbar-default" role="navigation">
     <div class="navbar-header col-sm-2">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -9,12 +8,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#"
-           title="Journal entries by {{ user.firstname }} {{ user.lastname }}">{{ user.firstname }} {{ user.lastname }}</a>
+        <a class="navbar-brand" href="#" title="Journal entries by {{ user.firstname }} {{ user.lastname }}">{{ user.firstname }} {{ user.lastname }}</a>
     </div>
-
     <div class="navbar-collapse collapse">
-         {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
+    <ul class="nav navbar-nav navbar-right">
+        <li><a class="roll_previous" data-index="0" data-id='0' href="javascript:void(0);"></a></li>
+        <li><a class="roll_next" data-index="0" data-id='0' href="javascript:void(0);"></a></li>
+    </ul>
     </div>
 </nav>
 
