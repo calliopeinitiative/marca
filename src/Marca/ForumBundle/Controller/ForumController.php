@@ -184,7 +184,7 @@ class ForumController extends Controller
 
 
     /**
-     * Creates a form to edit a Calendar entity.
+     * Creates a form to edit a Forum entity.
      *
      * @param Forum $forum entity
      *

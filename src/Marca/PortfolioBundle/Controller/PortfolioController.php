@@ -18,6 +18,20 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class PortfolioController extends Controller
 {
+
+    /**
+     * Create ESI Sidebar fragment
+     *
+     * @Route("/{courseid}/sidebar", name="portfolio_sidebar")
+     */
+    public function createSidebarAction($courseid)
+    {
+        $role = $this->getCourseRole();
+        $course = $this->getCourse();
+        $portStatus = $course->getPortStatus();
+        return $this->render('MarcaPortfolioBundle::sidebar.html.twig', array('role'=> $role, 'portStatus'=> $portStatus ));
+    }
+
     /**
      * Lists all Portfolio entities.
      *
@@ -31,9 +45,9 @@ class PortfolioController extends Controller
 
         $em = $this->getEm();
         $user = $this->getUser();
-        $role = $this->getCourseRole();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $course = $this->getCourse();
         $portStatus = $course->getPortStatus();
+
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $portset = $course->getPortset();
         
@@ -53,7 +67,7 @@ class PortfolioController extends Controller
         
         $assessmentset_id = $course->getAssessmentset()->getId();
         $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->find($assessmentset_id);
-        return array('portfolioset' =>$portfolioset, 'portset' => $portset, 'roll'=> $roll, 'assessmentset'=> $assessmentset,'portStatus'=> $portStatus, 'role'=> $role);
+        return array('portfolioset' =>$portfolioset, 'portset' => $portset, 'roll'=> $roll, 'assessmentset'=> $assessmentset, 'portStatus'=> $portStatus);
     }
     
     

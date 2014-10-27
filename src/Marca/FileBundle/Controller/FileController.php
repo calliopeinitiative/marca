@@ -49,7 +49,7 @@ class FileController extends Controller
     }
 
     /**
-     * Lists all Course entities.
+     * Creates esi sidebar fragment for projects.
      *
      * @Route("/{courseid}/{tag}/{scope}/{user}/{resource}/{userid}/projects_sidebar", name="file_projects_sidebar")
      */

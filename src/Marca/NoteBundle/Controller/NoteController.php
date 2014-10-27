@@ -16,6 +16,18 @@ use Marca\NoteBundle\Form\NoteType;
  */
 class NoteController extends Controller
 {
+
+    /**
+     * Create Sidebar fragment
+     *
+     * @Route("/{courseid}/sidebar", name="note_sidebar")
+     */
+    public function createSidebarAction()
+    {
+        return $this->render('MarcaNoteBundle::sidebar.html.twig', array( ));
+    }
+
+
     /**
      * Lists all Note entities.
      *

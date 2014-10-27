@@ -17,22 +17,12 @@
         </div>
 
         <div class="panel panel-default">
-            <form action="{{ course_path('reply_create', { 'commentid': commentid }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
                 <div class="panel-heading">
                     Forum Comment
                 </div>
                 <div class="panel-body">
-                    {{ form_errors(form) }}
-                    {{ form_row(form.body) }}
-                    {{ form_rest(form) }}
+                    {{ form(form) }}
                 </div>
-                <div class="panel-footer">
-                    <div class="btn-group">
-                        <button class="btn btn-primary" type="submit">Update</button>
-                        <a class='btn btn-default' href="{{ course_path('forum_show', { 'id': comment.forum.id }) }}">Cancel</a>
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
 {% endblock %}

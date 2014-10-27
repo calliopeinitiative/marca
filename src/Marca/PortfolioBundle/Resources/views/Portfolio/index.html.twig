@@ -11,6 +11,16 @@
                 $('#port_modal').load('{{ course_path('portfolio_show_modal', { 'id': portfolio.id}) }}').modal();
             });
             {% endfor %}
+
+            $('a.roll').click(function() {
+                var id = $(this).data("id");
+                var index = $(this).data("index");
+                var url = "{{ course_path('portfolio_user', { 'userid': 'id', 'user': 'index' }) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                $(this).attr("href", url).click();
+            });
+
         });
     </script>
 {% endblock %}

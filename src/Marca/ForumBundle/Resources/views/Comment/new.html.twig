@@ -2,19 +2,6 @@
 
 {% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script language="javascript">
-        $(document).ready(function()
-        {
-            $('#toggle_modal').click(function(){
-                $('#delete_modal').modal();
-            });
-            $('form li').addClass('alert alert-error');
-        });
-    </script>
-{% endblock %}
-
 {% block content %}
     <div class="col-sm-8 center">
         <div class="panel panel-default">
@@ -27,35 +14,9 @@
                     {{ parent.body|raw }}
                 </div>
                 <p><strong>Your Comment:</strong></p>
-                <form action="{{ course_path('comment_create', { 'forumid': forumid, 'parentid': parentid }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-                    {{ form_errors(form) }}
-                    {{ form_row(form.body) }}
-                    {{ form_rest(form) }}
-            </div>
-            <div class="panel-footer">
-                     <a class='btn btn-default' id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
-                    <button class="btn btn-primary pull-right" type="submit">Post</button>
-                </div>
+                {{ form(form) }}
             </div>
         </div>
     </div>
-    {# Modal for Delete confirmation #}
-    <div id="delete_modal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <span class="modal-title">Delete</span>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete?</p>
-                        <div class="btn-group">
-                            <a href="{{ course_path('forum_show', { 'id': parent.id }) }}" class="btn btn-danger" >Delete</a>
-                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
-                        </div>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
 {% endblock %}

@@ -10,6 +10,10 @@
             $('#toggle_modal').click(function(){
                 $('#delete_modal').modal();
             });
+            {# form page close/cancel adjust for appropriate redirect #}
+            $('#close_form').click(function(){
+                window.location.href='{{ course_path('forum_show', {'id': parent.id}) }}';
+            });
         });
     </script>
 {% endblock %}
@@ -18,6 +22,7 @@
     <div class="col-sm-8 center">
         <div class="panel panel-default">
             <div class="panel-heading">
+                <button id="close_form" type="button" class="close">&times;</button>
                 <h1 class="small">{{ parent.title }}</h1>
                 by {{ parent.user.firstname|capitalize }} {{ parent.user.lastname|capitalize }}
                 <p>Created  {{ parent.created|date('M d Y, h:ia') }}  / Updated  {{ parent.updated|date('M d Y, h:ia') }}</p>
@@ -30,28 +35,17 @@
         </div>
 
         <div class="panel panel-default">
-            <form action="{{ course_path('comment_update', { 'id': comment.id, 'parentid': parent.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
-
                 <div class="panel-heading">
                     Forum Comment
                 </div>
                 <div class="panel-body">
-                    {{ form_errors(edit_form) }}
-                    {{ form_row(edit_form.body) }}
-                    {{ form_rest(edit_form) }}
-                </div>
-                <div class="panel-footer">
-                    <div class="btn-group">
-                        <button class="btn btn-primary" type="submit">Update</button>
-                        <a class='btn btn-default' href="{{ course_path('forum_show', { 'id': parent.id }) }}">Cancel</a>
-                    </div>
+                    {{ form(edit_form) }}
                     {% if comment.replies|length == 0%}
-                        <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                        <a class="btn btn-warning" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
                     {% else %}
                         <span  class='pull-right' >Since this comment has at least one reply, it can not be deleted.</span>
                     {% endif %}
                 </div>
-            </form>
         </div>
     </div>
 
@@ -65,13 +59,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete?</p>
-                    <form id='delete' action="{{ course_path('comment_delete', { 'id': comment.id }) }}" method="post">
-                        {{ form_widget(delete_form) }}
-                        <div class="btn-group">
-                            <button class="btn btn-danger" type="submit">Delete</button>
-                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
-                        </div>
-                    </form>
+                        {{ form(delete_form) }}
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
