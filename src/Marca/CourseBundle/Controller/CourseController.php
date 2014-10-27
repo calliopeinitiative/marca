@@ -64,6 +64,16 @@ class CourseController extends Controller
         ));
     }
 
+    /**
+     * Create Sidebar fragment
+     *
+     * @Route("/{courseid}/sidebar", name="course_sidebar")
+     */
+    public function createSidebarAction($courseid)
+    {
+        return $this->render('MarcaCourseBundle::sidebar.html.twig', array( ));
+    }
+
 
     /**
      * Create Delete modal fragment

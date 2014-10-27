@@ -3,10 +3,6 @@
 {% extends '::base.html.twig' %}
 {% block title %}{{ application_name }}{% endblock %}
 
-{% block stylesheets %}{{ parent() }}{% endblock %}
-{% block javascripts %}{{ parent() }}{% endblock %}
-
-
 {% block sidebar %}
     <h1><a title="Click to list your current or pending courses" href="{{ path('user_home') }}"
            class="marca-gray">Home</a></h1>

@@ -1,0 +1,17 @@
+{# Marca/CourseBundle/Resources/views/sidebar.html.twig #}
+{# esi fragment for course home sidebar #}
+
+<h1><a href="{{ course_path('course_home') }}" class="marca-gray">Course Home</a></h1>
+
+{# condition for display if not module #}
+    {% if app.session.get('module')== 0 %}
+        <li>
+            <a href="{{ course_path('roll') }}">Course Roll</a>
+        </li>
+    {% endif %}
+    {% if is_granted('ROLE_INSTR') %}
+        <li>
+            <a href="{{ course_path('course_show') }}">{% if app.session.get('module')== 0 %}Course{% else %}Module{% endif %}
+                Settings</a>
+        </li>
+    {% endif %}

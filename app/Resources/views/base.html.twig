@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Welcome!{% endblock %}</title>
 
     {% block stylesheets %}
         {% stylesheets '@bootstrap_less' combine=true  output='css/compiled/main.css' %}
-        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/offline-theme-default.css') }}">
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/external.css') }}">
@@ -25,107 +25,141 @@
         {% endjavascripts %}
         {% include '::external.html.twig' %}
         <script language="javascript">
-            $(document).ready(function() {
-                $('#course_select').click(function(){
+            $(document).ready(function () {
+                //hashchange listener for skip nav in various browsers
+                window.addEventListener("hashchange", function (event) {
+
+                    var element = document.getElementById(location.hash.substring(1));
+
+                    if (element) {
+
+                        if (!/^(?:a|select|input|button|textarea)$/i.test(element.tagName)) {
+                            element.tabIndex = -1;
+                        }
+
+                        element.focus();
+                    }
+
+                }, false);
+                $('#course_select').click(function () {
                     $('#base_modal').load('{{ path('course_select_modal') }}').modal();
                 });
-                $('#help_modal_link').click(function(){
+                $('#help_modal_link').click(function () {
                     $('#help_modal').modal();
                 });
             });
         </script>
     {% endblock %}
 
-    <link rel="icon" type="image/png" href="{{ asset('bundles/marcahome/img/favicons/favicon_32.png') }}" />
-    <link rel="icon" type="image/png" href="{{ asset('bundles/marcahome/img/favicons/favicon_64.png') }}" />
-    <link rel="apple-touch-icon" type="image/png" href="{{ asset('bundles/marcahome/img/favicons/favicon_57.png') }}" />
-    <link rel="apple-touch-icon" type="image/png" href="{{ asset('bundles/marcahome/img/favicons/favicon_114.png') }}" sizes="114x114" />
-    <link rel="apple-touch-icon" type="image/png" href="{{ asset('bundles/marcahome/img/favicons/favicon_72.png') }}" sizes="72x72" />
-    <link rel="apple-touch-icon" type="image/png" href="{{ asset('bundles/marcahome/img/favicons/favicon_144.png') }}" sizes="144x144" />
+    <link rel="icon" type="image/png" href="{{ asset('bundles/marcahome/img/favicons/favicon_32.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('bundles/marcahome/img/favicons/favicon_64.png') }}"/>
+    <link rel="apple-touch-icon" type="image/png" href="{{ asset('bundles/marcahome/img/favicons/favicon_57.png') }}"/>
+    <link rel="apple-touch-icon" type="image/png" href="{{ asset('bundles/marcahome/img/favicons/favicon_114.png') }}"
+          sizes="114x114"/>
+    <link rel="apple-touch-icon" type="image/png" href="{{ asset('bundles/marcahome/img/favicons/favicon_72.png') }}"
+          sizes="72x72"/>
+    <link rel="apple-touch-icon" type="image/png" href="{{ asset('bundles/marcahome/img/favicons/favicon_144.png') }}"
+          sizes="144x144"/>
     <link rel="shortcut icon" href="{{ asset('bundles/marcahome/img/favicon.ico') }}">
 </head>
 <body>
 
 {# top navigation bar; block coursenav for when user is in a course #}
-{% if not is_granted('ROLE_USER') or 'file_view' in app.request.attributes.get('_route') or 'doc' in app.request.attributes.get('_route') or 'portfolio_user' in app.request.attributes.get('_route') or 'ratingset' in app.request.attributes.get('_route')%}
-    {% else %}
+{% if not is_granted('ROLE_USER') or 'file_view' in app.request.attributes.get('_route') or 'doc' in app.request.attributes.get('_route') or 'portfolio_user' in app.request.attributes.get('_route') or 'ratingset' in app.request.attributes.get('_route') %}
+{% else %}
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         {% if is_granted('ROLE_USER') %}
-                <div class="navbar-header col-sm-2">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a name="top"></a>
-                    <a class="navbar-brand" href="{{ path('user_home') }}" title="{{ application_name }} Homepage">{{ application_name }}</a>
-                </div>
+            <div class="navbar-header col-sm-2">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a id="main_nav" class="navbar-brand" href="{{ path('user_home') }}"
+                   title="{{ application_name }} Homepage">{{ application_name }}</a>
+            </div>
 
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li id="skip">
-                            <a href="#main_content">Skip Navigation</a>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li id="skip">
+                        <a href="#sidebar_anchor">Skip to Sidebar</a>
+                    </li>
+                    {% block coursenav %}
+                        <li style="margin-left:15px;">
+                            <a title='Select course' id='course_select' href="javascript:void(0);">Select Course</a>
                         </li>
-                        {% block coursenav %}
-                            <li style="margin-left:15px;">
-                                <a title='Select course' id='course_select' href="javascript:void(0);">Select Course</a>
-                            </li>
-                        {% endblock %}
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right" id="account-dropdown">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"  data-hover="dropdown"><span class="hidden-sm">{{ app.session.get('username') }}<b class="caret"></b></span><span class="visible-sm glyphicon glyphicon-user"><b class="caret"></b></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ path('user_show') }}">Profile</a></li>
-                                <li><a class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll</a></li>
-                                {% if help_url or help_email %}
+                    {% endblock %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right" id="account-dropdown">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><span
+                                    class="hidden-sm">{{ app.session.get('username') }}<b class="caret"></b></span><span
+                                    class="visible-sm glyphicon glyphicon-user"><b class="caret"></b></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ path('user_show') }}">Profile</a></li>
+                            <li><a class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll</a></li>
+                            {% if help_url or help_email %}
                                 <li><a href="javascript:void(0);" id="help_modal_link" title="Help">Help</a></li>
-                                {% endif %}
-                                <li><a title="Logout" href="{{ path('fos_user_security_logout') }}">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+                            {% endif %}
+                            <li><a title="Logout" href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         {% endif %}
     </nav>
 {% endif %}
 
+
 <div id="mainContainer">
 
-    {%if block('sidebar') %}
-        {% if 'fos_user' not in app.request.attributes.get('_route')  %}
+    {% if block('sidebar') %}
+        {% if 'fos_user' not in app.request.attributes.get('_route') %}
             <div class="col-sm-2 sidebar hidden-xs">
-                     <ul class="nav nav-list">
-                        {{block('sidebar')}}
-                    </ul>
+                <ul class="nav nav-list">
+                    <li id="skip">
+                        <a id="sidebar_anchor" href="#main_content">Skip to Content</a>
+                    </li>
+                    {{ block('sidebar') }}
+                </ul>
             </div>
             <div class="col-xs-12 visible-xs sidebar-mobile">
-                <a id="main_content" name="main_content"></a>
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <ul class="nav nav-list">
-                            {{block('sidebar')}}
+                            <li id="skip">
+                                <a href="#main_content">Skip to Content</a>
+                            </li>
+                            {{ block('sidebar') }}
                         </ul>
                     </div>
                 </div>
             </div>
         {% endif %}
-        <div class="{% if 'fos_user' not in app.request.attributes.get('_route')  %}col-sm-push-2 col-sm-10 col-sm-push-2{% else %}col-sm-12 col-sm-12{% endif %} col-xs-12" role="main">
-            {{block('subnav')}}
-            {% block content %}
-            {% endblock %}
+
+        <div class="{% if 'fos_user' not in app.request.attributes.get('_route') %}col-sm-push-2 col-sm-10 col-sm-push-2{% else %}col-sm-12 col-sm-12{% endif %} col-xs-12"
+             role="main">
+            {{ block('subnav') }}
+            <div class="navbar-collapse collapse" style="margin-bottom: 10px;">
+                <ul class="nav nav-list">
+                    <li id="skip">
+                        <a id="main_content" href="#main_nav">Skip to top Navigation</a>
+                    </li>
+                </ul>
+            </div>
+            {{ block('content') }}
         </div>
     {% else %}
-        <a id="main_content" name="main_content"></a>
-        {{block('body')}}
+        {{ block('body') }}
     {% endif %}
 
 </div>
 
 
 {# Modal #}
-<div class="modal fade" id="base_modal" tabindex="-1" aria-labelledby="base-modal" aria-hidden="true" role="dialog" >
-</div><!-- /.modal -->
+<div class="modal fade" id="base_modal" tabindex="-1" aria-labelledby="base-modal" aria-hidden="true" role="dialog">
+</div>
+<!-- /.modal -->
 
 {# Modal #}
 <div class="modal fade" id="help_modal" tabindex="-1" aria-labelledby="help-modal" aria-hidden="true" role="dialog">
@@ -135,19 +169,20 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h2 style="font-size:2em;margin-bottom:20px;">Need help?</h2>
                 {% if help_url %}
-                <p style="font-size:1.5em;">First, check out our Help Docs:</p>
-                <div class="well">
-                    <a href="{{ help_url }}" title="Help Docs" style="color:#006183;" target="_blank">
-                        <p><i class="glyphicon glyphicon-book" style="font-size:6em;"></i></p>
+                    <p style="font-size:1.5em;">First, check out our Help Docs:</p>
+                    <div class="well">
+                        <a href="{{ help_url }}" title="Help Docs" style="color:#006183;" target="_blank">
+                            <p><i class="glyphicon glyphicon-book" style="font-size:6em;"></i></p>
 
-                        <p>Clear, simple guides on how to do nearly anything in {{ application_name }}.</p>
-                    </a>
-                </div>
+                            <p>Clear, simple guides on how to do nearly anything in {{ application_name }}.</p>
+                        </a>
+                    </div>
                 {% endif %}
                 {% if help_email %}
-                <p style="font-size:1.5em;">Still stuck?</p>
-                <a href="mailto:{{ help_email }}" role="button" class="btn btn-info btn-lg">Send Us An Email</a><br/>
-                <p style="margin-top:15px;">We'll get back to you right away.</p>
+                    <p style="font-size:1.5em;">Still stuck?</p>
+                    <a href="mailto:{{ help_email }}" role="button" class="btn btn-info btn-lg">Send Us An Email</a>
+                    <br/>
+                    <p style="margin-top:15px;">We'll get back to you right away.</p>
                 {% endif %}
             </div>
         </div>

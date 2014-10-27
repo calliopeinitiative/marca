@@ -249,7 +249,11 @@ ul.nav-list  {
     color: #ffffff;
 }
 
-.sidebar .nav li a:hover {
+.sidebar > .nav > li > a:hover {
+    background-color: #000000;
+}
+
+.sidebar > .nav > li > a:focus {
     background-color: #000000;
 }
 

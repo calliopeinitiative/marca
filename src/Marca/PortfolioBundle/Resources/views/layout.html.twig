@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block sidebar %}
-    <h1><a  title='Course Portfolio' href="{{ course_path('portfolio') }}" class="marca-gray">Portfolio</a></h1>
+    <h1><a title='Course Portfolio' href="{{ course_path('portfolio') }}" class="marca-gray">Portfolio</a></h1>
     {#
     {% if portStatus == 'true' %}
         <a class='btn btn-primary margin-bottom-medium' href="{{ course_path('portfolio_find', { 'project': 'recent', 'portitemid':'0' }) }}">Add to Portfolio<i class="glyphicon glyphicon-plus glyphicon-white"></i></a>
