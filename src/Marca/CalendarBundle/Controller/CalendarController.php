@@ -26,9 +26,7 @@ class CalendarController extends Controller
     public function createSidebarAction($courseid)
     {
         $role = $this->getCourseRole();
-        $gotodate = \date("Y-m-d");
         return $this->render('MarcaCalendarBundle::sidebar.html.twig', array(
-            'gotodate' => $gotodate,
             'role' => $role
         ));
     }
@@ -75,7 +73,6 @@ class CalendarController extends Controller
         $role = $this->getCourseRole();
         $course = $this->getCourse();
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseStart($course);
-        $gotodate = \date("Y-m-d");
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
@@ -84,16 +81,15 @@ class CalendarController extends Controller
         return $this->render('MarcaCalendarBundle:Calendar:index.html.twig', array(
             'calendar' => $calendar,
             'role' => $role,
-            'gotodate' => $gotodate
         ));
     }
     
     /**
      * Lists all Calendar entities.
      *
-     * @Route("/{courseid}/{gotodate}/display", name="calendar_display")
+     * @Route("/{courseid}/{eventid}/display", name="calendar_display", defaults={"eventid" = 0})
      */
-    public function displayAction($gotodate)
+    public function displayAction($eventid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -102,25 +98,16 @@ class CalendarController extends Controller
         $role = $this->getCourseRole();
         $course = $this->getCourse();
         $events = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
-        
-        $startTime = $course->getTime();
-        $startDate = date_create();
-        
-        // for modal new event 
-        $calendar = new Calendar();
-        $calendar->setDescription('<p> </p>');
-        $calendar->setStartTime($startTime);
-        $calendar->setEndTime($startTime);
-        $calendar->setStartDate($startDate);
-        $calendar->setEndDate($startDate);
-        
-        $form   = $this->createForm(new CalendarType(), $calendar);
+        $event = $em->getRepository('MarcaCalendarBundle:Calendar')->find($eventid);
+        if (!$event) {
+            $event = new Calendar();
+            $event->setStartDate(date_create());
+        }
 
         return $this->render('MarcaCalendarBundle:Calendar:display.html.twig', array(
             'events' => $events,
             'role' => $role,
-            'gotodate' => $gotodate,
-            'form'   => $form->createView()
+            'event' => $event,
         ));
     }    
 
@@ -221,9 +208,7 @@ class CalendarController extends Controller
         $calendar->setUser($user);
         $calendar->setCourse($course);
         $request = $this->getRequest();
-        $postData = $request->request->get('marca_calendarbundle_calendartype');
-        $startDate = strtotime($postData['startDate']);
-        $gotodate = date("Y-m-d", $startDate);
+        $eventid = $calendar->getId();
         $form = $this->createCreateForm($calendar, $courseid);
         $form->handleRequest($request);
         
@@ -232,7 +217,7 @@ class CalendarController extends Controller
             $em->persist($calendar);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,'gotodate'=> $gotodate,)));
+            return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,'eventid'=> $eventid,)));
         }
 
         return $this->render('MarcaCalendarBundle:Calendar:new.html.twig', array(
@@ -257,7 +242,7 @@ class CalendarController extends Controller
         $course = $this->getCourse();
         $events = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
-        $gotodate = \date("Y-m-d");
+        $eventid = $calendar->getId();
 
         if (!$calendar) {
             throw $this->createNotFoundException('Unable to find Calendar entity.');
@@ -269,7 +254,7 @@ class CalendarController extends Controller
         return $this->render('MarcaCalendarBundle:Calendar:edit.html.twig', array(
             'events' => $events,
             'role' => $role,
-            'gotodate' => $gotodate,
+            'eventid' => $eventid,
             'calendar'      => $calendar,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -313,30 +298,29 @@ class CalendarController extends Controller
         $events = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
 
+
         if (!$calendar) {
             throw $this->createNotFoundException('Unable to find Calendar entity.');
         }
 
+        $eventid = $calendar->getId();
         $editForm = $this->createEditForm($calendar, $courseid);
         $deleteForm = $this->createDeleteForm($id, $courseid);
 
         $request = $this->getRequest();
-        $postData = $request->request->get('marca_calendarbundle_calendartype');
-        $startDate = strtotime($postData['startDate']);
-        $gotodate = date("Y-m-d", $startDate);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($calendar);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,'gotodate'=> $gotodate,)));
+            return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,'eventid'=> $eventid,)));
         }
 
         return $this->render('MarcaCalendarBundle:Calendar:edit.html.twig', array(
             'events' => $events,
             'role' => $role,
-            'gotodate' => $gotodate,
+            'eventid' => $eventid,
             'calendar'      => $calendar,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -356,7 +340,6 @@ class CalendarController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($allowed);
 
-        $gotodate = \date("Y-m-d");
         $form = $this->createDeleteForm($id, $courseid);
         $request = $this->getRequest();
 
@@ -374,7 +357,7 @@ class CalendarController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid, 'gotodate' => $gotodate)));
+        return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,)));
     }
 
 

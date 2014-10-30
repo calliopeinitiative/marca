@@ -4,8 +4,9 @@
 
 {% block javascripts %}
 {{ parent() }}
+<script src="{{ asset('bundles/marcahome/js/moment.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/fullcalendar.min.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
+
     <script language="javascript">
         $(document).ready(function() {
             $('#calendar').fullCalendar(
@@ -13,7 +14,7 @@
                         dayClick: function(date, allDay, jsEvent, view)
                         {
                             {% if role==2 %}
-                            var format_date = $.datepicker.formatDate('yy-mm-dd', date)
+                            var format_date = $.datepicker.formatDate('YYYY MM DD', date)
                             var route = "{{ course_path('calendar_new', {'set_date': "event_gotodate" }) }}";
                             route = route.replace("event_gotodate", format_date);
                             window.location.href = route;
@@ -22,20 +23,16 @@
                         eventClick: function(calEvent, jsEvent, view) {
                             var role = "{{ role }}";
                             if (calEvent.isOwner == 'yes' && role == '2') {
-                                var route = "{{ course_path('calendar_edit', { 'id': "event_id", 'gotodate': "event_gotodate" }) }}";
+                                var route = "{{ course_path('calendar_edit', { 'id': "event_id"  }) }}";
                                 route = route.replace("event_id", calEvent.id);
-                                route = route.replace("event_gotodate", calEvent.gotodate);
                                 window.location.href = route;
                             }
                             else {
-                                var route = "{{ course_path('calendar_show_modal', { 'id': "event_id", 'gotodate': "event_gotodate" }) }}";
+                                var route = "{{ course_path('calendar_show_modal', { 'id': "event_id"}) }}";
                                 route = route.replace("event_id", calEvent.id);
-                                route = route.replace("event_gotodate", calEvent.gotodate);
                                 $('#calendar_modal').load(route);
                                 $('#calendar_modal').modal();
                             }
-
-
                         },
                         header:
                         {
@@ -53,24 +50,22 @@
                                 textColor: 'black',
                                 description: '{{ calendar.description| escape('js') }}',
                                 id: '{{ calendar.id }}',
-                                gotodate: {{gotodate}},
                                 isOwner: {% if calendar.isOwner(app.user.username) %}'yes'{%else%}'no'{%endif%}
                             },
                             {% endfor %}
                         ],
-                        eventMouseover: function( event, jsEvent, view ){},
+                        eventMouseover: function( event, jsEvent, view ){}
                     });
-            {# Go to month #}
-            {% set gotoyear = gotodate|date('Y') %}
-            {% set gotomonth = gotodate|date('m') -1 %}
-            $('#calendar').fullCalendar( "gotoDate", {{gotoyear}},  {{gotomonth}} );
+            var e = "{{ event.startDate|date('c') }}";
+            $('#calendar').fullCalendar('gotoDate', e);
         });
     </script>
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/fullcalendar.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/fullcalendar.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/flick/jquery-ui.min.css') }}">
 {% endblock %}
 
 {% block content %}

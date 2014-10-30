@@ -10,10 +10,8 @@
         $(document).ready(function () {
             {# form page close/cancel adjust for appropriate redirect #}
             $('#close_form').click(function () {
-                window.location.href = '{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}';
+                window.location.href = '{{ course_path('calendar_display', { 'eventid': calendar.id}) }}';
             });
-            {% set gotoyear = gotodate|date('Y') %}
-            {% set gotomonth = gotodate|date('m') -1 %}
             $('#marca_calendarbundle_calendartype_startDate').datepicker({
                 showButtonPanel: true,
             });
@@ -44,8 +42,6 @@
     {{ parent() }}
     <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
-    <link type="text/css" rel="stylesheet"
-          href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
 {% endblock %}
 
 {% block content %}

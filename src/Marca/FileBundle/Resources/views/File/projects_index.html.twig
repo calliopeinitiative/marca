@@ -48,6 +48,8 @@
                                 </a>
                                 <span class="label label-file pull-left" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                             {% endif %}
+                            
+                            {# status labels #}
                             {% if file.reviews|length != 0 %} <span
                                     class="label label-default darkorange pull-right margin-left" title="{% if file.reviews|length != 0 %}Reviews by {% for
                             review in file.reviews %}{{ review.user.firstname }} {{ review.user.lastname }}{% if not loop.last %},{% endif %} {% endfor %} {% endif %}">
@@ -63,6 +65,7 @@
                             {% if file.feedback|length != 0 %}
                                 <span class="label label-primary pull-right margin-left" title="Someone has offered feedback on this file.">Feedback</span>
                             {% endif %}
+                            
                             <div class="hidden-xs">
                                 <div class="file-menu">
                                     {% if file.isOwner(app.user.username) %}

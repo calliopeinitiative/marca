@@ -448,7 +448,7 @@ ul .dropdown-menu .glyphicon {
 }
 
 /**calendar**/
-.fc-event-title, .fc-event-time {
+.fc-content {
     cursor: pointer;
 }
 

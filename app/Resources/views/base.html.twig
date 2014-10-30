@@ -8,7 +8,8 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
 
     {% block stylesheets %}
-        {% stylesheets '@bootstrap_less' combine=true  output='css/compiled/main.css' %}
+        {% stylesheets '@bootstrap_less' '%kernel.root_dir%/../vendor/components/jqueryui/themes/flick/jquery-ui.min.css' combine=true
+        output='css/compiled/main.css' %}
         <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/offline-theme-default.css') }}">
