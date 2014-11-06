@@ -113,19 +113,18 @@
                 </div>
                 <div class="panel-body">
                     {% for course in courses %}
-                        <div class="col-sm-9">
-                            <a href="{{ path('course_home', { 'courseid': course.id }) }}">
-                                <h2 class="margin-top-small">{{ course.name }}</h2></a>
+                        {% if course.isOwner(app.user.username) %}
+                            <a class="btn btn-default pull-right" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"
+                               href="{{ path('course_show', { 'courseid': course.id }) }}">
+                                Settings
+                            </a>
+                        {% endif %}
+                        <a href="{{ path('course_home', { 'courseid': course.id }) }}">
+                            <h2 class="margin-top-small">{{ course.name }}</h2></a>
 
-                            <p>{{ course.user.firstname }} {{ course.user.lastname }}
-                                , {{ course.time|date('h:i a') }}</p>
-                        </div>
-                        <div class="col-sm-3">
-                            {% if course.isOwner(app.user.username) %}<a class="btn btn-default"
-                                                                         title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"
-                                                                         href="{{ path('course_show', { 'courseid': course.id }) }}">
-                                    Settings</a>{% endif %}
-                        </div>
+                        <p>{{ course.user.firstname }} {{ course.user.lastname }}
+                            , {{ course.time|date('h:i a') }}</p>
+
                     {% endfor %}
                 </div>
                 <div class="panel-footer">
@@ -143,19 +142,18 @@
                 </div>
                 <div class="panel-body">
                     {% for course in modules %}
-                        <div class="col-sm-9">
-                            <a href="{{ path('course_home', { 'courseid': course.id }) }}">
-                                <h2 class="margin-top-small">{{ course.name }}</h2></a>
+                        {% if course.isOwner(app.user.username) %}
+                            <a class="btn btn-default pull-right" title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"
+                               href="{{ path('course_show', { 'courseid': course.id }) }}">
+                                Settings
+                            </a>
+                        {% endif %}
+                        <a href="{{ path('course_home', { 'courseid': course.id }) }}">
+                            <h2 class="margin-top-small">{{ course.name }}</h2></a>
 
-                            <p>{{ course.user.firstname }} {{ course.user.lastname }}
-                                , {{ course.time|date('h:i a') }}</p>
-                        </div>
-                        <div class="col-sm-3">
-                            {% if course.isOwner(app.user.username) %}<a class="btn btn-default"
-                                                                         title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"
-                                                                         href="{{ path('course_show', { 'courseid': course.id }) }}">
-                                    Settings</a>{% endif %}
-                        </div>
+                        <p>{{ course.user.firstname }} {{ course.user.lastname }}
+                            , {{ course.time|date('h:i a') }}</p>
+
                     {% endfor %}
                 </div>
                 <div class="panel-footer">

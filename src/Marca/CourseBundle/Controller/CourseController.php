@@ -125,12 +125,15 @@ class CourseController extends Controller
 
         $files = $em->getRepository('MarcaFileBundle:File')->findCoursehomeFiles($course);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseStart($course);
+        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, 1);
+        $default_resource = $projects[0]->getId();
         $paginator = $this->get('knp_paginator');
         $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),5);
         return $this->render('MarcaCourseBundle:Course:home.html.twig', array(
             'course' => $course,
             'calendar' => $calendar,
-            'files'=>$files
+            'files'=>$files,
+            'default_resource' => $default_resource
         ));
     }    
 

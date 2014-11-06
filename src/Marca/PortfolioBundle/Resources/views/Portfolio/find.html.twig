@@ -33,8 +33,6 @@
                 {# main list of files #}
                 <tr class="file">
                     <td>
-
-
                         {# different functions for different file types #}
                         {# doc files #}
                         {% if file.doc %}
@@ -77,66 +75,8 @@
                         {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
                     <td>{% if file.doc %}{{ file.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ file.updated|date('m/d/y, g:i a') }}{% endif %}</td>
                 </tr>
-                {% for review in file.reviews%}
-                    {% if (file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
-                        <tr class="review">
-                            <td>
-
-                                {# different functions for different file types #}
-                                {# doc files #}
-                                {% if review.doc %}
-                                    <a class="file_name" href="{{ course_path('doc_show', { 'id': review.id, 'view': 'window' }) }}"  title="View {{ review.name }}"  target="_blank">
-                                        <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
-                                        {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
-                                        <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span></span>
-                                    </a>
-                                    {# links #}
-                                {% elseif review.url %}
-                                    <a class="file_name" href="{{ review.url}}" target="_blank" title='This link will open in a new window or tab.'>
-                                        <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
-                                        {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
-                                        <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span></span>
-                                    </a>
-                                    {# ODT files #}
-                                {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
-                                    <a class="file_name" href="{{ course_path('file_view', { 'id': review.id, 'view': 'window' }) }}" title="View {{ review.name }}"  target="_blank">
-                                        <span class="label label-file" data-toggle="tooltip" title="This an {{ review.ext }} file ">{{ file.ext }}</span>
-                                        {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
-                                        <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span></span>
-                                    </a>
-                                {% else %}
-                                    <a class="file_name" href="{{ course_path('file_get', { 'id': review.id}) }}" title="View {{ review.name }}" >
-                                        <span class="label label-file" data-toggle="tooltip" title="This an {{ review.ext }} file ">{{ review.ext }}</span>
-                                        {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
-                                        <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span></span>
-                                    </a>
-                                {% endif %}
-                                <div class="file-menu">
-                                    {% if portitemid !='0'%}
-                                        <a class="" href="{{ course_path('portfolio_add', { 'fileid': file.id, 'portitemid': portitemid }) }}">Add to Portfolio</a>
-                                    {% else %}
-                                        <a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>
-                                    {% endif %}
-                                </div>
-                            </td>
-
-                            <td>{{ review.user.firstname|title }} {{ review.user.lastname|title }}</td>
-
-                            <td class="hidden-xs"></td>
-                            <td class="labels hidden-xs">{% if review.access==1 %} <span class="label label-success">Shared</span>
-                                {% elseif review.access==2 %}<span title="This review is currently hidden from view." class="label label-default black">Hidden</span> {% endif %}
-                                {% for tag in review.tag %}<span class="label label-default " style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
-                            </td>
-                            <td>
-                                {% if app.request.get('resource')=='0' %}{% if review.doc %}{{ review.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ review.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}
-                            </td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-
-
             {% else %}
-                <tr><td colspan="6">No files match your request.</td> </tr>
+                <tr><td colspan="6">No files match your request.  Make sure they are "Shared."</td> </tr>
             {% endfor %}
 
         </table>

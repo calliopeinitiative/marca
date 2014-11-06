@@ -3,13 +3,6 @@
 {% extends '::base.html.twig' %}
 {% block title %}{{ application_name }} | Pages{% endblock %}
 
-{% block stylesheets %}{{ parent() }}{% endblock %}
-{% block javascripts %}{{ parent() }}{% endblock %}
-
-{% block coursenav %}
-{% endblock %}
-
-
 {% block sidebar %}
        <h1>Pages</h1>
        <li><a class="" href="{{ path('page') }}">All Pages</a></li>

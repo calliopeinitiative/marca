@@ -36,7 +36,6 @@ class PortfolioController extends Controller
      * Lists all Portfolio entities.
      *
      * @Route("/{courseid}", name="portfolio")
-     * @Template()
      */
     public function indexAction($courseid)
     {
@@ -67,7 +66,14 @@ class PortfolioController extends Controller
         
         $assessmentset_id = $course->getAssessmentset()->getId();
         $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->find($assessmentset_id);
-        return array('portfolioset' =>$portfolioset, 'portset' => $portset, 'roll'=> $roll, 'assessmentset'=> $assessmentset, 'portStatus'=> $portStatus);
+
+        return $this->render('MarcaPortfolioBundle:Portfolio:index.html.twig', array(
+            'portfolioset' =>$portfolioset,
+            'portset' => $portset,
+            'roll'=> $roll,
+            'assessmentset'=> $assessmentset,
+            'portStatus'=> $portStatus
+        ));
     }
     
     
@@ -75,7 +81,6 @@ class PortfolioController extends Controller
      * Finds and displays files to be included in the portfolio
      *
      * @Route("/{courseid}/{project}/{portitemid}/find", name="portfolio_find")
-     * @Template()
      */
     public function findAction($project, $courseid, $portitemid)
     {
@@ -94,24 +99,30 @@ class PortfolioController extends Controller
         $course = $this->getCourse();
         $portStatus = $course->getPortStatus();
 
-        $files = $em->getRepository('MarcaFileBundle:File')->findFilesForPort($project, $user, $course);
+        $files = $em->getRepository('MarcaFileBundle:File')->findFilesForPort($user, $course);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
-
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),15);
+        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),50);
         $count = $files->getTotalItemCount();
 
-        return array('files' => $files, 'count' => $count, 'projects' => $projects, 'active_project' => $project, 'course' => $course, 'roll' => $roll, 'portStatus'=> $portStatus, 'role'=> $role, 'portitemid'=> $portitemid);
+        return $this->render('MarcaPortfolioBundle:Portfolio:find.html.twig', array(
+            'files' => $files,
+            'count' => $count,
+            'projects' => $projects,
+            'active_project' => $project,
+            'course' => $course,
+            'portStatus'=> $portStatus,
+            'role'=> $role,
+            'portitemid'=> $portitemid
+        ));
     }   
     
     /**
      * Finds and displays a Portfolio entity for remove confirm.
      *
      * @Route("/{courseid}/{id}/show_modal", name="portfolio_show_modal")
-     * @Template("MarcaPortfolioBundle:Portfolio:show_modal.html.twig")
      */
     public function showModalAction($id)
     {
@@ -121,7 +132,10 @@ class PortfolioController extends Controller
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
         $deleteForm = $this->createDeleteForm($id);
             
-        return array('portfolio' =>$portfolio,'delete_form' => $deleteForm->createView(),);
+        return $this->render('MarcaPortfolioBundle:Portfolio:show_modal.html.twig', array(
+            'portfolio' =>$portfolio,
+            'delete_form' => $deleteForm->createView()
+        ));
     }    
 
 
@@ -129,10 +143,9 @@ class PortfolioController extends Controller
     /**
      * Finds and displays a Portfolio entity.
      *
-     * @Route("/{courseid}/{userid}/{user}/portfolio_byuser", name="portfolio_user")
-     * @Template("MarcaPortfolioBundle:Portfolio:show.html.twig")
+     * @Route("/{courseid}/{userid}/{user}/show", name="portfolio_user")
      */
-    public function portByUserAction($courseid, $userid)
+    public function show($courseid, $userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT, self::ROLE_PORTREVIEW);
         $this->restrictAccessTo($allowed);
@@ -145,8 +158,8 @@ class PortfolioController extends Controller
         
         $course = $this->getCourse();
         $role = $this->getCourseRole();
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         
         //find default portfolio
         $portfoliosets = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
@@ -166,7 +179,17 @@ class PortfolioController extends Controller
         }
         else {$portfolio = '';$portfolio_docs = ''; $portfoliosetid = '0';$ratingset = '';}
         
-        return array('portfoliosetid' => $portfoliosetid,'portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll,'assessmentset'=> $assessmentset, 'ratingset' => $ratingset,'userid'=>$userid, 'role' => $role, 'markup' => $markup);
+        return $this->render('MarcaPortfolioBundle:Portfolio:show.html.twig', array(
+            'portfoliosetid' => $portfoliosetid,
+            'portfolio' =>$portfolio,
+            'portfolio_docs' => $portfolio_docs,
+            'assessmentset'=> $assessmentset,
+            'ratingset' => $ratingset,
+            'userid'=>$userid,
+            'role' => $role,
+            'markup' => $markup,
+            'roll' => $roll
+        ));
     }    
 
     /**
@@ -208,7 +231,6 @@ class PortfolioController extends Controller
      * Displays a form to edit an existing Portfolio entity.
      *
      * @Route("/{courseid}/{id}/edit", name="portfolio_edit")
-     * @Template()
      */
     public function editAction($id,$courseid)
     {
@@ -221,7 +243,6 @@ class PortfolioController extends Controller
         $portStatus = $course->getPortStatus();
         $role = $this->getCourseRole();
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         if($portStatus!='true'){
             throw new AccessDeniedException();
@@ -234,15 +255,14 @@ class PortfolioController extends Controller
         $editForm = $this->createForm(new PortfolioType($options), $portfolio);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaPortfolioBundle:Portfolio:edit.html.twig', array(
             'portfolio'      => $portfolio,
             'portStatus'      => $portStatus,
-            'roll'=>$roll,
             'role' => $role,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
 
-        );
+        ));
     }
 
     /**
@@ -250,7 +270,6 @@ class PortfolioController extends Controller
      *
      * @Route("/{courseid}/{id}/update", name="portfolio_update")
      * @Method("post")
-     * @Template("MarcaPortfolioBundle:Portfolio:edit.html.twig")
      */
     public function updateAction($id,$courseid)
     {
@@ -279,11 +298,11 @@ class PortfolioController extends Controller
             return $this->redirect($this->generateUrl('portfolio', array('courseid' => $courseid)));
         }
 
-        return array(
+        return $this->render('MarcaPortfolioBundle:Portfolio:edit.html.twig', array(
             'portfolio'      => $portfolio,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
 

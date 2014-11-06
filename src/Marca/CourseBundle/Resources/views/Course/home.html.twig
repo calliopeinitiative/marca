@@ -81,7 +81,7 @@
 
                         </table>
 
-                        <a class="btn btn-primary btn-sm pull-right" title='All Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}">All Resources</a>
+                        <a class="btn btn-primary btn-sm pull-right" title='All Course Resources' href="{{ course_path('file_list', { 'project': default_resource, 'resource': 1, 'scope': 'all'}) }}">All Resources</a>
                     </div>
                 </div>
             {% endif %}

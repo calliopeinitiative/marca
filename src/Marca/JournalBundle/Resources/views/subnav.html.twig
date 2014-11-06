@@ -1,22 +1,25 @@
 {# Marca/JournalBundle/Resources/views/subnav.html.twig #}
 {# esi fragment for journal subnav #}
 
-<nav class="subnav navbar navbar-default" role="navigation">
-    <div class="navbar-header col-sm-2">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#" title="Journal entries by {{ user.firstname }} {{ user.lastname }}">{{ user.firstname }} {{ user.lastname }}</a>
-    </div>
-    <div class="navbar-collapse collapse">
-    <ul class="nav navbar-nav navbar-right">
-        <li><a class="roll_previous" data-index="0" data-id='0' href="javascript:void(0);"></a></li>
-        <li><a class="roll_next" data-index="0" data-id='0' href="javascript:void(0);"></a></li>
-    </ul>
-    </div>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#subnav-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" title="Journal entries by {{ user.firstname }} {{ user.lastname }}">{{ user.firstname }} {{ user.lastname }}</a>
+        </div>
+        <div class="collapse navbar-collapse" id="subnav-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="roll_previous" data-index="0" data-id='0' href="javascript:void(0);"></a></li>
+                <li><a class="roll_next" data-index="0" data-id='0' href="javascript:void(0);"></a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
 </nav>
-
 
 

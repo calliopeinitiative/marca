@@ -34,13 +34,13 @@ class FileRepository extends EntityRepository
 /**
  * First users files with shared access for portfolio
  */
-  public function findFilesForPort($project, $user)
+  public function findFilesForPort($user)
     {
 
           return $this->getEntityManager()
             ->createQuery('SELECT f, p, d, t, r, o  FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o LEFT JOIN f.tag t LEFT JOIN f.reviews r
-                WHERE f.project = ?1 AND f.reviewed IS NULL AND f.user = ?2 AND f.access = 1  ORDER BY  f.name ASC')
-                ->setParameter('1',$project)->setParameter('2',$user)->getResult();
+                WHERE f.reviewed IS NULL AND f.user = ?2 AND f.access = 1  ORDER BY  f.updated DESC')
+                ->setParameter('2',$user)->getResult();
     }
 
     /**
