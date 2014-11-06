@@ -2,23 +2,28 @@
 
 {% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            {# form page close/cancel adjust for appropriate redirect #}
+            $('#close_form').click(function(){
+                window.location.href='{{ course_path('course_home') }}';
+            });
+       });
+    </script>
+{% endblock %}
+
 {% block content %}
     <div class="col-sm-8 center">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2 class="margin-top-small">Announcements</h2>
+                <button id="close_form" type="button" class="close">&times;</button>
+                <h2 class="panel-title small">Announcement</h2>
             </div>
-
             <div class="panel-body">
-                <form class="form" action="{{ path('announce_update', { 'courseid': course.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
-                    {{ form_errors(edit_form) }}
-                    {{ form_row (edit_form.announcement) }}
-                    {{ form_rest(edit_form) }}
-                    <div class="btn-group">
-                        <button class="btn btn-primary" type="submit">Update</button>
-                        <a class="btn btn-default" href="{{ path('course_home', { 'courseid': course.id }) }}">Cancel</a>
-                    </div>
-                </form>
+                {{ form(edit_form) }}
             </div>
         </div>
     </div>

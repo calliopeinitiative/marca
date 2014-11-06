@@ -552,7 +552,6 @@ div.checkbox > label {
     margin-left: 10px;
 }
 
-
 div.radio > label {
     padding-left: 5px;
     padding-right: 5px;
@@ -561,34 +560,25 @@ div.radio > label {
 .radio input[type="radio"] {
     position: inherit;
     margin-left: 10px;
-
 }
 
 div input[type="text"] {
     clear:left;
-    margin-left: 5px;
-    max-width: 400px;
     margin-bottom: 20px;
 }
 
 div input[type="password"] {
     clear:left;
-    margin-left: 5px;
-    max-width: 400px;
     margin-bottom: 20px;
 }
 
 div input[type="time"] {
     clear:left;
-    margin-left: 5px;
-    max-width: 400px;
     margin-bottom: 20px;
 }
 
 div input[type="email"] {
     clear:left;
-    margin-left: 5px;
-    max-width: 400px;
     margin-bottom: 20px;
 }
 

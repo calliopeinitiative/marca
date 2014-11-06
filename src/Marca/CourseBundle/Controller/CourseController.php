@@ -486,8 +486,8 @@ class CourseController extends Controller
         if($user != $course->getUser()){
             throw new AccessDeniedException();
         }
-        
-        $editForm = $this->createForm(new AnnounceType($options), $course);
+
+        $editForm = $this->createEditForm($course, $options);
 
         return $this->render('MarcaCourseBundle:Course:announce_edit.html.twig', array(
             'course'      => $course,
@@ -495,6 +495,23 @@ class CourseController extends Controller
         ));
     }
 
+    /**
+     * Creates a form to edit a course announcement.
+     *
+     * @param Course $course
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Course $course, $options)
+    {
+        $form = $this->createForm(new AnnounceType($options), $course, array(
+            'action' => $this->generateUrl('announce_update', array('courseid' => $course->getId())),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
+    }
     
     /**
      * Edits an existing Course entity.
@@ -515,7 +532,7 @@ class CourseController extends Controller
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
-        $editForm = $this->createForm(new AnnounceType($options), $course);
+        $editForm = $this->createEditForm($course, $options);
 
         $request = $this->getRequest();
 

@@ -13,14 +13,13 @@
             $("#fos_user_registration_form_institution").addClass("form-control");
         });
     </script>
-<div style="text-align:center;">
-    <h1 class="margin-top-small">Welcome to {{ application_name }}.</h1>
-    <h2>Learn together.  Write better.</h2>
-</div>
+
 <div class="col-sm-4 col-xs-12 center margin-top">
     <div class="panel panel-default">
         <div class="panel-body">
             <div style="text-align:center;">
+                <h1 class="margin-top-small">Welcome to {{ application_name }}.</h1>
+                <h2>Learn together.  Write better.</h2>
                 <img class="img-circle" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"/>
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
