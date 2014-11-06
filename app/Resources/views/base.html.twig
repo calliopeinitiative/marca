@@ -29,18 +29,13 @@
             $(document).ready(function () {
                 //hashchange listener for skip nav in various browsers
                 window.addEventListener("hashchange", function (event) {
-
                     var element = document.getElementById(location.hash.substring(1));
-
                     if (element) {
-
                         if (!/^(?:a|select|input|button|textarea)$/i.test(element.tagName)) {
                             element.tabIndex = -1;
                         }
-
                         element.focus();
                     }
-
                 }, false);
                 $('#course_select').click(function () {
                     $('#base_modal').load('{{ path('course_select_modal') }}').modal();
@@ -141,6 +136,8 @@
         <div class="{% if 'fos_user' not in app.request.attributes.get('_route') %}col-sm-push-2 col-sm-10 col-sm-push-2{% else %}col-sm-12 col-sm-12{% endif %} col-xs-12"
              role="main">
             {{ block('subnav') }}
+
+            {% if is_granted('ROLE_USER') %}
             <div class="navbar-collapse collapse" style="margin-bottom: 10px;">
                 <ul class="nav nav-list">
                     <li id="skip">
@@ -148,6 +145,7 @@
                     </li>
                 </ul>
             </div>
+            {% endif %}
             {{ block('content') }}
         </div>
     {% else %}
