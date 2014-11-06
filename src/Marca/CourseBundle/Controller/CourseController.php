@@ -127,6 +127,12 @@ class CourseController extends Controller
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseStart($course);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, 1);
         $default_resource = $projects[0]->getId();
+
+        if ($course->getModule()==1){
+            return $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'project'=> $default_resource, 'resource'=> 1,
+            'scope'=> 'all')));
+        };
+
         $paginator = $this->get('knp_paginator');
         $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),5);
         return $this->render('MarcaCourseBundle:Course:home.html.twig', array(
