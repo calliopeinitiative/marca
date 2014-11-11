@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "dcf18cd404f67daf005c21592185f4f1",
+    "hash": "8c1eb2994c0115df0bad46ec1c3f668c",
     "packages": [
         {
             "name": "components/jquery",
@@ -329,7 +329,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -405,7 +405,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -719,7 +719,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -773,7 +773,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -860,16 +860,16 @@
         },
         {
             "name": "egeloen/ckeditor-bundle",
-            "version": "2.5.1",
+            "version": "2.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egeloen/IvoryCKEditorBundle.git",
-                "reference": "3b0e633c2e0a34e9d7671541f8f126f9a3304515"
+                "reference": "702109e94cbda9deebbcc9604aa8654cf71f08ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egeloen/IvoryCKEditorBundle/zipball/3b0e633c2e0a34e9d7671541f8f126f9a3304515",
-                "reference": "3b0e633c2e0a34e9d7671541f8f126f9a3304515",
+                "url": "https://api.github.com/repos/egeloen/IvoryCKEditorBundle/zipball/702109e94cbda9deebbcc9604aa8654cf71f08ee",
+                "reference": "702109e94cbda9deebbcc9604aa8654cf71f08ee",
                 "shasum": ""
             },
             "require": {
@@ -911,20 +911,20 @@
             "keywords": [
                 "CKEditor"
             ],
-            "time": "2014-10-30 13:35:47"
+            "time": "2014-11-08 10:48:36"
         },
         {
             "name": "egeloen/json-builder",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egeloen/ivory-json-builder.git",
-                "reference": "0395f06db7bbb3c240667ab5f3152151051fb567"
+                "reference": "6209142ed808e9899473e9b6091b8a4f4d8de794"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egeloen/ivory-json-builder/zipball/0395f06db7bbb3c240667ab5f3152151051fb567",
-                "reference": "0395f06db7bbb3c240667ab5f3152151051fb567",
+                "url": "https://api.github.com/repos/egeloen/ivory-json-builder/zipball/6209142ed808e9899473e9b6091b8a4f4d8de794",
+                "reference": "6209142ed808e9899473e9b6091b8a4f4d8de794",
                 "shasum": ""
             },
             "require": {
@@ -944,7 +944,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Ivory\\JsonBuilder\\": ""
+                    "Ivory\\JsonBuilder\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -963,7 +963,7 @@
                 "builder",
                 "json"
             ],
-            "time": "2014-08-12 00:30:56"
+            "time": "2014-11-08 10:51:34"
         },
         {
             "name": "fr3d/ldap-bundle",
@@ -972,12 +972,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maks3w/FR3DLdapBundle.git",
-                "reference": "0252caaa19fa64f5de34eec6380776d5d4e4987a"
+                "reference": "74cb2c9b528c7a4e95081322387ec7ec50c50522"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maks3w/FR3DLdapBundle/zipball/0252caaa19fa64f5de34eec6380776d5d4e4987a",
-                "reference": "0252caaa19fa64f5de34eec6380776d5d4e4987a",
+                "url": "https://api.github.com/repos/Maks3w/FR3DLdapBundle/zipball/74cb2c9b528c7a4e95081322387ec7ec50c50522",
+                "reference": "74cb2c9b528c7a4e95081322387ec7ec50c50522",
                 "shasum": ""
             },
             "require": {
@@ -1020,7 +1020,7 @@
                 "Authentication",
                 "ldap"
             ],
-            "time": "2014-10-30 00:12:44"
+            "time": "2014-11-11 09:34:36"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1094,12 +1094,12 @@
             "version": "v2.3.9",
             "source": {
                 "type": "git",
-                "url": "https://github.com/l3pp4rd/DoctrineExtensions.git",
+                "url": "https://github.com/Atlantic18/DoctrineExtensions.git",
                 "reference": "35adcaae1a3f50d0d5b73aa50ed8fd28ee35ce54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/35adcaae1a3f50d0d5b73aa50ed8fd28ee35ce54",
+                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/35adcaae1a3f50d0d5b73aa50ed8fd28ee35ce54",
                 "reference": "35adcaae1a3f50d0d5b73aa50ed8fd28ee35ce54",
                 "shasum": ""
             },
@@ -1339,9 +1339,9 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1381,9 +1381,9 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1446,9 +1446,9 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1497,9 +1497,9 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1601,9 +1601,9 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1889,30 +1889,32 @@
         },
         {
             "name": "knplabs/knp-snappy",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/snappy.git",
-                "reference": "4bc7af878a003a2c1ef3c4d8b08851537cb07486"
+                "reference": "e5d1e7486d9344a6cc5c3194daad7a5141b92e6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/snappy/zipball/4bc7af878a003a2c1ef3c4d8b08851537cb07486",
-                "reference": "4bc7af878a003a2c1ef3c4d8b08851537cb07486",
+                "url": "https://api.github.com/repos/KnpLabs/snappy/zipball/e5d1e7486d9344a6cc5c3194daad7a5141b92e6e",
+                "reference": "e5d1e7486d9344a6cc5c3194daad7a5141b92e6e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
+            "require-dev": {
+                "symfony/process": "~2.1"
+            },
             "suggest": {
-                "google/wkhtmltopdf-amd64": "Provide wkhtmltopdf-amd64 binary, use version `0.11.0-RC1` as dependency",
-                "google/wkhtmltopdf-i386": "Provide wkhtmltopdf-i386 binary, use version `0.11.0-RC1` as dependency",
-                "symfony/process": "Process Component of Symfony2."
+                "h4cc/wkhtmltopdf-amd64": "Provide wkhtmltopdf-amd64 binary, use version `0.12.0` as dependency",
+                "h4cc/wkhtmltopdf-i386": "Provide wkhtmltopdf-i386 binary, use version `0.12.0` as dependency"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.1.x-dev"
+                    "dev-master": "0.2.x-dev"
                 }
             },
             "autoload": {
@@ -1944,7 +1946,7 @@
                 "thumbnail",
                 "wkhtmltopdf"
             ],
-            "time": "2014-03-20 15:05:12"
+            "time": "2014-10-14 16:54:20"
         },
         {
             "name": "knplabs/knp-snappy-bundle",
@@ -2283,9 +2285,9 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -2477,17 +2479,17 @@
         },
         {
             "name": "sensio/generator-bundle",
-            "version": "v2.3.5",
+            "version": "v2.4.0",
             "target-dir": "Sensio/Bundle/GeneratorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioGeneratorBundle.git",
-                "reference": "8b7a33aa3d22388443b6de0b0cf184122e9f60d2"
+                "reference": "d5c0b996a46276d50943a80f95a46b59215a0e68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/8b7a33aa3d22388443b6de0b0cf184122e9f60d2",
-                "reference": "8b7a33aa3d22388443b6de0b0cf184122e9f60d2",
+                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/d5c0b996a46276d50943a80f95a46b59215a0e68",
+                "reference": "d5c0b996a46276d50943a80f95a46b59215a0e68",
                 "shasum": ""
             },
             "require": {
@@ -2517,13 +2519,11 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "This bundle generates code for you",
-            "time": "2014-04-28 14:01:06"
+            "time": "2014-09-22 14:56:14"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
@@ -2703,7 +2703,7 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "dev-master",
+            "version": "2.6.x-dev",
             "target-dir": "Symfony/Component/DependencyInjection",
             "source": {
                 "type": "git",
@@ -3038,12 +3038,12 @@
             "version": "v1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fabpot/Twig-extensions.git",
+                "url": "https://github.com/twigphp/Twig-extensions.git",
                 "reference": "f91a82ec225e5bb108e01a0f93c9be04f84dcfa0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig-extensions/zipball/f91a82ec225e5bb108e01a0f93c9be04f84dcfa0",
+                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/f91a82ec225e5bb108e01a0f93c9be04f84dcfa0",
                 "reference": "f91a82ec225e5bb108e01a0f93c9be04f84dcfa0",
                 "shasum": ""
             },
@@ -3085,12 +3085,12 @@
             "version": "v1.16.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fabpot/Twig.git",
+                "url": "https://github.com/twigphp/Twig.git",
                 "reference": "42f758d9fe2146d1f0470604fc05ee43580873fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/42f758d9fe2146d1f0470604fc05ee43580873fc",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/42f758d9fe2146d1f0470604fc05ee43580873fc",
                 "reference": "42f758d9fe2146d1f0470604fc05ee43580873fc",
                 "shasum": ""
             },

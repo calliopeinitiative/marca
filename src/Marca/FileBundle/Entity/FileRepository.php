@@ -12,23 +12,50 @@ use Doctrine\ORM\EntityRepository;
  */
 class FileRepository extends EntityRepository
 {
-/**
- * First conditional catches sort order by name, project, tag or updated
- * Second conditional catches Recent Files listing (with no associated project defined so it can be omitted from seach.
- * Sort is not currently working; need to refactor the join
- */
-   public function findFilesByProject($project, $user, $scope, $tag, $byuser, $role)
+
+    public function findMyFilesByProject($project, $user, $tag)
     {
-        if($scope == 'all' and $role == 2) {$scopeQuery = ' or f.access = 1 or f.access = 0';}
-        elseif($scope == 'all' and $role != 2) {$scopeQuery = ' or f.access = 1';}
-        elseif($scope == 'byuser' and $role == 2) {$user = $byuser; $scopeQuery = '';}
-        elseif($scope == 'byuser' and $role != 2) {$user = $byuser; $scopeQuery = ' AND f.access = 1';}
-        else {$scopeQuery = '';};
+        if ($tag != 0) {$tagQuery = '';} else {$tagQuery = ' OR t.id != 0 OR t.id is NULL';}
+        return $this->getEntityManager()
+            ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
+                WHERE f.project = ?1 AND f.reviewed IS NULL AND f.user = ?3 AND (t.id = ?4'.$tagQuery.') ORDER BY  f.updated DESC')
+            ->setParameter('1',$project)->setParameter('3',$user)->setParameter('4',$tag)->getResult();
+    }
+
+   public function findAllFilesByProjectInstructor($project, $user, $tag)
+    {
         if ($tag != 0) {$tagQuery = '';} else {$tagQuery = ' OR t.id != 0 OR t.id is NULL';}
           return $this->getEntityManager()
             ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
-                WHERE f.project = ?1 AND f.reviewed IS NULL AND (f.user = ?3'.$scopeQuery.') AND (t.id = ?4'.$tagQuery.') ORDER BY  f.updated DESC')
-                ->setParameter('1',$project)->setParameter('3',$user)->setParameter('4',$tag)->getResult();
+                WHERE f.project = ?1 AND f.reviewed IS NULL AND (t.id = ?4'.$tagQuery.') ORDER BY  f.updated DESC')
+                ->setParameter('1',$project)->setParameter('4',$tag)->getResult();
+    }
+
+    public function findAllFilesByProjectStudent($project, $user,$tag)
+    {
+        if ($tag != 0) {$tagQuery = '';} else {$tagQuery = ' OR t.id != 0 OR t.id is NULL';}
+        return $this->getEntityManager()
+            ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
+                WHERE f.project = ?1 AND f.reviewed IS NULL AND f.access = 1 AND (t.id = ?4'.$tagQuery.') ORDER BY  f.updated DESC')
+            ->setParameter('1',$project)->setParameter('4',$tag)->getResult();
+    }
+
+    public function findFilesByProjectByuserInstructor($project, $tag, $byuser)
+    {
+        if ($tag != 0) {$tagQuery = '';} else {$tagQuery = ' OR t.id != 0 OR t.id is NULL';}
+        return $this->getEntityManager()
+            ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
+                WHERE f.project = ?1 AND f.reviewed IS NULL AND (f.user = ?3) AND (t.id = ?4'.$tagQuery.') ORDER BY  f.updated DESC')
+            ->setParameter('1',$project)->setParameter('3',$byuser)->setParameter('4',$tag)->getResult();
+    }
+
+    public function findFilesByProjectByuserStudent($project, $tag, $byuser)
+    {
+        if ($tag != 0) {$tagQuery = '';} else {$tagQuery = ' OR t.id != 0 OR t.id is NULL';}
+        return $this->getEntityManager()
+            ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
+                WHERE f.project = ?1 AND f.reviewed IS NULL AND f.user = ?3 AND f.access = 1 AND (t.id = ?4'.$tagQuery.') ORDER BY  f.updated DESC')
+            ->setParameter('1',$project)->setParameter('3',$byuser)->setParameter('4',$tag)->getResult();
     }
 
 /**

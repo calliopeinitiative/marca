@@ -16,9 +16,3 @@ _configurator:
 
 _main:
     resource: routing.yml
-    
-MarcaGeneratorBundle:
-    resource: "@MarcaGeneratorBundle/Controller/"
-    type:     annotation
-    prefix:   /
-    
