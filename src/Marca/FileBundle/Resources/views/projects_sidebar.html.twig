@@ -55,10 +55,12 @@
             {% endif %}
         </li>
     {% endfor %}
+{# Projects  Find
 <li><a class="project-sidebar {% if app.request.get('project') == 0 %}current-filter{% endif %}"
        href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
         All Folders </a>
 </li>
+#}
 <hr class="marca-spacer"/>
 
 {# Labels  Find #}
