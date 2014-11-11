@@ -460,31 +460,6 @@ ul .dropdown-menu .glyphicon {
 
 /***** 05a. Modals *****/
 
-
-.btn-file {
-    position: relative;
-    overflow: hidden;
-}
-.btn-file input[type=file] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 999px;
-    text-align: right;
-    opacity: 0;
-    background: red;
-    cursor: inherit;
-    display: block;
-}
-
-span.btn-file {
-    height:34px;
-    width:100px;
-    margin-bottom:20px;
-}
-
 #markup {
     width:100%;
 }
@@ -539,6 +514,8 @@ span.btn-file {
 /********** 06. Marca Tools **********/
 
 /***** 06a. Forms *****/
+
+div.modal-body {padding-bottom: 50px;}
 
 div.modal-body > div > label {width:100%;}
 
