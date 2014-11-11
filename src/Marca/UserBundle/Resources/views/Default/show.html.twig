@@ -20,7 +20,7 @@
                         <img class="img-circle" style="width:50%;" src="{{ user.photo }}" alt="{{ user.firstname }} {{ user.lastname }}">
             <h5><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></h5
 
-            <h5>{{ user.bio|raw }}</h5>
+            <h5>{{ user.bio|html_raw }}</h5>
             </div>
         </div>
         <div class="panel-footer">

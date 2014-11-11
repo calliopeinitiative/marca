@@ -30,7 +30,7 @@
                         <span>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }}</span>
                     </div>
                     <div class="panel-body">
-                        {{ journal.body|raw }}
+                        {{ journal.body|html_raw }}
                     </div>
                 </div>
             </div>

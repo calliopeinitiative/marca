@@ -15,7 +15,7 @@
 
                         <a class="list-group-item" href="{{ path('reviewrubric_show', { 'id': rubric.id }) }}">
                             <h3 class="margin-top-small">{{ rubric.name }}</h3>
-                            <p>{{ rubric.description|raw }}</p>
+                            <p>{{ rubric.description|html_raw }}</p>
                             <p>{{ rubric.keywords }}</p>
                         </a>
 

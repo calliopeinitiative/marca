@@ -75,7 +75,7 @@
             {% else %}
                 <div id='doc-display' class="col-sm-7 well">
                     <div class="doc-body">
-                        {{ review.file.doc.body|raw }}
+                        {{ review.file.doc.body|html_raw }}
                     </div>
                 </div>
             {% endif %}
@@ -90,13 +90,13 @@
                 <div class="panel-body">
                     {% for reviewresponse in review.reviewresponses %}
                         <div class="">
-                            <div><strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong></div>
+                            <div><strong>{{ reviewresponse.reviewPrompt.prompt|html_raw }}</strong></div>
 
                             <div class="margin-left margin-top">
-                            {{ reviewresponse.responseShortText|raw }}
-                            {{ reviewresponse.responseparagraphText|raw }}
-                            {{ reviewresponse.responseBool|raw }}
-                            {{ reviewresponse.responseInt|raw }}
+                            {{ reviewresponse.responseShortText|html_raw }}
+                            {{ reviewresponse.responseparagraphText|html_raw }}
+                            {{ reviewresponse.responseBool|html_raw }}
+                            {{ reviewresponse.responseInt|html_raw }}
                             </div>
                         </div>
                         <hr/>
@@ -106,7 +106,7 @@
                     <hr/>
                         <strong>Notes:</strong>
                     <div class="margin-left margin-top">
-                        {{ review.notes|raw }}
+                        {{ review.notes|html_raw }}
                         </div>
                     <hr/>
                     <a class="btn btn-default" href="{{ path('review_edit', { 'id': review.id }) }}">

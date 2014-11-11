@@ -63,7 +63,7 @@
                     <div id="doc-container" class="col-sm-8">
                         <div id='doc-display' class="col-sm-12 well">
                             <div id='doc-body' class="doc-body">
-                                {{ doc.body|raw }}
+                                {{ doc.body|html_raw }}
                             </div>
                         </div>
                         <div class="doc-footer col-sm-12"><span class="pull-right">Words: <span
@@ -81,7 +81,7 @@
                         <span class="pull-left color-flag" style="background: {{ markup.color }};">&#183;</span>
                         {{ markup.name }}</div>
                     <div class="popover-content">
-                        {{ markup.mouseover|raw }}
+                        {{ markup.mouseover|html_raw }}
                         {% if markup.url != '' or markup.url is not null %}
                             <a href="{{ markup.url }}" target="_blank">{{ markup.linktext }}</a>{% endif %}
                     </div>

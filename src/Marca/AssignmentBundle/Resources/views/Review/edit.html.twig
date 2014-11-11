@@ -77,7 +77,7 @@
                 {% else %}
                     <div id='doc-display' class="col-sm-7 well">
                         <div class="doc-body">
-                            {{ review.file.doc.body|raw }}
+                            {{ review.file.doc.body|html_raw }}
                         </div>
                     </div>
                 {% endif %}
@@ -93,10 +93,10 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <strong>
-                                        {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
+                                        {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|html_raw }}
                                     </strong>
 
-                                    <p class=""><em>Help:  {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}</em></p>
+                                    <p class=""><em>Help:  {{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|html_raw }}</em></p>
                                 </div>
                                 <div class="panel-body">
 

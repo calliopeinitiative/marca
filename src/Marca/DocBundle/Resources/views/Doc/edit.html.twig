@@ -24,7 +24,7 @@
                 }
             }, 15000);
             $(function () {
-                var rubric = CKEDITOR.dom.element.createFromHtml('<div class="eDoc_rubric"><hr/>{% spaceless %}{% for page in pages %}{{ page.body|raw }}{% endfor %}{% endspaceless %}</div>');
+                var rubric = CKEDITOR.dom.element.createFromHtml('<div class="eDoc_rubric"><hr/>{% spaceless %}{% for page in pages %}{{ page.body|html_raw }}{% endfor %}{% endspaceless %}</div>');
                 $('#insert_rubric').click(function () {
                     editor.insertElement(rubric);
                 });

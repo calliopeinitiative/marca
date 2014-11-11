@@ -22,7 +22,7 @@ body {background: #fff }
 <div class="row margin-top clear">
     <div class="col-sm-8 pad">
         <div class="doc-body">
-            {{ doc.body|raw }}
+            {{ doc.body|html_raw }}
         </div>
     </div>
 </div>

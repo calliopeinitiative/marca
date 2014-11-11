@@ -26,7 +26,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="margin-top-small">{{ reviewrubric.name }}</h2>
-            <span>{{ reviewrubric.description|raw }}</span>
+            <span>{{ reviewrubric.description|html_raw }}</span>
 
             <div class='btn-group pull-right'>
                 <a id='edit_rubric' title='Edit rubric' href="javascript:void(0);" class="btn btn-default btn-small">Edit</a>
@@ -36,7 +36,7 @@
                 </a>
             </div>
             <hr/>
-            <p><strong>Instructions:</strong> {{ reviewrubric.instructions|raw }}</p>
+            <p><strong>Instructions:</strong> {{ reviewrubric.instructions|html_raw }}</p>
 
             <p><strong>Keywords:</strong> {{ reviewrubric.keywords }}</p>
         </div>
@@ -64,9 +64,9 @@
                         </div>
 
 
-                        <p>{{ promptitem.prompt|raw }}</p>
+                        <p>{{ promptitem.prompt|html_raw }}</p>
 
-                        <p>{{ promptitem.helpText|raw }}</p>
+                        <p>{{ promptitem.helpText|html_raw }}</p>
                     </div>
                     <div class="panel-body">
                         {% if promptitem.type==0 %}

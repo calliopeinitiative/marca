@@ -18,13 +18,13 @@
                     <a class="btn btn-default btn-sm" role="button" href="{{ path('portset_edit', { 'id': portset.id }) }}">Edit Set<i class="glyphicon glyphicon-edit glyphicon-white"></i></a>
                 </div>
 
-                {{ portset.description|raw }}
+                {{ portset.description|html_raw }}
                 <div class="list-group">
                     {% for portitem in portitems %}
 
                         <a class="list-group-item" href="{{ path('portitem_edit', { 'id': portitem.id }) }}">
                             <h4 class="margin-top-small">{{ portitem.name }}</h4>
-                            {{ portitem.description|raw }}
+                            {{ portitem.description|html_raw }}
                         </a>
 
                     {% endfor %}

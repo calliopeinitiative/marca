@@ -96,7 +96,7 @@
         {% if portfolio_doc.file.doc %}
             <div id='doc-display' class="col-sm-8 well">
                 <div class="doc-body">
-                    {{ portfolio_doc.file.doc.body|raw }}
+                    {{ portfolio_doc.file.doc.body|html_raw }}
                 </div>
             </div>
         {% elseif portfolio_doc.file.url %}
@@ -198,7 +198,7 @@
                         <div class="panel-body">
                             {% for rating in ratingset.ratings %}
                                 <div class='hide'><strong
-                                            class='margin-top'>{{ rating.objective.objective|raw }}</strong>
+                                            class='margin-top'>{{ rating.objective.objective|html_raw }}</strong>
                                     {{ rating.scaleitem.name }}</div>
                             {% endfor %}
 
@@ -262,7 +262,7 @@
                     {{ markup.name }}
                 </div>
                 <div class="popover-content">
-                    {{ markup.mouseover|raw }}
+                    {{ markup.mouseover|html_raw }}
                     {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}"
                                                                           target="_blank">{{ markup.linktext }}</a>{% endif %}
                 </div>

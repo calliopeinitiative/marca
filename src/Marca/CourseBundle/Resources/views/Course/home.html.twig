@@ -17,7 +17,7 @@
                             <span class="pull-right">{% if calendar.startDate %}{{ calendar.startDate|date('M j Y') }}  {{ calendar.startTime|date('g:i A') }}{% endif%}</span>
                         </div>
                         <div class="panel-body">
-                            {{ calendar.description|raw }}
+                            {{ calendar.description|html_raw }}
                         </div>
                     </div>
                 {% endfor %}
@@ -39,7 +39,7 @@
 
                 </div>
                 <div class="panel-body">
-                    <p>{{ course.announcement|raw }}</p>
+                    <p>{{ course.announcement|html_raw }}</p>
                 </div>
 
             </div>

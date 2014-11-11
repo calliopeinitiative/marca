@@ -11,7 +11,7 @@
             <div class="panel-body">
                 <p><strong>{{ parent.user.firstname|capitalize }} {{ parent.user.lastname|capitalize }} wrote:</strong></p>
                 <div class="well">
-                    {{ parent.body|raw }}
+                    {{ parent.body|html_raw }}
                 </div>
                 <p><strong>Your Comment:</strong></p>
                 {{ form(form) }}

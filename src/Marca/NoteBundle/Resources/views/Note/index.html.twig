@@ -16,7 +16,7 @@
                     <a href="{{ course_path('note_edit', { 'id': note.id }) }}"><h2 class="panel-title small">{{ note.title }}</h2></a>
                 </div>
                 <div class="panel-body">
-                    {{ note.description|raw }}
+                    {{ note.description|html_raw }}
                 </div>
             </div>
         {%else%}

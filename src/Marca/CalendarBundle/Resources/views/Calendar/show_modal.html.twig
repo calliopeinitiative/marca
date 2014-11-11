@@ -8,7 +8,7 @@
         </div>
         <div class="modal-body">
             <p><span class="pull-left color-flag" style="{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif%}">&#183;</span>{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}</p>
-            <p>{{ calendar.description|raw }}</p>
+            <p>{{ calendar.description|html_raw }}</p>
         </div>
     </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->

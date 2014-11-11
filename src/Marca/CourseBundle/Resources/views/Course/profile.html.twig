@@ -84,7 +84,7 @@
                             <p><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></p>
                         </div>
 
-                        <p>{{ user.bio|raw }}</p>
+                        <p>{{ user.bio|html_raw }}</p>
 
                         <hr class="marca-spacer"/>
 

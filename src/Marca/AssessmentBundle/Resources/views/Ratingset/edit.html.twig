@@ -18,7 +18,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Portfolio Assessment</h3>
 
-                <p>{{ assessmentset.description|raw }}</p>
+                <p>{{ assessmentset.description|html_raw }}</p>
             </div>
             <form action="{{ course_path('ratingset_update', { 'id': ratingset.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}"
                   method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
@@ -32,8 +32,8 @@
                     <hr/>
                     <h3>{{ assessmentset.name }}</h3>
                     {% for rating in edit_form.ratings %}
-                        <p><strong>{{ ratingset.ratings[loop.index-1].objective.objective|raw }}</strong></p>
-                        <p>{{ ratingset.ratings[loop.index-1].objective.description|raw }}</p>
+                        <p><strong>{{ ratingset.ratings[loop.index-1].objective.objective|html_raw }}</strong></p>
+                        <p>{{ ratingset.ratings[loop.index-1].objective.description|html_raw }}</p>
                         {{ form_row(rating.scaleitem) }}
                         <hr/>
                     {% endfor %}

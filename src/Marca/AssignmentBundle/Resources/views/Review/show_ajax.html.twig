@@ -17,11 +17,11 @@
     {% for reviewresponse in review.reviewresponses %}
         <div id="{{ reviewresponse.reviewPrompt.sortOrder }}" class="panel panel-default">
             <div class="panel-heading">
-                <strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong>
+                <strong>{{ reviewresponse.reviewPrompt.prompt|html_raw }}</strong>
             </div>
             <div class="panel-body">
-                {{ reviewresponse.responseShortText|raw }}
-                {{ reviewresponse.responseparagraphText|raw }}
+                {{ reviewresponse.responseShortText|html_raw }}
+                {{ reviewresponse.responseparagraphText|html_raw }}
                 {% if reviewresponse.scaleitem %}{{ reviewresponse.scaleitem.name }}{% endif %}
             </div>
             <div class="panel-footer">
@@ -61,14 +61,14 @@
         {% if  (review.file.user==app.user or role==2) and review.notes!='' %}
             <strong>Notes:</strong>
             <div class="margin-left margin-top">
-                {{ review.notes|raw }}
+                {{ review.notes|html_raw }}
             </div>
         {% endif %}
 
         {% if  review.feedbackComment!='' %}
             <strong>Notes:</strong>
             <div class="margin-left margin-top">
-                {{ review.feedbackComment|raw }}
+                {{ review.feedbackComment|html_raw }}
             </div>
         {% endif %}
 

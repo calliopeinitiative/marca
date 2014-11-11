@@ -40,12 +40,12 @@
                 {% for page in pages %}
                     <div class="panel-heading">
                         <button id="help_close_btn" type="button" class="close">&times;</button>
-                        <h2>{{ page.title|raw }}</h2>
+                        <h2>{{ page.title|html_raw }}</h2>
                     </div>
 
                     <div class="panel-body">
 
-                        {{ page.body|raw }}
+                        {{ page.body|html_raw }}
 
                     </div>
                 {% endfor %}

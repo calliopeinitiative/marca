@@ -32,7 +32,7 @@
                 <div class="list-group">
                     <h2 class="small margin-top-small">{{ portset.name }}</h2>
 
-                    <p>{{ portset.description|raw }}</p>
+                    <p>{{ portset.description|html_raw }}</p>
                 </div>
             </div>
             <div class="panel-body">
@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="col-sm-12">
-                        <em>{{ portitem.description|raw }}</em>
+                        <em>{{ portitem.description|html_raw }}</em>
                     </div>
 
                     {% for portfolio in portfolioset.portfolioitems if portfolio.portitem.name==portitem.name %}

@@ -95,7 +95,7 @@
             <div class="panel-body">
                 {# Div needed for word count #}
                 <div class="journal-body">
-                    {{ journal.body|raw }}
+                    {{ journal.body|html_raw }}
                     </div>
 
                 {% for response in journal.responses %}
@@ -108,7 +108,7 @@
                                 <h3>Response by {{ response.user.firstname}} {{ response.user.lastname}}</h3>
                             </div>
                             <div class="panel-body">
-                                {{ response.body|raw }}
+                                {{ response.body|html_raw }}
                             </div>
                         </div>
                     </div>
