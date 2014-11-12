@@ -284,8 +284,8 @@ class RollController extends Controller
             if ($roll->getRole() == self::ROLE_PENDING){ 
                 $roll->setRole(self::ROLE_STUDENT);
                 $em->persist($roll);
-                $em->flush();
             }
+             $em->flush();
          }
          return $this->redirect($this->generateUrl('roll', array('courseid' => $courseid)));
          
