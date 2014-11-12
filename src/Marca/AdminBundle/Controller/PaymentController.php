@@ -33,7 +33,7 @@ class PaymentController extends Controller{
     /**
      * @Route("/select/{courseid}", name="select_payment")
      */
-    public function selectPayment($courseid)
+    public function selectPaymentAction ($courseid)
     {
         $defaultData = array('message' => 'Type your message here');
         $form = $this->createFormBuilder($defaultData)

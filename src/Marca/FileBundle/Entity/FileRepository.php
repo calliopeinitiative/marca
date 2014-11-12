@@ -130,9 +130,9 @@ class FileRepository extends EntityRepository
    public function findReviewFiles ($project, $user, $scope, $byuser, $role)
     {
         if($scope == 'all' and $role == 2) {$scopeQuery = ' or f.access = 1 or f.access = 0';}
-        elseif($scope == 'all' and $role != 2) {$scopeQuery = ' or f.access = 1';}
-        elseif($scope == 'byuser' and $role == 2) {$user = $byuser; $scopeQuery = '';}
-        elseif($scope == 'byuser' and $role != 2) {$user = $byuser; $scopeQuery = ' AND f.access = 1';}
+        elseif($scope == 'all' && $role != 2) {$scopeQuery = ' or f.access = 1';}
+        elseif($scope == 'byuser' && $role == 2) {$user = $byuser; $scopeQuery = '';}
+        elseif($scope == 'byuser' && $role != 2) {$user = $byuser; $scopeQuery = ' AND f.access = 1';}
         else {$scopeQuery = '';};
         return $this->getEntityManager()
             ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviewed r  LEFT JOIN f.feedback b

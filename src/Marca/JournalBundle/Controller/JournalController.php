@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Marca\JournalBundle\Entity\Journal;
 use Marca\JournalBundle\Form\JournalType;
@@ -231,7 +232,7 @@ class JournalController extends Controller
      * @Route("/{courseid}/{id}/ajaxupdate", name="journal_ajax")
      * @Method("post")
      */
-    public function ajaxUpdate($id, $courseid)
+    public function ajaxUpdateAction ($id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);

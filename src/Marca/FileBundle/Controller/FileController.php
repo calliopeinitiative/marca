@@ -106,13 +106,13 @@ class FileController extends Controller
 
         if ($scope == 'reviews')
             $files = $em->getRepository('MarcaFileBundle:File')->findReviewFiles($project, $user, $scope, $byuser, $role);
-        elseif ($role == 2 and $scope == 'all') {
+        elseif ($role == 2 && $scope == 'all') {
             $files = $em->getRepository('MarcaFileBundle:File')->findAllFilesByProjectInstructor($project, $user, $tag);
-        } elseif ($role != 2 and $scope == 'all') {
+        } elseif ($role != 2 && $scope == 'all') {
             $files = $em->getRepository('MarcaFileBundle:File')->findAllFilesByProjectStudent($project, $user, $tag);
-        } elseif ($role == 2 and $scope == 'byuser') {
+        } elseif ($role == 2 && $scope == 'byuser') {
             $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProjectByuserInstructor($project, $tag, $byuser);
-        } elseif ($role != 2 and $scope == 'byuser') {
+        } elseif ($role != 2 && $scope == 'byuser') {
             $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProjectByuserStudent($project, $tag, $byuser);
         } elseif ($scope == 'mine') {
             $files = $em->getRepository('MarcaFileBundle:File')->findMyFilesByProject($project, $user, $tag);

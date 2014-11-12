@@ -145,7 +145,7 @@ class PortfolioController extends Controller
      *
      * @Route("/{courseid}/{userid}/{user}/show", name="portfolio_user")
      */
-    public function show($courseid, $userid)
+    public function showAction($courseid, $userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT, self::ROLE_PORTREVIEW);
         $this->restrictAccessTo($allowed);

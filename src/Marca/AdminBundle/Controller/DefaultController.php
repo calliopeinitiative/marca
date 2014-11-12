@@ -141,7 +141,7 @@ class DefaultController extends Controller
         $username_requested = $userManager->findUserByUsername($new_username);
         $email_requested = $userManager->findUserByEmail($new_email);
 
-        if ($username_requested or $email_requested) {
+        if ($username_requested || $email_requested) {
             $this->get('session')->getFlashBag()->add('error', 'That username or email is already in use.  Please try another.');
             return $this->redirect($this->generateUrl('user_admin', array('username' => $username)));
         }

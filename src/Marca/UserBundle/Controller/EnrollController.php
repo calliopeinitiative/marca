@@ -35,7 +35,7 @@ class EnrollController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $id = $user->getId();
-        if ($user->getInstitution()->getResearch()==true and $user->getResearch()==0){
+        if ($user->getInstitution()->getResearch()==true && $user->getResearch()==0){
         return $this->redirect($this->generateUrl('user_research', array('id' => $id)));
         }
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($user);

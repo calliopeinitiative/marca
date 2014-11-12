@@ -256,7 +256,7 @@ class DocController extends Controller
      * @Route("/{courseid}/{id}/ajaxupdate", name="doc_ajax")
      * @Method("post")
      */
-    public function ajaxUpdate($id, $courseid)
+    public function ajaxUpdateAction($id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);

@@ -198,7 +198,7 @@ class RollController extends Controller
      * @Route("/{courseid}/{id}/pending_delete", name="roll_pending_delete")
      * @Method("post")
      */
-    public function rollPendingDelete($id, $courseid)
+    public function rollPendingDeleteAction($id)
     {
         //NB security is handled in the conditional below
 

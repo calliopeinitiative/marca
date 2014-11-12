@@ -32,7 +32,7 @@ class DefaultController extends Controller
         if ($user->getLastname()==''){
             return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
         }
-        if ($user->getInstitution()->getResearch()==true and $user->getResearch()==0){
+        if ($user->getInstitution()->getResearch()==true && $user->getResearch()==0){
             return $this->redirect($this->generateUrl('user_research', array('id' => $id)));
         }
 
@@ -109,7 +109,7 @@ class DefaultController extends Controller
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
-        if (strlen($user->getLastname())==0 or strlen($user->getFirstname())==0) {
+        if (strlen($user->getLastname())==0 || strlen($user->getFirstname())==0) {
             $editForm = $this->createForm(new NewuserType(), $user);
         }
         else {
