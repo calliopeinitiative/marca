@@ -19,8 +19,8 @@ class LinkType extends AbstractType
     {
         $options = $this->options;
         $builder
-             ->add('name','text', array('attr' => array('class' => 'text form-control'),))
-             ->add('url','text', array('attr' => array('class' => 'text form-control'),))
+             ->add('name','text', array('attr' => array('class' => 'text form-control', 'placeholder' => 'Name of your link'),))
+             ->add('url','text', array('attr' => array('class' => 'text form-control', 'placeholder' => 'http://yourlink.edu'),))
              ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
                 function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
                 $courseid = $options['courseid'] ;

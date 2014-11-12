@@ -17,7 +17,7 @@ class Controller extends SymfonyController
     /**
      *
      * @return \Marca\UserBundle\Entity\User
-     */   
+     */
     public function getUser() {
         $user = $this->get('security.context')->getToken()->getUser();
         return $user;

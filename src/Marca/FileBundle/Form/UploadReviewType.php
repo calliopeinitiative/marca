@@ -22,7 +22,7 @@ class UploadReviewType extends AbstractType
         if ($role==2) {
             $builder
                 ->add('file','file', array('label'  => ' '))
-                ->add('name','text', array('attr' => array('class' => 'text form-control'),))
+                ->add('name','text', array('attr' => array('class' => 'text form-control', 'placeholder' => 'Name of your file'),))
                 ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' =>
                     function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
                         $courseid = $options['courseid'] ;

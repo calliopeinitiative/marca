@@ -13,7 +13,6 @@ use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
 use Marca\FileBundle\Form\LinkType;
 use Marca\FileBundle\Form\DocType;
-use Marca\FileBundle\Form\ReviewType;
 use Marca\FileBundle\Form\UploadType;
 use Marca\FileBundle\Form\UploadReviewType;
 use Marca\TagBundle\Entity\Tagset;
@@ -234,8 +233,6 @@ class FileController extends Controller
         $file->setProject($project);
 
         if ($type == 'link') {
-            $file->setName('New Link');
-            $file->setUrl('http://newlink.edu');
             $form = $this->createForm(new LinkType($options), $file);
             return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
                 'file' => $file,
@@ -248,7 +245,6 @@ class FileController extends Controller
                 'form' => $form->createView()
             ));
         } elseif ($type == 'doc') {
-            $file->setName('New Document');
             $form = $this->createForm(new DocType($options), $file);
             return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
                 'file' => $file,
@@ -261,7 +257,6 @@ class FileController extends Controller
                 'form' => $form->createView()
             ));
         } elseif ($type == 'review') {
-            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
             $file->setName('Review');
             if ($role == 2) {
                 $file->setAccess('2');
@@ -273,18 +268,12 @@ class FileController extends Controller
             $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
             $file->setReviewed($reviewed_file);
             $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
-            if ($reviewed_file->getDoc()) {
-                $doc->setBody($reviewed_file->getDoc()->getBody());
-            } elseif ($reviewed_file->getExt() == 'odt') {
-                $doc->setBody($this->odtToHtml($reviewed_file->getId()));
-                $this->get('session')->getFlashBag()->add('notice', 'N.B. Some of the original formatting may have been lost in the conversion.');
-            }
+            $doc->setBody($reviewed_file->getDoc()->getBody());
             $em->persist($doc);
             $em->persist($file);
             $em->flush();
             return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(), 'view' => 'app')));
         } elseif ($type == 'saveas') {
-            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
             $file->setName('SaveAs Document');
             $form = $this->createForm(new DocType($options), $file);
             return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
@@ -299,6 +288,7 @@ class FileController extends Controller
             ));
         }
     }
+
 
 
     /**
@@ -569,14 +559,8 @@ class FileController extends Controller
         }
         $file->setUser($user);
         $file->setCourse($course);
-        $file->setName('New Upload');
         $file->setProject($project);
         $form = $this->createForm(new UploadType($options), $file);
-
-        $request = $this->getRequest();
-        $postData = $request->get('marca_filebundle_filetype');
-        $project = $postData['project'];
-
 
         if ($this->getRequest()->getMethod() === 'POST') {
             $form->submit($this->getRequest());
@@ -662,18 +646,7 @@ class FileController extends Controller
                 $em = $this->getEm();
                 $em->persist($file);
                 $em->flush();
-
-                $session = $this->getRequest()->getSession();
-                if (!$session) {
-                    $uri = '../../../file/1/default/0/mine/0/0/0/list';
-                } else {
-                    if ($resource == 0) {
-                        $uri = $session->get('referrer');
-                    } else {
-                        $uri = $session->get('resource_referrer');
-                    }
-                    return $this->redirect($uri);
-                }
+                return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'project'=> $project, 'scope'=> 'reviews')));
 
             }
 

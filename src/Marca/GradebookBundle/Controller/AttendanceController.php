@@ -23,7 +23,7 @@ class AttendanceController extends Controller
      * Creates a new Attendance entity.
      *
      * @Route("/{courseid}/{id}/{type}/create", name="attendance_create_ajax")
-     * @Method("GET")
+     * @Method("POST")
      * @Template("MarcaGradebookBundle:Attendance:new_ajax.html.twig")
      */
     public function createAjaxAction($type, $id)

@@ -57,10 +57,10 @@ class GradesetController extends Controller
     }
 
     /**
-     * Displays a form to create a new Gradeset entity.
+     * Creates a new Gradeset entity.
      *
      * @Route("/{courseid}/new", name="gradeset_new")
-     * @Method("GET")
+     * @Method("POST")
      * @Template()
      */
     public function newAction($courseid)
@@ -111,7 +111,7 @@ class GradesetController extends Controller
         $em->persist($category5);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
+        return $this->redirect($this->generateUrl('gradeset_show', array('id' => $gradeset->getId())));
         
     }
 

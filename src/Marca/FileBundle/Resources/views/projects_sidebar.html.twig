@@ -31,14 +31,14 @@
 
 <hr class="marca-spacer"/>
 <li><a data-scope-index="mine" class="project-sidebar"
-       href="{{ course_path('file_list', { 'project':  app.request.get('project'), 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My
+       href="{{ course_path('file_list', { 'project':  app.request.get('project'), 'scope': 'mine', 'resource': app.request.get('resource'), }) }}">My
         Files</a></li>
 <li><a data-scope-index="reviews" class="project-sidebar"
-       href="{{ course_path('file_list', { 'project':  app.request.get('project'), 'scope': 'reviews', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My
+       href="{{ course_path('file_list', { 'project':  app.request.get('project'), 'scope': 'reviews' }) }}">My
         Reviews</a></li>
 {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
 <li><a data-scope-index="all" class="project-sidebar"
-       href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">Shared
+       href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'all', 'resource': app.request.get('resource')}) }}">Shared
         Files</a></li>
 
 <hr class="marca-spacer"/>

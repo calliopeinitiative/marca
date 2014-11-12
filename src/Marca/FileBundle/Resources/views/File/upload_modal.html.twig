@@ -1,6 +1,9 @@
 {# Marca/FileBundle/Resources/views/File/upload.html.twig #}
+
+<script src="{{ asset('bundles/marcahome/js/bootstrap-filestyle.min.js') }}"></script>
 <script language="javascript">
     $(document).ready(function () {
+        $(":file").filestyle();
         $('#marca_filebundle_filetype_file').on('change', function () {
             var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '');
             var file = filename.substr(0, filename.lastIndexOf('.')) || filename;
@@ -30,21 +33,8 @@
         <form action="{{ action }}" method="post" {{ form_enctype(form) }}>
 
                 <div class="modal-body">
-                    {{ form_errors(form) }}
-                    <span class="btn btn-default btn-file">Select File {{ form_row (form.file) }}</span>
-                    {{ form_row (form.file) }}
-                    {{ form_row (form.name) }}
-                    <div class="{% if app.request.attributes.get('_route')=='review_upload' %}hidden{% endif %}">{{ form_row (form.project) }}</div>
-                    <div class="{% if app.request.attributes.get('_route')=='review_upload' %}hidden{% endif %}">{{ form_row (form.tag) }}</div>
-                    <div class="{% if app.request.attributes.get('_route')=='review_upload' %}hidden{% endif %}">{{ form_row (form.access) }}</div>
-                    {{ form_rest(form) }}
-                </div>
-
-                <div class="modal-footer">
-                    <div class="btn-group">
-                        <button type="submit" class="btn btn-primary" type="submit">Update</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+                    {{ form_widget(form) }}
+                    <button type="submit" class="btn btn-primary pull-right" type="submit">Post</button>
                 </div>
 
             </form>

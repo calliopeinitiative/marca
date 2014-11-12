@@ -285,8 +285,8 @@ class RollController extends Controller
                 $roll->setRole(self::ROLE_STUDENT);
                 $em->persist($roll);
             }
-             $em->flush();
          }
+         $em->flush();
          return $this->redirect($this->generateUrl('roll', array('courseid' => $courseid)));
          
      }

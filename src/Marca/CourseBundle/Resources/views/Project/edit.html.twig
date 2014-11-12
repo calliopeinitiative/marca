@@ -1,7 +1,7 @@
 {# Marca/CourseBundle/Resources/views/Project/edit.html.twig #}
 
 
-{% extends 'MarcaUserBundle::dialog.html.twig' %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -10,6 +10,10 @@
         {
             $('#toggle_modal').click(function(){
                 $('#delete_modal').modal();
+            });
+            {# form page close/cancel adjust for appropriate redirect #}
+            $('#close_form').click(function(){
+                window.location.href='{{ path('course_show', { 'courseid': courseid }) }}';
             });
         });
     </script>
@@ -21,24 +25,16 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2>{% if project.resource == false%}Folder in Projects{%else%}Unit in Resources{%endif%}</h2>
+                    <button id="close_form" type="button" class="close">&times;</button>
+                    <h2 class="panel-title small">{% if project.resource == false%}Folder in Projects{%else%}Folder in Resources{%endif%}</h2>
                 </div>
                 <div class="panel-body">
-                    {{ form_errors(edit_form) }}
-                    {{ form_row (edit_form.name) }}
-                    <div style="display: none;">{{ form_row (edit_form.resource) }}</div>
-                    <div style="{% if project.resource == 0 %}display: none;{% endif %}">{{ form_row (edit_form.coursehome) }}</div>
-                    {{ form_rest(edit_form) }}
-                </div>
-                <div class="panel-footer">
-                    <div class="btn-group">
-                        <button class="btn btn-primary" type="submit">Update</button>
-                        <a class="btn btn-default" href="{{ path('course_show', { 'courseid': courseid }) }}">Cancel</a>
-                    </div>
+                    {{ form_widget(edit_form) }}
+                    <button class="btn btn-primary pull-right" type="submit">Post</button>
                     {% if files %}
-                    <span class="pull-right">Since this Project has at least one file, it can not be deleted.</span>
+                        <span class="">Since this Folder has at least one file, it can not be deleted.</span>
                     {% else %}
-                    <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                        <a class="btn btn-warning" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
                     {% endif %}
                 </div>
             </div>
@@ -56,10 +52,7 @@
                     <p>Are you sure you want to delete?</p>
                     <form class="" action="{{ path('project_delete', { 'courseid':project.course.id,'id': project.id }) }}" method="post">
                         {{ form_widget(delete_form) }}
-                        <div class="btn-group">
-                            <button class="btn btn-danger" type="submit">Delete</button>
-                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
-                        </div>
+                        <button class="btn btn-danger" type="submit">Yes</button>
                     </form>
                 </div>
             </div><!-- /.modal-content -->

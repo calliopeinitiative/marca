@@ -1,44 +1,33 @@
 {# Marca/CourseBundle/Resources/views/Project/new.html.twig #}
 
-
-{% extends 'MarcaUserBundle::dialog.html.twig' %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script>
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            {# form page close/cancel adjust for appropriate redirect #}
+            $('#close_form').click(function(){
+                window.location.href='{{ path('course_show', { 'courseid': courseid }) }}';
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
-
-<script language="javascript"> 
-$(document).ready(function()
-{
-$('form li').addClass('alert alert-error');
-});
-</script>
-
 <div class="col-sm-6 center">
     <div class="panel panel-default">
         <form class="form" action="{{ path('project_create', { 'courseid': courseid, 'resource':project.resource }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-
         <div class="panel-heading">
-            <h2 class="panel-title small">New {% if project.resource == 0%}Folder in Projects{%else%}Unit in Resources{%endif%}</h2>
+            <button id="close_form" type="button" class="close">&times;</button>
+            <h2 class="panel-title small">New {% if project.resource == 0%}Folder in Projects{%else%}Folder in Resources{%endif%}</h2>
         </div>
         <div class="panel-body">
-                {{ form_errors(form) }}
-                {{ form_row (form.name) }}
-                <div style="display: none;">{{ form_row (form.resource) }}</div>
-                <div style="{% if project.resource == 0 %}display: none;{% endif %}">{{ form_row (form.coursehome) }}</div>
-                {{ form_rest(form) }}
-        </div>
-        <div class="panel-footer">
-            <div class="btn-group">
-                <button class="btn btn-primary margin-top" type="submit">Update</button>
-                <a class="btn btn-default margin-top" href="{{ path('course_show', { 'courseid': courseid }) }}">Cancel</a>
-            </div>
+            {{ form_widget(form) }}
+            <button class="btn btn-primary pull-right" type="submit">Post</button>
         </div>
         </form>
     </div>
 </div>
-
 {% endblock %}

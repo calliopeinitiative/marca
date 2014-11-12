@@ -21,7 +21,6 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="admin")
-     * @Template()
      */
     public function indexAction()
     {
@@ -37,15 +36,19 @@ class DefaultController extends Controller
         $paginator = $this->get('knp_paginator');
         $users = $paginator->paginate($users,$this->get('request')->query->get('page', 1),25);
         $count = $users->getTotalItemCount();
-        return array('count' => $count,'user' => $user,'users' => $users, 'form'=>$form->createView());
+        return $this->render('MarcaAdminBundle:Default:index.html.twig', array(
+            'count' => $count,
+            'user' => $user,
+            'users' => $users,
+            'form'=>$form->createView()
+        ));
     }
     
  
     /**
      * Find user by name,email, or username
      * @Route("/find", name="admin_find")
-     * @Template("MarcaAdminBundle:Default:index.html.twig")
-     * @Method("post")
+     * @Method("POST")
      */
     public function findAction()
     {
@@ -55,19 +58,18 @@ class DefaultController extends Controller
         $request = $this->get('request');
         $postData = $request->request->get('form');
         $name = $postData['lastname'];
-        
         $users = $em->getRepository('MarcaUserBundle:User')->findUsersByName($name);
-        
-        $form = $this->createFormBuilder(new User())
-            ->add('lastname','text', array('label'  => 'Start of name, username, or email','attr' => array('class' => 'form-control'),))
-            ->getForm();
-                
+
         //pagination
         $paginator = $this->get('knp_paginator');
         $users = $paginator->paginate($users,$this->get('request')->query->get('page', 1),25);
         $count = $users->getTotalItemCount();
-        
-        return array('count' => $count,'user' => $user,'users' => $users, 'form'=>$form->createView());
+
+        return $this->render('MarcaAdminBundle:Default:find.html.twig',  array(
+            'count' => $count,
+            'user' => $user,
+            'users' => $users,
+        ));
     }
 
     /**

@@ -19,7 +19,7 @@ class FileType extends AbstractType
     {
         $options = $this->options;
         $builder
-             ->add('name','text', array('attr' => array('class' => 'text form-control'),))
+             ->add('name','text', array('attr' => array('class' => 'text form-control', 'placeholder' => 'Name of your file'),))
              ->add('url','hidden')
              ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
                 function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {

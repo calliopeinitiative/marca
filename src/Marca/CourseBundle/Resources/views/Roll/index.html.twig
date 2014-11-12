@@ -8,10 +8,14 @@
         $(document).ready(function () {
             {% for roll in roll %}
             $('#absent{{roll.id}}').click(function () {
-                $('#absent_container{{ roll.id }}').load('{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '0' }) }}');
+                $.post( "{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '0' }) }}").done(function( data ) {
+                    $('#absent_container{{ roll.id }}').html(data);
+                 });
             });
             $('#tardy{{ roll.id }}').click(function () {
-                $('#tardy_container{{ roll.id }}').load('{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '1' }) }}');
+                $.post( "{{ course_path('attendance_create_ajax', { 'id': roll.id, 'type': '1' }) }}").done(function( data ) {
+                    $('#tardy_container{{ roll.id }}').html(data);
+                });
             });
             {% endfor %}
         });
