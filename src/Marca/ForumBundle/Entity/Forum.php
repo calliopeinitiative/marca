@@ -164,7 +164,7 @@ class Forum
     /**
      * Set user
      *
-     * @param Marca\UserBundle\Entity\User $user
+     * @param \Marca\UserBundle\Entity\User $user
      */
     public function setUser(\Marca\UserBundle\Entity\User $user)
     {
@@ -174,7 +174,7 @@ class Forum
     /**
      * Get user
      *
-     * @return Marca\UserBundle\Entity\User 
+     * @return \Marca\UserBundle\Entity\User
      */
     public function getUser()
     {
@@ -184,7 +184,7 @@ class Forum
     /**
      * Set course
      *
-     * @param Marca\CourseBundle\Entity\Course $course
+     * @param \Marca\CourseBundle\Entity\Course $course
      */
     public function setCourse(\Marca\CourseBundle\Entity\Course $course)
     {
@@ -194,7 +194,7 @@ class Forum
     /**
      * Get course
      *
-     * @return Marca\CourseBundle\Entity\Course 
+     * @return \Marca\CourseBundle\Entity\Course
      */
     public function getCourse()
     {
@@ -209,7 +209,7 @@ class Forum
     /**
      * Add comments
      *
-     * @param Marca\ForumBundle\Entity\Comment $comments
+     * @param \Marca\ForumBundle\Entity\Comment $comments
      */
     public function addComment(\Marca\ForumBundle\Entity\Comment $comments)
     {
@@ -219,7 +219,7 @@ class Forum
     /**
      * Get comments
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getComments()
     {

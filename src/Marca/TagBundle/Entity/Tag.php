@@ -153,7 +153,7 @@ class Tag
     /**
      * Set tagset
      *
-     * @param Marca\TagBundle\Entity\Tagset $tagset
+     * @param \Marca\TagBundle\Entity\Tagset $tagset
      */
     public function setTagset(\Marca\TagBundle\Entity\Tagset $tagset)
     {
@@ -163,7 +163,7 @@ class Tag
     /**
      * Get tagset
      *
-     * @return Marca\TagBundle\Entity\Tagset 
+     * @return \Marca\TagBundle\Entity\Tagset
      */
     public function getTagset()
     {
@@ -197,7 +197,7 @@ class Tag
     /**
      * Add tagset
      *
-     * @param Marca\TagBundle\Entity\Tagset $tagset
+     * @param \Marca\TagBundle\Entity\Tagset $tagset
      */
     public function addTagset(\Marca\TagBundle\Entity\Tagset $tagset)
     {
@@ -207,7 +207,7 @@ class Tag
     /**
      * Set user
      *
-     * @param Marca\UserBundle\Entity\User $user
+     * @param \Marca\UserBundle\Entity\User $user
      */
     public function setUser(\Marca\UserBundle\Entity\User $user)
     {
@@ -217,7 +217,7 @@ class Tag
     /**
      * Get user
      *
-     * @return Marca\UserBundle\Entity\User 
+     * @return \Marca\UserBundle\Entity\User
      */
     public function getUser()
     {
@@ -228,7 +228,7 @@ class Tag
     /**
      * Remove tagset
      *
-     * @param Marca\TagBundle\Entity\Tagset $tagset
+     * @param \Marca\TagBundle\Entity\Tagset $tagset
      */
     public function removeTagset(\Marca\TagBundle\Entity\Tagset $tagset)
     {
@@ -257,6 +257,5 @@ class Tag
     {
         return $this->shared;
     }
-
 
 }

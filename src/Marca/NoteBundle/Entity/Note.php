@@ -192,7 +192,7 @@ class Note
     /**
      * Set course
      *
-     * @param Marca\CourseBundle\Entity\Course $course
+     * @param \Marca\CourseBundle\Entity\Course $course
      */
     public function setCourse(\Marca\CourseBundle\Entity\Course $course)
     {
@@ -202,7 +202,7 @@ class Note
     /**
      * Get course
      *
-     * @return Marca\CourseBundle\Entity\Course 
+     * @return \Marca\CourseBundle\Entity\Course
      */
     public function getCourse()
     {
@@ -212,7 +212,7 @@ class Note
     /**
      * Set roll
      *
-     * @param Marca\CourseBundle\Entity\Roll $roll
+     * @param \Marca\CourseBundle\Entity\Roll $roll
      */
     public function setRoll(\Marca\CourseBundle\Entity\Roll $roll)
     {
@@ -222,7 +222,7 @@ class Note
     /**
      * Get roll
      *
-     * @return Marca\CourseBundle\Entity\Roll 
+     * @return \Marca\CourseBundle\Entity\Roll
      */
     public function getRoll()
     {

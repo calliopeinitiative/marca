@@ -32,7 +32,7 @@ class FileController extends Controller
      *
      * @Route("/{courseid}/{tag}/{scope}/{user}/{resource}/{userid}/resources_sidebar", name="file_resources_sidebar")
      */
-    public function createResources_sidebarAction($courseid, $resource,$tag)
+    public function createResources_sidebarAction($courseid, $resource, $tag)
     {
         $em = $this->getEm();
         $role = $this->getCourseRole();
@@ -43,9 +43,9 @@ class FileController extends Controller
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
         $projectForTags = $em->getRepository('MarcaCourseBundle:Project')->find($project);
-        $courseForTags =  $projectForTags->getCourse();
+        $courseForTags = $projectForTags->getCourse();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseForTags);
-        return $this->render('MarcaFileBundle::resources_sidebar.html.twig', array('projects' => $projects, 'tags' => $tags,'tag' => $tag, 'systemtags' => $systemtags, 'role'=> $role));
+        return $this->render('MarcaFileBundle::resources_sidebar.html.twig', array('projects' => $projects, 'tags' => $tags, 'tag' => $tag, 'systemtags' => $systemtags, 'role' => $role));
     }
 
     /**
@@ -53,7 +53,7 @@ class FileController extends Controller
      *
      * @Route("/{courseid}/{tag}/{scope}/{user}/{resource}/{userid}/projects_sidebar", name="file_projects_sidebar")
      */
-    public function createProjects_sidebarAction($courseid, $resource,$tag, $userid)
+    public function createProjects_sidebarAction($courseid, $resource, $tag, $userid)
     {
         $em = $this->getEm();
         $role = $this->getCourseRole();
@@ -62,7 +62,7 @@ class FileController extends Controller
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($course);
-        return $this->render('MarcaFileBundle::projects_sidebar.html.twig', array('projects' => $projects, 'tags' => $tags,'tag' => $tag, 'systemtags' => $systemtags, 'role'=> $role));
+        return $this->render('MarcaFileBundle::projects_sidebar.html.twig', array('projects' => $projects, 'tags' => $tags, 'tag' => $tag, 'systemtags' => $systemtags, 'role' => $role));
     }
 
     /**
@@ -77,7 +77,7 @@ class FileController extends Controller
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $role = $this->getCourseRole();
         $byuser = $em->getRepository('MarcaUserBundle:User')->find($userid);
-        return $this->render('MarcaFileBundle::subnav.html.twig', array('roll' => $roll, 'byuser' => $byuser,'role'=> $role));
+        return $this->render('MarcaFileBundle::subnav.html.twig', array('roll' => $roll, 'byuser' => $byuser, 'role' => $role));
     }
 
 
@@ -94,10 +94,9 @@ class FileController extends Controller
         $session = $this->get('session');
         $request = $this->getRequest();
         if ($resource == 0) {
-        $session->set('referrer', $request->getRequestUri());
-        }
-        else {
-        $session->set('resource_referrer', $request->getRequestUri());
+            $session->set('referrer', $request->getRequestUri());
+        } else {
+            $session->set('resource_referrer', $request->getRequestUri());
         }
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
@@ -107,28 +106,28 @@ class FileController extends Controller
 
         if ($scope == 'reviews')
             $files = $em->getRepository('MarcaFileBundle:File')->findReviewFiles($project, $user, $scope, $byuser, $role);
-        elseif ($role==2 and $scope=='all') {
+        elseif ($role == 2 and $scope == 'all') {
             $files = $em->getRepository('MarcaFileBundle:File')->findAllFilesByProjectInstructor($project, $user, $tag);
-        }
-        elseif ($role!=2 and $scope=='all') {
-            $files = $em->getRepository('MarcaFileBundle:File')->findAllFilesByProjectStudent($project, $user,$tag);
-        }
-        elseif ($role==2 and $scope=='byuser') {
+        } elseif ($role != 2 and $scope == 'all') {
+            $files = $em->getRepository('MarcaFileBundle:File')->findAllFilesByProjectStudent($project, $user, $tag);
+        } elseif ($role == 2 and $scope == 'byuser') {
             $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProjectByuserInstructor($project, $tag, $byuser);
-        }
-        elseif ($role!=2 and $scope=='byuser') {
+        } elseif ($role != 2 and $scope == 'byuser') {
             $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProjectByuserStudent($project, $tag, $byuser);
-        }
-        elseif ($scope=='mine') {
+        } elseif ($scope == 'mine') {
             $files = $em->getRepository('MarcaFileBundle:File')->findMyFilesByProject($project, $user, $tag);
         }
 
-        if ($resource==0) {$template = 'MarcaFileBundle:File:projects_index.html.twig'; } else {$template = 'MarcaFileBundle:File:resources_index.html.twig';}
+        if ($resource == 0) {
+            $template = 'MarcaFileBundle:File:projects_index.html.twig';
+        } else {
+            $template = 'MarcaFileBundle:File:resources_index.html.twig';
+        }
 
-        return $this->render($template, array('files' => $files, 'role'=> $role,'course' => $course));
-    }  
-           
- 
+        return $this->render($template, array('files' => $files, 'role' => $role, 'course' => $course));
+    }
+
+
     /**
      * Finds and displays a File entity.
      *
@@ -137,7 +136,7 @@ class FileController extends Controller
     public function showModalAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);    
+        $this->restrictAccessTo($allowed);
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $deleteForm = $this->createDeleteForm($id);
@@ -146,7 +145,7 @@ class FileController extends Controller
         }
         return $this->render('MarcaFileBundle:File:show_modal.html.twig', array('file' => $file, 'delete_form' => $deleteForm->createView(),));
     }
-    
+
     /**
      * Finds and displays a File entity.
      *
@@ -155,24 +154,28 @@ class FileController extends Controller
     public function toggleReleaseAction($id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed); 
+        $this->restrictAccessTo($allowed);
         $session = $this->getRequest()->getSession();
-        if (!$session){$uri='../../../file/1/recent/0/mine/0/0/0/list';}
-        else {
-        $uri = $session->get('referrer');
+        if (!$session) {
+            $uri = '../../../file/1/recent/0/mine/0/0/0/list';
+        } else {
+            $uri = $session->get('referrer');
         }
-        
+
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-        if ($file->getAccess()==2){$file->setAccess('0');}
-        else {$file->setAccess('2');}
+        if ($file->getAccess() == 2) {
+            $file->setAccess('0');
+        } else {
+            $file->setAccess('2');
+        }
         $em->persist($file);
         $em->flush();
 
         return $this->redirect($uri);
-        
+
     }
-    
+
     /**
      * Finds and displays a File entity.
      *
@@ -181,26 +184,27 @@ class FileController extends Controller
     public function releaseAllAction($courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed); 
+        $this->restrictAccessTo($allowed);
         $session = $this->getRequest()->getSession();
-        if (!$session){$uri='../../../file/1/default/0/mine/0/0/0/list';}
-        else {
-        $uri = $session->get('referrer');
+        if (!$session) {
+            $uri = '../../../file/1/default/0/mine/0/0/0/list';
+        } else {
+            $uri = $session->get('referrer');
         }
         $user = $this->getUser();
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $files = $em->getRepository('MarcaFileBundle:File')->findHidden($user,$course);
-        foreach($files as $file){
-           $file->setAccess('0');
-           $em->persist($file);
-         }
-         $em->flush();
+        $files = $em->getRepository('MarcaFileBundle:File')->findHidden($user, $course);
+        foreach ($files as $file) {
+            $file->setAccess('0');
+            $em->persist($file);
+        }
+        $em->flush();
 
         return $this->redirect($uri);
-    }    
-    
-       
+    }
+
+
     /**
      * Displays a form to create a new File entity for a LINK listing.
      *
@@ -218,103 +222,97 @@ class FileController extends Controller
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $project = $course->getProjectDefault();
-        $options = array('courseid' => $courseid, 'resource'=> $resource);
+        $options = array('courseid' => $courseid, 'resource' => $resource);
 
         $file = new File();
         $file->setUser($user);
         $file->setCourse($course);
-        if ($resource!=0){
+        if ($resource != 0) {
             $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
             $file->setAccess(1);
         }
         $file->setProject($project);
 
         if ($type == 'link') {
-        $file->setName('New Link');
-        $file->setUrl('http://newlink.edu');
-        $form   = $this->createForm(new LinkType($options), $file);
-        return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
-            'file'      => $file,
-            'resource'      => $resource,
-            'tag'      => $tag,
-            'type'      => $type,
-            'tags'        => $tags,
-            'roll'        => $roll,
-            'course' => $course,
-            'form'   => $form->createView()
-        ));
-        }
-        elseif ($type == 'doc') {
-        $file->setName('New Document'); 
-        $form   = $this->createForm(new DocType($options), $file);
-        return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
-            'file'      => $file,
-            'resource'      => $resource,
-            'tag'      => $tag,
-            'type'      => $type,
-            'tags'        => $tags,
-            'roll'        => $roll,
-            'course' => $course,
-            'form'   => $form->createView()
-        ));
-        }
-        elseif ($type == 'review'){
-           $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
-           $file->setName('Review');
-            if ($role==2) {
+            $file->setName('New Link');
+            $file->setUrl('http://newlink.edu');
+            $form = $this->createForm(new LinkType($options), $file);
+            return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
+                'file' => $file,
+                'resource' => $resource,
+                'tag' => $tag,
+                'type' => $type,
+                'tags' => $tags,
+                'roll' => $roll,
+                'course' => $course,
+                'form' => $form->createView()
+            ));
+        } elseif ($type == 'doc') {
+            $file->setName('New Document');
+            $form = $this->createForm(new DocType($options), $file);
+            return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
+                'file' => $file,
+                'resource' => $resource,
+                'tag' => $tag,
+                'type' => $type,
+                'tags' => $tags,
+                'roll' => $roll,
+                'course' => $course,
+                'form' => $form->createView()
+            ));
+        } elseif ($type == 'review') {
+            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+            $file->setName('Review');
+            if ($role == 2) {
                 $file->setAccess('2');
-            }
-            else {
+            } else {
                 $file->setAccess('0');
             }
-           $doc = new Doc();
-           $doc->setFile($file);
-           $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
-           $file->setReviewed($reviewed_file);
-           $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
-           if ($reviewed_file->getDoc()) {
-           $doc->setBody($reviewed_file->getDoc()->getBody());
-           }
-            elseif ($reviewed_file->getExt()=='odt') {
-            $doc->setBody($this->odtToHtml($reviewed_file->getId()));
-                $this->get('session')->getFlashBag()->add('notice','N.B. Some of the original formatting may have been lost in the conversion.');
+            $doc = new Doc();
+            $doc->setFile($file);
+            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+            $file->setReviewed($reviewed_file);
+            $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
+            if ($reviewed_file->getDoc()) {
+                $doc->setBody($reviewed_file->getDoc()->getBody());
+            } elseif ($reviewed_file->getExt() == 'odt') {
+                $doc->setBody($this->odtToHtml($reviewed_file->getId()));
+                $this->get('session')->getFlashBag()->add('notice', 'N.B. Some of the original formatting may have been lost in the conversion.');
             }
-           $em->persist($doc);
-           $em->persist($file);
-           $em->flush();
-           return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $file->getId(),'view'=>'app')));
-        }
-        elseif ($type == 'saveas'){
-           $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
-           $file->setName('SaveAs Document');
-           $form   = $this->createForm(new DocType($options), $file);
-           return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
-                'file'      => $file,
-                'resource'      => $resource,
-                'tag'      => $tag,
-                'type'      => $type,
-                'tags'        => $tags,
-                'roll'        => $roll,
+            $em->persist($doc);
+            $em->persist($file);
+            $em->flush();
+            return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(), 'view' => 'app')));
+        } elseif ($type == 'saveas') {
+            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+            $file->setName('SaveAs Document');
+            $form = $this->createForm(new DocType($options), $file);
+            return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
+                'file' => $file,
+                'resource' => $resource,
+                'tag' => $tag,
+                'type' => $type,
+                'tags' => $tags,
+                'roll' => $roll,
                 'course' => $course,
-                'form'   => $form->createView()
+                'form' => $form->createView()
             ));
         }
     }
-      
-    
-    
+
+
     /**
      * Creates a new File entity.
      *
      * @Route("/{courseid}/{resource}/{tag}/{type}/{fileid}/create", defaults={ "fileid" = 0 }, name="file_create")
      * @Method("post")
      */
-    public function createAction($courseid,$resource, $tag, $type, $fileid)
+    public function createAction($courseid, $resource, $tag, $type, $fileid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
-        $file  = new File();
+
+        $file = new File();
         $em = $this->getEm();
         $user = $this->getUser();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
@@ -322,21 +320,19 @@ class FileController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $file->setUser($user);
         $file->setCourse($course);
-        $options = array('courseid' => $courseid, 'resource'=> $resource);
+        $options = array('courseid' => $courseid, 'resource' => $resource);
         $request = $this->getRequest();
         $postData = $request->get('marca_filebundle_filetype');
         $project = $postData['project'];
-        $form    = $this->createForm(new FileType($options), $file);
+        $form = $this->createForm(new FileType($options), $file);
         $form->submit($request);
         if ($type == 'doc') {
-        $doc  = new Doc();
-        $doc->setFile($file);
-        $doc->setBody('<p> </p>');
-        }
-        elseif ($type == 'review'){
+            $doc = new Doc();
+            $doc->setFile($file);
+            $doc->setBody('<p> </p>');
+        } elseif ($type == 'review') {
 
-        }
-        elseif ($type == 'saveas'){
+        } elseif ($type == 'saveas') {
             $doc = new Doc();
             $doc->setFile($file);
             $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
@@ -345,29 +341,28 @@ class FileController extends Controller
         if ($form->isValid()) {
             $em = $this->getEm();
             $em->persist($file);
-            if ($type == 'doc' || $type == 'review'|| $type == 'instr_review' || $type == 'saveas') {
-            $em->persist($doc);
+            if ($type == 'doc' || $type == 'review' || $type == 'instr_review' || $type == 'saveas') {
+                $em->persist($doc);
             }
             $em->flush();
 
-        if ($type == 'link') {
-        return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'id'=> $file->getId(),'scope'=>'mine','project'=>$project, 'tag'=>'0', 'userid'=>'0', 'resource'=>$resource, 'user'=>'0')));
-        }
-        elseif ($type == 'doc' || $type == 'review' || $type == 'instr_review' || $type == 'saveas') {
-        return $this->redirect($this->generateUrl('doc_edit', array('courseid'=> $courseid,'id'=> $file->getId(),'view'=>'app')));
-        }
+            if ($type == 'link') {
+                return $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'id' => $file->getId(), 'scope' => 'mine', 'project' => $project, 'tag' => '0', 'userid' => '0', 'resource' => $resource, 'user' => '0')));
+            } elseif ($type == 'doc' || $type == 'review' || $type == 'instr_review' || $type == 'saveas') {
+                return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(), 'view' => 'app')));
+            }
 
         }
 
         return $this->render('MarcaFileBundle:File:new.html.twig', array(
-            'file'      => $file,
-            'resource'      => $resource,
-            'tag'      => $tag,
-            'type'      => $type,
-            'tags'        => $tags,
-            'roll'        => $roll,
+            'file' => $file,
+            'resource' => $resource,
+            'tag' => $tag,
+            'type' => $type,
+            'tags' => $tags,
+            'roll' => $roll,
             'course' => $course,
-            'form'   => $form->createView()
+            'form' => $form->createView()
         ));
     }
 
@@ -388,29 +383,27 @@ class FileController extends Controller
         $url = $file->getUrl();
         $course = $file->getCourse();
         $file_courseid = $course->getId();
-        $options = array('courseid' => $file_courseid, 'resource'=> $resource);
+        $options = array('courseid' => $file_courseid, 'resource' => $resource);
 
 
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
-        }
-        elseif($user != $file->getUser()){
+        } elseif ($user != $file->getUser()) {
             throw new AccessDeniedException();
         };
 
         //test to see if this is a link update
         if (empty($url)) {
             $editForm = $this->createEditForm($file, $courseid, $options, $resource);
-        }
-        else {
+        } else {
             $editForm = $this->createForm(new LinkType($options), $file);
         }
 
 
         return $this->render('MarcaFileBundle:File:edit_modal.html.twig', array(
-            'file'      => $file,
+            'file' => $file,
             'course' => $course,
-            'edit_form'   => $editForm->createView(),
+            'edit_form' => $editForm->createView(),
         ));
     }
 
@@ -424,16 +417,13 @@ class FileController extends Controller
     private function createEditForm(File $file, $courseid, $options, $resource)
     {
         $form = $this->createForm(new FileType($options), $file, array(
-            'action' => $this->generateUrl('file_update', array('id' => $file->getId(),'courseid' => $courseid,'resource' => $resource)),
+            'action' => $this->generateUrl('file_update', array('id' => $file->getId(), 'courseid' => $courseid, 'resource' => $resource)),
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        $form->add('submit', 'submit', array('label' => 'Post', 'attr' => array('class' => 'btn btn-primary pull-right'),));
         return $form;
     }
-
-
-
 
 
     /**
@@ -443,7 +433,7 @@ class FileController extends Controller
      * @Method("post")
      * @Template("MarcaFileBundle:File:edit.html.twig")
      */
-    public function updateAction($id,$courseid,$resource)
+    public function updateAction($id, $courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -454,49 +444,48 @@ class FileController extends Controller
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $course = $file->getCourse();
         $file_courseid = $course->getId();
-        $options = array('courseid' => $file_courseid, 'resource'=> $resource);
+        $options = array('courseid' => $file_courseid, 'resource' => $resource);
 
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File entity.');
-        }
-        elseif($user != $file->getUser()){
+        } elseif ($user != $file->getUser()) {
             throw new AccessDeniedException();
         }
 
-        $editForm   = $this->createForm(new FileType($options), $file);
+        $editForm = $this->createForm(new FileType($options), $file);
 
         $request = $this->getRequest();
         $postData = $request->get('marca_filebundle_filetype');
         $project = $postData['project'];
         $resource = $em->getRepository('MarcaCourseBundle:Project')->find($project);
         $resource = $resource->getResource();
-        if (!$resource)
-        {$resource = '0';}
+        if (!$resource) {
+            $resource = '0';
+        }
 
 
         $editForm->handleRequest($request);
 
-            $em->persist($file);
-            $em->flush();
+        $em->persist($file);
+        $em->flush();
 
-            $session = $this->getRequest()->getSession();
-            if (!$session){$uri='../../../file/1/default/0/mine/0/0/0/list';}
-            else {
-                if ($resource==0) {
-                    $uri = $session->get('referrer');
-                }
-                else {
-                    $uri = $session->get('resource_referrer');
-                }
+        $session = $this->getRequest()->getSession();
+        if (!$session) {
+            $uri = '../../../file/1/default/0/mine/0/0/0/list';
+        } else {
+            if ($resource == 0) {
+                $uri = $session->get('referrer');
+            } else {
+                $uri = $session->get('resource_referrer');
+            }
             return $this->redirect($uri);
 
         }
 
     }
-
 
 
     /**
@@ -523,103 +512,104 @@ class FileController extends Controller
                 throw $this->createNotFoundException('Unable to find File entity.');
             }
 
-            
+
             if ($doc) {
-            $em->remove($doc);
-            $em->getRepository('MarcaFileBundle:File')->deleteEdoc($id);
+                $em->remove($doc);
+                $em->getRepository('MarcaFileBundle:File')->deleteEdoc($id);
+            } else {
+                $em->remove($file);
             }
-            else {$em->remove($file);}
             $em->flush();
         }
 
         $session = $this->getRequest()->getSession();
-        if (!$session){$uri='../../../file/1/default/0/mine/0/0/0/list';}
-        else {
-            if ($resource==0) {
+        if (!$session) {
+            $uri = '../../../file/1/default/0/mine/0/0/0/list';
+        } else {
+            if ($resource == 0) {
                 $uri = $session->get('referrer');
-            }
-            else {
+            } else {
                 $uri = $session->get('resource_referrer');
             }
-            return $this->redirect($uri);}
+            return $this->redirect($uri);
         }
+    }
 
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
-            ->getForm()
-        ;
+            ->getForm();
     }
 
     /**
      * Uploads a file with a Document entity.
      *
      * @Route("/{courseid}/{resource}/upload", name="file_upload")
-     */    
-     public function uploadAction($courseid, $resource)
-     {
-         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-         $this->restrictAccessTo($allowed);
-        
-         $em = $this->getEm();
-         $user = $this->getUser();
-         $role = $this->getCourseRole();
-         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-         $project = $course->getProjectDefault();
-         $options = array('courseid' => $courseid, 'resource'=> $resource, 'review'=>'no');
-         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
-         
-         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
-         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-         $file = new File();
-         if ($resource!=0){
-             $file->setAccess(1);
-             $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
-         }
-         $file->setUser($user);
-         $file->setCourse($course);
-         $file->setName('New Upload');
-         $file->setProject($project);
-         $form = $this->createForm(new UploadType($options), $file);
-         
+     */
+    public function uploadAction($courseid, $resource)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $role = $this->getCourseRole();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $project = $course->getProjectDefault();
+        $options = array('courseid' => $courseid, 'resource' => $resource, 'review' => 'no');
+        $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
+
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $file = new File();
+        if ($resource != 0) {
+            $file->setAccess(1);
+            $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
+        }
+        $file->setUser($user);
+        $file->setCourse($course);
+        $file->setName('New Upload');
+        $file->setProject($project);
+        $form = $this->createForm(new UploadType($options), $file);
+
         $request = $this->getRequest();
         $postData = $request->get('marca_filebundle_filetype');
         $project = $postData['project'];
 
 
-         if ($this->getRequest()->getMethod() === 'POST') {
-             $form->submit($this->getRequest());
-             if ($form->isValid()) {
-                 $em = $this->getEm();
-                 $em->persist($file);
-                 $em->flush();
+        if ($this->getRequest()->getMethod() === 'POST') {
+            $form->submit($this->getRequest());
+            if ($form->isValid()) {
+                $em = $this->getEm();
+                $em->persist($file);
+                $em->flush();
 
-                 $session = $this->getRequest()->getSession();
-                 if (!$session){$uri='../../../file/1/default/0/mine/0/0/0/list';}
-                 else {
-                     if ($resource==0) {
-                         $uri = $session->get('referrer');
-                     }
-                     else {
-                         $uri = $session->get('resource_referrer');
-                     }
+                $session = $this->getRequest()->getSession();
+                if (!$session) {
+                    $uri = '../../../file/1/default/0/mine/0/0/0/list';
+                } else {
+                    if ($resource == 0) {
+                        $uri = $session->get('referrer');
+                    } else {
+                        $uri = $session->get('resource_referrer');
+                    }
 
 
-                     return $this->redirect($uri);
-                 }
-             }
-             
-         }
+                    return $this->redirect($uri);
+                }
+            }
 
-    return $this->render('MarcaFileBundle:File:upload_modal.html.twig', array(
-        'form' => $form->createView(),
-        'tags'  => $tags,
-        'systemtags'  => $systemtags,
-        'roll'  => $roll,
-        'role'  => $role,
-        'course' => $course,));
-     }
+        }
+
+        return $this->render('MarcaFileBundle:File:upload_modal.html.twig', array(
+            'form' => $form->createView(),
+            'tags' => $tags,
+            'systemtags' => $systemtags,
+            'roll' => $roll,
+            'role' => $role,
+            'course' => $course,));
+    }
 
 
     /**
@@ -648,10 +638,9 @@ class FileController extends Controller
         $file->setCourse($course);
         $file->setName('Review');
         $file->setProject($project);
-        if ($role==2) {
+        if ($role == 2) {
             $file->setAccess('2');
-        }
-        else {
+        } else {
             $file->setAccess('0');
         }
         $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
@@ -662,8 +651,9 @@ class FileController extends Controller
         $request = $this->getRequest();
         $postData = $request->get('marca_filebundle_filetype');
         $project = $postData['project'];
-        if (!$resource)
-        {$resource = '0';}
+        if (!$resource) {
+            $resource = '0';
+        }
 
 
         if ($this->getRequest()->getMethod() === 'POST') {
@@ -674,12 +664,12 @@ class FileController extends Controller
                 $em->flush();
 
                 $session = $this->getRequest()->getSession();
-                if (!$session){$uri='../../../file/1/default/0/mine/0/0/0/list';}
-                else {
-                    if ($resource==0) {
+                if (!$session) {
+                    $uri = '../../../file/1/default/0/mine/0/0/0/list';
+                } else {
+                    if ($resource == 0) {
                         $uri = $session->get('referrer');
-                    }
-                    else {
+                    } else {
                         $uri = $session->get('resource_referrer');
                     }
                     return $this->redirect($uri);
@@ -691,126 +681,109 @@ class FileController extends Controller
 
         return $this->render('MarcaFileBundle:File:upload_modal.html.twig', array(
             'form' => $form->createView(),
-            'tags'  => $tags, 'systemtags'  => $systemtags,
-            'roll'  => $roll,
+            'tags' => $tags, 'systemtags' => $systemtags,
+            'roll' => $roll,
             'course' => $course,));
     }
-
 
 
     /**
      * Finds and displays a File.
      *
      * @Route("/{courseid}/{id}/get/{filename}", name="file_get", defaults={"filename" = "name.ext"})
-     * 
-     */     
-    public function getAction($id)
-	{
-             $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
-             $this->restrictAccessTo($allowed);
-        
-             $em = $this->getEm();
-             $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-             $name = $file->getName();
-             $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
-             $path = $helper->asset($file, 'file');
-             $ext = strtolower($file->getExt());
-             $filename = $name.'.'.$ext;
-		
-		$response = new Response();
-
-		$response->setStatusCode(200);
-                switch ($ext) {
-                      case "png":
-                      $response->headers->set('Content-Type', 'image/png');
-                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
-                      break;
-                      case "gif":
-                      $response->headers->set('Content-Type', 'image/gif');
-                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
-                      break;
-                      case "jpeg":
-                      $response->headers->set('Content-Type', 'image/jpeg');
-                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
-                      break;
-                      case "jpg":
-                      $response->headers->set('Content-Type', 'image/jpeg');
-                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
-                      break;
-                      case "mpeg":
-                      $response->headers->set('Content-Type', 'audio/mpeg');
-                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
-                      break;
-                      case "mp3":
-                      $response->headers->set('Content-Type', 'audio/mp3');
-                      $response->headers->set('Content-Disposition', 'filename="'.$filename.'"');
-                      break;
-                      case "odt":
-                      $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.text');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
-                      break;
-                      case "ods":
-                      $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
-                      break;
-                      case "odp":
-                      $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.presentation');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
-                      break;
-                      case "doc":
-                      $response->headers->set('Content-Type', 'application/vnd.msword');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
-                      break;
-                      case "docx":
-                      $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
-                      break;
-                      case "ppt":
-                      $response->headers->set('Content-Type', 'application/vnd.mspowerpoint');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
-                      break;
-                      case "pptx":
-                      $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.presentationml.presentation');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
-                      break;
-                      case "xls":
-                      $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
-                      break;
-                      case "xlsx":
-                      $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
-                      break;
-                      case "pdf":
-                      $response->headers->set('Content-Type', 'application/pdf');
-                      $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
-                      break;
-                      default:
-                      $response->headers->set('Content-Type', 'application/octet-stream');
-                      }
-		$response->setContent( file_get_contents( $path));
-
-		return $response;
-	}
-
-    /**
-     * Finds and returns an XSL transformation of a odf File entity.
      *
      */
-    public function odtToHtml($id)
+    public function getAction($id)
     {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $name = $file->getName();
         $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
-        $odtfile = $helper->asset($file, 'file');
-        $xsltfile = __DIR__.'/../../../../src/Marca/DocBundle/Resources/xsl/odt2html.xsl';
+        $path = $helper->asset($file, 'file');
+        $ext = strtolower($file->getExt());
+        $filename = $name . '.' . $ext;
 
-        $html4doc = $this->odt2html($odtfile, $xsltfile)->render_inline_images()->get_html();
-        return $html4doc;
+        $response = new Response();
+
+        $response->setStatusCode(200);
+        switch ($ext) {
+            case "png":
+                $response->headers->set('Content-Type', 'image/png');
+                $response->headers->set('Content-Disposition', 'filename="' . $filename . '"');
+                break;
+            case "gif":
+                $response->headers->set('Content-Type', 'image/gif');
+                $response->headers->set('Content-Disposition', 'filename="' . $filename . '"');
+                break;
+            case "jpeg":
+                $response->headers->set('Content-Type', 'image/jpeg');
+                $response->headers->set('Content-Disposition', 'filename="' . $filename . '"');
+                break;
+            case "jpg":
+                $response->headers->set('Content-Type', 'image/jpeg');
+                $response->headers->set('Content-Disposition', 'filename="' . $filename . '"');
+                break;
+            case "mpeg":
+                $response->headers->set('Content-Type', 'audio/mpeg');
+                $response->headers->set('Content-Disposition', 'filename="' . $filename . '"');
+                break;
+            case "mp3":
+                $response->headers->set('Content-Type', 'audio/mp3');
+                $response->headers->set('Content-Disposition', 'filename="' . $filename . '"');
+                break;
+            case "odt":
+                $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.text');
+                $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                break;
+            case "ods":
+                $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet');
+                $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                break;
+            case "odp":
+                $response->headers->set('Content-Type', 'application/vnd.oasis.opendocument.presentation');
+                $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                break;
+            case "doc":
+                $response->headers->set('Content-Type', 'application/vnd.msword');
+                $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                break;
+            case "docx":
+                $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+                $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                break;
+            case "ppt":
+                $response->headers->set('Content-Type', 'application/vnd.mspowerpoint');
+                $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                break;
+            case "pptx":
+                $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.presentationml.presentation');
+                $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                break;
+            case "xls":
+                $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+                $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                break;
+            case "xlsx":
+                $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                break;
+            case "pdf":
+                $response->headers->set('Content-Type', 'application/pdf');
+                $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                break;
+            default:
+                $response->headers->set('Content-Type', 'application/octet-stream');
+        }
+        $response->setContent(file_get_contents($path));
+
+        return $response;
     }
 
 
-   /**
+    /**
      * Finds and displays an ODF or PDF with Viewer.js
      *
      * @Route("/{courseid}/{id}/{view}/view_file", name="file_view")
@@ -827,12 +800,9 @@ class FileController extends Controller
         $user = $this->getUser();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
 
-        if ($review_file)
-        {
+        if ($review_file) {
             $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
-        }
-        else
-        {
+        } else {
             $parent_file = $file;
         }
 
@@ -842,14 +812,14 @@ class FileController extends Controller
             throw $this->createNotFoundException('Unable to find File entity.');
         }
 
-            return $this->render('MarcaDocBundle:Doc:show.html.twig', array(
-            'role'      => $role,
-            'roll'      => $roll,
-            'file'        => $file,
-            'parent_file'        => $parent_file,
+        return $this->render('MarcaDocBundle:Doc:show.html.twig', array(
+            'role' => $role,
+            'roll' => $roll,
+            'file' => $file,
+            'parent_file' => $parent_file,
             'reviews' => $reviews,
             'markup' => $markup,
-             ));
+        ));
 
 
     }
@@ -872,12 +842,9 @@ class FileController extends Controller
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
 
 
-        if ($review_file)
-        {
+        if ($review_file) {
             $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
-        }
-        else
-        {
+        } else {
             $parent_file = $file;
         }
 
@@ -888,218 +855,14 @@ class FileController extends Controller
         }
 
         return $this->render('MarcaDocBundle:Doc:show_ajax.html.twig', array(
-            'role'      => $role,
-            'roll'      => $roll,
-            'file'        => $file,
-            'parent_file'        => $parent_file,
+            'role' => $role,
+            'roll' => $roll,
+            'file' => $file,
+            'parent_file' => $parent_file,
             'reviews' => $reviews,
             'markup' => $markup,
         ));
 
 
     }
- 
-   /**
-     * Finds and displays an XSL transformation of a File entity.
-     *
-     * @Route("/{courseid}/{id}/{view}/convert_odt", name="file_convert_odt")
-     */
-    public function convertOdtAction($id)
-    {
-        
-        $em = $this->getEm();
-        $org_file = $em->getRepository('MarcaFileBundle:File')->find($id);
-        $org_file_project = $org_file->getProject();
-        $org_file_access = $org_file->getAccess();
-        $org_file_name = $org_file->getName(). ' converted';
-        $user = $this->getUser();
-        $course = $this->getCourse();
-        $file  = new File();
-        $file->setUser($user);
-        $file->setCourse($course);
-        $file->setProject($org_file_project);
-        $file->setAccess($org_file_access);
-        $file->setName($org_file_name);
-        $doc = new Doc();
-        $doc->setFile($file);
-        $role = $this->getCourseRole();
-
-        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
-
-        if (!$org_file) {
-            throw $this->createNotFoundException('Unable to find File entity.');
-        }
-
-            $html4doc = $this->odtToHtml($id);
-            $doc->setBody($html4doc);
-            $em->persist($file);
-            $em->persist($doc);
-            $em->flush();
-            return $this->render('MarcaDocBundle:Doc:show.html.twig', array(
-            'doc'      => $doc,
-            'role'      => $role,    
-            'file'        => $file,
-            'markup' => $markup,
-             ));
-          
-
-    }    
-            
-                
-                
-	//------------------------------------------------------------------------------------------
-	// ODT 2 HTML
-	//------------------------------------------------------------------------------------------
-	private $html;
-	private $odtZipfilename;
-
-	public function odt2html($odtfile, $xsltfile)
-	{
-		$xslFile = "odt";
-		$xslDoc = new \DOMDocument();
-		$xslDoc->load($xsltfile);
-
-		$odtZipfilename = "zip://"  . $odtfile;
-		$xmlDoc = new \DOMDocument();
-		$xmlDoc->load("$odtZipfilename#content.xml");
-		$this->odtZipfilename = $odtZipfilename;
-
-		$proc = new \XSLTProcessor();
-		$proc->importStylesheet($xslDoc);
-		$html = $proc->transformToXML($xmlDoc);
-
-		$this->html = $html;
-                return $this;
-	}
-
-
-
-	//------------------------------------------------------------------------------------------
-	// Chainable methods
-	//------------------------------------------------------------------------------------------
-
-	public function render_inline_images()
-	{
-		$html = $this->html;
-		preg_match_all('/Pictures\/.*?.png/', $html, $matches);
-		$img_files = $matches[0];
-		$img_files_src = array();
-		foreach($img_files as $img_file) {
-			$img_files_src[$img_file] = $this->odt_picture_to_inline_img($this->odtZipfilename, $img_file);
-		}
-		foreach($img_files as $img_file) {
-			$html = str_replace($img_file, $img_files_src[$img_file], $html);
-		}
-		$this->html = $html;
-		return $this;
-	}
-
-	public function save_to_htmlfile($filename, $utf8=TRUE)
-	{
-		file_put_contents($filename, $this->get_html($utf8));
-		return $this;
-	}
-
-	//------------------------------------------------------------------------------------------
-	// Methods
-	//------------------------------------------------------------------------------------------
-
-	public function get_html($utf8=TRUE, $utf8header=TRUE)
-	{
-		$html = ($utf8header) 
-		? '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . PHP_EOL . $this->html 
-		: $this->html;
-
-		return ($utf8) ? $html : utf8_decode($html);
-	}
-
-	//--------------------------------------------------------------------------------------------------
-
-	private function odt_picture_to_inline_img($odt_zip_filename, $odt_img_filename) {
-		$zip_picture_name = $odt_zip_filename . "#$odt_img_filename";
-		$file_data = self::file_to_filedata($zip_picture_name);
-
-		$gd_data = self::file_to_gddata($zip_picture_name);
-		$gd_data_scaled = self::gddata_scale($gd_data);
-		$file_data = self::gddata_to_filedata($gd_data_scaled);
-
-		return self::filedata_to_imagesrc($file_data);
-	}
-
-	//------------------------------------------------------------------------------------------
-	// Image functions
-	//------------------------------------------------------------------------------------------
-
-	static private function filedata_to_uridata($filedata, $mime='image/png') {
-		$base64   = base64_encode($filedata);
-		return ('data:' . $mime . ';base64,' . $base64);
-	}
-
-	static private function filedata_to_imagetag($filedata) {
-		$ret = '<img src="';
-		$ret .= self::filedata_to_uridata($filedata);
-		$ret .=  '" />';
-		return $ret;
-	}
-
-	static private function filedata_to_imagesrc($filedata) {
-		$ret = self::filedata_to_uridata($filedata);
-		return $ret;
-	}
-
-	static private function file_to_filedata($pngfile_name) {
-		return file_get_contents($pngfile_name);
-	}
-
-	static private function file_to_gddata($pngfile_name) {
-		return imagecreatefrompng($pngfile_name);
-	}
-
-	static private function gddata_to_filedata($gddata) {
-		ob_start();
-		imagepng($gddata);
-		imagedestroy($gddata);
-		$filedata = ob_get_contents();
-		ob_end_clean();
-		return $filedata;
-	}
-
-	static private function gddata_to_uridata($gddata) {
-		$filedata = self::gddata_to_filedata($gddata);
-		$uridata = self::filedata_to_uridata($filedata);
-		return $uridata;
-	}
-
-	static private function gddata_to_imagetag($gddata) {
-		$filedata = self::gddata_to_filedata($gddata);
-		return self::filedata_to_imagetag($filedata);
-	}
-
-	static private function gddata_process($gddata) {
-		$color = imagecolorallocate($gddata, 255, 0, 0);
-		imagefilledrectangle($gddata, 10, 10, 20, 20, $color);
-		$fontname = 'Arial.ttf';
-		$font =  dirname(__FILE__).'/fonts/'.$fontname;
-		imagettftext($gddata, 20, 0, 50, 50, $color, $font, 'Hello');
-		return $gddata;
-	}
-
-	static private function gddata_resize($gddata, $new_w, $new_h) {
-		$current_w = imageSX($gddata);
-		$current_h = imageSY($gddata);
-		$new_gddata = ImageCreateTrueColor($new_w, $new_h);
-		imagecopyresampled($new_gddata,$gddata,0,0,0,0,$new_w,$new_h,$current_w,$current_h );
-		return $new_gddata;
-	}
-
-	static private function gddata_scale($gddata, $factor=1) {
-		$current_w = imageSX($gddata);
-		$current_h = imageSY($gddata);
-		$new_w = $current_w * $factor;
-		$new_h = $current_h * $factor;
-		$new_gddata = ImageCreateTrueColor($new_w, $new_h);
-		imagecopyresampled($new_gddata, $gddata,0,0,0,0, $new_w, $new_h, $current_w, $current_h );
-		return $new_gddata;
-	}                
-                
 }
