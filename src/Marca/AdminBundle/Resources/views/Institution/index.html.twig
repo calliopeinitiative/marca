@@ -11,7 +11,7 @@
                 $('#inst_modal').load('{{ path('inst_new_modal') }}').modal();
             });
             {% if newInstitution %}
-            $('#term_modal').load('{{ path('term_new_modal', {'instId':newInstitution}) }}').modal();;
+            $('#term_modal').load('{{ path('term_new_modal', {'instId':newInstitution}) }}').modal();
             {% endif %}
             $('.toggle').toggle();
         });
@@ -52,9 +52,6 @@
                 </tbody>
             </table>
 
-        </div>
-        <div class="panel-footer">
-            <span class="text-muted"> </span>
         </div>
     </div>
 
