@@ -1,7 +1,8 @@
 {# Marca/JournalBundle/Resources/views/sidebar.html.twig #}
 {# esi fragment for journal sidebar #}
 
-<h1><a  title='Journal Home' href="{{ course_path('journal_list') }}" class="marca-gray">Journal</a></h1>
+<h1 class="marca-gray">Journal</h1>
+
 <a class="btn btn-primary margin-bottom-medium" href="{{ course_path('journal_new')  }}">Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
 {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
 

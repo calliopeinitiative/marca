@@ -1,6 +1,10 @@
 {# Marca/ResponseBundle/Resources/views/Response/edit.html.twig #}
 
-{% extends 'MarcaResponseBundle::layout.html.twig' %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
+
+{% block title %}Response{% endblock %}
+
+{% block sidebar %}<h1 class="marca-gray">Response</h1>{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -36,7 +40,7 @@
                     <div class="panel-heading">
                         <button id="close_form" type="button" class="close">&times;</button>
                         <h2 class="panel-title small">
-                            Journal Response
+                            Response
                         </h2>
                     </div>
                     <div class="panel-body">

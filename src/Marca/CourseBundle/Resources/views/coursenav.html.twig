@@ -19,22 +19,17 @@
     </script>
     {# Course select #}
     <li class="dropdown">
-        <a href="{{ course_path('course_home') }}"  title="Course Home">
-            {{ course.name|slice(0, 15) }}
-            <span class="caret"></span>
-        </a>
+        <a href="{{ course_path('course_home') }}">{{ course.name|slice(0, 15) }}<span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
             <li>
-                <a title='Select course' id='course_select' href="javascript:void(0);"><span
-                            class="glyphicon glyphicon-random"></span>Switch Course</a>
+                <a title='Select course' id='course_select' href="javascript:void(0);"><span class="glyphicon glyphicon-random"></span>Switch Course</a>
             </li>
             <li class="divider"></li>
             {% if course.module== 0 %}
                 <li><a href="{{ course_path('roll') }}">Course Roll</a></li>{% endif %}
             {% if is_granted('ROLE_INSTR') %}
                 <li>
-                    <a href="{{ course_path('course_show') }}">{% if course.module== 0 %}Course{% else %}Module{% endif %}
-                        Settings</a></li>
+                    <a href="{{ course_path('course_show') }}">{% if course.module== 0 %}Course{% else %}Module{% endif %} Settings</a></li>
             {% endif %}
         </ul>
     </li>
@@ -42,10 +37,9 @@
     {# Resources #}
     <li>
         {% if app.session.get('resource_referrer') %}
-            <a href="{{ app.session.get('resource_referrer') }}" title="Course Resources">Resources</a>
+            <a href="{{ app.session.get('resource_referrer') }}" >Resources</a>
         {% else %}
-            <a title='Course Resources'
-               href="{{ course_path('file_list', { 'project': default_resource, 'resource': 1, 'scope': 'all'}) }}">Resources</a>
+            <a href="{{ course_path('file_list', { 'project': default_resource, 'resource': 1, 'scope': 'all'}) }}">Resources</a>
         {% endif %}
 
     </li>
@@ -54,10 +48,9 @@
     {% if course.module== 0 %}
         <li>
             {% if app.session.get('referrer') %}
-                <a title='Course Projects' href="{{ app.session.get('referrer') }} ">Projects</a>
+                <a href="{{ app.session.get('referrer') }} ">Projects</a>
             {% else %}
-                <a title='Course Projects'
-                   href="{{ course_path('file_list', { 'project': course.projectDefault.id, 'resource': 0}) }}">Projects</a>
+                <a href="{{ course_path('file_list', { 'project': course.projectDefault.id, 'resource': 0}) }}">Projects</a>
             {% endif %}
 
         </li>
@@ -65,13 +58,14 @@
 
     {# Calendar #}
     <li class="dropdown">
-        <a href="{{ course_path('calendar_display') }}" title='Course Calendar'>Calendar<b
-                    class="caret"></b></a>
+        <a href="{{ course_path('calendar_display') }}">Calendar<b class="caret"></b></a>
 
         <ul class="dropdown-menu" role="menu">
             {% if is_granted('ROLE_INSTR') %}
-                <li><a href="{{ course_path('calendar_new', {'set_date': "now"|date("Y-m-d")} ) }}"><span
-                                class="glyphicon glyphicon-calendar"></span>New Event</a></li>
+                <li><a href="{{ course_path('calendar_new', {'set_date': "now"|date("Y-m-d")} ) }}">
+                        <span class="glyphicon glyphicon-calendar"></span>New Event
+                    </a>
+                </li>
             {% endif %}
             <li><a href="{{ course_path('calendar_upcoming') }}">View Agenda</a></li>
         </ul>
@@ -80,11 +74,9 @@
 
     {# Journal #}
     {% if course.journal=='true' and course.module== 0 %}
-        <li class="dropdown"><a title='Course Journal'
-                                href="{{ course_path('journal_list') }}">Journal<b class="caret"></b></a>
+        <li class="dropdown"><a href="{{ course_path('journal_list') }}">Journal<b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li><a href="{{ course_path('journal_new') }}"><span class="glyphicon glyphicon-pencil"></span>New
-                        Journal</a></li>
+                <li><a href="{{ course_path('journal_new') }}"><span class="glyphicon glyphicon-pencil"></span>New Journal</a></li>
             </ul>
         </li>
     {% endif %}
@@ -96,11 +88,9 @@
     {# Notes #}
     {% if course.notes=='true' and course.module== 0 %}
         <li class="dropdown">
-            <a title='Course Notes'
-               href="{{ course_path('note') }}">Notes<b class="caret"></b></a>
+            <a href="{{ course_path('note') }}">Notes<b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ course_path('note_new') }}"><span class="glyphicon glyphicon-pencil"></span>New Note</a>
-                </li>
+                <li><a href="{{ course_path('note_new') }}"><span class="glyphicon glyphicon-pencil"></span>New Note</a></li>
             </ul>
         </li>
     {% endif %}
@@ -108,5 +98,5 @@
 
 {# Portfolio #}
 {% if course.portfolio=='true' and course.module== 0 %}
-    <li><a title='Course Portfolio' href="{{ course_path('portfolio') }}">Portfolio</a></li>
+    <li><a href="{{ course_path('portfolio') }}">Portfolio</a></li>
 {% endif %}

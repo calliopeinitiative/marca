@@ -94,24 +94,12 @@ class PortfolioController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $role = $this->getCourseRole();
-
-        $resource = 'false';
         $course = $this->getCourse();
         $portStatus = $course->getPortStatus();
-
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesForPort($user, $course);
-        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
-        
-        //pagination for files
-        $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),50);
-        $count = $files->getTotalItemCount();
 
         return $this->render('MarcaPortfolioBundle:Portfolio:find.html.twig', array(
             'files' => $files,
-            'count' => $count,
-            'projects' => $projects,
-            'active_project' => $project,
             'course' => $course,
             'portStatus'=> $portStatus,
             'role'=> $role,
