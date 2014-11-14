@@ -119,17 +119,23 @@
                 <li class="{% if parent_file.id == app.request.get('id') %}active{% endif %} document"
                     id="review_{{ parent_file.id }}" style="margin-top: -2px;">
                     <a href="javascript:void(0);" title="View {{ parent_file.name }}">
-                        <span style="font-size:18px;">{{ parent_file.name|slice(0,20) }} {% if parent_file.name|length > 20 %}...{% endif %}</span>
+                            <span style="font-size:18px;">{{ parent_file.name|slice(0,20) }} {% if parent_file.name|length > 20 %}...{% endif %}</span>
                         <span class="small"
                               style="font-family:proxima-nova, sans-serif;">by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}</span>
-                    </a>
+                        </a>
+
+                </li>
+                <li id="skip">
+                    <a id="sidebar_anchor" href="#main_content">Skip to Content</a>
                 </li>
                 {% for review in parent_file.reviews %}
                     {% if (parent_file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
                         <li class="{% if review.id == app.request.get('id') %}active{% endif %} document"
                             id="review_{{ review.id }}">
-                            <a title="Review by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}" href="javascript:void(0);">
-                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review" alt="Review by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}"></span>
+                            <a title="Review by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}"
+                               href="javascript:void(0);">
+                                <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"
+                                      alt="Review by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}"></span>
                                 <span class="small hidden-lg hidden-md hidden-sm hidden-xs" style="font-family:proxima-nova, sans-serif;">Review</span>
                                 <span class="small hidden-md hidden-sm"
                                       style="font-family:proxima-nova, sans-serif;">by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}</span>
@@ -231,8 +237,8 @@
         </div>
     </nav>
 
-    <div class="col-sm-11 center">
-        <a id="main_content"></a>
+    <div id="main_content" class="col-sm-11 center">
+
 
         {# Ajax fragment  #}
         {% block ajax %}
@@ -256,7 +262,7 @@
                         var id = "div[data-id='" + $(this).attr('data-id') + "']";
                         var offset = $(this).offset();
                         $('.popover').hide();
-                        $(id).show().offset({ top: offset.top - 30, left: offset.left + 80});
+                        $(id).show().offset({top: offset.top - 30, left: offset.left + 80});
                     });
                     $('.popover-close, #doc-display').click(function () {
                         $('.popover').hide();
@@ -290,6 +296,7 @@
 
             {# Document display or File Viewer #}
             <div id='file-container'>
+                <p class="sr-only">Beginning of the document content.</p>
                 {% if app.request.get('_route') == 'file_view' or app.request.get('_route') == 'file_view_ajax' %}
                     <iframe class="col-sm-8" id="viewer"
                             src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}"
@@ -306,7 +313,9 @@
                         </div>
                     </div>
                 {% endif %}
+                <p class="sr-only">End of the document content.</p>
             </div>
+
 
             {# Markup pops for this document #}
             {% for markup in markup %}

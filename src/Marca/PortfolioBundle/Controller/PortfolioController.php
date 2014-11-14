@@ -29,7 +29,10 @@ class PortfolioController extends Controller
         $role = $this->getCourseRole();
         $course = $this->getCourse();
         $portStatus = $course->getPortStatus();
-        return $this->render('MarcaPortfolioBundle::sidebar.html.twig', array('role'=> $role, 'portStatus'=> $portStatus ));
+        return $this->render('MarcaPortfolioBundle::sidebar.html.twig', array(
+            'role'=> $role,
+            'portStatus'=> $portStatus
+        ));
     }
 
     /**
@@ -180,40 +183,6 @@ class PortfolioController extends Controller
         ));
     }    
 
-    /**
-     * Adds a new Portfolio entity and redirects to edit for Portitem and Portorder.
-     *
-     * @Route("/{courseid}/{fileid}/new", name="portfolio_new")
-     * @Template()
-     */
-    public function newAction($courseid, $fileid)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        
-        $em = $this->getEm();
-        $user = $this->getUser();
-        $course = $this->getCourse();
-        $portset = $course->getPortset();
-
-        //find default portfolio
-        $portfoliosets = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
-        //select the first in the array
-        $portfolioset = reset($portfoliosets);
-        
-        $file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
-        $portitem = $portset->getPortitem()->first();
-        $portfolio = new Portfolio();
-        $portfolio->setFile($file);
-        $portfolio->setUser($user);
-        $portfolio->setCourse($course);
-        $portfolio->setPortitem($portitem);
-        $portfolio->setPortfolioset($portfolioset);
-        $em->persist($portfolio);
-        $em->flush();       
-        return $this->redirect($this->generateUrl('portfolio_edit', array('id' => $portfolio->getId(),'courseid' => $courseid)));
-    }
-
 
     /**
      * Displays a form to edit an existing Portfolio entity.
@@ -308,7 +277,6 @@ class PortfolioController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $course = $this->getCourse();
-        $portset = $course->getPortset();
 
         //find default portfolio
         $portfoliosets = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
