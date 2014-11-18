@@ -19,11 +19,6 @@
             $('#close_form').click(function(){
                 window.location.href='{{ course_path('journal_list') }}';
             });
-            {# standard delete confirmation #}
-            $('#toggle_modal').click(function(){
-                $('#delete_modal').modal();
-            });
-
             {# autosave scripts #}
             $('#saving_alert').toggle();
             var editor = CKEDITOR.instances.marca_journalbundle_journaltype_body;

@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\AssignmentBundle\Entity\Review;
 use Marca\FileBundle\Entity\File;
 use Marca\AssignmentBundle\Entity\ReviewResponse;

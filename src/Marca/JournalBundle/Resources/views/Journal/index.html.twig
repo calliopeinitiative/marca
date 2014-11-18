@@ -61,12 +61,16 @@
 
 {% block content %}
 
-<div class="navbar-header col-sm-3">
+<div class="col-sm-3 well">
+    <h2>Journal Posts</h2>
     <ul class="list-group">
+
     {% for journal in journals %}
-        <a id="journal_{{ loop.index }}" class='list-group-item' href="{{ course_path('journal_list', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}">
-            {{ journal.title }}
-        </a>
+                <a id="journal_{{ loop.index }}" class='list-group-item' href="{{ course_path('journal_list', { 'userid': app.request.get('userid'),
+                'user': app.request.get('user'), 'page': loop.index }) }}">
+                    <h3>{{ journal.title }}</h3>
+                    <p class="list-group-item-text">Updated  {{ journal.updated|date('M d Y, h:ia') }} </p>
+                </a>
         {% else %}
         <li class='list-group-item'>Sorry, no entries were found.</li>
     {% endfor %}
