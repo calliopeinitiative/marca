@@ -26,11 +26,13 @@
     <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">
+                {% if role == 2 %}
                 <div class="btn-group pull-right margin-top">
                     <a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>
 
                     <a class="btn btn-default" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh this list</a>
                 </div>
+                {% endif %}
                 <h2>{{ course.name }} Roll</h2>
             </div>
             <div class="panel-body">
@@ -73,7 +75,7 @@
                                             <a class="btn btn-default btn-xs"
                                                href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>
                                             <a class="btn btn-default btn-xs"
-                                               href="{{ path('roll_show', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a>
+                                               href="{{ path('user_roll_modal', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a>
                                         </div>
                                     {% else %}
                                         Change role:

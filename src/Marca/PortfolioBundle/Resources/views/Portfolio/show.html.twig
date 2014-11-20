@@ -75,13 +75,12 @@
                     {% if loop.index == app.request.get('user') + 1 %}
                         <li><a data-index="{{ loop.index }}" data-id='{{ roll.user.id }}'
                                href="{{ course_path('portfolio_user', { 'userid': roll.user.id, 'user': loop.index, }) }}">
-                                {{ roll.firstname }} {{ roll.lastname }}<i
-                                        class="glyphicon glyphicon-chevron-right"></i></a></li>
+                                {{ roll.firstname }} {{ roll.lastname }}&gt; </a></li>
                     {% endif %}
                     {% if loop.index == app.request.get('user') - 1 %}
                         <li><a data-index="{{ loop.index }}" data-id='{{ roll.user.id }}'
                                href="{{ course_path('portfolio_user', { 'userid': roll.user.id, 'user': loop.index, }) }}">
-                            <i class="glyphicon glyphicon-chevron-left"></i>{{ roll.firstname }} {{ roll.lastname }}
+                            &lt;{{ roll.firstname }} {{ roll.lastname }}
 
                         </a></li>{% endif %}
                 {% endfor %}
@@ -133,32 +132,34 @@
         </div>
     {% endfor %}
 
-
-
-
-
-
-
-
     {# Doc tools #}
     <div id='doctools' class="col-sm-4">
 
         {# Port files #}
         <div class="list-group">
             {% for portfolio in portfolio %}
+                {% set name %}
+                {%  if portfolio.file.reviewed %}
+                    Review of <i>{{ portfolio.file.reviewed.name|slice(0,15) }}</i> for {{ portfolio.file.reviewed.user.firstname }} {{ portfolio.file.reviewed.user
+                .lastname }}
+                {% else %}
+                    {{ portfolio.file.name }}
+                {% endif %}
+                {% endset %}
+
                 {% if portfolio.file.url %}
                     <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ portfolio.file.url }}"
                        target="_blank">
                         <span class="label label-file" data-toggle="tooltip" title="This a Link ">link</span>
                         <strong>{{ portfolio.portitem.name }}:</strong>
-                        {{ portfolio.file.name }}
+                        {{ name }}
                     </a>
                 {% elseif portfolio.file.doc %}
                     <a id="port_file_{{ loop.index }}" class='list-group-item'
                        href="{{ course_path('portfolio_user', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}">
                         <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
                         <strong>{{ portfolio.portitem.name }}:</strong>
-                        {{ portfolio.file.name }}
+                        {{ name }}
                     </a>
                 {% elseif portfolio.file.ext == 'odt' or portfolio.file.ext == 'odp' or portfolio.file.ext == 'ods' or portfolio.file.ext == 'pdf' %}
                     <a id="port_file_{{ loop.index }}" class="list-group-item"
@@ -167,14 +168,14 @@
                         <span class="label label-file" data-toggle="tooltip"
                               title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }}</span>
                         <strong>{{ portfolio.portitem.name }}:</strong>
-                        {{ portfolio.file.name }}
+                        {{ name }}
                     </a>
                 {% else %}
                     <a id="port_file_{{ loop.index }}" class='list-group-item'
                        href="{{ course_path('portfolio_user', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}">
                         <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
                         <strong>{{ portfolio.portitem.name }}:</strong>
-                        {{ portfolio.file.name }}
+                        {{ name }}
                     </a>
                 {% endif %}
             {% endfor %}

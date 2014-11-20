@@ -74,7 +74,7 @@
                                     {% if file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
                                         <a href="{{ course_path('file_get', { 'id': file.id}) }}" title="Download {{ file.name }}">Download</a>
                                     {% endif %}
-                                    {% if file.doc or file.ext == 'odt' %}
+                                    {% if file.doc %}
                                         <a class="" title="Create a copy of this document for review" id="new_grade_{{ file.id }}"
                                            href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create
                                             Review</a>

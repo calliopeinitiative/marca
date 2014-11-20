@@ -100,9 +100,12 @@ class PortfolioController extends Controller
         $course = $this->getCourse();
         $portStatus = $course->getPortStatus();
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesForPort($user, $course);
+        $reviews = $em->getRepository('MarcaFileBundle:File')->findReviewsForPort($user, $course);
+
 
         return $this->render('MarcaPortfolioBundle:Portfolio:find.html.twig', array(
             'files' => $files,
+            'reviews' => $reviews,
             'course' => $course,
             'portStatus'=> $portStatus,
             'role'=> $role,
@@ -284,6 +287,7 @@ class PortfolioController extends Controller
         $portfolioset = reset($portfoliosets);
 
         $file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+        $file->setAccess(1);
         $portitem = $em->getRepository('MarcaPortfolioBundle:Portitem')->find($portitemid);
         $portfolio = new Portfolio();
         $portfolio->setFile($file);
@@ -291,6 +295,7 @@ class PortfolioController extends Controller
         $portfolio->setCourse($course);
         $portfolio->setPortitem($portitem);
         $portfolio->setPortfolioset($portfolioset);
+        $em->persist($file);
         $em->persist($portfolio);
         $em->flush();
         return $this->redirect($this->generateUrl('portfolio', array('courseid' => $courseid)));

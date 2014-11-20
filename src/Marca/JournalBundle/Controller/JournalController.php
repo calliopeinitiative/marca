@@ -26,7 +26,10 @@ class JournalController extends Controller
      */
     public function createSidebarAction($courseid)
     {
-        return $this->render('MarcaJournalBundle::sidebar.html.twig', array( ));
+        $role = $this->getCourseRole();
+        return $this->render('MarcaJournalBundle::sidebar.html.twig', array(
+            'role' => $role
+        ));
     }
 
     /**
