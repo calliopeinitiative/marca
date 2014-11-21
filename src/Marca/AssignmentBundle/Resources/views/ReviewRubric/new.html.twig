@@ -1,29 +1,17 @@
 {# Marca/AssignmentBundle/Resources/views/ReviewRubric/new.html.twig #}
 
-
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
-    
-    
-    {% block content %}
+{% block content %}
     <div class="col-sm-8 center">
-
-        <form action="{{ path('reviewrubric_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-
+        <form action="{{ path('reviewrubric_create') }}" method="post" {{ form_enctype(form) }}>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="panel-title small">Review Rubric</h2>
+                    <h2 class="panel-title small">Feedback Rubric</h2>
                 </div>
                 <div class="panel-body">
-                     {{ form_errors(form) }}
-                     {{ form_rest(form) }}
-                </div>
-                <div class="panel-footer">
-                    <div class="btn-group">
-                        <button class="btn btn-primary" type="submit">Create</button>
-                        <a class='btn btn-default'
-                           href="{{ path('reviewrubric')}}">Cancel</a>
-                    </div>
+                     {{ form_widget(form) }}
+                    <button class="btn btn-primary" type="submit">Post</button>
                 </div>
             </div>
         </form>
