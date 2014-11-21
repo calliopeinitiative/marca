@@ -22,7 +22,6 @@ class RatingsetController extends Controller
      * Displays a form to create a new Rating entity.
      *
      * @Route("/{courseid}/{userid}/{user}/{portfoliosetid}/new", name="ratingset_new")
-     * @Template()
      */
     public function newAction($courseid, $userid, $user, $portfoliosetid)
     {
@@ -61,7 +60,6 @@ class RatingsetController extends Controller
      * Displays a form to edit an existing Ratingset entity.
      *
      * @Route("/{courseid}/{userid}/{user}/{id}/edit", name="ratingset_edit")
-     * @Template()
      */
     public function editAction($id, $userid)
     {
@@ -83,13 +81,13 @@ class RatingsetController extends Controller
         $editForm = $this->createForm(new RatingsetType($options), $ratingset);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Ratingset:edit.html.twig', array(
             'ratingset'      => $ratingset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'assessmentset' => $assessmentset,
             'user' => $user,
-        );
+        ));
     }
 
     /**
@@ -97,7 +95,6 @@ class RatingsetController extends Controller
      *
      * @Route("/{courseid}/{userid}/{user}/{id}/update", name="ratingset_update")
      * @Method("post")
-     * @Template("MarcaAssessmentBundle:Ratingset:edit.html.twig")
      */
     public function updateAction($courseid,$id,$userid,$user)
     {
@@ -126,11 +123,11 @@ class RatingsetController extends Controller
             return $this->redirect($this->generateUrl('portfolio_user', array('courseid' => $courseid, 'userid' => $userid,'user' => $user)));
         }
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Ratingset:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**

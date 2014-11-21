@@ -16,49 +16,12 @@ use Marca\AssessmentBundle\Form\ObjectiveType;
  */
 class ObjectiveController extends Controller
 {
-    /**
-     * Lists all Objective entities.
-     *
-     * @Route("/", name="objective")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $em = $this->getEm();
 
-        $objectives = $em->getRepository('MarcaAssessmentBundle:Objective')->findAll();
-
-        return array('objectives' => $objectives);
-    }
-
-    /**
-     * Finds and displays a Objective entity.
-     *
-     * @Route("/{id}/show", name="objective_show")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getEm();
-
-        $objective = $em->getRepository('MarcaAssessmentBundle:Objective')->find($id);
-
-        if (!$objective) {
-            throw $this->createNotFoundException('Unable to find Objective entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'objective'      => $objective,
-            'delete_form' => $deleteForm->createView(),        );
-    }
 
     /**
      * Displays a form to create a new Objective entity.
      *
      * @Route("/{assessmentsetid}/new", name="objective_new")
-     * @Template()
      */
     public function newAction($assessmentsetid)
     {
@@ -68,11 +31,11 @@ class ObjectiveController extends Controller
         $objective->setObjective('<p></p>');
         $form   = $this->createForm(new ObjectiveType(), $objective);
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Objective:new.html.twig', array(
             'objective' => $objective,
             'assessmentsetid' => $assessmentsetid,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
@@ -80,7 +43,6 @@ class ObjectiveController extends Controller
      *
      * @Route("/{assessmentsetid}/create", name="objective_create")
      * @Method("post")
-     * @Template("MarcaAssessmentBundle:Objective:new.html.twig")
      */
     public function createAction($assessmentsetid)
     {
@@ -102,18 +64,17 @@ class ObjectiveController extends Controller
             
         }
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Objective:new.html.twig', array(
             'objective' => $objective,
             'assessmentsetid' => $assessmentsetid,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Objective entity.
      *
      * @Route("/{id}/edit", name="objective_edit")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -128,11 +89,11 @@ class ObjectiveController extends Controller
         $editForm = $this->createForm(new ObjectiveType(), $objective);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Objective:edit.html.twig', array(
             'objective'      => $objective,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -166,11 +127,11 @@ class ObjectiveController extends Controller
             return $this->redirect($this->generateUrl('assessmentset_show', array('id' => $assessmentsetid)));
         }
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Objective:edit.html.twig', array(
             'objective'      => $objective,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**

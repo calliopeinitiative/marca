@@ -20,7 +20,6 @@ class AssessmentsetController extends Controller
      * Lists all Assessmentset entities.
      *
      * @Route("/", name="assessmentset")
-     * @Template()
      */
     public function indexAction()
     {
@@ -28,14 +27,16 @@ class AssessmentsetController extends Controller
 
         $assessmentsets = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->findAll();
         $scales = $em->getRepository('MarcaAssessmentBundle:Scale')->findAll();
-        return array('assessmentsets' => $assessmentsets, 'scales' => $scales);
+        return $this->render('MarcaAssessmentBundle:Assessmentset:index.html.twig', array(
+            'assessmentsets' => $assessmentsets,
+            'scales' => $scales
+        ));
     }
 
     /**
      * Finds and displays a Assessmentset entity.
      *
      * @Route("/{id}/show", name="assessmentset_show")
-     * @Template()
      */
     public function showAction($id)
     {
@@ -49,26 +50,26 @@ class AssessmentsetController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Assessmentset:show.html.twig', array(
             'assessmentset'      => $assessmentset,
-            'delete_form' => $deleteForm->createView(),        );
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
      * Displays a form to create a new Assessmentset entity.
      *
      * @Route("/new", name="assessmentset_new")
-     * @Template()
      */
     public function newAction()
     {
         $assessmentset = new Assessmentset();
         $form   = $this->createForm(new AssessmentsetType(), $assessmentset);
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Assessmentset:new.html.twig', array(
             'assessmentset' => $assessmentset,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
@@ -76,7 +77,6 @@ class AssessmentsetController extends Controller
      *
      * @Route("/create", name="assessmentset_create")
      * @Method("post")
-     * @Template("MarcaAssessmentBundle:Assessmentset:new.html.twig")
      */
     public function createAction()
     {
@@ -94,17 +94,16 @@ class AssessmentsetController extends Controller
             
         }
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Assessmentset:new.html.twig', array(
             'assessmentset' => $assessmentset,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Assessmentset entity.
      *
      * @Route("/{id}/edit", name="assessmentset_edit")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -119,11 +118,11 @@ class AssessmentsetController extends Controller
         $editForm = $this->createForm(new AssessmentsetType(), $assessmentset);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Assessmentset:edit.html.twig', array(
             'assessmentset'      => $assessmentset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -131,7 +130,6 @@ class AssessmentsetController extends Controller
      *
      * @Route("/{id}/update", name="assessmentset_update")
      * @Method("post")
-     * @Template("MarcaAssessmentBundle:Assessmentset:edit.html.twig")
      */
     public function updateAction($id)
     {
@@ -157,11 +155,11 @@ class AssessmentsetController extends Controller
             return $this->redirect($this->generateUrl('assessmentset'));
         }
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Assessmentset:edit.html.twig', array(
             'assessmentset'      => $assessmentset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
