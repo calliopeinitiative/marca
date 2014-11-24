@@ -7,6 +7,10 @@
     <script language="javascript">
         $(document).ready(function()
         {
+            {# form page close/cancel adjust for appropriate redirect #}
+            $('#close_form').click(function () {
+                window.location.href = '{{ path('portset') }}';
+            });
             $('#toggle_modal').click(function(){
                 $('#delete_modal').modal();
             });
@@ -15,28 +19,20 @@
 {% endblock %}
 
 {% block content %}
-
     <div class="col-sm-8 center">
-        <form action="{{ path('portset_update', { 'id': portset.id }) }}" method="post" {{ form_enctype(edit_form) }}>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2 class="panel-title small">Portfolio Set</h2>
                 </div>
                 <div class="panel-body">
-                    {{ form_errors(edit_form) }}
-                    {{ form_row(edit_form.name) }}
-                    {{ form_row(edit_form.description) }}
-                    {{ form_rest(edit_form) }}
-                </div>
-                <div class="panel-footer">
-                    <div class="btn-group">
-                        <button class="btn btn-primary" type="submit">Update</button>
-                        <a class="btn btn-default" href="{{ path('portset') }}">Cancel</a>
-                    </div>
-                    <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                    <form action="{{ path('portset_update', { 'id': portset.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+                    {{ form_widget(edit_form) }}
+
+                    <button class="btn btn-primary pull-right" type="submit">Post</button>
+                        <a class="btn btn-warning" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                    </form>
                 </div>
             </div>
-        </form>
     </div>
 
     <div id="delete_modal" class="modal fade">
@@ -50,10 +46,7 @@
                     <p>Are you sure you want to delete?</p>
                     <form class="form" action="{{ path('portset_delete', { 'id': portset.id }) }}" method="post">
                         {{ form_widget(delete_form) }}
-                        <div class="btn-group">
-                            <button class="btn btn-danger" type="submit">Delete</button>
-                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
-                        </div>
+                        <button class="btn btn-danger" type="submit">Yes</button>
                     </form>
                 </div>
             </div><!-- /.modal-content -->
