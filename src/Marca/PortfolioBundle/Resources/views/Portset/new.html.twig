@@ -15,18 +15,13 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-sm-8 center">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <button id="close_form" type="button" class="close">&times;</button>
-                <h2 class="margin-top-small">Portfolio Set</h2>
-            </div>
-            <div class="panel-body">
-                <form class="form" action="{{ path('portset_create') }}" method="post" {{ form_enctype(form) }}>
-                    {{ form_widget(form) }}
-                    <button class="btn btn-primary pull-right" type="submit">Post</button>
-                </form>
-            </div>
-        </div>
+    <div class="col-sm-8 well center">
+        <button id="close_form" type="button" class="close">&times;</button>
+        <h2 class="margin-top-small">Portfolio Set</h2>
+
+        <form class="form" action="{{ path('portset_create') }}" method="post" {{ form_enctype(form) }}>
+            {{ form_widget(form) }}
+            <button class="btn btn-primary pull-right" type="submit">Post</button>
+        </form>
     </div>
 {% endblock %}

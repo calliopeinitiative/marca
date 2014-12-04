@@ -3,28 +3,22 @@
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
 {% block content %}
+    <div class="well">
+        <a class="btn btn-primary pull-right margin-top-small" href="{{ path('portset_new') }}">Create Set<i
+                    class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <a class="btn btn-primary pull-right margin-top-small" href="{{ path('portset_new') }}">Create Set<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
-            <h2 class="margin-top-small">Portfolio Sets</h2>
-        </div>
-        <div class="panel-body">
-            <div class="list-group">
-                {% for portset in portsets %}
+        <h2>Portfolio Sets</h2>
 
-                    <a class="list-group-item" href="{{ path('portset_show', { 'id': portset.id }) }}">
-                        <h3 class="margin-top-small">{{ portset.name }}</h3>
-                        {% if portset.shared ==2 %}(Default){%endif %}
-                        {{ portset.description|html_raw }}
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="panel-footer">
-            <span class="text-muted">Click name to view.</span>
+        <div class="list-group">
+            {% for portset in portsets %}
+
+                <a class="list-group-item" href="{{ path('portset_show', { 'id': portset.id }) }}">
+                    <h3 class="margin-top-small">{{ portset.name }}</h3>
+                    {% if portset.shared ==2 %}(Default){% endif %}
+                    {{ portset.description|html_raw }}
+                </a>
+            {% endfor %}
         </div>
     </div>
-
 {% endblock %}
 

@@ -12,7 +12,7 @@ class PortsetType extends AbstractType
     {
         $builder
             ->add('name','text', array('label'  => 'Portfolio set name','attr' => array('class' => 'text form-control'),))
-            ->add('description', 'ckeditor', array('config_name' => 'editor_default',))
+            ->add('description', 'ckeditor', array('config_name' => 'editor_simple',))
             ->add('shared', 'choice', array('choices'   => array(0 => 'My Classes', 1 => 'All Classes', 2 => 'Default'),'required'  => true,'label'  => 'Share your Portfolio set?', 'expanded' => true,'attr' => array('class' => 'radio'),))
         ;
     }

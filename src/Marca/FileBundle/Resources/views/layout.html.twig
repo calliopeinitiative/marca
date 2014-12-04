@@ -95,7 +95,7 @@
 
             //add current-filter to active items
             var project_index = 'a[data-project-index=' + '{{ app.request.get("project") }}' + ']';
-            $(project_index).addClass('current-filter');
+            $(project_index).addClass('current-filter');$(default_icon).fadeIn();
             $('p.project').append($(project_index).html());
             var tag_index = 'a[data-tag-index=' + '{{ app.request.get("tag") }}' + ']';
             $(tag_index).addClass('current-filter');

@@ -11,7 +11,7 @@
         $(document).ready(function() {
             $('#calendar').fullCalendar(
                     {
-                        dayClick: function(date, allDay, jsEvent, view)
+                        dayClick: function(date, jsEvent, view)
                         {
                             {% if role==2 %}
                             var format_date = $.datepicker.formatDate('YYYY MM DD', date)

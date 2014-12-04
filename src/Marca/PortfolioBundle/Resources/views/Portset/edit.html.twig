@@ -5,51 +5,28 @@
 {% block javascripts %}
     {{ parent() }}
     <script language="javascript">
-        $(document).ready(function()
-        {
+        $(document).ready(function () {
             {# form page close/cancel adjust for appropriate redirect #}
             $('#close_form').click(function () {
                 window.location.href = '{{ path('portset') }}';
-            });
-            $('#toggle_modal').click(function(){
-                $('#delete_modal').modal();
             });
         });
     </script>
 {% endblock %}
 
 {% block content %}
-    <div class="col-sm-8 center">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2 class="panel-title small">Portfolio Set</h2>
-                </div>
-                <div class="panel-body">
-                    <form action="{{ path('portset_update', { 'id': portset.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-                    {{ form_widget(edit_form) }}
+    <div class="col-sm-8 well center">
+        <button id="close_form" type="button" class="close">&times;</button>
+        <h2>Portfolio Set</h2>
 
-                    <button class="btn btn-primary pull-right" type="submit">Post</button>
-                        <a class="btn btn-warning" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
-                    </form>
-                </div>
-            </div>
+        <form action="{{ path('portset_update', { 'id': portset.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+            {{ form_widget(edit_form) }}
+
+            <button class="btn btn-primary pull-right" type="submit">Post</button>
+            <a class="btn btn-warning" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+        </form>
     </div>
 
-    <div id="delete_modal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <span class="modal-title">Delete</span>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete?</p>
-                    <form class="form" action="{{ path('portset_delete', { 'id': portset.id }) }}" method="post">
-                        {{ form_widget(delete_form) }}
-                        <button class="btn btn-danger" type="submit">Yes</button>
-                    </form>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    {# Modal for Delete confirmation #}
+    {{ form(delete_form)|delete_modal }}
 {% endblock %}

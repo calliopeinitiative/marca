@@ -61,7 +61,8 @@ class FileController extends Controller
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
         $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($course);
-        return $this->render('MarcaFileBundle::projects_sidebar.html.twig', array('projects' => $projects, 'tags' => $tags, 'tag' => $tag, 'systemtags' => $systemtags, 'role' => $role));
+        return $this->render('MarcaFileBundle::projects_sidebar.html.twig', array('course' => $course,'projects' => $projects, 'tags' => $tags, 'tag' => $tag,
+            'systemtags' => $systemtags, 'role' => $role));
     }
 
     /**

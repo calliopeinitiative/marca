@@ -32,23 +32,6 @@ class MarkupsetController extends Controller
         return array('markupsets' => $markupsets);
     }
 
-    /**
-     * Finds and displays a Markupset entity.
-     *
-     * @Route("/{id}/show", name="markupset_show")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getEm();
-        $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
-
-        if (!$markupset) {
-            throw $this->createNotFoundException('Unable to find Markupset entity.');
-        }
-
-        return array('markupset'=> $markupset,);
-    }
 
     /**
      * Displays a form to create a new Markupset entity.
@@ -163,7 +146,7 @@ class MarkupsetController extends Controller
         }
 
         return array(
-            'entity'      => $entity,
+            'markupset'      => $markupset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -301,11 +284,21 @@ class MarkupsetController extends Controller
      }
 
 
-     private function createDeleteForm($id)
+    /**
+     * Creates a form to delete a Journal entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('markupset_delete', array('id' => $id)))
+            ->setMethod('POST')
+            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
-        ;
+            ;
     }
+
 }
