@@ -45,28 +45,6 @@ class NoteController extends Controller
         return array('notes' => $notes);
     }
 
-    /**
-     * Finds and displays a Note entity.
-     *
-     * @Route("/{courseid}/{id}/show", name="note_show")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getEm();
-
-        $note = $em->getRepository('MarcaNoteBundle:Note')->find($id);
-
-        if (!$note) {
-            throw $this->createNotFoundException('Unable to find Note note.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'note'      => $note,
-            'delete_form' => $deleteForm->createView(),        );
-    }
 
     /**
      * Displays a form to create a new Note entity.
@@ -100,25 +78,43 @@ class NoteController extends Controller
      * @Route("/{courseid}/{id}/edit", name="note_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($id, $courseid)
     {
         $em = $this->getEm();
 
         $note = $em->getRepository('MarcaNoteBundle:Note')->find($id);
 
-
         if (!$note) {
             throw $this->createNotFoundException('Unable to find Note entity.');
         }
-
-        $editForm = $this->createForm(new NoteType(), $note);
-        $deleteForm = $this->createDeleteForm($id);
+        $options = array();
+        $editForm = $this->createEditForm($note, $courseid, $options);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         return array(
             'note'      => $note,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
+    }
+
+
+    /**
+     * Creates a form to edit a Note entity.
+     *
+     * @param Note $note
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Note $note, $courseid, $options)
+    {
+        $form = $this->createForm(new NoteType($options), $note, array(
+            'action' => $this->generateUrl('note_update', array('id' => $note->getId(),'courseid' => $courseid,)),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
     }
 
     /**
@@ -138,8 +134,9 @@ class NoteController extends Controller
             throw $this->createNotFoundException('Unable to find Note.');
         }
 
-        $editForm   = $this->createForm(new NoteType(), $note);
-        $deleteForm = $this->createDeleteForm($id);
+        $options = array();
+        $editForm = $this->createEditForm($note, $courseid, $options);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         $request = $this->getRequest();
 
@@ -167,7 +164,7 @@ class NoteController extends Controller
      */
     public function deleteAction($id, $courseid)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($id, $courseid);
         $request = $this->getRequest();
 
         $form->handleRequest($request);
@@ -187,11 +184,20 @@ class NoteController extends Controller
             return $this->redirect($this->generateUrl('note', array('courseid' => $courseid)));
     }
 
-    private function createDeleteForm($id)
+    /**
+     * Creates a form to delete a Note entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id, $courseid)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('note_delete', array('id' => $id,'courseid' => $courseid,)))
+            ->setMethod('POST')
+            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
-        ;
+            ;
     }
 }

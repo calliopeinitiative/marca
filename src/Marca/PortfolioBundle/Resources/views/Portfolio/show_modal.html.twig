@@ -7,13 +7,10 @@
             <h4 class="modal-title">Remove from Portfolio</h4>
         </div>
         <div class="modal-body">
-            <p>Are you sure you want to remove this file?</p>
+            <p>Are you sure?</p>
             <form action="{{ course_path('portfolio_delete', { 'id': portfolio.id}) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <div class="btn-group">
-                    <button class="btn btn-danger" type="submit">Remove</button>
-                    <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
-                </div>
+                <button class="btn btn-danger" type="submit">Yes</button>
             </form>
         </div>
     </div><!-- /.modal-content -->

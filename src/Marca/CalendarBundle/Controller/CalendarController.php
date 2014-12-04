@@ -207,9 +207,9 @@ class CalendarController extends Controller
         $calendar  = new Calendar();
         $calendar->setUser($user);
         $calendar->setCourse($course);
-        $request = $this->getRequest();
-        $eventid = $calendar->getId();
+
         $form = $this->createCreateForm($calendar, $courseid);
+        $request = $this->getRequest();
         $form->handleRequest($request);
         
         if ($form->isValid()) {
@@ -217,7 +217,7 @@ class CalendarController extends Controller
             $em->persist($calendar);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,'eventid'=> $eventid,)));
+            return $this->redirect($this->generateUrl('calendar_display', array('courseid'=> $courseid,'eventid'=> $calendar->getId(),)));
         }
 
         return $this->render('MarcaCalendarBundle:Calendar:new.html.twig', array(

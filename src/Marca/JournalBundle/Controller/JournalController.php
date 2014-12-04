@@ -161,8 +161,6 @@ class JournalController extends Controller
         ));
     }
 
-
-
     /**
      * Creates a form to edit a Journal entity.
      *

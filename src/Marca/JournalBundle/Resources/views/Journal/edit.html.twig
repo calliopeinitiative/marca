@@ -11,10 +11,6 @@
     <script language="javascript">
         $(document).ready(function()
         {
-            {# standard delete confirmation #}
-            $('#toggle_modal').click(function(){
-                $('#delete_modal').modal();
-            });
             {# form page close/cancel adjust for appropriate redirect #}
             $('#close_form').click(function(){
                 window.location.href='{{ course_path('journal_list') }}';
@@ -48,6 +44,7 @@
             </div>
     </div>
 
+    {# Modal for Delete confirmation #}
     {{ form(delete_form)|delete_modal }}
 
 {% endblock %}

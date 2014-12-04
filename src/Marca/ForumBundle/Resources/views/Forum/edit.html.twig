@@ -7,9 +7,6 @@
     <script language="javascript">
         $(document).ready(function()
         {
-            $('#toggle_modal').click(function(){
-                $('#delete_modal').modal();
-            });
             {# form page close/cancel adjust for appropriate redirect #}
             $('#close_form').click(function(){
                 window.location.href='{{ course_path('forum') }}';
@@ -38,18 +35,5 @@
 
 
     {# Modal for Delete confirmation #}
-    <div id="delete_modal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <span class="modal-title">Delete</span>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete?</p>
-                    {{ form(delete_form) }}
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    {{ form(delete_form)|delete_modal }}
 {% endblock %}

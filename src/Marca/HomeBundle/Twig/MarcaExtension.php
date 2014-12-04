@@ -37,7 +37,7 @@ class MarcaExtension extends \Twig_Extension
                     <span class="modal-title">Delete</span>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete?</p>
+                    <p>Are you sure?</p>
                         $string
                     </div>
             </div>

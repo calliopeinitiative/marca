@@ -212,7 +212,7 @@ class PortfolioController extends Controller
             throw $this->createNotFoundException('Unable to find Portfolio entity.');
         }
 
-        $editForm = $this->createForm(new PortfolioType($options), $portfolio);
+        $editForm   = $this->createEditForm($portfolio, $courseid, $options);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MarcaPortfolioBundle:Portfolio:edit.html.twig', array(
@@ -223,6 +223,24 @@ class PortfolioController extends Controller
             'delete_form' => $deleteForm->createView(),
 
         ));
+    }
+
+    /**
+     * Creates a form to edit a Portfolio entity.
+     *
+     * @param Portfolio $portfolio
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Portfolio $portfolio, $courseid, $options)
+    {
+        $form = $this->createForm(new PortfolioType($options), $portfolio, array(
+            'action' => $this->generateUrl('journal_update', array('id' => $portfolio->getId(),'courseid' => $courseid,)),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
     }
 
     /**
@@ -244,7 +262,7 @@ class PortfolioController extends Controller
             throw $this->createNotFoundException('Unable to find Portfolio entity.');
         }
 
-        $editForm   = $this->createForm(new PortfolioType($options), $portfolio);
+        $editForm   = $this->createEditForm($portfolio, $courseid, $options);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();

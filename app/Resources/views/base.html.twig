@@ -43,6 +43,10 @@
                 $('#help_modal_link').click(function () {
                     $('#help_modal').modal();
                 });
+                {# standard delete confirmation #}
+                $('#toggle_modal').click(function(){
+                    $('#delete_modal').modal();
+                });
             });
         </script>
     {% endblock %}
