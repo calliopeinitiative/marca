@@ -1,49 +1,43 @@
-
 {# Marca/DocBundle/Resources/views/Markupset/addTagsMarkupset.html.twig #}
 
 {% extends 'MarcaUserBundle::dialog.html.twig' %}
 
 {% block content %}
-<div class="col-sm-11 center">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <a class="btn btn-primary pull-right margin-top-small" href="{{path('markupset')}}">Return to Markupsets</a>
-            <h2 class="margin-top-small">Current Set</h2>
-        </div>
-        <div class="panel-body">
-            <div class = "col-sm-8">
-                <strong>{{currentset.name}}</strong>
-                <table class="table">
-                    {% for tag in currentset.markup %}
-                        <tr>
-                            <td><span class="label label-default" style='background-color:{{ tag.color }}; color:black; padding:2px;'>{{ tag.name }}</span></td>
-                            <td>{% if tag.url != '' or tag.url is not null %}<a href="{{ tag.url }}" target="_blank">Link</a>{% else %}No URL{% endif %}</td>
-                            <td colspan=2>{{ tag.mouseover |html_raw }}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3>All Available Tags</h3>
-        </div>
-        <div class="panel-body">
-            <table class="table">
-                {% for thisset in allsets %}
+    <div class="col-sm-11 well center">
+        <a class="btn btn-primary pull-right margin-top-small" href="{{ path('markupset') }}">Return to Markupsets</a>
+
+        <h2 class="margin-top-small">Current Set</h2>
+
+        <strong>{{ currentset.name }}</strong>
+        <table class="table">
+            {% for tag in currentset.markup %}
+                <tr>
+                    <td><span class="label label-default" style='background-color:{{ tag.color }}; color:black; padding:2px;'>{{ tag.name }}</span></td>
+                    <td>{% if tag.url != '' or tag.url is not null %}<a href="{{ tag.url }}" target="_blank">Link</a>{% else %}No URL{% endif %}</td>
+                    <td colspan=2>{{ tag.mouseover |html_raw }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+
+        <h3>All Available Tags</h3>
+
+        <table class="table">
+            {% for thisset in allsets %}
                 {% for tag in thisset.markup %}
                     <tr>
                         <td><span class="label label-default" style='background-color:{{ tag.color }}; color:black; padding:2px;'>{{ tag.name }}</span></td>
                         <td>{% if tag.url != '' or tag.url is not null %}<a href="{{ tag.url }}" target="_blank">Link</a>{% else %}No URL{% endif %}</td>
                         <td colspan=2>{{ tag.mouseover |html_raw }}</td>
                         <td>{% if tag.isInSet(currentset) %}<span class="label label-info">In this set</span>{% endif %}</td>
-                        <td>{% if tag.isInSet(currentset) %}<a class="btn btn-warning btn-sm pull-right" href="{{ path('remove_tag_from_set', {'set_id':currentset.id, 'tag_id':tag.id}) }}">Remove from set</a>{% else %}<a class="btn btn-primary btn-sm pull-right" href="{{ path('add_tag_to_set', {'set_id':currentset.id, 'tag_id':tag.id}) }}">Add to set</a>{% endif %}</td>
+                        <td>{% if tag.isInSet(currentset) %}<a class="btn btn-warning btn-sm pull-right"
+                                                               href="{{ path('remove_tag_from_set', {'set_id':currentset.id, 'tag_id':tag.id}) }}">Remove from
+                                    set</a>{% else %}<a class="btn btn-primary btn-sm pull-right"
+                                                        href="{{ path('add_tag_to_set', {'set_id':currentset.id, 'tag_id':tag.id}) }}">Add to set</a>{% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
-                {% endfor %}
-            </table>
-        </div>
+            {% endfor %}
+        </table>
     </div>
-</div>
 {% endblock %}
