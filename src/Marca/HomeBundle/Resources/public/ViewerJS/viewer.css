@@ -1,10 +1,55 @@
+/**
+ * Copyright (C) 2012-2014 KO GmbH <copyright@kogmbh.com>
+ *
+ * @licstart
+ * This file is part of WebODF.
+ *
+ * WebODF is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License (GNU AGPL)
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * WebODF is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
+ * @licend
+ *
+ * @source: http://www.webodf.org/
+ * @source: https://github.com/kogmbh/WebODF/
+ */
+
+/*
+ * This file is a derivative from a part of Mozilla's PDF.js project. The
+ * original license header follows.
+ */
+
+/* Copyright 2012 Mozilla Foundation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 * {
     padding: 0;
     margin: 0;
 }
 
-body {
+html > body {
   font-family: sans-serif;
+  overflow: hidden;
 }
 
 .titlebar > span,
@@ -35,13 +80,20 @@ select {
     background-image: url(images/texture.png), -o-linear-gradient(rgba(69, 69, 69, .95), rgba(82, 82, 82, .99));
 }
 
+#titlebar a, #aboutDialog a, #titlebar a:visited, #aboutDialog a:visited {
+    color: #ccc;
+}
+
 #documentName {
+    margin-right: 10px;
     margin-left: 10px;
     margin-top: 8px;
     color: #F2F2F2;
-    font-size: 14px;
     line-height: 14px;
     font-family: sans-serif; 
+}
+#documentName {
+    font-size: 14px;
 }
 
 #toolbarContainer {
@@ -147,7 +199,7 @@ html[dir='rtl'] .splitToolbarButton > .toolbarButton {
 .toolbarButton {
     border: 0 none;
     background-color: rgba(0, 0, 0, 0);
-    width: 32px;
+    min-width: 32px;
     height: 25px;
     border-radius: 2px;
     background-image: none;
@@ -446,6 +498,17 @@ html[dir='rtl'] .dropdownToolbarButton {
     content: url(images/toolbarButton-download.png);
 }
 
+.toolbarButton.about {
+    color: #F2F2F2;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 14px;
+    font-family: sans-serif;
+}
+.toolbarButton.about::before {
+    display: inline-block;
+}
+
 .toolbarButton.zoomOut::before {
     display: inline-block;
     content: url(images/toolbarButton-zoomOut.png);
@@ -526,6 +589,7 @@ html[dir='rtl'] .dropdownToolbarButton {
 
 #canvasContainer {
     overflow: auto;
+
     padding-top: 6px;
     padding-bottom: 6px;
     position: absolute;
@@ -540,6 +604,20 @@ html[dir='rtl'] .dropdownToolbarButton {
     background-image: url(images/texture.png);
 }
 
+#canvasContainer.slideshow {
+    padding: 0;
+    overflow: hidden;
+}
+
+#canvasContainer.slideshow > * {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
 .presentationMode {
     top: 0 !important;
     bottom: 0 !important;
@@ -548,12 +626,18 @@ html[dir='rtl'] .dropdownToolbarButton {
 }
 
 #canvas {
-    overflow: hidden;
     box-shadow:         0px 0px 7px rgba(0, 0, 0, 0.75);
     -webkit-box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.75);
     -moz-box-shadow:    0px 0px 7px rgba(0, 0, 0, 0.75);
     -ms-box-shadow:    0px 0px 7px rgba(0, 0, 0, 0.75);
     -o-box-shadow:    0px 0px 7px rgba(0, 0, 0, 0.75);
+
+    /*
+     * Hide the canvas overflow because otherwise the CSS-scaled 'sizer' child
+     * of the canvas will still advertise the original size in Firefox, causing
+     * strange scrollbar behavior.
+     */
+    overflow: hidden;
 }
 
 #sliderContainer {
@@ -623,38 +707,106 @@ html[dir='rtl'] .dropdownToolbarButton {
     background-color: red;
 }
 
-@media only screen and (max-width: 600px) and (max-height: 1000px) {
+#aboutDialogCentererTable {
+    display: table;
+    width:100%;
+    height:100%;
+}
+
+#aboutDialogCentererCell {
+    vertical-align: middle;
+    text-align:center;
+    display: table-cell;
+}
+
+#aboutDialog {
+    width: 280px;
+    background-color: #666;
+    color: white;
+    text-align: center;
+    border-radius: 2px;
+    box-shadow: 0px 1px 6px black;
+    padding: 5px;
+    font-style: sans-serif;
+    display: inline-block;
+}
+
+#aboutDialog h1 {
+    font-size: 25pt;
+}
+
+#aboutDialog p {
+    font-size: 10pt;
+}
+
+#aboutDialog > * {
+    margin: 10px;
+}
+
+#dialogOverlay {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width:100%;
+    height:100%;
+    z-index: 3;
+    background-color: rgba(0,0,0,.5);
+    overflow: auto;
+    display: none;
+}
+
+#blanked {
+    display: none;
+    cursor: none;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width:100%;
+    height:100%;
+    z-index: 3;
+}
+
+@media only screen and (max-device-width: 800px) and (max-device-height: 800px) {
     #canvasContainer {
         top: 0;
         bottom: 0;
     }
+
+    #overlayNavigator {
+        height: 100px;
+        pointer-events: none;
+    }
+    #nextPage, #previousPage {
+        pointer-events: all;
+    }
+
     #titlebar, #toolbarContainer {
         background-color: rgba(0, 0, 0, 0.6);
         background-image: none;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        transition: all 0.5s;
     }
-    #overlayNavigator.touched {
+
+    #titlebar {
+        top: -32px;
+    }
+    #titlebar.viewer-touched {
+        top: 0px;
+    }
+    #toolbarContainer {
+        bottom: -32px;
+    }
+    #toolbarContainer.viewer-touched {
+        bottom: 0px;
+    }
+
+    .viewer-touched {
         display: block;
-        opacity: 1;
-        height: 100px;
+        opacity: 1 !important;
     }
+
     #next, #previous {
         display: none;
     }
-}
-
-/** Chrome Scroll **/
-::-webkit-scrollbar {
-    height: 12px;
-    width: 8px;
-    background: #ccc;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #393812;
-    -webkit-border-radius: 1ex;
-    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
-}
-
-::-webkit-scrollbar-corner {
-    background: #000;
 }

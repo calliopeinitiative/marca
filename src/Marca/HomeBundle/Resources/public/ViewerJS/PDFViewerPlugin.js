@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+ * Copyright (C) 2013-2014 KO GmbH <copyright@kogmbh.com>
  *
  * @licstart
  * The JavaScript code in this page is free software: you can redistribute it
@@ -9,6 +9,9 @@
  * the License, or (at your option) any later version.  The code is distributed
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this code.  If not, see <http://www.gnu.org/licenses/>.
  *
  * As additional permission under GNU AGPL version 3 section 7, you
  * may distribute non-source (e.g., minimized or compacted) forms of
@@ -30,7 +33,7 @@
  * This license applies to this entire compilation.
  * @licend
  * @source: http://viewerjs.org/
- * @source: http://github.com/kogmbh/Viewer.js
+ * @source: http://github.com/kogmbh/ViewerJS
  */
 
 /*global document, PDFJS, console, TextLayerBuilder*/
@@ -39,22 +42,26 @@
 function PDFViewerPlugin() {
     "use strict";
 
+    function loadScript(path, callback) {
+        var script = document.createElement('script');
+        script.async = false;
+        script.src = path;
+        script.type = 'text/javascript';
+        script.onload = callback || script.onload;
+        document.getElementsByTagName('head')[0].appendChild(script);
+    }
+
     function init(callback) {
         var pdfLib, textLayerLib, pluginCSS;
 
-        pdfLib = document.createElement('script');
-        pdfLib.async = false;
-        pdfLib.src = './pdf.js';
-        pdfLib.type = 'text/javascript';
-        pdfLib.onload = function () {
-            textLayerLib = document.createElement('script');
-            textLayerLib.async = false;
-            textLayerLib.src = './TextLayerBuilder.js';
-            textLayerLib.type = 'text/javascript';
-            textLayerLib.onload = callback;
-            document.getElementsByTagName('head')[0].appendChild(textLayerLib);
-        };
-        document.getElementsByTagName('head')[0].appendChild(pdfLib);
+        loadScript('./compatibility.js', function () {
+            loadScript('./pdf.js');
+            loadScript('./pdf_find_bar.js');
+            loadScript('./pdf_find_controller.js');
+            loadScript('./ui_utils.js');
+            loadScript('./text_layer_builder.js');
+            loadScript('./pdfjsversion.js', callback);
+        });
 
         pluginCSS = document.createElement('link');
         pluginCSS.setAttribute("rel", "stylesheet");
@@ -119,16 +126,20 @@ function PDFViewerPlugin() {
     function updatePageDimensions(page, width, height) {
         var domPage = getDomPage(page),
             canvas = domPage.getElementsByTagName('canvas')[0],
-            textLayer = domPage.getElementsByTagName('div')[0];
+            textLayer = domPage.getElementsByTagName('div')[0],
+            cssScale = 'scale(' + scale + ', ' + scale + ')';
 
-        domPage.style.width = width;
-        domPage.style.height = height;
+        domPage.style.width = width + "px";
+        domPage.style.height = height + "px";
 
         canvas.width = width;
         canvas.height = height;
 
-        textLayer.style.width = width;
-        textLayer.style.height = height;
+        textLayer.style.width = width + "px";
+        textLayer.style.height = height + "px";
+
+        CustomStyle.setProp('transform', textLayer, cssScale);
+        CustomStyle.setProp('transformOrigin', textLayer, '0% 0%');
 
         // Once the page dimension is updated, the rendering state is blank.
         setRenderingStatus(page, RENDERING.BLANK);
@@ -145,7 +156,7 @@ function PDFViewerPlugin() {
                 canvasContext: canvas.getContext('2d'),
                 textLayer: textLayer,
                 viewport: page.getViewport(scale)
-            }).then(function () {
+            }).promise.then(function () {
                 setRenderingStatus(page, RENDERING.FINISHED);
             });
         }
@@ -197,6 +208,12 @@ function PDFViewerPlugin() {
 
         createdPageCount += 1;
         if (createdPageCount === (pdfDocument.numPages)) {
+            if (self.isSlideshow()) {
+                domPages.forEach(function (pageElement) {
+                    pageElement.style.display = "none";
+                });
+                self.showPage(1);
+            }
             self.onLoad();
         }
     }
@@ -307,14 +324,41 @@ function PDFViewerPlugin() {
 
     this.getPageInView = function () {
         var i;
-        for (i = 0; i < domPages.length; i += 1) {
-            if (isScrolledIntoView(domPages[i])) {
-                return i + 1;
+
+        if (self.isSlideshow()) {
+            return currentPage;
+        } else {
+            for (i = 0; i < domPages.length; i += 1) {
+                if (isScrolledIntoView(domPages[i])) {
+                    return i + 1;
+                }
             }
         }
     };
 
     this.showPage = function (n) {
-        scrollIntoView(domPages[n - 1]);
+        if (self.isSlideshow()) {
+            domPages[currentPage - 1].style.display = "none";
+            currentPage = n;
+            domPages[n - 1].style.display = "block";
+        } else {
+            scrollIntoView(domPages[n - 1]);
+        }
+    };
+
+    this.getPluginName = function () {
+        return "PDF.js"
+    };
+
+    this.getPluginVersion = function () {
+        var version = (String(typeof pdfjs_version) !== "undefined"
+            ? pdfjs_version
+            : "From Source"
+        );
+        return version;
+    };
+
+    this.getPluginURL = function () {
+        return "https://github.com/mozilla/pdf.js/";
     };
 }
