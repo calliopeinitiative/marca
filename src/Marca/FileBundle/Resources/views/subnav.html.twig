@@ -12,18 +12,18 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#" title="File listing">
-                {% if byuser %}{{ byuser.firstname }} {{ byuser.lastname }}
-                {% elseif app.request.get('scope')=='mine' %}My Files
-                {% elseif app.request.get('scope')=='reviews' %}Reviews
-                {% else  %}Shared Files
-                {% endif %}</a>
+                {% if user %}
+                {{ user.firstname }} {{ user.lastname }}
+                {% endif %}
+            </a>
         </div>
         <div class="collapse navbar-collapse" id="subnav-collapse">
             <ul class="nav navbar-nav">
                 <p class="navbar-text project"></p>
                 <p class="navbar-text tags"></p>
                 <p class="navbar-text file_count"></p>
-                {% if role == '2' and app.request.get('scope')=='reviews' %}
+                {% if role == '2' and app.request.attributes.get('_route') == 'reviewsbyuser'%}
+
                     <a class="btn btn-default btn-sm navbar-btn pull-right margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>
                 {% endif %}
             </ul>

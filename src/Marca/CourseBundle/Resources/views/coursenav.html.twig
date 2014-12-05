@@ -39,7 +39,7 @@
         {% if app.session.get('resource_referrer') %}
             <a href="{{ app.session.get('resource_referrer') }}" >Resources</a>
         {% else %}
-            <a href="{{ course_path('file_list', { 'project': default_resource, 'resource': 1, 'scope': 'all'}) }}">Resources</a>
+            <a href="{{ course_path('file_listbyproject', { 'project': default_resource, 'resource': 1}) }}">Resources</a>
         {% endif %}
 
     </li>
@@ -50,7 +50,7 @@
             {% if app.session.get('referrer') %}
                 <a href="{{ app.session.get('referrer') }} ">Projects</a>
             {% else %}
-                <a href="{{ course_path('file_list', { 'project': course.projectDefault.id, 'resource': 0}) }}">Projects</a>
+                <a href="{{ course_path('file_listbyuser', { 'userid': 0, 'resource': 0}) }}">Projects</a>
             {% endif %}
 
         </li>

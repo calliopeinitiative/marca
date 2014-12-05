@@ -2,9 +2,7 @@
 {# esi fragment for file resources_sidebar #}
 
 <h1>
-    <a  title='Resources'
-       href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}"
-       class="">Resources</a>
+    <a  title='Resources' href="#" >Resources</a>
 </h1>
 
 {# check to see if projects are in the current course  #}
@@ -36,7 +34,7 @@
         <li id="project_list">
             <a data-project-index="{{ project.id }}" title='{{ project.course.name }}: {{ project.name }}'
                class="project-sidebar"
-               href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
+               href='{{ course_path('file_listbyproject', { 'project': project.id, 'resource': 1}) }}'>
                 {{ project.course.name }}: {{ project.name }}</a>
         </li>
     {% endfor %}
@@ -46,7 +44,7 @@
 {# Labels  Find #}
     {% for tag in tags %}
         <li>
-            <a data-tag-index="{{ tag.id }}" href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}"
+            <a data-tag-index="{{ tag.id }}" href=""
                class="project-sidebar">
                 {{ tag.name }}
                 <span class="pull-left color-flag"
@@ -55,7 +53,7 @@
         </li>
     {% endfor %}
 <li>
-    <a data-tag-index="0" href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}"
+    <a data-tag-index="0" href=""
        class="project-sidebar">All Labels</a>
 </li>
 

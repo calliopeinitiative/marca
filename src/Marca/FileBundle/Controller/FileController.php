@@ -25,13 +25,12 @@ use Marca\DocBundle\Entity\Doc;
  */
 class FileController extends Controller
 {
-
     /**
      * Lists all Course entities.
      *
-     * @Route("/{courseid}/{tag}/{scope}/{user}/{resource}/{userid}/resources_sidebar", name="file_resources_sidebar")
+     * @Route("/{courseid}/{resource}/resources_sidebar", name="file_resources_sidebar", defaults={ "tag" = 0,"project" = 0})
      */
-    public function createResources_sidebarAction($courseid, $resource, $tag)
+    public function createResources_sidebarAction($courseid, $resource)
     {
         $em = $this->getEm();
         $role = $this->getCourseRole();
@@ -40,44 +39,144 @@ class FileController extends Controller
         $default_project = $projects[0]->getId();
         $project = $default_project;
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
-        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
         $projectForTags = $em->getRepository('MarcaCourseBundle:Project')->find($project);
         $courseForTags = $projectForTags->getCourse();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseForTags);
-        return $this->render('MarcaFileBundle::resources_sidebar.html.twig', array('projects' => $projects, 'tags' => $tags, 'tag' => $tag, 'systemtags' => $systemtags, 'role' => $role));
+        return $this->render('MarcaFileBundle::resources_sidebar.html.twig', array(
+            'projects' => $projects,
+            'tags' => $tags,
+            'systemtags' => $systemtags,
+            'role' => $role
+        ));
     }
 
     /**
      * Creates esi sidebar fragment for projects.
      *
-     * @Route("/{courseid}/{tag}/{scope}/{user}/{resource}/{userid}/projects_sidebar", name="file_projects_sidebar")
+     * @Route("/{courseid}/{resource}/projects_sidebar", name="file_projects_sidebar")
      */
-    public function createProjects_sidebarAction($courseid, $resource, $tag, $userid)
+    public function createProjects_sidebarAction($courseid, $resource)
     {
         $em = $this->getEm();
         $role = $this->getCourseRole();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
-        $tag = $em->getRepository('MarcaTagBundle:Tag')->find($tag);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($course);
-        return $this->render('MarcaFileBundle::projects_sidebar.html.twig', array('course' => $course,'projects' => $projects, 'tags' => $tags, 'tag' => $tag,
-            'systemtags' => $systemtags, 'role' => $role));
+        return $this->render('MarcaFileBundle::projects_sidebar.html.twig', array(
+            'course' => $course,
+            'projects' => $projects,
+            'tags' => $tags,
+            'systemtags' => $systemtags,
+            'role' => $role
+        ));
     }
 
     /**
      * Creates ESI fragment for course submenu
      *
-     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/subnav", name="course_subnav")
+     * @Route("/{courseid}/subnav", name="course_subnav")
      * @Template("MarcaFileBundle::subnav.html.twig")
      */
-    public function createSubnavAction($courseid, $userid)
+    public function createSubnavAction($courseid)
     {
         $em = $this->getEm();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $role = $this->getCourseRole();
-        $byuser = $em->getRepository('MarcaUserBundle:User')->find($userid);
-        return $this->render('MarcaFileBundle::subnav.html.twig', array('roll' => $roll, 'byuser' => $byuser, 'role' => $role));
+        $user = $this->getUser();
+
+        return $this->render('MarcaFileBundle::subnav.html.twig', array(
+            'roll' => $roll,
+            'user' => $user,
+            'role' => $role
+        ));
+    }
+
+    /**
+     * Lists all File entities by User.
+     *
+     * @Route("/{courseid}/{userid}/{resource}/listbyuser", name="file_listbyuser")
+     */
+    public function indexByUserAction($userid, $courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $session = $this->get('session');
+        $request = $this->getRequest();
+        $session->set('referrer', $request->getRequestUri());
+
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        if ($userid==0) {
+            $user = $this->getUser();
+        }
+        else {
+            $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+        }
+        $role = $this->getCourseRole();
+        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByUser($user, $course);
+
+        return $this->render('MarcaFileBundle:File:files_index.html.twig', array('files' => $files, 'role' => $role, 'course' => $course));
+    }
+
+
+    /**
+     * Lists all File entities by User.
+     *
+     * @Route("/{courseid}/{userid}/{resource}/reviewsbyuser", name="file_reviewsbyuser")
+     */
+    public function indexReviewsByUserAction($userid, $courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $session = $this->get('session');
+        $request = $this->getRequest();
+        $session->set('referrer', $request->getRequestUri());
+
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        if ($userid==0) {
+            $user = $this->getUser();
+        }
+        else {
+            $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+        }
+        $role = $this->getCourseRole();
+        $files = $em->getRepository('MarcaFileBundle:File')->findReviewsByUser($user, $course);
+
+        return $this->render('MarcaFileBundle:File:reviews_index.html.twig', array('files' => $files, 'role' => $role, 'course' => $course));
+    }
+
+    /**
+     * Lists all File entities by Project.
+     *
+     * @Route("/{courseid}/{project}/{tag}/{resource}/filebyproject", name="file_listbyproject", defaults={ "tag" = 0})
+     */
+    public function filesByProjectAction($project, $courseid, $tag, $resource)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $role = $this->getCourseRole();
+
+        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $tag);
+
+        $session = $this->get('session');
+        $request = $this->getRequest();
+
+        if ($resource == 0) {
+            $template = 'MarcaFileBundle:File:files_index.html.twig';
+            $session->set('referrer', $request->getRequestUri());
+        } else {
+            $template = 'MarcaFileBundle:File:resources_index.html.twig';
+            $session->set('resource_referrer', $request->getRequestUri());
+        }
+
+        return $this->render($template, array('files' => $files, 'role' => $role, 'course' => $course));
     }
 
 
@@ -208,9 +307,9 @@ class FileController extends Controller
     /**
      * Displays a form to create a new File entity for a LINK listing.
      *
-     * @Route("/{courseid}/{resource}/{tag}/{type}/{fileid}/new_modal", name="file_new_modal")
+     * @Route("/{courseid}/{resource}/{type}/{fileid}/new_modal", name="file_new_modal", defaults={"resource" = 0, "fileid" = 0})
      */
-    public function newModalAction($courseid, $resource, $tag, $type, $fileid)
+    public function newModalAction($courseid, $resource, $type, $fileid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -238,7 +337,6 @@ class FileController extends Controller
             return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
                 'file' => $file,
                 'resource' => $resource,
-                'tag' => $tag,
                 'type' => $type,
                 'tags' => $tags,
                 'roll' => $roll,
@@ -250,7 +348,6 @@ class FileController extends Controller
             return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
                 'file' => $file,
                 'resource' => $resource,
-                'tag' => $tag,
                 'type' => $type,
                 'tags' => $tags,
                 'roll' => $roll,
@@ -280,7 +377,6 @@ class FileController extends Controller
             return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
                 'file' => $file,
                 'resource' => $resource,
-                'tag' => $tag,
                 'type' => $type,
                 'tags' => $tags,
                 'roll' => $roll,
@@ -295,10 +391,10 @@ class FileController extends Controller
     /**
      * Creates a new File entity.
      *
-     * @Route("/{courseid}/{resource}/{tag}/{type}/{fileid}/create", defaults={ "fileid" = 0 }, name="file_create")
+     * @Route("/{courseid}/{resource}/{type}/{fileid}/create", defaults={ "fileid" = 0 }, name="file_create", defaults={"resource" = 0, "fileid" = 0})
      * @Method("post")
      */
-    public function createAction($courseid, $resource, $tag, $type, $fileid)
+    public function createAction($courseid, $resource, $type, $fileid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -348,7 +444,6 @@ class FileController extends Controller
         return $this->render('MarcaFileBundle:File:new.html.twig', array(
             'file' => $file,
             'resource' => $resource,
-            'tag' => $tag,
             'type' => $type,
             'tags' => $tags,
             'roll' => $roll,
@@ -361,7 +456,7 @@ class FileController extends Controller
     /**
      * Displays a form to edit an existing File entity.
      *
-     * @Route("/{courseid}/{resource}/{tag}/{id}/edit_modal", name="file_edit_modal")
+     * @Route("/{courseid}/{resource}/{id}/edit_modal", name="file_edit_modal", defaults={"resource" = 0, "fileid" = 0})
      */
     public function editModalAction($id, $courseid, $resource)
     {
@@ -420,7 +515,7 @@ class FileController extends Controller
     /**
      * Edits an existing File entity.
      *
-     * @Route("/{courseid}/{resource}/{id}/update", name="file_update")
+     * @Route("/{courseid}/{resource}/{id}/update", name="file_update", defaults={"resource" = 0, "fileid" = 0})
      * @Method("post")
      * @Template("MarcaFileBundle:File:edit.html.twig")
      */
@@ -482,7 +577,7 @@ class FileController extends Controller
     /**
      * Deletes a File entity.
      *
-     * @Route("/{courseid}/{resource}/{id}/delete", name="file_delete")
+     * @Route("/{courseid}/{resource}/{id}/delete", name="file_delete", defaults={"resource" = 0})
      * @Method("post")
      */
     public function deleteAction($id, $courseid, $resource)
@@ -536,7 +631,7 @@ class FileController extends Controller
     /**
      * Uploads a file with a Document entity.
      *
-     * @Route("/{courseid}/{resource}/upload", name="file_upload")
+     * @Route("/{courseid}/{resource}/upload", name="file_upload", defaults={"resource" = 0})
      */
     public function uploadAction($courseid, $resource)
     {
@@ -600,7 +695,7 @@ class FileController extends Controller
     /**
      * Uploads a file with a Document entity.
      *
-     * @Route("/{courseid}/{fileid}/reviewupload", name="review_upload")
+     * @Route("/{courseid}/{fileid}/reviewupload", name="review_upload", defaults={"resource" = 0})
      */
     public function uploadReviewAction($courseid, $fileid)
     {
