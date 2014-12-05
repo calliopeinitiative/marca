@@ -504,8 +504,6 @@ class User extends BaseUser
         $markupsets_array = $this->markupsets->toArray();
         usort($markupsets_array, array("Marca\DocBundle\Entity\Markupset","cmp_shared"));
         return $markupsets_array;
-        
-        //return $this->markupsets;
     }
 
      public function setCustomer_id($customer_id)

@@ -54,7 +54,7 @@
 <div id='file-container'>
     {% if app.request.get('_route') == 'file_view' or app.request.get('_route') == 'file_view_ajax' %}
         <iframe class="col-sm-8" id="viewer"
-                src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}"
+                src="{{ asset('bundles/marcahome/ViewerJS/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}"
                 allowfullscreen="true" webkitallowfullscreen="true"></iframe>
     {% else %}
         <div id="doc-container" class="col-sm-8">

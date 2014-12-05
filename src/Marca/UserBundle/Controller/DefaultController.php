@@ -32,7 +32,7 @@ class DefaultController extends Controller
         if ($user->getLastname()==''){
             return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
         }
-        if ($user->getInstitution()->getResearch()==true && $user->getResearch()==0){
+        if ($user->getInstitution()->getResearch()===true && $user->getResearch()==0){
             return $this->redirect($this->generateUrl('user_research', array('id' => $id)));
         }
 

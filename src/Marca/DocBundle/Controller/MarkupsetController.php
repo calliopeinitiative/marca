@@ -24,11 +24,8 @@ class MarkupsetController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getEm();
         $user = $this->getUser();
-        
-        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findMarkupSetsByUser($user);
-        //$markupsets = $user->getMarkupsets();
+        $markupsets = $user->getMarkupsets();
         return array('markupsets' => $markupsets);
     }
 
