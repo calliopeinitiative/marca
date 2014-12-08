@@ -50,7 +50,7 @@
             {% if app.session.get('referrer') %}
                 <a href="{{ app.session.get('referrer') }} ">Projects</a>
             {% else %}
-                <a href="{{ course_path('file_listbyuser', { 'userid': 0, 'resource': 0}) }}">Projects</a>
+                <a href="{{ course_path('file_list', { 'userid': 0, 'resource': 0}) }}">Projects</a>
             {% endif %}
 
         </li>

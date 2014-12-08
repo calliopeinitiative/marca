@@ -18,8 +18,15 @@
     <script language="javascript">
         $(document).ready(function()
         {
-
-
+            //set height for file listing
+            $('.file-wrapper').css('max-height', function(index) {
+                return $(window).height()* .88;
+            });
+            //set height of modal
+            $('.modal-body').css('max-height', function(index) {
+                return $(window).height() * .90;
+            });
+            //set click functions for new files
             $('#file_new_doc').click(function(){
                 $('#file_modal').load('{{ course_path('file_new_modal', { 'resource': app.request.get('resource'), 'type': 'doc' }) }}');
                 $('#file_modal').modal();
@@ -32,15 +39,15 @@
                 $('#file_modal').load('{{ course_path('file_upload', { 'resource': app.request.get('resource') }) }}');
                 $('#file_modal').modal();
             });
+
+            //hover for settings etc
             $( "li" ).hover(
                     function() {
                         $(".default").hide();$( ".default", this ).show();
                     }
             );
 
-            $('.modal-body').css('max-height', function(index) {
-                return $(window).height() * .90;
-            });
+            //click functions for editing file listings
             {% for file in files%}
             $('.edit_{{file.id}}').click(function(){
                 $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource') }) }}').modal();
@@ -52,9 +59,8 @@
                 $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}').modal();
             });
             {% endfor %}
-            $('.file-wrapper').css('max-height', function(index) {
-                return $(window).height()* .88;
-            });
+
+            //tablesorter for files
             $.extend($.tablesorter.themes.bootstrap, {
                 table      : 'table',
                 header     : 'bootstrap-header', // give the header a gradient background
@@ -88,27 +94,69 @@
                     }
             );
             $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
+
             // count files
-            var count_hidden = $('#file_list tr.hidden').length;
-            var count_displayed = $('#file_list tr').length -2;
-            var count = count_displayed - count_hidden;
+            var count = $('#file_list tr').length - 1;
             var count_text = '';
-            if (count > 1) {count_text = ' ' + count + ' files found';$('p.file_count').append(count_text);}
+            if (count > 1) {count_text = ' ' + count + ' files found';$('span.file_count').append(count_text);}
 
             // url creation for roll file listing from esi fragment in sidebar
             $('a.roll').click(function() {
                 var id = $(this).data("id");
                 var index = $(this).data("index");
-                var url = "{{ course_path('file_listbyuser', { 'userid': 'id', 'resource': 0}) }}";
+                var url = "{{ course_path('file_list', { 'userid': 'id', 'userindex': 'index', 'resource': 0}) }}";
                 url = url.replace("id", id);
+                url = url.replace("index", index);
+                $(this).attr("href", url).click();
+            });
+            // next previous rewrite for sidebar
+            var previous_index = {{ app.request.get('userindex') }} - 1;
+            var previous_selector ='a[data-index=' + previous_index + ']';
+            var previous_name = '<' + $(previous_selector).html();
+            if (previous_index < 1) previous_name = '';
+            $('a.roll_previous').text(previous_name);
+            var next_index = {{ app.request.get('userindex') }} + 1;
+            var next_selector ='a[data-index=' + next_index + ']';
+            var next_id = $(next_selector).data('id');
+            if (next_id > 0) var next_name = $(next_selector).html() + '>'; else var next_name = '';
+            $('a.roll_next').text(next_name);
+            $('a.roll_previous').click(function() {
+                var index = {{ app.request.get('userindex') }} - 1;
+                var selector ='a[data-index=' + index + ']';
+                var id = $(selector).data('id');
+                var url = "{{ course_path('file_list', { 'userid': 'id', 'userindex': 'index' , 'resource': 0 }) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                $(this).attr("href", url).click();
+            });
+            $('a.roll_next').click(function() {
+                var index = {{ app.request.get('userindex') }} + 1;
+                var selector ='a[data-index=' + index + ']';
+                var id = $(selector).data('id');
+                var url = "{{ course_path('file_list', { 'userid': 'id', 'userindex': 'index' , 'resource': 0 }) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
                 $(this).attr("href", url).click();
             });
 
             //add current-filter to active items
             {% if app.request.get("project") %}
             var project_index = 'a[data-project-index=' + '{{ app.request.get("project") }}' + ']';
-            $(project_index).addClass('current-filter');
+            $(project_index).addClass('current-filter');$('a.project').append($(project_index).html());
             {% endif %}
+
+            //toggle listings with labels
+            $('a.tag_anchor').click(function(){
+                var tag_id = $(this).attr("data-tag-index");
+                if (tag_id==0) {
+                    $('span.label').parent().parent().show();
+                }
+                else {
+                    $('span.label').parent().parent().hide();
+                    $('span[data-tag=' + tag_id + ' ]').parent().parent().show();
+                }
+            });
+
         });
     </script>
 {% endblock %}
@@ -117,15 +165,10 @@
     {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}
 
-{% block subnav %}
-    {% if app.request.get('resource')=='0' %}
-    {{ render_esi(controller('MarcaFileBundle:File:createSubnav', { 'courseid': app.request.get('courseid')})) }}
-    {% endif %}
-{% endblock %}
 
 {% block sidebar %}
     {% if app.request.get('resource')=='0' %}
-    {{ render_esi(controller('MarcaFileBundle:File:createProjects_sidebar', { 'courseid': app.request.get('courseid'),
+    {{ render_esi(controller('MarcaFileBundle:File:createFiles_sidebar', { 'courseid': app.request.get('courseid'),
     'resource': app.request.get('resource')})) }}
     {% else %}
     {{ render_esi(controller('MarcaFileBundle:File:createResources_sidebar', { 'courseid': app.request.get('courseid'),

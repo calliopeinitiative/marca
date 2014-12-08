@@ -53,9 +53,9 @@ class FileController extends Controller
     /**
      * Creates esi sidebar fragment for projects.
      *
-     * @Route("/{courseid}/{resource}/projects_sidebar", name="file_projects_sidebar")
+     * @Route("/{courseid}/{resource}/files_sidebar", name="file_files_sidebar")
      */
-    public function createProjects_sidebarAction($courseid, $resource)
+    public function createFiles_sidebarAction($courseid, $resource)
     {
         $em = $this->getEm();
         $role = $this->getCourseRole();
@@ -63,7 +63,7 @@ class FileController extends Controller
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($course);
-        return $this->render('MarcaFileBundle::projects_sidebar.html.twig', array(
+        return $this->render('MarcaFileBundle::files_sidebar.html.twig', array(
             'course' => $course,
             'projects' => $projects,
             'tags' => $tags,
@@ -73,31 +73,11 @@ class FileController extends Controller
     }
 
     /**
-     * Creates ESI fragment for course submenu
-     *
-     * @Route("/{courseid}/subnav", name="course_subnav")
-     * @Template("MarcaFileBundle::subnav.html.twig")
-     */
-    public function createSubnavAction($courseid)
-    {
-        $em = $this->getEm();
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        $role = $this->getCourseRole();
-        $user = $this->getUser();
-
-        return $this->render('MarcaFileBundle::subnav.html.twig', array(
-            'roll' => $roll,
-            'user' => $user,
-            'role' => $role
-        ));
-    }
-
-    /**
      * Lists all File entities by User.
      *
-     * @Route("/{courseid}/{userid}/{resource}/listbyuser", name="file_listbyuser")
+     * @Route("/{courseid}/{userid}/{userindex}/{resource}/list", name="file_list", defaults={"resource" = 0, "userindex" = 0})
      */
-    public function indexByUserAction($userid, $courseid)
+    public function filesByUserAction($userid, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -117,16 +97,21 @@ class FileController extends Controller
         $role = $this->getCourseRole();
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesByUser($user, $course);
 
-        return $this->render('MarcaFileBundle:File:files_index.html.twig', array('files' => $files, 'role' => $role, 'course' => $course));
+        return $this->render('MarcaFileBundle:File:files_index.html.twig', array(
+            'files' => $files,
+            'role' => $role,
+            'user' => $user,
+            'course' => $course
+        ));
     }
 
 
     /**
      * Lists all File entities by User.
      *
-     * @Route("/{courseid}/{userid}/{resource}/reviewsbyuser", name="file_reviewsbyuser")
+     * @Route("/{courseid}/{userid}/{resource}/reviews", name="file_reviews")
      */
-    public function indexReviewsByUserAction($userid, $courseid)
+    public function reviewsByUserAction($userid, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -146,7 +131,7 @@ class FileController extends Controller
         $role = $this->getCourseRole();
         $files = $em->getRepository('MarcaFileBundle:File')->findReviewsByUser($user, $course);
 
-        return $this->render('MarcaFileBundle:File:reviews_index.html.twig', array('files' => $files, 'role' => $role, 'course' => $course));
+        return $this->render('MarcaFileBundle:File:reviews_index.html.twig', array('files' => $files, 'role' => $role, 'user' => $user,  'course' => $course));
     }
 
     /**
@@ -174,53 +159,6 @@ class FileController extends Controller
         } else {
             $template = 'MarcaFileBundle:File:resources_index.html.twig';
             $session->set('resource_referrer', $request->getRequestUri());
-        }
-
-        return $this->render($template, array('files' => $files, 'role' => $role, 'course' => $course));
-    }
-
-
-    /**
-     * Lists all File entities by Project.
-     *
-     * @Route("/{courseid}/{project}/{tag}/{scope}/{user}/{resource}/{userid}/list", name="file_list", defaults={"project" = 0, "scope" = "mine","user" = 0,"resource" = 0, "tag" = 0,"userid" = 0})
-     */
-    public function indexByProjectAction($project, $scope, $courseid, $tag, $resource, $userid)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-
-        $session = $this->get('session');
-        $request = $this->getRequest();
-        if ($resource == 0) {
-            $session->set('referrer', $request->getRequestUri());
-        } else {
-            $session->set('resource_referrer', $request->getRequestUri());
-        }
-        $em = $this->getEm();
-        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $byuser = $em->getRepository('MarcaUserBundle:User')->find($userid);
-        $role = $this->getCourseRole();
-        $user = $this->getUser();
-
-        if ($scope == 'reviews')
-            $files = $em->getRepository('MarcaFileBundle:File')->findMyReviewFiles ($project, $user);
-        elseif ($role == 2 && $scope == 'all') {
-            $files = $em->getRepository('MarcaFileBundle:File')->findAllFilesByProjectInstructor($project, $user, $tag);
-        } elseif ($role != 2 && $scope == 'all') {
-            $files = $em->getRepository('MarcaFileBundle:File')->findAllFilesByProjectStudent($project, $user, $tag);
-        } elseif ($role == 2 && $scope == 'byuser') {
-            $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProjectByuserInstructor($project, $tag, $byuser);
-        } elseif ($role != 2 && $scope == 'byuser') {
-            $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProjectByuserStudent($project, $tag, $byuser);
-        } elseif ($scope == 'mine') {
-            $files = $em->getRepository('MarcaFileBundle:File')->findMyFilesByProject($project, $user, $tag);
-        }
-
-        if ($resource == 0) {
-            $template = 'MarcaFileBundle:File:projects_index.html.twig';
-        } else {
-            $template = 'MarcaFileBundle:File:resources_index.html.twig';
         }
 
         return $this->render($template, array('files' => $files, 'role' => $role, 'course' => $course));

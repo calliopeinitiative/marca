@@ -38,78 +38,17 @@ class FileRepository extends EntityRepository
 
 
     /**
-     * Find resources for project and tag
+     * Find resources for project and tag, instructors only
      */
-    public function findFilesByProject($project, $tag)
+    public function findFilesByProject($project)
     {
-        if ($tag != 0) {
-            return $this->getEntityManager()
+        return $this->getEntityManager()
                 ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
-                WHERE f.project = ?1 AND f.reviewed IS NULL AND  f.access = 1 AND t.id = ?2 ORDER BY  f.updated DESC')
-                ->setParameter('1', $project)->setParameter('2', $tag)->getResult();
-        } else {
-            return $this->getEntityManager()
-                ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
-                WHERE f.project = ?1 AND f.reviewed IS NULL AND f.access = 1 ORDER BY  f.updated DESC')
+                WHERE f.project = ?1 AND f.reviewed IS NULL ORDER BY  f.updated DESC')
                 ->setParameter('1', $project)->getResult();
-        }
     }
 
 
-    /**
-     * Find ALL files for users with Instructor role with or without tags
-     */
-   public function findAllFilesByProjectInstructor($project, $user, $tag)
-    {
-        if ($tag != 0) {
-            return $this->getEntityManager()
-                ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
-                WHERE f.project = ?1 AND f.reviewed IS NULL AND t.id = ?4 ORDER BY  f.updated DESC')
-                ->setParameter('1', $project)->setParameter('4', $tag)->getResult();
-        } else {
-                return $this->getEntityManager()
-                    ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
-                WHERE f.project = ?1 AND f.reviewed IS NULL ORDER BY f.updated DESC')
-                    ->setParameter('1', $project)->getResult();
-            }
-    }
-
-
-    /**
-     * Find files by user for users with Instructor role by Project with or without tags
-     */
-    public function findFilesByProjectByuserInstructor($project, $tag, $byuser)
-    {
-        if ($tag != 0) {
-            return $this->getEntityManager()
-                ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
-                WHERE f.project = ?1 AND f.reviewed IS NULL AND (f.user = ?3) AND t.id = ?4 ORDER BY  f.updated DESC')
-                ->setParameter('1',$project)->setParameter('3',$byuser)->setParameter('4',$tag)->getResult();
-        } else {
-            return $this->getEntityManager()
-                ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
-                WHERE f.project = ?1 AND f.reviewed IS NULL AND (f.user = ?3) ORDER BY  f.updated DESC')
-                ->setParameter('1',$project)->setParameter('3',$byuser)->getResult();
-        }
-    }
-
-    /**
-     * Find files by user for users with Student role by Project with or without tags
-     */
-    public function findFilesByProjectByuserStudent($project, $tag, $byuser)
-    {
-        if ($tag != 0) {
-            return $this->getEntityManager()
-                ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
-                WHERE f.project = ?1 AND f.reviewed IS NULL AND f.user = ?3 AND f.access = 1 AND t.id = ?4 ORDER BY  f.updated DESC')
-                ->setParameter('1', $project)->setParameter('3', $byuser)->setParameter('4', $tag)->getResult();
-        } else {
-            return $this->getEntityManager()
-                ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
-                WHERE f.project = ?1 AND f.reviewed IS NULL AND f.user = ?3 AND f.access = 1 ORDER BY  f.updated DESC')
-                ->setParameter('1', $project)->setParameter('3', $byuser)->getResult();
-        }
-    }
 
     /**
     * First users files with shared access for portfolio

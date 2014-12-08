@@ -3,8 +3,22 @@
 {% extends 'MarcaFileBundle::layout.html.twig' %}
 
 {% block content %}
-    <div class="file-wrapper well">
+    <nav class="navbar navbar-default hidden-xs" role="navigation" style="margin-top: -20px;">
+        <div class="container-fluid">
+            <a class="navbar-brand project" href="#" title="File listing">
+                    Reviews by {{ user.firstname }} {{ user.lastname }}
+            </a>
+            <ul class="nav navbar-nav">
+                <span class="navbar-text file_count"></span>
+                <span class="navbar-text tags"></span>
+                {% if role == '2' and app.request.attributes.get('_route') == 'file_reviews'%}
+                    <a class="btn btn-default btn-sm navbar-btn pull-right margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>
+                {% endif %}
+            </ul>
+        </div><!-- /.container-fluid -->
+    </nav>
 
+    <div class="file-wrapper well">
         <table id="file_list" class="col-sm-12 table">
             <thead>
             <tr class="file">
