@@ -59,7 +59,7 @@ class FileRepository extends EntityRepository
 
 
     /**
-     * Find Resources for Rroject
+     * Find Files by Project
      * Access is limited by role in course, instructors can see everything
      */
     public function findFilesByProject($project, $access)
@@ -81,7 +81,28 @@ class FileRepository extends EntityRepository
 
     }
 
+    /**
+     * Find all Shared Files
+     * Access is limited by role in course, instructors can see everything
+     */
+    public function findSharedFiles($course, $access)
+    {
+        if ($access ==2 ) {
+            return $this->getEntityManager()
+                ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN
+                f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
+                WHERE f.course = ?1 AND f.reviewed IS NULL ORDER BY  f.updated DESC')
+                ->setParameter('1', $course)->getResult();
+        }
+        else {
+            return $this->getEntityManager()
+                ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN
+                f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b WHERE f.course = ?1  AND f.access = 1 AND f.reviewed IS NULL ORDER
+                 BY  f.updated DESC')
+                ->setParameter('1', $course)->getResult();
+        }
 
+    }
 
     /**
     * First users files with shared access for portfolio

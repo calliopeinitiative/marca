@@ -194,6 +194,46 @@ class FileController extends Controller
 
 
     /**
+     * Lists all File entities by Project.
+     *
+     * @Route("/{courseid}/{resource}/sharedfiles", name="file_listshared")
+     */
+    public function sharedFilesAction($courseid, $resource)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $role = $this->getCourseRole();
+        $access = $role;
+
+        $files = $em->getRepository('MarcaFileBundle:File')->findSharedFiles($course, $access);
+
+        $session = $this->get('session');
+        $request = $this->getRequest();
+
+        if ($resource == 0) {
+            $template = 'MarcaFileBundle:File:files_index.html.twig';
+            $session->set('referrer', $request->getRequestUri());
+        } else {
+            $template = 'MarcaFileBundle:File:resources_index.html.twig';
+            $session->set('resource_referrer', $request->getRequestUri());
+        }
+
+        $heading = 'Shared Files';
+
+        return $this->render($template, array(
+            'files' => $files,
+            'role' => $role,
+            'course' => $course,
+            'heading' => $heading
+        ));
+    }
+
+
+
+    /**
      * Finds and displays a File entity.
      *
      * @Route("/{courseid}/{id}/{resource}/show_modal", name="file_show_modal")
