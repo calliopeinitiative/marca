@@ -3,6 +3,18 @@
 {% extends 'MarcaFileBundle::layout.html.twig' %}
 
 {% block content %}
+    <nav class="navbar navbar-default hidden-xs" role="navigation" style="margin-top: -20px;">
+        <div class="container-fluid">
+            <a class="navbar-brand project" href="#" title="File listing">
+                {{ heading }}
+            </a>
+            <ul class="nav navbar-nav">
+                <span class="navbar-text file_count"></span>
+            </ul>
+
+        </div><!-- /.container-fluid -->
+    </nav>
+
     <div class="file-wrapper well">
         <table id="file_list" class="col-sm-12 table">
             <thead>
@@ -60,7 +72,10 @@
                     </td>
                     <td>{{ file.project.course.name }}: {{ file.project.name }}</td>
                     <td>
-                        {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
+                        {% for tag in file.tag %}
+                            <span data-tag='{{ tag.id }}' class="label label-default margin-right" style="background-color: {{ tag.color }};">{{ tag.name
+                        }}</span>{%
+                        endfor %}
                     </td>
                 </tr>
             {% else %}

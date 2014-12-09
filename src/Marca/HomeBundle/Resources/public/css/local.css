@@ -451,6 +451,10 @@ ul .dropdown-menu .glyphicon {
     margin-top: 20px;
 }
 
+li.dropdown a {
+    color:#464648
+}
+
 /**calendar**/
 .fc-content {
     cursor: pointer;

@@ -30,31 +30,34 @@
     {% endfor %}
 
 <hr class="marca-spacer"/>
-<li><a data-scope-index="myfiles" class="project-sidebar"  href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My
-        Files</a></li>
-<li><a data-scope-index="reviews" class="project-sidebar" href="{{ course_path('file_reviews', { 'userid':  0,
-    'resource': app.request.get('resource') }) }}">My Reviews</a></li>
+<li>
+    <a data-scope-index="myfiles" class="project-sidebar"  href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
+        My Files
+    </a>
+</li>
+<li>
+    <a data-scope-index="reviews" class="project-sidebar" href="{{ course_path('file_reviews', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
+        My Reviews
+    </a>
+</li>
+<hr class="marca-spacer"/>
 
 {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
 
 
-{# Projects  Find for instructors only #}
-{% if role == 2 %}
 <hr class="marca-spacer"/>
 
-{# Projects  Find #}
+{# Projects  Hide show #}
     {% for project in projects %}
         <li id="project_list">
-            <a data-project-index="{{ project.id }}" title='{{ project.name }}' class="project-sidebar"
-               href='{{ course_path('file_listbyproject', { 'project': project.id, 'resource': 0}) }}'>{{ project.name }}</a>
+            <a data-project-index="{{ project.id }}" title='{{ project.name }}' class="project_anchor project-sidebar"
+               href='javascript:void(0);'>{{ project.name }}</a>
         </li>
     {% endfor %}
 
-{% endif %}
+
 <hr class="marca-spacer"/>
-
-{# Labels  Find #}
-
+{# Labels Hide Show #}
     {% for tag in tags %}
         <li>
             <a data-tag-index="{{ tag.id }}"  href="javascript:void(0);" class="tag_anchor project-sidebar">

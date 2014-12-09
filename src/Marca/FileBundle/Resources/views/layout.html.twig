@@ -139,11 +139,17 @@
                 $(this).attr("href", url).click();
             });
 
-            //add current-filter to active items
-            {% if app.request.get("project") %}
-            var project_index = 'a[data-project-index=' + '{{ app.request.get("project") }}' + ']';
-            $(project_index).addClass('current-filter');$('a.project').append($(project_index).html());
-            {% endif %}
+            //toggle listings with projects
+            $('a.project_anchor').click(function(){
+                var project_id = $(this).attr("data-project-index");
+                if (project_id==0) {
+                    $('span.project').parent().parent().show();
+                }
+                else {
+                    $('span.project').parent().parent().hide();
+                    $('span[data-project=' + project_id + ' ]').parent().parent().show();
+                }
+            });
 
             //toggle listings with labels
             $('a.tag_anchor').click(function(){

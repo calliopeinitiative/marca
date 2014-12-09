@@ -88,20 +88,27 @@ class FileController extends Controller
 
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $role = $this->getCourseRole();
+
         if ($userid==0) {
             $user = $this->getUser();
+            $access = 2;
+            $heading = 'My Files';
         }
         else {
             $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+            $access = $role;
+            $heading = 'Files by ' . $user->getFirstname() . ' ' . $user->getLastname() ;
         }
-        $role = $this->getCourseRole();
-        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByUser($user, $course);
+
+        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByUser($user, $course, $access);
 
         return $this->render('MarcaFileBundle:File:files_index.html.twig', array(
             'files' => $files,
             'role' => $role,
             'user' => $user,
-            'course' => $course
+            'course' => $course,
+            'heading' => $heading
         ));
     }
 
@@ -122,24 +129,36 @@ class FileController extends Controller
 
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $role = $this->getCourseRole();
+
         if ($userid==0) {
             $user = $this->getUser();
+            $access = 2;
+            $heading = 'My Reviews';
         }
         else {
             $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+            $access = $role;
+            $heading = 'Reviews by ' . $user->getFirstname() . ' ' . $user->getLastname() ;
         }
-        $role = $this->getCourseRole();
-        $files = $em->getRepository('MarcaFileBundle:File')->findReviewsByUser($user, $course);
 
-        return $this->render('MarcaFileBundle:File:reviews_index.html.twig', array('files' => $files, 'role' => $role, 'user' => $user,  'course' => $course));
+        $files = $em->getRepository('MarcaFileBundle:File')->findReviewsByUser($user, $course, $access);
+
+        return $this->render('MarcaFileBundle:File:reviews_index.html.twig', array(
+            'files' => $files,
+            'role' => $role,
+            'user' => $user,
+            'course' => $course,
+            'heading' => $heading
+        ));
     }
 
     /**
      * Lists all File entities by Project.
      *
-     * @Route("/{courseid}/{project}/{tag}/{resource}/filebyproject", name="file_listbyproject", defaults={ "tag" = 0})
+     * @Route("/{courseid}/{project}/{resource}/filebyproject", name="file_listbyproject")
      */
-    public function filesByProjectAction($project, $courseid, $tag, $resource)
+    public function filesByProjectAction($project, $courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -147,8 +166,10 @@ class FileController extends Controller
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $role = $this->getCourseRole();
+        $access = $role;
 
-        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $tag);
+        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $access);
+        $project = $em->getRepository('MarcaCourseBundle:Project')->find($project);
 
         $session = $this->get('session');
         $request = $this->getRequest();
@@ -161,7 +182,14 @@ class FileController extends Controller
             $session->set('resource_referrer', $request->getRequestUri());
         }
 
-        return $this->render($template, array('files' => $files, 'role' => $role, 'course' => $course));
+        $heading = $course->getName().': '. $project->getName();
+
+        return $this->render($template, array(
+            'files' => $files,
+            'role' => $role,
+            'course' => $course,
+            'heading' => $heading
+        ));
     }
 
 

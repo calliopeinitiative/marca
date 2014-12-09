@@ -40,20 +40,19 @@
     {% endfor %}
 
 <hr class="marca-spacer"/>
-
-{# Labels  Find #}
+{# Labels Hide Show #}
     {% for tag in tags %}
         <li>
-            <a data-tag-index="{{ tag.id }}" href=""
-               class="project-sidebar">
+            <a data-tag-index="{{ tag.id }}"  href="javascript:void(0);" class="tag_anchor project-sidebar">
                 {{ tag.name }}
-                <span class="pull-left color-flag"
-                      style="{% if tag.color != '' %}background: {{tag.color}};color:{{tag.color}};{% endif %}">&#183;</span>
+                <span class="pull-left color-flag" style="{% if tag.color != '' %}background: {{tag.color}};color:{{tag.color}};{% endif %}">&#183;</span>
             </a>
         </li>
     {% endfor %}
 <li>
-    <a data-tag-index="0" href=""
-       class="project-sidebar">All Labels</a>
+    <a data-tag-index="0"  href="javascript:void(0);" class="tag_anchor project-sidebar">
+        All Labels
+        <span class="pull-left color-flag" style="background: white;color:white;">&#183;</span>
+    </a>
 </li>
 

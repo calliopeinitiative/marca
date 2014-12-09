@@ -6,15 +6,13 @@
     <nav class="navbar navbar-default hidden-xs" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
                 <a class="navbar-brand project" href="#" title="File listing">
-                    {% if app.request.attributes.get('_route') == 'file_list'%}
-                        Files by {{ user.firstname }} {{ user.lastname }}
-                    {% endif %}
+                    {{ heading }}
                 </a>
                 <ul class="nav navbar-nav">
                     <span class="navbar-text file_count"></span>
                     <span class="navbar-text tags"></span>
                     {% if role == '2' and app.request.attributes.get('_route') == 'file_reviews'%}
-                        <a class="btn btn-default btn-sm navbar-btn pull-right margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>
+                        <a class="btn btn-default btn-sm navbar-btn margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>
                     {% endif %}
                 </ul>
                 {# next previous rewritten by jquery in layout.html.twig, hidden if default (my files) #}
@@ -115,8 +113,10 @@
                     <td>{% if file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname|title }} {{ file.user.lastname|title }}{% endif %}
 
                     </td>
-                    <td class="hidden-xs">{{ file.project.name }}</td>
-                    <td class="labels hidden-xs">{% if file.access!=1 and file.portfolio|length ==0 and file.tag |length ==0 %}&mdash;{% endif %}
+                    <td class="projects hidden-xs">
+                        <span data-project='{{ file.project.id }}' class="project">{{ file.project.name }}</span>
+                    </td>
+                    <td class="labels hidden-xs">
                         {% for tag in file.tag %}
                             <span data-tag='{{ tag.id }}' class="label label-default margin-right" style="background-color: {{ tag.color }};">{{ tag.name
                         }}</span>{%
