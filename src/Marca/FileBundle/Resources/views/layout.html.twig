@@ -77,12 +77,22 @@
                 odd        : ''  // even row zebra striping
             });
             // call the tablesorter plugin and apply the uitheme widget
-            $("table").tablesorter({
+            var $table = $("table").tablesorter({
                 theme : "bootstrap",
                 widthFixed: true,
                 headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
-                widgets : [ "uitheme"]
+                widgets : [ "uitheme", "filter"],
+                widgetOptions : {
+                    // use the filter_external option OR use bindSearch function (below)
+                    // to bind external filters.
+                    // filter_external : '.search',
+
+                    filter_columnFilters: false,
+                    filter_saveFilters : true,
+                    filter_reset: '.reset'
+                }
             });
+            $.tablesorter.filter.bindSearch( $table, $('.search') );
             $( "tr" ).hover(
                     function() {
                         $(".file-menu").hide();$( ".file-menu", this ).toggle();

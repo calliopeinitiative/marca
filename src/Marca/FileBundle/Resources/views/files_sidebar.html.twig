@@ -42,11 +42,13 @@
 </li>
 <hr class="marca-spacer"/>
 
+{#
 <li>
     <a data-scope-index="reviews" class="project-sidebar" href="{{ course_path('file_listshared', { 'resource': app.request.get('resource') }) }}">
         Shared Files
     </a>
 </li>
+ #}
 
 {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
 
