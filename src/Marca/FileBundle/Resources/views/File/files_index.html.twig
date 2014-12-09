@@ -111,7 +111,6 @@
                     </td>
 
                     <td>{% if file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname|title }} {{ file.user.lastname|title }}{% endif %}
-
                     </td>
                     <td class="projects hidden-xs">
                         <span data-project='{{ file.project.id }}' class="project">{{ file.project.name }}</span>

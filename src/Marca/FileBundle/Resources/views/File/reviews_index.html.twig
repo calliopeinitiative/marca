@@ -90,7 +90,9 @@
                         </div>
                     </td>
                     <td>{% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname|title }} {{ review.user.lastname|title }}{% endif %}</td>
-                    <td class="hidden-xs">{{ review.project.name }}</td>
+                    <td class="projects hidden-xs">
+                        <span data-project='{{ review.project.id }}' class="project">{{ review.project.name }}</span>
+                    </td>
                     <td class="labels hidden-xs">
                         {% for tag in review.tag %}
                             <span class="label label-default" style="background-color: {{ tag.color }};"> {{ tag.name }}    </span>
