@@ -87,12 +87,13 @@
                     // to bind external filters.
                     // filter_external : '.search',
 
-                    filter_columnFilters: false,
+                    filter_columnFilters: true,
                     filter_saveFilters : true,
                     filter_reset: '.reset'
                 }
             });
             $.tablesorter.filter.bindSearch( $table, $('.search') );
+            $('input.tablesorter-filter').addClass('form-control')
             $( "tr" ).hover(
                     function() {
                         $(".file-menu").hide();$( ".file-menu", this ).toggle();
@@ -149,28 +150,13 @@
                 $(this).attr("href", url).click();
             });
 
-            //toggle listings with projects
-            $('a.project_anchor').click(function(){
-                var project_id = $(this).attr("data-project-index");
-                if (project_id==0) {
-                    $('span.project').parent().parent().show();
-                }
-                else {
-                    $('span.project').parent().parent().hide();
-                    $('span[data-project=' + project_id + ' ]').parent().parent().show();
-                }
-            });
-
-            //toggle listings with labels
-            $('a.tag_anchor').click(function(){
-                var tag_id = $(this).attr("data-tag-index");
-                if (tag_id==0) {
-                    $('span.label').parent().parent().show();
-                }
-                else {
-                    $('span.label').parent().parent().hide();
-                    $('span[data-tag=' + tag_id + ' ]').parent().parent().show();
-                }
+            //links for filtering columns
+            $('.link-filter').click(function() {
+                var filters = $('table').find('input.tablesorter-filter'),
+                        col = $(this).data('filter-column'),
+                        txt = $(this).data('filter-text');
+                // filters.val('');
+                filters.eq(col).val(txt).trigger('search', false);
             });
 
         });

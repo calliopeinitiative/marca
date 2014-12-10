@@ -22,7 +22,7 @@
                     <li><a class="roll_next" data-index="0" data-id='0' href="javascript:void(0);"></a></li>
                 </ul>
             {% endif %}
-            <form class="navbar-form navbar-right" role="search">
+            <form id='filter' class="navbar-form navbar-right" role="search">
                 <div class="form-group">
                     <input  type="search" placeholder="Search in list" data-column="all" class="search selectable form-control">
                 </div>
@@ -51,7 +51,7 @@
                         {# doc files #}
                         {% if file.doc %}
                             <a class="file_name"
-                               href="{{ course_path('doc_show', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}">
+                               href="{{ course_path('doc_show', { 'id': file.id, 'view': 'window' }) }}"  target="_blank" title="View {{ file.name }}">
                                 {{ file.name|slice(0,20) }}{% if file.name|length > 20 %}...{% endif %}
                             </a>
                             <span class="label label-file pull-left" data-toggle="tooltip" title="This an html file ">html</span>
@@ -63,7 +63,8 @@
                             <span class="label label-file pull-left" data-toggle="tooltip" title="This a link ">link</span>
                             {# ODT files #}
                         {% elseif file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
-                            <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}">
+                            <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'window' }) }}"  target="_blank"  title="View {{
+                            file.name }}">
                                 {{ file.name|slice(0,20) }}{% if file.name|length > 20 %}...{% endif %}
                             </a>
                             <span class="label label-file pull-left" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>

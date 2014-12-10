@@ -42,7 +42,8 @@
                         {# doc files #}
                         {% if review.doc %}
                             <span class="label label-file" title="This an html file ">html</span>
-                            <a class="file_name" href="{{ course_path('doc_show', { 'id': review.id, 'view': 'app' }) }}" title="View {{ review.name }}">
+                            <a class="file_name" href="{{ course_path('doc_show', { 'id': review.id, 'view': 'window' }) }}"  target="_blank" title="View {{
+                            review.name }}">
                                 Review of <i>{{ review.reviewed.name|slice(0,15) }}</i> for {{ review.reviewed.user.firstname }} {{ review.reviewed.user
                                 .lastname }}
                                 <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
@@ -59,7 +60,8 @@
                             {# ODT files #}
                         {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
                             <span class="label label-file" title="This an {{ review.ext }} file ">{{ review.ext }}</span>
-                            <a class="file_name" href="{{ course_path('file_view', { 'id': review.id, 'view': 'app' }) }}" title="View {{ review.name }}">
+                            <a class="file_name" href="{{ course_path('file_view', { 'id': review.id, 'view': 'window' }) }}"  target="_blank" title="View {{
+                            review.name }}">
                                 Review of
                                 <i>{{ review.reviewed.name|slice(0,15) }}</i>
                                 for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}

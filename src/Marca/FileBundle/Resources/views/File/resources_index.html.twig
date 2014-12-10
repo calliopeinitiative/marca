@@ -32,7 +32,8 @@
                         {# different functions for different file types #}
                         {# doc files #}
                         {% if file.doc %}
-                            <a class="file_name" href="{{ course_path('doc_show', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}">
+                            <a class="file_name" href="{{ course_path('doc_show', { 'id': file.id, 'view': 'windwo' }) }}"  target="_blank" title="View {{ file
+                            .name }}">
                                 {{ file.name }}
                             </a>
                             <span class="label label-file pull-left" data-toggle="tooltip" title="This an html file ">html</span>
@@ -44,7 +45,8 @@
                             <span class="label label-file pull-left" data-toggle="tooltip" title="This a link ">link</span>
                             {# ODT files #}
                         {% elseif file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
-                            <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'app' }) }}" title="View {{ file.name }}">
+                            <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'window' }) }}"  target="_blank" title="View {{ file
+                            .name }}">
                                 {{ file.name }}
                             </a>
                             <span class="label label-file pull-left" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
