@@ -99,18 +99,23 @@
                 var filters = $('table').find('input.tablesorter-filter'),
                         col = $(this).data('filter-column'),
                         txt = $(this).data('filter-text');
-                // filters.val('');
+                        // var index = $(this).data('index') + 1;
+                        // var selector ='a[data-index=' + index + ']';
+                        // var next_name = $(selector).html();
+                        // $('.next').html(next_name).attr('data-filter-text', next_name).attr('data-index', index + 1);
                 filters.eq(col).val(txt).trigger('search', false);
+
                 // count files after filtering
                 var count = $('#file_list tr').not(':hidden').length - 1;
                 var count_text = ' ' + count + ' files found';
                 $('span.file_count').html(count_text);
+                // filter breadcrumbs
                 if (col==1){
-                    $('span.author_filter').html(txt);
+                    $('span.filter1').html(txt);
                 } else if (col==2){
-                    $('span.project_filter').html(txt);
+                    $('span.filter2').html(txt);
                 } else if (col==3){
-                    $('span.tag_filter').html(txt);
+                    $('span.filter3').html(txt);
                 }
             });
             //hide filter row

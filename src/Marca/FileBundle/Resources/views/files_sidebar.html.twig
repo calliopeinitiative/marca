@@ -51,14 +51,6 @@
 
 <hr class="marca-spacer"/>
 
-{{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
-
-<li>
-    <a href="#" class="link-filter project-sidebar" data-filter-column="1" data-filter-text="">All Authors</a>
-</li>
-
-<hr class="marca-spacer"/>
-
 {# Projects  Hide show #}
     {% for project in projects %}
         <li id="project_list">
@@ -84,3 +76,10 @@
 </li>
 
 
+<hr class="marca-spacer"/>
+
+{{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
+
+<li>
+    <a href="#" class="link-filter project-sidebar" data-filter-column="1" data-filter-text="">All Authors</a>
+</li>
