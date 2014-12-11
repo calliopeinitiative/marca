@@ -12,9 +12,10 @@
                     <li><span class="navbar-text filter3"></span></li>
                     <li><span class="navbar-text filter2"></span></li>
                     <li><span class="navbar-text filter1"></span></li>
+                    {% if 'file_listshared' in app.request.attributes.get('_route') %}
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
                     <li><a href="#" class="link-filter project-sidebar" data-filter-column="1" data-filter-text="">All Authors</a></li>
-
+                    {% endif %}
                 </ul>
                 {# next previous rewritten by jquery in layout.html.twig, hidden if default (my files) #}
                 <ul class="nav navbar-nav navbar-right">
