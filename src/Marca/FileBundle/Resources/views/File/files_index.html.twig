@@ -9,15 +9,16 @@
                     {{ heading }}
                 </a>
                 <ul class="nav navbar-nav">
-                    <li><span class="navbar-text filter1"></span></li>
-                    <li><span class="navbar-text filter2"></span></li>
                     <li><span class="navbar-text filter3"></span></li>
-                    <li><span class="navbar-text file_count"></span></li>
+                    <li><span class="navbar-text filter2"></span></li>
+                    <li><span class="navbar-text filter1"></span></li>
+                    {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
+                    <li><a href="#" class="link-filter project-sidebar" data-filter-column="1" data-filter-text="">All Authors</a></li>
+
                 </ul>
                 {# next previous rewritten by jquery in layout.html.twig, hidden if default (my files) #}
-                <ul id="subnav-roll" class="nav navbar-nav navbar-right">
-                    <li><span class="navbar-text previous_author"></span></li>
-                    <li><a class="next link-filter" data-filter-column="1" data-index="0" data-filter-text="" href="javascript:void(0);"></a></li>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><span class="navbar-text file_count"></span></li>
                 </ul>
         </div><!-- /.container-fluid -->
     </nav>
