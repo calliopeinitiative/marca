@@ -93,7 +93,19 @@
                 }
             });
             $.tablesorter.filter.bindSearch( $table, $('.search') );
-            $('input.tablesorter-filter').addClass('form-control')
+
+            //links for filtering columns
+            $('.link-filter').click(function() {
+                var filters = $('table').find('input.tablesorter-filter'),
+                        col = $(this).data('filter-column'),
+                        txt = $(this).data('filter-text');
+                // filters.val('');
+                filters.eq(col).val(txt).trigger('search', false);
+            });
+
+            $('input.tablesorter-filter').addClass('hidden');
+            $('tr.tablesorter-filter-row').addClass('hidden');
+
             $( "tr" ).hover(
                     function() {
                         $(".file-menu").hide();$( ".file-menu", this ).toggle();
@@ -150,14 +162,7 @@
                 $(this).attr("href", url).click();
             });
 
-            //links for filtering columns
-            $('.link-filter').click(function() {
-                var filters = $('table').find('input.tablesorter-filter'),
-                        col = $(this).data('filter-column'),
-                        txt = $(this).data('filter-text');
-                // filters.val('');
-                filters.eq(col).val(txt).trigger('search', false);
-            });
+
 
         });
     </script>

@@ -770,6 +770,8 @@ tr.review td .label {font-size: 90%;}
 .default_hidden {display:none;}
 .default_show {display:inline;}
 
+#file_list > thead > tr.tablesorter-filter-row {height:1px;}
+
 /***** End 06b. File list *****/
 
 /***** 06c. Doc displays *****/
