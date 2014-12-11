@@ -5,8 +5,9 @@
         <a data-scope-index="byuser" href="#" title="Select by Author">Select Author <b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">
             {% for roll in roll %}
-                <li><a class="roll"  data-index="{{ loop.index }}" data-id='{{ roll.user.id }}' href="javascript:void(0);">{{ roll.firstname|title }} {{ roll.lastname|title }}</a></li>
+                <li><a class="roll link-filter "  data-index="{{ loop.index }}" data-id='{{ roll.user.id }}' data-filter-column="1"
+                       data-filter-text="{{ roll.firstname|title }} {{ roll.lastname|title }}"
+                href="javascript:void(0);">{{ roll.firstname|title }} {{ roll.lastname|title }}</a></li>
             {% endfor %}
         </ul>
     </li>
-

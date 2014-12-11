@@ -117,6 +117,32 @@ iframe {border:0;}
     margin-bottom: -10px;
 }
 
+/*** higher contrast ****/
+
+.navbar-default .navbar-text {
+    color: #464648;
+}
+
+.btn-primary {
+    background-color: #23517a;
+    border-color: #23517a;
+}
+
+.navbar-default {
+    background-color: #ffffff;
+}
+
+.label-info {
+    background-color: #155569;
+}
+
+.label-success {
+    background-color: #255425;
+}
+
+.label-primary {
+    background-color: #204c72;
+}
 /********** End 01a. Accessibility **********/
 /********** End 01. Globals **********/
 
@@ -162,7 +188,7 @@ h3.small {
 }
 
 a {
-    color: #006DCC;
+    color: #23517a;
     text-decoration: none;
 }
 
@@ -252,7 +278,7 @@ ul.nav-list  {
 }
 
 .label-file {
-    background:#888;
+    background:#595959;
     text-align: center;
     font-size: 10px;
     margin-right: 3px;
@@ -325,7 +351,7 @@ ul .dropdown-menu .glyphicon {
     font-size: .8em;
     font-weight: bold;
     line-height: 20px;
-    color: #999999;
+    color: inherit;
     text-transform: uppercase;
 }
 
@@ -424,7 +450,7 @@ ul .dropdown-menu .glyphicon {
 }
 
 .sidebar-mobile {
-  text-align:center !important;
+  text-align:center !important
     }
 
 .user-photo-xs {
@@ -579,6 +605,8 @@ a#confirm {
 .btn.btn-primary.btn-lg.btn-block {
     margin-top:20px;
 }
+
+
 
 /***** End 06a. Forms *****/
 

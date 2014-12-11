@@ -88,7 +88,7 @@
                     // filter_external : '.search',
 
                     filter_columnFilters: true,
-                    filter_saveFilters : true,
+                    filter_saveFilters : false,
                     filter_reset: '.reset'
                 }
             });
@@ -105,8 +105,15 @@
                 var count = $('#file_list tr').not(':hidden').length - 1;
                 var count_text = ' ' + count + ' files found';
                 $('span.file_count').html(count_text);
+                if (col==1){
+                    $('span.author_filter').html(txt);
+                } else if (col==2){
+                    $('span.project_filter').html(txt);
+                } else if (col==3){
+                    $('span.tag_filter').html(txt);
+                }
             });
-
+            //hide filter row
             $('input.tablesorter-filter').addClass('hidden');
             $('tr.tablesorter-filter-row').addClass('hidden');
 
@@ -122,17 +129,6 @@
             );
             $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
 
-
-
-            // url creation for roll file listing from esi fragment in sidebar
-            $('a.roll').click(function() {
-                var id = $(this).data("id");
-                var index = $(this).data("index");
-                var url = "{{ course_path('file_list', { 'userid': 'id', 'userindex': 'index', 'resource': 0}) }}";
-                url = url.replace("id", id);
-                url = url.replace("index", index);
-                $(this).attr("href", url).click();
-            });
             // next previous rewrite for sidebar
             var previous_index = {{ app.request.get('userindex') }} - 1;
             var previous_selector ='a[data-index=' + previous_index + ']';

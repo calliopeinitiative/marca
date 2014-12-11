@@ -9,11 +9,10 @@
                     {{ heading }}
                 </a>
                 <ul class="nav navbar-nav">
-                    <span class="navbar-text file_count"></span>
-                    <span class="navbar-text tags"></span>
-                    {% if role == '2' and app.request.attributes.get('_route') == 'file_reviews'%}
-                        <a class="btn btn-default btn-sm navbar-btn margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>
-                    {% endif %}
+                    <li><span class="navbar-text author_filter"></span></li>
+                    <li><span class="navbar-text project_filter"></span></li>
+                    <li><span class="navbar-text tag_filter"></span></li>
+                    <li><span class="navbar-text file_count"></span></li>
                 </ul>
                 {# next previous rewritten by jquery in layout.html.twig, hidden if default (my files) #}
             {% if app.request.get('userindex') != 0 %}
@@ -22,11 +21,6 @@
                     <li><a class="roll_next" data-index="0" data-id='0' href="javascript:void(0);"></a></li>
                 </ul>
             {% endif %}
-            <form id='filter' class="navbar-form navbar-right" role="search">
-                <div class="form-group">
-                    <input  type="search" placeholder="Search in list" data-column="all" class="search selectable form-control">
-                </div>
-            </form>
         </div><!-- /.container-fluid -->
     </nav>
 
@@ -77,7 +71,7 @@
 
                         {# status labels #}
                         {% if file.reviews|length != 0 %} <span
-                                class="label label-default darkorange pull-right margin-left" title="{% if file.reviews|length != 0 %}Reviews by {% for
+                                class="label label-default blueviolet pull-right margin-left" title="{% if file.reviews|length != 0 %}Reviews by {% for
                         review in file.reviews %}{{ review.user.firstname }} {{ review.user.lastname }}{% if not loop.last %},{% endif %} {% endfor %} {% endif %}">
                             {{ file.reviews|length }} Reviews</span>{% endif %}
                         {% if file.access==1 %}

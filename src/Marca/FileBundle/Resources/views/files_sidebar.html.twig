@@ -40,14 +40,21 @@
         My Reviews
     </a>
 </li>
-<hr class="marca-spacer"/>
-
-{{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
 
 <li>
     <a data-scope-index="reviews" class="project-sidebar" href="{{ course_path('file_listshared', { 'resource': app.request.get('resource') }) }}">
         Shared Files
     </a>
+</li>
+
+
+
+<hr class="marca-spacer"/>
+
+{{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
+
+<li>
+    <a href="#" class="link-filter project-sidebar" data-filter-column="1" data-filter-text="">All Authors</a>
 </li>
 
 <hr class="marca-spacer"/>

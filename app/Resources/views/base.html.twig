@@ -71,6 +71,7 @@
         {% if is_granted('ROLE_USER') %}
             <div class="navbar-header col-sm-2">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainnav-collapse">
+                    <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -97,11 +98,11 @@
                                     class="visible-sm glyphicon glyphicon-user"><b class="caret"></b></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ path('user_show') }}">Profile</a></li>
-                            <li><a class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll</a></li>
+                            <li><a class="" href="{{ path('enroll_find') }}">Enroll</a></li>
                             {% if help_url or help_email %}
-                                <li><a href="javascript:void(0);" id="help_modal_link" title="Help">Help</a></li>
+                                <li><a href="javascript:void(0);" id="help_modal_link">Help</a></li>
                             {% endif %}
-                            <li><a title="Logout" href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                            <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -172,7 +173,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h2 style="font-size:2em;margin-bottom:20px;">Need help?</h2>
                 {% if help_url %}
-                    <p style="font-size:1.5em;">First, check out our Help Docs:</p>
+                    <h3 style="font-size:1.5em;">First, check out our Help Docs:</h3>
                     <div class="well">
                         <a href="{{ help_url }}" title="Help Docs" style="color:#006183;" target="_blank">
                             <p><i class="glyphicon glyphicon-book" style="font-size:6em;"></i></p>
@@ -182,7 +183,7 @@
                     </div>
                 {% endif %}
                 {% if help_email %}
-                    <p style="font-size:1.5em;">Still stuck?</p>
+                    <h3 style="font-size:1.5em;">Still stuck?</h3>
                     <a href="mailto:{{ help_email }}" role="button" class="btn btn-info btn-lg">Send Us An Email</a>
                     <br/>
                     <p style="margin-top:15px;">We'll get back to you right away.</p>
