@@ -101,6 +101,10 @@
                         txt = $(this).data('filter-text');
                 // filters.val('');
                 filters.eq(col).val(txt).trigger('search', false);
+                // count files after filtering
+                var count = $('#file_list tr').not(':hidden').length - 1;
+                var count_text = ' ' + count + ' files found';
+                $('span.file_count').html(count_text);
             });
 
             $('input.tablesorter-filter').addClass('hidden');
@@ -118,10 +122,7 @@
             );
             $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
 
-            // count files
-            var count = $('#file_list tr').length - 1;
-            var count_text = '';
-            if (count > 1) {count_text = ' ' + count + ' files found';$('span.file_count').append(count_text);}
+
 
             // url creation for roll file listing from esi fragment in sidebar
             $('a.roll').click(function() {
@@ -162,7 +163,10 @@
                 $(this).attr("href", url).click();
             });
 
-
+            // count files after filtering in find
+            var count = $('#file_list tr').not(':hidden').length - 1;
+            var count_text = ' ' + count + ' files found';
+            $('span.file_count').html(count_text);
 
         });
     </script>
