@@ -187,10 +187,10 @@
 
 {% block sidebar %}
     {% if app.request.get('resource')=='0' %}
-    {{ render_esi(controller('MarcaFileBundle:File:createFiles_sidebar', { 'courseid': app.request.get('courseid'),
+    {{ render_esi(controller('MarcaFileBundle:File:createFilesSidebar', { 'courseid': app.request.get('courseid'),
     'resource': app.request.get('resource')})) }}
     {% else %}
-    {{ render_esi(controller('MarcaFileBundle:File:createResources_sidebar', { 'courseid': app.request.get('courseid'),
+    {{ render_esi(controller('MarcaFileBundle:Resource:createResourcesSidebar', { 'courseid': app.request.get('courseid'),
     'resource': app.request.get('resource')})) }}
     {% endif %}
 {% endblock %}
