@@ -331,7 +331,6 @@ class FileController extends Controller
         $file->setCourse($course);
         $options = array('courseid' => $courseid, 'resource' => $resource);
         $request = $this->getRequest();
-        $postData = $request->get('marca_filebundle_filetype');
         $form = $this->createForm(new FileType($options), $file);
         $form->submit($request);
         if ($type == 'doc') {
