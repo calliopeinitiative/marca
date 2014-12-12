@@ -376,7 +376,8 @@ class FileController extends Controller
             $em->persist($doc);
             $em->persist($file);
             $em->flush();
-            return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(), 'view' => 'app')));
+            return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
+                'view' => 'window')));
         } elseif ($type == 'saveas') {
             $file->setName('SaveAs Document');
             $form = $this->createForm(new DocType($options), $file);
@@ -440,9 +441,10 @@ class FileController extends Controller
             $em->flush();
 
             if ($type == 'link') {
-                return $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'id' => $file->getId(), 'scope' => 'mine', 'project' => $project, 'tag' => '0', 'userid' => '0', 'resource' => $resource, 'user' => '0')));
+                return $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'id' => $file->getId(), 'userid' => '0', 'resource' => $resource, 'user' => '0')));
             } elseif ($type == 'doc' || $type == 'review' || $type == 'instr_review' || $type == 'saveas') {
-                return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(), 'view' => 'app')));
+                return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
+                    'view' => 'window')));
             }
 
         }
@@ -566,7 +568,7 @@ class FileController extends Controller
 
         $session = $this->getRequest()->getSession();
         if (!$session) {
-            $uri = '../../../file/1/default/0/mine/0/0/0/list';
+            $uri = $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'id' => $file->getId(), 'userid' => '0', 'resource' => $resource, 'user' => '0')));
         } else {
             if ($resource == 0) {
                 $uri = $session->get('referrer');
@@ -616,7 +618,7 @@ class FileController extends Controller
 
         $session = $this->getRequest()->getSession();
         if (!$session) {
-            $uri = '../../../file/1/default/0/mine/0/0/0/list';
+            $uri = $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'id' => $file->getId(), 'userid' => '0', 'resource' => $resource, 'user' => '0')));
         } else {
             if ($resource == 0) {
                 $uri = $session->get('referrer');
@@ -673,7 +675,7 @@ class FileController extends Controller
 
                 $session = $this->getRequest()->getSession();
                 if (!$session) {
-                    $uri = '../../../file/1/default/0/mine/0/0/0/list';
+                    $uri = $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'id' => $file->getId(), 'userid' => '0', 'resource' => $resource, 'user' => '0')));
                 } else {
                     if ($resource == 0) {
                         $uri = $session->get('referrer');
@@ -748,7 +750,8 @@ class FileController extends Controller
                 $em = $this->getEm();
                 $em->persist($file);
                 $em->flush();
-                return $this->redirect($this->generateUrl('file_list', array('courseid'=> $courseid,'project'=> $project, 'scope'=> 'reviews')));
+                return $this->redirect($this->generateUrl('file_reviews', array('courseid' => $courseid, 'id' => $file->getId(), 'userid' => '0',
+                    'resource' => $resource, 'user' => '0')));
 
             }
 

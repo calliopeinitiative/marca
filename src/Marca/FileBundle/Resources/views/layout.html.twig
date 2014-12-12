@@ -48,17 +48,24 @@
             );
 
             //click functions for editing file listings
-            {% for file in files%}
-            $('.edit_{{file.id}}').click(function(){
-                $('#file_modal').load('{{ course_path('file_edit_modal', { 'id': file.id, 'resource': app.request.get('resource') }) }}').modal();
+            $('.settings').click(function(){
+                var fileid = $(this).data('id');
+                var url = "{{ course_path('file_edit_modal', { 'id': 'fileid', 'resource': app.request.get('resource') }) }}";
+                url = url.replace("fileid", fileid);
+                $('#file_modal').load(url).modal();
             });
-            $('#upload_{{file.id}}').click(function(){
-                $('#file_modal').load('{{ course_path('review_upload', { 'resource' : '0',  'fileid': file.id }) }}').modal();
+            $('.upload_review').click(function(){
+                var fileid = $(this).data('id');
+                var url = "{{ course_path('review_upload', { 'resource' : '0',  'fileid': 'fileid' }) }}";
+                url = url.replace("fileid", fileid);
+                $('#file_modal').load(url).modal();
             });
-            $('#file_show_{{file.id}}').click(function(){
-                $('#file_modal').load('{{ course_path('file_show_modal', { 'id': file.id, 'resource': app.request.get('resource'),'source':'edit_modal'}) }}').modal();
+            $('.delete_confirm').click(function(){
+                var fileid = $(this).data('id');
+                var url = "{{ course_path('file_show_modal', { 'id': 'fileid', 'resource': app.request.get('resource'),'source':'edit_modal'}) }}";
+                url = url.replace("fileid", fileid);
+                $('#file_modal').load(url).modal();
             });
-            {% endfor %}
 
             //tablesorter for files
             $.extend($.tablesorter.themes.bootstrap, {
