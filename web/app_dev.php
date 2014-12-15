@@ -21,7 +21,7 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
 Debug::enable();
 
-$loader = new ApcClassLoader('sf2', $loader);
+$loader = new ApcClassLoader('marca', $loader);
 $loader->register(true);
 
 require_once __DIR__.'/../app/AppKernel.php';
