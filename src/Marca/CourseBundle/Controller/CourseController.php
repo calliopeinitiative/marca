@@ -129,7 +129,7 @@ class CourseController extends Controller
         $default_resource = $projects[0]->getId();
 
         if ($course->getModule()==1){
-            return $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'project'=> $default_resource, 'resource'=> 1,
+            return $this->redirect($this->generateUrl('file_listbyproject', array('courseid' => $courseid, 'project'=> $default_resource, 'resource'=> 1,
             'scope'=> 'all')));
         };
 
