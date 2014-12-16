@@ -14,7 +14,7 @@
                         dayClick: function(date, jsEvent, view)
                         {
                             {% if role==2 %}
-                            var format_date = $.datepicker.formatDate('YYYY MM DD', date)
+                            var format_date = date.format();
                             var route = "{{ course_path('calendar_new', {'set_date': "event_gotodate" }) }}";
                             route = route.replace("event_gotodate", format_date);
                             window.location.href = route;
@@ -65,7 +65,6 @@
 {% block stylesheets %}
     {{ parent() }}
     <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/fullcalendar.min.css') }}">
-    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/flick/jquery-ui.min.css') }}">
 {% endblock %}
 
 {% block content %}
