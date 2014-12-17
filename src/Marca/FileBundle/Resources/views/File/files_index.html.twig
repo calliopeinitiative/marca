@@ -16,11 +16,14 @@
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
                     <li><a href="#" class="link-filter project-sidebar" data-filter-column="1" data-filter-text="">All Authors</a></li>
                 {% endif %}
-            </ul>
-            {# next previous rewritten by jquery in layout.html.twig, hidden if default (my files) #}
-            <ul class="nav navbar-nav navbar-right">
                 <li><span class="navbar-text file_count"></span></li>
             </ul>
+            <form class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                    <label class="sr-only" for="file_search">Search in List</label>
+                    <input id="file_search" type="search" placeholder="Search in list" data-column="all" class="search selectable form-control">
+                </div>
+            </form>
         </div>
         <!-- /.container-fluid -->
     </nav>

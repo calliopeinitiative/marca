@@ -9,15 +9,16 @@
                    {{ heading }}
             </a>
             <ul class="nav navbar-nav">
-                <span class="navbar-text file_count"></span>
-                <span class="navbar-text tags"></span>
-                {% if role == '2' and app.request.attributes.get('_route') == 'file_reviews'%}
+                <li><span class="navbar-text filter3"></span></li>
+                {% if role == '2'%}
                     <a class="btn btn-default btn-sm navbar-btn pull-right margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>
                 {% endif %}
+                <li><span class="navbar-text file_count"></span></li>
             </ul>
             <form class="navbar-form navbar-right" role="search">
                 <div class="form-group">
-                    <input  type="search" placeholder="Search in list" data-column="all" class="search selectable form-control">
+                    <label class="sr-only" for="file_search">Search in List</label>
+                    <input id="file_search" type="search" placeholder="Search in list" data-column="all" class="search selectable form-control">
                 </div>
             </form>
         </div><!-- /.container-fluid -->
