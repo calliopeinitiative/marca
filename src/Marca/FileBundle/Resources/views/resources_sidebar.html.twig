@@ -1,9 +1,7 @@
 {# Marca/FileBundle/Resources/views/resources_sidebar.html.twig #}
 {# esi fragment for file resources_sidebar #}
 
-<h1>
-    <a  title='Resources' href="#" >Resources</a>
-</h1>
+<h1><a href="{{ course_path('file_listbyproject', { 'project': default_resource, 'resource': 1}) }}" >Resources</a></h1>
 
 {# check to see if projects are in the current course  #}
     {% for project in projects if project.course.id == app.request.get('courseid') %}

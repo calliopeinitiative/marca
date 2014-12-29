@@ -2,9 +2,7 @@
 {# esi fragment for file projects_sidebar #}
 
 <h1>
-    <a  title='Projects'
-       href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}"
-       class="">Projects</a>
+    <a href="{{ course_path('file_list', { 'userid': 0, 'resource': 0}) }}">Projects</a>
 </h1>
 
 {# check to see if projects are in the current course  #}

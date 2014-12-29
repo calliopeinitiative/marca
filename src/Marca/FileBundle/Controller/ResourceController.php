@@ -40,6 +40,7 @@ class ResourceController extends Controller
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseForTags);
         return $this->render('MarcaFileBundle::resources_sidebar.html.twig', array(
             'projects' => $projects,
+            'default_resource' => $default_project,
             'tags' => $tags,
             'systemtags' => $systemtags,
             'role' => $role
