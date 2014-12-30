@@ -25,10 +25,10 @@
                 {% for reviewresponse in review.reviewresponses %}
                     <div id="{{ reviewresponse.reviewPrompt.sortOrder }}">
                         <div class="prompts {{ reviewresponse.reviewPrompt.id }}">
-                            <strong>{{ reviewresponse.reviewPrompt.prompt|raw }}</strong></div>
+                            <strong>{{ reviewresponse.reviewPrompt.prompt|html_raw }}</strong></div>
                         <div class="responses">
-                        {{ reviewresponse.responseShortText|raw }}
-                        {{ reviewresponse.responseparagraphText|raw }}
+                        {{ reviewresponse.responseShortText|html_raw }}
+                        {{ reviewresponse.responseparagraphText|html_raw }}
                         {% if reviewresponse.scaleitem %}{{ reviewresponse.scaleitem.name }}{% endif %}
                         </div>
                     </div>

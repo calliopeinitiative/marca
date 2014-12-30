@@ -25,7 +25,7 @@
         Instructions
     </div>
     <div class="panel-body">
-        {{ review.reviewrubric.instructions|raw }}
+        {{ review.reviewrubric.instructions|html_raw }}
     </div>
 </div>
 
@@ -38,10 +38,10 @@
         <div id="{{ review.reviewresponses[loop.index-1].reviewPrompt.sortOrder }}"  class="panel panel-default">
             <div class="panel-heading">
                 <strong>
-                    {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|raw }}
+                    {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|html_raw }}
                 </strong>
 
-                <p class=""><em>{{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|raw }}</em></p>
+                <p class=""><em>{{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|html_raw }}</em></p>
             </div>
             <div class="panel-body">
                 <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=0 %} hide {% endif %}">

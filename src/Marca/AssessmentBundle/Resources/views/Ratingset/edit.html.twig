@@ -2,11 +2,12 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
     <script language="javascript">
         $(document).ready(function () {
-            $('#toggle_modal').click(function () {
-                $('#delete_modal').modal();
+            {# form page close/cancel adjust for appropriate redirect #}
+            $('#close_form').click(function () {
+                window.location.href = '{{ course_path('portfolio_user', { 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'),
+                'user':app.request.get('user') }) }}';
             });
         });
     </script>
@@ -16,14 +17,14 @@
     <div class="col-sm-8 center">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Portfolio Assessment</h3>
+                <button id="close_form" type="button" class="close">&times;</button>
+                <h2 class="panel-title">Portfolio Assessment</h2>
 
-                <p>{{ assessmentset.description|raw }}</p>
+                <p>{{ assessmentset.description|html_raw }}</p>
             </div>
-            <form action="{{ course_path('ratingset_update', { 'id': ratingset.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}"
-                  method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
-                <div class="panel-body">
-
+            <div class="panel-body">
+                <form action="{{ course_path('ratingset_update', { 'id': ratingset.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}"
+                      method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
                     <h3 class="margin-top-small">Notes and Grade for {{ user.firstname }} {{ user.lastname }}</h3>
                     {{ form_errors(edit_form) }}
                     {{ form_row(edit_form.notesforstudent) }}
@@ -32,51 +33,19 @@
                     <hr/>
                     <h3>{{ assessmentset.name }}</h3>
                     {% for rating in edit_form.ratings %}
-                        <p><strong>{{ ratingset.ratings[loop.index-1].objective.objective|raw }}</strong></p>
-                        <p>{{ ratingset.ratings[loop.index-1].objective.description|raw }}</p>
+                        <p><strong>{{ ratingset.ratings[loop.index-1].objective.objective|html_raw }}</strong></p>
+                        <p>{{ ratingset.ratings[loop.index-1].objective.description|html_raw }}</p>
                         {{ form_row(rating.scaleitem) }}
                         <hr/>
                     {% endfor %}
                     {{ form_rest(edit_form) }}
-                </div>
-                <div class="panel-footer">
-                    <div class="btn-group">
-                        <button class="btn btn-primary" type="submit">Update</button>
-                        <a class="btn btn-default"
-                           href="{{ path('portfolio_user', { 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}">Cancel</a>
-                    </div>
-
-                    <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
-                </div>
-            </form>
-
-
+                    <button class="btn btn-primary pull-right" type="submit">Post</button>
+                    <a class="btn btn-warning" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                </form>
+            </div>
         </div>
     </div>
 
-
-    <div id="delete_modal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <span class="modal-title">Delete</span>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete?</p>
-
-                    <form action="{{ course_path('ratingset_delete', { 'id': ratingset.id, 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'), 'user':app.request.get('user') }) }}"
-                          method="post">
-                        {{ form_widget(delete_form) }}
-                        <div class="btn-group">
-                            <button class="btn btn-danger" type="submit">Delete</button>
-                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    {# Modal for Delete confirmation #}
+    {{ form(delete_form)|delete_modal }}
 {% endblock %}

@@ -54,6 +54,37 @@ $('#review_container').show();
 $('#review_container').load('{{ course_path('review_index_ajax', { 'fileid': fileid}) }}');
 });
 
+{# Group the markup items and count #}
+$(function() {
+function groupTable($rows, startIndex, total){
+if (total === 0){
+return;
+}
+var i , currentIndex = startIndex, count=1, lst=[];
+var tds = $rows.find('td:eq('+ currentIndex +')');
+var ctrl = $(tds[0]);
+var reps = $(tds[1]);
+lst.push($rows[0]);
+for (i=1;i<=tds.length;i++){
+if (ctrl.text() ==  $(tds[i]).text()){
+count++;
+$(tds[i]).addClass('deleted');
+}
+else{
+if (count>1){
+ctrl.append('(' + count + ')');
+groupTable($(lst),startIndex+1,total-1)
+}
+count=1;
+lst = [];
+ctrl=$(tds[i]);
+}
+}
+}
+groupTable($('.markup-table tr:has(td)'),0,1);
+$('.markup-table .deleted').remove();
+});
+
 
 
 

@@ -12,9 +12,9 @@ class NewuserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstname', 'text', array('label'  => 'Firstname','attr' => array('class' => 'span5'),))
-            ->add('lastname', 'text', array('label'  => 'Lastname','attr' => array('class' => 'span5'),))    
-            ->add('photo', 'text', array('label'  => 'Photo URL','attr' => array('class' => 'span5'),))
+            ->add('firstname', null, array('label'=>'First Name', 'required'=>true,'attr' => array('class' => 'text form-control'),))
+            ->add('lastname', null, array('label'=>'Last Name', 'required'=>true,'attr' => array('class' => 'text form-control'),))
+            ->add('photo', 'text', array('label'  => 'Photo URL','attr' => array('class' => 'text form-control'),))
             ->add('bio', 'ckeditor', array('config_name' => 'editor_default','label'  => 'Tell us a little about youself.',))
             ->add('institution', 'entity', array('class'=>'MarcaAdminBundle:Institution','property'=>'name', 'label'=>'Select Your Institution'))    
         ;

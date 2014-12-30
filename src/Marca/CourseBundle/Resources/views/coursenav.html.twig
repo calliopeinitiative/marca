@@ -1,0 +1,102 @@
+{# Marca/CourseBundle/Resources/views/nav.html.twig #}
+{# esi fragment for course nav #}
+
+{% if role!= 4 %}
+    <script language="javascript">
+        $(document).ready(function() {
+            //Add Hover effect to menus
+            $('ul.nav li.dropdown').hover(function() {
+                $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeIn();
+            }, function() {
+                $(this).find('.dropdown-menu').stop(true, true).delay(500).fadeOut();
+            });
+            $('ul.nav li.dropdown a').focus(function() {
+                $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeIn();
+            }, function() {
+                $(this).find('.dropdown-menu').stop(true, true).delay(500).fadeOut();
+            });
+        });
+    </script>
+    {# Course select #}
+    <li class="dropdown">
+        <a href="{{ course_path('course_home') }}">{{ course.name|slice(0, 15) }}<span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li>
+                <a title='Select course' id='course_select' href="javascript:void(0);"><span class="glyphicon glyphicon-random"></span>Switch Course</a>
+            </li>
+            <li class="divider"></li>
+            {% if course.module== 0 %}
+                <li><a href="{{ course_path('roll') }}">Course Roll</a></li>{% endif %}
+            {% if is_granted('ROLE_INSTR') %}
+                <li>
+                    <a href="{{ course_path('course_show') }}">{% if course.module== 0 %}Course{% else %}Module{% endif %} Settings</a></li>
+            {% endif %}
+        </ul>
+    </li>
+
+    {# Resources #}
+    <li>
+        {% if app.session.get('resource_referrer') %}
+            <a href="{{ app.session.get('resource_referrer') }}" >Resources</a>
+        {% else %}
+            <a href="{{ course_path('file_listbyproject', { 'project': default_resource, 'resource': 1}) }}">Resources</a>
+        {% endif %}
+
+    </li>
+
+    {# Projects #}
+    {% if course.module== 0 %}
+        <li>
+            {% if app.session.get('referrer') %}
+                <a href="{{ app.session.get('referrer') }} ">Projects</a>
+            {% else %}
+                <a href="{{ course_path('file_list', { 'userid': 0, 'resource': 0}) }}">Projects</a>
+            {% endif %}
+
+        </li>
+    {% endif %}
+
+    {# Calendar #}
+    <li class="dropdown">
+        <a href="{{ course_path('calendar_display') }}">Calendar<b class="caret"></b></a>
+
+        <ul class="dropdown-menu" role="menu">
+            {% if is_granted('ROLE_INSTR') %}
+                <li><a href="{{ course_path('calendar_new', {'set_date': "now"|date("Y-m-d")} ) }}">
+                        <span class="glyphicon glyphicon-calendar"></span>New Event
+                    </a>
+                </li>
+            {% endif %}
+            <li><a href="{{ course_path('calendar_upcoming') }}">View Agenda</a></li>
+        </ul>
+
+    </li>
+
+    {# Journal #}
+    {% if course.journal=='true' and course.module== 0 %}
+        <li class="dropdown"><a href="{{ course_path('journal_list') }}">Journal<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ course_path('journal_new') }}"><span class="glyphicon glyphicon-pencil"></span>New Journal</a></li>
+            </ul>
+        </li>
+    {% endif %}
+
+    {# Forum #}
+    {% if course.forum=='true' and course.module== 0 %}
+        <li><a title='Course Forum' href="{{ course_path('forum') }}">Forum</a></li>{% endif %}
+
+    {# Notes #}
+    {% if course.notes=='true' and course.module== 0 %}
+        <li class="dropdown">
+            <a href="{{ course_path('note') }}">Notes<b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="{{ course_path('note_new') }}"><span class="glyphicon glyphicon-pencil"></span>New Note</a></li>
+            </ul>
+        </li>
+    {% endif %}
+{% endif %}
+
+{# Portfolio #}
+{% if course.portfolio=='true' and course.module== 0 %}
+    <li><a href="{{ course_path('portfolio') }}">Portfolio</a></li>
+{% endif %}

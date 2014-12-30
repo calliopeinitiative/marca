@@ -39,6 +39,7 @@ class Attendance
 
     /**
      * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Roll", inversedBy="attendance")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $roll;
 

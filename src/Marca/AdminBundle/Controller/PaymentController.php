@@ -6,10 +6,10 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Marca\UserBundle\Entity\User;
 use Marca\AdminBundle\Entity\Coupon;
-use FOS\UserBundle\Entity\UserManager;
-use Symfony\Component\HttpFoundation\Request;
+
 
 /**
  * Collects user payments for Marca instances requiring payment
@@ -20,7 +20,6 @@ class PaymentController extends Controller{
     
     protected function stripeConfig()
     {
-        require_once($this->container->getParameter('kernel.root_dir') . '/../src/Marca/AdminBundle/Resources/lib/stripe-php-1.7.15/lib/Stripe.php');
         $stripe_secret = $this->container->getParameter('stripe_secret_key');
         $stripe_publishable = $this->container->getParameter('stripe_publishable_key');
         $stripe = array(
@@ -33,7 +32,7 @@ class PaymentController extends Controller{
     /**
      * @Route("/select/{courseid}", name="select_payment")
      */
-    public function selectPayment($courseid)
+    public function selectPaymentAction ($courseid)
     {
         $defaultData = array('message' => 'Type your message here');
         $form = $this->createFormBuilder($defaultData)

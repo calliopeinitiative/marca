@@ -15,14 +15,14 @@
 
                     <a class="list-group-item" href="{{ path('assessmentset_show', { 'id': assessmentset.id }) }}">
                         <h3 class="margin-top-small">{{ assessmentset.name }}</h3>
-                        {{ assessmentset.description|raw }}
+                        {{ assessmentset.description|html_raw }}
                     </a>
 
                 {% endfor %}
             </div>
         </div>
         <div class="panel-footer">
-            <span class="text-muted">Click name to view. </span>
+            <span class="">Click name to view. </span>
         </div>
     </div>
 </div>
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="panel-footer">
-            <span class="text-muted">Click name to view. </span>
+            <span class="">Click name to view. </span>
         </div>
     </div>
 </div>

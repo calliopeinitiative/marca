@@ -1,20 +1,19 @@
 {# Marca/ResponseBundle/Resources/views/Response/edit.html.twig #}
 
-{% extends 'MarcaResponseBundle::layout.html.twig' %}
+{% extends 'MarcaHomeBundle::dialog.html.twig' %}
+
+{% block title %}Response{% endblock %}
+
+{% block sidebar %}<h1 class="marca-gray">Response</h1>{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script language="javascript">
         $(document).ready(function()
         {
-            $('#toggle_modal').click(function(){
-                $('#delete_modal').modal();
-            });
-            $('#doc-display').css('height', function(index) {
-                return $(window).height()* .88;
-            });
-            $('iframe').css('height', function(index) {
-                return $(window).height() * .88;
+            {# form page close/cancel adjust for appropriate redirect #}
+            $('#close_form').click(function(){
+                window.location.href='{{ course_path('journal_list', { 'page': app.request.get('page'), 'user': app.request.get('user'), 'userid': app.request.get('userid') }) }}';
             });
         });
     </script>
@@ -22,7 +21,6 @@
 
 {% block content %}
     <div class="col-sm-11 center">
-        {% if journal %}
             <div class="col-sm-8">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -32,50 +30,23 @@
                         <span>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }}</span>
                     </div>
                     <div class="panel-body">
-                        {{ journal.body|raw }}
+                        {{ journal.body|html_raw }}
                     </div>
                 </div>
             </div>
 
-
-        {% else %}
-            {% if not file.doc %}
-                <iframe class="col-sm-8" id="viewer" src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}" allowfullscreen="true" webkitallowfullscreen="true"></iframe>
-            {% else %}
-                <div id='doc-display' class="col-sm-8 well">
-                    <div class="doc-body">
-                        {{ doc.body|raw }}
-                    </div>
-                </div>
-            {% endif %}
-
-        {%endif %}
-
-
         <div class="col-sm-4">
-            <form action="{{ course_path('response_create', { 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user') }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-
-            <div class="panel panel-default">
+                <div class="panel panel-default">
                     <div class="panel-heading">
+                        <button id="close_form" type="button" class="close">&times;</button>
                         <h2 class="panel-title small">
-                            {% if journal %}Journal Response{% else %}Feedback{% endif %}
+                            Response
                         </h2>
                     </div>
                     <div class="panel-body">
-                        {{ form_widget(form) }}
-                    </div>
-                    <div class="panel-footer">
-                        <div class="btn-group">
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                            {% if journal %}
-                                <a class="btn btn-default" href="{{ course_path('journal_list', { 'id': response.id, 'source': source, 'sourceid': sourceid,'view': app.request.get('view'),'page': app.request.get('page'),'user': app.request.get('user'),'userid':app.request.get('userid') }) }}">Cancel</a>
-                            {%else %}
-                                <a class="btn btn-default" href="{{ course_path(source, { 'id': sourceid,'view': app.request.get('view') }) }}">Cancel</a>
-                            {%endif %}
-                        </div>
+                        {{ form(form) }}
                     </div>
                 </div>
-            </form>
         </div>
     </div>
 

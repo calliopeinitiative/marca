@@ -2,27 +2,28 @@
 
 {% extends 'MarcaHomeBundle::dialog.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function () {
+            {# form page close/cancel adjust for appropriate redirect #}
+            $('#close_form').click(function () {
+                window.location.href = '{{ course_path('forum') }}';
+            });
+        });
+    </script>
+{% endblock %}
 
 {% block content %}
     <div class="col-sm-8 center">
         <div class="panel panel-default">
-            <form action="{{ course_path('forum_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-                <div class="panel-heading">
-                    Forum
-                </div>
-                <div class="panel-body">
-                    {{ form_errors(form) }}
-                    {{ form_row(form.title) }}
-                    {{ form_row(form.body) }}
-                    {{ form_rest(form) }}
-                </div>
-                <div class="panel-footer">
-                    <div class="btn-group">
-                        <button class="btn btn-primary" type="submit">Create</button>
-                        <a class='btn btn-default' href="{{ course_path('forum') }}">Cancel</a>
-                    </div>
-                </div>
-            </form>
+            <div class="panel-heading">
+                <button id="close_form" type="button" class="close">&times;</button>
+                Forum
+            </div>
+            <div class="panel-body">
+                {{ form(form) }}
+            </div>
         </div>
     </div>
 {% endblock %}

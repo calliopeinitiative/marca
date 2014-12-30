@@ -20,7 +20,7 @@
             </div>
 
             <div class="panel-body">
-                <div class="margin-bottom">{{ forum.body|raw }}
+                <div class="margin-bottom">{{ forum.body|html_raw }}
                 </div>
                 {% for comment in forum.comments%}
                     <div class="panel panel-default">
@@ -39,7 +39,7 @@
                                 </div>
                         </span>
                         </div>
-                        <div class="panel-body">{{ comment.body|raw }}
+                        <div class="panel-body">{{ comment.body|html_raw }}
                             {% for reply in comment.replies%}
                                 <div class="panel panel-default">
                                     <div class="panel-heading padding-bottom" >
@@ -56,7 +56,7 @@
                                                  </div>
                                             </span>
                                     </div>
-                                    <div class="panel-body" >{{ reply.body|raw }}
+                                    <div class="panel-body" >{{ reply.body|html_raw }}
                                     </div>
                                 </div>
                             {% endfor %}

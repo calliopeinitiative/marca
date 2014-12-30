@@ -1,13 +1,25 @@
 {# Marca/CourseBundle/Resources/views/Course/show.html.twig #}
 
-{% extends 'MarcaUserBundle::layout.html.twig' %}
+{% extends 'MarcaCourseBundle::layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function () {
+            $('#gradebook_new').click(function () {
+                $.post( "{{ path('gradeset_new', { 'courseid': course.id }) }}").done(function( data ) {
+                    $('#gradebook').html(data);
+                });
+            });
+        });
+    </script>
+{% endblock %}
 
 {% block content %}
     <div class="col-sm-6">
         <div class="panel panel-default ">
             <div class="panel-heading">
-                <h2 class="margin-top-small"><a
-                            href="{{ path('course_home',{'courseid':course.id}) }}">{{ course.name }}</a></h2>
+                <h2 class="margin-top-small">{{ course.name }}</h2>
                 {% if course.module == 2 %}
                     <div class='alert alert-success'>This module is shared with all instructors.</div>{% endif %}
                 <p>
@@ -18,22 +30,6 @@
                 <div class="btn-group">
                     <a class="btn btn-primary" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit
                         Settings </a>
-                    {% if course.module == 0 %}
-                        <a class="btn btn-default" href="{{ path('roll', { 'courseid': course.id }) }}">Manage Roll</a>
-                        {#  commented out until fully functional
-                        <a class="btn btn-default" href="{{ path('teams', { 'courseid': course.id }) }}">Manage Teams</a>
-                        #}
-                    {% endif %}
-                    {#
-
-                    {% if course.module != 1 %}
-                        <a class="btn btn-default"
-                           href="{{ path('toggle_module', { 'courseid': course.id,'setting': 1  }) }}">Change to
-                            Module</a>
-                    {% endif %}
-
-                    #}
-
                 </div>
             </div>
         </div>
@@ -93,31 +89,24 @@
             </div>
             <div class="panel-body">
                 <table class="table table-condensed table-striped">
+                    <tbody id="gradebook">
                     {% if course.gradeset %}
-                        <tbody>
                         {% for category in course.gradeset.categories %}
                             <tr>
                                 <td>{{ category.name }}: {{ category.percent }}%</td>
                             </tr>
                         {% endfor %}
-
                     {% else %}
                         <tr>
                             <td>
-
-
-                                {#
                                 This course does not have a Grade Book.
-                                <a class="btn btn-primary btn-sm pull-right margin-top-small" href="{{ path('gradeset_new', { 'courseid': course.id }) }}">Create Grade Book<i
+                                <a id="gradebook_new" class="btn btn-primary btn-sm pull-right margin-top-small" href="javascript:void(0);">Create Grade Book<i
                                             class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
-                                #}
-
-
 
                             </td>
                         </tr>
-                        </tbody>
                     {% endif %}
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -179,19 +168,19 @@
             <div class="panel-heading">
                 <h2 class="margin-top-small">Resources</h2>
                 {% if course.module == 0 %}
-                <p>You will place content in these units for your students. Any units in the course marked <i
+                <p>You will place content in these folders for your students. Any folder in the course marked <i
                             class="glyphicon glyphicon-home"></i> will display on the course home page.</p>
                 {% else %}
-                <p>You will place content in the units of this module to include in other courses. Add modules to
+                <p>You will place content in the folders of this module to include in other courses. Add modules to
                     courses in "Course Settings."
-                    The units will show under Resources in the course.
+                    The folders will show under Resources in the course.
                 <p>
                 {% endif %}
             </div>
             <div class="panel-body">
-                <h3 class="margin-top-small" style="display:inline-block">Units</h3>
+                <h3 class="margin-top-small" style="display:inline-block">Folders</h3>
                 <a class="btn btn-primary btn-xs pull-right"
-                   href="{{ path('project_new', {'courseid': course.id, 'resource':1}) }}">New Unit</a>
+                   href="{{ path('project_new', {'courseid': course.id, 'resource':1}) }}">New Folder</a>
                 <table class="table table-condensed table-striped">
                     <tbody>
                     {% for project in resources %}
@@ -229,7 +218,7 @@
                 <p>Modules are libraries of content that you can reuse.</p>
             </div>
             <div class="panel-body">
-                <p>Units from Modules included in this course:</p>
+                <p>Folders from Modules included in this course:</p>
                 <table class="table table-condensed table-striped">
                     <tbody>
                     {% for project in parentProjects %}

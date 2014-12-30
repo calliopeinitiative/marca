@@ -3,14 +3,10 @@
 {% extends '::base.html.twig' %}
 {% block title %}{{ application_name }} | Notes{% endblock %}
 
-{% block stylesheets %}{{ parent() }}{% endblock %}
-{% block javascripts %}{{ parent() }}{% endblock %}
-
-{% block subnav %}
-{%include 'MarcaCourseBundle::subnav.html.twig' %}
+{% block coursenav %}
+    {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}
 
 {% block sidebar %}
-    <h1><a  title='Course Notes' href="{{ course_path('note') }}" class="marca-gray">Notes</a></h1>
-    <a class="btn btn-primary margin-bottom-medium" href="{{ course_path('note_new') }}" >Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+    {{ render_esi(controller('MarcaNoteBundle:Note:createSidebar', { 'courseid': app.request.get('courseid') } )) }}
 {% endblock %}

@@ -23,7 +23,7 @@ class AttendanceController extends Controller
      * Creates a new Attendance entity.
      *
      * @Route("/{courseid}/{id}/{type}/create", name="attendance_create_ajax")
-     * @Method("GET")
+     * @Method("POST")
      * @Template("MarcaGradebookBundle:Attendance:new_ajax.html.twig")
      */
     public function createAjaxAction($type, $id)
@@ -103,7 +103,7 @@ class AttendanceController extends Controller
     {
         $form = $this->createForm(new AttendanceType(), $attendance, array(
             'action' => $this->generateUrl('attendance_update', array('id' => $attendance->getId(),'courseid'=>$courseid,'rollid'=>$rollid, 'user'=>$user)),
-            'method' => 'PUT',
+            'method' => 'POST',
         ));
         $form->add('submit', 'submit', array('label' => 'Update','attr' => array('class' => 'btn btn-primary pull-right')));
 
@@ -115,7 +115,7 @@ class AttendanceController extends Controller
      * Edits an existing Attendance entity.
      *
      * @Route("/{courseid}/{rollid}/{user}/{id}", name="attendance_update")
-     * @Method("PUT")
+     * @Method("POST")
      * @Template("MarcaGradebookBundle:Attendance:edit.html.twig")
      */
     public function updateAction(Request $request, $id, $courseid, $rollid, $user)
@@ -148,7 +148,7 @@ class AttendanceController extends Controller
      * Deletes a Attendance entity.
      *
      * @Route("/{courseid}/{rollid}/{user}/{id}/delete", name="attendance_delete")
-     * @Method("DELETE")
+     * @Method("POST")
      */
     public function deleteAction(Request $request, $id, $courseid, $rollid, $user)
     {
@@ -181,7 +181,7 @@ class AttendanceController extends Controller
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('attendance_delete', array('id' => $id,'courseid' => $courseid,'rollid' => $rollid, 'user' => $user)))
-            ->setMethod('DELETE')
+            ->setMethod('POST')
             ->add('submit', 'submit', array('label' => 'Delete','attr' => array('class' => 'btn btn-default')))
             ->getForm()
         ;

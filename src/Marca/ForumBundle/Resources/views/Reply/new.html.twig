@@ -10,29 +10,19 @@
                 <p>Created  {{ comment.created|date('M d Y, h:ia') }}  / Updated  {{ comment.updated|date('M d Y, h:ia') }}</p>
             </div>
             <div class="panel-body">
-                {{ comment.body|raw }}
+                {{ comment.body|html_raw }}
             </div>
             <div class="panel-footer">
             </div>
         </div>
 
         <div class="panel panel-default">
-            <form action="{{ course_path('reply_create', { 'commentid': commentid }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
                 <div class="panel-heading">
                     Forum Comment
                 </div>
                 <div class="panel-body">
-                    {{ form_errors(form) }}
-                    {{ form_row(form.body) }}
-                    {{ form_rest(form) }}
+                    {{ form(form) }}
                 </div>
-                <div class="panel-footer">
-                    <div class="btn-group">
-                        <button class="btn btn-primary" type="submit">Update</button>
-                        <a class='btn btn-default' href="{{ course_path('forum_show', { 'id': comment.forum.id }) }}">Cancel</a>
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
 {% endblock %}

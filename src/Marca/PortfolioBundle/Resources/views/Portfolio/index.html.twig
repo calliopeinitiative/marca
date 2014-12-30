@@ -11,6 +11,16 @@
                 $('#port_modal').load('{{ course_path('portfolio_show_modal', { 'id': portfolio.id}) }}').modal();
             });
             {% endfor %}
+
+            $('a.roll').click(function() {
+                var id = $(this).data("id");
+                var index = $(this).data("index");
+                var url = "{{ course_path('portfolio_user', { 'userid': 'id', 'user': 'index' }) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                $(this).attr("href", url).click();
+            });
+
         });
     </script>
 {% endblock %}
@@ -22,7 +32,7 @@
                 <div class="list-group">
                     <h2 class="small margin-top-small">{{ portset.name }}</h2>
 
-                    <p>{{ portset.description|raw }}</p>
+                    <p>{{ portset.description|html_raw }}</p>
                 </div>
             </div>
             <div class="panel-body">
@@ -42,34 +52,42 @@
                     </div>
 
                     <div class="col-sm-12">
-                        <em>{{ portitem.description|raw }}</em>
+                        <em>{{ portitem.description|html_raw }}</em>
                     </div>
 
                     {% for portfolio in portfolioset.portfolioitems if portfolio.portitem.name==portitem.name %}
+                        {% set name %}
+                        {%  if portfolio.file.reviewed %}
+                            Review of <i>{{ portfolio.file.reviewed.name|slice(0,15) }}</i> for {{ portfolio.file.reviewed.user.firstname }} {{ portfolio.file.reviewed.user
+                .lastname }}
+                        {% else %}
+                            {{ portfolio.file.name }}
+                        {% endif %}
+                        {% endset %}
                         <div class="row">
                             <div class="col-sm-10">
                                 {% if portfolio.file.doc %}
                                     <span class="label label-file" data-toggle="tooltip"
                                           title="This an html file ">html</span>
                                     <a href="{{ course_path('doc_show', { 'id': portfolio.file.id, 'view':'window' }) }}"
-                                       target="_blank">{{ portfolio.file.name }}</a>
+                                       target="_blank">{{ name }}</a>
                                 {% elseif portfolio.file.url %}
                                     <span class="label label-file" data-toggle="tooltip"
                                           title="This a Link ">link</span>
-                                    <a href="{{ portfolio.file.url }}" target="_blank">{{ portfolio.file.name }}</a>
+                                    <a href="{{ portfolio.file.url }}" target="_blank">{{ name }}</a>
                                 {% elseif portfolio.file.ext == 'odt' or portfolio.file.ext == 'odp' or portfolio.file.ext == 'ods' or portfolio.file.ext == 'pdf' %}
                                     <span class="label label-file" data-toggle="tooltip"
                                           title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }}</span>
                                     <a class="file_name"
                                        href="{{ course_path('file_view', { 'id': portfolio.file.id, 'view': 'window' }) }}"
-                                       title="View {{ portfolio.file.name }}"
-                                       target="_blank">{{ portfolio.file.name }}</a>
+                                       title="View {{ name }}"
+                                       target="_blank">{{ name }}</a>
                                 {% else %}
                                     <span class="label label-file" data-toggle="tooltip"
                                           title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }} </span>
                                     <a href="{{ course_path('file_get', { 'id': portfolio.file.id }) }}"
-                                       title="View {{ portfolio.file.name }} (will open in a new window or tab)"
-                                       target="_blank">{{ portfolio.file.name }}</a>
+                                       title="View {{ name }} (will open in a new window or tab)"
+                                       target="_blank">{{ name }}</a>
                                 {% endif %}
                             </div>
                             <div class="col-sm-2">

@@ -16,15 +16,15 @@
                 </div>
                 <h2 class="margin-top-small">{{ assessmentset.name }}</h2>
 
-                <p>{{ assessmentset.description|raw }}</p>
+                <p>{{ assessmentset.description|html_raw }}</p>
             </div>
             <div class="panel-body">
                 <div class="list-group">
                     {% for objective in assessmentset.objectives %}
 
                         <a class="list-group-item" href="{{ path('objective_edit', { 'id': objective.id }) }}">
-                            <h3 class="margin-top-small">{{ objective.objective|raw }}</h3>
-                            {{ objective.description|raw }}
+                            <h3 class="margin-top-small">{{ objective.objective|html_raw }}</h3>
+                            {{ objective.description|html_raw }}
                             <strong>{{ objective.scale.name }}</strong>:
                             <p>
                                 {% for scaleitem in objective.scale.scaleitems %}
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="panel-footer">
-                <span class="text-muted">Click Learning Objective to edit. </span>
+                <span class="">Click Learning Objective to edit. </span>
             </div>
         </div>
     </div>

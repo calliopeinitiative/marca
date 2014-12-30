@@ -24,7 +24,7 @@ class ReplyController extends Controller
      * @Route("/{courseid}/{commentid}/new", name="reply_new")
      * @Template()
      */
-    public function newAction($commentid)
+    public function newAction($commentid, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -33,15 +33,34 @@ class ReplyController extends Controller
         $comment = $em->getRepository('MarcaForumBundle:Comment')->find($commentid);        
         $reply = new Reply();
         $reply->setBody('<p></p>');
-        $form   = $this->createForm(new ReplyType(), $reply);
+        $form = $this->createCreateForm($reply, $commentid, $courseid);
         
 
-        return array(
+        return $this->render('MarcaForumBundle:Reply:new.html.twig', array(
             'commentid' => $commentid,
             'comment' => $comment,
             'reply' => $reply,
             'form'   => $form->createView()
-        );
+        ));
+    }
+
+
+    /**
+     * Creates a form to create a Reply entity.
+     *
+     * @param Reply $reply entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateForm(Reply $reply, $commentid, $courseid)
+    {
+        $form = $this->createForm(new ReplyType(), $reply, array(
+            'action' => $this->generateUrl('reply_create', array('courseid' => $courseid, 'commentid' => $commentid)),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
     }
 
     /**
@@ -49,7 +68,6 @@ class ReplyController extends Controller
      *
      * @Route("/{courseid}/{commentid}/create", name="reply_create")
      * @Method("post")
-     * @Template("MarcaForumBundle:Reply:new.html.twig")
      */
     public function createAction($commentid,$courseid)
     {
@@ -58,14 +76,14 @@ class ReplyController extends Controller
         
         $em = $this->getEm();
         $comment = $em->getRepository('MarcaForumBundle:Comment')->find($commentid);
-        $forumid = $comment->getForum()->getid();
+        $forum = $comment->getForum();
         $reply  = new Reply();
         $user = $this->getUser();    
         $reply->setUser($user);
         $reply->setComment($comment);
         
         $request = $this->getRequest();
-        $form    = $this->createForm(new ReplyType(), $reply);
+        $form = $this->createCreateForm($reply, $commentid, $courseid);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -73,23 +91,22 @@ class ReplyController extends Controller
             $em->persist($reply);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('forum_show', array('courseid' => $courseid,'id' => $forumid)));
+            return $this->redirect($this->generateUrl('forum_show', array('courseid' => $courseid,'id' => $forum->getId())));
             
         }
 
-        return array(
+        return $this->render('MarcaForumBundle:Reply:new.html.twig', array(
             'commentid' => $commentid,
             'comment' => $comment,
             'reply' => $reply,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Reply entity.
      *
      * @Route("/{courseid}/{commentid}/{id}/edit", name="reply_edit")
-     * @Template()
      */
     public function editAction($id,$commentid,$courseid)
     {
@@ -109,15 +126,33 @@ class ReplyController extends Controller
             throw new AccessDeniedException();
         }  
 
-        $editForm = $this->createForm(new ReplyType(), $reply);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($reply, $commentid, $courseid);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
-        return array(
+        return $this->render('MarcaForumBundle:Reply:edit.html.twig', array(
             'reply'      => $reply,
             'comment' => $comment,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
+    }
+
+    /**
+     * Creates a form to edit a Reply entity.
+     *
+     * @param Reply $reply entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Reply $reply, $commentid, $courseid)
+    {
+        $form = $this->createForm(new ReplyType(), $reply, array(
+            'action' => $this->generateUrl('reply_update', array('id' => $reply->getId(),'courseid' => $courseid, 'commentid' => $commentid)),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
     }
 
     /**
@@ -125,7 +160,6 @@ class ReplyController extends Controller
      *
      * @Route("/{courseid}/{commentid}/{id}/update", name="reply_update")
      * @Method("post")
-     * @Template("MarcaForumBundle:Reply:edit.html.twig")
      */
     public function updateAction($id,$commentid,$courseid)
     {
@@ -140,12 +174,12 @@ class ReplyController extends Controller
             throw $this->createNotFoundException('Unable to find Reply entity.');
         }
 
-        $editForm   = $this->createForm(new ReplyType(), $reply);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($reply, $commentid, $courseid);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($reply);
@@ -154,12 +188,12 @@ class ReplyController extends Controller
             return $this->redirect($this->generateUrl('forum_show', array('courseid' => $courseid,'id' => $reply->getComment()->getForum()->getId(),)));
         }
 
-        return array(
+        return $this->render('MarcaForumBundle:Reply:edit.html.twig', array(
             'reply'      => $reply,
             'comment' => $comment,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -173,7 +207,7 @@ class ReplyController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($id, $courseid);
         $request = $this->getRequest();
 
         $form->handleRequest($request);
@@ -193,11 +227,20 @@ class ReplyController extends Controller
         return $this->redirect($this->generateUrl('forum_show', array('courseid' => $courseid,'id' => $reply->getComment()->getForum()->getId(),)));
     }
 
-    private function createDeleteForm($id)
+    /**
+     * Creates a form to delete a Reply entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id, $courseid)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('reply_delete', array('id' => $id,'courseid' => $courseid,)))
+            ->setMethod('POST')
+            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
-        ;
+            ;
     }
 }

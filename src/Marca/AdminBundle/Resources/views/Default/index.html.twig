@@ -2,18 +2,40 @@
 
 {% extends 'MarcaUserBundle::layout.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function () {
+            $('#submit_find').click(function () {
+                var input = $('#form_lastname').val();
+                var inputReg = /^[a-zA-Z0-9]{3,}$/;
+                if(!inputReg.test(input)){
+                    $('#user_find').html('<div class="alert alert-warning" role="alert">Please enter at least three characters.</div>');
+                }
+                else {
+                    $.post( "{{ path('admin_find') }}", $('form#find').serialize(), function( data ) {
+                        $('#user_find').html(data);
+                    });
+                }
+
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="margin-top-small">User Admin</h2>
         </div>
         <div class="panel-body">
-            <form action="{{ path('admin_find') }}" method="post" {{ form_enctype(form) }}>
+            <form id="find" action="javascript:void(0);" method="post" {{ form_enctype(form) }}>
                 {{ form_widget(form) }}
-                <button class="btn btn-primary btn-sm" type="submit">Find</button>
+                <button id="submit_find" class="btn btn-primary btn-sm" type="submit">Find</button>
             </form>
-            <hr/>
+        </div>
 
+        <div id="user_find" class="panel-body">
             <p>Number in Find:  {{ count }}</p>
             <table class="table">
                 <tbody>

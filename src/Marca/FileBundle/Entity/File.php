@@ -26,7 +26,7 @@ class File
       * "application/vnd.oasis.opendocument.spreadsheet", "application/msword", "application/mspowerpoint",
       * "application/excel", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       * "application/vnd.openxmlformats-officedocument.presentationml.presentation", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      * "application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/zip"}
+      * "application/zip"}
      * )
      * @Vich\UploadableField(mapping="property_file", fileNameProperty="path")
      *
@@ -63,14 +63,17 @@ class File
      */
     protected $grade;
     
-     /**
-     * @ORM\OneToMany(targetEntity="Marca\ResponseBundle\Entity\Response", mappedBy="file", cascade="remove")
+
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\AssignmentBundle\Entity\Review", mappedBy="file")
      */
-    protected $responses;
+    protected $feedback;
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Marca\DocBundle\Entity\Tracking", mappedBy="file", cascade="remove")
+     * @ORM\OneToMany(targetEntity="Marca\DocBundle\Entity\Tracking", mappedBy="file")
+     * @ORM\OrderBy({"markup" = "ASC"})
+     * though this orderBy throws an invalid entity error, it works for the sort on doc display
      */
     protected $tracking;
 
@@ -82,7 +85,7 @@ class File
 
     /**
      * @ORM\ManyToOne(targetEntity="File", inversedBy="reviews")
-     * @ORM\JoinColumn(name="reviewed_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $reviewed;
     
@@ -407,39 +410,6 @@ class File
 
 
     /**
-     * Add responses
-     *
-     * @param \Marca\ResponseBundle\Entity\Response $responses
-     * @return File
-     */
-    public function addResponse(\Marca\ResponseBundle\Entity\Response $responses)
-    {
-        $this->responses[] = $responses;
-    
-        return $this;
-    }
-
-    /**
-     * Remove responses
-     *
-     * @param \Marca\ResponseBundle\Entity\Response $responses
-     */
-    public function removeResponse(\Marca\ResponseBundle\Entity\Response $responses)
-    {
-        $this->responses->removeElement($responses);
-    }
-
-    /**
-     * Get responses
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getResponses()
-    {
-        return $this->responses;
-    }
-
-    /**
      * Set url
      *
      * @param string $url
@@ -619,5 +589,38 @@ class File
     public function getTracking()
     {
         return $this->tracking;
+    }
+
+    /**
+     * Add feedback
+     *
+     * @param \Marca\AssignmentBundle\Entity\Review $feedback
+     * @return File
+     */
+    public function addFeedback(\Marca\AssignmentBundle\Entity\Review $feedback)
+    {
+        $this->feedback[] = $feedback;
+
+        return $this;
+    }
+
+    /**
+     * Remove feedback
+     *
+     * @param \Marca\AssignmentBundle\Entity\Review $feedback
+     */
+    public function removeFeedback(\Marca\AssignmentBundle\Entity\Review $feedback)
+    {
+        $this->feedback->removeElement($feedback);
+    }
+
+    /**
+     * Get feedback
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFeedback()
+    {
+        return $this->feedback;
     }
 }

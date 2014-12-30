@@ -271,7 +271,7 @@ class Calendar
     /**
      * Set user
      *
-     * @param Marca\UserBundle\Entity\User $user
+     * @param \Marca\UserBundle\Entity\User $user
      */
     public function setUser(\Marca\UserBundle\Entity\User $user)
     {
@@ -281,7 +281,7 @@ class Calendar
     /**
      * Get user
      *
-     * @return Marca\UserBundle\Entity\User 
+     * @return \Marca\UserBundle\Entity\User
      */
     public function getUser()
     {
@@ -291,7 +291,7 @@ class Calendar
     /**
      * Set course
      *
-     * @param Marca\CourseBundle\Entity\Course $course
+     * @param \Marca\CourseBundle\Entity\Course $course
      */
     public function setCourse(\Marca\CourseBundle\Entity\Course $course)
     {
@@ -301,7 +301,7 @@ class Calendar
     /**
      * Get course
      *
-     * @return Marca\CourseBundle\Entity\Course 
+     * @return \Marca\CourseBundle\Entity\Course
      */
     public function getCourse()
     {

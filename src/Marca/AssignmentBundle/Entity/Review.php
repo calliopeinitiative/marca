@@ -38,7 +38,8 @@ class Review
 
     
     /**
-    * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File")
+    * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="feedback")
+    * @ORM\JoinColumn(onDelete="cascade")
     */
     protected $file;    
     

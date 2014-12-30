@@ -40,9 +40,9 @@ class LoadMarkupsetData extends AbstractFixture implements OrderedFixtureInterfa
 
         $markupset2 = $this->createMarkupSet('Rhetoric', 1, $user);
 
-        $markup4 = $this->createMarkup('Ethos', $user, 'mc4', 'ethos', $markupset2, 'http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/585-ethos');
-        $markup5 = $this->createMarkup('Pathos', $user, 'mc5' , 'pathos', $markupset2, 'http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/591-pathos');
-        $markup6 = $this->createMarkup('Logos', $user, 'mc6', 'logos', $markupset2, 'http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/593-logos');
+        $markup4 = $this->createMarkup('Ethos', $user, 'darkseagreen', 'ethos', $markupset2, 'http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/585-ethos');
+        $markup5 = $this->createMarkup('Pathos', $user, 'cadetblue' , 'pathos', $markupset2, 'http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/591-pathos');
+        $markup6 = $this->createMarkup('Logos', $user, 'chartreuse', 'logos', $markupset2, 'http://writingcommons.org/information-literacy/understanding-arguments/rhetorical-analysis/rhetorical-appeals/593-logos');
         
        for ($i=2; $i <=25; $i++){
             $num = strval($i);
@@ -58,9 +58,9 @@ class LoadMarkupsetData extends AbstractFixture implements OrderedFixtureInterfa
         
         $markupset3 = $this->createMarkupSet('Evidence', 1, $user);
  
-        $markup7 = $this->createMarkup('Context', $user, 'mc7', 'context', $markupset3, null, 'Provide more context for this quote');
-        $markup8 = $this->createMarkup('Interpret', $user, 'mc8', 'interpret', $markupset3, null, 'Interpret this quote');
-        $markup9 = $this->createMarkup('Connect', $user, 'mc9', 'connect', $markupset3, null, 'Connect this evidence to your argument');
+        $markup7 = $this->createMarkup('Context', $user, 'darkorange', 'context', $markupset3, null, 'Provide more context for this quote');
+        $markup8 = $this->createMarkup('Interpret', $user, 'coral', 'interpret', $markupset3, null, 'Interpret this quote');
+        $markup9 = $this->createMarkup('Connect', $user, 'aquamarine', 'connect', $markupset3, null, 'Connect this evidence to your argument');
         
         for ($j=2; $j <=25; $j++){
             $num = strval($j);
@@ -78,11 +78,11 @@ class LoadMarkupsetData extends AbstractFixture implements OrderedFixtureInterfa
         
         $markupset4 = $this->createMarkupSet('Grammar', 1, $user);
         
-        $markup10 = $this->createMarkup('Comma_Splice', $user, 'mc1', 'comma_splice', $markupset4, 'http://owl.english.purdue.edu/engagement/index.php?category_id=2&sub_category_id=1&article_id=34');
-        $markup11 = $this->createMarkup('Passive_Voice', $user, 'mc2', 'passive_voice', $markupset4, 'http://owl.english.purdue.edu/owl/resource/539/1/');
-        $markup12 = $this->createMarkup('Expletive_Construction', $user, 'mc3', 'expletive_construction', $markupset4, 'http://owl.english.purdue.edu/owl/resource/539/1/');
-        $markup13 = $this->createMarkup('Subject_Verb_Agreement', $user, 'mc4', 'subject_verb_agreement', $markupset4, 'http://writingcommons.org/style/grammar/subject-verb-agreement');
-        $markup14 = $this->createMarkup('Pronoun_antecedent_agreement ', $user, 'mc5', 'pronoun_antecedent_agreement', $markupset4, 'http://writingcommons.org/style/grammar/subject-pronoun-agreement');
+        $markup10 = $this->createMarkup('Comma_Splice', $user, 'darkturquoise', 'comma_splice', $markupset4, 'http://owl.english.purdue.edu/engagement/index.php?category_id=2&sub_category_id=1&article_id=34');
+        $markup11 = $this->createMarkup('Passive_Voice', $user, 'cyan', 'passive_voice', $markupset4, 'http://owl.english.purdue.edu/owl/resource/539/1/');
+        $markup12 = $this->createMarkup('Expletive_Construction', $user, 'gold', 'expletive_construction', $markupset4, 'http://owl.english.purdue.edu/owl/resource/539/1/');
+        $markup13 = $this->createMarkup('Subject_Verb_Agreement', $user, 'indianred', 'subject_verb_agreement', $markupset4, 'http://writingcommons.org/style/grammar/subject-verb-agreement');
+        $markup14 = $this->createMarkup('Pronoun_antecedent_agreement ', $user, 'darkslateblue', 'pronoun_antecedent_agreement', $markupset4, 'http://writingcommons.org/style/grammar/subject-pronoun-agreement');
         
         for ($i=2; $i <=25; $i++){
             $num = strval($i);
@@ -103,8 +103,9 @@ class LoadMarkupsetData extends AbstractFixture implements OrderedFixtureInterfa
        
         $manager->flush();
         
-           
-        
+        $this->addReference('markupset2', $markupset2);
+        $this->addReference('markupset3', $markupset3);
+        $this->addReference('markupset4', $markupset4);
     }
     
     /**

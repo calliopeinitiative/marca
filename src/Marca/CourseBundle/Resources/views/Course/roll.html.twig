@@ -14,16 +14,53 @@
                         {% for roll in roll %}
                             <tr>
                                 <td>
-                                    <img src="{{ roll.user.photo }}"
-                                         class="user-photo-sm img-rounded pull-left margin-top-small"/>
+                                    <img alt="Photo" src="{{ roll.user.photo }}" class="user-photo-sm img-rounded pull-left margin-top-small"/>
                                 </td>
                                 <td>
                                     <a class=""
                                        href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}
                                         , {{ roll.firstname|capitalize }}</a>
+                                    <hr/>
+                                    <div class="inline-block" id="absent_container{{ roll.id }}">
+                                        <a id="absent{{ roll.id }}" class="btn btn-default btn-xs"
+                                           href="javascript:void(0);">Absent</a>
+                                        {% set x=0 %}
+                                        {% for attendance in roll.attendance if attendance.type==0 %}{% set x=x+1 %}{% endfor %}{{ x }}
+                                    </div>
+                                    <div class="inline-block" id="tardy_container{{ roll.id }}">
+                                        <a id="tardy{{ roll.id }}" class="btn btn-default btn-xs"
+                                           href="javascript:void(0);">Tardy</a>
+                                        {% set y=0 %}
+                                        {% for attendance in roll.attendance if attendance.type==1 %}{% set y=y+1 %}{% endfor %}{{ y }}
+                                    </div>
                                 </td>
-                                <td><a class="" target="_blank"
-                                       href="mailto:{{ roll.user.email }}">{{ roll.user.email }}</a></td>
+                                <td><a target="_blank"  href="mailto:{{ roll.user.email }}">{{ roll.user.email }}</a>
+                                    <hr/>
+                                    {% if roll.user.id != app.user.id %}
+                                        {% if roll.role == 0 %}
+                                            Pending:
+                                            <div class="btn-group">
+                                                <a class="btn btn-default btn-xs"
+                                                   href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>
+                                                <a class="btn btn-default btn-xs"
+                                                   href="{{ path('roll_show', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a>
+                                            </div>
+                                        {% else %}
+                                            Change role:
+                                            <div class="btn-group">
+                                                <a class="btn btn-default {% if roll.role == 1 %}btn-primary{% endif %} btn-xs "
+                                                   href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'1'}) }}">Student</a>
+                                                <a class="btn btn-default {% if roll.role == 2 %}btn-primary{% endif %} btn-xs "
+                                                   href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'2'}) }}">Instructor</a>
+                                                <a class="btn btn-default {% if roll.role == 4 %}btn-primary{% endif %} btn-xs "
+                                                   href="{{ path('roll_promote', { 'id': roll.id,'courseid':course.id, 'role':'4'}) }}">Portfolio
+                                                    Review</a>
+                                                <a class="btn btn-default btn-xs"
+                                                   href="{{ path('roll_confirm_delete', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -40,9 +77,5 @@
                        href="mailto:{% for roll in full_roll %}{{ roll.user.email }}{% if not loop.last %}, {% endif %}{% endfor %}">{% for roll in full_roll %}{{ roll.user.email }}{% if not loop.last %}, {% endif %}{% endfor %}</a>
                 </div>
             </div>
-
-
         </div>
-
-
     {% endblock %}

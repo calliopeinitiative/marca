@@ -20,7 +20,7 @@
                             <div class="media-body"><h3 class="inline-block margin-top-small">{{ forum.title }}</h3><span class="visible-xs" style="height:1px;"><br /></span>
 
                             <span class="margin-left">by {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}</span>
-                            <p class="hidden-xs">Created  {{ forum.created|date('M d Y, h:ia') }}  / Updated  {{ forum.updated|date('M d Y, h:ia') }}</p>
+                            <p class="hidden-xs">Updated  {{ forum.updated|date('M d Y, h:ia') }}</p>
                             </div>
                         </a>
                     {% else %}

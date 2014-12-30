@@ -16,18 +16,9 @@ class Controller extends SymfonyController
     
     /**
      *
-     * @return \Marca\UserBundle\Entity\User
-     */   
-    public function getUser() {
-        $user = $this->get('security.context')->getToken()->getUser();
-        return $user;
-    }
-    
-    /**
-     *
      * @return EntityManager
      */   
-    public function getEm() {
+    protected function getEm() {
         $em = $this->getDoctrine()->getManager();
         return $em;
     }    
@@ -35,8 +26,8 @@ class Controller extends SymfonyController
     /**
      *
      * @return \Marca\CourseBundle\Entity\Course
-     */   
-    public function getCourse() {
+     */
+    protected function getCourse() {
         $request = $this->getRequest();
         $courseid = $request->attributes->get('courseid');
         $course = $this->getEm()->getRepository('MarcaCourseBundle:Course')->find($courseid);
@@ -49,8 +40,8 @@ class Controller extends SymfonyController
     /**
      *
      * @return \Marca\CourseBundle\Entity\Roll
-     */   
-    public function getRoll() {
+     */
+    protected function getRoll() {
         $request = $this->getRequest();
         $courseid = $request->attributes->get('courseid');
         $roll = $this->getEm()->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -63,8 +54,7 @@ class Controller extends SymfonyController
     /**
      *@return string 
      */
-    public function getCourseRole(){
-        $request = $this->getRequest();
+    protected function getCourseRole(){
         $course = $this->getCourse();
         $user = $this->getUser();
         $rollentry = $this->getEm()->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
@@ -82,7 +72,7 @@ class Controller extends SymfonyController
      * if so, returns true
      * thanks to Wyatt Peterson for design help
      */
-    public function restrictAccessTo($allowed){
+    protected function restrictAccessTo($allowed){
         //grab our current user's role in our current course
         $currentUserRoles = $this->getCourseRole();
         //test if user role is not in the array of allowed roles

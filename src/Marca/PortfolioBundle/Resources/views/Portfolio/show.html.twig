@@ -75,13 +75,12 @@
                     {% if loop.index == app.request.get('user') + 1 %}
                         <li><a data-index="{{ loop.index }}" data-id='{{ roll.user.id }}'
                                href="{{ course_path('portfolio_user', { 'userid': roll.user.id, 'user': loop.index, }) }}">
-                                {{ roll.firstname }} {{ roll.lastname }}<i
-                                        class="glyphicon glyphicon-chevron-right"></i></a></li>
+                                {{ roll.firstname }} {{ roll.lastname }}&gt; </a></li>
                     {% endif %}
                     {% if loop.index == app.request.get('user') - 1 %}
                         <li><a data-index="{{ loop.index }}" data-id='{{ roll.user.id }}'
                                href="{{ course_path('portfolio_user', { 'userid': roll.user.id, 'user': loop.index, }) }}">
-                            <i class="glyphicon glyphicon-chevron-left"></i>{{ roll.firstname }} {{ roll.lastname }}
+                            &lt;{{ roll.firstname }} {{ roll.lastname }}
 
                         </a></li>{% endif %}
                 {% endfor %}
@@ -96,7 +95,7 @@
         {% if portfolio_doc.file.doc %}
             <div id='doc-display' class="col-sm-8 well">
                 <div class="doc-body">
-                    {{ portfolio_doc.file.doc.body|raw }}
+                    {{ portfolio_doc.file.doc.body|html_raw }}
                 </div>
             </div>
         {% elseif portfolio_doc.file.url %}
@@ -133,32 +132,34 @@
         </div>
     {% endfor %}
 
-
-
-
-
-
-
-
     {# Doc tools #}
     <div id='doctools' class="col-sm-4">
 
         {# Port files #}
         <div class="list-group">
             {% for portfolio in portfolio %}
+                {% set name %}
+                {%  if portfolio.file.reviewed %}
+                    Review of <i>{{ portfolio.file.reviewed.name|slice(0,15) }}</i> for {{ portfolio.file.reviewed.user.firstname }} {{ portfolio.file.reviewed.user
+                .lastname }}
+                {% else %}
+                    {{ portfolio.file.name }}
+                {% endif %}
+                {% endset %}
+
                 {% if portfolio.file.url %}
                     <a id="port_file_{{ loop.index }}" class='list-group-item' href="{{ portfolio.file.url }}"
                        target="_blank">
                         <span class="label label-file" data-toggle="tooltip" title="This a Link ">link</span>
                         <strong>{{ portfolio.portitem.name }}:</strong>
-                        {{ portfolio.file.name }}
+                        {{ name }}
                     </a>
                 {% elseif portfolio.file.doc %}
                     <a id="port_file_{{ loop.index }}" class='list-group-item'
                        href="{{ course_path('portfolio_user', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}">
                         <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
                         <strong>{{ portfolio.portitem.name }}:</strong>
-                        {{ portfolio.file.name }}
+                        {{ name }}
                     </a>
                 {% elseif portfolio.file.ext == 'odt' or portfolio.file.ext == 'odp' or portfolio.file.ext == 'ods' or portfolio.file.ext == 'pdf' %}
                     <a id="port_file_{{ loop.index }}" class="list-group-item"
@@ -167,14 +168,14 @@
                         <span class="label label-file" data-toggle="tooltip"
                               title="This an {{ portfolio.file.ext }} file ">{{ portfolio.file.ext }}</span>
                         <strong>{{ portfolio.portitem.name }}:</strong>
-                        {{ portfolio.file.name }}
+                        {{ name }}
                     </a>
                 {% else %}
                     <a id="port_file_{{ loop.index }}" class='list-group-item'
                        href="{{ course_path('portfolio_user', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}">
                         <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
                         <strong>{{ portfolio.portitem.name }}:</strong>
-                        {{ portfolio.file.name }}
+                        {{ name }}
                     </a>
                 {% endif %}
             {% endfor %}
@@ -198,7 +199,7 @@
                         <div class="panel-body">
                             {% for rating in ratingset.ratings %}
                                 <div class='hide'><strong
-                                            class='margin-top'>{{ rating.objective.objective|raw }}</strong>
+                                            class='margin-top'>{{ rating.objective.objective|html_raw }}</strong>
                                     {{ rating.scaleitem.name }}</div>
                             {% endfor %}
 
@@ -213,7 +214,7 @@
                             {% endif %}
                         </div>
                         <div class="panel-footer">
-                            <span class="text-muted">{% if role == 2 or role == 4 %}Notes for reviewer and grades are not seen by students.{% endif %}</span>
+                            <span class="">{% if role == 2 or role == 4 %}Notes for reviewer and grades are not seen by students.{% endif %}</span>
                         </div>
                     </div>
 
@@ -241,7 +242,7 @@
                             <p>Average Grade: {{ sumratings / countratings }}</p>
                         </div>
                         <div class="panel-footer">
-                            <span class="text-muted">Grades are not seen by students.</span>
+                            <span class="">Grades are not seen by students.</span>
                         </div>
                     </div>
                 {% endif %}
@@ -262,7 +263,7 @@
                     {{ markup.name }}
                 </div>
                 <div class="popover-content">
-                    {{ markup.mouseover|raw }}
+                    {{ markup.mouseover|html_raw }}
                     {% if markup.url != '' or markup.url is not null %}<a href="{{ markup.url }}"
                                                                           target="_blank">{{ markup.linktext }}</a>{% endif %}
                 </div>

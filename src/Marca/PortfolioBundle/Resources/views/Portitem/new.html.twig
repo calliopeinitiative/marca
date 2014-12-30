@@ -2,31 +2,28 @@
 
 {% extends 'MarcaUserBundle::dialog.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function () {
+            {# form page close/cancel adjust for appropriate redirect #}
+            $('#close_form').click(function () {
+                window.location.href = '{{ path('portset_show', { 'id': portsetid }) }}';
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
 
-    <div class="col-sm-8 center">
+    <div class="col-sm-8 well center">
+        <button id="close_form" type="button" class="close">&times;</button>
+        <h2 class="margin-top-small">Portfolios</h2>
+
         <form class="form" action="{{ path('portitem_create', { 'portsetid': portsetid }) }}" method="post" {{ form_enctype(form) }}>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2 class="margin-top-small">Portfolios</h2>
-                </div>
-                <div class="panel-body">
-                    {{ form_errors(form) }}
-                    {{ form_row(form.name) }}
-                    {{ form_row(form.description) }}
-                    {{ form_rest(form) }}
-                </div>
-                <div class="panel-footer">
-                    <div class="btn-group">
-                        <button class="btn btn-primary" type="submit">Create</button>
-                        <a class="btn btn-default" href="{{ path('portset_show', { 'id': portsetid }) }}">Cancel</a>
-
-                    </div>
-                </div>
-            </div>
+            {{ form_widget(form) }}
+            <button class="btn btn-primary" type="submit">Post</button>
         </form>
-
     </div>
 
 {% endblock %}

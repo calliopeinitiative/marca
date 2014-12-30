@@ -150,7 +150,7 @@ class ReviewRubricController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new ReviewRubricType(), $reviewrubric);
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($reviewrubric);

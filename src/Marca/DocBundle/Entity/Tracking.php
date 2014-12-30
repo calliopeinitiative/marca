@@ -40,6 +40,7 @@ class Tracking
 
     /**
      * @ORM\ManyToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="tracking")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $file;
 

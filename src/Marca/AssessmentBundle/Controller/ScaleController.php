@@ -20,7 +20,6 @@ class ScaleController extends Controller
      * Lists all Scale entities.
      *
      * @Route("/", name="scale")
-     * @Template()
      */
     public function indexAction()
     {
@@ -28,14 +27,15 @@ class ScaleController extends Controller
 
         $scales = $em->getRepository('MarcaAssessmentBundle:Scale')->findAll();
 
-        return array('scales' => $scales);
+        return $this->render('MarcaAssessmentBundle:Scale:index.html.twig', array(
+            'scales' => $scales
+        ));
     }
 
     /**
      * Finds and displays a Scale entity.
      *
      * @Route("/{id}/show", name="scale_show")
-     * @Template()
      */
     public function showAction($id)
     {
@@ -49,26 +49,26 @@ class ScaleController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Scale:show.html.twig', array(
             'scale'      => $scale,
-            'delete_form' => $deleteForm->createView(),        );
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
      * Displays a form to create a new Scale entity.
      *
      * @Route("/new", name="scale_new")
-     * @Template()
      */
     public function newAction()
     {
         $scale = new Scale();
         $form   = $this->createForm(new ScaleType(), $scale);
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Scale:new.html.twig', array(
             'scale' => $scale,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
@@ -76,7 +76,6 @@ class ScaleController extends Controller
      *
      * @Route("/create", name="scale_create")
      * @Method("post")
-     * @Template("MarcaAssessmentBundle:Scale:new.html.twig")
      */
     public function createAction()
     {
@@ -94,17 +93,16 @@ class ScaleController extends Controller
             
         }
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Scale:new.html.twig', array(
             'scale' => $scale,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Scale entity.
      *
      * @Route("/{id}/edit", name="scale_edit")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -119,11 +117,11 @@ class ScaleController extends Controller
         $editForm = $this->createForm(new ScaleType(), $scale);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Scale:edit.html.twig', array(
             'scale'      => $scale,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -131,7 +129,6 @@ class ScaleController extends Controller
      *
      * @Route("/{id}/update", name="scale_update")
      * @Method("post")
-     * @Template("MarcaAssessmentBundle:Scale:edit.html.twig")
      */
     public function updateAction($id)
     {
@@ -148,7 +145,7 @@ class ScaleController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($scale);
@@ -157,11 +154,11 @@ class ScaleController extends Controller
             return $this->redirect($this->generateUrl('scale_show', array('id' => $id)));
         }
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Scale:edit.html.twig', array(
             'scale'      => $scale,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**

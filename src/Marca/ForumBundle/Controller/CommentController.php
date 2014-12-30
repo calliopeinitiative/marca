@@ -22,9 +22,8 @@ class CommentController extends Controller
      * Displays a form to create a new Comment entity.
      *
      * @Route("/{courseid}/{forumid}/{parentid}/new", name="comment_new")
-     * @Template()
      */
-    public function newAction($forumid,$courseid,$parentid)
+    public function newAction($courseid,$forumid,$parentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -33,16 +32,36 @@ class CommentController extends Controller
         $parent = $em->getRepository('MarcaForumBundle:Forum')->find($parentid);        
         $comment = new Comment();
         $comment->setBody('<p></p>');        
-        $form   = $this->createForm(new CommentType(), $comment);
+        $form = $this->createCreateForm($comment, $courseid, $forumid, $parentid);
 
-        return array(
+        return $this->render('MarcaForumBundle:Comment:new.html.twig', array(
             'forumid' => $forumid,
             'parentid' => $parentid,
             'parent' => $parent,
             'comment' => $comment,
             'form'   => $form->createView()
-        );
+        ));
     }
+
+
+    /**
+     * Creates a form to create a Comment entity.
+     *
+     * @param Comment $comment entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateForm(Comment $comment, $courseid, $forumid, $parentid)
+    {
+        $form = $this->createForm(new CommentType(), $comment, array(
+            'action' => $this->generateUrl('comment_create', array('courseid' => $courseid, 'forumid' => $forumid, 'parentid' => $parentid)),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
+    }
+
 
     /**
      * Creates a new Comment entity.
@@ -51,7 +70,7 @@ class CommentController extends Controller
      * @Method("post")
      * @Template("MarcaForumBundle:Comment:new.html.twig")
      */
-    public function createAction($forumid,$courseid,$parentid)
+    public function createAction($courseid,$forumid,$parentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -65,7 +84,7 @@ class CommentController extends Controller
         $comment->setForum($forum);     
         
         $request = $this->getRequest();
-        $form    = $this->createForm(new CommentType(), $comment);
+        $form = $this->createCreateForm($comment, $courseid, $forumid, $parentid);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -77,22 +96,21 @@ class CommentController extends Controller
             
         }
 
-        return array(
+        return $this->render('MarcaForumBundle:Comment:new.html.twig', array(
             'forumid' => $forumid,
             'parentid' => $parentid,
             'parent' => $parent,
             'comment' => $comment,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Comment entity.
      *
      * @Route("/{courseid}/{parentid}/{id}/edit", name="comment_edit")
-     * @Template()
      */
-    public function editAction($id,$courseid,$parentid)
+    public function editAction($courseid, $id, $parentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -109,15 +127,34 @@ class CommentController extends Controller
             throw new AccessDeniedException();
         }        
 
-        $editForm = $this->createForm(new CommentType(), $comment);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($comment, $courseid, $id, $parentid);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
-        return array(
+        return $this->render('MarcaForumBundle:Comment:edit.html.twig', array(
             'comment'      => $comment,
             'parent' => $parent,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
+    }
+
+
+    /**
+     * Creates a form to edit a Comment entity.
+     *
+     * @param Comment $comment entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Comment $comment, $courseid, $forumid, $parentid)
+    {
+        $form = $this->createForm(new CommentType(), $comment, array(
+            'action' => $this->generateUrl('comment_update', array('id' => $comment->getId(),'courseid' => $courseid, 'forumid' => $forumid, 'parentid' => $parentid)),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
     }
 
     /**
@@ -125,7 +162,6 @@ class CommentController extends Controller
      *
      * @Route("/{courseid}/{parentid}/{id}/update", name="comment_update")
      * @Method("post")
-     * @Template("MarcaForumBundle:Comment:edit.html.twig")
      */
     public function updateAction($id,$courseid,$parentid)
     {
@@ -140,12 +176,12 @@ class CommentController extends Controller
             throw $this->createNotFoundException('Unable to find Comment entity.');
         }
 
-        $editForm   = $this->createForm(new CommentType(), $comment);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($comment, $courseid, $id, $parentid);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($comment);
@@ -154,12 +190,12 @@ class CommentController extends Controller
             return $this->redirect($this->generateUrl('forum_show', array('courseid' => $courseid,'id' => $comment->getForum()->getId(),)));
         }
 
-        return array(
+        return $this->render('MarcaForumBundle:Comment:edit.html.twig', array(
             'comment'      => $comment,
             'parent' => $parent,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -168,12 +204,12 @@ class CommentController extends Controller
      * @Route("/{courseid}/{id}/delete", name="comment_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($id, $courseid);
         $request = $this->getRequest();
 
         $form->handleRequest($request);
@@ -181,6 +217,7 @@ class CommentController extends Controller
         if ($form->isValid()) {
             $em = $this->getEm();
             $comment = $em->getRepository('MarcaForumBundle:Comment')->find($id);
+            $forumid = $comment->getForum()->getId();
 
             if (!$comment) {
                 throw $this->createNotFoundException('Unable to find Comment entity.');
@@ -190,14 +227,23 @@ class CommentController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('comment'));
+        return $this->redirect($this->generateUrl('forum_show', array('courseid' => $courseid,'id' => $forumid,)));
     }
 
-    private function createDeleteForm($id)
+    /**
+     * Creates a form to delete a Comment entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id, $courseid)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('comment_delete', array('id' => $id,'courseid' => $courseid,)))
+            ->setMethod('POST')
+            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
-        ;
+            ;
     }
 }

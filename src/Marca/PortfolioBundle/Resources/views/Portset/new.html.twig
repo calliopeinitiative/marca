@@ -2,10 +2,25 @@
 
 {% extends 'MarcaUserBundle::dialog.html.twig' %}
 
-{% block content %}
+{% block javascripts %}
+    {{ parent() }}
+    <script language="javascript">
+        $(document).ready(function () {
+            {# form page close/cancel adjust for appropriate redirect #}
+            $('#close_form').click(function () {
+                window.location.href = '{{ path('portset') }}';
+            });
+        });
+    </script>
+{% endblock %}
 
-    <div class="col-sm-8 center">
+{% block content %}
+    <div class="col-sm-8 well center">
+        <button id="close_form" type="button" class="close">&times;</button>
+        <h2 class="margin-top-small">Portfolio Set</h2>
+
         <form class="form" action="{{ path('portset_create') }}" method="post" {{ form_enctype(form) }}>
+
 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -26,8 +41,7 @@
                     </div>
                 </div>
             </div>
+
         </form>
-
     </div>
-
 {% endblock %}

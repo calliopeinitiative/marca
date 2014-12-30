@@ -62,7 +62,7 @@
 
                     {% for page in pages %}
                         <div class="panel-body">
-                            {{ page.body|raw }}
+                            {{ page.body|html_raw }}
                         </div>
                     {% endfor %}
                 </div>

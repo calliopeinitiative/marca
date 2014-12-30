@@ -147,7 +147,7 @@ class Markupset
     /**
      * Set user
      *
-     * @param Marca\UserBundle\Entity\User $user
+     * @param \Marca\UserBundle\Entity\User $user
      * @return Markupset
      */
     public function setOwner(\Marca\UserBundle\Entity\User $user = null)
@@ -160,7 +160,7 @@ class Markupset
     /**
      * Get user
      *
-     * @return Marca\UserBundle\Entity\User 
+     * @return \Marca\UserBundle\Entity\User
      */
     public function getOwner()
     {
@@ -170,7 +170,7 @@ class Markupset
     /**
      * Add markup
      *
-     * @param Marca\DocBundle\Entity\Markup $markup
+     * @param \Marca\DocBundle\Entity\Markup $markup
      * @return Markupset
      */
     public function addMarkup(\Marca\DocBundle\Entity\Markup $markup)
@@ -183,7 +183,7 @@ class Markupset
     /**
      * Remove markup
      *
-     * @param Marca\DocBundle\Entity\Markup $markup
+     * @param \Marca\DocBundle\Entity\Markup $markup
      */
     public function removeMarkup(\Marca\DocBundle\Entity\Markup $markup)
     {
@@ -193,7 +193,7 @@ class Markupset
     /**
      * Get markup
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMarkup()
     {
@@ -203,7 +203,7 @@ class Markupset
     /**
      * Add course
      *
-     * @param Marca\CourseBundle\Entity\Course $course
+     * @param \Marca\CourseBundle\Entity\Course $course
      * @return Markupset
      */
     public function addCourse(\Marca\CourseBundle\Entity\Course $course)
@@ -216,7 +216,7 @@ class Markupset
     /**
      * Remove course
      *
-     * @param Marca\CourseBundle\Entity\Course $course
+     * @param \Marca\CourseBundle\Entity\Course $course
      */
     public function removeCourse(\Marca\CourseBundle\Entity\Course $course)
     {
@@ -226,7 +226,7 @@ class Markupset
     /**
      * Get course
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCourses()
     {
@@ -247,7 +247,7 @@ class Markupset
     /**
      * Add users
      *
-     * @param Marca\UserBundle\Entity\User $users
+     * @param \Marca\UserBundle\Entity\User $users
      * @return Markupset
      */
     public function addUser(\Marca\UserBundle\Entity\User $users)
@@ -260,7 +260,7 @@ class Markupset
     /**
      * Remove users
      *
-     * @param Marca\UserBundle\Entity\User $users
+     * @param \Marca\UserBundle\Entity\User $users
      */
     public function removeUser(\Marca\UserBundle\Entity\User $users)
     {
@@ -271,7 +271,7 @@ class Markupset
     /**
      * Get users
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUsers()
     {

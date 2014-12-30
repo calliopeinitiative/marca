@@ -155,7 +155,7 @@ class PortitemController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($portitem);
@@ -200,11 +200,20 @@ class PortitemController extends Controller
         return $this->redirect($this->generateUrl('portset_show', array('id' => $portsetid)));
     }
 
+    /**
+     * Creates a form to delete a Journal entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('portset_delete', array('id' => $id)))
+            ->setMethod('POST')
+            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
-        ;
+            ;
     }
 }

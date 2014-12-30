@@ -1,120 +1,166 @@
 {# Marca/FileBundle/Resources/views/layout.html.twig #}
 
 {% extends '::base.html.twig' %}
+
 {% block title %}{{ application_name }} {% if app.request.get('resource')=='1' %}Resources{% else %}Projects{% endif %}{% endblock %}
 
-{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/theme.bootstrap.css') }}">
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
+    <!-- tablesorter plugin -->
+    <script src="{{ asset('bundles/marcahome/js/jquery.tablesorter.min.js') }}"></script>
+    <!-- tablesorter widget file - loaded after the plugin -->
+    <script src="{{ asset('bundles/marcahome/js/jquery.tablesorter.widgets.min.js') }}"></script>
     <script language="javascript">
         $(document).ready(function()
         {
+            //set height for file listing
+            $('.file-wrapper').css('max-height', function(index) {
+                return $(window).height()* .88;
+            });
+            //set height of modal
+            $('.modal-body').css('max-height', function(index) {
+                return $(window).height() * .90;
+            });
+            //set click functions for new files
             $('#file_new_doc').click(function(){
-                $('#file_modal').load('{{ course_path('file_new_modal', { 'fileid':'0','resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'doc' }) }}');
+                $('#file_modal').load('{{ course_path('file_new_modal', { 'resource': app.request.get('resource'), 'type': 'doc' }) }}');
                 $('#file_modal').modal();
             });
             $('#file_new_link').click(function(){
-                $('#file_modal').load('{{ course_path('file_new_modal', { 'fileid':'0','resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': 'link' }) }}');
+                $('#file_modal').load('{{ course_path('file_new_modal', { 'resource': app.request.get('resource'), 'type': 'link' }) }}');
                 $('#file_modal').modal();
             });
             $('#file_new_upload').click(function(){
                 $('#file_modal').load('{{ course_path('file_upload', { 'resource': app.request.get('resource') }) }}');
                 $('#file_modal').modal();
             });
+
+            //hover for settings etc
             $( "li" ).hover(
                     function() {
                         $(".default").hide();$( ".default", this ).show();
                     }
             );
+
+            //click functions for editing file listings
+            $('.settings').click(function(){
+                var fileid = $(this).data('id');
+                var url = "{{ course_path('file_edit_modal', { 'id': 'fileid', 'resource': app.request.get('resource') }) }}";
+                url = url.replace("fileid", fileid);
+                $('#file_modal').load(url).modal();
+            });
+            $('.upload_review').click(function(){
+                var fileid = $(this).data('id');
+                var url = "{{ course_path('review_upload', { 'resource' : '0',  'fileid': 'fileid' }) }}";
+                url = url.replace("fileid", fileid);
+                $('#file_modal').load(url).modal();
+            });
+            $('.delete_confirm').click(function(){
+                var fileid = $(this).data('id');
+                var url = "{{ course_path('file_show_modal', { 'id': 'fileid', 'resource': app.request.get('resource'),'source':'edit_modal'}) }}";
+                url = url.replace("fileid", fileid);
+                $('#file_modal').load(url).modal();
+            });
+
+            //tablesorter for files
+            $.extend($.tablesorter.themes.bootstrap, {
+                table      : 'table',
+                header     : 'bootstrap-header', // give the header a gradient background
+                footerRow  : '',
+                footerCells: '',
+                icons      : '', // add "icon-white" to make them white; this icon class is added to the <i> in the header
+                sortNone   : 'glyphicon glyphicon-sort',
+                sortAsc    : 'glyphicon glyphicon-arrow-up',     // includes classes for Bootstrap v2 & v3
+                sortDesc   : 'glyphicon glyphicon-arrow-down', // includes classes for Bootstrap v2 & v3
+                active     : '', // applied when column is sorted
+                hover      : '', // use custom css here - bootstrap class may not override it
+                filterRow  : '', // filter row class
+                even       : '', // odd row zebra striping
+                odd        : ''  // even row zebra striping
+            });
+            // call the tablesorter plugin and apply the uitheme widget
+            var $table = $("table").tablesorter({
+                theme : "bootstrap",
+                widthFixed: true,
+                headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+                widgets : [ "uitheme", "filter"],
+                widgetOptions : {
+                    // use the filter_external option OR use bindSearch function (below)
+                    // to bind external filters.
+                    // filter_external : '.search',
+
+                    filter_columnFilters: true,
+                    filter_saveFilters : false,
+                    filter_reset: '.reset'
+                }
+            });
+            $.tablesorter.filter.bindSearch( $table, $('.search') );
+
+            //links for filtering columns
+            $('.link-filter').click(function() {
+                var filters = $('table').find('input.tablesorter-filter'),
+                        col = $(this).data('filter-column'),
+                        txt = $(this).data('filter-text');
+                        // var index = $(this).data('index') + 1;
+                        // var selector ='a[data-index=' + index + ']';
+                        // var next_name = $(selector).html();
+                        // $('.next').html(next_name).attr('data-filter-text', next_name).attr('data-index', index + 1);
+                filters.eq(col).val(txt).trigger('search', false);
+
+                // count files after filtering
+                var count = $('#file_list tr').not(':hidden').length - 1;
+                var count_text = ' ' + count + ' files found';
+                $('span.file_count').html(count_text);
+                // filter breadcrumbs
+                if (col==1){
+                    $('span.filter1').html(txt);
+                } else if (col==2){
+                    $('span.filter2').html(txt);
+                } else if (col==3){
+                    $('span.filter3').html(txt);
+                }
+            });
+            //hide filter row
+            $('input.tablesorter-filter').addClass('hidden');
+            $('tr.tablesorter-filter-row').addClass('hidden');
+
+            $( "tr" ).hover(
+                    function() {
+                        $(".file-menu").hide();$( ".file-menu", this ).toggle();
+                    }
+            );
+            $( "i" ).hover(
+                    function() {
+                        $(".tablesorter-icon").show();$( ".tablesorter-icon", this ).toggle();
+                    }
+            );
+            $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
+
+            // count files after filtering in find
+            var count = $('#file_list tr').not(':hidden').length - 1;
+            var count_text = ' ' + count + ' files found';
+            $('span.file_count').html(count_text);
+
         });
     </script>
 {% endblock %}
 
-{% block subnav %}
-    {%include 'MarcaCourseBundle::subnav.html.twig' %}
+{% block coursenav %}
+    {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}
 
+
 {% block sidebar %}
-    <h1>{% if app.request.get('resource')=='1' %}<a  title='Course Resources' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0', 'resource': '1', 'tag': '0', 'userid': '0' }) }}" class="marca-gray">Resources</a>{% else %}
-            <a title='Reset filters' href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}" class="marca-gray">Projects</a>
-        {% endif %}
-    </h1>
-
-    {% if app.request.attributes.get('_route') == 'file_list'%}
-        {# check to see if projects are in the current course  #}
-        {% for project in projects if project.course.id == app.request.get('courseid') %}
-            {# if for resources (only instructor can post to resources)  #}
-            {% if (app.request.get('resource')=='0' or role=='2') and loop.first %}
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        Create
-                        <i class="glyphicon glyphicon-pencil glyphicon-white"></i>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a id='file_new_doc' title='Create new document' href='javascript:void(0);'><i class="glyphicon glyphicon-edit"></i> Document</a></li>
-                        <li><a id='file_new_upload' title='Upload document' href="javascript:void(0);"><i class="glyphicon glyphicon-upload"></i> Upload</a></li>
-                        <li><a id='file_new_link' title='Create new link' href="javascript:void(0);"><i class="glyphicon glyphicon-adjust"></i> Link</a></li>
-                    </ul>
-                </div>
-            {% endif %}
-        {% else %}
-        {% endfor %}
-
-        {% if app.request.get('resource')=='0' %}
-            <hr class="marca-spacer" />
-
-            <li><a class="project-sidebar {% if app.request.get('scope')=='mine' and app.request.get('tag')!='3' %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project':  app.request.get('project'), 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0' }) }}">My Files</a></li>
-            {# <li><a class="project-sidebar {% if app.request.get('tag')=='3' %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': app.request.get('resource'), 'tag': '3', 'userid': '0' }) }}">My Reviews</a></li> #}
-            {# Roll for Find by user  #}
-            <li class="dropdown"><a href="javascript:void(0);" role="button" class="project-sidebar {% if app.request.get('scope')=='byuser' %}current-filter{% endif %}" data-toggle="dropdown" id="findByAuthor">{% if app.request.get('scope')=='byuser' %}Files by {{ byuser.firstname|title }} {{ byuser.lastname|title }}{% else %}Files By Author{% endif %}<b class="caret" style="margin-left:6px;"></b></a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">
-                    {% for roll in roll %}
-                        <li><a data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'byuser', 'user': loop.index,'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': roll.user.id }) }}">{{roll.firstname}} {{roll.lastname}}</a></li>
-                    {% endfor %}
-                </ul>
-            </li>
-            <li><a class="project-sidebar {% if app.request.get('scope')=='all' %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': 'all', 'user': '0', 'resource': app.request.get('resource'), 'tag': '0', 'userid': '0'}) }}">All Authors</a></li>
-        {% endif %}
-
-        <hr class="marca-spacer" />
-
-        {# Projects  Find #}
-
-        {% for project in projects %}
-            <li id="project_list">
-                <a title='{% if app.request.get('resource')=='1' %}{{ project.course.name }}: {%endif%}{{ project.name }}' class="project-sidebar {% if active_project == project.id %}current-filter{% endif %}"  href="{{ course_path('file_list', { 'project': project.id, 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-                    {% if app.request.get('resource')=='1'%}{{ project.course.name }}: {%endif%}{{ project.name }}{% if project == course.projectDefault %} {%endif%}</a>
-            {% if role == '2' and app.request.get('resource')==0 %}<a class="default project-sidebar small" style="display:none;" href="{{ course_path('project_set_default', {'projectId': project.id}) }}">Set Default</a>{% endif %}
-            </li>
-        {% endfor %}
-        {% if app.request.get('resource')=='0' %}
-            <li><a class="project-sidebar {% if active_project == 0 %}current-filter{% endif %}" href="{{ course_path('file_list', { 'project': 'recent', 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': app.request.get('tag'), 'userid': app.request.get('userid') }) }}">
-                    All Folders </a>
-            </li>
-        {%else%}
-        {% endif %}
-        <hr class="marca-spacer" />
-
-        {# Labels  Find #}
-
-        {% for tag in tags %}
-            <li>
-                <a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag': tag.id, 'userid': app.request.get('userid') }) }}" class="project-sidebar {% if app.request.get('tag')== tag.id %}current-filter{% endif %}">
-                    {{ tag.name }}
-                    <span class="pull-left color-flag" style="{% if tag.color != '' %}background: {{tag.color}};color:{{tag.color}};{% endif%}">&#183;</span>
-                </a>
-            </li>
-        {% endfor %}
-        <li>
-            <a href="{{ course_path('file_list', { 'project': app.request.get('project'), 'scope': app.request.get('scope'), 'user': app.request.get('user'), 'resource': app.request.get('resource'), 'tag':'0', 'userid': app.request.get('userid') }) }}" class="project-sidebar {% if app.request.get('tag')=='0' %}current-filter{% endif %}">All Labels</a>
-        </li>
+    {% if app.request.get('resource')=='0' %}
+    {{ render_esi(controller('MarcaFileBundle:File:createFilesSidebar', { 'courseid': app.request.get('courseid'),
+    'resource': app.request.get('resource')})) }}
+    {% else %}
+    {{ render_esi(controller('MarcaFileBundle:Resource:createResourcesSidebar', { 'courseid': app.request.get('courseid'),
+    'resource': app.request.get('resource')})) }}
     {% endif %}
-
-    <hr class="marca-spacer" />
-    <li class="file_count"></li>
-    {% if role == '2' and app.request.get('resource')==0 %}
-        <li><a class="project-sidebar" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a></li>
-    {% endif %}
-
-
 {% endblock %}

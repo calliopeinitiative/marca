@@ -2,16 +2,63 @@
 
 {% extends 'MarcaPortfolioBundle::layout.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/theme.bootstrap.css') }}">
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
+    <!-- tablesorter plugin -->
+    <script src="{{ asset('bundles/marcahome/js/jquery.tablesorter.min.js') }}"></script>
+    <!-- tablesorter widget file - loaded after the plugin -->
+    <script src="{{ asset('bundles/marcahome/js/jquery.tablesorter.widgets.min.js') }}"></script>
     <script language="javascript">
-        $(document).ready(function() {
-            $( "tr" ).hover(
-                    function() {
-                        $(".file-menu").hide();$( ".file-menu", this ).toggle();
+        $(document).ready(function () {
+            $("tr").hover(
+                    function () {
+                        $(".file-menu").hide();
+                        $(".file-menu", this).toggle();
                     }
             );
-            $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
+            $.extend($.tablesorter.themes.bootstrap, {
+                table: 'table',
+                header: 'bootstrap-header', // give the header a gradient background
+                footerRow: '',
+                footerCells: '',
+                icons: '', // add "icon-white" to make them white; this icon class is added to the <i> in the header
+                sortNone: 'glyphicon glyphicon-sort',
+                sortAsc: 'glyphicon glyphicon-arrow-up',     // includes classes for Bootstrap v2 & v3
+                sortDesc: 'glyphicon glyphicon-arrow-down', // includes classes for Bootstrap v2 & v3
+                active: '', // applied when column is sorted
+                hover: '', // use custom css here - bootstrap class may not override it
+                filterRow: '', // filter row class
+                even: '', // odd row zebra striping
+                odd: ''  // even row zebra striping
+            });
+            // call the tablesorter plugin and apply the uitheme widget
+            $("table").tablesorter({
+                theme: "bootstrap",
+                widthFixed: true,
+                headerTemplate: '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+                widgets: ["uitheme"]
+            });
+            $("tr").hover(
+                    function () {
+                        $(".file-menu").hide();
+                        $(".file-menu", this).toggle();
+                    }
+            );
+            $("i").hover(
+                    function () {
+                        $(".tablesorter-icon").show();
+                        $(".tablesorter-icon", this).toggle();
+                    }
+            );
+            $('.file_name').bind('focus', function () {
+                $(".file-menu").hide();
+                $(this).parent().children("div").children("div").toggle();
+            });
         });
     </script>
 {% endblock %}
@@ -33,119 +80,122 @@
                 {# main list of files #}
                 <tr class="file">
                     <td>
-
-
                         {# different functions for different file types #}
                         {# doc files #}
                         {% if file.doc %}
-                            <a class="file_name" href="{{ course_path('doc_show', { 'id': file.id, 'view': 'window' }) }}" title="View {{ file.name }}" target="_blank">
+                            <a class="file_name" href="{{ course_path('doc_show', { 'id': file.id, 'view': 'window' }) }}" title="View {{ file.name }}"
+                               target="_blank">
                                 <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
                                 {{ file.name }}
                             </a>
                             {# links #}
                         {% elseif file.url %}
-                            <a class="file_name" href="{{ file.url}}" target="_blank" title='This link will open in a new window or tab.'>
+                            <a class="file_name" href="{{ file.url }}" target="_blank" title='This link will open in a new window or tab.'>
                                 <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
                                 {{ file.name }}
                             </a>
                             {# ODT files #}
                         {% elseif file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
-                            <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'window' }) }}" title="View {{ file.name }}"  target="_blank">
+                            <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'window' }) }}" title="View {{ file.name }}"
+                               target="_blank">
                                 <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                                 {{ file.name }}
                             </a>
                         {% else %}
-                            <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}" title="View {{ file.name }}" >
+                            <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}" title="View {{ file.name }}">
                                 <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                                 {{ file.name }}
                             </a>
                         {% endif %}
-                        <div class="file-menu">
-                            {% if portitemid !='0'%}
+                        <div class="hidden-xs">
+                            <div class="file-menu">
+                                {% if portitemid !='0' %}
+                                    <a class="" href="{{ course_path('portfolio_add', { 'fileid': file.id, 'portitemid': portitemid }) }}">Add to Portfolio</a>
+                                {% else %}
+                                    <a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </td>
+                    <td>{{ file.user.firstname|title }} {{ file.user.lastname|title }}</td>
+                    <td class="hidden-xs">{{ file.project.name }}</td>
+                    <td class="labels hidden-xs">
+                        {% if file.access==1 %} <span class="label label-success" data-toggle="tooltip" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
+                        {% if file.portfolio|length !=0 %} <span class="label label-info" data-toggle="tooltip"
+                                                                 title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
+                        {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
+                    </td>
+                    <td>{% if file.doc %}{{ file.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ file.updated|date('m/d/y, g:i a') }}{% endif %}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">No files match your request. Make sure they are "Shared."</td>
+                </tr>
+            {% endfor %}
+            {% for file in reviews if  file.portfolio|length ==0 %}
+                {# main list of files #}
+                <tr class="review">
+                    <td>
+                        {# different functions for different file types #}
+                        {# doc files #}
+                        {% if file.doc %}
+                            <a class="file_name" href="{{ course_path('doc_show', { 'id': file.id, 'view': 'window' }) }}" title="View {{ file.name }}"
+                               target="_blank">
+                                <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
+                                Review of <i>{{ file.reviewed.name|slice(0,15) }}</i> for {{ file.reviewed.user.firstname }} {{ file.reviewed.user
+                                .lastname }}
+                            </a>
+                            {# links #}
+                        {% elseif file.url %}
+                            <a class="file_name" href="{{ file.url }}" target="_blank" title='This link will open in a new window or tab.'>
+                                <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
+                                Review of <i>{{ file.reviewed.name|slice(0,15) }}</i> for {{ file.reviewed.user.firstname }} {{ file.reviewed.user
+                                .lastname }}
+                            </a>
+                            {# ODT files #}
+                        {% elseif file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
+                            <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'window' }) }}" title="View {{ file.name }}"
+                               target="_blank">
+                                <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                                Review of <i>{{ file.reviewed.name|slice(0,15) }}</i> for {{ file.reviewed.user.firstname }} {{ file.reviewed.user
+                                .lastname }}
+                            </a>
+                        {% else %}
+                            <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}" title="View {{ file.name }}">
+                                <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                                Review of <i>{{ file.reviewed.name|slice(0,15) }}</i> for {{ file.reviewed.user.firstname }} {{ file.reviewed.user
+                                .lastname }}
+                            </a>
+                        {% endif %}
+                        <div class="hidden-xs">
+                            <div class="file-menu">
+                            {% if portitemid !='0' %}
                                 <a class="" href="{{ course_path('portfolio_add', { 'fileid': file.id, 'portitemid': portitemid }) }}">Add to Portfolio</a>
                             {% else %}
                                 <a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>
                             {% endif %}
                         </div>
+                            </div>
                     </td>
                     <td>{{ file.user.firstname|title }} {{ file.user.lastname|title }}</td>
-                    <td class="hidden-xs">{% if app.request.get('project')=='recent' %}{% if app.request.get('resource')=='1' %}{{ file.project.course.name }}: {% endif %}{{ file.project.name }}{% endif %}</td>
-                    <td class="labels hidden-xs">{% if file.access!=1 and file.portfolio|length ==0 and file.tag |length ==0%}&mdash;{% endif %}
+                    <td class="hidden-xs">{{ file.project.name }}</td>
+                    <td class="labels hidden-xs">
 
                         {% if file.access==1 %} <span class="label label-success" data-toggle="tooltip" title="This file is shared with the rest of the class.">Shared</span>{% endif %}
-                        {% if file.portfolio|length !=0 %} <span class="label label-info" data-toggle="tooltip" title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
-                        {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}</td>
+                        {% if file.portfolio|length !=0 %} <span class="label label-info" data-toggle="tooltip"
+                                                                 title="This file is in your portfolio.  You must remove files from the portfolio before you can delete them.">Portfolio</span>{% endif %}
+                        {% for tag in file.tag %}<span class="label label-default" style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
+                    </td>
                     <td>{% if file.doc %}{{ file.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ file.updated|date('m/d/y, g:i a') }}{% endif %}</td>
                 </tr>
-                {% for review in file.reviews%}
-                    {% if (file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
-                        <tr class="review">
-                            <td>
-
-                                {# different functions for different file types #}
-                                {# doc files #}
-                                {% if review.doc %}
-                                    <a class="file_name" href="{{ course_path('doc_show', { 'id': review.id, 'view': 'window' }) }}"  title="View {{ review.name }}"  target="_blank">
-                                        <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
-                                        {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
-                                        <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span></span>
-                                    </a>
-                                    {# links #}
-                                {% elseif review.url %}
-                                    <a class="file_name" href="{{ review.url}}" target="_blank" title='This link will open in a new window or tab.'>
-                                        <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
-                                        {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
-                                        <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span></span>
-                                    </a>
-                                    {# ODT files #}
-                                {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
-                                    <a class="file_name" href="{{ course_path('file_view', { 'id': review.id, 'view': 'window' }) }}" title="View {{ review.name }}"  target="_blank">
-                                        <span class="label label-file" data-toggle="tooltip" title="This an {{ review.ext }} file ">{{ file.ext }}</span>
-                                        {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
-                                        <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span></span>
-                                    </a>
-                                {% else %}
-                                    <a class="file_name" href="{{ course_path('file_get', { 'id': review.id}) }}" title="View {{ review.name }}" >
-                                        <span class="label label-file" data-toggle="tooltip" title="This an {{ review.ext }} file ">{{ review.ext }}</span>
-                                        {{ review.reviewed.name }} for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
-                                        <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span></span>
-                                    </a>
-                                {% endif %}
-                                <div class="file-menu">
-                                    {% if portitemid !='0'%}
-                                        <a class="" href="{{ course_path('portfolio_add', { 'fileid': file.id, 'portitemid': portitemid }) }}">Add to Portfolio</a>
-                                    {% else %}
-                                        <a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>
-                                    {% endif %}
-                                </div>
-                            </td>
-
-                            <td>{{ review.user.firstname|title }} {{ review.user.lastname|title }}</td>
-
-                            <td class="hidden-xs"></td>
-                            <td class="labels hidden-xs">{% if review.access==1 %} <span class="label label-success">Shared</span>
-                                {% elseif review.access==2 %}<span title="This review is currently hidden from view." class="label label-default black">Hidden</span> {% endif %}
-                                {% for tag in review.tag %}<span class="label label-default " style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
-                            </td>
-                            <td>
-                                {% if app.request.get('resource')=='0' %}{% if review.doc %}{{ review.doc.updated|date('m/d/y, g:i a') }}{% else %}{{ review.updated|date('m/d/y, g:i a') }}{% endif %}{% endif %}
-                            </td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-
-
             {% else %}
-                <tr><td colspan="6">No files match your request.</td> </tr>
+                <tr>
+                    <td colspan="6">No files match your request. Make sure they are "Shared."</td>
+                </tr>
             {% endfor %}
-
         </table>
 
-  
 
-<div class="navigation">
-{{ knp_pagination_render(files) }}
-</div>
-
-</div>
+    </div>
 {% endblock %}

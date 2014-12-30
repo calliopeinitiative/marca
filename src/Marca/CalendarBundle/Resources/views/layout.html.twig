@@ -4,23 +4,11 @@
 {% extends '::base.html.twig' %}
 {% block title %}{{ application_name }} | Calendar{% endblock %}
 
-{% block stylesheets %}{{ parent() }}{% endblock %}
-{% block javascripts %}{{ parent() }}{% endblock %}
-
-{% block subnav %}
-{%include 'MarcaCourseBundle::subnav.html.twig' %}
+{% block coursenav %}
+    {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
 {% endblock %}
 
 {% block sidebar %}
-<h1><a  title='Course Calendar' href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}" class="marca-gray">Calendar</a></h1>
-
-{% if app.request.get('_route') == 'calendar_new' or app.request.get('_route') == 'calendar_edit' %}
-{% else %}
-             {% if is_granted('ROLE_INSTR') %}
-             <a id='calendar_new' class="btn btn-primary margin-bottom-medium" href="{{ course_path('calendar_new', {'set_date': "now"|date("Y-m-d")} ) }}" >Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>{% endif %}
-             <li><a class="" href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}">Month</a></li>
-             <li><a class="" href="{{ course_path('calendar_upcoming') }}">Agenda</a></li>
-             
-{% endif %}
+        {{ render_esi(controller('MarcaCalendarBundle:Calendar:createSidebar', { 'courseid': app.request.get('courseid')})) }}
 {% endblock %}  
 

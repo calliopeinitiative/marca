@@ -1,0 +1,18 @@
+{# Marca/AdminBundle/Resources/views/Default/find.html.twig #}
+{# ajax fragment for admin user find #}
+
+<p>Number in Find:  {{ count }}</p>
+<table class="table">
+    <tbody>
+    {% for user in users %}
+        <tr>
+            <td><a href="{{ path('user_admin', { 'username': user.username }) }}">{{ user.lastname }}, {{ user.firstname }}</a></td>
+            <td><a class="" target="_blank" href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="navigation">
+    {{ knp_pagination_render(users) }}
+</div>
+

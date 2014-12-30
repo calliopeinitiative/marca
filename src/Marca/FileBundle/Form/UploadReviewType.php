@@ -22,7 +22,7 @@ class UploadReviewType extends AbstractType
         if ($role==2) {
             $builder
                 ->add('file','file', array('label'  => ' '))
-                ->add('name','text', array('attr' => array('class' => 'text form-control'),))
+                ->add('name','text', array('attr' => array('class' => 'text form-control', 'placeholder' => 'Name of your file'),))
                 ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' =>
                     function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
                         $courseid = $options['courseid'] ;
@@ -32,7 +32,7 @@ class UploadReviewType extends AbstractType
                             ->andWhere('p.resource = :resource')
                             ->setParameter('course', $courseid)
                             ->setParameter('resource', $resource)
-                            ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'multiple'=>false,'label'  => 'Select', 'attr' => array('class' => 'radio'),))
+                            ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'multiple'=>false,'label'  => 'Folder', 'attr' => array('class' => 'radio'),))
                 ->add('tag', 'entity', array('class' => 'MarcaTagBundle:Tag','property'=>'name','query_builder' =>
                     function(\Marca\TagBundle\Entity\TagRepository $er) use ($options) {
                         $courseid = $options['courseid'] ;

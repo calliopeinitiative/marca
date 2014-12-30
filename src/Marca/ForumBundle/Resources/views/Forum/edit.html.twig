@@ -7,8 +7,9 @@
     <script language="javascript">
         $(document).ready(function()
         {
-            $('#toggle_modal').click(function(){
-                $('#delete_modal').modal();
+            {# form page close/cancel adjust for appropriate redirect #}
+            $('#close_form').click(function(){
+                window.location.href='{{ course_path('forum') }}';
             });
         });
     </script>
@@ -17,52 +18,22 @@
 {% block content %}
     <div class="col-sm-8 center">
         <div class="panel panel-default">
-            <form class="form" action="{{ course_path('forum_update', { 'id': forum.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
                 <div class="panel-heading">
-                    Forum
+                    <button id="close_form" type="button" class="close">&times;</button>
+                    <h2 class="panel-title small">Forum</h2>
                 </div>
                 <div class="panel-body">
-
-                    {{ form_errors(edit_form) }}
-                    {{ form_row(edit_form.title) }}
-                    {{ form_row(edit_form.body) }}
-                    {{ form_rest(edit_form) }}
-                </div>
-                <div class="panel-footer">
-                    <div class="btn-group">
-                        <button class="btn btn-primary" type="submit">Update</button>
-                        <a class='btn btn-default' href="{{ course_path('forum', { 'set': 0 }) }}">Cancel</a>
-                    </div>
+                    {{ form(edit_form) }}
                     {% if forum.comments|length == 0%}
-                        <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                        <a class="btn btn-warning" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
                     {% else %}
-                        <span  class='pull-right' >Since this forum has at least one comment, it can not be deleted.</span>
+                        <span>Since this forum has at least one comment, it can not be deleted.</span>
                     {% endif %}
                 </div>
-            </form>
         </div>
     </div>
 
 
     {# Modal for Delete confirmation #}
-    <div id="delete_modal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <span class="modal-title">Delete</span>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete?</p>
-                    <form id='delete' action="{{ course_path('forum_delete', { 'id': forum.id }) }}" method="post">
-                        {{ form_widget(delete_form) }}
-                        <div class="btn-group">
-                            <button class="btn btn-danger" type="submit">Delete</button>
-                            <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
-                        </div>
-                    </form>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    {{ form(delete_form)|delete_modal }}
 {% endblock %}

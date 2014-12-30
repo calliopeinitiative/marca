@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Marca\JournalBundle\Entity\Journal;
 use Marca\JournalBundle\Form\JournalType;
@@ -17,17 +18,54 @@ use Marca\JournalBundle\Form\JournalType;
  */
 class JournalController extends Controller
 {
+
+    /**
+     * Create Sidebar fragment
+     *
+     * @Route("/{courseid}/sidebar", name="journal_sidebar")
+     */
+    public function createSidebarAction($courseid)
+    {
+        $role = $this->getCourseRole();
+        return $this->render('MarcaJournalBundle::sidebar.html.twig', array(
+            'role' => $role
+        ));
+    }
+
+    /**
+     * Create Subnav fragment
+     *
+     * @Route("/{courseid}/{user}/{userid}/subnav", name="journal_subnav")
+     */
+    public function createSubnavAction($courseid,$user,$userid)
+    {
+        $em = $this->getEm();
+        if ($user==0){
+            $user = $this->getUser();
+        }
+        else {
+            $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+        }
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $role = $this->getCourseRole();
+        return $this->render('MarcaJournalBundle::subnav.html.twig', array(
+            'roll' => $roll,
+            'user' => $user,
+            'userid' => $userid,
+            'role' => $role
+        ));
+    }
+
     /**
      * Lists all Journal entities.
      *
      * @Route("/{courseid}/{page}/{userid}/{user}/list", name="journal_list", defaults={"page" = 1,"userid" = 0,"user" = 0}))
-     * @Template()
      */
     public function indexAction($courseid,$page,$user,$userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
+
         $em = $this->getEm();
         if ($user==0){
             $user = $this->getUser();
@@ -40,14 +78,21 @@ class JournalController extends Controller
         $course = $this->getCourse();
         $role = $this->getCourseRole();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        
+
         $journals = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course);
-        
+
         //pagination
         $paginator = $this->get('knp_paginator');
         $journal = $paginator->paginate($journals,$this->get('request')->query->get('page', $page),1);
-        
-        return array('journal' => $journal, 'journals' => $journals, 'roll' => $roll, 'role' => $role, 'user' => $user, 'userid' => $userid);
+
+        return $this->render('MarcaJournalBundle:Journal:index.html.twig',array(
+            'journal' => $journal,
+            'journals' => $journals,
+            'roll' => $roll,
+            'role' => $role,
+            'user' => $user,
+            'userid' => $userid
+        ));
     }
 
 
@@ -55,42 +100,39 @@ class JournalController extends Controller
      * To use the autosave, new persists the entity and redirects to edit.
      *
      * @Route("/{courseid}/new", name="journal_new")
-     * @Template()
      */
     public function newAction($courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
         $em = $this->getEm();
-        $user = $this->getUser();       
+        $user = $this->getUser();
         $course = $this->getCourse();
-        
-	    $journal = new Journal();
+
+        $journal = new Journal();
         $journal->setBody('<p></p>');
-	    $journal->setTitle('New Journal Entry');
-	    $journal->setUser($user);
-        $journal->setCourse($course);        
+        $journal->setTitle('New Journal Entry');
+        $journal->setUser($user);
+        $journal->setCourse($course);
 
         $em->persist($journal);
         $em->flush();
 
-            return $this->redirect($this->generateUrl('journal_edit', array('id' => $journal->getId(), 'courseid'=> $courseid,)));
-            
-        }
-        
+        return $this->redirect($this->generateUrl('journal_edit', array('id' => $journal->getId(), 'courseid'=> $courseid,)));
 
-   
+    }
+
+
     /**
      * Displays a form to edit an existing Journal entity.
      *
      * @Route("/{courseid}/{id}/edit", name="journal_edit")
-     * @Template()
      */
     public function editAction($courseid, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        $role = $this->getCourseRole(); 
+        $role = $this->getCourseRole();
         $em = $this->getEm();
         $user = $this->getUser();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -104,25 +146,46 @@ class JournalController extends Controller
             throw new AccessDeniedException();
         }
 
-        $editForm = $this->createForm(new JournalType(), $journal);
-        $deleteForm = $this->createDeleteForm($id);
+        $options = array();
+        $editForm = $this->createEditForm($journal, $courseid, $options);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
-        return array(
+
+        return $this->render('MarcaJournalBundle:Journal:edit.html.twig',array(
             'journal'      => $journal,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'roll' => $roll,
             'role' => $role,
             'user' => $user
-        );
+        ));
     }
+
+    /**
+     * Creates a form to edit a Journal entity.
+     *
+     * @param Journal $journal
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Journal $journal, $courseid, $options)
+    {
+        $form = $this->createForm(new JournalType($options), $journal, array(
+            'action' => $this->generateUrl('journal_update', array('id' => $journal->getId(),'courseid' => $courseid,)),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        return $form;
+    }
+
+
 
     /**
      * Edits an existing Journal entity.
      *
      * @Route("/{courseid}/{id}/update", name="journal_update")
      * @Method("post")
-     * @Template("MarcaJournalBundle:Journal:edit.html.twig")
      */
     public function updateAction($id, $courseid)
     {
@@ -139,12 +202,13 @@ class JournalController extends Controller
             throw $this->createNotFoundException('Unable to find Journal entity.');
         }
 
-        $editForm   = $this->createForm(new JournalType(), $journal);
-        $deleteForm = $this->createDeleteForm($id);
+        $options = array();
+        $editForm = $this->createEditForm($journal, $courseid, $options);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($journal);
@@ -153,49 +217,49 @@ class JournalController extends Controller
             return $this->redirect($this->generateUrl('journal_list', array('courseid'=> $courseid,)));
         }
 
-        return array(
+        return $this->render('MarcaJournalBundle:Journal:edit.html.twig',array(
             'journal'      => $journal,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'roll' => $roll,
             'role' => $role,
             'user' => $user
-        );
+        ));
     }
-    
-    
+
+
     /**
      * Saves via AJAX
      * @Route("/{courseid}/{id}/ajaxupdate", name="journal_ajax")
      * @Method("post")
      */
-    public function ajaxUpdate($id, $courseid)
+    public function ajaxUpdateAction ($id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
+
         $em = $this->getEm();
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
-        
+
         $request = $this->getRequest();
         $journal_body_temp = $request->request->get('journalBody');
-	$journal_title_temp = $request->request->get('journalTitle');     
+        $journal_title_temp = $request->request->get('journalTitle');
 
         if (!$journal) {
             throw $this->createNotFoundException('Unable to find Journal entity.');
         }
-        
-        
-            $journal->setBody($journal_body_temp);
-	    $journal->setTitle($journal_title_temp);
-            $em->persist($journal);
-        
+
+
+        $journal->setBody($journal_body_temp);
+        $journal->setTitle($journal_title_temp);
+        $em->persist($journal);
+
         $em->flush();
-        
-        $return = "success"; 
+
+        $return = "success";
         return new Response($return,200,array('Content-Type'=>'application/json'));
     }
-    
+
 
     /**
      * Deletes a Journal entity.
@@ -207,12 +271,12 @@ class JournalController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
-        
+
         $user = $this->getUser();
         $em = $this->getEm();
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
-        
-        $form = $this->createDeleteForm($id);
+
+        $form = $this->createDeleteForm($id, $courseid);
         $request = $this->getRequest();
 
         $form->handleRequest($request);
@@ -235,11 +299,23 @@ class JournalController extends Controller
         return $this->redirect($this->generateUrl('journal_list', array('courseid'=> $courseid,)));
     }
 
-    private function createDeleteForm($id)
+
+    /**
+     * Creates a form to delete a Journal entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id, $courseid)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('journal_delete', array('id' => $id,'courseid' => $courseid,)))
+            ->setMethod('POST')
+            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
-        ;
+            ;
     }
+
+
 }

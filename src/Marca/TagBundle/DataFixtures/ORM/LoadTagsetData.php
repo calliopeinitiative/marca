@@ -29,14 +29,12 @@ class LoadTagsetData extends AbstractFixture implements OrderedFixtureInterface
         $name = 'Standard';
         $tagset = new Tagset();
         $user = $manager->merge($this->getReference('instr1-user')); 
-        $course = $manager->merge($this->getReference('course1.1')); 
         $tagset->setUser($user);
         $tagset->setShared($shared);
         $tagset->setName($name); 
-        $tagset->addCourse($course);
         
         $name = 'Draft1';
-        $color = 'tc1';
+        $color = 'darkorchid';
         $tag1 = new Tag();
         $tag1->setUser($user);
         $tag1->setName($name);
@@ -45,7 +43,7 @@ class LoadTagsetData extends AbstractFixture implements OrderedFixtureInterface
         $tag1->addTagset($tagset);
         
         $name = 'Draft2';
-        $color = 'tc2';
+        $color = 'darkred';
         $tag2 = new Tag();
         $tag2->setUser($user);
         $tag2->setName($name);
@@ -54,7 +52,7 @@ class LoadTagsetData extends AbstractFixture implements OrderedFixtureInterface
         $tag2->addTagset($tagset); 
         
         $name = 'Peer Review';
-        $color = 'tc3';
+        $color = 'darksalmon';
         $tag3 = new Tag();
         $tag3->setUser($user);
         $tag3->setName($name);
@@ -63,7 +61,7 @@ class LoadTagsetData extends AbstractFixture implements OrderedFixtureInterface
         $tag3->addTagset($tagset);         
         
         $name = 'Final';
-        $color = 'tc4';
+        $color = 'darkseagreen';
         $tag4 = new Tag();
         $tag4->setUser($user);
         $tag4->setName($name);
@@ -71,22 +69,15 @@ class LoadTagsetData extends AbstractFixture implements OrderedFixtureInterface
         $tag4->setShared($shared);
         $tag4->addTagset($tagset); 
         
-        $name = 'Backup';
-        $color = 'tc3';
-        $tag5 = new Tag();
-        $tag5->setUser($user);
-        $tag5->setName($name);
-        $tag5->setColor($color);
-        $tag5->setShared($shared);
-        $tag5->addTagset($tagset);
-        
+
         $manager->persist($tagset);       
         $manager->persist($tag1);
         $manager->persist($tag2);
         $manager->persist($tag3);
         $manager->persist($tag4);
-        $manager->persist($tag5);        
         $manager->flush();
+
+        $this->addReference('tagset', $tagset);
         
            
         
@@ -97,6 +88,6 @@ class LoadTagsetData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 5;
+        return 4;
     }
 }

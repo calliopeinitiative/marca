@@ -16,60 +16,22 @@ use Marca\AssessmentBundle\Form\ScaleitemType;
  */
 class ScaleitemController extends Controller
 {
-    /**
-     * Lists all Scaleitem entities.
-     *
-     * @Route("/", name="scaleitem")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $em = $this->getEm();
-
-        $scaleitems = $em->getRepository('MarcaAssessmentBundle:Scaleitem')->findAll();
-
-        return array('scaleitems' => $scaleitems);
-    }
-
-    /**
-     * Finds and displays a Scaleitem entity.
-     *
-     * @Route("/{id}/show", name="scaleitem_show")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getEm();
-
-        $scaleitem = $em->getRepository('MarcaAssessmentBundle:Scaleitem')->find($id);
-
-        if (!$scaleitem) {
-            throw $this->createNotFoundException('Unable to find Scaleitem entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'scaleitem'      => $scaleitem,
-            'delete_form' => $deleteForm->createView(),        );
-    }
 
     /**
      * Displays a form to create a new Scaleitem entity.
      *
      * @Route("/{scaleid}/new", name="scaleitem_new")
-     * @Template()
      */
     public function newAction($scaleid)
     {
         $scaleitem = new Scaleitem();
         $form   = $this->createForm(new ScaleitemType(), $scaleitem);
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Scaleitem:new.html.twig', array(
             'scaleitem' => $scaleitem,
             'scaleid' => $scaleid,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
@@ -77,7 +39,6 @@ class ScaleitemController extends Controller
      *
      * @Route("/{scaleid}/create", name="scaleitem_create")
      * @Method("post")
-     * @Template("MarcaAssessmentBundle:Scaleitem:new.html.twig")
      */
     public function createAction($scaleid)
     {
@@ -99,18 +60,17 @@ class ScaleitemController extends Controller
             
         }
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Scaleitem:new.html.twig', array(
             'scaleitem' => $scaleitem,
             'scaleid' => $scaleid,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Scaleitem entity.
      *
      * @Route("/{id}/edit", name="scaleitem_edit")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -125,11 +85,11 @@ class ScaleitemController extends Controller
         $editForm = $this->createForm(new ScaleitemType(), $scaleitem);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Scaleitem:edit.html.twig', array(
             'scaleitem'      => $scaleitem,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -137,7 +97,6 @@ class ScaleitemController extends Controller
      *
      * @Route("/{id}/update", name="scaleitem_update")
      * @Method("post")
-     * @Template("MarcaAssessmentBundle:Scaleitem:edit.html.twig")
      */
     public function updateAction($id)
     {
@@ -157,7 +116,7 @@ class ScaleitemController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($scaleitem);
@@ -166,11 +125,11 @@ class ScaleitemController extends Controller
             return $this->redirect($this->generateUrl('scale_show', array('id' => $scaleid)));
         }
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Scaleitem:edit.html.twig:', array(
             'scaleitem'      => $scaleitem,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**

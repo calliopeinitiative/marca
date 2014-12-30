@@ -176,7 +176,7 @@ class Markup
     /**
      * Set user
      *
-     * @param Marca\UserBundle\Entity\User $user
+     * @param \Marca\UserBundle\Entity\User $user
      */
     public function setUser(\Marca\UserBundle\Entity\User $user)
     {
@@ -186,7 +186,7 @@ class Markup
     /**
      * Get user
      *
-     * @return Marca\UserBundle\Entity\User 
+     * @return \Marca\UserBundle\Entity\User
      */
     public function getUser()
     {
@@ -203,7 +203,7 @@ class Markup
     /**
      * Add markupset
      *
-     * @param Marca\DocBundle\Entity\Markupset $markupset
+     * @param \Marca\DocBundle\Entity\Markupset $markupset
      * @return Markup
      */
     public function addMarkupset(\Marca\DocBundle\Entity\Markupset $markupset)
@@ -216,7 +216,7 @@ class Markup
     /**
      * Remove markupset
      *
-     * @param Marca\DocBundle\Entity\Markupset $markupset
+     * @param \Marca\DocBundle\Entity\Markupset $markupset
      */
     public function removeMarkupset(\Marca\DocBundle\Entity\Markupset $markupset)
     {
@@ -227,7 +227,7 @@ class Markup
     /**
      * Get markupset
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMarkupset()
     {

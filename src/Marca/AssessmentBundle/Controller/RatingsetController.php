@@ -22,7 +22,6 @@ class RatingsetController extends Controller
      * Displays a form to create a new Rating entity.
      *
      * @Route("/{courseid}/{userid}/{user}/{portfoliosetid}/new", name="ratingset_new")
-     * @Template()
      */
     public function newAction($courseid, $userid, $user, $portfoliosetid)
     {
@@ -61,9 +60,8 @@ class RatingsetController extends Controller
      * Displays a form to edit an existing Ratingset entity.
      *
      * @Route("/{courseid}/{userid}/{user}/{id}/edit", name="ratingset_edit")
-     * @Template()
      */
-    public function editAction($id, $userid)
+    public function editAction($courseid, $id, $userid)
     {
         $em = $this->getEm();
         $course = $this->getCourse();
@@ -81,15 +79,15 @@ class RatingsetController extends Controller
         $scale = $objective->getScale()->getId();
         $options = array('scale' => $scale);
         $editForm = $this->createForm(new RatingsetType($options), $ratingset);
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($courseid,$id,$userid,$user);
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Ratingset:edit.html.twig', array(
             'ratingset'      => $ratingset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'assessmentset' => $assessmentset,
             'user' => $user,
-        );
+        ));
     }
 
     /**
@@ -97,7 +95,6 @@ class RatingsetController extends Controller
      *
      * @Route("/{courseid}/{userid}/{user}/{id}/update", name="ratingset_update")
      * @Method("post")
-     * @Template("MarcaAssessmentBundle:Ratingset:edit.html.twig")
      */
     public function updateAction($courseid,$id,$userid,$user)
     {
@@ -113,11 +110,11 @@ class RatingsetController extends Controller
         $scale = $objective->getScale()->getId();
         $options = array('scale' => $scale);
         $editForm   = $this->createForm(new RatingsetType($options), $entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($courseid,$id,$userid,$user);
 
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -126,11 +123,11 @@ class RatingsetController extends Controller
             return $this->redirect($this->generateUrl('portfolio_user', array('courseid' => $courseid, 'userid' => $userid,'user' => $user)));
         }
 
-        return array(
+        return $this->render('MarcaAssessmentBundle:Ratingset:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -141,7 +138,7 @@ class RatingsetController extends Controller
      */
     public function deleteAction($courseid,$id,$userid,$user)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($courseid,$id,$userid,$user);
         $request = $this->getRequest();
 
         $form->handleRequest($request);
@@ -161,10 +158,19 @@ class RatingsetController extends Controller
         return $this->redirect($this->generateUrl('portfolio_user', array('courseid' => $courseid, 'userid' => $userid,'user' => $user)));
     }
 
-    private function createDeleteForm($id)
+    /**
+     * Creates a form to delete a Journal entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($courseid,$id,$userid,$user)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('ratingset_delete', array('id' => $id,'courseid' => $courseid,'userid' => $userid,'user' => $user,)))
+            ->setMethod('POST')
+            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
             ;
     }

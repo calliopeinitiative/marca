@@ -1,18 +1,18 @@
 {# Marca/HomeBundle/Resources/views/dialog.html.twig #}
 
-{% extends '::base.html.twig' %}
+{% extends 'MarcaUserBundle::layout.html.twig' %}
+
 {% block title %}{{ application_name }}{% endblock %}
 
-{% block stylesheets %}{{ parent() }}{% endblock %}
-{% block javascripts %}{{ parent() }}{% endblock %}
+{% block coursenav %}
+    {{ render_esi(controller('MarcaCourseBundle:Course:createCoursenav', { 'courseid': app.request.get('courseid') })) }}
+{% endblock %}
 
-{% block subnav %}
-{%include 'MarcaCourseBundle::subnav.html.twig' %}
+{% block sidebar %}
+
 {% endblock %}
 
 {% block body %}
-
     {% block content %}
     {% endblock %}
-
 {% endblock %}

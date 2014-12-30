@@ -163,7 +163,7 @@ class PromptItemController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new PromptItemType(), $entity);
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $rubricid=$entity->getReviewRubric()->getid();

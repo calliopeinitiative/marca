@@ -11,7 +11,7 @@
 
             <div class="panel-body">
                 {% for page in pages %}
-                    {{ page.body|raw }}
+                    {{ page.body|html_raw }}
                 {% endfor %}
 
             </div>

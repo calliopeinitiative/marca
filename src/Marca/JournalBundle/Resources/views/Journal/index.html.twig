@@ -13,49 +13,64 @@
             {% for journal in journals %}
             {% if app.request.get('page')==loop.index %}$('#journal_{{loop.index}}').addClass('active');{% endif %}
             {% endfor %}
+
+
+            $('a.roll').click(function() {
+                var id = $(this).data("id");
+                var index = $(this).data("index");
+                var url = "{{ course_path('journal_list', { 'userid': 'id', 'user': 'index' }) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                $(this).attr("href", url).click();
+            });
+
+            var previous_index = {{ app.request.get('user') }} - 1;
+            var previous_selector ='a[data-index=' + previous_index + ']';
+            var previous_name = '<' + $(previous_selector).html();
+            if (previous_index < 1) previous_name = '';
+            $('a.roll_previous').text(previous_name);
+
+            var next_index = {{ app.request.get('user') }} + 1;
+            var next_selector ='a[data-index=' + next_index + ']';
+            var next_id = $(next_selector).data('id');
+            if (next_id > 0) var next_name = $(next_selector).html() + '>'; else var next_name = '';
+            $('a.roll_next').text(next_name);
+
+
+            $('a.roll_previous').click(function() {
+                var index = {{ app.request.get('user') }} - 1;
+                var selector ='a[data-index=' + index + ']';
+                var id = $(selector).data('id');
+                var url = "{{ course_path('journal_list', { 'userid': 'id', 'user': 'index' }) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                $(this).attr("href", url).click();
+            });
+            $('a.roll_next').click(function() {
+                var index = {{ app.request.get('user') }} + 1;
+                var selector ='a[data-index=' + index + ']';
+                var id = $(selector).data('id');
+                var url = "{{ course_path('journal_list', { 'userid': 'id', 'user': 'index' }) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                $(this).attr("href", url).click();
+            });
         });
     </script>
 {% endblock %}
 
 {% block content %}
 
-    <nav class="subnav navbar navbar-default" role="navigation">
-        <div class="navbar-header col-sm-6">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#" title="Journal entries by {{ user.firstname }} {{ user.lastname }}"><div class="panel-title small">Journal entries by {{ user.firstname }} {{ user.lastname }}</div></a>
-        </div>
-
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav pull-right">
-                {% if role==2 %}
-                    {# next previous users on roll #}
-                    {% for roll in roll %}
-                        {% if loop.index == app.request.get('user') + 1 %}
-                            <li>
-                                <a data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_list', { 'userid': roll.user.id, 'user': loop.index }) }}">{{roll.firstname}} {{roll.lastname}} &gt;</a>
-                            </li>
-                        {% endif %}
-                        {% if loop.index == app.request.get('user') - 1 %}
-                            <li>
-                                <a class='' data-index="{{loop.index}}" data-id='{{roll.user.id}}' data-project='{{app.request.get('project')}}' data-tag='{{app.request.get('tag')}}' href="{{ course_path('journal_list', { 'userid': roll.user.id, 'user': loop.index }) }}">&lt; {{roll.firstname}} {{roll.lastname}}</a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
-
-<div class="navbar-header col-sm-3">
+<div class="col-sm-3 well">
+    <h2>Journal Posts</h2>
     <ul class="list-group">
+
     {% for journal in journals %}
-        <a id="journal_{{ loop.index }}" class='list-group-item' href="{{ course_path('journal_list', { 'userid': app.request.get('userid'), 'user': app.request.get('user'), 'page': loop.index }) }}">
-            {{ journal.title }}
-        </a>
+                <a id="journal_{{ loop.index }}" class='list-group-item' href="{{ course_path('journal_list', { 'userid': app.request.get('userid'),
+                'user': app.request.get('user'), 'page': loop.index }) }}">
+                    <h3>{{ journal.title }}</h3>
+                    <p class="list-group-item-text">Updated  {{ journal.updated|date('M d Y, h:ia') }} </p>
+                </a>
         {% else %}
         <li class='list-group-item'>Sorry, no entries were found.</li>
     {% endfor %}
@@ -74,7 +89,7 @@
                             <a class="btn btn-default btn-sm" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
                             {% endif %}
                             {% if role==2 %}
-                            <a class="btn btn-default btn-sm" href="{{ course_path('response_new',{ 'sourceid': journal.id, 'source': 'journal_list','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id }) }}">Respond</a>
+                            <a class="btn btn-default btn-sm" href="{{ course_path('response_new',{ 'sourceid': journal.id, 'page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id }) }}">Respond</a>
                             {% endif %}
                         </div>
 
@@ -84,7 +99,7 @@
             <div class="panel-body">
                 {# Div needed for word count #}
                 <div class="journal-body">
-                    {{ journal.body|raw }}
+                    {{ journal.body|html_raw }}
                     </div>
 
                 {% for response in journal.responses %}
@@ -92,12 +107,12 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 {% if response.isOwner(app.user.username) %}
-                                    <a class="btn btn-default btn-sm pull-right" href="{{ course_path('response_edit',{ 'id': response.id,'sourceid': journal.id, 'source': 'journal_list','view': 'app','page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id  }) }}">Edit</a>
+                                    <a class="btn btn-default btn-sm pull-right" href="{{ course_path('response_edit',{ 'id': response.id,'sourceid': journal.id, 'page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id  }) }}">Edit</a>
                                 {% endif %}
                                 <h3>Response by {{ response.user.firstname}} {{ response.user.lastname}}</h3>
                             </div>
                             <div class="panel-body">
-                                {{ response.body|raw }}
+                                {{ response.body|html_raw }}
                             </div>
                         </div>
                     </div>
