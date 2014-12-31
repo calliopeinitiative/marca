@@ -292,7 +292,7 @@ class FileController extends Controller
             $em->persist($file);
             $em->flush();
             return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
-                'view' => 'window')));
+                'view' => 'app')));
         } elseif ($type == 'saveas') {
             $file->setName('SaveAs Document');
             $form = $this->createForm(new DocType($options), $file);
@@ -357,7 +357,7 @@ class FileController extends Controller
                 return $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'id' => $file->getId(), 'userid' => '0', 'resource' => $resource, 'user' => '0')));
             } elseif ($type == 'doc' || $type == 'review' || $type == 'instr_review' || $type == 'saveas') {
                 return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
-                    'view' => 'window')));
+                    'view' => 'app')));
             }
 
         }
