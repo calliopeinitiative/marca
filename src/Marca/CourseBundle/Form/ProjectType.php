@@ -12,6 +12,8 @@ class ProjectType extends AbstractType
     {
         $builder
             ->add('name','text', array('label'  => 'Name:','attr' => array('class' => 'text form-control'),))
+            ->add('sortOrder', 'hidden')
+            ->add('resource', 'hidden')
             ->add('coursehome', 'choice', array('choices'   => array(true => 'Yes', false => 'No'),'required'  => true,'label'  => 'Show on course home:', 'expanded' => true,'attr' => array('class' => 'radio'),))
         ;
     }
