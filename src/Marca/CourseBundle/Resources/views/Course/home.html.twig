@@ -48,6 +48,7 @@
                 <div class="panel panel-marca">
                     <div class="panel-heading">
                         <h2 class="panel-title small">Featured Resources</h2>
+                        <p class="pull-right">Files open in a new tab.</p>
                     </div>
                     <div class="panel-body">
                         <table class="table">
@@ -58,7 +59,7 @@
 
                                         {% if file.doc %}
                                             <span class="label label-file" data-toggle="tooltip" title="This an html file ">html</span>
-                                            <a title="Open this file in a new tab." target ='_blank' href="{{ course_path('doc_show', { 'id': file.id, 'view': 'window' }) }}">{{ file.name }}<i class="glyphicon glyphicon-share-alt"></i></a>
+                                            <a title="Open {{ file.name }} in a new tab." target ='_blank' href="{{ course_path('doc_show', { 'id': file.id, 'view': 'window' }) }}">{{ file.name }}</a>
                                             {# links #}
                                         {% elseif file.url %}
                                             <span class="label label-file" data-toggle="tooltip" title="This a link ">link</span>
@@ -66,10 +67,10 @@
                                             {# ODT files #}
                                         {% elseif file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
                                             <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
-                                            <a class="" href="{{ course_path('file_view', { 'id': file.id, 'view': 'window' }) }}" title="View {{ file.name }}"  target ='_blank'>{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
+                                            <a class="" href="{{ course_path('file_view', { 'id': file.id, 'view': 'window' }) }}" title="Open {{ file.name }} in a new tab."  target ='_blank'>{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
                                         {% else %}
                                             <span class="label label-file" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
-                                            <a class="" href="{{ course_path('file_get', { 'id': file.id}) }}" title="View {{ file.name }}" >{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
+                                            <a class="" href="{{ course_path('file_get', { 'id': file.id}) }}" title="Open {{ file.name }} in a new tab." >{% if app.request.get('resource')=='0' %}{{ file.name|slice(0, 25) }}{% else%}{{ file.name }}{% endif %}</a>
                                         {% endif %}
                                     </td>
 
