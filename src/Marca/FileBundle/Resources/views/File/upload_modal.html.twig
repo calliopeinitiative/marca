@@ -1,8 +1,10 @@
 {# Marca/FileBundle/Resources/views/File/upload.html.twig #}
 
+{# rewrite filename on upload; show modal after ajax load  #}
 <script src="{{ asset('bundles/marcahome/js/bootstrap-filestyle.min.js') }}"></script>
 <script language="javascript">
     $(document).ready(function () {
+        $('#file_modal').modal();
         $(":file").filestyle();
         $('#marca_filebundle_filetype_file').on('change', function () {
             var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '');
@@ -13,7 +15,7 @@
             if(a > 10) {
                 alert('Your file is ' + filesize + ' MB.  It must be no larger than 10 MB.');
                 $('#file_modal').modal('hide');
-            };
+            }
         });
     });
 </script>

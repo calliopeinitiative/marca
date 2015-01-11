@@ -4,7 +4,6 @@
 
 {% block javascripts %}
 {{ parent() }}
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
     {% set set_date = app.request.get('set_date')|date("m/d/Y")%}
@@ -48,7 +47,7 @@
 {{ parent() }}
     <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
-    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/smoothness/jquery-ui-1.8.17.custom.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery-ui.theme.min.css') }}">
 {% endblock %}
 
 {% block content %}

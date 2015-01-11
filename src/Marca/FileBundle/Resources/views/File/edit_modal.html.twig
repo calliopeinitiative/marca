@@ -1,5 +1,12 @@
 {# Marca/FileBundle/Resources/views/File/edit_modal.html.twig #}
 
+{# show modal after ajax load #}
+<script language="javascript">
+    $(document).ready(function () {
+        $('#file_modal').modal();
+    });
+</script>
+
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">

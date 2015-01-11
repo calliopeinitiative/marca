@@ -62,7 +62,6 @@ class DefaultController extends Controller
 
     /**
      * @Route("/course_select_modal", name="course_select_modal")
-     * @Template("MarcaUserBundle:Default:course_select_modal.html.twig")
      */
     public function courseSelectAction()
     {
@@ -73,7 +72,10 @@ class DefaultController extends Controller
         $session->set('username', $username);
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findEnrolledCourses($user);
 
-        return array('user' => $user,'courses' => $courses);
+        return $this->render('MarcaUserBundle:Default:course_select_modal.html.twig', array(
+            'user' => $user,
+            'courses' => $courses
+        ));
     }
 
     /**

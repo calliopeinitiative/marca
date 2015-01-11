@@ -68,14 +68,14 @@ class FileRepository extends EntityRepository
             return $this->getEntityManager()
                 ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN
                 f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b
-                WHERE f.project = ?1 AND f.reviewed IS NULL ORDER BY  f.updated DESC')
+                WHERE f.project = ?1 AND f.reviewed IS NULL ORDER BY  f.name ASC')
                 ->setParameter('1', $project)->getResult();
         }
         else {
             return $this->getEntityManager()
                 ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN
                 f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviews r  LEFT JOIN f.feedback b WHERE f.project = ?1  AND f.access = 1 AND f.reviewed IS NULL ORDER
-                 BY  f.updated DESC')
+                 BY  f.name ASC')
                 ->setParameter('1', $project)->getResult();
         }
 

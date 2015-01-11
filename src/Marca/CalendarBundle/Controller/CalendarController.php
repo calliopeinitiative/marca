@@ -36,7 +36,6 @@ class CalendarController extends Controller
      * Lists all Calendar entities.
      *
      * @Route("/{courseid}/", name="calendar")
-     * @Template()
      */
     public function indexAction()
     {
@@ -83,9 +82,11 @@ class CalendarController extends Controller
             'role' => $role,
         ));
     }
-    
+
+
     /**
-     * Lists all Calendar entities.
+     * Lists all Calendar entities on the fullcalendar.js display
+     * offset is for displaying correct timezone
      *
      * @Route("/{courseid}/{eventid}/display", name="calendar_display", defaults={"eventid" = 0})
      */
@@ -103,13 +104,18 @@ class CalendarController extends Controller
             $event = new Calendar();
             $event->setStartDate(date_create());
         }
+        $default_tz = $event->getStartDate()->getTimezone();
+        $offset = timezone_offset_get( $default_tz , $event->getStartDate() );
+        $formatOffset = sprintf( "%s%02d%02d", '+' , abs( $offset / 3600 ), abs( $offset % 3600 ) );
 
         return $this->render('MarcaCalendarBundle:Calendar:display.html.twig', array(
             'events' => $events,
             'role' => $role,
             'event' => $event,
+            'offset' => $formatOffset
         ));
-    }    
+    }
+
 
     /**
      * Finds and displays a Calendar entity.

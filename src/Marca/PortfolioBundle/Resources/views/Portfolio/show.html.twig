@@ -111,7 +111,7 @@
             </div>
         {% elseif portfolio_doc.file.ext == 'odt' or portfolio_doc.file.ext == 'odp' or portfolio_doc.file.ext == 'ods' or portfolio_doc.file.ext == 'pdf' %}
             <iframe class="col-sm-8" id="viewer"
-                    src="{{ asset('bundles/marcahome/Viewer.js/index.html') }}#{{ course_path('file_get', { 'id': portfolio_doc.file.id }) }}/{{ portfolio_doc.file.name }}.{{ portfolio_doc.file.ext }}"
+                    src="{{ asset('bundles/marcahome/ViewerJS/index.html') }}#{{ course_path('file_get', { 'id': portfolio_doc.file.id }) }}/{{ portfolio_doc.file.name }}.{{ portfolio_doc.file.ext }}"
                     allowfullscreen="true" webkitallowfullscreen="true"></iframe>
         {% else %}
             <div id='doc-display' class="col-sm-8 well">

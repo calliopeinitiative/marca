@@ -1,5 +1,12 @@
 {# Marca/UserBundle/Resources/views/Default/course_select_modal.html.twig #}
 
+{# show modal after ajax load #}
+<script language="javascript">
+    $(document).ready(function () {
+        $('#base_modal').modal();
+    });
+</script>
+
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -7,8 +14,6 @@
           <h4 class="modal-title">Select Course</h4>
         </div>
         <div class="modal-body">
-
-
             <div class="list-group">
                 {% for course in courses %}
                 <a href="{{ path('course_home', { 'courseid': course.id }) }}" class="list-group-item">
@@ -17,9 +22,6 @@
                 </a>
                 {% endfor %}
             </div>
-
-
-
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

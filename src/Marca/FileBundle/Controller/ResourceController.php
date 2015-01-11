@@ -76,7 +76,7 @@ class ResourceController extends Controller
             $session->set('resource_referrer', $request->getRequestUri());
         }
 
-        $heading = $course->getName().': '. $project->getName();
+        $heading = $project->getCourse()->getName().': '. $project->getName();
 
         return $this->render($template, array(
             'files' => $files,

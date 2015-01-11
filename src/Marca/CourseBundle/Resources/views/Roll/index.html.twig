@@ -30,7 +30,7 @@
                 <div class="btn-group pull-right margin-top">
                     <a class="btn btn-primary" href="{{ path('roll_approve_all', {'courseid':course.id, }) }}">Approve All Pending</a>
 
-                    <a class="btn btn-default" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh this list</a>
+                    <a class="btn btn-default hidden-xs" href="{{ path('roll', { 'courseid':course.id}) }}">Refresh this list</a>
                 </div>
                 {% endif %}
                 <h2>{{ course.name }} Roll</h2>
@@ -40,7 +40,7 @@
                     <tbody>
                     {% for roll in roll %}
                         <tr>
-                            <td>
+                            <td class="hidden-xs">
                                 {% if roll.user.photo != '' %}
                                 <img alt="Photo" src="{{ roll.user.photo }}" class="user-photo-sm img-rounded pull-left margin-top-small"/>
                                 {% endif %}
@@ -49,7 +49,7 @@
                                 <a href="{{ course_path('course_roll_profile', { 'rollid': roll.id, 'user': loop.index }) }}">{{ roll.lastname|capitalize }}
                                     , {{ roll.firstname|capitalize }}</a>
                             </td>
-                            <td>
+                            <td class="hidden-xs">
                                 <a target="_blank"  href="mailto:{{ roll.user.email }}">{{ roll.user.email }}</a>
                             </td>
                             {% if role == 2 %}
@@ -67,7 +67,7 @@
                                     {% for attendance in roll.attendance if attendance.type==1 %}{% set y=y+1 %}{% endfor %}{{ y }}
                                 </div>
                             </td>
-                            <td>
+                            <td class="hidden-xs">
                                 {% if roll.user.id != app.user.id %}
                                     {% if roll.role == 0 %}
                                         Pending:
