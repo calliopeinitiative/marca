@@ -19,21 +19,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class RegistrationController extends BaseController
 {
-    /**
-    * Tell the user to check his email provider
-    * @Route("/newcheckemail", name="new_check_email")
-    **/
-    public function newCheckEmailAction(Request $request)
-    {
-        $email = $request->query->get('email');
-        $this->container->get('session')->remove('fos_user_send_confirmation_email/email');
-        $user = $this->get('security.context')->getToken()->getUser();
-        if (null === $user) {
-        throw new NotFoundHttpException(sprintf('The user with email "%s" does not exist', $email));
-        }
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:checkEmail.html.'.$this->getEngine(), array(
-        'user' => $user,
-        ));
-}
+    
 
 }
