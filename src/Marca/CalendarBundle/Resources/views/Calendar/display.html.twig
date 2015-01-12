@@ -45,7 +45,7 @@
                             {
                                 title  : '{{ calendar.title| escape('js') }}',
                                 color  : '{{ calendar.color }}',
-                                start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('h:i:s') }} {{ offset }}',
+                                start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('H:i:s') }} {{ offset }}',
                                 allDay : false,
                                 textColor: 'black',
                                 description: '{{ calendar.description| escape('js') }}',
