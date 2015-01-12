@@ -19,6 +19,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class RegistrationController extends BaseController
 {
-    
+
 
 }
