@@ -31,7 +31,6 @@
                                 var route = "{{ course_path('calendar_show_modal', { 'id': "event_id"}) }}";
                                 route = route.replace("event_id", calEvent.id);
                                 $('#calendar_modal').load(route);
-                                $('#calendar_modal').modal();
                             }
                         },
                         header:
