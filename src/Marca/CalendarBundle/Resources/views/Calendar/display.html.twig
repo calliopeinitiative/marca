@@ -31,7 +31,6 @@
                                 var route = "{{ course_path('calendar_show_modal', { 'id': "event_id"}) }}";
                                 route = route.replace("event_id", calEvent.id);
                                 $('#calendar_modal').load(route);
-                                $('#calendar_modal').modal();
                             }
                         },
                         header:
@@ -45,7 +44,7 @@
                             {
                                 title  : '{{ calendar.title| escape('js') }}',
                                 color  : '{{ calendar.color }}',
-                                start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('h:i:s') }} {{ offset }}',
+                                start  : '{{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('H:i:s') }} {{ offset }}',
                                 allDay : false,
                                 textColor: 'black',
                                 description: '{{ calendar.description| escape('js') }}',

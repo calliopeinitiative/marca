@@ -110,7 +110,7 @@
     <div class="panel panel-default}">
         <div class="panel-body">
             <div class="btn-group pull-left">
-                <button type="submit" class="btn btn-primary" type="submit">Submit</button>
+                <button type="submit" class="btn btn-primary" type="submit">Post</button>
             </div>
             {% if app.user.username==review.reviewer %}
                 <a id="delete_rubric" class="btn btn-warning pull-right margin-top-small"
@@ -137,8 +137,7 @@
                 <form id='delete' action="{{ course_path('review_delete', { 'id': review.id }) }}" method="post">
                     {{ form_widget(delete_form) }}
                     <div class="btn-group">
-                        <button class="btn btn-danger" type="submit">Delete</button>
-                        <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                        <button class="btn btn-danger" type="submit">Yes</button>
                     </div>
                 </form>
             </div>

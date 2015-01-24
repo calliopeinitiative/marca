@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\CourseBundle\Entity\Project;
 use Marca\CourseBundle\Form\ProjectType;
+use Marca\CourseBundle\Form\ResourceType;
 
 /**
  * Project controller.
@@ -145,7 +146,14 @@ class ProjectController extends Controller
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
-        $editForm = $this->createForm(new ProjectType(), $project);
+        if ($project->getResource()==0) {
+            $editForm = $this->createForm(new ProjectType(), $project);
+        }
+        else {
+            $editForm = $this->createForm(new ResourceType(), $project);
+        }
+
+
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -179,13 +187,17 @@ class ProjectController extends Controller
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
+
+
         $editForm = $this->createForm(new ProjectType(), $project);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
-
         $editForm->handleRequest($request);
-
+        
+        if ($project->getResource()==0) {
+            $project->setCoursehome('false');
+        }
         if ($editForm->isValid()) {
             $em->persist($project);
             $em->flush();

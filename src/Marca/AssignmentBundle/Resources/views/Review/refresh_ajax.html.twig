@@ -8,7 +8,7 @@
         {# Add Feedback review here is the current review so its relation to file is correct #}
         $('#new_rubricreview').click(function () {
             $('#collapseFeedback').collapse('show');
-            $('#modal').load('{{ course_path('selectrubric', { 'fileid': review.file.id }) }}').modal();
+            $('#modal').load('{{ course_path('selectrubric', { 'fileid': review.file.id }) }}');
         });
 
         {% for review in reviews %}

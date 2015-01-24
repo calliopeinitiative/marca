@@ -1,21 +1,23 @@
 {# Marca/AssignmentBundle/Resources/views/Review/displaySelect.html.twig #}
 
-<div class="modal-dialog">
-    <script language="javascript">
+<script language="javascript">
+    $(document).ready(function () {
+        $('#modal').modal();
         var options = {
             target: '#review_container',
             success: function() {
                 $('#review_container').show();
-                ;$('#modal').modal('hide');
+                $('#modal').modal('hide');
             }
         };
         $('#assign').submit(function() {
             $(this).ajaxSubmit(options);
             return false;
         });
+    });
+</script>
 
-    </script>
-
+<div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -28,7 +30,6 @@
             <div class="modal-footer">
                 <div class="btn-group">
                     <button type="submit" class="btn btn-primary" type="submit">Select</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
 
             </div>

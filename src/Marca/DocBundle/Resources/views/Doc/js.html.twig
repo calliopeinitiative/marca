@@ -18,7 +18,7 @@ return $(window).height() * .88;
 {# Add Feedback #}
 $('#new_rubricreview').click(function () {
 $('#collapseFeedback').collapse('show');
-$('#modal').load('{{ course_path('selectrubric', { 'fileid': fileid }) }}').modal();
+$('#modal').load('{{ course_path('selectrubric', { 'fileid': fileid }) }}');
 });
 
 {% for review in reviews %}
