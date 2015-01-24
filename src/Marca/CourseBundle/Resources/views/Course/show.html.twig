@@ -137,7 +137,9 @@
                             {% set previousprojectindex = loop.index0 - 1 %}
                             {% set followingprojectindex = loop.index0 + 1 %}
                             <tr id="delete{{ project.id }}">
-                                <td>{{ project.name }}</td>
+                                <td>{% if project.coursehome==true %}
+                                        <i class="glyphicon glyphicon-home"></i>
+                                    {% endif %}{{ project.name }}</td>
                                 <td>
                                     <a class="btn btn-default btn-xs"
                                        href="{{ path('project_edit', { 'id': project.id,'courseid': course.id }) }}">Edit</a>
