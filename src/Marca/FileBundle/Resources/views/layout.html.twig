@@ -36,6 +36,7 @@
             $('#file_new_upload').click(function(){
                 $('#file_modal').load('{{ course_path('file_upload', { 'resource': app.request.get('resource') }) }}');
             });
+            $('[data-toggle="popover"]').popover({html:true,trigger:'hover'});
 
             //hover for settings etc
             $( "li" ).hover(

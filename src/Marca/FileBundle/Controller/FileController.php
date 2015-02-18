@@ -109,7 +109,7 @@ class FileController extends Controller
         if ($userid==0) {
             $user = $this->getUser();
             $access = 2;
-            $heading = 'My Reviews';
+            $heading = 'Reviews by me';
         }
         else {
             $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
@@ -127,6 +127,47 @@ class FileController extends Controller
             'heading' => $heading
         ));
     }
+
+    /**
+     * Lists all File entities by User.
+     *
+     * @Route("/{courseid}/{userid}/{resource}/reviews_for_user", name="file_reviews_for_user")
+     */
+    public function reviewsForUserAction($userid, $courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $session = $this->get('session');
+        $request = $this->getRequest();
+        $session->set('referrer', $request->getRequestUri());
+
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $role = $this->getCourseRole();
+
+        if ($userid==0) {
+            $user = $this->getUser();
+            $access = 2;
+            $heading = 'Reviews for me';
+        }
+        else {
+            $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+            $access = $role;
+            $heading = 'Reviews for ' . $user->getFirstname() . ' ' . $user->getLastname() ;
+        }
+
+        $files = $em->getRepository('MarcaFileBundle:File')->findReviewsForUser($user, $course, $access);
+
+        return $this->render('MarcaFileBundle:File:reviews_index.html.twig', array(
+            'files' => $files,
+            'role' => $role,
+            'user' => $user,
+            'course' => $course,
+            'heading' => $heading
+        ));
+    }
+
 
     /**
      * Lists all File entities by Project.

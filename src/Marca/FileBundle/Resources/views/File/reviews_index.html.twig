@@ -11,7 +11,15 @@
             <ul class="nav navbar-nav">
                 <li><span class="navbar-text filter3"></span></li>
                 {% if role == '2'%}
-                    <a class="btn btn-default btn-sm navbar-btn pull-right margin-left" href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>
+                    <a class="btn btn-default btn-sm navbar-btn pull-right margin-left" href="{{ course_path('file_release_all') }}">Release
+                        Hidden Reviews</a>
+                {% endif %}
+                {% if app.request.attributes.get('_route') == 'file_reviews'%}
+                <a class="btn btn-default btn-sm navbar-btn pull-right margin-left" href="{{ course_path('file_reviews_for_user', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
+                    Reviews for me</a>
+                {% else %}
+                    <a class="btn btn-default btn-sm navbar-btn pull-right margin-left" href="{{ course_path('file_reviews', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
+                        Reviews by me</a>
                 {% endif %}
                 <li><span class="navbar-text file_count"></span></li>
             </ul>
