@@ -148,7 +148,7 @@ class FileController extends Controller
 
         if ($userid==0) {
             $user = $this->getUser();
-            $access = 2;
+            $access = $role;
             $heading = 'Reviews for me';
         }
         else {
