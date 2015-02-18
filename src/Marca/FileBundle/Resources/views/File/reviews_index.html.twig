@@ -10,25 +10,27 @@
             </a>
             <ul class="nav navbar-nav">
                 <li><span class="navbar-text filter3"></span></li>
-                {% if role == '2'%}
-                    <a class="btn btn-default btn-sm navbar-btn pull-right margin-left" href="{{ course_path('file_release_all') }}">Release
-                        Hidden Reviews</a>
-                {% endif %}
-                {% if app.request.attributes.get('_route') == 'file_reviews'%}
-                <a class="btn btn-default btn-sm navbar-btn pull-right margin-left" href="{{ course_path('file_reviews_for_user', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
-                    Reviews for me</a>
-                {% else %}
-                    <a class="btn btn-default btn-sm navbar-btn pull-right margin-left" href="{{ course_path('file_reviews', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
-                        Reviews by me</a>
-                {% endif %}
                 <li><span class="navbar-text file_count"></span></li>
             </ul>
+            {% if app.request.attributes.get('_route') == 'file_reviews'%}
+                <a class="btn btn-default btn-sm navbar-btn  margin-left" href="{{ course_path('file_reviews_for_user', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
+                    Reviews for me</a>
+            {% else %}
+                <a class="btn btn-default btn-sm navbar-btn  margin-left" href="{{ course_path('file_reviews', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
+                    Reviews by me</a>
+            {% endif %}
+
+
             <form class="navbar-form navbar-right" role="search">
                 <div class="form-group">
                     <label class="sr-only" for="file_search">Search in List</label>
                     <input id="file_search" type="search" placeholder="Search in list" data-column="all" class="search selectable form-control">
                 </div>
             </form>
+            {% if role == '2'%}
+                <a class="btn btn-default btn-sm navbar-btn margin-left pull-right" href="{{ course_path('file_release_all') }}">Release
+                    Hidden Reviews</a>
+            {% endif %}
         </div><!-- /.container-fluid -->
     </nav>
 
