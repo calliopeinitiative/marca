@@ -68,6 +68,8 @@ class RollController extends Controller
         
         $countJournals = $em->getRepository('MarcaJournalBundle:Journal')->countJournalsByUser($user,$course);
         $countCourseJournals = $em->getRepository('MarcaJournalBundle:Journal')->countJournalsByCourse($course);
+        $countFeedback = $em->getRepository('MarcaAssignmentBundle:Review')->countFeedbackByUser($user,$course);
+        $countCourseFeedback = $em->getRepository('MarcaAssignmentBundle:Review')->countFeedbackByCourse($course);
         $countFiles = $em->getRepository('MarcaFileBundle:File')->countFilesByUser($user,$course);
         $countCourseFiles = $em->getRepository('MarcaFileBundle:File')->countFilesByCourse($course);
 
@@ -88,6 +90,8 @@ class RollController extends Controller
             'countCourseJournals'=>$countCourseJournals,
             'countFiles'=>$countFiles,
             'countCourseFiles'=>$countCourseFiles,
+            'countFeedback'=>$countFeedback,
+            'countCourseFeedback'=>$countCourseFeedback,
         ));
     }     
 

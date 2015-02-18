@@ -169,7 +169,11 @@
                                 </li>
                             </ul>
 
-
+                            <ul class="list-unstyled">
+                                <li><strong>Feedback entries:</strong>  {{ countFeedback|length }} (class
+                                    average: {{ countCourseFeedback|length //roll|length }})
+                                </li>
+                            </ul>
                             <ul class="list-unstyled">
                                 <li><strong>Files:</strong>  {{ countFiles|length }} (class
                                     average: {{ countCourseFiles|length //roll|length }})
