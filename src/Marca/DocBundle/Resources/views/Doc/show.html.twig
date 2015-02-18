@@ -193,16 +193,17 @@
                                 <a title="Edit this document" class=""
                                    href="{{ course_path('doc_edit', { 'id': review.id,'view': app.request.get('view') }) }}">Edit</a>
                             </li>
-                            <li class="navbar-text hidden-sm hidden-xs">
-                                <a title="Print this document" class=""
-                                   href="{{ course_path('doc_pdf', { 'id': review.doc.id }) }}">Printable PDF</a>
-                            </li>
-
                         {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
                             <li class="navbar-text">
                                 <a title="Download this document" class=""
                                    href="{{ course_path('file_get', { 'id': review.id }) }}">Download</a>
                             </li>
+                        {% endif %}
+                        {% if review.doc %}
+                        <li class="navbar-text hidden-sm hidden-xs">
+                            <a title="Print this document" class=""
+                               href="{{ course_path('doc_pdf', { 'id': review.doc.id }) }}">Printable PDF</a>
+                        </li>
                         {% endif %}
                     </span>
                 {% endfor %}
