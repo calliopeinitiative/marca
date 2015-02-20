@@ -65,6 +65,17 @@
                 $('#file_modal').load(url);
             });
 
+            //create anchor for dropdown review find
+            $('a.roll').click(function() {
+                var id = $(this).data("id");
+                var index = $(this).data("index");
+                var courseid = $(this).data("index");
+                var url = "{{ course_path('file_reviews', { 'userid': 'id', 'courseid':  app.request.get('courseid'), 'resource': app.request.get('resource') }) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                $(this).attr("href", url).click();
+            });
+
             //tablesorter for files
             $.extend($.tablesorter.themes.bootstrap, {
                 table      : 'table',
