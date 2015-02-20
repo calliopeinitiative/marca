@@ -66,6 +66,7 @@
             });
 
             //create anchor for dropdown review find
+            {% if 'file_reviews' in app.request.attributes.get('_route')  %}
             $('a.roll').click(function() {
                 var id = $(this).data("id");
                 var index = $(this).data("index");
@@ -75,6 +76,7 @@
                 url = url.replace("index", index);
                 $(this).attr("href", url).click();
             });
+            {% endif %}
 
             //tablesorter for files
             $.extend($.tablesorter.themes.bootstrap, {

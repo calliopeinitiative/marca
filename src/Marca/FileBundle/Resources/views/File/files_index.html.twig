@@ -9,6 +9,13 @@
                 {{ heading }}
             </a>
             <ul class="nav navbar-nav">
+                <li>
+                    {% if app.request.attributes.get('_route') == 'file_list' %}
+                    <a data-scope-index="reviews" class="project-sidebar" href="{{ course_path('file_listshared', { 'resource': app.request.get('resource') }) }}">Shared Files</a>
+                    {% else %}
+                    <a data-scope-index="myfiles" class="project-sidebar"  href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My Files</a>
+                    {% endif %}
+                </li>
                 <li><span class="navbar-text filter3"></span></li>
                 <li><span class="navbar-text filter2"></span></li>
                 <li><span class="navbar-text filter1"></span></li>

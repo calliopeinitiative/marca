@@ -30,20 +30,15 @@
 <hr class="marca-spacer"/>
 <li>
     <a data-scope-index="myfiles" class="project-sidebar"  href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
-        My Files
+        Files
     </a>
 </li>
 <li>
     <a data-scope-index="reviews" class="project-sidebar" href="{{ course_path('file_reviews', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
-        My Reviews
+        Reviews
     </a>
 </li>
 
-<li>
-    <a data-scope-index="reviews" class="project-sidebar" href="{{ course_path('file_listshared', { 'resource': app.request.get('resource') }) }}">
-        Shared Files
-    </a>
-</li>
 
 
 
