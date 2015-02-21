@@ -124,7 +124,6 @@
                 filters.eq(col).val(txt).trigger('search', false);
                 //replace the dash for displaying
                 txt = txt.replace(/[*]/, '-');
-                if (txt=='') {txt='Shared Files'} else {txt='Files by ' + txt};
 
                 // count files after filtering
                 var count = $('#file_list tr').not(':hidden').length - 1;
@@ -132,6 +131,7 @@
                 $('span.file_count').html(count_text);
                 // filter breadcrumbs
                 if (col==1){
+                    if (txt=='') {txt='Shared Files'} else {txt='Files by ' + txt};
                     $('span.filter1').html(txt);
                 } else if (col==2){
                     $('span.filter2').html(txt);
