@@ -6,26 +6,32 @@
     <nav class="navbar navbar-default hidden-xs" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
             <a class="navbar-brand project" href="#" title="File listing">
-                {{ heading }}
+                <span class="filter1">{{ heading }}</span>
             </a>
+
             <ul class="nav navbar-nav">
                 <li>
                     {% if app.request.attributes.get('_route') == 'file_list' %}
-                    <a data-scope-index="reviews" class="project-sidebar" href="{{ course_path('file_listshared', { 'resource': app.request.get('resource') }) }}">Shared Files</a>
+                    <a data-scope-index="reviews" class="" href="{{ course_path('file_listshared', { 'resource': app
+                        .request.get
+                        ('resource')
+                    }) }}">Shared Files </a>
                     {% else %}
-                    <a data-scope-index="myfiles" class="project-sidebar"  href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My Files</a>
+                    <a data-scope-index="myfiles" class=""  href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My Files</a>
                     {% endif %}
                 </li>
-                <li><span class="navbar-text filter3"></span></li>
-                <li><span class="navbar-text filter2"></span></li>
-                <li><span class="navbar-text filter1"></span></li>
+
+
                 {% if 'file_listshared' in app.request.attributes.get('_route') %}
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
                     <li><a href="#" class="link-filter project-sidebar" data-filter-column="1" data-filter-text="">All Authors</a></li>
                 {% endif %}
-                <li><span class="navbar-text file_count"></span></li>
+                <li></li>
             </ul>
-            <p class="navbar-text">Files open in a new tab.</p>
+            <span class="navbar-text filter3"></span>
+            <span class="navbar-text filter2"></span>
+            <span class="navbar-text file_count"></span>
+            <span class="navbar-text">Files open in a new tab.</span>
             <form class="navbar-form navbar-right" role="search">
                 <div class="form-group">
                     <label class="sr-only" for="file_search">Search in List</label>
