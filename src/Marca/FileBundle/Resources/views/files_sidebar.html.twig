@@ -58,7 +58,7 @@
 {# Labels Hide Show #}
     {% for tag in tags %}
         <li>
-            <a href="#" class="link-filter project-sidebar" data-filter-column="3" data-filter-text="{{ tag.name }}">{{ tag.name }}
+            <a href="#" class="link-filter project-sidebar" data-filter-column="3" data-filter-text="{{ tag.name }}"  data-color="{{ tag.color }}">{{ tag.name }}
                 <span class="pull-left color-flag" style="{% if tag.color != '' %}background: {{tag.color}};color:{{tag.color}};{% endif%}">&#183;</span>
             </a>
         </li>

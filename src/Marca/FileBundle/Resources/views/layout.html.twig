@@ -125,6 +125,7 @@
                 //replace the dash for displaying
                 txt = txt.replace(/[*]/, '-');
 
+
                 // count files after filtering
                 var count = $('#file_list tr').not(':hidden').length - 1;
                 var count_text = ' ' + count + ' files found';
@@ -136,7 +137,9 @@
                 } else if (col==2){
                     $('span.filter2').html(txt);
                 } else if (col==3){
-                    $('span.filter3').html(txt);
+                    var color =  $(this).data('color');
+                    var togglelabel = 'filter3 label ' + color;
+                    $('span.filter3').html(txt).removeClass().addClass(togglelabel);
                 }
             });
             //hide filter row
