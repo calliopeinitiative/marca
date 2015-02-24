@@ -161,7 +161,6 @@ class FileRepository extends EntityRepository
     }
 
 
-
     public function deleteEdoc($id)
     {
          return $this->getEntityManager()
@@ -169,26 +168,45 @@ class FileRepository extends EntityRepository
                 ->setParameter('1',$id)->getResult();
     }
 
+    public function findHidden($user, $course)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT f from MarcaFileBundle:File f WHERE f.user = ?1 AND f.course = ?2 AND f.access = 2' )
+            ->setParameters(array('1' => $user, '2' => $course))->getResult();
+    }
+
+
+
     public function countFilesByUser($user, $course)
     {
        return $this->getEntityManager()
-               ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.user = ?1 AND f.course = ?2')
-               ->setParameters(array('1' => $user, '2' => $course))->getResult();
-    }
-
-    public function findHidden($user, $course)
-    {
-       return $this->getEntityManager()
-               ->createQuery('SELECT f from MarcaFileBundle:File f WHERE f.user = ?1 AND f.course = ?2 AND f.access = 2' )
+               ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.user = ?1 AND f.reviewed IS NULL AND f.course = ?2')
                ->setParameters(array('1' => $user, '2' => $course))->getResult();
     }
 
     public function countFilesByCourse($course)
     {
        return $this->getEntityManager()
-               ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.course = ?1')
+               ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.course = ?1 AND f.reviewed IS NULL')
                ->setParameters(array('1' => $course))->getResult();
     }
+
+    public function countReviewsByUser($user, $course)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.user = ?1 AND  f.reviewed IS NOT NULL AND f.course = ?2 ')
+            ->setParameters(array('1' => $user, '2' => $course))->getResult();
+    }
+
+    public function countReviewsByCourse($course)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.course = ?1 AND  f.reviewed IS NOT NULL')
+            ->setParameters(array('1' => $course))->getResult();
+    }
+
+
+
 
     public function findCoursehomeFiles($course)
     {
