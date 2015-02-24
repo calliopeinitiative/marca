@@ -328,6 +328,7 @@ class FileController extends Controller
             $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
             $file->setReviewed($reviewed_file);
             $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
+            $file->setProject($reviewed_file->getProject());
             $doc->setBody($reviewed_file->getDoc()->getBody());
             $em->persist($doc);
             $em->persist($file);
