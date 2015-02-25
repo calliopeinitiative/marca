@@ -133,13 +133,13 @@
                 // filter breadcrumbs
                 if (col==1){
                     if (txt=='') {txt='Shared Files'} else {txt='Files by ' + txt};
-                    $('span.filter1').html(txt);
+                    $('.filter1').html(txt);
                 } else if (col==2){
-                    $('span.filter2').html(txt);
+                    $('.filter2').html(txt);
                 } else if (col==3){
                     var color =  $(this).data('color');
                     var togglelabel = 'filter3 label ' + color;
-                    $('span.filter3').html(txt).removeClass().addClass(togglelabel);
+                    $('.filter3').html(txt).removeClass().addClass(togglelabel);
                 }
             });
             //hide filter row

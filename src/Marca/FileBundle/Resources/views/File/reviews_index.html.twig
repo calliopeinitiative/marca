@@ -6,12 +6,9 @@
     {# main list of files #}
     <nav class="navbar navbar-default" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
+            <div class="navbar-brand" title="File listing">{{ heading }}</div>
+
             <ul class="nav navbar-nav">
-                <li>
-                    <span class="navbar-text" href="#" style="font-weight: 600;font-size: larger;margin-left: 5px;" title="File listing">
-                        {{ heading }}
-                    </span>
-                </li>
                 <li>
                     {% if app.request.attributes.get('_route') == 'file_reviews' %}
                         <a href="{{ course_path('file_reviews_for_user', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
@@ -24,24 +21,21 @@
                 {% if role == '2' %}
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
                     <li>
-                        <a href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>
+                        <a href="{{ course_path('file_release_all') }}">Release Reviews</a>
                     </li>
                 {% endif %}
 
-                <form class="navbar-form navbar-right  hidden-sm hidden-xs" role="search">
+                <form class="navbar-form navbar-right hidden-sm hidden-xs" role="search">
                     <div class="form-group">
                         <label class="sr-only" for="file_search">Search in List</label>
-                        <input id="file_search" type="search" placeholder="Search in list" data-column="all"
-                               class="search selectable form-control">
+                        <input id="file_search" type="search" placeholder="Search in list" data-column="all" class="search selectable form-control">
                     </div>
                 </form>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <span class="navbar-text filter2"></span>
-                <li style="padding-top: 12px;padding-left: 12px;"><span class="filter3 label"></span></li>
-                <span class="navbar-text file_count hidden-sm hidden-xs"></span>
-                <span class="navbar-text hidden-sm hidden-xs">Files open in a new tab.</span>
-            </ul>
+            <span class="navbar-text hidden-sm hidden-xs pull-right">Files open in a new tab.</span>
+            <span class="navbar-text file_count hidden-sm hidden-xs pull-right"></span>
+            <span class=" pull-right" style="padding-top: 12px;padding-left: 12px;"><span class="filter3 label"></span></span>
+            <span class="navbar-text filter2 pull-right"></span>
         </div>
     </nav>
 
