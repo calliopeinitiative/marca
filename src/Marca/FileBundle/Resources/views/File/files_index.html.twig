@@ -19,7 +19,7 @@
                 </li>
                 {% if 'file_listshared' in app.request.attributes.get('_route') %}
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
-                    <li><a href="#" class="link-filter project-sidebar" data-filter-column="1" data-filter-text="">All
+                    <li style="display: none" id="allauthors"><a href="#" class="link-filter" data-filter-column="1" data-filter-text="">All
                             Authors</a></li>
                 {% endif %}
                 <form class="navbar-form navbar-right hidden-sm hidden-xs" role="search">

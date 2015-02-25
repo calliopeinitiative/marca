@@ -132,7 +132,7 @@
                 $('span.file_count').html(count_text);
                 // filter breadcrumbs
                 if (col==1){
-                    if (txt=='') {txt='Shared Files'} else {txt='Files by ' + txt};
+                    if (txt=='') {txt='Shared Files';$('#allauthors').hide();} else {txt='Files by ' + txt;$('#allauthors').show();}
                     $('.filter1').html(txt);
                 } else if (col==2){
                     $('.filter2').html(txt);
