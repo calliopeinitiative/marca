@@ -3,10 +3,9 @@
 {% extends 'MarcaFileBundle::layout.html.twig' %}
 
 {% block content %}
-    <nav class="navbar navbar-default hidden-xs" role="navigation" style="margin-top: -20px;">
+    {# navbar #}
+    <nav class="navbar navbar-default" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
-
-
             <ul class="nav navbar-nav">
                 <li>
                     <span class="navbar-text filter1" href="#"
@@ -14,8 +13,6 @@
                         {{ heading }}
                     </span>
                 </li>
-
-
                 <li>
                     {% if app.request.attributes.get('_route') == 'file_list' %}
                         <a data-scope-index="reviews" href="{{ course_path('file_listshared', { 'resource': app
@@ -27,8 +24,6 @@
                             Files</a>
                     {% endif %}
                 </li>
-
-
                 {% if 'file_listshared' in app.request.attributes.get('_route') %}
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
                     <li><a href="#" class="link-filter project-sidebar" data-filter-column="1" data-filter-text="">All
@@ -41,7 +36,6 @@
                                class="search selectable form-control">
                     </div>
                 </form>
-
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <span class="navbar-text filter2"></span>
@@ -49,9 +43,7 @@
                 <span class="navbar-text file_count hidden-sm hidden-xs"></span>
                 <span class="navbar-text hidden-sm hidden-xs">Files open in a new tab.</span>
             </ul>
-
         </div>
-        <!-- /.container-fluid -->
     </nav>
 
     <div class="file-wrapper well">
@@ -67,8 +59,8 @@
             </thead>
             <tbody>
 
+            {# main list of files #}
             {% for file in files %}
-                {# main list of files #}
                 <tr class="file">
                     <td>
                         {# different functions for different file types #}

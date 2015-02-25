@@ -3,9 +3,9 @@
 {% extends 'MarcaFileBundle::layout.html.twig' %}
 
 {% block content %}
+    {# main list of files #}
     <nav class="navbar navbar-default" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
-
             <ul class="nav navbar-nav">
                 <li>
                     <span class="navbar-text" href="#" style="font-weight: 600;font-size: larger;margin-left: 5px;" title="File listing">
@@ -36,17 +36,13 @@
                     </div>
                 </form>
             </ul>
-
-
             <ul class="nav navbar-nav navbar-right">
                 <span class="navbar-text filter2"></span>
                 <li style="padding-top: 12px;padding-left: 12px;"><span class="filter3 label"></span></li>
                 <span class="navbar-text file_count hidden-sm hidden-xs"></span>
                 <span class="navbar-text hidden-sm hidden-xs">Files open in a new tab.</span>
             </ul>
-
         </div>
-        <!-- /.container-fluid -->
     </nav>
 
     <div class="file-wrapper well">
