@@ -3,23 +3,28 @@
 {% extends 'MarcaFileBundle::layout.html.twig' %}
 
 {% block content %}
-    <nav class="navbar navbar-default hidden-xs" role="navigation" style="margin-top: -20px;">
+    {# subnav #}
+    <nav class="navbar navbar-default" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
-            <a class="navbar-brand project" href="#" style="font-weight: 600" title="Resources listing">
-                {{ heading }}
-            </a>
             <ul class="nav navbar-nav">
-                <li><span class="navbar-text filter2"></span></li>
-                <li><span class="navbar-text file_count"></span></li>
+                <li>
+                    <span class="navbar-text" href="#" style="font-weight: 600;font-size: larger;margin-left: 5px;" title="Resources listing">
+                        {{ heading }}
+                    </span>
+                </li>
+                <form class="navbar-form navbar-right  hidden-sm hidden-xs" role="search">
+                    <div class="form-group">
+                        <label class="sr-only" for="file_search">Search in List</label>
+                        <input id="file_search" type="search" placeholder="Search in list" data-column="all" class="search selectable form-control">
+                    </div>
+                </form>
             </ul>
-            <p class="navbar-text">Files open in a new tab.</p>
-            <form class="navbar-form navbar-right" role="search">
-                <div class="form-group">
-                    <label class="sr-only" for="file_search">Search in List</label>
-                    <input id="file_search" type="search" placeholder="Search in list" data-column="all" class="search selectable form-control">
-                </div>
-            </form>
-        </div><!-- /.container-fluid -->
+            <ul class="nav navbar-nav navbar-right">
+                <span class="navbar-text filter2"></span>
+                <span class="navbar-text file_count hidden-sm hidden-xs"></span>
+                <span class="navbar-text hidden-sm hidden-xs">Files open in a new tab.</span>
+            </ul>
+        </div>
     </nav>
 
     <div class="file-wrapper well">
@@ -32,14 +37,14 @@
             </tr>
             </thead>
             <tbody>
+            {# main list of files #}
             {% for file in files %}
-                {# main list of files #}
                 <tr class="file">
                     <td>
                         {# different functions for different file types #}
                         {# doc files #}
                         {% if file.doc %}
-                            <a class="file_name" href="{{ course_path('doc_show', { 'id': file.id, 'view': 'window' }) }}"  target="_blank" title="View {{ file
+                            <a class="file_name" href="{{ course_path('doc_show', { 'id': file.id, 'view': 'window' }) }}" target="_blank" title="View {{ file
                             .name }}">
                                 {{ file.name }}
                             </a>
@@ -52,7 +57,7 @@
                             <span class="label label-file pull-left" data-toggle="tooltip" title="This a link ">link</span>
                             {# ODT files #}
                         {% elseif file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
-                            <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'window' }) }}"  target="_blank" title="View {{ file
+                            <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'window' }) }}" target="_blank" title="View {{ file
                             .name }}">
                                 {{ file.name }}
                             </a>
@@ -68,13 +73,13 @@
                         <div class="hidden-xs">
                             <div class="file-menu">
                                 {% if file.isOwner(app.user.username) and file.project.course==course %}
-                                    <a data-id='{{ file.id }}' class="settings"  href="javascript:void(0);" title="Edit the setting for this file.">Settings</a>
+                                    <a data-id='{{ file.id }}' class="settings" href="javascript:void(0);" title="Edit the setting for this file.">Settings</a>
                                 {% endif %}
                                 {% if file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
                                     <a href="{{ course_path('file_get', { 'id': file.id}) }}" title="Download {{ file.name }}">Download</a>
                                 {% endif %}
                                 {% if file.isOwner(app.user.username) and file.portfolio|length == 0  and file.project.course==course %}
-                                    <a data-id='{{ file.id }}' class="delete delete_confirm"  href='javascript:void(0);' title="Delete this file.">Delete</a>
+                                    <a data-id='{{ file.id }}' class="delete delete_confirm" href='javascript:void(0);' title="Delete this file.">Delete</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -82,9 +87,8 @@
                     <td>{{ file.project.course.name }}: {{ file.project.name }}</td>
                     <td>
                         {% for tag in file.tag %}
-                            <span data-tag='{{ tag.id }}' class="label label-default margin-right" style="background-color: {{ tag.color }};">{{ tag.name
-                        }}</span>{%
-                        endfor %}
+                            <span data-tag='{{ tag.id }}' class="label label-default margin-right"
+                                  style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
                     </td>
                 </tr>
             {% else %}
