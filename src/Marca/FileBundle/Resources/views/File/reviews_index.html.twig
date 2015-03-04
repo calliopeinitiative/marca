@@ -3,9 +3,9 @@
 {% extends 'MarcaFileBundle::layout.html.twig' %}
 
 {% block content %}
+    {# main list of files #}
     <nav class="navbar navbar-default" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
-
             <ul class="nav navbar-nav">
                 <li>
                     <div class="btn-group" role="group" aria-label="sub navigation">
@@ -20,20 +20,17 @@
                 {% if role == '2' %}
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
                     <li>
-                        <a href="{{ course_path('file_release_all') }}">Release Hidden Reviews</a>
+                        <a href="{{ course_path('file_release_all') }}">Release Reviews</a>
                     </li>
                 {% endif %}
 
-                <form class="navbar-form navbar-right  hidden-sm hidden-xs" role="search">
+                <form class="navbar-form navbar-right hidden-sm hidden-xs" role="search">
                     <div class="form-group">
                         <label class="sr-only" for="file_search">Search in List</label>
-                        <input id="file_search" type="search" placeholder="Search in list" data-column="all"
-                               class="search selectable form-control">
+                        <input id="file_search" type="search" placeholder="Search in list" data-column="all" class="search selectable form-control">
                     </div>
                 </form>
             </ul>
-
-
             <ul class="nav navbar-nav navbar-right">
                 <span class="navbar-text filter1"></span>
                 <span class="navbar-text filter2"></span>
@@ -43,7 +40,6 @@
             </ul>
 
         </div>
-        <!-- /.container-fluid -->
     </nav>
 
     <div class="file-wrapper well">
