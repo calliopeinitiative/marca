@@ -8,18 +8,14 @@
 
             <ul class="nav navbar-nav">
                 <li>
-                    <span class="navbar-text" href="#" style="font-weight: 600;font-size: larger;margin-left: 5px;" title="File listing">
-                        {{ heading }}
-                    </span>
-                </li>
-                <li>
-                    {% if app.request.attributes.get('_route') == 'file_reviews' %}
-                        <a href="{{ course_path('file_reviews_for_user', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
-                            Reviews for me</a>
-                    {% else %}
-                        <a href="{{ course_path('file_reviews', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
-                            Reviews by me</a>
-                    {% endif %}
+                    <div class="btn-group" role="group" aria-label="sub navigation">
+                        <a class="btn btn-default navbar-btn" data-scope-index="reviewsbyme"
+                           href="{{ course_path('file_reviews', { 'userid':  0, 'resource': app.request.get('resource') }) }}">Reviews
+                            by me</a>
+                        <a class="btn btn-default navbar-btn" data-scope-index="reviewsforme"
+                           href="{{ course_path('file_reviews_for_user', { 'userid':  0, 'resource': app.request.get('resource') }) }}">Reviews
+                            for me</a>
+                    </div>
                 </li>
                 {% if role == '2' %}
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
@@ -39,6 +35,7 @@
 
 
             <ul class="nav navbar-nav navbar-right">
+                <span class="navbar-text filter1"></span>
                 <span class="navbar-text filter2"></span>
                 <li style="padding-top: 12px;padding-left: 12px;"><span class="filter3 label"></span></li>
                 <span class="navbar-text file_count hidden-sm hidden-xs"></span>

@@ -5,30 +5,13 @@
 {% block content %}
     <nav class="navbar navbar-default hidden-xs" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
-
-
             <ul class="nav navbar-nav">
                 <li>
-                    <span class="navbar-text filter1" href="#"
-                          style="font-weight: 600;font-size: larger;margin-left: 5px;" title="File listing">
-                        {{ heading }}
-                    </span>
+                    <div class="btn-group" role="group" aria-label="sub navigation">
+                        <a class="btn btn-default navbar-btn" data-scope-index="myfiles" href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My Files</a>
+                        <a class="btn btn-default navbar-btn" data-scope-index="sharedfile" href="{{ course_path('file_listshared', { 'resource': app.request.get('resource')}) }}">Shared Files</a>
+                    </div>
                 </li>
-
-
-                <li>
-                    {% if app.request.attributes.get('_route') == 'file_list' %}
-                        <a data-scope-index="reviews" href="{{ course_path('file_listshared', { 'resource': app
-                            .request.get
-                            ('resource')
-                        }) }}">Shared Files </a>
-                    {% else %}
-                        <a data-scope-index="myfiles" href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My
-                            Files</a>
-                    {% endif %}
-                </li>
-
-
                 {% if 'file_listshared' in app.request.attributes.get('_route') %}
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
                     <li><a href="#" class="link-filter project-sidebar" data-filter-column="1" data-filter-text="">All
@@ -41,9 +24,10 @@
                                class="search selectable form-control">
                     </div>
                 </form>
-
             </ul>
+
             <ul class="nav navbar-nav navbar-right">
+                <span class="navbar-text filter1"></span>
                 <span class="navbar-text filter2"></span>
                 <li style="padding-top: 12px;padding-left: 12px;"><span class="filter3 label"></span></li>
                 <span class="navbar-text file_count hidden-sm hidden-xs"></span>
