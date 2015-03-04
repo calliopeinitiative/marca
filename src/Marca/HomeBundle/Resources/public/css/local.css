@@ -132,10 +132,6 @@ iframe {border:0;}
     background-color: #ffffff;
 }
 
-.navbar-default > div > .nav > li:hover {
-    background-color: #eee;
-}
-
 .label-info {
     background-color: #155569;
 }
