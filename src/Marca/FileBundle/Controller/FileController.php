@@ -430,30 +430,24 @@ class FileController extends Controller
         $user = $this->getUser();
         $role = $this->getCourseRole();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $project = $course->getProjectDefault();
         $options = array('courseid' => $courseid, 'resource' => $resource, 'review' => 'yes', 'role' => $role);
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
-
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $file = new File();
         $file->setUser($user);
         $file->setCourse($course);
         $file->setName('Review');
-        $file->setProject($project);
+        $file->setProject($reviewed_file->getProject());
         if ($role == 2) {
             $file->setAccess('2');
         } else {
             $file->setAccess('0');
         }
-        $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $file->setReviewed($reviewed_file);
         $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
         $form = $this->createForm(new UploadReviewType($options), $file);
-
-        $request = $this->getRequest();
-        $postData = $request->get('marca_filebundle_filetype');
-        $project = $postData['project'];
         if (!$resource) {
             $resource = '0';
         }
