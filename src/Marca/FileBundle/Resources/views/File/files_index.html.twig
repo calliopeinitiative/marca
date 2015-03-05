@@ -128,7 +128,7 @@
                                        title="Download {{ file.name }}">Download</a>
                                 {% endif %}
                                 {% if file.doc %}
-                                    <a class="" title="Create a copy of this document for review"
+                                    <a class="" title="Create a copy of this document for review" target="_blank"
                                        id="new_grade_{{ file.id }}"
                                        href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create
                                         Review</a>
