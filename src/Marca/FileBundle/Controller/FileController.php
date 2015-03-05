@@ -334,7 +334,7 @@ class FileController extends Controller
             $em->persist($file);
             $em->flush();
             return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
-                'view' => 'app')));
+                'view' => 'window')));
         } elseif ($type == 'saveas') {
             $file->setName('SaveAs Document');
             $form = $this->createForm(new DocType($options), $file);
