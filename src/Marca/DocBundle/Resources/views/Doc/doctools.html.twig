@@ -214,8 +214,8 @@
                         <tbody>
                         {% for tracking_item in review.tracking %}
                             <tr>
-                                <td>{{ tracking_item.markup.name }} <span
-                                            class="pull-left color-flag {{ tracking_item.markup.color }}">&#183;</span>
+                                <td>{{ tracking_item.markup.name }} <span data-id="{{ tracking_item.markup.id }}"
+                                                                          class="markup pull-left color-flag {{ tracking_item.markup.color }}">&#183;</span>
                                 </td>
                             </tr>
                         {% endfor %}
