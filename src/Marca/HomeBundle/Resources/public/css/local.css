@@ -35,7 +35,7 @@ html, body {
 }
 
 body {
-    background: url('../img/bg/brickwall.png');
+    background: url('../img/bg/hexellence.png');
     padding-top: 50px;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
@@ -130,10 +130,6 @@ iframe {border:0;}
 
 .navbar-default {
     background-color: #ffffff;
-}
-
-.navbar-default > div > .nav > li:hover {
-    background-color: #eee;
 }
 
 .label-info {
@@ -652,7 +648,7 @@ tr.file td{
 }
 
 tr.review td {
-    background:#f1f1f1;
+    background:#fff;
 }
 
 tr.file > td:first-child  {

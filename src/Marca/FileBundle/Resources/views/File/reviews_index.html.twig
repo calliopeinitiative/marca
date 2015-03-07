@@ -6,17 +6,16 @@
     {# main list of files #}
     <nav class="navbar navbar-default" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
-            <div class="navbar-brand" title="File listing">{{ heading }}</div>
-
             <ul class="nav navbar-nav">
                 <li>
-                    {% if app.request.attributes.get('_route') == 'file_reviews' %}
-                        <a href="{{ course_path('file_reviews_for_user', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
-                            Reviews for me</a>
-                    {% else %}
-                        <a href="{{ course_path('file_reviews', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
-                            Reviews by me</a>
-                    {% endif %}
+                    <div class="btn-group" role="group" aria-label="sub navigation">
+                        <a class="btn btn-default navbar-btn" data-scope-index="reviewsbyme"
+                           href="{{ course_path('file_reviews', { 'userid':  0, 'resource': app.request.get('resource') }) }}">Reviews
+                            by me</a>
+                        <a class="btn btn-default navbar-btn" data-scope-index="reviewsforme"
+                           href="{{ course_path('file_reviews_for_user', { 'userid':  0, 'resource': app.request.get('resource') }) }}">Reviews
+                            for me</a>
+                    </div>
                 </li>
                 {% if role == '2' %}
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
@@ -32,10 +31,14 @@
                     </div>
                 </form>
             </ul>
-            <span class="navbar-text hidden-sm hidden-xs pull-right">Files open in a new tab.</span>
-            <span class="navbar-text file_count hidden-sm hidden-xs pull-right"></span>
-            <span class=" pull-right" style="padding-top: 12px;padding-left: 12px;"><span class="filter3 label"></span></span>
-            <span class="navbar-text filter2 pull-right"></span>
+            <ul class="nav navbar-nav navbar-right">
+                <span class="navbar-text filter1"></span>
+                <span class="navbar-text filter2"></span>
+                <li style="padding-top: 12px;padding-left: 12px;"><span class="filter3 label"></span></li>
+                <span class="navbar-text file_count hidden-sm hidden-xs"></span>
+                <span class="navbar-text hidden-sm hidden-xs">Files open in a new tab.</span>
+            </ul>
+
         </div>
     </nav>
 
@@ -61,20 +64,22 @@
                             <a class="file_name"
                                href="{{ course_path('doc_show', { 'id': review.id, 'view': 'window' }) }}"
                                target="_blank" title="View {{ review.name }}">
-                                Review of <i>{{ review.reviewed.name|slice(0,15) }}</i>
-                                for {{ review.reviewed.user.firstname }} {{ review.reviewed.user
-                                .lastname }}
                                 <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                {% if 'reviews_for_user' in app.request.attributes.get('_route') %}{% else %}
+                                for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
+                                {% endif %}
+                                of <i>{{ review.reviewed.name|slice(0,20) }}</i>
                             </a>
                             {# links #}
                         {% elseif review.url %}
                             <span class="label label-file" title="This a link ">link</span>
                             <a class="file_name" href="{{ review.url }}" target="_blank"
                                title='This link will open in a new window or tab.'>
-                                Review of
-                                <i>{{ review.reviewed.name|slice(0,15) }}{% if file.name|length > 10 %}...{% endif %}</i>
-                                for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
                                 <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                {% if 'reviews_for_user' in app.request.attributes.get('_route') %}{% else %}
+                                    for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
+                                {% endif %}
+                                of <i>{{ review.reviewed.name|slice(0,20) }}{% if file.name|length > 10 %}...{% endif %}</i>
                             </a>
                             {# ODT files #}
                         {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
@@ -83,20 +88,22 @@
                             <a class="file_name"
                                href="{{ course_path('file_view', { 'id': review.id, 'view': 'window' }) }}"
                                target="_blank" title="View {{ review.name }}">
-                                Review of
-                                <i>{{ review.reviewed.name|slice(0,15) }}</i>
-                                for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
                                 <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                {% if 'reviews_for_user' in app.request.attributes.get('_route') %}{% else %}
+                                    for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
+                                {% endif %}
+                                of <i>{{ review.reviewed.name|slice(0,20) }}</i>
                             </a>
                         {% else %}
                             <span class="label label-file"
                                   title="This an {{ review.ext }} file ">{{ review.ext }}</span>
                             <a class="file_name" href="{{ course_path('file_get', { 'id': review.id}) }}"
                                title="View {{ review.name }}">
-                                Review of <i>{{ review.reviewed.name|slice(0,15) }}</i>
-                                for {{ review.reviewed.user.firstname }} {{ review.reviewed.user
-                                .lastname }}
                                 <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"></span>
+                                {% if 'reviews_for_user' in app.request.attributes.get('_route') %}{% else %}
+                                    for {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}
+                                {% endif %}
+                                of <i>{{ review.reviewed.name|slice(0,20) }}</i>
                             </a>
                         {% endif %}
                         {% if review.access==1 %} <span class="label label-success pull-right">Shared</span>

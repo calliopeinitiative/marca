@@ -6,16 +6,12 @@
     {# navbar #}
     <nav class="navbar navbar-default" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
-            <div class="navbar-brand filter1" title="File listing">{{ heading }}</div>
-
             <ul class="nav navbar-nav">
                 <li>
-                    {% if app.request.attributes.get('_route') == 'file_list' %}
-                        <a data-scope-index="reviews" href="{{ course_path('file_listshared', { 'resource': app.request.get('resource')}) }}">Shared Files</a>
-                    {% else %}
-                        <a data-scope-index="myfiles" href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My
-                            Files</a>
-                    {% endif %}
+                    <div class="btn-group" role="group" aria-label="sub navigation">
+                        <a class="btn btn-default navbar-btn" data-scope-index="myfiles" href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My Files</a>
+                        <a class="btn btn-default navbar-btn" data-scope-index="sharedfile" href="{{ course_path('file_listshared', { 'resource': app.request.get('resource')}) }}">Shared Files</a>
+                    </div>
                 </li>
                 {% if 'file_listshared' in app.request.attributes.get('_route') %}
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
@@ -30,10 +26,13 @@
                     </div>
                 </form>
             </ul>
-            <span class="navbar-text hidden-sm hidden-xs pull-right">Files open in a new tab.</span>
-            <span class="navbar-text file_count hidden-sm hidden-xs pull-right"></span>
-            <span class=" pull-right" style="padding-top: 12px;padding-left: 12px;"><span class="filter3 label"></span></span>
-            <span class="navbar-text filter2 pull-right"></span>
+            <ul class="nav navbar-nav navbar-right">
+                <span class="navbar-text filter1"></span>
+                <span class="navbar-text filter2"></span>
+                <li style="padding-top: 12px;padding-left: 12px;"><span class="filter3 label"></span></li>
+                <span class="navbar-text file_count hidden-sm hidden-xs"></span>
+                <span class="navbar-text hidden-sm hidden-xs">Files open in a new tab.</span>
+            </ul>
         </div>
     </nav>
 
@@ -129,7 +128,7 @@
                                        title="Download {{ file.name }}">Download</a>
                                 {% endif %}
                                 {% if file.doc %}
-                                    <a class="" title="Create a copy of this document for review"
+                                    <a class="" title="Create a copy of this document for review" target="_blank"
                                        id="new_grade_{{ file.id }}"
                                        href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create
                                         Review</a>

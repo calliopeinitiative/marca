@@ -65,6 +65,20 @@
                 $('#file_modal').load(url);
             });
 
+            //set active state
+            {% if 'shared' in app.request.attributes.get('_route')  %}
+            $( "[data-scope-index='sharedfile']").addClass('active');
+            {% elseif 'list' in app.request.attributes.get('_route') %}
+            $( "[data-scope-index='myfiles']").addClass('active');
+            {% elseif 'for' in app.request.attributes.get('_route')%}
+            $( "[data-scope-index='reviewsforme']").addClass('active');
+            {% elseif  app.request.get('userid')==0  %}
+            $( "[data-scope-index='reviewsbyme']").addClass('active');
+            {% else %}
+            $( ".filter1").html('{{ heading }}');
+            {% endif %}
+
+
             //create anchor for dropdown review find
             {% if 'file_reviews' in app.request.attributes.get('_route')  %}
             $('a.roll').click(function() {
