@@ -14,6 +14,8 @@ For more information about Calliope, please contact robin@calliopeinitiative.org
 
 Marca is built with Symfony (http://symfony.com/)
 
+THIS BRANCH CONTAINS CODE INTENDED FOR TEST ENVIRONMENTS ONLY. IF YOU MERGED THIS INTO A PRODUCTION ENVIRONMENT, MAY GOD HAVE MERCY ON YOUR SOUL.
+
 
 
 

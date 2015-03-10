@@ -97,6 +97,7 @@ swiftmailer:
     sender_address: %mailer_sender_address%
     spool: { type: memory }
 
+
 fos_user:
     db_driver: orm
     firewall_name: main
