@@ -17,6 +17,7 @@ monolog:
             type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
-        syslog:
-            type: syslog
-            level: error
+        doctrine: 
+            type: stream
+            path: %kernel.logs_dir%%doctrine.log
+            channels: [doctrine]
