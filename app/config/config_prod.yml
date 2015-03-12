@@ -19,5 +19,6 @@ monolog:
             level: debug
         doctrine: 
             type: stream
-            path: %kernel.logs_dir%%doctrine.log
+            path: %kernel.logs_dir%/doctrine.log
             channels: [doctrine]
+            action_level: debug
