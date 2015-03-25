@@ -204,7 +204,7 @@ class PortfolioController extends Controller
         }
         else {$portfolio = '';$portfolio_docs = ''; $portfoliosetid = '0';$ratingset = '';}
         
-        return array('portfoliosetid' => $portfoliosetid,'portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll,'assessmentset'=> $assessmentset, 'ratingset' => $ratingset,'userid'=>$userid, 'role' => $role, 'markup' => $markup);
+        return $this->render('MarcaPortfolioBundle:Portfolio:show.html.twig', array('portfoliosetid' => $portfoliosetid,'portfolio' =>$portfolio, 'portfolio_docs' => $portfolio_docs,'roll'=> $roll,'assessmentset'=> $assessmentset, 'ratingset' => $ratingset,'userid'=>$userid, 'role' => $role, 'markup' => $markup));
     }  
     
     /**
