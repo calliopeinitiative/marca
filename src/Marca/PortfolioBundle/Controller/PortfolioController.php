@@ -47,6 +47,7 @@ class PortfolioController extends Controller
 
         $em = $this->getEm();
         $user = $this->getUser();
+        $role = $this->getCourseRole();
         $course = $this->getCourse();
         $portStatus = $course->getPortStatus();
 
@@ -77,7 +78,8 @@ class PortfolioController extends Controller
             'portset' => $portset,
             'roll'=> $roll,
             'assessmentset'=> $assessmentset,
-            'portStatus'=> $portStatus
+            'portStatus'=> $portStatus,
+            'role' => $role
         ));
     }
     
