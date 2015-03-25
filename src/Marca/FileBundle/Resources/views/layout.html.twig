@@ -36,6 +36,7 @@
             $('#file_new_upload').click(function(){
                 $('#file_modal').load('{{ course_path('file_upload', { 'resource': app.request.get('resource') }) }}');
             });
+            $('[data-toggle="popover"]').popover({html:true,trigger:'hover'});
 
             //hover for settings etc
             $( "li" ).hover(
@@ -63,6 +64,33 @@
                 url = url.replace("fileid", fileid);
                 $('#file_modal').load(url);
             });
+
+            //set active state
+            {% if 'shared' in app.request.attributes.get('_route')  %}
+            $( "[data-scope-index='sharedfile']").addClass('active');
+            {% elseif 'list' in app.request.attributes.get('_route') %}
+            $( "[data-scope-index='myfiles']").addClass('active');
+            {% elseif 'for' in app.request.attributes.get('_route')%}
+            $( "[data-scope-index='reviewsforme']").addClass('active');
+            {% elseif  app.request.get('userid')==0  %}
+            $( "[data-scope-index='reviewsbyme']").addClass('active');
+            {% else %}
+            $( ".filter1").html('{{ heading }}');
+            {% endif %}
+
+
+            //create anchor for dropdown review find
+            {% if 'file_reviews' in app.request.attributes.get('_route')  %}
+            $('a.roll').click(function() {
+                var id = $(this).data("id");
+                var index = $(this).data("index");
+                var courseid = $(this).data("index");
+                var url = "{{ course_path('file_reviews', { 'userid': 'id', 'courseid':  app.request.get('courseid'), 'resource': app.request.get('resource') }) }}";
+                url = url.replace("id", id);
+                url = url.replace("index", index);
+                $(this).attr("href", url).click();
+            });
+            {% endif %}
 
             //tablesorter for files
             $.extend($.tablesorter.themes.bootstrap, {
@@ -111,17 +139,21 @@
                 //replace the dash for displaying
                 txt = txt.replace(/[*]/, '-');
 
+
                 // count files after filtering
                 var count = $('#file_list tr').not(':hidden').length - 1;
                 var count_text = ' ' + count + ' files found';
                 $('span.file_count').html(count_text);
                 // filter breadcrumbs
                 if (col==1){
-                    $('span.filter1').html(txt);
+                    if (txt=='') {txt='Shared Files';$('#allauthors').hide();} else {txt='Files by ' + txt;$('#allauthors').show();}
+                    $('.filter1').html(txt);
                 } else if (col==2){
-                    $('span.filter2').html(txt);
+                    $('.filter2').html(txt);
                 } else if (col==3){
-                    $('span.filter3').html(txt);
+                    var color =  $(this).data('color');
+                    var togglelabel = 'filter3 label ' + color;
+                    $('.filter3').html(txt).removeClass().addClass(togglelabel);
                 }
             });
             //hide filter row

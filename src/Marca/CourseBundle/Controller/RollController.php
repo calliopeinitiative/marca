@@ -68,8 +68,12 @@ class RollController extends Controller
         
         $countJournals = $em->getRepository('MarcaJournalBundle:Journal')->countJournalsByUser($user,$course);
         $countCourseJournals = $em->getRepository('MarcaJournalBundle:Journal')->countJournalsByCourse($course);
+        $countFeedback = $em->getRepository('MarcaAssignmentBundle:Review')->countFeedbackByUser($user,$course);
+        $countCourseFeedback = $em->getRepository('MarcaAssignmentBundle:Review')->countFeedbackByCourse($course);
         $countFiles = $em->getRepository('MarcaFileBundle:File')->countFilesByUser($user,$course);
         $countCourseFiles = $em->getRepository('MarcaFileBundle:File')->countFilesByCourse($course);
+        $countReviews = $em->getRepository('MarcaFileBundle:File')->countReviewsByUser($user,$course);
+        $countCourseReviews = $em->getRepository('MarcaFileBundle:File')->countReviewsByCourse($course);
 
         return $this->render('MarcaCourseBundle:Course:profile.html.twig', array(
             'user'=> $user,
@@ -88,6 +92,10 @@ class RollController extends Controller
             'countCourseJournals'=>$countCourseJournals,
             'countFiles'=>$countFiles,
             'countCourseFiles'=>$countCourseFiles,
+            'countReviews'=>$countReviews,
+            'countCourseReviews'=>$countCourseReviews,
+            'countFeedback'=>$countFeedback,
+            'countCourseFeedback'=>$countCourseFeedback,
         ));
     }     
 

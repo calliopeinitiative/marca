@@ -57,6 +57,29 @@ class FileRepository extends EntityRepository
 
     }
 
+    /**
+     * Find reviews for user
+     * Access is limited by role in course, instructors can see everything
+     */
+    public function findReviewsForUser($user, $course, $access)
+    {
+        if ($access ==2 ) {
+            return $this->getEntityManager()
+                ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN
+                f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviewed r  LEFT JOIN f.feedback b WHERE r.user = ?1 AND f.course = ?2 AND  f.reviewed IS NOT NULL AND
+                p.resource = false
+                ORDER BY  f.updated DESC')->setParameter('1', $user)->setParameter('2', $course)->getResult();
+        }
+        else {
+            return $this->getEntityManager()
+                ->createQuery('SELECT f, p, d, t, r, o, b, g FROM MarcaFileBundle:File f JOIN f.project p LEFT JOIN f.doc d LEFT JOIN f.portfolio o  LEFT JOIN
+                f.grade g LEFT JOIN f.tag t LEFT JOIN f.reviewed r  LEFT JOIN f.feedback b WHERE r.user = ?1 AND f.course = ?2 AND f.access !=2 AND f.reviewed
+                 IS NOT NULL AND p.resource = false
+                ORDER BY  f.updated DESC')->setParameter('1', $user)->setParameter('2', $course)->getResult();
+        }
+
+    }
+
 
     /**
      * Find Files by Project
@@ -158,7 +181,6 @@ class FileRepository extends EntityRepository
     }
 
 
-
     public function deleteEdoc($id)
     {
          return $this->getEntityManager()
@@ -166,26 +188,45 @@ class FileRepository extends EntityRepository
                 ->setParameter('1',$id)->getResult();
     }
 
+    public function findHidden($user, $course)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT f from MarcaFileBundle:File f WHERE f.user = ?1 AND f.course = ?2 AND f.access = 2' )
+            ->setParameters(array('1' => $user, '2' => $course))->getResult();
+    }
+
+
+
     public function countFilesByUser($user, $course)
     {
        return $this->getEntityManager()
-               ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.user = ?1 AND f.course = ?2')
-               ->setParameters(array('1' => $user, '2' => $course))->getResult();
-    }
-
-    public function findHidden($user, $course)
-    {
-       return $this->getEntityManager()
-               ->createQuery('SELECT f from MarcaFileBundle:File f WHERE f.user = ?1 AND f.course = ?2 AND f.access = 2' )
+               ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.user = ?1 AND f.reviewed IS NULL AND f.course = ?2')
                ->setParameters(array('1' => $user, '2' => $course))->getResult();
     }
 
     public function countFilesByCourse($course)
     {
        return $this->getEntityManager()
-               ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.course = ?1')
+               ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.course = ?1 AND f.reviewed IS NULL')
                ->setParameters(array('1' => $course))->getResult();
     }
+
+    public function countReviewsByUser($user, $course)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.user = ?1 AND  f.reviewed IS NOT NULL AND f.course = ?2 ')
+            ->setParameters(array('1' => $user, '2' => $course))->getResult();
+    }
+
+    public function countReviewsByCourse($course)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT f.id from MarcaFileBundle:File f WHERE f.course = ?1 AND  f.reviewed IS NOT NULL')
+            ->setParameters(array('1' => $course))->getResult();
+    }
+
+
+
 
     public function findCoursehomeFiles($course)
     {

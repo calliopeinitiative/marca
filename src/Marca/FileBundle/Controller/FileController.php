@@ -110,7 +110,7 @@ class FileController extends Controller
         if ($userid==0) {
             $user = $this->getUser();
             $access = 2;
-            $heading = 'My Reviews';
+            $heading = 'Reviews by me';
         }
         else {
             $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
@@ -128,6 +128,47 @@ class FileController extends Controller
             'heading' => $heading
         ));
     }
+
+    /**
+     * Lists all File entities by User.
+     *
+     * @Route("/{courseid}/{userid}/{resource}/reviews_for_user", name="file_reviews_for_user")
+     */
+    public function reviewsForUserAction($userid, $courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $session = $this->get('session');
+        $request = $this->getRequest();
+        $session->set('referrer', $request->getRequestUri());
+
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $role = $this->getCourseRole();
+
+        if ($userid==0) {
+            $user = $this->getUser();
+            $access = $role;
+            $heading = 'Reviews for me';
+        }
+        else {
+            $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+            $access = $role;
+            $heading = 'Reviews for ' . $user->getFirstname() . ' ' . $user->getLastname() ;
+        }
+
+        $files = $em->getRepository('MarcaFileBundle:File')->findReviewsForUser($user, $course, $access);
+
+        return $this->render('MarcaFileBundle:File:reviews_index.html.twig', array(
+            'files' => $files,
+            'role' => $role,
+            'user' => $user,
+            'course' => $course,
+            'heading' => $heading
+        ));
+    }
+
 
     /**
      * Lists all File entities by Project.
@@ -288,12 +329,13 @@ class FileController extends Controller
             $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
             $file->setReviewed($reviewed_file);
             $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
+            $file->setProject($reviewed_file->getProject());
             $doc->setBody($reviewed_file->getDoc()->getBody());
             $em->persist($doc);
             $em->persist($file);
             $em->flush();
             return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
-                'view' => 'app')));
+                'view' => 'window')));
         } elseif ($type == 'saveas') {
             $file->setName('SaveAs Document');
             $form = $this->createForm(new DocType($options), $file);
@@ -389,30 +431,24 @@ class FileController extends Controller
         $user = $this->getUser();
         $role = $this->getCourseRole();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $project = $course->getProjectDefault();
         $options = array('courseid' => $courseid, 'resource' => $resource, 'review' => 'yes', 'role' => $role);
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
-
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $file = new File();
         $file->setUser($user);
         $file->setCourse($course);
         $file->setName('Review');
-        $file->setProject($project);
+        $file->setProject($reviewed_file->getProject());
         if ($role == 2) {
             $file->setAccess('2');
         } else {
             $file->setAccess('0');
         }
-        $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $file->setReviewed($reviewed_file);
         $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
         $form = $this->createForm(new UploadReviewType($options), $file);
-
-        $request = $this->getRequest();
-        $postData = $request->get('marca_filebundle_filetype');
-        $project = $postData['project'];
         if (!$resource) {
             $resource = '0';
         }

@@ -12,10 +12,25 @@ use Doctrine\ORM\EntityRepository;
  */
 class ReviewRepository extends EntityRepository
 {
-  public function findReviewsByFile($file)
-    {  
-       return $this->getEntityManager()
-               ->createQuery('SELECT r from MarcaAssignmentBundle:Review r WHERE r.file = ?1 ORDER BY r.created DESC')
-               ->setParameters(array('1' => $file))->getResult();
+    public function findReviewsByFile($file)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT r from MarcaAssignmentBundle:Review r WHERE r.file = ?1 ORDER BY r.created DESC')
+            ->setParameters(array('1' => $file))->getResult();
+    }
+
+    public function countFeedbackByUser($user, $course)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT r.id from MarcaAssignmentBundle:Review r WHERE r.reviewer = ?1 AND r.course = ?2')
+            ->setParameters(array('1' => $user, '2' => $course))->getResult();
+    }
+
+
+    public function countFeedbackByCourse($course)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT r.id from MarcaAssignmentBundle:Review r WHERE r.course = ?1')
+            ->setParameters(array('1' => $course))->getResult();
     }
 }

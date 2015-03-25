@@ -3,30 +3,37 @@
 {% extends 'MarcaFileBundle::layout.html.twig' %}
 
 {% block content %}
-    <nav class="navbar navbar-default hidden-xs" role="navigation" style="margin-top: -20px;">
+    {# navbar #}
+    <nav class="navbar navbar-default" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
-            <a class="navbar-brand project" href="#" title="File listing">
-                {{ heading }}
-            </a>
             <ul class="nav navbar-nav">
-                <li><span class="navbar-text filter3"></span></li>
-                <li><span class="navbar-text filter2"></span></li>
-                <li><span class="navbar-text filter1"></span></li>
+                <li>
+                    <div class="btn-group" role="group" aria-label="sub navigation">
+                        <a class="btn btn-default navbar-btn" data-scope-index="myfiles" href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My Files</a>
+                        <a class="btn btn-default navbar-btn" data-scope-index="sharedfile" href="{{ course_path('file_listshared', { 'resource': app.request.get('resource')}) }}">Shared Files</a>
+                    </div>
+                </li>
                 {% if 'file_listshared' in app.request.attributes.get('_route') %}
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
-                    <li><a href="#" class="link-filter project-sidebar" data-filter-column="1" data-filter-text="">All Authors</a></li>
+                    <li style="display: none" id="allauthors"><a href="#" class="link-filter" data-filter-column="1" data-filter-text="">All
+                            Authors</a></li>
                 {% endif %}
-                <li><span class="navbar-text file_count"></span></li>
+                <form class="navbar-form navbar-right hidden-sm hidden-xs" role="search">
+                    <div class="form-group">
+                        <label class="sr-only" for="file_search">Search in List</label>
+                        <input id="file_search" type="search" placeholder="Search in list" data-column="all"
+                               class="search selectable form-control">
+                    </div>
+                </form>
             </ul>
-            <p class="navbar-text">Files open in a new tab.</p>
-            <form class="navbar-form navbar-right" role="search">
-                <div class="form-group">
-                    <label class="sr-only" for="file_search">Search in List</label>
-                    <input id="file_search" type="search" placeholder="Search in list" data-column="all" class="search selectable form-control">
-                </div>
-            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <span class="navbar-text filter1"></span>
+                <span class="navbar-text filter2"></span>
+                <li style="padding-top: 12px;padding-left: 12px;"><span class="filter3 label"></span></li>
+                <span class="navbar-text file_count hidden-sm hidden-xs"></span>
+                <span class="navbar-text hidden-sm hidden-xs">Files open in a new tab.</span>
+            </ul>
         </div>
-        <!-- /.container-fluid -->
     </nav>
 
     <div class="file-wrapper well">
@@ -36,49 +43,65 @@
                 <th><span>Title</span></th>
                 <th>Author</th>
                 <th class="hidden-xs">Folder</th>
-                <th class="hidden-xs">Labels</th>
-                <th>Modified</th>
+                <th class=" hidden-sm hidden-xs">Labels</th>
+                <th class=" hidden-sm hidden-xs">Modified</th>
             </tr>
             </thead>
             <tbody>
 
+            {# main list of files #}
             {% for file in files %}
-                {# main list of files #}
                 <tr class="file">
                     <td>
                         {# different functions for different file types #}
                         {# doc files #}
                         {% if file.doc %}
                             <a class="file_name"
-                               href="{{ course_path('doc_show', { 'id': file.id, 'view': 'window' }) }}" target="_blank" title="View {{ file.name }}">
+                               href="{{ course_path('doc_show', { 'id': file.id, 'view': 'window' }) }}" target="_blank"
+                               title="View {{ file.name }}">
                                 {{ file.name|slice(0,20) }}{% if file.name|length > 20 %}...{% endif %}
                             </a>
                             <span class="label label-file pull-left" data-toggle="tooltip" title="This an html file ">html</span>
                             {# links #}
                         {% elseif file.url %}
-                            <a class="file_name" href="{{ file.url }}" target="_blank" title='This link will open in a new window or tab.'>
+                            <a class="file_name" href="{{ file.url }}" target="_blank"
+                               title='This link will open in a new window or tab.'>
                                 {{ file.name|slice(0,20) }}{% if file.name|length > 20 %}...{% endif %}
                             </a>
-                            <span class="label label-file pull-left" data-toggle="tooltip" title="This a link ">link</span>
+                            <span class="label label-file pull-left" data-toggle="tooltip"
+                                  title="This a link ">link</span>
                             {# ODT files #}
                         {% elseif file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
-                            <a class="file_name" href="{{ course_path('file_view', { 'id': file.id, 'view': 'window' }) }}" target="_blank"
+                            <a class="file_name"
+                               href="{{ course_path('file_view', { 'id': file.id, 'view': 'window' }) }}"
+                               target="_blank"
                                title="View {{ file.name }}">
                                 {{ file.name|slice(0,20) }}{% if file.name|length > 20 %}...{% endif %}
                             </a>
-                            <span class="label label-file pull-left" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                            <span class="label label-file pull-left" data-toggle="tooltip"
+                                  title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                         {% else %}
-                            <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}" title="View {{ file.name }}">
+                            <a class="file_name" href="{{ course_path('file_get', { 'id': file.id}) }}"
+                               title="View {{ file.name }}">
                                 {{ file.name|slice(0,20) }}{% if file.name|length > 20 %}...{% endif %}
                             </a>
-                            <span class="label label-file pull-left" data-toggle="tooltip" title="This an {{ file.ext }} file ">{{ file.ext }}</span>
+                            <span class="label label-file pull-left" data-toggle="tooltip"
+                                  title="This an {{ file.ext }} file ">{{ file.ext }}</span>
                         {% endif %}
 
                         {# status labels #}
-                        {% if file.reviews|length != 0 %} <span
-                                class="label label-default blueviolet pull-right margin-left" title="{% if file.reviews|length != 0 %}Reviews by {% for
-                        review in file.reviews %}{{ review.user.firstname }} {{ review.user.lastname }}{% if not loop.last %},{% endif %} {% endfor %} {% endif %}">
-                            {{ file.reviews|length }} Reviews</span>{% endif %}
+
+                        {% if file.reviews|length != 0 %}
+                            <span
+                                    class="label label-default blueviolet pull-right margin-left"
+                                    data-toggle="popover" data-content="
+                                {% if file.reviews |length != 0 %}Review{% if file.reviews |length > 1 %}s{% endif %} by {% for
+                            review in file.reviews %}{{ review.user.firstname }} {{ review.user.lastname }}{% if review.access ==2 %} (not
+                        yet available){% endif %}
+
+
+                        {% if not loop.last %},{% endif %} {% endfor %} {% endif %}">Review{% if file.reviews |length > 1 %}s{% endif %}</span>
+                        {% endif %}
                         {% if file.access==1 %}
                             <span class="label label-success pull-right margin-left" title="This file is shared with the rest of the
                             class.">Shared</span>
@@ -88,7 +111,10 @@
                                 portfolio before you can delete them.">Portfolio</span>
                         {% endif %}
                         {% if file.feedback|length != 0 %}
-                            <span class="label label-primary pull-right margin-left" title="Someone has offered feedback on this file.">Feedback</span>
+                            <span class="label label-primary pull-right margin-left" data-toggle="popover"
+                                  data-content="
+                                {% if file.feedback|length != 0 %}Feedback by {% for
+                                  feedback in file.feedback %}{{ feedback.reviewer.firstname }} {{ feedback.reviewer.lastname }}{% if not loop.last %},{% endif %} {% endfor %} {% endif %}">Feedback</span>
                         {% endif %}
 
                         <div class="hidden-xs">
@@ -98,17 +124,21 @@
                                     file.">Settings</a>
                                 {% endif %}
                                 {% if file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
-                                    <a href="{{ course_path('file_get', { 'id': file.id}) }}" title="Download {{ file.name }}">Download</a>
+                                    <a href="{{ course_path('file_get', { 'id': file.id}) }}"
+                                       title="Download {{ file.name }}">Download</a>
                                 {% endif %}
                                 {% if file.doc %}
-                                    <a class="" title="Create a copy of this document for review" id="new_grade_{{ file.id }}"
+                                    <a class="" title="Create a copy of this document for review" target="_blank"
+                                       id="new_grade_{{ file.id }}"
                                        href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create
                                         Review</a>
                                 {% endif %}
-                                <a data-id='{{ file.id }}' class="upload_review" title="Upload a file for review" href="javascript:void(0);">Upload Review</a>
+                                <a data-id='{{ file.id }}' class="upload_review" title="Upload a file for review"
+                                   href="javascript:void(0);">Upload Review</a>
 
                                 {% if file.isOwner(app.user.username) and file.portfolio|length == 0 and file.reviews|length == 0 and file.feedback|length == 0 %}
-                                    <a data-id='{{ file.id }}' class="delete delete_confirm" href='javascript:void(0);' title="Delete this file
+                                    <a data-id='{{ file.id }}' class="delete delete_confirm" href='javascript:void(0);'
+                                       title="Delete this file
                                     .">Delete</a>
                                 {% elseif file.isOwner(app.user.username) and file.portfolio|length != 0 %}Files in the Portfolio can not be deleted.
                                 {% elseif file.isOwner(app.user.username) and file.reviews|length != 0 %}Files that have reviews can not be deleted.
@@ -118,17 +148,18 @@
                         </div>
                     </td>
 
-                    <td>{% if file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname|title }} {{ file.user.lastname|title }}{% endif %}
+                    <td>{% if app.request.attributes.get('_route') == 'file_list'
+                        and file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname|title }} {{ file.user.lastname|title }}{% endif %}
                     </td>
                     <td class="projects hidden-xs">
                         <span data-project='{{ file.project.id }}' class="project">{{ file.project.name }}</span>
                     </td>
-                    <td class="labels hidden-xs">
+                    <td class="labels  hidden-sm hidden-xs">
                         {% for tag in file.tag %}
                             <span data-tag='{{ tag.id }}' class="label label-default margin-right"
                                   style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}
                     </td>
-                    <td>{{ file.updated|date('m/d/y, g:i a') }}</td>
+                    <td class="hidden-sm hidden-xs">{{ file.updated|date('m/d/y, g:i a') }}</td>
                 </tr>
             {% endfor %}
             </tbody>

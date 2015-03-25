@@ -74,7 +74,7 @@
                 <div class="panel-body">
                     <div>
                         <h2 class="margin-top-small"
-                            style="text-align:center;margin-bottom:15px;">{{ user.firstname }} {{ user.lastname }}  </h2>
+                            style="text-align:center;margin-bottom:15px;">{{ user.firstname|title }} {{ user.lastname|title }}  </h2>
 
                         <div class="col-sm-12 " style="text-align:center;margin-bottom:15px;">
                             {% if user.photo != '' %}
@@ -169,10 +169,17 @@
                                 </li>
                             </ul>
 
-
+                            <ul class="list-unstyled">
+                                <li><strong>Feedback entries:</strong>  {{ countFeedback|length }} (class
+                                    average: {{ countCourseFeedback|length //roll|length }})
+                                </li>
+                            </ul>
                             <ul class="list-unstyled">
                                 <li><strong>Files:</strong>  {{ countFiles|length }} (class
                                     average: {{ countCourseFiles|length //roll|length }})
+                                </li>
+                                <li><strong>Reviews:</strong>  {{ countReviews|length }} (class
+                                    average: {{ countCourseReviews|length //roll|length }})
                                 </li>
                             </ul>
                         {% endif %}
