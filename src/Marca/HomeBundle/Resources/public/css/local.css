@@ -96,6 +96,12 @@ td.active {
 }
 
 iframe {border:0;}
+
+.onesidedropshadow {
+    -webkit-box-shadow: 0 8px 6px -6px black;
+    -moz-box-shadow: 0 8px 6px -6px black;
+    box-shadow: 0 8px 6px -6px black;
+}
 /********** 01a. Accessibility **********/
 
 #skip a, #skip a:hover, #skip a:visited
@@ -439,7 +445,7 @@ ul .dropdown-menu .glyphicon {
 }
 
 .sidebar {
-    background-color: #f8f8f8;
+    background-color: #ffffff;
     min-height: 100%;
     max-height: 100%;
     margin-top:-70px;
