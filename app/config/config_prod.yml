@@ -7,16 +7,19 @@ imports:
 #        result_cache_driver: apc
 #        query_cache_driver: apc
 
+services:
+    my_formatter:
+        class: Monolog\Formatter\JsonFormatter
+
 monolog:
     handlers:
         main:
             type:         fingers_crossed
             action_level: error
             handler:      nested
+            formatter: my_formatter
         nested:
             type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
-        syslog:
-            type: syslog
-            level: error
+            formatter: my_formatter

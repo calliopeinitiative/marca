@@ -11,12 +11,17 @@ web_profiler:
     toolbar: true
     intercept_redirects: false
 
+services:
+    my_formatter:
+        class: Monolog\Formatter\JsonFormatter
+
 monolog:
     handlers:
         main:
             type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
+            formatter: my_formatter
 #        firephp:
 #            type:  firephp
 #            level: info
