@@ -1,22 +1,23 @@
 {# Marca/CourseBundle/Resources/views/nav.html.twig #}
 {# esi fragment for course nav #}
 
-{% if role!= 4 %}
-    <script language="javascript">
-        $(document).ready(function() {
-            //Add Hover effect to menus
-            $('ul.nav li.dropdown').hover(function() {
-                $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeIn();
-            }, function() {
-                $(this).find('.dropdown-menu').stop(true, true).delay(500).fadeOut();
-            });
-            $('ul.nav li.dropdown a').focus(function() {
-                $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeIn();
-            }, function() {
-                $(this).find('.dropdown-menu').stop(true, true).delay(500).fadeOut();
-            });
+<script language="javascript">
+    $(document).ready(function() {
+        //Add Hover effect to menus
+        $('ul.nav li.dropdown').hover(function() {
+            $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeIn();
+        }, function() {
+            $(this).find('.dropdown-menu').stop(true, true).delay(500).fadeOut();
         });
-    </script>
+        $('ul.nav li.dropdown a').focus(function() {
+            $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeIn();
+        }, function() {
+            $(this).find('.dropdown-menu').stop(true, true).delay(500).fadeOut();
+        });
+    });
+</script>
+
+{% if role!= 4 %}
     {# Course select #}
     <li class="dropdown">
         <a href="{{ course_path('course_home') }}">{{ course.name|slice(0, 15) }}<span class="caret"></span></a>
