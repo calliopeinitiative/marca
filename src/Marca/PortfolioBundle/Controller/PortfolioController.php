@@ -113,10 +113,7 @@ class PortfolioController extends Controller
         else {
            $files = $em->getRepository('MarcaFileBundle:File')->findFilesForPort($project, $user, $course); 
         }
-        $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
 
-        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        
         //pagination for files
         $paginator = $this->get('knp_paginator');
         $files = $paginator->paginate($files,$this->get('request')->query->get('page', 1),15);
