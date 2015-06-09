@@ -630,27 +630,4 @@ class File
     {
         return $this->feedback;
     }
-
-    /**
-     * Set etherpaddoc
-     *
-     * @param string $etherpaddoc
-     * @return File
-     */
-    public function setEtherpaddoc($etherpaddoc)
-    {
-        $this->etherpaddoc = $etherpaddoc;
-
-        return $this;
-    }
-
-    /**
-     * Get etherpaddoc
-     *
-     * @return string 
-     */
-    public function getEtherpaddoc()
-    {
-        return $this->etherpaddoc;
-    }
 }

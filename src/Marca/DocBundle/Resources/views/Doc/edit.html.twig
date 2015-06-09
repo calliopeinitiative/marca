@@ -3,79 +3,7 @@
 {% extends 'MarcaDocBundle::layout.html.twig' %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script language="javascript">
-        $(document).ready(function () {
-            var editorheight = $(document).height() * .88;
-            $('#saving_alert').toggle();
-            $('#doc-tools').css('height', function (index) {
-                return $(window).height() * .88;
-            });
-            var editor = CKEDITOR.instances.marca_docbundle_doctype_body;
-            var autoSave = setInterval(function () {
-                var buffer = editor.checkDirty();
-                if (buffer == 1) {
-                    editor.resetDirty();
-                    var body = editor.getData();
-                    $.post("{{ course_path('doc_ajax', { 'id': doc.id }) }}", {docBody: body}, function (data) {
-                    });
-                    $('#saving_alert').fadeIn();
-                    $('#saving_alert').delay(3000).fadeOut();
-                }
-            }, 15000);
-            $(function () {
-                var rubric = CKEDITOR.dom.element.createFromHtml('<div class="eDoc_rubric"><hr/>{% spaceless %}{% for page in pages %}{{ page.body|html_raw }}{% endfor %}{% endspaceless %}</div>');
-                $('#insert_rubric').click(function () {
-                    editor.insertElement(rubric);
-                });
-            });
-            editor.on('instanceReady', function () {
-                editor.resize('80%', editorheight);
-            });
-            $('#toggle-tools').click(function () {
-                $('#doc-tools').toggleClass('hide');
-                $('#doc-edit').toggleClass('col-sm-offset-2');
-            });
-            $('#notice').click(function () {
-                $(this).toggleClass('hide');
-            });
-            $("#doc_save").click(function () {
-                $("#doc_form").submit();
-            });
-            {% include 'MarcaDocBundle:Doc:js.html.twig' %}
-        });
-        {# Markup insert and tracking #}
-        function markup(id, tag, color) {
-            var nEditor = CKEDITOR.instances.marca_docbundle_doctype_body;
-            var id = id;
-            var tag = tag;
-            var color = color;
-            var marked = nEditor.getSelection().getNative();
-            var markup = CKEDITOR.dom.element.createFromHtml('<span data-id="' + id + '" title="' + tag + '" class="markup ' + color + '">' + nEditor.getSelection().getNative() + ' </span>');
-            nEditor.insertElement(markup);
-            $.post("{{ course_path('tracking_add', { 'fileid': file.id }) }}", {markupid: id}, function (data) {
-            });
-        }
-        {# Note insert #}
-        function note() {
-            var note_id = new Date().getTime();
-            var nEditor = CKEDITOR.instances.marca_docbundle_doctype_body;
-            if (nEditor.mode == 'wysiwyg') {
-                var hightlight = CKEDITOR.dom.element.createFromHtml('<span class="eDoc_highlight ' + note_id + '">' + nEditor.getSelection().getNative() + ' </span>');
-                nEditor.insertElement(hightlight);
-                var note = CKEDITOR.dom.element.createFromHtml('<span class="eDoc_note ' + note_id + '"> ' + document.getElementById('insert_value').value + ' </span>');
-                nEditor.insertElement(note);
-                $('#insert_value').val('');
-            }
-            else
-                alert('You must be on WYSIWYG mode!');
-        }
-        $(function () {
-            $('#note_insert_submit').click(function () {
-                note();
-            });
-        });
-    </script>
+
 {% endblock %}
 
 {% block content %}
@@ -103,10 +31,7 @@
 
                 <ul class="nav navbar-nav navbar-right" style="padding-right: 25px">
                     <li>
-                        <a id='saving_alert' href="javascript:void(0);" class="" id="doc_save">Saving</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);" class="" id="doc_save">Save and Preview</a>
+                        <a href="{{ course_path('doc_show', {'id':file.id ,'view':'window'}) }}" class="" id="doc_save">Save and Preview</a>
                     </li>
                 </ul>
             </div>
@@ -114,11 +39,6 @@
 
 
         <div class="col-sm-11 center">
-            <form id="doc_form"
-                  action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}"
-                  method="post" {{ form_enctype(edit_form) }}>
-
-
                 <div class="col-sm-12 center">
                     {% for flashMessage in app.session.flashbag.get('notice') %}
                         <div id="notice" class="col-sm-12 alert alert-info">
@@ -126,20 +46,16 @@
                             {{ flashMessage }}
                         </div>
                     {% endfor %}
-                    <div id='doc-container' class="col-sm-8">
-                        {{ form_errors(edit_form) }}
-                        {{ form_errors(edit_form.body) }}
-                        {{ form_widget(edit_form.body) }}
-                        {{ form_rest(edit_form) }}
+                    <div class="col-sm-8">
+                        <iframe name='embed_readwrite' src='{{ etherpad_url }}/p/{{ etherpad_doc }}?showControls=true&showChat=true&useMonospaceFont=false' width="100%" height="600px"></iframe>
                     </div>
 
                     {# Doc tools #}
                     <div id='doc-tools' class="col-sm-4" style="margin-top: 15px;">
-                        {% include 'MarcaDocBundle:Doc:doctools.html.twig' %}
+
                     </div>
 
                 </div>
-            </form>
         </div>
     </div>
 

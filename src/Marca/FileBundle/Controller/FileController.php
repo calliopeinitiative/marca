@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
 use Marca\FileBundle\Form\LinkType;
@@ -377,9 +378,13 @@ class FileController extends Controller
         $form = $this->createForm(new FileType($options), $file);
         $form->submit($request);
         if ($type == 'doc') {
-            $doc = new Doc();
-            $doc->setFile($file);
-            $doc->setBody('<p> </p>');
+            $docName = uniqid();
+            $etherpad_instance = $this->get('etherpadlite');
+            $author = $etherpad_instance->createAuthorIfNotExistsFor($user->getId(), $user->getFirstname());
+            $group = $etherpad_instance->createGroupIfNotExistsFor($user->getId());
+            $groupId = $group->groupID;
+            $etherpad_instance->createGroupPad($groupId, $docName);
+            $file->setEtherpaddoc($groupId."$".$docName);
         } elseif ($type == 'review') {
 
         } elseif ($type == 'saveas') {
@@ -391,7 +396,7 @@ class FileController extends Controller
         if ($form->isValid()) {
             $em = $this->getEm();
             $em->persist($file);
-            if ($type == 'doc' || $type == 'review' || $type == 'instr_review' || $type == 'saveas') {
+            if ($type == 'review' || $type == 'instr_review' || $type == 'saveas') {
                 $em->persist($doc);
             }
             $em->flush();

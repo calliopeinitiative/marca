@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Marca\DocBundle\Entity\Doc;
 use Marca\DocBundle\Entity\Autosave;
@@ -37,11 +38,14 @@ class DocController extends Controller
         $course = $this->getCourse();
         $user = $this->getUser();
         $role = $this->getCourseRole();
+        $etherpadInstance = $this->get('etherpadlite');
 
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
 
-        $doc = $file->getDoc();
-        $text = $doc->getBody();
+
+
+        $doc = $file->getEtherpaddoc();
+        $text = $etherpadInstance->getHTML($doc)->html;
         $count = str_word_count($text);
         $file_owner = $file->getUser();
 
@@ -76,7 +80,7 @@ class DocController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MarcaDocBundle:Doc:show.html.twig', array(
-            'doc'      => $doc,
+            'text'      => $text,
             'roll' => $roll,
             'role'      => $role,
             'count'=> $count,
@@ -170,7 +174,7 @@ class DocController extends Controller
      * @Route("/{courseid}/{id}/{view}/edit", name="doc_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($courseid, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -186,27 +190,42 @@ class DocController extends Controller
         if($user != $file->getUser()){
             throw new AccessDeniedException();
         };
-        $doc = $file->getDoc();
+
+        $etherpad_id = $file->getEtherpaddoc();
+        $etherpadInstance = $this->get('etherpadlite');
+        //fetches author and group from etherpad using the author and group mapper
+        $author = $etherpadInstance->createAuthorIfNotExistsFor($user->getId(), $user->getFirstname());
+        $authorId = $author->authorID;
+        $group = $etherpadInstance->createGroupIfNotExistsFor($user->getId());
+        $groupId = $group->groupID;
+        //time fetches current unix timestamp. 86400 = 1 day in seconds.
+        $expires = time() + 86400;
+        $etherpadSession = $etherpadInstance->createSession($groupId, $authorId, $expires);
         $markupsets = $course->getMarkupsets();
+        $styleArray = array();
+        foreach($markupsets as $markupset){
+            foreach($markupset->getMarkup() as $markup) {
+                $styleName = str_replace(" ", "_", $markup->getName());
+                $etherpadInstance->customStyleNew($styleName, '.'.$styleName.'{background-color:'.$markup->getColor().'}');
+                array_push($styleArray, $styleName);
+            }
+        }
+        $etherpadInstance->customStyleSetStylesForPad($etherpad_id, $styleArray);
+
         $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($id);
 
-        if (!$doc) {
-            throw $this->createNotFoundException('Unable to find Doc entity.');
-        }
-
-        $editForm = $this->createForm(new DocType(), $doc);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('MarcaDocBundle:Doc:edit.html.twig', array(
-            'doc'      => $doc,
+        //create the response and then set the etherpad session cookie
+        $response = $this->render('MarcaDocBundle:Doc:edit.html.twig', array(
+            'etherpad_doc'      => $etherpad_id,
             'file'        => $file,
             'pages'        => $pages,
             'role'      => $role,
-            'markupsets'      => $markupsets,
+            'markupsets' => $markupsets,
             'reviews' => $reviews,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'courseid' => $courseid,
         ));
+        $response->headers->setCookie(new Cookie('sessionID', $etherpadSession->sessionID, $expires, '/', '.gomarca.com' , false, false));
+        return $response;
     }
 
     /**

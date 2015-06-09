@@ -22,6 +22,11 @@ framework:
     default_locale: %locale%
     trusted_proxies: ~
 
+services:
+    etherpadlite:
+       class: EtherpadLiteClient
+       arguments: [%etherpad_key%, %etherpad_url%, %etherpad_disable_ssl%]
+
 # Twig Configuration
 twig:
     debug:            %kernel.debug%
@@ -31,6 +36,7 @@ twig:
       ldap_auth:              %ldap%
       help_email:             %help_email%
       help_url:               %help_url%
+      etherpad_url:           %etherpad_url%
 
 # Assetic Configuration
 assetic:
