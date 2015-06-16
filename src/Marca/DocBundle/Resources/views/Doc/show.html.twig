@@ -12,6 +12,7 @@
                 window.close();
             });
 
+
             {% include 'MarcaDocBundle:Doc:js.html.twig' %}
         });
     </script>
@@ -161,6 +162,22 @@
 
 
     <div id="main_content" class="col-sm-11 center">
+        {% block ajax %}
+        <script language="javascript">
+            $(document).ready(function () {
+                $('.popover').hide();
+                $('.markup').mouseover(function () {
+                    var id = "div[data-id='" + $(this).attr('data-id') + "']";
+                    var offset = $(this).offset();
+                    $('.popover').hide();
+                    $(id).show().offset({top: offset.top - 30, left: offset.left + 80});
+                });
+                $('.popover-close, #doc-display').click(function () {
+                    $('.popover').hide();
+                });
+            });
+        </script>
+         {% endblock %}
 
 
 
@@ -180,7 +197,7 @@
                             </div>
                         </div>
                         <div class="doc-footer col-sm-12"><span class="pull-right">Words: <span
-                                        id="word-count"></span></span>
+                                        id="word-count">{{ count }}</span></span>
                         </div>
                     </div>
                 {% endif %}

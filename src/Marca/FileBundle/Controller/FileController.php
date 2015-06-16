@@ -378,13 +378,14 @@ class FileController extends Controller
         $form = $this->createForm(new FileType($options), $file);
         $form->submit($request);
         if ($type == 'doc') {
-            $docName = uniqid();
+            $docName = uniqid($user->getId());
+            $groupKey = str_shuffle($docName);
             $etherpad_instance = $this->get('etherpadlite');
-            $author = $etherpad_instance->createAuthorIfNotExistsFor($user->getId(), $user->getFirstname());
-            $group = $etherpad_instance->createGroupIfNotExistsFor($user->getId());
+            $group = $etherpad_instance->createGroupIfNotExistsFor($groupKey);
             $groupId = $group->groupID;
             $etherpad_instance->createGroupPad($groupId, $docName);
             $file->setEtherpaddoc($groupId."$".$docName);
+            $file->setEtherpadgroup($groupId);
         } elseif ($type == 'review') {
 
         } elseif ($type == 'saveas') {

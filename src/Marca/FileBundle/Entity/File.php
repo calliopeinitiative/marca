@@ -49,6 +49,12 @@ class File
      */
 
     private $etherpaddoc;
+
+    /**
+     * @var string $etherpadgroup
+     * @ORM\Column(name="etherpadgroup", type="string", nullable=True, length=255)
+     */
+    private $etherpadgroup;
  
     /**
     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="file")
@@ -652,5 +658,28 @@ class File
     public function getEtherpaddoc()
     {
         return $this->etherpaddoc;
+    }
+
+    /**
+     * Set etherpadgroup
+     *
+     * @param string $etherpadgroup
+     * @return File
+     */
+    public function setEtherpadgroup($etherpadgroup)
+    {
+        $this->etherpadgroup = $etherpadgroup;
+
+        return $this;
+    }
+
+    /**
+     * Get etherpadgroup
+     *
+     * @return string 
+     */
+    public function getEtherpadgroup()
+    {
+        return $this->etherpadgroup;
     }
 }

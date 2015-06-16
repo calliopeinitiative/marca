@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Marca\DocBundle\Entity\Doc;
 use Marca\DocBundle\Entity\Autosave;
@@ -38,15 +39,43 @@ class DocController extends Controller
         $course = $this->getCourse();
         $user = $this->getUser();
         $role = $this->getCourseRole();
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $etherpadInstance = $this->get('etherpadlite');
 
-        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
 
+        //sets up etherpad instance and either creates author or fetches existing etherpad author id for a given user
+        $etherpad_id = $file->getEtherpaddoc();
+        $etherpadInstance = $this->get('etherpadlite');
+        $author = $etherpadInstance->createAuthorIfNotExistsFor($user->getId(), $user->getFirstname());
+        $authorId = $author->authorID;
+
+
+        //checks if etherpaddoc hasn't been set and, if it hasn't, creates a new etherpad and persists the id on the file object
+        //for now, it just does that and leaves the old doc alone
+        if($etherpad_id === null){
+            $doc = $file->getDoc();
+            $docName = uniqid($user->getId());
+            $groupKey = str_shuffle($docName);
+            $group = $etherpadInstance->createGroupIfNotExistsFor($groupKey);
+            $groupId = $group->groupID;
+            $etherpadInstance->createGroupPad($groupId, $docName);
+            if($doc->getBody() != null){
+                $taggedBody = "<html>".$doc->getBody()."</html>";
+                $etherpadInstance->setHTML($groupId."$".$docName, $taggedBody);
+            }
+
+            $file->setEtherpaddoc($groupId."$".$docName);
+            $file->setEtherpadgroup($groupId);
+            $em->persist($file);
+            $em->flush();
+
+        }
 
 
         $doc = $file->getEtherpaddoc();
         $text = $etherpadInstance->getHTML($doc)->html;
-        $count = str_word_count($text);
+        $countable = $etherpadInstance->getText($doc)->text;
+        $count = str_word_count($countable);
         $file_owner = $file->getUser();
 
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
@@ -187,17 +216,18 @@ class DocController extends Controller
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
 
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-        if($user != $file->getUser()){
+        $file_owner = $file->getUser();
+        $file_access = $file->getAccess();
+        //allow access for the file creator, the instructor, or to public docs
+        if($file_owner != $user && $file_access==0 && $role != 2){
             throw new AccessDeniedException();
         };
-
+        //sets up etherpad instance and either creates author or fetches existing etherpad author id for a given user
         $etherpad_id = $file->getEtherpaddoc();
         $etherpadInstance = $this->get('etherpadlite');
-        //fetches author and group from etherpad using the author and group mapper
         $author = $etherpadInstance->createAuthorIfNotExistsFor($user->getId(), $user->getFirstname());
         $authorId = $author->authorID;
-        $group = $etherpadInstance->createGroupIfNotExistsFor($user->getId());
-        $groupId = $group->groupID;
+        $groupId = $file->getEtherpadgroup();
         //time fetches current unix timestamp. 86400 = 1 day in seconds.
         $expires = time() + 86400;
         $etherpadSession = $etherpadInstance->createSession($groupId, $authorId, $expires);
@@ -206,6 +236,7 @@ class DocController extends Controller
         foreach($markupsets as $markupset){
             foreach($markupset->getMarkup() as $markup) {
                 $styleName = str_replace(" ", "_", $markup->getName());
+                $styleName = $styleName . "_" . $markup->getId() . "_" . $markup->getColor();
                 $etherpadInstance->customStyleNew($styleName, '.'.$styleName.'{background-color:'.$markup->getColor().'}');
                 array_push($styleArray, $styleName);
             }
@@ -224,7 +255,8 @@ class DocController extends Controller
             'reviews' => $reviews,
             'courseid' => $courseid,
         ));
-        $response->headers->setCookie(new Cookie('sessionID', $etherpadSession->sessionID, $expires, '/', '.gomarca.com' , false, false));
+        $cookie_domain = $this->container->getParameter("etherpad_cookie_domain");
+        $response->headers->setCookie(new Cookie('sessionID', $etherpadSession->sessionID, $expires, '/', $cookie_domain , false, false));
         return $response;
     }
 
@@ -260,7 +292,7 @@ class DocController extends Controller
             $em->persist($doc);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('doc_show', array('id' => $fileid, 'courseid'=> $courseid, 'view' => $view)));
+            return $this->redirect($this->generateUrl('doc_show', array('id' => $id, 'courseid'=> $courseid, 'view' => $view)));
         }
 
         return $this->render('MarcaDocBundle:Doc:edit.html.twig', array(
@@ -269,6 +301,23 @@ class DocController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
+
+    /**
+     * saves an etherpad doc
+     * @Route("/{courseid}/{id}/{view}/update", name="doc_save")
+     */
+     public function saveAction($id, $courseid, $view)
+     {
+         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+         $this->restrictAccessTo($allowed);
+
+         $em = $this->getEm();
+
+         //Post-processing of etherpad-docs
+
+         $response = new RedirectResponse($this->generateUrl('doc_show', array('id' => $id, 'courseid'=> $courseid, 'view' => $view)));
+         return $response;
+     }
 
     /**
      * Saves via AJAX
