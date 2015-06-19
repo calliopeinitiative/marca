@@ -11,6 +11,54 @@
             $('#close_window').click(function () {
                 window.close();
             });
+            $('#review_{{ parent_file.id }}').click(function () {
+                {% if parent_file.doc %}
+                $('#file-container').load('{{ course_path('doc_show_ajax', { 'id': parent_file.id}) }}');
+                {% elseif parent_file.etherpaddoc %}
+                $('#file-container').load('{{ course_path('doc_show_ajax', { 'id': parent_file.id}) }}');
+                {% elseif parent_file.ext == 'odt' or parent_file.ext == 'ods' or parent_file.ext == 'odp' or parent_file.ext == 'pdf' %}
+                $('#file-container').load('{{ course_path('file_view_ajax', { 'id': parent_file.id}) }}');
+                {% elseif parent_file.url %}
+                var win = window.open("{{ parent_file.url}}");
+                {% else %}
+                var win = window.open("{{ course_path('file_get', { 'id': parent_file.id}) }}");
+                {% endif %}
+                $('.document').removeClass('active');
+                $(this).addClass('active');
+                $('.review_nav, .review_info').hide();
+                $('#parent_nav, #parent_info').show();
+                $('#collapseNotes').collapse('hide');
+                $('#loading').fadeIn();
+            });
+
+            $('.review_nav, .review_info').hide()
+            {% for review in parent_file.reviews%}
+            {% if review.id == app.request.get('id') %}
+            $('#parent_nav, #parent_info').hide();
+            $('#review_nav_{{ review.id }}, #review_info_{{ review.id }}').show();
+            {% endif %}
+            $('#review_{{ review.id }}').click(function () {
+                {% if review.doc %}
+                $('#file-container').load('{{ course_path('doc_show_ajax', { 'id': review.id}) }}');
+                {% elseif review.etherpaddoc %}
+                $('#file-container').load('{{ course_path('doc_show_ajax', { 'id': review.id}) }}');
+                {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
+                $('#file-container').load('{{ course_path('file_view_ajax', { 'id': review.id}) }}');
+                {% elseif parent_file.url %}
+                var win = window.open("{{ review.url}}");
+                {% else %}
+                var win = window.open("{{ course_path('file_get', { 'id': review.id}) }}");
+                {% endif %}
+                $('.document').removeClass('active');
+                $(this).addClass('active');
+                $('#parent_nav, #parent_info').hide();
+                $('.review_nav, .review_info').hide();
+                $('#review_nav_{{ review.id }}, #review_info_{{ review.id }}').show();
+                $('#collapseNotes').collapse('hide');
+                $('#loading').fadeIn();
+            });
+            {% endfor %}
+
 
 
             {% include 'MarcaDocBundle:Doc:js.html.twig' %}
@@ -75,6 +123,12 @@
                         <li class="navbar-text">
                             <a title="Edit this document" class=""
                             href="{{ course_path('doc_edit', { 'id': file.id,'view': app.request.get('view') }) }}">Edit</a>
+                        </li>
+                        <li class="navbar-text">
+                            <a title="Create a copy of this document for peer review" id="new_review"
+                               class=""
+                               href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'etherpad_review', 'fileid': file.id }) }}">Create
+                                Review</a>
                         </li>
                     {% endif %}
                 {# Don't show Review button if it is a review or a Resource #}
@@ -163,23 +217,55 @@
 
     <div id="main_content" class="col-sm-11 center">
         {% block ajax %}
-        <script language="javascript">
-            $(document).ready(function () {
-                $('.popover').hide();
-                $('.markup').mouseover(function () {
-                    var id = "div[data-id='" + $(this).attr('data-id') + "']";
-                    var offset = $(this).offset();
+            <script language="javascript">
+                $(document).ready(function () {
+                    {% if file.project.resource and role==2 %}{% set resource=1 %}{% else %}{% set resource=0 %}{% endif %}
+                    $('#new_saveas').click(function () {
+                        $('#modal').load('{{ course_path('file_new_modal', { 'resource' : resource, 'tag' : '0', 'type': 'saveas', 'fileid': file.id }) }}').modal();
+                    });
+                    var txt = $('.doc-body').text();
+                    var count = txt.trim().replace(/\s+/gi, ' ').split(' ').length;
+                    $("#word-count").text(count);
+                    $('#doc-display').css('height', function () {
+                        return $(window).height() * .88;
+                    });
+                    $('iframe').css('height', function () {
+                        return $(window).height() * .88;
+                    });
                     $('.popover').hide();
-                    $(id).show().offset({top: offset.top - 30, left: offset.left + 80});
+                    $('.markup').mouseover(function () {
+                        var id = "div[data-id='" + $(this).attr('data-id') + "']";
+                        var offset = $(this).offset();
+                        $('.popover').hide();
+                        $(id).show().offset({top: offset.top - 30, left: offset.left + 80});
+                    });
+                    $('.popover-close, #doc-display').click(function () {
+                        $('.popover').hide();
+                    });
+                    $('#notes_container').empty();
+                    var numNotes = $('.eDoc_note').length;
+                    if (numNotes > 0) {
+                        $('.eDoc_note').each(function (index) {
+                            var note_index = index + 1;
+                            var note_number = '<span class="blue">' + note_index + '</span>';
+                            var note = '<div>' + note_number + $(this).html() + '</div>';
+                            $('#notes_container').append(note);
+                        });
+                    }
+                    else {
+                        var note = '<div class="cell divider clear">There are no notes in this document.</div>';
+                        $('#notes_container').append(note);
+                    }
+                    $('.eDoc_highlight').each(function (index) {
+                        var span_number = index + 1;
+                        var span_append = '<span class="eDoc_super">' + span_number + '</span>';
+                        $(this).append(span_append);
+                    });
+                    $('.eDoc_super').toggle();
+                    $('#inline-toggle').text('Inline');
+                    $('#loading').fadeOut();
                 });
-                $('.popover-close, #doc-display').click(function () {
-                    $('.popover').hide();
-                });
-            });
-        </script>
-         {% endblock %}
-
-
+            </script>
 
             {# Document display or File Viewer #}
             <div id='file-container'>
@@ -197,7 +283,7 @@
                             </div>
                         </div>
                         <div class="doc-footer col-sm-12"><span class="pull-right">Words: <span
-                                        id="word-count">{{ count }}</span></span>
+                                        id="word-count"></span></span>
                         </div>
                     </div>
                 {% endif %}
@@ -220,5 +306,21 @@
                 </div>
             {% endfor %}
         {% endblock %}
+
+        {# Doc tools #}
+        <div id='doc-diff' class="col-sm-4">
+
+        </div>
+
+    </div>
+    </div>
+
+    {# Modal #}
+    <div class="modal fade" id="modal" role="dialog">
+    </div>
+{% endblock %}
+
+
+
 
 

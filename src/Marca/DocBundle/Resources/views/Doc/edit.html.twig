@@ -31,7 +31,7 @@
 
                 <ul class="nav navbar-nav navbar-right" style="padding-right: 25px">
                     <li>
-                        <a href="{{ course_path('doc_save', {'id':file.id ,'view':'window'}) }}" class="" id="doc_save">Save and Preview</a>
+                        <a href="{{ course_path('doc_save', {'id':file.id ,'view':'app'}) }}" class="" id="doc_save">Save and Preview</a>
                     </li>
                 </ul>
             </div>
@@ -46,7 +46,7 @@
                             {{ flashMessage }}
                         </div>
                     {% endfor %}
-                    <div class="col-sm-8">
+                    <div class="col-sm-11">
                         <iframe name='embed_readwrite' src='{{ etherpad_url }}/p/{{ etherpad_doc }}?showControls=true&showChat=true&useMonospaceFont=false' width="100%" height="600px"></iframe>
                     </div>
 

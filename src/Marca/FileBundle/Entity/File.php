@@ -55,6 +55,12 @@ class File
      * @ORM\Column(name="etherpadgroup", type="string", nullable=True, length=255)
      */
     private $etherpadgroup;
+
+    /**
+     * @var integer $etherpadrev
+     * @ORM\Column(name="etherpadrev", type="integer", nullable=True)
+     */
+    private $etherpadrev;
  
     /**
     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="file")
@@ -681,5 +687,28 @@ class File
     public function getEtherpadgroup()
     {
         return $this->etherpadgroup;
+    }
+
+    /**
+     * Set etherpadrev
+     *
+     * @param integer $etherpadrev
+     * @return File
+     */
+    public function setEtherpadrev($etherpadrev)
+    {
+        $this->etherpadrev = $etherpadrev;
+
+        return $this;
+    }
+
+    /**
+     * Get etherpadrev
+     *
+     * @return integer
+     */
+    public function getEtherpadrev()
+    {
+        return $this->etherpadrev;
     }
 }

@@ -40,7 +40,7 @@ class DocController extends Controller
         $user = $this->getUser();
         $role = $this->getCourseRole();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-        $etherpadInstance = $this->get('etherpadlite');
+
 
 
         //sets up etherpad instance and either creates author or fetches existing etherpad author id for a given user
@@ -140,27 +140,56 @@ class DocController extends Controller
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $fileid = $file->getId();
         $doc = $file->getDoc();
-        $file_owner = $file->getUser();
-        $review_file = $file->getReviewed();
-        if ($review_file) {$review_owner = $review_file->getUser();} else {$review_owner = $file_owner;}
-        $file_access = $file->getAccess();
+        //if it's an old skool doc, run the old skool code
+        if($doc) {
+            $file_owner = $file->getUser();
+            $review_file = $file->getReviewed();
+            if ($review_file) {
+                $review_owner = $review_file->getUser();
+            } else {
+                $review_owner = $file_owner;
+            }
+            $file_access = $file->getAccess();
 
-        $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
-        $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($fileid);
+            $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
+            $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($fileid);
 
-        if (!$doc) {
-            throw $this->createNotFoundException('Unable to find Doc entity.');
+            if (!$doc) {
+                throw $this->createNotFoundException('Unable to find Doc entity.');
+            } else if ($file_owner != $user && $review_owner != $user && $file_access == 0 && $role != 2) {
+                throw new AccessDeniedException();
+            }
+
+            return $this->render('MarcaDocBundle:Doc:show_ajax.html.twig', array(
+                'doc' => $doc,
+                'role' => $role,
+                'file' => $file,
+                'markup' => $markup,
+            ));
+        } //else look up etherpad info TODO: distinguish between reviews and other etherpad docs
+        else {
+            $etherpadInstance = $this->get('etherpadlite');
+            $etherpaddoc = $file->getEtherpaddoc();
+            $etherpadrev = $file->getEtherpadrev();
+            $text = $etherpadInstance->getHtml($etherpaddoc, $etherpadrev)->html;
+            $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
+
+            if($etherpadrev){
+                $currentRev = $etherpadInstance->getRevisionsCount($etherpaddoc)->revisions;
+                $diffHTML = $etherpadInstance->createDiffHTML($etherpaddoc, $etherpadrev, $currentRev)->html;
+            }
+            else {
+                $diffHTML = "";
+            }
+
+            return $this->render('MarcaDocBundle:Doc:show_etherpad_ajax.html.twig', array(
+                'text' => $text,
+                'role' => $role,
+                'file' => $file,
+                'markup' => $markup,
+                'diff' => $diffHTML
+            ));
         }
-        else if ($file_owner != $user && $review_owner != $user && $file_access==0 && $role != 2 )  {
-            throw new AccessDeniedException();
-        }
-
-        return $this->render('MarcaDocBundle:Doc:show_ajax.html.twig', array(
-            'doc'      => $doc,
-            'role'      => $role,
-            'file'        => $file,
-            'markup' => $markup,
-        ));
     }
 
 
@@ -312,8 +341,20 @@ class DocController extends Controller
          $this->restrictAccessTo($allowed);
 
          $em = $this->getEm();
-
+         $etherpadInstance = $this->get('etherpadlite');
+         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
          //Post-processing of etherpad-docs
+
+         //etherpad-style review docs
+         //grab current revision id of the etherpad and save
+         //also save this revision in the etherpad so it shows up in timeslider
+         if($file->getReviewed()){
+             $revId = $etherpadInstance->getRevisionsCount($file->getEtherpaddoc())->revisions;
+             $etherpadInstance->saveRevision($file->getEtherpaddoc(), $revId);
+             $file->setEtherpadrev($revId);
+             $em->persist($file);
+             $em->flush();
+         }
 
          $response = new RedirectResponse($this->generateUrl('doc_show', array('id' => $id, 'courseid'=> $courseid, 'view' => $view)));
          return $response;
