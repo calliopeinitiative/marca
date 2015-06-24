@@ -133,6 +133,11 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="Marca\AdminBundle\Entity\Coupon", mappedBy="pastuser", cascade={"remove", "persist"})
      */
     private $oldcoupons;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\AssignmentBundle\Entity\AssignmentSubmission", mappedBy="user")
+     */
+    protected $assignmentSubmissions;
     
     public function __construct()
     {
@@ -681,5 +686,38 @@ class User extends BaseUser
     public function getGrades()
     {
         return $this->grades;
+    }
+
+    /**
+     * Add assignmentSubmissions
+     *
+     * @param \Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions
+     * @return User
+     */
+    public function addAssignmentSubmission(\Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions)
+    {
+        $this->assignmentSubmissions[] = $assignmentSubmissions;
+
+        return $this;
+    }
+
+    /**
+     * Remove assignmentSubmissions
+     *
+     * @param \Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions
+     */
+    public function removeAssignmentSubmission(\Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions)
+    {
+        $this->assignmentSubmissions->removeElement($assignmentSubmissions);
+    }
+
+    /**
+     * Get assignmentSubmissions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAssignmentSubmissions()
+    {
+        return $this->assignmentSubmissions;
     }
 }

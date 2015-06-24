@@ -72,6 +72,14 @@
 
     </li>
 
+    {# Assignment Builder Interface #}
+    {% if course.assignments=='true' and course.module==0 %}
+        <li>
+            <a href="{{ course_path('assignment_show') }}">Assignments</a>
+        </li>
+    {% endif %}
+
+
     {# Journal #}
     {% if course.journal=='true' and course.module== 0 %}
         <li class="dropdown"><a href="{{ course_path('journal_list') }}">Journal<b class="caret"></b></a>

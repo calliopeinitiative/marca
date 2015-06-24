@@ -162,6 +162,11 @@ class File
     protected $updated;
 
     /**
+     * @ORM\OneToMany(targetEntity="Marca\AssignmentBundle\Entity\AssignmentSubmission", mappedBy="file")
+     */
+    protected $assignmentSubmissions;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -658,5 +663,61 @@ class File
     public function getEtherpaddoc()
     {
         return $this->etherpaddoc;
+    }
+
+    /**
+     * Set etherpadgroup
+     *
+     * @param string $etherpadgroup
+     * @return File
+     */
+    public function setEtherpadgroup($etherpadgroup)
+    {
+        $this->etherpadgroup = $etherpadgroup;
+
+        return $this;
+    }
+
+    /**
+     * Get etherpadgroup
+     *
+     * @return string 
+     */
+    public function getEtherpadgroup()
+    {
+        return $this->etherpadgroup;
+    }
+
+    /**
+     * Add assignmentSubmissions
+     *
+     * @param \Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions
+     * @return File
+     */
+    public function addAssignmentSubmission(\Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions)
+    {
+        $this->assignmentSubmissions[] = $assignmentSubmissions;
+
+        return $this;
+    }
+
+    /**
+     * Remove assignmentSubmissions
+     *
+     * @param \Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions
+     */
+    public function removeAssignmentSubmission(\Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions)
+    {
+        $this->assignmentSubmissions->removeElement($assignmentSubmissions);
+    }
+
+    /**
+     * Get assignmentSubmissions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAssignmentSubmissions()
+    {
+        return $this->assignmentSubmissions;
     }
 }

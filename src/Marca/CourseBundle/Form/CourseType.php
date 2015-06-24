@@ -40,6 +40,7 @@ class CourseType extends AbstractType
             ->add('notes', 'checkbox', array('label'  => 'Use the Notes tool','attr' => array('class' => 'checkbox'),))
             ->add('forum', 'checkbox', array('label'  => 'Use the Forum','attr' => array('class' => 'checkbox'),))
             ->add('journal', 'checkbox', array('label'  => 'Use the Journal','attr' => array('class' => 'checkbox'),))
+            ->add('assignments', 'checkbox', array('label' =>"use the Assignment Builder", 'attr'=>array('class'=>'checkbox'),))
             ->add('portfolio', 'checkbox', array('label'  => 'Use the Portfolio','attr' => array('class' => 'checkbox inline'),))
             ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'query_builder' => function(PortsetRepository $pr) {
                     $qb = $pr->createQueryBuilder('MarcaPortfolioBundle:Portset');
