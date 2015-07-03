@@ -339,6 +339,23 @@ class FileController extends Controller
             $em->flush();
             return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
                 'view' => 'window')));
+        } elseif ($type == 'etherpad_review') {
+            $file->setName('Review');
+            if ($role == 2) {
+                $file->setAccess('2');
+            } else {
+                $file->setAccess('0');
+            }
+            $reviewed_file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
+            $file->setEtherpaddoc($reviewed_file->getEtherpaddoc());
+            $file->setEtherpadgroup($reviewed_file->getEtherpadgroup());
+            $file->setReviewed($reviewed_file);
+            $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
+            $file->setProject($reviewed_file->getProject());
+            $em->persist($file);
+            $em->flush();
+            return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
+                'view' => 'window')));
         } elseif ($type == 'saveas') {
             $file->setName('SaveAs Document');
             $form = $this->createForm(new DocType($options), $file);
