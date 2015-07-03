@@ -43,7 +43,19 @@ class AssignmentStage
     private $dueDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\AssignmentBundle\Entity\Assignment", inversedBy="stages")
+     * @var integer
+     * @ORM\Column(name="reviewsRequired", type="integer")
+     */
+    private $reviewsRequired;
+
+    /**
+     * @var string
+     * @ORM\Column(name="reviewInstructions", type="text", nullable=true)
+     */
+    private $reviewInstructions;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\AssignmentBundle\Entity\Assignment", inversedBy="stages", cascade={"persist"})
      */
     protected $assignment;
 
@@ -223,10 +235,10 @@ class AssignmentStage
     /**
      * Set assignment
      *
-     * @param \Marca\AssignmentBundle\Assignment $assignment
+     * @param \Marca\AssignmentBundle\Entity\Assignment $assignment
      * @return AssignmentStage
      */
-    public function setAssignment(\Marca\AssignmentBundle\Assignment $assignment = null)
+    public function setAssignment(\Marca\AssignmentBundle\Entity\Assignment $assignment = null)
     {
         $this->assignment = $assignment;
 
@@ -236,7 +248,7 @@ class AssignmentStage
     /**
      * Get assignment
      *
-     * @return \Marca\AssignmentBundle\Assignment 
+     * @return \Marca\AssignmentBundle\Entity\Assignment
      */
     public function getAssignment()
     {
@@ -246,10 +258,10 @@ class AssignmentStage
     /**
      * Set next
      *
-     * @param \Marca\AssignmentBundle\AssignmentStage $next
+     * @param \Marca\AssignmentBundle\Entity\AssignmentStage $next
      * @return AssignmentStage
      */
-    public function setNext(\Marca\AssignmentBundle\AssignmentStage $next = null)
+    public function setNext(\Marca\AssignmentBundle\Entity\AssignmentStage $next = null)
     {
         $this->next = $next;
 
@@ -259,7 +271,7 @@ class AssignmentStage
     /**
      * Get next
      *
-     * @return \Marca\AssignmentBundle\AssignmentStage 
+     * @return \Marca\AssignmentBundle\Entity\AssignmentStage
      */
     public function getNext()
     {
@@ -269,10 +281,10 @@ class AssignmentStage
     /**
      * Set previous
      *
-     * @param \Marca\AssignmentBundle\AssignmentStage $previous
+     * @param \Marca\AssignmentBundle\Entity\AssignmentStage $previous
      * @return AssignmentStage
      */
-    public function setPrevious(\Marca\AssignmentBundle\AssignmentStage $previous = null)
+    public function setPrevious(\Marca\AssignmentBundle\Entity\AssignmentStage $previous = null)
     {
         $this->previous = $previous;
 
@@ -282,7 +294,7 @@ class AssignmentStage
     /**
      * Get previous
      *
-     * @return \Marca\AssignmentBundle\AssignmentStage 
+     * @return \Marca\AssignmentBundle\Entity\AssignmentStage
      */
     public function getPrevious()
     {
@@ -292,13 +304,13 @@ class AssignmentStage
     /**
      * Add submissions
      *
-     * @param \Marca\AssignmentBundle\AssignmentSubmission $submissions
+     * @param \Marca\AssignmentBundle\Entity\AssignmentSubmission $submissions
      * @return AssignmentStage
      */
-    public function addSubmission(\Marca\AssignmentBundle\AssignmentSubmission $submissions)
+    public function addSubmission(\Marca\AssignmentBundle\Entity\AssignmentSubmission $submissions)
     {
         $this->submissions[] = $submissions;
-
+        $submissions->setStage($this);
         return $this;
     }
 
@@ -307,7 +319,7 @@ class AssignmentStage
      *
      * @param \Marca\AssignmentBundle\AssignmentSubmission $submissions
      */
-    public function removeSubmission(\Marca\AssignmentBundle\AssignmentSubmission $submissions)
+    public function removeSubmission(\Marca\AssignmentBundle\Entity\AssignmentSubmission $submissions)
     {
         $this->submissions->removeElement($submissions);
     }

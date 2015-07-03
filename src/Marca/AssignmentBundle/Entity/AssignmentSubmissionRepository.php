@@ -12,4 +12,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class AssignmentSubmissionRepository extends EntityRepository
 {
+
+    /**
+     * Finds submissions for all stages of the given assignment, by user
+     * @param $user
+     * @param $assignment
+     * @return array
+     */
+    public function findSubmissionsForUser($user, $assignment)
+    {
+
+       return   $this->getEntityManager()
+                ->createQuery('SELECT s from MarcaAssignmentBundle:AssignmentSubmission s JOIN s.stage a WHERE s.user = ?1 AND a.assignment = ?2')
+                ->setParameters(array('1' => $user, '2' => $assignment))->getResult();
+
+    }
+
 }
+

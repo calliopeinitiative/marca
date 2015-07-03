@@ -212,7 +212,12 @@ class Course
      *
      * @ORM\Column(name="assignments", type="boolean")
      */
-    private $assignments;
+    private $useAssignments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\AssignmentBundle\Entity\Assignment", mappedBy="course")
+     */
+    protected $assignments;
     
     /**
      * @ORM\ManyToMany(targetEntity="Marca\AssignmentBundle\Entity\ReviewRubric")

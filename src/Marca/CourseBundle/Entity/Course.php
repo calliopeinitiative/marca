@@ -212,7 +212,12 @@ class Course
      *
      * @ORM\Column(name="assignments", type="boolean")
      */
-    private $assignments;
+    private $useAssignments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Marca\AssignmentBundle\Entity\Assignment", mappedBy="course")
+     */
+    protected $assignments;
     
     /**
      * @ORM\ManyToMany(targetEntity="Marca\AssignmentBundle\Entity\ReviewRubric")
@@ -1054,5 +1059,51 @@ class Course
     public function getAssignments()
     {
         return $this->assignments;
+    }
+
+    /**
+     * Set useAssignments
+     *
+     * @param boolean $useAssignments
+     * @return Course
+     */
+    public function setUseAssignments($useAssignments)
+    {
+        $this->useAssignments = $useAssignments;
+
+        return $this;
+    }
+
+    /**
+     * Get useAssignments
+     *
+     * @return boolean 
+     */
+    public function getUseAssignments()
+    {
+        return $this->useAssignments;
+    }
+
+    /**
+     * Add assignments
+     *
+     * @param \Marca\AssignmentBundle\Entity\Assignment $assignments
+     * @return Course
+     */
+    public function addAssignment(\Marca\AssignmentBundle\Entity\Assignment $assignments)
+    {
+        $this->assignments[] = $assignments;
+
+        return $this;
+    }
+
+    /**
+     * Remove assignments
+     *
+     * @param \Marca\AssignmentBundle\Entity\Assignment $assignments
+     */
+    public function removeAssignment(\Marca\AssignmentBundle\Entity\Assignment $assignments)
+    {
+        $this->assignments->removeElement($assignments);
     }
 }

@@ -24,14 +24,21 @@ class AssignmentSubmission
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="submitted", type="datetime")
+     * @ORM\Column(name="submitted", type="datetime", nullable=true)
      */
     private $submitted;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=true)
+     */
+    private $created;
+
+    /**
      * @var integer
      *
-     * @ORM\Column(name="etherpadrev", type="integer")
+     * @ORM\Column(name="etherpadrev", type="integer", nullable=true)
      */
     private $etherpadrev;
 
@@ -122,10 +129,10 @@ class AssignmentSubmission
     /**
      * Set user
      *
-     * @param \Marca\UserBundle\User $user
+     * @param \Marca\UserBundle\Entity\User $user
      * @return AssignmentSubmission
      */
-    public function setUser(\Marca\UserBundle\User $user = null)
+    public function setUser(\Marca\UserBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
@@ -135,7 +142,7 @@ class AssignmentSubmission
     /**
      * Get user
      *
-     * @return \Marca\UserBundle\User 
+     * @return \Marca\UserBundle\Entity\User
      */
     public function getUser()
     {
@@ -145,10 +152,10 @@ class AssignmentSubmission
     /**
      * Set file
      *
-     * @param \Marca\FileBundle\File $file
+     * @param \Marca\FileBundle\Entity\File $file
      * @return AssignmentSubmission
      */
-    public function setFile(\Marca\FileBundle\File $file = null)
+    public function setFile(\Marca\FileBundle\Entity\File $file = null)
     {
         $this->file = $file;
 
@@ -168,10 +175,10 @@ class AssignmentSubmission
     /**
      * Set stage
      *
-     * @param \Marca\AssignmentBundle\AssignmentStage $stage
+     * @param \Marca\AssignmentBundle\Entity\AssignmentStage $stage
      * @return AssignmentSubmission
      */
-    public function setStage(\Marca\AssignmentBundle\AssignmentStage $stage = null)
+    public function setStage(\Marca\AssignmentBundle\Entity\AssignmentStage $stage = null)
     {
         $this->stage = $stage;
 
@@ -181,7 +188,7 @@ class AssignmentSubmission
     /**
      * Get stage
      *
-     * @return \Marca\AssignmentBundle\AssignmentStage 
+     * @return \Marca\AssignmentBundle\Entity\AssignmentStage
      */
     public function getStage()
     {
@@ -219,5 +226,28 @@ class AssignmentSubmission
     public function getReviews()
     {
         return $this->reviews;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return AssignmentSubmission
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
     }
 }

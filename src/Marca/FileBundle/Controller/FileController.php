@@ -2,6 +2,7 @@
 
 namespace Marca\FileBundle\Controller;
 
+use Marca\AssignmentBundle\Entity\AssignmentSubmission;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -271,9 +272,9 @@ class FileController extends Controller
     /**
      * Displays a form to create a new File entity for a LINK listing.
      *
-     * @Route("/{courseid}/{resource}/{type}/{fileid}/new_modal", name="file_new_modal", defaults={"resource" = 0, "fileid" = 0})
+     * @Route("/{courseid}/{resource}/{type}/{fileid}/{assignmentStageid}/new_modal", name="file_new_modal", defaults={"resource" = 0, "fileid" = 0, "assignmentStageid" = 0 })
      */
-    public function newModalAction($courseid, $resource, $type, $fileid)
+    public function newModalAction($courseid, $resource, $type, $fileid, $assignmentStageid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -311,6 +312,7 @@ class FileController extends Controller
             $form = $this->createForm(new DocType($options), $file);
             return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
                 'file' => $file,
+                'assignmentStageid' => $assignmentStageid,
                 'resource' => $resource,
                 'type' => $type,
                 'tags' => $tags,
@@ -357,10 +359,10 @@ class FileController extends Controller
     /**
      * Creates a new File entity.
      *
-     * @Route("/{courseid}/{resource}/{type}/{fileid}/create", defaults={ "fileid" = 0 }, name="file_create", defaults={"resource" = 0, "fileid" = 0})
+     * @Route("/{courseid}/{resource}/{type}/{fileid}/{assignmentStageid}/create", defaults={ "fileid" = 0 }, name="file_create", defaults={"resource" = 0, "fileid" = 0, "assignmentStageid" = 0})
      * @Method("post")
      */
-    public function createAction($courseid, $resource, $type, $fileid)
+    public function createAction($courseid, $resource, $type, $fileid, $assignmentStageid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -378,6 +380,18 @@ class FileController extends Controller
         $form = $this->createForm(new FileType($options), $file);
         $form->submit($request);
         if ($type == 'doc') {
+            if($assignmentStageid != 0){
+                $assignmentSubmission = new AssignmentSubmission();
+                $assignmentStage = $em->getRepository('MarcaAssignmentBundle:AssignmentStage')->find($assignmentStageid);
+                $assignmentSubmission->setStage($assignmentStage);
+                $assignmentSubmission->setUser($user);
+                $assignmentSubmission->setCreated(new \DateTime("now"));
+                $file->addAssignmentSubmission($assignmentSubmission);
+                $em->persist($assignmentSubmission);
+            }
+            else {
+                $assignmentSubmission = null;
+            }
             $docName = uniqid($user->getId());
             $groupKey = str_shuffle($docName);
             $etherpad_instance = $this->get('etherpadlite');
@@ -401,18 +415,25 @@ class FileController extends Controller
                 $em->persist($doc);
             }
             $em->flush();
+            if($assignmentSubmission){
+                $submissionid = $assignmentSubmission->getId();
+            }
+            else {
+                $submissionid = 0;
+            }
 
             if ($type == 'link') {
                 return $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'id' => $file->getId(), 'userid' => '0', 'resource' => $resource, 'user' => '0')));
             } elseif ($type == 'doc' || $type == 'review' || $type == 'instr_review' || $type == 'saveas') {
                 return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
-                    'view' => 'app')));
+                    'view' => 'app', 'submissionid' => $submissionid )));
             }
 
         }
 
         return $this->render('MarcaFileBundle:File:new.html.twig', array(
             'file' => $file,
+            'assignmentStageId' => $assignmentStageid,
             'resource' => $resource,
             'type' => $type,
             'tags' => $tags,

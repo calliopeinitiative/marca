@@ -1,0 +1,72 @@
+{% extends 'MarcaCourseBundle::layout.html.twig' %}
+
+{% block title %}
+    Assignments
+{% endblock %}
+
+{% block sidebar %}
+    {{ render_esi(controller('MarcaAssignmentBundle:Assignment:createSidebar', { 'courseid': app.request.get('courseid') } )) }}
+{% endblock %}
+
+{% block content %}
+
+
+<script>
+    var $collectionHolder;
+
+    var $addStageLink = $('<a href="#" class="add_stage_link">Add a stage</a>');
+    var $newLinkLi = $('<li></li>').append($addStageLink);
+
+    jQuery(document).ready(function(){
+        $collectionHolder = $('ul.stages');
+        $collectionHolder.append($newLinkLi);
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+        $addStageLink.on('click', function(e) {
+            e.preventDefault();
+
+            addStageForm($collectionHolder, $newLinkLi);
+
+        });
+    });
+
+    function addStageForm($collectionHolder, $newLinkLi) {
+        var prototype = $collectionHolder.data('prototype');
+        var index = $collectionHolder.data('index');
+
+        var newForm = prototype.replace(/__name__/g, index);
+
+        $collectionHolder.data('index', index+1);
+
+        var $newFormLi = $('<li></li>').append(newForm);
+        $newLinkLi.before($newFormLi);
+    }
+</script>
+
+            <h2>New Assignment</h2>
+            {% if app.request.attributes.get('_route') == 'assignment_new' %}
+                {{ form_start(form, {'action': course_path('assignment_new') }) }}
+            {% elseif app.request.attributes.get('_route') == 'assignment_edit' %}
+                {{ form_start(form, {'action': course_path('assignment_edit', {'id': id })}) }}
+            {% else %}
+                {{ form_start(form) }}
+            {% endif %}
+            {{ form_row(form.name) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.resources) }}
+            <h3>Stages:</h3>
+            <ul class="stages" data-prototype="{{ form_widget(form.stages.vars.prototype)|e }}">
+            {% for stage in form.stages %}
+                <li>{{ form_row(stage.name) }}</li>
+                <li>{{ form_row(stage.instructions) }}</li>
+                <li>{{ form_row(stage.dueDate) }}</li>
+                <li>{{ form_row(stage.reviewsRequired) }}</li>
+                <li>{{ form_row(stage.reviewInstructions) }}</li>
+            {% endfor %}
+            </ul>
+            {% if  app.request.attributes.get('_route') == 'assignment_edit' %}
+                {{ form_row(form.save, { 'label' : 'Save Changes To This Assignment' }) }}
+            {% endif %}
+        {{ form_end(form) }}
+
+{% endblock %}

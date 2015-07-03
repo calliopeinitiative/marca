@@ -691,22 +691,22 @@ class File
     /**
      * Add assignmentSubmissions
      *
-     * @param \Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions
+     * @param \Marca\AssignmentBundle\Entity\assignmentSubmission $assignmentSubmissions
      * @return File
      */
-    public function addAssignmentSubmission(\Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions)
+    public function addAssignmentSubmission(\Marca\AssignmentBundle\Entity\assignmentSubmission $assignmentSubmissions)
     {
         $this->assignmentSubmissions[] = $assignmentSubmissions;
-
+        $assignmentSubmissions->setFile($this);
         return $this;
     }
 
     /**
      * Remove assignmentSubmissions
      *
-     * @param \Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions
+     * @param \Marca\AssignmentBundle\Entity\assignmentSubmission $assignmentSubmissions
      */
-    public function removeAssignmentSubmission(\Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions)
+    public function removeAssignmentSubmission(\Marca\AssignmentBundle\Entity\assignmentSubmission $assignmentSubmissions)
     {
         $this->assignmentSubmissions->removeElement($assignmentSubmissions);
     }

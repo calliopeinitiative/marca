@@ -200,10 +200,10 @@ class DocController extends Controller
     /**
      * Displays a form to edit an existing Doc entity.
      *
-     * @Route("/{courseid}/{id}/{view}/edit", name="doc_edit")
+     * @Route("/{courseid}/{id}/{view}/{submissionid}/edit", name="doc_edit", defaults={ "submissionid"= 0})
      * @Template()
      */
-    public function editAction($courseid, $id)
+    public function editAction($courseid, $id, $submissionid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -241,6 +241,15 @@ class DocController extends Controller
                 array_push($styleArray, $styleName);
             }
         }
+        //if the student is working on a submission for an assignment, fetch the submission for passing to the controller
+        if($submissionid != 0){
+            $submission = $em->getRepository('MarcaAssignmentBundle:AssignmentSubmission')->find($submissionid);
+        }
+        //otherwise set submission to null
+        else
+        {
+            $submission = null;
+        }
         $etherpadInstance->customStyleSetStylesForPad($etherpad_id, $styleArray);
 
         $reviews = $em->getRepository('MarcaAssignmentBundle:Review')->findReviewsByFile($id);
@@ -254,6 +263,7 @@ class DocController extends Controller
             'markupsets' => $markupsets,
             'reviews' => $reviews,
             'courseid' => $courseid,
+            'submission' => $submission,
         ));
         $cookie_domain = $this->container->getParameter("etherpad_cookie_domain");
         $response->headers->setCookie(new Cookie('sessionID', $etherpadSession->sessionID, $expires, '/', $cookie_domain , false, false));

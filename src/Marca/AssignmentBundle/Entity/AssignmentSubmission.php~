@@ -24,14 +24,21 @@ class AssignmentSubmission
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="submitted", type="datetime")
+     * @ORM\Column(name="submitted", type="datetime", nullable=true)
      */
     private $submitted;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=true)
+     */
+    private $created;
+
+    /**
      * @var integer
      *
-     * @ORM\Column(name="etherpadrev", type="integer")
+     * @ORM\Column(name="etherpadrev", type="integer", nullable=true)
      */
     private $etherpadrev;
 

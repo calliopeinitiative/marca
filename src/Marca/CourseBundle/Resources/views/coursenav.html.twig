@@ -73,9 +73,9 @@
     </li>
 
     {# Assignment Builder Interface #}
-    {% if course.assignments=='true' and course.module==0 %}
+    {% if course.useAssignments=='true' and course.module==0 %}
         <li>
-            <a href="{{ course_path('assignment_show') }}">Assignments</a>
+            <a href="{{ course_path('assignment_index') }}">Assignments</a>
         </li>
     {% endif %}
 

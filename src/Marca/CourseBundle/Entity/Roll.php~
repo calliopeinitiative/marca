@@ -258,27 +258,4 @@ class Roll
     {
         return $this->attendance;
     }
-
-    /**
-     * Set current_assignment
-     *
-     * @param \Marca\AssignmentBundle\Entity\Assignment $currentAssignment
-     * @return Roll
-     */
-    public function setCurrentAssignment(\Marca\AssignmentBundle\Entity\Assignment $currentAssignment = null)
-    {
-        $this->current_assignment = $currentAssignment;
-
-        return $this;
-    }
-
-    /**
-     * Get current_assignment
-     *
-     * @return \Marca\AssignmentBundle\Entity\Assignment 
-     */
-    public function getCurrentAssignment()
-    {
-        return $this->current_assignment;
-    }
 }

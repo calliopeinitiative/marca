@@ -36,14 +36,7 @@ class Assignment
      *
      * @ORM\Column(name="instructions", type="text")
      */
-    private $instructions;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="shared", type="integer")
-     */
-    private $shared;
+    private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User", inversedBy="assignment")
@@ -51,7 +44,8 @@ class Assignment
     protected $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="assignment")
+     * @ORM\ManyToOne(targetEntity="Marca\CourseBundle\Entity\Course", inversedBy="assignments")
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=true)
      */
     protected $course;
 
@@ -66,7 +60,7 @@ class Assignment
     protected $template;
 
     /**
-     * @ORM\OneToMany(targetEntity="Marca\AssignmentBundle\Entity\AssignmentStage", mappedBy="assignment")
+     * @ORM\OneToMany(targetEntity="Marca\AssignmentBundle\Entity\AssignmentStage", mappedBy="assignment", cascade={"persist"})
      */
     protected $stages;
 
@@ -209,7 +203,7 @@ class Assignment
      * @param \Marca\FileBundle\File $resources
      * @return Assignment
      */
-    public function addResource(\Marca\FileBundle\File $resources)
+    public function addResource(\Marca\FileBundle\Entity\File $resources)
     {
         $this->resources[] = $resources;
 
@@ -221,7 +215,7 @@ class Assignment
      *
      * @param \Marca\FileBundle\File $resources
      */
-    public function removeResource(\Marca\FileBundle\File $resources)
+    public function removeResource(\Marca\FileBundle\Entity\File $resources)
     {
         $this->resources->removeElement($resources);
     }
@@ -242,7 +236,7 @@ class Assignment
      * @param \Marca\FileBundle\File $template
      * @return Assignment
      */
-    public function setTemplate(\Marca\FileBundle\File $template = null)
+    public function setTemplate(\Marca\FileBundle\Entity\File $template = null)
     {
         $this->template = $template;
 
@@ -265,10 +259,10 @@ class Assignment
      * @param \Marca\AssignmentBundle\AssignmentStage $stages
      * @return Assignment
      */
-    public function addStage(\Marca\AssignmentBundle\AssignmentStage $stages)
+    public function addStage(\Marca\AssignmentBundle\Entity\AssignmentStage $stages)
     {
         $this->stages[] = $stages;
-
+        $stages->setAssignment($this);
         return $this;
     }
 
@@ -277,7 +271,7 @@ class Assignment
      *
      * @param \Marca\AssignmentBundle\AssignmentStage $stages
      */
-    public function removeStage(\Marca\AssignmentBundle\AssignmentStage $stages)
+    public function removeStage(\Marca\AssignmentBundle\Entity\AssignmentStage $stages)
     {
         $this->stages->removeElement($stages);
     }
@@ -290,5 +284,28 @@ class Assignment
     public function getStages()
     {
         return $this->stages;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Assignment
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }

@@ -30,9 +30,13 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right" style="padding-right: 25px">
-                    <li>
-                        <a href="{{ course_path('doc_save', {'id':file.id ,'view':'window'}) }}" class="" id="doc_save">Save and Preview</a>
-                    </li>
+
+                        {% if submission %}
+                            <li><a href="{{ course_path('submission_save', {'id':submission.id }) }}">Save Progress Without Submitting</a></li>
+                            <li><a href="{{ course_path('assignment_submit', {'id':submission.id }) }}">Submit Assignment</a></li>
+                        {% else %}
+                            <li><a href="{{ course_path('doc_save', {'id':file.id ,'view':'window'}) }}" class="" id="doc_save">Save and Preview</a></li>
+                        {% endif %}
                 </ul>
             </div>
         </nav>

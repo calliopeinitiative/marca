@@ -1,0 +1,41 @@
+{% extends 'MarcaCourseBundle::layout.html.twig' %}
+
+{% block title %}
+Assignments
+{% endblock %}
+
+{% block sidebar %}
+    {{ render_esi(controller('MarcaAssignmentBundle:Assignment:createSidebar', { 'courseid': app.request.get('courseid') } )) }}
+{% endblock %}
+
+{% block content %}
+
+    <script language="javascript">
+        $(document).ready(function(){
+          //just in case we need it
+        });
+    </script>
+
+   <h1>Assignments:</h1>
+   <div class="container-fluid">
+   {% for assignment in assignments %}
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ assignment.name }}
+                <span class="pull-right"> <a href="{{ course_path('assignment_show', { 'id': assignment.id } ) }}" class="btn btn-primary panel-heading-button">Work on this Assignment</a>
+                {% if role == 2 %}
+                    <a data-id='{{ assignment.id }}' href="javascript:void(0);" class="assignment_edit btn btn-default panel-heading-button">Edit</a>
+                    <a href="{{ course_path('assignment_delete', {'id': assignment.id}) }}" class="btn btn-danger panel-heading-button">Delete</a>
+                {% endif %}
+                </span>
+            </div>
+            <div class="panel-body">{{ assignment.description }}</div>
+        </div>
+
+   {% endfor %}
+   </div>
+    {% if is_granted('ROLE_INSTR') %}
+    <a id="assignment_new" href="{{ course_path('assignment_new') }}" class="btn btn-primary">New Assignment</a>
+    {% endif %}
+    <div class="modal fade" id="assignment_modal">
+    </div><!-- /.modal -->
+{% endblock %}

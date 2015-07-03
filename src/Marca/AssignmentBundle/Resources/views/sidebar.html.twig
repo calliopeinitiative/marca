@@ -1,0 +1,21 @@
+{# Marca/AssignmentBundle/Resources/views/sidebar.html.twig #}
+{# esi fragment for assignment home sidebar #}
+
+<h1><a href="{{ course_path('assignment_index') }}" class="marca-gray">Assignments Home</a></h1>
+
+{% if current_assignment %}
+        <h2>Current Assignment: </h2>
+        {{ current_assignment.name }}
+        <h3>Instructions:</h3>
+        <p>{{ current_assignment.description }}</p>
+{% endif %}
+<h2>Upcoming Assignments</h2>
+    <ul>
+            {% for assignment in assignments %}
+                {% if current_assignment != null %}
+                    {% if assignment.id != current_assignment.id %}
+                        <li><a href="{{ course_path('assignment_show', {'id':assignment.id}) }}">{{ assignment.name }}</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+    </ul>

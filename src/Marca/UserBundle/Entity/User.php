@@ -694,7 +694,7 @@ class User extends BaseUser
      * @param \Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions
      * @return User
      */
-    public function addAssignmentSubmission(\Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions)
+    public function addAssignmentSubmission(\Marca\AssignmentBundle\Entity\assignmentSubmission $assignmentSubmissions)
     {
         $this->assignmentSubmissions[] = $assignmentSubmissions;
 
@@ -706,7 +706,7 @@ class User extends BaseUser
      *
      * @param \Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions
      */
-    public function removeAssignmentSubmission(\Marca\AssignmentBundle\assignmentSubmission $assignmentSubmissions)
+    public function removeAssignmentSubmission(\Marca\AssignmentBundle\Entity\assignmentSubmission $assignmentSubmissions)
     {
         $this->assignmentSubmissions->removeElement($assignmentSubmissions);
     }

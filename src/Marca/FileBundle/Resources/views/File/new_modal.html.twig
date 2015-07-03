@@ -13,8 +13,14 @@
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">{% if app.request.get('type') == 'doc' %}New Document{% elseif app.request.get('type') == 'saveas' %}SaveAs Document{% elseif app.request.get('type') == 'review' %}Review{% elseif app.request.get('type') == 'link' %}New Link{%endif%}</h4>
         </div>
-        <form action="{{ course_path('file_create',{'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': app.request.get('type'),
-'user': '0','project': 'recent', 'fileid':app.request.get('fileid')}) }}" method="post" {{ form_enctype(form) }}  novalidate="novalidate">       
+          {% if assignmentStageid %}
+          {{ assignmentStageid }}
+          <form action="{{ course_path('file_create',{'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'assignmentStageid':assignmentStageid, 'type': app.request.get('type'),
+              'user': '0','project': 'recent', 'fileid':app.request.get('fileid')}) }}" method="post" {{ form_enctype(form) }}  novalidate="novalidate">
+          {% else %}
+          <form action="{{ course_path('file_create',{'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': app.request.get('type'),
+'user': '0','project': 'recent', 'fileid':app.request.get('fileid')}) }}" method="post" {{ form_enctype(form) }}  novalidate="novalidate">
+          {% endif %}
         <div class="modal-body">
            {{ form_widget(form) }}
             <button type="submit" class="btn btn-primary pull-right" type="submit">Post</button>

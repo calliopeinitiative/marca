@@ -1,7 +1,57 @@
-{% extends "::base.html.twig" %}
+{% extends 'MarcaCourseBundle::layout.html.twig' %}
 
-{% block title %}MarcaAssignmentBundle:Assignment:show{% endblock %}
+{% block title %}
+Assignments
+{% endblock %}
 
-{% block body %}
-<h1>Welcome to the Assignment:show page</h1>
+{% block sidebar %}
+    {{ render_esi(controller('MarcaAssignmentBundle:Assignment:createSidebar', { 'courseid': app.request.get('courseid') } )) }}
+{% endblock %}
+{% block content %}
+    <script>
+        $(document).ready(function() {
+            $('.submission_new').click(function () {
+                var assignmentStageid = $(this).data('id');
+                var url = "{{ course_path('file_new_modal', { 'type':'doc', 'assignmentStageid':'stageid'}) }}";
+                url = url.replace("stageid", assignmentStageid);
+                $('#file_modal').load(url);
+            });
+        });
+
+    </script>
+    <div class="col-md-12">
+        <h2>My Work:</h2>
+        {% for stage in assignment.stages %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ stage.name }}
+                {% if submissions[stage.id] is defined %}
+                    {% if submissions[stage.id].submitted %}
+                        <button class="btn btn-danger panel-heading-button pull-right">Stage Submitted</button>
+                    {% else %}
+                    <a href="{{ course_path('doc_edit', {'id':submissions[stage.id].file.id, 'view':'app', 'submissionid':submissions[stage.id].id}) }}" class="btn btn-primary panel-heading-button pull-right">Continue work on this submission</a>
+                    {% endif %}
+                {% else %}
+                {% if stage.previous.id is defined %}
+                    {% if submissions[stage.previous.id] is defined and submissions[stage.previous.id].submitted %}
+                        <a href="{{ course_path('submission_continue', {'stageid': stage.id, 'submissionid':submissions[stage.previous.id].id}) }}" class="btn btn-primary panel-heading-button pull-right">Continue from previous Stage</a>
+                    {% endif %}
+                {% endif %}
+                <a href="javascript:void(0);" class="submission_new btn btn-primary panel-heading-button pull-right" data-id="{{ stage.id }}">Create Submission</a>
+                {% endif %}
+            </div>
+            <div class="panel-body">
+            {{ stage.instructions }}
+                {% if stage.next %}
+                    Next: {{ stage.next.name }}
+                {% endif %}
+                {% if stage.previous %}
+                    Previous: {{ stage.previous.name }}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="modal fade" id="file_modal">
+    </div><!-- /.modal -->
 {% endblock %}
