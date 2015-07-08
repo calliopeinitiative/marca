@@ -8,11 +8,14 @@ use Marca\AssignmentBundle\Entity\AssignmentStage;
 use Marca\AssignmentBundle\Entity\AssignmentSubmission;
 use Marca\AssignmentBundle\Form\AssignmentStageType;
 use Marca\AssignmentBundle\Form\AssignmentType;
+use Marca\FileBundle\Entity\File;
+use Marca\FileBundle\Form\UploadType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class AssignmentController
@@ -91,6 +94,57 @@ class AssignmentController extends Controller
     }
 
     /**
+     * Show assignment submissions for instructor review
+     *
+     * @Route("/{courseid}/{id}/review", name="assignment_review")
+     */
+    public function reviewAction($id){
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($allowed);
+
+        $em = $this->getEm();
+        $assignment = $em->getRepository('MarcaAssignmentBundle:Assignment')->find($id);
+        return $this->render('MarcaAssignmentBundle:Assignment:review.html.twig', array(
+            'assignment' => $assignment
+        ));
+
+    }
+
+    /**
+     * Create new review file for an assignment submission
+     *
+     * @Route("/{courseid}/{id}/submissionReview", name="submission_review")
+     */
+    public function submissionReviewAction($id){
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        $user = $this->getUser();
+        $course = $this->getCourse();
+        $courseid = $course->getId();
+
+        $em = $this->getEm();
+        $reviewedSubmission = $em->getRepository('MarcaAssignmentBundle:AssignmentSubmission')->find($id);
+
+        $file = new File();
+        $file->setUser($user);
+        $file->setCourse($course);
+        $reviewed_file = $reviewedSubmission->getFile();
+        $file->setName('Review');
+        $file->setProject($reviewed_file->getProject());
+        $file->setEtherpaddoc($reviewed_file->getEtherpaddoc());
+        $file->setEtherpadgroup($reviewed_file->getEtherpadgroup());
+        $file->setReviewed($reviewed_file);
+        $file->setSubmissionReviewed($reviewedSubmission);
+        $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
+        $em->persist($file);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
+            'view' => 'window')));
+
+    }
+
+    /**
      * Post processing when a student saves progress on an assignment submission without saving
      *
      * @Route("/{courseid}/{id}/submissionsave", name="submission_save")
@@ -147,6 +201,9 @@ class AssignmentController extends Controller
         $assignment->addStage($assignmentStage2);
         $form = $this->createForm(new AssignmentType(), $assignment, array('course'=>$course));
         $form->handleRequest($request);
+        //saves resource referrer to session, necessary for file upload modal
+        $session = $this->get('session');
+        $session->set('resource_referrer', $request->getRequestUri());
 
         if($form->isValid()){
             //Set the "next" and "previous" of each stage by stepping through the stage array and setting next to each stage's key + 1 and previous to each stage's key - 1
@@ -234,6 +291,61 @@ class AssignmentController extends Controller
         $em->persist($assignment);
         $em->flush();
         return $this->redirect($this->generateUrl('assignment_index', array('courseid'=>$courseid)));
+    }
+
+    /**
+     * Uploads a file to attach to an assignment
+     * Differs from the upload file in the resource controller in that it has been modified to handle ajax submissions
+     * This allows the modal form to accept new resource uploads w/out resetting the underlying assignment form
+     *
+     * @Route("/{courseid}/{resource}/upload", name="assignment_file_upload", defaults={"resource" = 0})
+     */
+    public function uploadAction($courseid, $resource)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $role = $this->getCourseRole();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $project = $course->getProjectDefault();
+        $options = array('courseid' => $courseid, 'resource' => $resource, 'review' => 'no');
+        $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
+
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
+        $file = new File();
+        if ($resource != 0) {
+            $file->setAccess(1);
+            $project = $em->getRepository('MarcaCourseBundle:Project')->findProjectByCourse($course, $resource);
+        }
+        $file->setUser($user);
+        $file->setCourse($course);
+        $file->setProject($project);
+        $form = $this->createForm(new UploadType($options), $file);
+
+        if ($this->getRequest()->getMethod() === 'POST') {
+            $form->submit($this->getRequest());
+            if ($form->isValid()) {
+                $em = $this->getEm();
+                $em->persist($file);
+                $em->flush();
+
+                $session = $this->getRequest()->getSession();
+                return new JsonResponse(array('success'=>true));
+                }
+        }
+
+
+
+        return $this->render('MarcaFileBundle:File:upload_modal.html.twig', array(
+            'form' => $form->createView(),
+            'tags' => $tags,
+            'systemtags' => $systemtags,
+            'roll' => $roll,
+            'role' => $role,
+            'course' => $course,));
     }
 
 }

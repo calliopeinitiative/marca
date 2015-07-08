@@ -40,7 +40,7 @@ class Grade
 
 
     /**
-     * @ORM\OneToOne(targetEntity="Marca\FileBundle\Entity\File", inversedBy="grade")
+     * @ORM\OneToOne(targetEntity="Marca\FileBundle\Entity\File", mappedBy="grade")
      */
     protected $file;
 

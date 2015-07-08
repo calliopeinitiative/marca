@@ -14,7 +14,7 @@ class AssignmentStageType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('instructions')->add('dueDate')->add('reviewsRequired')->add('reviewInstructions');
+        $builder->add('name')->add('instructions', 'text', array('data'=>'Type assignment instructions here, or use the buttons to attach or upload a document'))->add('dueDate')->add('reviewsRequired')->add('reviewInstructions');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

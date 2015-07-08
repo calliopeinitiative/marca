@@ -21,8 +21,9 @@ class AssignmentType extends AbstractType {
             'property' => 'name',
             'multiple' => 'true',
             'required' => 'false',
+            'empty_data' => null,
             'query_builder' => function(EntityRepository $er) use($options) {
-                return $er->createQueryBuilder('f')->join('f.project','p')->where('f.course=?1')->andWhere('p.resource=true')->setParameters(array('1'=>$options['course']));
+                return $er->createQueryBuilder('f')->join('f.project','p')->leftJoin('f.doc','d')->where('f.course=?1')->andWhere('p.resource=true')->setParameters(array('1'=>$options['course']))->select('f, p, d');
             }
         ));
 

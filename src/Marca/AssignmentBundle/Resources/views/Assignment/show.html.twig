@@ -20,7 +20,24 @@ Assignments
 
     </script>
     <div class="col-md-12">
-        <h2>My Work:</h2>
+        <h2>{{ assignment.name }}</h2>
+        <h3>Assignment Description:</h3>
+        {{ assignment.description }}
+        {% if role == 2 %}
+        <a class="btn pull-right btn-success" href="{{ course_path('assignment_review', {'id':assignment.id}) }}">Review all submissions for this assignment</a>
+        {% endif %}
+        <h3>Resources:</h3>
+        <ul>
+        {% for resource in assignment.resources %}
+            <li>{% if resource.doc or resource.etherpaddoc %}
+                <a href="{{ course_path('doc_show', {'view':'window', 'id': resource.id }) }}">{{ resource.name }}</a>
+                {% else %}
+                <a href="{{ course_path('file_view', {'view':'window', 'id':resource.id }) }}">{{ resource.name }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+        <h3>Assignment Stages:</h3>
+        </ul>
         {% for stage in assignment.stages %}
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -42,12 +59,18 @@ Assignments
             </div>
             <div class="panel-body">
             {{ stage.instructions }}
-                {% if stage.next %}
-                    Next: {{ stage.next.name }}
+                {% if submissions[stage.id] is defined %}
+                    <h4>Reviews of my work</h4>
+                    <table id="file_list" class="col-sm-12 table">
+                    {% for review in submissions[stage.id].reviews %}
+                        <tr>
+                        <td>Review by: {{ review.user.firstname }} {{ review.user.lastname }}</td>
+                        <td><a class="btn btn-primary" href="{{ course_path('doc_show', {'id':review.id, 'view':'window'}) }}">View this review</a>
+                        </tr>
+                    {% endfor %}
+                    </table>
                 {% endif %}
-                {% if stage.previous %}
-                    Previous: {{ stage.previous.name }}
-                {% endif %}
+
             </div>
         </div>
         {% endfor %}

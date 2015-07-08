@@ -3,6 +3,23 @@
 {# rewrite filename on upload; show modal after ajax load  #}
 <script src="{{ asset('bundles/marcahome/js/bootstrap-filestyle.min.js') }}"></script>
 <script language="javascript">
+    {% if app.request.attributes.get('_route')=='assignment_file_upload' %}
+    function postForm($form, callback){
+        var values = {};
+        $.each($form.serializeArray(), function(i,field){
+            values[field.name] = field.value;
+        });
+        $.ajax({
+            type      : $form.attr('method'),
+            url       : $form.attr('action'),
+            data      : values,
+            success   :function(data) {
+                callback( data );
+            }
+        });
+    }
+
+    {% endif %}
     $(document).ready(function () {
         $('#file_modal').modal();
         $(":file").filestyle();
@@ -17,6 +34,19 @@
                 $('#file_modal').modal('hide');
             }
         });
+        {% if app.request.attributes.get('_route') == 'assignment_file_upload' %}
+        var forms = ['[name="{{ form.vars.full_name }}"]'];
+
+        $('form').submit( function(e) {
+            e.preventDefault();
+            postForm( $(this), function(response){
+                if(response.success){
+                    $('#file_modal').modal('hide');
+                }
+            });
+            return;
+        });
+        {% endif %}
     });
 </script>
 <div class="modal-dialog">
@@ -29,6 +59,8 @@
 
         {% if  app.request.attributes.get('_route')=='file_upload' %}
         {% set action %}{{ course_path('file_upload',{'resource' : app.request.get('resource')}) }}{% endset %}
+        {% elseif  app.request.attributes.get('_route') == 'assignment_file_upload' %}
+        {% set action %}{{ course_path('assignment_file_upload', {'resource':'1'}) }}{% endset %}
         {% else %}
         {% set action %}{{ course_path('review_upload',{'fileid': app.request.get('fileid')}) }}{% endset %}
         {% endif %}

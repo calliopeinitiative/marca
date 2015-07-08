@@ -63,7 +63,7 @@ class Roll
     protected $teams;
 
     /**
-     * @ORM\OneToOne(targetEntity="Marca\AssignmentBundle\Entity\Assignment")
+     * @ORM\ManyToOne(targetEntity="Marca\AssignmentBundle\Entity\Assignment")
      * @ORM\JoinColumn(name="current_assignment_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
      */
     protected $current_assignment;

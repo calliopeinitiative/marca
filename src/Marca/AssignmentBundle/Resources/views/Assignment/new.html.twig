@@ -28,6 +28,22 @@
             addStageForm($collectionHolder, $newLinkLi);
 
         });
+        $('#upload_resouce').on('click', function() {
+            $('#file_modal').load('{{ course_path('assignment_file_upload', { 'resource': '1' }) }}');
+        });
+        //when the file modal closes after the user uploads a new resource, grab the assignment form via ajax and refresh the resources section
+        $('#file_modal').on('hidden.bs.modal', function(){
+            var data={};
+            $.ajax({
+                url: '{{ course_path('assignment_new') }}',
+                type: 'get',
+                data: data,
+                success: function(html){
+                    $('#assignment_resources').replaceWith($(html).find('#assignment_resources'));
+                }
+
+            });
+        });
     });
 
     function addStageForm($collectionHolder, $newLinkLi) {
@@ -45,15 +61,16 @@
 
             <h2>New Assignment</h2>
             {% if app.request.attributes.get('_route') == 'assignment_new' %}
-                {{ form_start(form, {'action': course_path('assignment_new') }) }}
+                {{ form_start(form, {'action': course_path('assignment_new'), 'attr': {'novalidate': 'novalidate'} }) }}
             {% elseif app.request.attributes.get('_route') == 'assignment_edit' %}
-                {{ form_start(form, {'action': course_path('assignment_edit', {'id': id })}) }}
+                {{ form_start(form, {'action': course_path('assignment_edit', {'id': id }), 'attr': {'novalidate': 'novalidate'} }) }}
             {% else %}
-                {{ form_start(form) }}
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'} }) }}
             {% endif %}
             {{ form_row(form.name) }}
             {{ form_row(form.description) }}
             {{ form_row(form.resources) }}
+            <a href="javascript:void(0);" id="upload_resouce">Upload New Resource</a>
             <h3>Stages:</h3>
             <ul class="stages" data-prototype="{{ form_widget(form.stages.vars.prototype)|e }}">
             {% for stage in form.stages %}
@@ -69,4 +86,6 @@
             {% endif %}
         {{ form_end(form) }}
 
+    <div class="modal fade" id="file_modal">
+    </div><!-- /.modal -->
 {% endblock %}

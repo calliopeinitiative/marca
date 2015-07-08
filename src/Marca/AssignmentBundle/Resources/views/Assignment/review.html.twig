@@ -1,0 +1,46 @@
+{% extends 'MarcaCourseBundle::layout.html.twig' %}
+
+{% block title %}
+Assignments
+{% endblock %}
+
+{% block sidebar %}
+    {{ render_esi(controller('MarcaAssignmentBundle:Assignment:createSidebar', { 'courseid': app.request.get('courseid') } )) }}
+{% endblock %}
+{% block content %}
+    <script>
+
+    </script>
+    <div class="col-md-12">
+        <h2>{{ assignment.name }}</h2>
+        <h3>Assignment Description:</h3>
+        {{ assignment.description }}
+        <h3>Assignment Stages:</h3>
+        </ul>
+        {% for stage in assignment.stages %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ stage.name }}
+            </div>
+            <div class="panel-body">
+            {{ stage.instructions }}
+            </div>
+            <div class="panel-heading">
+                Submissions
+            </div>
+            <div class="panel-body">
+                    <table id="file_list" class="col-sm-12 table">
+                    {% for submission in stage.submissions %}
+                        <tr>
+                        <td>{{ submission.file.name }}</td><td>by:</td><td>{{ submission.user.firstname }} {{ submission.user.lastname }}</td>
+                            <td><a class="btn btn-primary" href="{{ course_path('submission_review', {'id':submission.id }) }}">Review this submission</a></td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="modal fade" id="file_modal">
+    </div><!-- /.modal -->
+{% endblock %}

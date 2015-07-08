@@ -58,7 +58,7 @@ class AssignmentSubmission
     protected $stage;
 
     /**
-     * @ORM\OneToMany(targetEntity="Marca\AssignmentBundle\Entity\Review", mappedBy="assignmentSubmission")
+     * @ORM\OneToMany(targetEntity="Marca\FileBundle\Entity\File", mappedBy="submissionReviewed")
      */
     protected $reviews;
 
@@ -198,10 +198,10 @@ class AssignmentSubmission
     /**
      * Add reviews
      *
-     * @param \Marca\AssignmentBundle\Review $reviews
+     * @param \Marca\FileBundle\Entity\File $reviews
      * @return AssignmentSubmission
      */
-    public function addReview(\Marca\AssignmentBundle\Review $reviews)
+    public function addReview(\Marca\FileBundle\Entity\File $reviews)
     {
         $this->reviews[] = $reviews;
 
@@ -211,9 +211,9 @@ class AssignmentSubmission
     /**
      * Remove reviews
      *
-     * @param \Marca\AssignmentBundle\Review $reviews
+     * @param \Marca\FileBundle\Entity\File $reviews
      */
-    public function removeReview(\Marca\AssignmentBundle\Review $reviews)
+    public function removeReview(\Marca\FileBundle\Entity\File $reviews)
     {
         $this->reviews->removeElement($reviews);
     }
