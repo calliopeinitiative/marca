@@ -95,12 +95,7 @@ class Review
      * @ORM\Column(name="feedbackcomment", type="string", length=750, nullable=true)
      */
     protected $feedbackComment;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Marca\AssignmentBundle\Entity\AssignmentSubmission", inversedBy="reviews")
-     */
-    protected $assignmentSubmission;
-
+    
 
     /**
      * Get id

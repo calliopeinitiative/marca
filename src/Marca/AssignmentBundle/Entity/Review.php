@@ -95,12 +95,7 @@ class Review
      * @ORM\Column(name="feedbackcomment", type="string", length=750, nullable=true)
      */
     protected $feedbackComment;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Marca\AssignmentBundle\Entity\AssignmentSubmission", inversedBy="reviews")
-     */
-    protected $assignmentSubmission;
-
+    
 
     /**
      * Get id
@@ -408,26 +403,4 @@ class Review
         return $this->feedbackRating;
     }
 
-    /**
-     * Set assignmentSubmission
-     *
-     * @param \Marca\AssignmentBundle\AssignmentSubmission $assignmentSubmission
-     * @return Review
-     */
-    public function setAssignmentSubmission(\Marca\AssignmentBundle\AssignmentSubmission $assignmentSubmission = null)
-    {
-        $this->assignmentSubmission = $assignmentSubmission;
-
-        return $this;
-    }
-
-    /**
-     * Get assignmentSubmission
-     *
-     * @return \Marca\AssignmentBundle\AssignmentSubmission 
-     */
-    public function getAssignmentSubmission()
-    {
-        return $this->assignmentSubmission;
-    }
 }
