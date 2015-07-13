@@ -113,6 +113,12 @@ class File
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     protected $submissionReviewed;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\AssignmentBundle\Entity\AssignmentSubmission", inversedBy="reviewed")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    protected $reviewerSubmission;
     
     /**
      * @var string $name
@@ -777,5 +783,28 @@ class File
     public function getSubmissionReviewed()
     {
         return $this->submissionReviewed;
+    }
+
+    /**
+     * Set reviewerSubmission
+     *
+     * @param \Marca\AssignmentBundle\Entity\AssignmentSubmission $reviewerSubmission
+     * @return File
+     */
+    public function setReviewerSubmission(\Marca\AssignmentBundle\Entity\AssignmentSubmission $reviewerSubmission = null)
+    {
+        $this->reviewerSubmission = $reviewerSubmission;
+
+        return $this;
+    }
+
+    /**
+     * Get reviewerSubmission
+     *
+     * @return \Marca\AssignmentBundle\Entity\AssignmentSubmission 
+     */
+    public function getReviewerSubmission()
+    {
+        return $this->reviewerSubmission;
     }
 }

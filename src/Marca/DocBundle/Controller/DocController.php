@@ -232,7 +232,7 @@ class DocController extends Controller
      * @Route("/{courseid}/{id}/{view}/{submissionid}/edit", name="doc_edit", defaults={ "submissionid"= 0})
      * @Template()
      */
-    public function editAction($courseid, $id, $submissionid)
+    public function editAction($courseid, $id, $submissionid, $view)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -293,6 +293,7 @@ class DocController extends Controller
             'reviews' => $reviews,
             'courseid' => $courseid,
             'submission' => $submission,
+            'view' => $view,
         ));
         $cookie_domain = $this->container->getParameter("etherpad_cookie_domain");
         $response->headers->setCookie(new Cookie('sessionID', $etherpadSession->sessionID, $expires, '/', $cookie_domain , false, false));
@@ -358,7 +359,7 @@ class DocController extends Controller
          //etherpad-style review docs
          //grab current revision id of the etherpad and save
          //also save this revision in the etherpad so it shows up in timeslider
-         if($file->getReviewed()){
+         if($file->getReviewed() && !($file->getSubmissionReviewed())){
              $revId = $etherpadInstance->getRevisionsCount($file->getEtherpaddoc())->revisions;
              $etherpadInstance->saveRevision($file->getEtherpaddoc(), $revId);
              $file->setEtherpadrev($revId);

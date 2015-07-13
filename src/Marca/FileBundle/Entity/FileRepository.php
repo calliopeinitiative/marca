@@ -80,6 +80,15 @@ class FileRepository extends EntityRepository
 
     }
 
+    /**
+     * Find reviews by a user in a given assignment
+     */
+    public function findReviewsByUserInAssignment($user, $assignment)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT f FROM MarcaFileBundle:File f JOIN f.submissionReviewed s join s.stage t WHERE f.user=?1 AND t.assignment=?2')->setParameters(array('1'=>$user, '2'=>$assignment))->getResult();
+    }
+
 
     /**
      * Find Files by Project

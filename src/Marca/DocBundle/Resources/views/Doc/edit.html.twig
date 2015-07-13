@@ -33,8 +33,11 @@
                         {% if submission %}
                             <li><a href="{{ course_path('submission_save', {'id':submission.id }) }}">Save Progress Without Submitting</a></li>
                             <li><a href="{{ course_path('assignment_submit', {'id':submission.id }) }}">Submit Assignment</a></li>
+                        {% elseif file.submissionReviewed %}
+                            <li><a href="{{ course_path('doc_save', {'id':file.id ,'view': view }) }}" class="" id="doc_save">Save Without Releasing</a></li>
+                            <li><a>Release Review to Student</a></li>
                         {% else %}
-                            <li><a href="{{ course_path('doc_save', {'id':file.id ,'view':'window'}) }}" class="" id="doc_save">Save and Preview</a></li>
+                            <li><a href="{{ course_path('doc_save', {'id':file.id ,'view': view }) }}" class="" id="doc_save">Save and Preview</a></li>
                         {% endif %}
 
                 </ul>

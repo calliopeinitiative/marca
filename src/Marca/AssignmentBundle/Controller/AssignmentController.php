@@ -89,7 +89,8 @@ class AssignmentController extends Controller
         return $this->render('MarcaAssignmentBundle:Assignment:show.html.twig', array(
             'submissions' => $submissionsByStage,
             'assignment' => $assignment,
-            'role' => $role
+            'role' => $role,
+            'user' => $user
         ));
     }
 
@@ -104,8 +105,15 @@ class AssignmentController extends Controller
 
         $em = $this->getEm();
         $assignment = $em->getRepository('MarcaAssignmentBundle:Assignment')->find($id);
+        $user = $this->getUser();
+        $reviews = $em->getRepository('MarcaFileBundle:File')->findReviewsByUserInAssignment($user, $assignment);
+        $reviewsBySubmission = array();
+        foreach($reviews as $review){
+            $reviewsBySubmission[$review->getSubmissionReviewed()->getId()] = $review;
+        }
         return $this->render('MarcaAssignmentBundle:Assignment:review.html.twig', array(
-            'assignment' => $assignment
+            'assignment' => $assignment,
+            'reviews' => $reviewsBySubmission
         ));
 
     }
@@ -131,8 +139,19 @@ class AssignmentController extends Controller
         $reviewed_file = $reviewedSubmission->getFile();
         $file->setName('Review');
         $file->setProject($reviewed_file->getProject());
-        $file->setEtherpaddoc($reviewed_file->getEtherpaddoc());
-        $file->setEtherpadgroup($reviewed_file->getEtherpadgroup());
+        //at the beginning of the review, create a new etherpad doc and add the html from the saved revision in the submission
+
+        $etherpadInstance = $this->get('etherpadlite');
+        $docName = uniqid($user->getId());
+        $groupKey = str_shuffle($docName);
+        $group = $etherpadInstance->createGroupIfNotExistsFor($groupKey);
+        $groupId = $group->groupID;
+        $etherpadInstance->createGroupPad($groupId, $docName);
+        $etherpaddoc = $groupId . '$' . $docName;
+        $oldDocHTML = $etherpadInstance->getHTML($reviewed_file->getEtherpaddoc(), $reviewed_file->getEtherpadRev())->html;
+        $etherpadInstance->setHTML($etherpaddoc, $oldDocHTML);
+        $file->setEtherpaddoc($etherpaddoc);
+        $file->setEtherpadgroup($groupId);
         $file->setReviewed($reviewed_file);
         $file->setSubmissionReviewed($reviewedSubmission);
         $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
@@ -142,6 +161,30 @@ class AssignmentController extends Controller
         return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
             'view' => 'window')));
 
+    }
+
+    /**
+     * Releases a review of a submission to the student
+     *
+     * @Route("/{courseid}/{id}/submissionReviewRelease", name="submission_review_release")
+     */
+    public function submissionReviewReleaseAction($id){
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($allowed);
+        $courseId = $this->getCourse()->getId();
+        $em = $this->getEm();
+
+        $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+        $assignmentId = $file->getSubmissionReviewed()->getStage()->getAssignment()->getId();
+
+        //get the current revision count from etherpad and flag then save that revision as the state of the review
+        $etherpadInstance = $this->get('etherpadlite');
+        $revision = $etherpadInstance->getRevisionsCount($file->getEtherpaddoc())->revisions;
+        $file->setEtherpadrev($revision);
+        $em->persist($file);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('assignment_review', array('courseid' => $courseId, 'id' => $assignmentId)));
     }
 
     /**
@@ -176,6 +219,36 @@ class AssignmentController extends Controller
         $em->persist($submission);
         $em->flush();
         return $this->redirect($this->generateUrl('assignment_show', array('courseid'=>$courseid, 'id' => $assignmentId)));
+    }
+
+    /**
+     * Allows student to choose a peer with work submitted for the current assignment stage
+     *
+     * @Route("/{courseid}/{id}/choose_peer", name="submission_peer_select")
+     */
+    public function submissionPeerSelectAction(Request $request, $id){
+        $em = $this->getEm();
+        $submission = $em->getRepository('MarcaAssignmentBundle:AssignmentSubmission')->find($id);
+        $user = $submission->getUser();
+        $stage = $submission->getStage();
+        $reviewsRequired = $stage->getReviewsRequired();
+
+
+        $form = $this->createFormBuilder()
+            ->add('users', 'entity', array(
+                'class' => 'MarcaUserBundle:User',
+                'property' => 'fullname',
+                'query_builder' => function() use($stage, $reviewsRequired, $em) {
+                    $userRepository = $em->getRepository('MarcaUserBundle:User');
+                    return $userRepository->createQueryBuilder('u')->innerJoin('u.assignmentSubmissions', 's', 'WITH', 's.stage = ?1')->setParameters(array('1'=> $stage));
+                }
+            ))
+            ->add('send', 'submit')
+            ->getForm();
+
+        return $this->render('MarcaAssignmentBundle:Assignment:choose_peer_modal.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
     /**

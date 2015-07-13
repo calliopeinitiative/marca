@@ -113,6 +113,12 @@ class File
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     protected $submissionReviewed;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Marca\AssignmentBundle\Entity\AssignmentSubmission", inversedBy="reviewed")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    protected $reviewerSubmission;
     
     /**
      * @var string $name
@@ -731,5 +737,51 @@ class File
     public function getAssignmentSubmissions()
     {
         return $this->assignmentSubmissions;
+    }
+
+    /**
+     * Set etherpadrev
+     *
+     * @param integer $etherpadrev
+     * @return File
+     */
+    public function setEtherpadrev($etherpadrev)
+    {
+        $this->etherpadrev = $etherpadrev;
+
+        return $this;
+    }
+
+    /**
+     * Get etherpadrev
+     *
+     * @return integer 
+     */
+    public function getEtherpadrev()
+    {
+        return $this->etherpadrev;
+    }
+
+    /**
+     * Set submissionReviewed
+     *
+     * @param \Marca\AssignmentBundle\Entity\AssignmentSubmission $submissionReviewed
+     * @return File
+     */
+    public function setSubmissionReviewed(\Marca\AssignmentBundle\Entity\AssignmentSubmission $submissionReviewed = null)
+    {
+        $this->submissionReviewed = $submissionReviewed;
+
+        return $this;
+    }
+
+    /**
+     * Get submissionReviewed
+     *
+     * @return \Marca\AssignmentBundle\Entity\AssignmentSubmission 
+     */
+    public function getSubmissionReviewed()
+    {
+        return $this->submissionReviewed;
     }
 }

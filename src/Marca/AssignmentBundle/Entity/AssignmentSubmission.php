@@ -62,6 +62,13 @@ class AssignmentSubmission
      */
     protected $reviews;
 
+    /**
+     * Stores the student's peer reviews for this stage of the assignment
+     * @ORM\OneToMany(targetEntity="Marca\FileBundle\Entity\File", mappedBy="reviewerSubmission")
+     */
+    protected $reviewed;
+
+
 
     /**
      * Get id
@@ -249,5 +256,38 @@ class AssignmentSubmission
     public function getCreated()
     {
         return $this->created;
+    }
+
+    /**
+     * Add reviewed
+     *
+     * @param \Marca\FileBundle\Entity\File $reviewed
+     * @return AssignmentSubmission
+     */
+    public function addReviewed(\Marca\FileBundle\Entity\File $reviewed)
+    {
+        $this->reviewed[] = $reviewed;
+
+        return $this;
+    }
+
+    /**
+     * Remove reviewed
+     *
+     * @param \Marca\FileBundle\Entity\File $reviewed
+     */
+    public function removeReviewed(\Marca\FileBundle\Entity\File $reviewed)
+    {
+        $this->reviewed->removeElement($reviewed);
+    }
+
+    /**
+     * Get reviewed
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReviewed()
+    {
+        return $this->reviewed;
     }
 }

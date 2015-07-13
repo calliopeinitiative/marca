@@ -1,0 +1,18 @@
+{# Marca/AssignmentBundle/Resources/views/Assignment/choose_peer_modal.html.twig #}
+
+{# show modal after ajax load #}
+<script language="javascript">
+    $(document).ready(function () {
+        $('#file_modal').modal();
+    });
+</script>
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Choose a classmate to begin your peer review</h4>
+        </div>
+        {{ form_widget(form) }}
+    </div>
+</div>

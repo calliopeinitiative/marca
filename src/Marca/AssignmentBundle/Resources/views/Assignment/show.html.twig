@@ -16,6 +16,12 @@ Assignments
                 url = url.replace("stageid", assignmentStageid);
                 $('#file_modal').load(url);
             });
+            $('#new_review').click(function() {
+                var submissionId = $(this).data('id');
+                var url = "{{ course_path('submission_peer_select', {'id': 'submissionid'}) }}";
+                url = url.replace('submissionid', submissionId);
+                $('#file_modal').load(url);
+            });
         });
 
     </script>
@@ -63,13 +69,31 @@ Assignments
                     <h4>Reviews of my work</h4>
                     <table id="file_list" class="col-sm-12 table">
                     {% for review in submissions[stage.id].reviews %}
+                        {% if review.etherpadRev %}
                         <tr>
                         <td>Review by: {{ review.user.firstname }} {{ review.user.lastname }}</td>
-                        <td><a class="btn btn-primary" href="{{ course_path('doc_show', {'id':review.id, 'view':'window'}) }}">View this review</a>
+                        <td><a class="btn btn-primary" href="{{ course_path('doc_show', {'id':review.id, 'view':'window'}) }}" target="_blank">View this review</a>
                         </tr>
+                        {% endif %}
                     {% endfor %}
                     </table>
                 {% endif %}
+                {% if submissions[stage.id] is defined and stage.reviewsRequired > 0 %}
+                <h4>My reviews of other's work</h4>
+                <table id="file_list" class="col-sm-12 table">
+                {% for review in submissions[stage.id].reviewed %}
+                    <tr><td>Review of:  {{ review.reviewed.name }}</td><td>by: {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}</td>
+                        <td><a class="btn btn-primary" href="{{ course_path('doc_show', {'id':review.id, 'view':'window'} ) }}" target="_blank">View my review</a></td>
+                    </tr>
+                {% endfor %}
+                </table>
+                    {% if submissions[stage.id].reviewed|length < stage.reviewsRequired %}
+                    <a href="javascript:void(0);" class="btn btn-success" id="new_review" data-id="{{ submissions[stage.id].id }}">Start a peer review ({{ stage.reviewsRequired - submissions[stage.id].reviewed|length }} required)</a>
+                    {% endif %}
+
+                {% endif %}
+
+
 
             </div>
         </div>

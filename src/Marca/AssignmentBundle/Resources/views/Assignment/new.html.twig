@@ -41,8 +41,8 @@
                 success: function(html){
                     $('#assignment_resources').replaceWith($(html).find('#assignment_resources'));
                 }
-
             });
+            $('form').unbind('submit');
         });
     });
 

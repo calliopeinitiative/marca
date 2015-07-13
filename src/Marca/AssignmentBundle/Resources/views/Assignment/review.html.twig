@@ -33,12 +33,25 @@ Assignments
                     {% for submission in stage.submissions %}
                         <tr>
                         <td>{{ submission.file.name }}</td><td>by:</td><td>{{ submission.user.firstname }} {{ submission.user.lastname }}</td>
-                            <td><a class="btn btn-primary" href="{{ course_path('submission_review', {'id':submission.id }) }}">Review this submission</a></td>
+                            {% if reviews[submission.id] is defined %}
+                                {# if the etherpadRev hasn't been set, the review is still in progress #}
+                                {% if reviews[submission.id].etherpadRev is null %}
+                                    <td><a class="btn btn-primary" href="{{ course_path('doc_edit', {'id':reviews[submission.id].id, 'view':'window'}) }}" target="_blank">Edit review</a> </td>
+                                    <td><a class="btn btn-danger" href="{{ course_path('submission_review_release', {'id':reviews[submission.id].id}) }}">Release review to student</a></td>
+                                {% else %}
+                                    <td>Review released to student</td>
+                                {% endif %}
+                            {% else %}
+                            <td><a class="btn btn-primary" href="{{ course_path('submission_review', {'id':submission.id }) }}" target="_blank">Begin Review</a></td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </table>
             </div>
         </div>
+        {% endfor %}
+        {% for review in reviews %}
+        {{ review.name }}, {{ review.id }}, {{ review.user }} {{ review.submissionReviewed.file.name }}
         {% endfor %}
     </div>
     <div class="modal fade" id="file_modal">
