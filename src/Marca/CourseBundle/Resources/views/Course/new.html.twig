@@ -66,6 +66,7 @@
                         <div class="">{{ form_row (form.name) }}</div>
                         <div class="{% if course.module!=0 %}hide{%endif%}">{{ form_row (form.time, {'type':'text'}) }}</div>
                         <div class="{% if course.module!=0 %}hide{%endif%}">{{ form_row (form.term) }}</div>
+                        <div class="{% if course.module!=0 %}hide{%endif%}">{{ form_row (form.externalid) }}</div>
                     </div>
 
                     <div class="panel-footer">
