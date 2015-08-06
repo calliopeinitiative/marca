@@ -49,7 +49,9 @@ class CourseRepository extends EntityRepository
     public function findArchivedCourses($user)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT c from MarcaCourseBundle:Course c JOIN c.roll r JOIN c.term t WHERE r.user = ?1 AND r.role > 0 AND t.status = 0 AND t.status < 3 AND c.module = 0 ORDER BY c.name')->setParameter('1',$user)->getResult();
+            ->createQuery('SELECT c from MarcaCourseBundle:Course c JOIN c.roll r JOIN c.term t WHERE r.user = ?1 AND r.role > 0 AND r.role < 3 AND t.status = 0 AND t.status < 3 AND c
+.module = 0
+ORDER BY c.name')->setParameter('1',$user)->getResult();
 
     }     
     
