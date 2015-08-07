@@ -66,4 +66,12 @@ ORDER BY c.name')->setParameter('1',$user)->getResult();
         return $this->getEntityManager()
             ->createQuery('SELECT c.id from MarcaCourseBundle:Course c  WHERE c.term = ?1')->setParameter('1',$term)->getResult();
     }
+
+    public function findDefaultModules() {
+        $modules = $this->createQueryBuilder('c')
+            ->andWhere('c.module=2')
+            ->getQuery()
+            ->getResult();
+        return $modules;
+    }
 }

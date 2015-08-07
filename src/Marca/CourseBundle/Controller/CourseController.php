@@ -203,7 +203,8 @@ class CourseController extends Controller
         $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findDefault();
         $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findDefault();
         $portset = $em->getRepository('MarcaPortfolioBundle:Portset')->findDefault();  
-        $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->findDefault(); 
+        $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->findDefault();
+        $modules = $em->getRepository('MarcaCourseBundle:Course')->findDefaultModules();
         $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution);
         
         $course = new Course();
@@ -222,6 +223,9 @@ class CourseController extends Controller
         };
         foreach ($markupsets as &$markupset) {
         $course->addMarkupset($markupset);    
+        };
+        foreach ($modules as &$module) {
+            $course->addParent($module);
         };
 
         $type= Page::TYPE_COURSE;
