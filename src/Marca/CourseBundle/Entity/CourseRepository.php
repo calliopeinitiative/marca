@@ -69,7 +69,7 @@ ORDER BY c.name')->setParameter('1',$user)->getResult();
 
     public function findDefaultModules() {
         $modules = $this->createQueryBuilder('c')
-            ->andWhere('c.module=2')
+            ->andWhere('c.module=3')
             ->getQuery()
             ->getResult();
         return $modules;

@@ -18,6 +18,7 @@ class Course
     const MODULE_NO=0;
     const MODULE_YES=1;
     const MODULE_SHARED=2;
+    const MODULE_DEFAULT=3;
     
     /**
      * @var integer $id
