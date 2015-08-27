@@ -12,6 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class CourseRepository extends EntityRepository
 {
+
+
+    public function findParents($course) {
+        return $this->createQueryBuilder('c')
+            ->select('p.id')
+            ->join('c.parents', 'p')
+            ->andWhere('c.id = :course')
+            ->setParameter('course', $course)
+            ->getQuery()
+            ->getResult();
+
+    }
+
    public function findCourseByLastname($lastname)
     {
        $lastname = strtolower($lastname);

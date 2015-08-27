@@ -33,11 +33,10 @@ class ResourceController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
         $default_project = $projects[0]->getId();
-        $project = $default_project;
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
-        $projectForTags = $em->getRepository('MarcaCourseBundle:Project')->find($project);
-        $courseForTags = $projectForTags->getCourse();
-        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseForTags);
+        $parents = $em->getRepository('MarcaCourseBundle:Course')->findParents($course);
+        $tags = $em->getRepository('MarcaTagBundle:Tagset')->findResourcesTagsetByCourse($course, $parents);
+
         return $this->render('MarcaFileBundle::resources_sidebar.html.twig', array(
             'projects' => $projects,
             'default_resource' => $default_project,

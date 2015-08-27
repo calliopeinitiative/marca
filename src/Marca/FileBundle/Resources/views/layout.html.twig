@@ -176,6 +176,11 @@
             var count = $('#file_list tr').not(':hidden').length - 1;
             var count_text = ' ' + count + ' files found';
             $('span.file_count').html(count_text);
+            // show labels only on page
+            $( "td.labels > span.label-default" ).each(function( index ) {
+                var text = $( this ).text();
+                $("a[data-filter-text='" + text + "']").removeClass('hidden');
+            });
 
         });
     </script>
