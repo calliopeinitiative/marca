@@ -28,5 +28,15 @@ class AssignmentSubmissionRepository extends EntityRepository
 
     }
 
+    /**
+     * Finds submissions for a given stage by a given user
+     */
+    public function findSubmissionForUserAndStage($user, $stage)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT s from MarcaAssignmentBundle:AssignmentSubmission s WHERE s.stage = ?1 AND s.user =?2 ')
+            ->setParameters(array('1'=>$stage, '2'=>$user))->getOneOrNullResult();
+    }
+
 }
 

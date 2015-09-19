@@ -784,4 +784,28 @@ class File
     {
         return $this->submissionReviewed;
     }
+
+    /**
+     * Set reviewerSubmission
+     *
+     * @param \Marca\AssignmentBundle\Entity\AssignmentSubmission $reviewerSubmission
+     * @return File
+     */
+    public function setReviewerSubmission(\Marca\AssignmentBundle\Entity\AssignmentSubmission $reviewerSubmission = null)
+    {
+        $this->reviewerSubmission = $reviewerSubmission;
+
+        return $this;
+    }
+
+    /**
+     * Get reviewerSubmission
+     *
+     * @return \Marca\AssignmentBundle\Entity\AssignmentSubmission 
+     */
+    public function getReviewerSubmission()
+    {
+        return $this->reviewerSubmission;
+    }
+
 }

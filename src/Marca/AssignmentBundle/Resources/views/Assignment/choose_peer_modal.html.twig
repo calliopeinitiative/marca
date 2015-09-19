@@ -13,6 +13,9 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title">Choose a classmate to begin your peer review</h4>
         </div>
-        {{ form_widget(form) }}
+        {% set action %}{{ course_path('submission_peer_select',{'id' : submissionId}) }}{% endset %}
+             <form action="{{ action }}" method="post" {{ form_enctype(form) }}>
+            {{ form_widget(form) }}
+            </form>
     </div>
 </div>

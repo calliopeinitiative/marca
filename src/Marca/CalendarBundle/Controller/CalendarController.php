@@ -159,7 +159,6 @@ class CalendarController extends Controller
         
         $startTime = $course->getTime();
         $startDate = date_create();
-         
         $calendar = new Calendar();
         $calendar->setDescription('<p> </p>');
         $calendar->setStartTime($startTime);

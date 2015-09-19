@@ -33,9 +33,12 @@
                         {% if submission %}
                             <li><a href="{{ course_path('submission_save', {'id':submission.id }) }}">Save Progress Without Submitting</a></li>
                             <li><a href="{{ course_path('assignment_submit', {'id':submission.id }) }}">Submit Assignment</a></li>
-                        {% elseif file.submissionReviewed %}
+                        {% elseif file.submissionReviewed and role == 2 %}
                             <li><a href="{{ course_path('doc_save', {'id':file.id ,'view': view }) }}" class="" id="doc_save">Save Without Releasing</a></li>
-                            <li><a>Release Review to Student</a></li>
+                            <li><a href="{{ course_path('submission_review_release',{'id':file.id} ) }}">Release Review to Student</a></li>
+                        {% elseif file.submissionReviewed and role != 2 %}
+                            <li><a href="{{ course_path('doc_save', {'id':file.id ,'view': view }) }}" class="" id="doc_save">Save Without Returning</a></li>
+                            <li><a href="{{ course_path('submission_review_release',{'id':file.id} ) }}">Return Peer Review</a></li>
                         {% else %}
                             <li><a href="{{ course_path('doc_save', {'id':file.id ,'view': view }) }}" class="" id="doc_save">Save and Preview</a></li>
                         {% endif %}

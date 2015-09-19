@@ -9,6 +9,7 @@ use Marca\AssignmentBundle\Entity\AssignmentSubmission;
 use Marca\AssignmentBundle\Form\AssignmentStageType;
 use Marca\AssignmentBundle\Form\AssignmentType;
 use Marca\FileBundle\Entity\File;
+use Marca\CalendarBundle\Entity\Calendar;
 use Marca\FileBundle\Form\UploadType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -129,9 +130,14 @@ class AssignmentController extends Controller
         $user = $this->getUser();
         $course = $this->getCourse();
         $courseid = $course->getId();
+        $role = $this->getCourseRole();
 
         $em = $this->getEm();
         $reviewedSubmission = $em->getRepository('MarcaAssignmentBundle:AssignmentSubmission')->find($id);
+
+        //we'll need this user's submission from this stage to store his/her review
+        $stage = $reviewedSubmission->getStage();
+        $reviewerSubmission = $em->getRepository('MarcaAssignmentBundle:AssignmentSubmission')->findSubmissionForUserAndStage($user, $stage);
 
         $file = new File();
         $file->setUser($user);
@@ -154,12 +160,23 @@ class AssignmentController extends Controller
         $file->setEtherpadgroup($groupId);
         $file->setReviewed($reviewed_file);
         $file->setSubmissionReviewed($reviewedSubmission);
+        $file->setReviewerSubmission($reviewerSubmission);
+
+        if($role = self::ROLE_STUDENT) {
+            $reviewedSubmission->setPeerReviews($reviewedSubmission->getPeerReviews() + 1);
+        }
         $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
         $em->persist($file);
         $em->flush();
-
-        return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
-            'view' => 'window')));
+        //Student reviews need the peer chooser before they can launch, and thus can't open a new tab without some heartache, so we use the app view for now
+        if($role = self::ROLE_STUDENT) {
+            return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
+                'view' => 'app')));
+        }
+        else {
+            return $this->redirect($this->generateUrl('doc_edit', array('courseid' => $courseid, 'id' => $file->getId(),
+                'view' => 'window')));
+        }
 
     }
 
@@ -171,6 +188,7 @@ class AssignmentController extends Controller
     public function submissionReviewReleaseAction($id){
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
+        $role = $this->getCourseRole();
         $courseId = $this->getCourse()->getId();
         $em = $this->getEm();
 
@@ -184,7 +202,12 @@ class AssignmentController extends Controller
         $em->persist($file);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('assignment_review', array('courseid' => $courseId, 'id' => $assignmentId)));
+        if($role == self::ROLE_INSTRUCTOR) {
+            return $this->redirect($this->generateUrl('assignment_review', array('courseid' => $courseId, 'id' => $assignmentId)));
+        }
+        else {
+            return $this->redirect($this->generateUrl('assignment_show', array('courseid' => $courseId, 'id'=>$assignmentId)));
+        }
     }
 
     /**
@@ -232,26 +255,48 @@ class AssignmentController extends Controller
         $user = $submission->getUser();
         $stage = $submission->getStage();
         $reviewsRequired = $stage->getReviewsRequired();
-
+        $course = $this->getCourse();
+        $stageId = $stage->getId();
 
         $form = $this->createFormBuilder()
             ->add('users', 'entity', array(
                 'class' => 'MarcaUserBundle:User',
-                'property' => 'fullname',
-                'query_builder' => function() use($stage, $reviewsRequired, $em) {
+                'property' => 'NameAndReviews['.$stageId .']',
+                'query_builder' => function() use($stage, $reviewsRequired, $course, $user, $em) {
                     $userRepository = $em->getRepository('MarcaUserBundle:User');
-                    return $userRepository->createQueryBuilder('u')->innerJoin('u.assignmentSubmissions', 's', 'WITH', 's.stage = ?1')->setParameters(array('1'=> $stage));
+                    $qb = $userRepository->createQueryBuilder('u');
+                    $query = $qb->Join('u.assignmentSubmissions', 's', 'WITH', 's.stage = ?1')->Join('u.roll','r', 'WITH', 'r.course=?3')->andWhere('r.role != 2')->andWhere('u != ?4')
+                        ->setParameters(array('1'=> $stage, '3'=>$course, '4'=>$user));
+                    return $query;
                 }
             ))
             ->add('send', 'submit')
             ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isValid()){
+            $data = $form->getData();
+            $userForReview = $data['users'];
+            $submissionForReview = $em->getRepository('MarcaAssignmentBundle:AssignmentSubmission')->findSubmissionForUserAndStage($userForReview, $stage);
+            if($submissionForReview){
+                return $this->redirect($this->generateUrl('submission_review', array('courseid'=>$course->getId(), 'id'=>$submissionForReview->getId() )));
+            }
+            else {
+                return $this->render('MarcaAssignmentBundle:Assignment:choose_peer_modal.html.twig', array(
+                    'form' => $form->createView(),
+                    'submissionId' => $id,
+                ));
+            }
+        }
 
         return $this->render('MarcaAssignmentBundle:Assignment:choose_peer_modal.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'submissionId' => $id,
         ));
     }
 
     /**
+     * Creates a new assignment
      * @Route("/{courseid}/new", name="assignment_new")
      * @Template()
      */
@@ -288,6 +333,19 @@ class AssignmentController extends Controller
                 if($key < count($stages)){
                     $stage->setNext($stages[$key + 1]);
                 }
+                //while we're stepping through the stages, create a calendar event for each assignment stage due date
+                $startTime = $course->getTime();
+                $startDate = date_create();
+                $calendar = new Calendar();
+                $calendar->setDescription($stage->getName().'from assignment:'.$stage->getAssignment()->getName().'due.');
+                $calendar->setStartTime($stage->getDueDate());
+                $calendar->setEndTime($stage->getDueDate());
+                $calendar->setStartDate($stage->getDueDate());
+                $calendar->setEndDate($stage->getDueDate());
+                $calendar->setTitle($stage->getName().' due');
+                $calendar->setCourse($course);
+                $calendar->setColor('firebrick');
+                $em->persist($calendar);
             }
             $em->persist($assignment);
             $em->flush();

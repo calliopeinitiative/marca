@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AssignmentSubmission
  *
- * @ORM\Table()
+ * @ORM\Table(name="assignmentsubmission")
  * @ORM\Entity(repositoryClass="Marca\AssignmentBundle\Entity\AssignmentSubmissionRepository")
  */
 class AssignmentSubmission
@@ -61,6 +61,13 @@ class AssignmentSubmission
      * @ORM\OneToMany(targetEntity="Marca\FileBundle\Entity\File", mappedBy="submissionReviewed")
      */
     protected $reviews;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="peerreviews", type="integer", nullable=true)
+     */
+    private $peerReviews = 0;
+
 
     /**
      * Stores the student's peer reviews for this stage of the assignment
@@ -267,7 +274,7 @@ class AssignmentSubmission
     public function addReviewed(\Marca\FileBundle\Entity\File $reviewed)
     {
         $this->reviewed[] = $reviewed;
-
+        $reviewed->setSubmissionReviewed($this);
         return $this;
     }
 
@@ -289,5 +296,31 @@ class AssignmentSubmission
     public function getReviewed()
     {
         return $this->reviewed;
+    }
+
+
+
+
+    /**
+     * Set peerReviews
+     *
+     * @param integer $peerReviews
+     * @return AssignmentSubmission
+     */
+    public function setPeerReviews($peerReviews)
+    {
+        $this->peerReviews = $peerReviews;
+
+        return $this;
+    }
+
+    /**
+     * Get peerReviews
+     *
+     * @return integer 
+     */
+    public function getPeerReviews()
+    {
+        return $this->peerReviews;
     }
 }

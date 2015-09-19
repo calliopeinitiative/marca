@@ -807,4 +807,5 @@ class File
     {
         return $this->reviewerSubmission;
     }
+
 }

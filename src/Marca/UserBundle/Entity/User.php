@@ -729,4 +729,19 @@ class User extends BaseUser
     public function getFullname(){
         return $this->firstname . " " . $this->lastname;
     }
+
+    /**
+     * Get name and reviews completed for an assignment
+     *
+     * @return array
+     */
+    public function getNameAndReviews()
+    {
+        $labelArray = array();
+        foreach($this->assignmentSubmissions as $submission)
+        {
+            $labelArray[$submission->getStage()->getId()] = $this->firstname . " " . $this->lastname . " (" . $submission->getPeerReviews() . ")";
+        }
+        return $labelArray;
+    }
 }

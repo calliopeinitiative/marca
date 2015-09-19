@@ -64,35 +64,50 @@ Assignments
                 {% endif %}
             </div>
             <div class="panel-body">
-            {{ stage.instructions }}
-                {% if submissions[stage.id] is defined %}
-                    <h4>Reviews of my work</h4>
-                    <table id="file_list" class="col-sm-12 table">
-                    {% for review in submissions[stage.id].reviews %}
-                        {% if review.etherpadRev %}
-                        <tr>
-                        <td>Review by: {{ review.user.firstname }} {{ review.user.lastname }}</td>
-                        <td><a class="btn btn-primary" href="{{ course_path('doc_show', {'id':review.id, 'view':'window'}) }}" target="_blank">View this review</a>
-                        </tr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Instructions:</h4>
+                        {{ stage.instructions }}
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Due:</h4>
+                        {% set date_difference = date('now').diff(stage.dueDate) %}
+                        {{ stage.dueDate|date("l: F d \\a\\t g:ia") }}
+                        {% if date_difference.invert == 1 %}
+                        (Past Due)
+                        {% else %}
+                        (Due in {{ date_difference.days }} days)
                         {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                    {% if submissions[stage.id] is defined %}
+                        <h4>Reviews of my work</h4>
+                        <table id="file_list" class="col-sm-12 table">
+                        {% for review in submissions[stage.id].reviews %}
+                            {% if review.etherpadRev %}
+                            <tr>
+                            <td>Review by: {{ review.user.firstname }} {{ review.user.lastname }}</td>
+                            <td><a class="btn btn-primary" href="{{ course_path('doc_show', {'id':review.id, 'view':'window'}) }}" target="_blank">View this review</a>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </table>
+                    {% endif %}
+                    {% if submissions[stage.id] is defined and stage.reviewsRequired > 0 %}
+                    <h4>My reviews of other's work</h4>
+                    <table id="file_list" class="col-sm-12 table">
+                    {% for review in submissions[stage.id].reviewed %}
+                        <tr><td>Review of:  {{ review.reviewed.name }}</td><td>by: {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}</td>
+                            <td><a class="btn btn-primary" href="{{ course_path('doc_show', {'id':review.id, 'view':'window'} ) }}" target="_blank">View my review</a></td>
+                        </tr>
                     {% endfor %}
                     </table>
-                {% endif %}
-                {% if submissions[stage.id] is defined and stage.reviewsRequired > 0 %}
-                <h4>My reviews of other's work</h4>
-                <table id="file_list" class="col-sm-12 table">
-                {% for review in submissions[stage.id].reviewed %}
-                    <tr><td>Review of:  {{ review.reviewed.name }}</td><td>by: {{ review.reviewed.user.firstname }} {{ review.reviewed.user.lastname }}</td>
-                        <td><a class="btn btn-primary" href="{{ course_path('doc_show', {'id':review.id, 'view':'window'} ) }}" target="_blank">View my review</a></td>
-                    </tr>
-                {% endfor %}
-                </table>
-                    {% if submissions[stage.id].reviewed|length < stage.reviewsRequired %}
-                    <a href="javascript:void(0);" class="btn btn-success" id="new_review" data-id="{{ submissions[stage.id].id }}">Start a peer review ({{ stage.reviewsRequired - submissions[stage.id].reviewed|length }} required)</a>
+                        <a href="javascript:void(0);" class="btn btn-success" id="new_review" data-id="{{ submissions[stage.id].id }}">Start a peer review ({{ stage.reviewsRequired - submissions[stage.id].reviewed|length }} more required)</a>
                     {% endif %}
-
-                {% endif %}
-
+                    </div>
+                </div>
 
 
             </div>
