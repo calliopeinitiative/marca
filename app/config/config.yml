@@ -70,20 +70,24 @@ assetic:
             - '%kernel.root_dir%/../vendor/twbs/bootstrap/less/bootstrap.less'
         filters: [lessphp]
 
+
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   %database_driver%
-        host:     %database_host%
-        port:     %database_port%
-        dbname:   %database_name%
-        user:     %database_user%
-        password: %database_password%
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
         charset:  UTF8
 
     orm:
-        auto_generate_proxy_classes: %kernel.debug%
-        auto_mapping: false
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+
 
 # Swiftmailer Configuration
 swiftmailer:
