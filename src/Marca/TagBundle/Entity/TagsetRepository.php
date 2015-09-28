@@ -17,12 +17,36 @@ class TagsetRepository extends EntityRepository
         return $this->getEntityManager()
             ->createQuery('SELECT t from MarcaTagBundle:Tagset t WHERE t.user = ?1 OR t.shared=1 ORDER BY t.shared,t.name')->setParameter('1',$user)->getResult();
     }
-       
-    public function findTagsetByCourse($courseid)
-    {  
-       return $this->getEntityManager()
-               ->createQuery('SELECT t from MarcaTagBundle:Tag t JOIN t.tagset s JOIN s.course c WHERE c.id = ?1')
-               ->setParameter('1',$courseid)->getResult();
+
+    public function findResourcesTagsetByCourse($course, $parents)
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.tag','t')
+            ->join('s.course', 'c')
+            ->select('t.color,t.name,t.sort')
+            ->where('c.id  = :parents or c.id = :course')
+            ->setParameter('course', $course)
+            ->setParameter('parents', $parents)
+            ->orderBy('t.sort','ASC')
+            ->addOrderBy('t.name','ASC')
+            ->getQuery()
+            ->getResult();
+
+    }
+
+
+    public function findTagsetByCourse($course)
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.tag','t')
+            ->join('s.course', 'c')
+            ->select('t.color,t.name,t.sort')
+            ->where('c.id = :course')
+            ->setParameter('course', $course)
+            ->orderBy('t.sort','ASC')
+            ->addOrderBy('t.name','ASC')
+            ->getQuery()
+            ->getResult();
     }
     
     public function findSystemTags()

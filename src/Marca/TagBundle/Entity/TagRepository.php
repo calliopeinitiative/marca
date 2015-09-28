@@ -24,4 +24,5 @@ class TagRepository extends EntityRepository
                ->createQuery('SELECT t,s from MarcaTagBundle:Tag t JOIN t.tagset s WHERE s.id = ?1 ORDER BY t.sort DESC')
                ->setParameter('1',$id)->getResult();
     }
+
 }

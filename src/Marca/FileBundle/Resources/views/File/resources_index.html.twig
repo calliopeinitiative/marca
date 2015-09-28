@@ -80,7 +80,7 @@
                         </div>
                     </td>
                     <td class="hidden-xs">{{ file.project.course.name }}: {{ file.project.name }}</td>
-                    <td class="hidden-sm hidden-xs">
+                    <td class="labels  hidden-sm hidden-xs">
                         {% for tag in file.tag %}
                             <span data-tag='{{ tag.id }}' class="label label-default margin-right"
                                   style="background-color: {{ tag.color }};">{{ tag.name }}</span>{% endfor %}

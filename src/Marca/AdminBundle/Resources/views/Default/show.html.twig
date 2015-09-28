@@ -21,7 +21,7 @@
                 <li><strong>Roles:</strong>  {% for role in user.roles %}{{ role }} {% endfor %}</li>
                 <li><a href="{{ path('user_promote', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Promote Instr.</a> / <a href="{{ path('user_demote', { 'username': user.username, 'role': 'ROLE_INSTR' }) }}">Demote Instr.</a></li>
                 <li><a href="{{ path('user_promote', { 'username': user.username, 'role': 'ROLE_ADMIN' }) }}">Promote Admin.</a> / <a href="{{ path('user_demote', { 'username': user.username, 'role': 'ROLE_ADMIN' }) }}">Demote Admin.</a></li>
-                <li><a href="{{ path('admin_user_edit', { 'username': user.username}) }}">Edit Username and Email</a></li>
+                <li><a href="{{ path('admin_user_edit', { 'username': user.username}) }}">Edit User</a></li>
             </ul>
         </div>
 
