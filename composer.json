@@ -26,7 +26,7 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.3.21",
+        "symfony/symfony": "2.3.*",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "1.2.*",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
@@ -41,8 +41,6 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "stof/doctrine-extensions-bundle": "dev-master",
         "vich/uploader-bundle": "0.9.0",
-        "knplabs/knp-gaufrette-bundle": "0.2.*@dev",
-        "knplabs/gaufrette": "0.2.*@dev",
         "knplabs/knp-paginator-bundle": "dev-master",
         "fr3d/ldap-bundle": "2.0.*@dev",
         "knplabs/knp-snappy-bundle": "dev-master",
