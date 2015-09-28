@@ -54,7 +54,7 @@ class Markup
     /**
      * @var string $url
      *
-     * @ORM\Column(name="url", type="string", length=255, nullable=true)
+     * @ORM\Column(name="url", type="string", length=510, nullable=true)
      */
     private $url;
     
