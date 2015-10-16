@@ -67,7 +67,7 @@
 {# top navigation bar; block coursenav for when user is in a course #}
 {% if not is_granted('ROLE_USER') or 'file_view' in app.request.attributes.get('_route') or 'doc' in app.request.attributes.get('_route') or 'portfolio_user' in app.request.attributes.get('_route') or 'ratingset' in app.request.attributes.get('_route') %}
 {% else %}
-    <nav class="navbar navbar-inverse navbar-fixed-top onesidedropshadow" role="navigation">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         {% if is_granted('ROLE_USER') %}
             <div class="navbar-header col-sm-2">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainnav-collapse">

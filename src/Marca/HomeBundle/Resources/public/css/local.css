@@ -252,7 +252,8 @@ a:hover {
 }
 
 .navbar-inverse {
-    background-color:#333333;
+    background-color: #1c3f39;
+    border-color: #989898;
 }
 
 .navbar-inverse .navbar-brand {
@@ -436,7 +437,7 @@ ul .dropdown-menu .glyphicon {
 .doc-header {
     margin-top: 3em;
     padding-top: 1em;
-    border-top: grey solid 1px;
+    border-top: #989898 solid 1px;
 }
 
 .doc-footer {
@@ -696,7 +697,6 @@ td.labels {
 #file_list thead th {
     background-color:#f1f1f1;
     font-weight:normal;
-    font-family:"museo-slab", Cambria, Georgia, sans-serif;
 }
 
 #file_list {
