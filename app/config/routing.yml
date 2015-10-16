@@ -1,6 +1,6 @@
 login:
     pattern: /login
-    defaults: { _controller: MarcaCourseBundle:Course:index }
+    defaults: { _controller: MarcaCourseBundle:User:index }
 
 logout:
     pattern: /logout
