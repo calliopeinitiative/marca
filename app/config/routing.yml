@@ -7,7 +7,10 @@ login:
 
 logout:
     pattern: /logout
-    defaults: { _controller: MarcaHomeBundle:Default:index }
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /home
+        permanent: true
 
 
 marca_gradebook:
