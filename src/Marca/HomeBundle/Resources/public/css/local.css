@@ -130,8 +130,18 @@ iframe {border:0;}
 }
 
 .btn-primary {
-    background-color: #23517a;
-    border-color: #23517a;
+    background-color: #2d6862;
+    border-color: #989898;
+}
+
+.btn-primary:hover {
+    background-color: #1c3f39;
+    border-color: #989898;
+}
+
+.btn-primary:focus {
+    background-color: #1c3f39;
+    border-color: #989898;
 }
 
 .navbar-default {
@@ -194,12 +204,12 @@ h3.small {
 }
 
 a {
-    color: #23517a;
+    color: #464648;
     text-decoration: none;
 }
 
 a:hover {
-    color: #006DCC;
+    color: #000000;
     text-decoration: underline;
 }
 
