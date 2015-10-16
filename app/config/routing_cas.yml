@@ -1,3 +1,18 @@
+login:
+    pattern: /login
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /user/home
+        permanent: true
+
+logout:
+    pattern: /logout
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /home
+        permanent: true
+
+
 marca_gradebook:
     resource: "@MarcaGradebookBundle/Controller/"
     type:     annotation

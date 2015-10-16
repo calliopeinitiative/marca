@@ -58,6 +58,14 @@ class Course
      */
     private $time;
 
+
+    /**
+     * @var string $externalid
+     *
+     * @ORM\Column(name="externalid", type="string", length=255, nullable=true)
+     */
+    private $externalid = 0000001;
+
     /**
      * @var boolean $enroll
      *
@@ -1025,5 +1033,28 @@ class Course
     public function getReviewrubrics()
     {
         return $this->reviewrubrics;
+    }
+
+    /**
+     * Set externalid
+     *
+     * @param string $externalid
+     * @return Course
+     */
+    public function setExternalid($externalid)
+    {
+        $this->externalid = $externalid;
+
+        return $this;
+    }
+
+    /**
+     * Get externalid
+     *
+     * @return string 
+     */
+    public function getExternalid()
+    {
+        return $this->externalid;
     }
 }

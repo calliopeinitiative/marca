@@ -1,0 +1,35 @@
+imports:
+    - { resource: config.yml }
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      nested
+        nested:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+
+framework:
+    router:
+      resource: "%kernel.root_dir%/config/routing_cas.yml"
+
+security:
+    firewalls:
+        main:
+            pattern: ^/
+            logout:
+                path:   /logout
+                target: /
+            trusted_sso:
+                manager: admin_sso
+                create_users: true
+                login_action: false
+                logout_action: false
+                login_path: /login
+                check_path: /login
+            provider: fos_userbundle
+            anonymous:    true
+            switch_user: true
