@@ -6,6 +6,6 @@
         Purpose of the stylesheet follows.
 */
 
-html, body {height:100%;font-family: 'Open Sans', 'Arial', 'sans-serif'}
-h1,h2,legend,.navbar-fixed-top,.skippy  {font-family: 'Open Sans', 'Arial', 'sans-serif'}
-#file_list thead th {font-family: 'Open Sans', 'Arial', 'sans-serif'}
+html, body {height:100%;font-family: 'Open Sans', 'Arial', 'sans-serif';}
+h1,h2,legend,.navbar-brand  {font-family: 'Josefin Sans', 'Arial', 'sans-serif';}
+#file_list thead th {font-family: 'Open Sans', 'Arial', 'sans-serif';}
