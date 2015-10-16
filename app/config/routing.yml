@@ -1,6 +1,9 @@
 login:
     pattern: /login
-    defaults: { _controller: MarcaCourseBundle:User:index }
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /user/home
+        permanent: true
 
 logout:
     pattern: /logout
