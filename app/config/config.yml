@@ -108,7 +108,18 @@ fos_user:
             enabled:    true
     from_email:
         address:        %from_email%
-        sender_name:    Marca Dev
+        sender_name:    Emma
+
+be_simple_sso_auth:
+    admin_sso:
+        protocol:
+            id: cas
+            version: 2
+        server:
+            id: cas
+            login_url: https://cas.dev.uga.edu/cas/login
+            logout_url: https://cas.dev.uga.edu/cas/logout
+            validation_url: https://cas.dev.uga.edu/cas/serviceValidate
 
 fr3d_ldap:
     driver:

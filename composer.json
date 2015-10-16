@@ -29,6 +29,7 @@
         "symfony/symfony": "2.3.*",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "1.2.*",
+        "doctrine/common": "2.4.2",
         "twig/extensions": "1.0.*",
         "symfony/assetic-bundle": "2.3.*",
         "symfony/swiftmailer-bundle": "2.3.*",
@@ -52,7 +53,8 @@
         "oyejorge/less.php": "~1.5",
         "packagist/yuicompressor-bin": "dev-master",
         "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1",
-        "stripe/stripe-php": "1.*"
+        "stripe/stripe-php": "1.*",
+        "besimple/sso-auth-bundle": "*@dev"
     },
     "scripts": {
         "post-install-cmd": [

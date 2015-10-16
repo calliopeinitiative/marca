@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             new FR3D\LdapBundle\FR3DLdapBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
+            new BeSimple\SsoAuthBundle\BeSimpleSsoAuthBundle(),
             new Marca\HomeBundle\MarcaHomeBundle(),
             new Marca\UserBundle\MarcaUserBundle(),
             new Marca\CourseBundle\MarcaCourseBundle(),
