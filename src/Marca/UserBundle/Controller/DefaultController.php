@@ -25,8 +25,18 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $auth_username = $usr= $this->get('security.context')->getToken()->getUser()->getUsername();
+        $auth_user_email = $auth_username.'@uga.edu';
         $em = $this->getEm();
         $user = $this->getUser();
+        if (!$user) {
+            $userManager = $this->container->get('fos_user.user_manager');
+            $user = $userManager->createUser();
+            $user->setUsername($auth_username);
+            $user->setEmail($auth_user_email);
+            $userManager->updateUser($user);
+        }
+
         $id = $user->getId();
 
         if ($user->getLastname()==''){
