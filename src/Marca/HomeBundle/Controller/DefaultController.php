@@ -26,12 +26,4 @@ class DefaultController extends Controller
         return array('pages' => $pages);
     }
 
-    /**
-     * @Route("/login", name="login")
-     * @Template()
-     */
-    public function loginAction()
-    {
-        var_dump();die();
-    }
 }

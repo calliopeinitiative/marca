@@ -1,9 +1,7 @@
+login:
+    pattern: /login
 logout:
     pattern: /logout
-    defaults:
-        _controller: FrameworkBundle:Redirect:urlRedirect
-        path: /home
-        permanent: true
 
 
 marca_gradebook:
