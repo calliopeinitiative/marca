@@ -4,10 +4,6 @@ imports:
 monolog:
     handlers:
         main:
-            type:         fingers_crossed
-            action_level: error
-            handler:      nested
-        nested:
             type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
@@ -25,7 +21,7 @@ security:
                 target: /
             trusted_sso:
                 manager: admin_sso
-                create_users: false
+                create_users: true
                 created_users_roles: [ROLE_USER, ROLE_ADMIN]
                 login_action: false
                 logout_action: false
