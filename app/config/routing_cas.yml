@@ -1,9 +1,6 @@
 login:
-    pattern: /login
-    defaults:
-        _controller: FrameworkBundle:Redirect:urlRedirect
-        path: /user/home
-        permanent: true
+    pattern:  /login
+    defaults: { _controller: MarcaUserBundle:Default:login }
 
 logout:
     pattern: /logout

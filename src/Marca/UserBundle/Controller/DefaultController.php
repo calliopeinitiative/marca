@@ -20,6 +20,16 @@ use Marca\UserBundle\Form\ResearchType;
 class DefaultController extends Controller
 {
     /**
+     * @Route("/login", name="login")
+     * @Template()
+     */
+    public function loginAction()
+    {
+        var_dump();die();
+    }
+
+
+    /**
      * @Route("/home", name="user_home")
      * @Template()
      */
@@ -29,6 +39,7 @@ class DefaultController extends Controller
         $auth_user_email = $auth_username.'@uga.edu';
         $em = $this->getEm();
         $user = $this->getUser();
+
         if (!$user) {
             $userManager = $this->container->get('fos_user.user_manager');
             $user = $userManager->createUser();
@@ -36,6 +47,7 @@ class DefaultController extends Controller
             $user->setEmail($auth_user_email);
             $userManager->updateUser($user);
         }
+
 
         $id = $user->getId();
 
