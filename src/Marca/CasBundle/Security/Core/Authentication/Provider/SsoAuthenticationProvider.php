@@ -140,7 +140,6 @@ class SsoAuthenticationProvider implements AuthenticationProviderInterface
     {
         try {
             $user = $this->userProvider->loadUserByUsername($username);
-            var_dump($user);die;
 
             if (!$user instanceof UserInterface) {
                 throw new AuthenticationServiceException('The user provider must return an UserInterface object.');
