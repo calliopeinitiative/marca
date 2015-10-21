@@ -1,3 +1,8 @@
+marca_cas:
+    resource: "@MarcaCasBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 marca_gradebook:
     resource: "@MarcaGradebookBundle/Controller/"
     type:     annotation

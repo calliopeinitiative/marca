@@ -7,13 +7,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * Home controller.
+ * Profile controller.
  *
+ * @Route("/home")
  */
 class DefaultController extends Controller
 {
     /**
-     * @Route("/home", name="home")
+     * @Route("/", name="home")
      * @Template()
      */
     public function indexAction()
@@ -25,5 +26,4 @@ class DefaultController extends Controller
 
         return array('pages' => $pages);
     }
-
 }
