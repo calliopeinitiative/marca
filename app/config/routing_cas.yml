@@ -85,6 +85,16 @@ MarcaCourseBundle:
     type:     annotation
     prefix:   /
 
+MarcaUserBundle:
+    resource: "@MarcaUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+MarcaHomeBundle:
+    resource: "@MarcaHomeBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
@@ -104,15 +114,7 @@ fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
 
-MarcaUserBundle:
-    resource: "@MarcaUserBundle/Controller/"
-    type:     annotation
-    prefix:   /
 
-MarcaHomeBundle:
-    resource: "@MarcaHomeBundle/Controller/"
-    type:     annotation
-    prefix:   /
 
 # Internal routing configuration to handle ESI
 #_internal:
