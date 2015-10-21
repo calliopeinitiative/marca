@@ -19,15 +19,6 @@ use Marca\UserBundle\Form\ResearchType;
  */
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/login", name="login")
-     * @Template()
-     */
-    public function loginAction()
-    {
-        var_dump();die();
-    }
-
 
     /**
      * @Route("/home", name="user_home")

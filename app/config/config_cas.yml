@@ -27,8 +27,10 @@ security:
                 manager: admin_sso
                 create_users: true
                 created_users_roles: [ROLE_USER, ROLE_ADMIN]
-                login_action: BeSimpleSsoAuthBundle:TrustedSso:login
-                logout_action: BeSimpleSsoAuthBundle:TrustedSso:logout
+                login_action: false
+                logout_action: false
+                login_path: /login
+                check_path: /login
             provider: fos_userbundle
             anonymous:    true
             switch_user: true

@@ -7,14 +7,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * Profile controller.
+ * Home controller.
  *
- * @Route("/home")
  */
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/home", name="home")
      * @Template()
      */
     public function indexAction()
@@ -25,5 +24,14 @@ class DefaultController extends Controller
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
 
         return array('pages' => $pages);
+    }
+
+    /**
+     * @Route("/login", name="login")
+     * @Template()
+     */
+    public function loginAction()
+    {
+        var_dump();die();
     }
 }

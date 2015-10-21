@@ -1,7 +1,3 @@
-login:
-    pattern:  /login
-    defaults: { _controller: MarcaUserBundle:Default:login }
-
 logout:
     pattern: /logout
     defaults:
