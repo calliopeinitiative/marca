@@ -7,7 +7,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface as UserFactoryInterface;
+use BeSimple\SsoAuthBundle\Security\Core\User\UserFactoryInterface as UserFactoryInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Marca\UserBundle\Entity\UserRepository")
@@ -15,8 +15,6 @@ use Symfony\Component\Security\Core\User\UserInterface as UserFactoryInterface;
  */
 class User extends BaseUser implements UserFactoryInterface
 {
-
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -682,5 +680,22 @@ class User extends BaseUser implements UserFactoryInterface
     public function getGrades()
     {
         return $this->grades;
+    }
+
+    /**
+     * Create User
+     *
+     * @return User
+     */
+    public function createUser($username, array $roles, array $attributes)
+    {
+        $email = $username . '@uga.edu';
+        $userManager = $this->container->get('fos_user.user_manager');
+        $user = $userManager->createUser();
+        $user->setUsername($username);
+        $user->setEmail($email);
+        $userManager->updateUser($user);
+
+        return $user;
     }
 }
