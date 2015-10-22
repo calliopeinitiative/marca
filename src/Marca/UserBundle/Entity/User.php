@@ -7,13 +7,13 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use BeSimple\SsoAuthBundle\Security\Core\User\UserFactoryInterface as UserFactoryInterface;
+
 
 /**
  * @ORM\Entity(repositoryClass="Marca\UserBundle\Entity\UserRepository")
  * @ORM\Table(name="marca_user")
  */
-class User extends BaseUser implements UserFactoryInterface
+class User extends BaseUser
 {
     /**
      * @ORM\Id

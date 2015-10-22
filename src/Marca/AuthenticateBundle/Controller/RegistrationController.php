@@ -10,9 +10,10 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AccountStatusException;
 use FOS\UserBundle\Model\UserInterface;
+use BeSimple\SsoAuthBundle\Security\Core\User\UserFactoryInterface as UserFactoryInterface;
 
 
-class RegistrationController extends BaseController
+class RegistrationController extends BaseController implements UserFactoryInterface
 {
      /**
       * Create User
