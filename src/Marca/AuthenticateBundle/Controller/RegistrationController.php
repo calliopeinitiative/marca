@@ -15,7 +15,20 @@ use FOS\UserBundle\Model\UserInterface;
 class RegistrationController extends BaseController
 {
      /**
-     * Not yet modified...
-     */
+      * Create User
+      *
+      * @return User
+      */
+     public function createUser($username, array $roles, array $attributes)
+     {
+          $email = $username . '@uga.edu';
+          $userManager = $this->container->get('fos_user.user_manager');
+          $user = $userManager->createUser();
+          $user->setUsername($username);
+          $user->setEmail($email);
+          $userManager->updateUser($user);
+
+          return $user;
+     }
 
 }
