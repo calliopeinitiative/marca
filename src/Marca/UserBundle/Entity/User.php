@@ -7,12 +7,13 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface as UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Marca\UserBundle\Entity\UserRepository")
  * @ORM\Table(name="marca_user")
  */
-class User extends BaseUser
+class User extends BaseUser implements UserInterface
 {
 
     

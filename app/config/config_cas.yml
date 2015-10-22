@@ -12,6 +12,17 @@ framework:
     router:
       resource: "%kernel.root_dir%/config/routing_cas.yml"
 
+be_simple_sso_auth:
+    admin_sso:
+        protocol:
+            id: cas
+            version: 2
+        server:
+            id: cas
+            login_url: https://cas.dev.uga.edu/cas/login
+            logout_url: https://cas.dev.uga.edu/cas/logout
+            validation_url: https://cas.dev.uga.edu/cas/serviceValidate
+
 security:
     firewalls:
         main:
@@ -22,7 +33,7 @@ security:
             trusted_sso:
                 manager: admin_sso
                 create_users: true
-                created_users_roles: [ROLE_USER, ROLE_ADMIN]
+                created_users_roles: [ROLE_USER]
                 login_action: false
                 logout_action: false
                 login_path: /login
