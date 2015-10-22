@@ -7,16 +7,16 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface as UserInterface;
+use Symfony\Component\Security\Core\User\UserInterface as UserFactoryInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Marca\UserBundle\Entity\UserRepository")
  * @ORM\Table(name="marca_user")
  */
-class User extends BaseUser implements UserInterface
+class User extends BaseUser implements UserFactoryInterface
 {
 
-    
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
