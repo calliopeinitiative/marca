@@ -15,21 +15,25 @@ use BeSimple\SsoAuthBundle\Security\Core\User\UserFactoryInterface as UserFactor
 
 class RegistrationController extends BaseController implements UserFactoryInterface
 {
-     /**
-      * Create User
-      *
-      * @return User
-      */
-     public function createUser($username, array $roles, array $attributes)
-     {
-          $email = $username . '@uga.edu';
-          $userManager = $this->container->get('fos_user.user_manager');
-          $user = $userManager->createUser();
-          $user->setUsername($username);
-          $user->setEmail($email);
-          $userManager->updateUser($user);
+    /**
+     * @throws AuthenticationServiceException
+     *
+     * @param string $username
+     * @param array $attributes
+     *
+     * @return UserInterface
+     */
+    public function createUser($username, array $roles, array $attributes)
+    {
+        $userManager = $this->container->get('fos_user.user_manager');
+        $user = $userManager->createUser();
+        $user->setUsername($username);
+        $user->setEmail($username.'uga.edu');
 
-          return $user;
-     }
+        $userManager->updateUser($user);
+        
+        return $user;
+    }
+
 
 }

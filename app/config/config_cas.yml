@@ -37,8 +37,14 @@ security:
                 login_action: false
                 logout_action: false
                 login_path: /login
-                check_path: /login
+                check_path: /login_check
                 failure_path: /register
             provider: fos_userbundle
             anonymous:    true
             switch_user: true
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/home, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
