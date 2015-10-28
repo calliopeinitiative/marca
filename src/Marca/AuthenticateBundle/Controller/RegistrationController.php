@@ -31,7 +31,7 @@ class RegistrationController extends BaseController implements UserFactoryInterf
         $user->setEmail($username.'uga.edu');
 
         $userManager->updateUser($user);
-        
+
         return $user;
     }
 
