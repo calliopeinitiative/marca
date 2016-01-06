@@ -14,7 +14,7 @@ $loader->register(true);
 require_once __DIR__.'/../app/AppKernel.php';
 require_once __DIR__.'/../app/AppCache.php';
 
-$kernel = new AppKernel('cas', false);
+$kernel = new AppKernel('prod', false);
 $kernel->loadClassCache();
 // wrap the default AppKernel with the AppCache one
 $kernel = new AppCache($kernel);
