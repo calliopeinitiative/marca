@@ -33,7 +33,7 @@ security:
             trusted_sso:
                 manager: admin_sso
                 create_users: true
-                created_users_roles: [ROLE_USER]
+                created_users_roles: [ 'ROLE_USER' ]
                 login_action: false
                 logout_action: false
                 login_path: /login
