@@ -312,6 +312,9 @@ class CourseController extends Controller
         
         $course->setProjectDefault($project1);
 
+        $type= Page::TYPE_COURSE;
+        $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
+
         if ($form->isValid()) {
             $em = $this->getEm();
             $em->persist($course);
@@ -334,6 +337,7 @@ class CourseController extends Controller
 
         return $this->render('MarcaCourseBundle:Course:new.html.twig', array(
             'course' => $course,
+            'pages' => $pages,
             'form'   => $form->createView()
         ));
     }
