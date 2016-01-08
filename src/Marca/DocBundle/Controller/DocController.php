@@ -323,37 +323,15 @@ class DocController extends Controller
 
 
     /**
-     * Creates HTML for printing
-     *
-     * @Route("/{courseid}/{id}/print", name="doc_print")
-     * @Template("MarcaDocBundle:Doc:pdf.html.twig")
-     */
-    public function htmlPrintAction($id)
-    {
-        $ip = $this->get('request')->getClientIp();
-        $em = $this->getEm();
-        $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
-
-        if (!$doc) {
-            throw $this->createNotFoundException('Unable to find Doc entity.');
-        }
-
-        return $this->render('MarcaDocBundle:Doc:pdf.html.twig', array(
-            'doc' => $doc,
-            'ip' => $ip
-        ));
-    }
-
-
-    /**
      * Creates a pdf of a Doc for printing.
      *
      * @Route("/{courseid}/{id}/pdf", name="doc_pdf")
      */
-    public function createPdfAction($id,$courseid)
+    public function createPdfAction($id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
+
         $em = $this->getEm();
         $user = $this->getUser();
         $role = $this->getCourseRole();
@@ -363,21 +341,31 @@ class DocController extends Controller
         $review_file = $file->getReviewed();
         if ($review_file) {$review_owner = $review_file->getUser();} else {$review_owner = $file_owner;}
         $file_access = $file->getAccess();
-
-        $name = $file->getName();
-        $filename = 'attachment; filename="'.$name.'.pdf"';
-
         if ($file_owner != $user && $review_owner != $user && $file_access==0 && $role != 2 )  {
             throw new AccessDeniedException();
         }
 
-        $pageUrl = $this->generateUrl('doc_print', array('id'=> $id,'courseid'=> $courseid),  true); // use absolute path!
+        $name = $file->getName();
+        $filename = 'attachment; filename="'.$name.'.pdf"';
+        $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
+
+        if (!$doc) {
+            throw $this->createNotFoundException('Unable to find Doc entity.');
+        }
+
+        $html = $this->renderView('MarcaDocBundle:Doc:pdf.html.twig', array(
+          'doc' => $doc,
+        ));
 
         return new Response(
-            $this->get('knp_snappy.pdf')->getOutput($pageUrl),
-            200,
-            array('Content-Type'=> 'application/force-download', 'Content-Disposition'  => $filename )
+          $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+          200,
+          array(
+            'Content-Type'          => 'application/pdf',
+            'Content-Disposition'   => $filename
+          )
         );
+
     }
 
 
