@@ -1,9 +1,10 @@
 login:
-    pattern: /login
+    path: /login
 login_check:
-    pattern: /login_check
+    path: /login_check
 logout:
-    pattern: /logout
+    path: /logout
+    defaults: { _controller: MarcaHomeBundle:Default:index }
 
 marca_gradebook:
     resource: "@MarcaGradebookBundle/Controller/"
@@ -16,7 +17,7 @@ marca_assignment:
     prefix:   /
 
 default:
-    pattern:  /
+    path:  /
     defaults: { _controller: MarcaHomeBundle:Default:index }
 
 marca_assessment:
