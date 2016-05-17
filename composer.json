@@ -26,7 +26,6 @@
         "stof/doctrine-extensions-bundle": "dev-master",
         "vich/uploader-bundle": "0.9.0",
         "knplabs/knp-paginator-bundle": "dev-master",
-        "fr3d/ldap-bundle": "2.0.*@dev",
         "knplabs/knp-snappy-bundle": "dev-master",
         "egeloen/ckeditor-bundle": "~2.0",
         "components/jquery": "2.1.*",
@@ -37,7 +36,6 @@
         "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1",
         "stripe/stripe-php": "1.*",
         "besimple/sso-auth-bundle": "*@dev",
-        "jasig/phpcas": "^1.3",
         "ircmaxell/password-compat": "^1.0"
     },
     "scripts": {
