@@ -1,5 +1,6 @@
 login:
     path: /login
+    defaults: { _controller: MarcaHomeBundle:Default:index }
 login_check:
     path: /login_check
 logout:
