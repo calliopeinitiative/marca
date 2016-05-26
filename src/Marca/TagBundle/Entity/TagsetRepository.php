@@ -24,7 +24,7 @@ class TagsetRepository extends EntityRepository
             ->join('s.tag','t')
             ->join('s.course', 'c')
             ->select('t.color,t.name,t.sort')
-            ->where('c.id  = :parents or c.id = :course')
+            ->where('c.id IN(:parents) or c.id = :course')
             ->setParameter('course', $course)
             ->setParameter('parents', $parents)
             ->orderBy('t.sort','ASC')
