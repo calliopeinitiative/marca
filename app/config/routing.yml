@@ -7,6 +7,19 @@ logout:
     path: /logout
     defaults: { _controller: MarcaHomeBundle:Default:index }
 
+wwwRedirect:
+    path:  /
+    host: emma.uga.edu
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: https://www.emma.uga.edu
+        permanent: true
+
+default:
+    path:  /
+    defaults: { _controller: MarcaHomeBundle:Default:index }
+    schemes:  [https]
+
 marca_gradebook:
     resource: "@MarcaGradebookBundle/Controller/"
     type:     annotation
@@ -16,10 +29,6 @@ marca_assignment:
     resource: "@MarcaAssignmentBundle/Controller/"
     type:     annotation
     prefix:   /
-
-default:
-    path:  /
-    defaults: { _controller: MarcaHomeBundle:Default:index }
 
 marca_assessment:
     resource: "@MarcaAssessmentBundle/Controller/"
