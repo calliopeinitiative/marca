@@ -13,16 +13,18 @@
             <h1>{{ application_name }}</h1>
             <p>Learn together. Write better.</p>
             <p>
-                <a class="btn btn-primary btn-lg " title="Sign in" href="{{ path('user_home') }}">Sign in</a>
+                <a class="btn btn-primary btn-lg " href="{{ path('user_home') }}">Sign in</a>
                 {% if ldap_auth!='yes' %}
                     <a class="btn btn-primary btn-lg pull-right " title="Sign up for an account"
-                       href="{{ path('fos_user_registration_register') }}">Sign up for an account</a>
+                       href="{{ path('fos_user_registration_register') }}">Sign up</a>
                 {% endif %}
             </p>
             {% if pages %}
-                {% for page in pages %}
-                    {{ page.body|html_raw }}
-                {% endfor %}
+                <div class="row" style="margin-top: 50px;">
+                    {% for page in pages %}
+                        {{ page.body|html_raw }}
+                    {% endfor %}
+                </div>
             {% endif %}
         </div>
     </div>
@@ -31,7 +33,7 @@
     <div class="row">
         <div class="container">
             <div class="col-sm-4 col-xs-12">
-                <div class="panel panel-default" style="height:175px;">
+                <div class="panel panel-default" style="min-height:100%">
                     <div class="panel-body">
                         <h2>Intuitive peer editing. <i class="fa fa-comments fa-2x"></i></h2>
                         <p>On {{ application_name }}, students can easily share their work with each other, offer
@@ -41,7 +43,7 @@
                 </div>
             </div>
             <div class="col-sm-4 col-xs-12">
-                <div class="panel panel-default" style="height:175px;">
+                <div class="panel panel-default" style="min-height:100%">
                     <div class="panel-body">
                         <h2>Simply beautiful portfolios. <i class="fa fa-archive fa-2x"></i></h2>
                         <p>Using {{ application_name }}, your students can create beautiful portfolios that combine text
@@ -51,13 +53,11 @@
                 </div>
             </div>
             <div class="col-sm-4 col-xs-12">
-                <div class="panel panel-default">
+                <div class="panel panel-default" style="min-height:100%">
                     <div class="panel-body">
                         <h2>Powerful, flexible markup. <i class="fa fa-pencil fa-2x"></i></h2>
-                        <p>Whether you’re leaving initial feedback on a rough draft or thoroughly grading a final
-                            project, {{ application_name }} provides instructors with simple yet powerful and customizable
-                            tools for marking up documents. {{ application_name }} will help you grade more effectively and
-                            efficiently.</p>
+                        <p>{{ application_name }} provides instructors with simple yet powerful and customizable
+                            tools for marking up documents.</p>
                     </div>
                 </div>
             </div>
