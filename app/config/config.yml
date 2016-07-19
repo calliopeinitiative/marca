@@ -1,9 +1,19 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: services.yml }
     - { resource: fileSystem.yml }
     - { resource: '@MarcaCourseBundle/Resources/config/services.yml' }
-    - { resource: '@MarcaAuthenticateBundle/Resources/config/services.xml' }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+    be_simple.sso_auth.client.option.curlopt_sslversion.value: 0
+
+services:
+    fos_user.doctrine_registry:
+        alias: doctrine
 
 framework:
     esi: { enabled: true }
@@ -27,7 +37,7 @@ twig:
     strict_variables: %kernel.debug%
     globals:
       application_name:       %app_name%
-      ldap_auth:              %ldap%
+      cas:                    %cas%
       help_email:             %help_email%
       help_url:               %help_url%
 
@@ -100,7 +110,6 @@ swiftmailer:
     sender_address: %mailer_sender_address%
     spool: { type: memory }
 
-
 be_simple_sso_auth:
     admin_sso:
         protocol:
@@ -111,7 +120,6 @@ be_simple_sso_auth:
             login_url: https://cas.uga.edu/cas/login
             logout_url: https://cas.uga.edu/cas/logout
             validation_url: https://cas.uga.edu/cas/serviceValidate
-
 
 fos_user:
     db_driver: orm

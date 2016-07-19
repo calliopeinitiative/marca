@@ -14,7 +14,7 @@
             <p>Learn together. Write better.</p>
             <p>
                 <a class="btn btn-primary btn-lg " href="{{ path('user_home') }}">Sign in</a>
-                {% if ldap_auth!='yes' %}
+                {% if cas!='yes' %}
                     <a class="btn btn-primary btn-lg pull-right " title="Sign up for an account"
                        href="{{ path('fos_user_registration_register') }}">Sign up</a>
                 {% endif %}

@@ -1,0 +1,17 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+    marca_user_registration:
+        class: Marca\UserBundle\Form\UserType
+        arguments: ["fos_user.model.user.class"]
+        tags:
+                    - { name: form.type }
+    sso_user_provider:
+        class: Marca\UserBundle\Security\SSOUserProvider
+        arguments:
+            - '@fos_user.user_manager'
+            - '@doctrine.orm.entity_manager'
+            - '@fos_user.util.token_generator'

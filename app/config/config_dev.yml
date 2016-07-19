@@ -2,10 +2,20 @@ imports:
     - { resource: config.yml }
 
 framework:
+    esi: { enabled: true }
+    fragments: { path: /_fragment }
+    translator:      { fallback: %locale% }
+    secret:          %secret%
     router:
-        resource: "%kernel.root_dir%/config/routing_dev.yml"
-        strict_requirements: true
-    profiler: { only_exceptions: false }
+      resource: "%kernel.root_dir%/config/routing_dev.yml"
+      strict_requirements: %kernel.debug%
+    form:            true
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
+    session: ~
+    default_locale: %locale%
+    trusted_proxies: ~
 
 web_profiler:
     toolbar: true
