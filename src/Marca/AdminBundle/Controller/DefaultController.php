@@ -9,7 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Marca\UserBundle\Entity\User;
 use Marca\AdminBundle\Form\AdminUserType;
-use FOS\UserBundle\Entity\UserManager;
 
 
 /**
@@ -24,7 +23,6 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getEm();
         $user = $this->getUser();
         $users = array();
         

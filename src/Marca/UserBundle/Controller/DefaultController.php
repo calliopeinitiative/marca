@@ -26,7 +26,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $auth_username = $usr= $this->get('security.context')->getToken()->getUser()->getUsername();
+        $auth_username = $usr= $this->get('security.token_storage')->getToken()->getUser()->getUsername();
         $auth_user_email = $auth_username.'@uga.edu';
         $em = $this->getEm();
         $user = $this->getUser();
