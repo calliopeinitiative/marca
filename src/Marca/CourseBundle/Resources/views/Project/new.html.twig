@@ -18,7 +18,7 @@
 {% block content %}
 <div class="col-sm-6 center">
     <div class="panel panel-default">
-        <form class="form" action="{{ path('project_create', { 'courseid': courseid, 'resource':project.resource }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+        <form class="form" action="{{ path('project_create', { 'courseid': courseid, 'resource':project.resource }) }}" method="post" {{ form_start(form) }} novalidate="novalidate">
         <div class="panel-heading">
             <button id="close_form" type="button" class="close">&times;</button>
             <h2 class="panel-title small">New {% if project.resource == 0%}Folder in Projects{%else%}Folder in Resources{%endif%}</h2>

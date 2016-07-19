@@ -16,7 +16,7 @@
 
 {% block content %}
     <div class="col-sm-8 center">
-        <form action="{{ path('tagset_update', { 'id': tagset.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+        <form action="{{ path('tagset_update', { 'id': tagset.id }) }}" method="post" {{ form_start(edit_form) }}>
 
             <div class="panel panel-default">
                 <div class="panel-heading">

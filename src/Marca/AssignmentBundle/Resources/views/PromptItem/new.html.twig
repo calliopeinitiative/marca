@@ -6,7 +6,7 @@
     <div class="col-sm-8 center">
 
         <form action="{{ path('promptitem_create',{'reviewrubricid':reviewrubric.id}) }}"
-              method="post" {{ form_enctype(form) }} novalidate="novalidate">
+              method="post" {{ form_start(form) }} novalidate="novalidate">
 
             <div class="panel panel-default">
                 <div class="panel-heading">

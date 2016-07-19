@@ -2,20 +2,10 @@ imports:
     - { resource: config.yml }
 
 framework:
-    esi: { enabled: true }
-    fragments: { path: /_fragment }
-    translator:      { fallback: %locale% }
-    secret:          %secret%
     router:
-      resource: "%kernel.root_dir%/config/routing_dev.yml"
-      strict_requirements: %kernel.debug%
-    form:            true
-    csrf_protection: true
-    validation:      { enable_annotations: true }
-    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
-    session: ~
-    default_locale: %locale%
-    trusted_proxies: ~
+        resource: "%kernel.root_dir%/config/routing_dev.yml"
+        strict_requirements: true
+    profiler: { only_exceptions: false }
 
 web_profiler:
     toolbar: true
@@ -24,18 +14,59 @@ web_profiler:
 monolog:
     handlers:
         main:
-            type:  stream
-            path:  %kernel.logs_dir%/%kernel.environment%.log
-            level: debug
-#        firephp:
-#            type:  firephp
-#            level: info
-#        chromephp:
-#           type:  chromephp
-#           level: info
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+        console:
+            type:   console
+            bubble: false
+            verbosity_levels:
+                VERBOSITY_VERBOSE: INFO
+                VERBOSITY_VERY_VERBOSE: DEBUG
+            channels: ["!doctrine"]
+        console_very_verbose:
+            type:   console
+            bubble: false
+            verbosity_levels:
+                VERBOSITY_VERBOSE: NOTICE
+                VERBOSITY_VERY_VERBOSE: NOTICE
+                VERBOSITY_DEBUG: DEBUG
+            channels: ["doctrine"]
+        # uncomment to get logging in your browser
+        # you may have to allow bigger header sizes in your Web server configuration
+        #firephp:
+        #    type:   firephp
+        #    level:  info
+        #chromephp:
+        #    type:   chromephp
+        #    level:  info
 
 assetic:
-    use_controller: false
+    use_controller: true
 
 #swiftmailer:
 #    delivery_address: me@example.com
+
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                # csrf_token_generator: security.csrf.token_manager
+                # if you are using Symfony < 2.8, use the following config instead:
+                csrf_provider: form.csrf_provider
+
+            logout:       true
+            anonymous:    true

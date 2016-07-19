@@ -23,7 +23,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title">Select Review Rubric</h4>
         </div>
-        <form id="assign" action="{{ path('assignrubric', {'courseid' : courseid, 'fileid': fileid}) }}" method="post" {{ form_enctype(form) }}>
+        <form id="assign" action="{{ path('assignrubric', {'courseid' : courseid, 'fileid': fileid}) }}" method="post" {{ form_start(form) }}>
             <div class="modal-body">
                 {{ form_widget(form) }}
             </div>

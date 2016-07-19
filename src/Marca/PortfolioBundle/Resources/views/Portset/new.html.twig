@@ -19,7 +19,7 @@
         <button id="close_form" type="button" class="close">&times;</button>
         <h2 class="margin-top-small">Portfolio Set</h2>
 
-        <form class="form" action="{{ path('portset_create') }}" method="post" {{ form_enctype(form) }}>
+        <form class="form" action="{{ path('portset_create') }}" method="post" {{ form_start(form) }}>
             {{ form_widget(form) }}
             <button class="btn btn-primary pull-right" type="submit">Post</button>
         </form>

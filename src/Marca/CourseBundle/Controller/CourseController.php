@@ -15,6 +15,7 @@ use Marca\HomeBundle\Entity\Page;
 use Marca\CourseBundle\Form\CourseType;
 use Marca\CourseBundle\Form\ModuleType;
 use Marca\CourseBundle\Form\AnnounceType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
@@ -106,7 +107,7 @@ class CourseController extends Controller
      * Landing page once in a course
      * @Route("/{courseid}/home", name="course_home")
      */
-    public function homeAction($courseid)
+    public function homeAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
         $this->restrictAccessTo($allowed);
@@ -134,7 +135,7 @@ class CourseController extends Controller
         };
 
         $paginator = $this->get('knp_paginator');
-        $calendar = $paginator->paginate($calendar,$this->get('request')->query->get('page', 1),5);
+        $calendar = $paginator->paginate($calendar,$request->query->get('page', 1),5);
         return $this->render('MarcaCourseBundle:Course:home.html.twig', array(
             'course' => $course,
             'calendar' => $calendar,

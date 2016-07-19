@@ -9,7 +9,7 @@
 {% block content %}
     <div class="col-sm-8 center">
         <div class="panel panel-default">
-            <form action="{{ path('objective_create', {'assessmentsetid':assessmentsetid}) }}" method="post" {{ form_enctype(form) }}>
+            <form action="{{ path('objective_create', {'assessmentsetid':assessmentsetid}) }}" method="post" {{ form_start(form) }}>
                 <div class="panel-heading">
                     <a class="btn btn-default pull-right" href="{{ path('assessmentset') }}">List Assessment Sets</a>
                     <h2 class="margin-top-small">Learning Objective</h2>

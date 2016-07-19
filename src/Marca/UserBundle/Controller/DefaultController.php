@@ -6,7 +6,6 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\UserBundle\Entity\User;
 use Marca\HomeBundle\Entity\Page;
 use Marca\UserBundle\Form\UserType;
 use Marca\UserBundle\Form\NewuserType;
@@ -26,20 +25,8 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $auth_username = $usr= $this->get('security.token_storage')->getToken()->getUser()->getUsername();
-        $auth_user_email = $auth_username.'@uga.edu';
         $em = $this->getEm();
         $user = $this->getUser();
-
-        if (!$user) {
-            $userManager = $this->container->get('fos_user.user_manager');
-            $user = $userManager->createUser();
-            $user->setUsername($auth_username);
-            $user->setEmail($auth_user_email);
-            $userManager->updateUser($user);
-        }
-
-
         $id = $user->getId();
 
         if ($user->getLastname()==''){
@@ -99,7 +86,6 @@ class DefaultController extends Controller
      */
     public function showAction()
     {
-        $em = $this->getEm();
         $user = $this->getUser();
         if (!$user) {
             throw $this->createNotFoundException('Unable to find Profile entity.');
@@ -116,7 +102,6 @@ class DefaultController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getEm();
 
         $user = $this->getUser();
 

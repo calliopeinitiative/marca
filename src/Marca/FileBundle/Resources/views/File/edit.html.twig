@@ -18,7 +18,7 @@ $('form ul li div ul li').addClass('alert alert-error');
                 <h4 class="modal-title">File Settings</h4>
             </div>
             <form action="{{ course_path('file_update',{'id': file.id,'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': app.request.get('type'),
-            'user': '0','project': 'recent', 'fileid':app.request.get('fileid')}) }}" method="post" {{ form_enctype(edit_form) }}  novalidate="validate">
+            'user': '0','project': 'recent', 'fileid':app.request.get('fileid')}) }}" method="post" {{ form_start(edit_form) }}  novalidate="validate">
                 <div class="modal-body">
                     {{ form_errors(edit_form) }}
                     <div class="{% if file.reviewed %}hidden{% endif %}">{{ form_row (edit_form.name) }}</div>

@@ -5,7 +5,7 @@
 {% block content %}
 <h1>ReviewResponse creation</h1>
 
-<form action="{{ path('reviewresponse_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('reviewresponse_create') }}" method="post" {{ form_start(form) }}>
     {{ form_widget(form) }}
     <p>
         <button type="submit">Create</button>

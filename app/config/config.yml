@@ -18,18 +18,27 @@ services:
 framework:
     esi: { enabled: true }
     fragments: { path: /_fragment }
-    translator:      { fallback: %locale% }
-    secret:          %secret%
+    translator:      { fallbacks: ["%locale%"] }
+    secret:          "%secret%"
     router:
-      resource: "%kernel.root_dir%/config/routing.yml"
-      strict_requirements: %kernel.debug%
-    form:            true
-    csrf_protection: true
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
     validation:      { enable_annotations: true }
-    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
-    session: ~
-    default_locale: %locale%
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
     trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
 
 # Twig Configuration
 twig:
