@@ -13,9 +13,6 @@ parameters:
     mailer_password:   ~
     mailer_encryption:  ~
     from_email:        marca@yourserver.edu
-    ldap:              no
-    ldap_host:         ldap://example.com
-    ldap_port:         389
     locale:            en
     secret:            agr8hqoiugq34iqn34g8q0348gq7435
     app_name:          Marca
@@ -26,5 +23,5 @@ parameters:
     vich_storage:     vich_uploader.storage.file_system
     vich_uri_prefix:       %kernel.root_dir%/../uploads/files
     vich_upload_destination:  %kernel.root_dir%/../uploads/files
-    ldap_email_host: uga.edu
+    cas: no
 

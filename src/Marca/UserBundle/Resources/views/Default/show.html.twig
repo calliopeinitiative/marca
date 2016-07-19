@@ -27,7 +27,7 @@
             <div style="text-align:center;margin-left:0;margin-right:0;">
             <div class="btn-group" style="text-align:center;">
                 <a class="btn btn-default" title="Edit Profile" href="{{ path('user_edit', { 'id': user.id }) }}">Edit Profile</a>
-                {% if ldap_auth!='yes' %}
+                {% if cas!='yes' %}
                     <a class="btn btn-default" title="Change Password" href="{{ path('fos_user_change_password') }}">Change Password</a>
                 {% endif %}
                 <a class="btn btn-default" title="Enroll in a Course" href="{{ path('enroll_find') }}">Enroll in a Course</a>

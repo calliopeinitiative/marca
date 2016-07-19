@@ -26,7 +26,6 @@ class AppKernel extends Kernel
             new Marca\HomeBundle\MarcaHomeBundle(),
             new Marca\UserBundle\MarcaUserBundle(),
             new Marca\CourseBundle\MarcaCourseBundle(),
-            new Marca\AuthenticateBundle\MarcaAuthenticateBundle(),
             new Marca\JournalBundle\MarcaJournalBundle(),
             new Marca\ForumBundle\MarcaForumBundle(),
             new Marca\FileBundle\MarcaFileBundle(),

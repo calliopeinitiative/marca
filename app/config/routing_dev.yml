@@ -1,5 +1,8 @@
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
 _welcome:
-    pattern:  /
+    path:  /
     defaults: { _controller: MarcaHomeBundle:Default:index }
 
 _wdt:
