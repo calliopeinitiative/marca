@@ -66,7 +66,6 @@ class ResourceController extends Controller
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($project);
 
         $session = $this->get('session');
-        $request = $this->getRequest();
 
         if ($resource == 0) {
             $template = 'MarcaFileBundle:File:files_index.html.twig';
@@ -191,7 +190,6 @@ class ResourceController extends Controller
 
         $editForm = $this->createForm(new FileType($options), $file);
 
-        $request = $this->getRequest();
         $postData = $request->get('marca_filebundle_filetype');
         $project = $postData['project'];
         $resource = $em->getRepository('MarcaCourseBundle:Project')->find($project);
@@ -206,7 +204,7 @@ class ResourceController extends Controller
         $em->persist($file);
         $em->flush();
 
-        $session = $this->getRequest()->getSession();
+        $session = $request->getSession();
         if (!$session) {
             $uri = $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'id' => $file->getId(), 'userid' => '0', 'resource' => $resource, 'user' => '0')));
         } else {
@@ -252,7 +250,6 @@ class ResourceController extends Controller
         $this->restrictAccessTo($request, $allowed);
 
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->submit($request);
 
@@ -274,7 +271,7 @@ class ResourceController extends Controller
             $em->flush();
         }
 
-        $session = $this->getRequest()->getSession();
+        $session = $request->getSession();
         if (!$session) {
             $uri = $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'id' => $file->getId(), 'userid' => '0', 'resource' => $resource, 'user' => '0')));
         } else {
@@ -324,14 +321,14 @@ class ResourceController extends Controller
         $file->setProject($project);
         $form = $this->createForm(new UploadType($options), $file);
 
-        if ($this->getRequest()->getMethod() === 'POST') {
-            $form->submit($this->getRequest());
+        if ($request->getMethod() === 'POST') {
+            $form->submit($request);
             if ($form->isValid()) {
                 $em = $this->getEm();
                 $em->persist($file);
                 $em->flush();
 
-                $session = $this->getRequest()->getSession();
+                $session = $request->getSession();
                 if (!$session) {
                     $uri = $this->redirect($this->generateUrl('file_list', array('courseid' => $courseid, 'id' => $file->getId(), 'userid' => '0', 'resource' => $resource, 'user' => '0')));
                 } else {

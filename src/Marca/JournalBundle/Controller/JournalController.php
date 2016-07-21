@@ -84,7 +84,7 @@ class JournalController extends Controller
 
         //pagination
         $paginator = $this->get('knp_paginator');
-        $journal = $paginator->paginate($journals,$this->get('request')->query->get('page', $page),1);
+        $journal = $paginator->paginate($journals,$request->query->get('page', $page),1);
 
         return $this->render('MarcaJournalBundle:Journal:index.html.twig',array(
             'journal' => $journal,
@@ -207,8 +207,6 @@ class JournalController extends Controller
         $editForm = $this->createEditForm($journal, $courseid, $options);
         $deleteForm = $this->createDeleteForm($id, $courseid);
 
-        $request = $this->getRequest();
-
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -242,7 +240,6 @@ class JournalController extends Controller
         $em = $this->getEm();
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
 
-        $request = $this->getRequest();
         $journal_body_temp = $request->request->get('journalBody');
         $journal_title_temp = $request->request->get('journalTitle');
 
@@ -278,7 +275,6 @@ class JournalController extends Controller
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
 
         $form = $this->createDeleteForm($id, $courseid);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 

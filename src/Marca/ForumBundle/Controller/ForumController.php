@@ -47,7 +47,7 @@ class ForumController extends Controller
         
         //pagination
         $paginator = $this->get('knp_paginator');
-        $forumEntries = $paginator->paginate($forumEntries,$this->get('request')->query->get('page', 1),10);
+        $forumEntries = $paginator->paginate($forumEntries,$request->query->get('page', 1),10);
         
         return $this->render('MarcaForumBundle:Forum:index.html.twig', array(
             'forumEntries' => $forumEntries
@@ -131,7 +131,6 @@ class ForumController extends Controller
         $forum  = new Forum();
         $forum->setUser($user);
         $forum->setCourse($course);
-        $request = $this->getRequest();
         $form = $this->createCreateForm($forum, $courseid);
         $form->handleRequest($request);
 
@@ -224,7 +223,6 @@ class ForumController extends Controller
         $editForm = $this->createEditForm($forum, $courseid);
         $deleteForm = $this->createDeleteForm($id, $courseid);
 
-        $request = $this->getRequest();
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -247,14 +245,13 @@ class ForumController extends Controller
      * @Route("/{courseid}/{id}/delete", name="forum_delete")
      * @Method("post")
      */
-    public function deleteAction($courseid, $id)
+    public function deleteAction(Request $request, $courseid, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($request, $allowed);
         $user = $this->getUser();
         
         $form = $this->createDeleteForm($id, $courseid);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 

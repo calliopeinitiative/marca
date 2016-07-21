@@ -58,7 +58,6 @@ class FileController extends Controller
         $this->restrictAccessTo($request, $allowed);
 
         $session = $this->get('session');
-        $request = $this->getRequest();
         $session->set('referrer', $request->getRequestUri());
 
         $em = $this->getEm();
@@ -99,7 +98,6 @@ class FileController extends Controller
         $this->restrictAccessTo($request, $allowed);
 
         $session = $this->get('session');
-        $request = $this->getRequest();
         $session->set('referrer', $request->getRequestUri());
 
         $em = $this->getEm();
@@ -139,7 +137,6 @@ class FileController extends Controller
         $this->restrictAccessTo($request, $allowed);
 
         $session = $this->get('session');
-        $request = $this->getRequest();
         $session->set('referrer', $request->getRequestUri());
 
         $em = $this->getEm();
@@ -187,7 +184,6 @@ class FileController extends Controller
         $files = $em->getRepository('MarcaFileBundle:File')->findSharedFiles($course, $access);
 
         $session = $this->get('session');
-        $request = $this->getRequest();
 
         if ($resource == 0) {
             $template = 'MarcaFileBundle:File:files_index.html.twig';
@@ -216,7 +212,7 @@ class FileController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($request, $allowed);
-        $session = $this->getRequest()->getSession();
+        $session = $request->getSession();
         if (!$session) {
             $uri = '../../../file/1/recent/0/mine/0/0/0/list';
         } else {
@@ -246,7 +242,7 @@ class FileController extends Controller
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($request, $allowed);
-        $session = $this->getRequest()->getSession();
+        $session = $request->getSession();
         if (!$session) {
             $uri = '../../../file/1/default/0/mine/0/0/0/list';
         } else {
@@ -372,7 +368,7 @@ class FileController extends Controller
         $file->setUser($user);
         $file->setCourse($course);
         $options = array('courseid' => $courseid, 'resource' => $resource);
-        $request = $this->getRequest();
+
         $form = $this->createForm(new FileType($options), $file);
         $form->submit($request);
         if ($type == 'doc') {
@@ -453,8 +449,8 @@ class FileController extends Controller
         }
 
 
-        if ($this->getRequest()->getMethod() === 'POST') {
-            $form->submit($this->getRequest());
+        if ($request->getMethod() === 'POST') {
+            $form->submit($request);
             if ($form->isValid()) {
                 $em = $this->getEm();
                 $em->persist($file);
