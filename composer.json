@@ -31,8 +31,7 @@
         "packagist/yuicompressor-bin": "dev-master",
         "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1",
         "stripe/stripe-php": "1.*",
-        "besimple/sso-auth-bundle": "*@dev",
-        "ircmaxell/password-compat": "^1.0"
+        "besimple/sso-auth-bundle": "*@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

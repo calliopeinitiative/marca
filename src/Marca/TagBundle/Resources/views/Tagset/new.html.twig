@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="col-sm-8 center">
-        <form action="{{ path('tagset_create') }}" method="post" {{ form_start(form) }}>
+        <form action="{{ path('tagset_create') }}" method="post" {{ form_enctype(form) }}>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2>Markup Set</h2>

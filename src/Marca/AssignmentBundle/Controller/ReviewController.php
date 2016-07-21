@@ -45,7 +45,7 @@ class ReviewController extends Controller
     public function show_ajaxAction($id, $courseid)
     {
         $em = $this->getDoctrine()->getManager();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
 
         $course= $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
@@ -73,7 +73,7 @@ class ReviewController extends Controller
     public function refresh_ajaxAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
 
         $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
         $fileid = $review->getFile()->getId();
@@ -128,7 +128,7 @@ class ReviewController extends Controller
     public function newAction($courseid, $reviewrubricid, $fileid)
     {
         $em = $this->getEm();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $reviewer =  $this->getUser();
         $reviewrubric = $em->getRepository('MarcaAssignmentBundle:ReviewRubric')->find($reviewrubricid);
         $reviewfile = $em->getRepository('MarcaFileBundle:File')->find($fileid);
@@ -161,7 +161,7 @@ class ReviewController extends Controller
     public function edit_ajaxAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
 
         $review = $em->getRepository('MarcaAssignmentBundle:Review')->find($id);
         $options = array('scaleid' => '1');

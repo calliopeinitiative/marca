@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Marca\ForumBundle\Entity\Forum;
 use Marca\ForumBundle\Form\ForumType;
@@ -34,14 +35,14 @@ class ForumController extends Controller
      *
      * @Route("/{courseid}/page", name="forum")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $user = $this->getUser();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $forumEntries = $em->getRepository('MarcaForumBundle:Forum')->findForumByCourse($course);
         
         //pagination
@@ -58,10 +59,10 @@ class ForumController extends Controller
      *
      * @Route("/{courseid}/{id}/show", name="forum_show")
      */
-    public function showAction($id)
+    public function showAction(Request $request, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $forum = $em->getRepository('MarcaForumBundle:Forum')->findForumDesc($id);
@@ -80,10 +81,10 @@ class ForumController extends Controller
      *
      * @Route("/{courseid}/new", name="forum_new")
      */
-    public function newAction($courseid)
+    public function newAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $forum = new Forum();
         $forum->setBody('<p></p>');
@@ -120,13 +121,13 @@ class ForumController extends Controller
      * @Route("/{courseid}/create", name="forum_create")
      * @Method("post")
      */
-    public function createAction($courseid)
+    public function createAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $user = $this->getUser();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $forum  = new Forum();
         $forum->setUser($user);
         $forum->setCourse($course);
@@ -154,10 +155,10 @@ class ForumController extends Controller
      *
      * @Route("/{courseid}/{id}/edit", name="forum_edit")
      */
-    public function editAction($id, $courseid)
+    public function editAction(Request $request, $id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         $user = $this->getUser();
         
         $em = $this->getEm();
@@ -208,10 +209,10 @@ class ForumController extends Controller
      * @Route("/{courseid}/{id}/update", name="forum_update")
      * @Method("post")
      */
-    public function updateAction($courseid, $id)
+    public function updateAction(Request $request, $courseid, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
@@ -249,7 +250,7 @@ class ForumController extends Controller
     public function deleteAction($courseid, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         $user = $this->getUser();
         
         $form = $this->createDeleteForm($id, $courseid);

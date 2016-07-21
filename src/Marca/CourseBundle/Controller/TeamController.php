@@ -62,9 +62,9 @@ class TeamController extends Controller
     public function manageAction($courseid)
     {
        $allowed = array(self::ROLE_INSTRUCTOR);
-       $this->restrictAccessTo($allowed);
+       $this->restrictAccessTo($request, $allowed);
         
-       $course = $this->getCourse();
+       $course = $this->getCourse($request);
        $teams = $course->getTeams();
        
        return array('teams' => $teams, 
@@ -80,11 +80,11 @@ class TeamController extends Controller
     public function editAction($courseid, $id)
     {
        $allowed = array(self::ROLE_INSTRUCTOR);
-       $this->restrictAccessTo($allowed);
+       $this->restrictAccessTo($request, $allowed);
         
        
        $em = $this->getEm();
-       $course = $this->getCourse();
+       $course = $this->getCourse($request);
        $team = $em->getRepository('MarcaCourseBundle:Team')->find($id);
        if (!$team){
            throw $this->createNotFoundException('Unable to find Team entity');
@@ -109,7 +109,7 @@ class TeamController extends Controller
     public function updateAction($id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
 
@@ -146,10 +146,10 @@ class TeamController extends Controller
     public function newAction($courseid)
     {
        $allowed = array(self::ROLE_INSTRUCTOR);
-       $this->restrictAccessTo($allowed);
+       $this->restrictAccessTo($request, $allowed);
         
        $em = $this->getEm();
-       $course = $this->getCourse();
+       $course = $this->getCourse($request);
        $team = new Team();
        $team->setCourse($course);
        $form = $this->createForm(new TeamType(), $team);
@@ -172,7 +172,7 @@ class TeamController extends Controller
     public function createAction($courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);

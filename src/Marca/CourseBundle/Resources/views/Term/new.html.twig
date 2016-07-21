@@ -5,7 +5,7 @@
 {% block content %}
     <div class="col-sm-6 center">
         <div class="panel panel-default">
-            <form action="{{ path('term_create') }}" method="post" {{ form_start(form) }}>
+            <form action="{{ path('term_create') }}" method="post" {{ form_enctype(form) }}>
                 <div class="panel-heading">
                     Term
                 </div>

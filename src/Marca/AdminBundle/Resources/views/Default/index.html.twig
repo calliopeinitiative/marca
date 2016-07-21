@@ -29,7 +29,7 @@
             <h2 class="margin-top-small">User Admin</h2>
         </div>
         <div class="panel-body">
-            <form id="find" action="javascript:void(0);" method="post" {{ form_start(form) }}>
+            <form id="find" action="javascript:void(0);" method="post" {{ form_enctype(form) }}>
                 {{ form_widget(form) }}
                 <button id="submit_find" class="btn btn-primary btn-sm" type="submit">Find</button>
             </form>

@@ -32,15 +32,15 @@ class CourseController extends Controller
      *
      * @Route("/{courseid}/nav", name="course_nav")
      */
-    public function createCoursenavAction()
+    public function createCoursenavAction(Request $request)
     {
         $em = $this->getEm();
         $user = $this->getUser();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         //find default for resources
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, 1);
         $default_resource = $projects[0]->getId();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findCoursesByUser($user);
         return $this->render('MarcaCourseBundle::coursenav.html.twig', array(
             'course' => $course,
@@ -57,9 +57,9 @@ class CourseController extends Controller
      *
      * @Route("/{courseid}/roll", name="course_roll")
      */
-    public function createRollAction()
+    public function createRollAction(Request $request)
     {
-        $roll = $this->getRoll();
+        $roll = $this->getRoll($request);
         return $this->render('MarcaCourseBundle::roll.html.twig', array(
             'roll' => $roll,
         ));
@@ -110,17 +110,17 @@ class CourseController extends Controller
     public function homeAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $user = $this->getUser();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $session = $this->get('session'); 
         $session->clear();
         $username = $user->getFirstname().' '.$user->getLastname();
         $session->set('username', $username);
         
-        if ($this->getCourseRole()== Roll::ROLE_PORTREVIEWER){
+        if ($this->getCourseRole($request)== Roll::ROLE_PORTREVIEWER){
             return $this->redirect($this->generateUrl('portfolio', array('courseid' => $courseid)));
         };        
 
@@ -149,10 +149,10 @@ class CourseController extends Controller
      *
      * @Route("/{courseid}/show", name="course_show")
      */
-    public function showAction($courseid)
+    public function showAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
@@ -248,7 +248,7 @@ class CourseController extends Controller
      * @Route("/create", name="course_create")
      * @Method("post")
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
         
         $em = $this->getEm();
@@ -258,7 +258,6 @@ class CourseController extends Controller
         $course  = new Course();
         $course->setUser($user);
         $course->setInstitution($institution);
-        $request = $this->getRequest();
         $module = $request->request->get('module');
         $form    = $this->createForm(new CourseType($options), $course);
         $form->submit($request);
@@ -349,11 +348,11 @@ class CourseController extends Controller
      *
      * @Route("/{courseid}/edit", name="course_edit")
      */
-    public function editAction($courseid)
+    public function editAction(Request $request, $courseid)
     {
         
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $user = $this->getUser();
@@ -389,10 +388,10 @@ class CourseController extends Controller
      * @Route("/{courseid}/update", name="course_update")
      * @Method("post")
      */
-    public function updateAction($courseid)
+    public function updateAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $options = array('courseid' => $courseid);
@@ -408,9 +407,7 @@ class CourseController extends Controller
         $type= Page::TYPE_COURSE;
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
 
-        $request = $this->getRequest();
-
-        $editForm->submit($request);
+         $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em->persist($course);
@@ -433,10 +430,10 @@ class CourseController extends Controller
      * @Route("/{courseid}/delete", name="course_delete")
      * @Method("post")
      */
-    public function deleteAction($courseid)
+    public function deleteAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
@@ -449,9 +446,7 @@ class CourseController extends Controller
             throw new AccessDeniedException();
         }
         $form = $this->createDeleteForm($courseid);
-        $request = $this->getRequest();
-    
-        
+
         $form->submit($request);
 
         if ($form->isValid()) {
@@ -483,10 +478,10 @@ class CourseController extends Controller
      *
      * @Route("/{courseid}/announce_edit", name="announce_edit")
      */
-    public function editAnnouncementAction($courseid)
+    public function editAnnouncementAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         
         $em = $this->getEm();
@@ -534,10 +529,10 @@ class CourseController extends Controller
      * @Route("/{courseid}/annouce_update", name="announce_update")
      * @Method("post")
      */
-    public function updateAnnouncementAction($courseid)
+    public function updateAnnouncementAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $options = array('courseid' => $courseid);
@@ -548,8 +543,6 @@ class CourseController extends Controller
         }
 
         $editForm = $this->createEditForm($course, $options);
-
-        $request = $this->getRequest();
 
         $editForm->submit($request);
 
@@ -572,10 +565,10 @@ class CourseController extends Controller
      *
      * @Route("/{courseid}/{setting}/toggle_module", name="toggle_module")
      */
-    public function toggleModuleAction($courseid, $setting)
+    public function toggleModuleAction(Request $request, $courseid, $setting)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);

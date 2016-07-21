@@ -37,7 +37,7 @@
 
 {% block content %}
     <div class="col-sm-8 center">
-        <form class="form" action="{{ path('markup_update', { 'id': markup.id, 'set_id': app.request.get('set_id')}) }}" method="post" {{ form_start(edit_form) }} novalidate="novalidate">
+        <form class="form" action="{{ path('markup_update', { 'id': markup.id, 'set_id': app.request.get('set_id')}) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2 class="panel-title small">Markup Tag</h2>

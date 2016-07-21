@@ -30,10 +30,10 @@ class FileController extends Controller
      *
      * @Route("/{courseid}/{resource}/files_sidebar", name="file_files_sidebar")
      */
-    public function createFilesSidebarAction($courseid, $resource)
+    public function createFilesSidebarAction(Request $request, $courseid, $resource)
     {
         $em = $this->getEm();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();
@@ -52,10 +52,10 @@ class FileController extends Controller
      *
      * @Route("/{courseid}/{userid}/{userindex}/{resource}/list", name="file_list", defaults={"resource" = 0, "userindex" = 0})
      */
-    public function filesByUserAction($userid, $courseid)
+    public function filesByUserAction(Request $request, $userid, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $session = $this->get('session');
         $request = $this->getRequest();
@@ -63,7 +63,7 @@ class FileController extends Controller
 
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
 
         if ($userid==0) {
             $user = $this->getUser();
@@ -93,10 +93,10 @@ class FileController extends Controller
      *
      * @Route("/{courseid}/{userid}/{resource}/reviews", name="file_reviews")
      */
-    public function reviewsByUserAction($userid, $courseid)
+    public function reviewsByUserAction(Request $request, $userid, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $session = $this->get('session');
         $request = $this->getRequest();
@@ -104,7 +104,7 @@ class FileController extends Controller
 
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
 
         if ($userid==0) {
             $user = $this->getUser();
@@ -133,10 +133,10 @@ class FileController extends Controller
      *
      * @Route("/{courseid}/{userid}/{resource}/reviews_for_user", name="file_reviews_for_user")
      */
-    public function reviewsForUserAction($userid, $courseid)
+    public function reviewsForUserAction(Request $request, $userid, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $session = $this->get('session');
         $request = $this->getRequest();
@@ -144,7 +144,7 @@ class FileController extends Controller
 
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
 
         if ($userid==0) {
             $user = $this->getUser();
@@ -174,14 +174,14 @@ class FileController extends Controller
      *
      * @Route("/{courseid}/{resource}/sharedfiles", name="file_listshared")
      */
-    public function sharedFilesAction($courseid, $resource)
+    public function sharedFilesAction(Request $request, $courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $access = $role;
 
         $files = $em->getRepository('MarcaFileBundle:File')->findSharedFiles($course, $access);
@@ -212,10 +212,10 @@ class FileController extends Controller
      *
      * @Route("/{courseid}/{id}/toggle_release", name="file_toggle_release")
      */
-    public function toggleReleaseAction($id)
+    public function toggleReleaseAction(Request $request, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         $session = $this->getRequest()->getSession();
         if (!$session) {
             $uri = '../../../file/1/recent/0/mine/0/0/0/list';
@@ -242,10 +242,10 @@ class FileController extends Controller
      *
      * @Route("/{courseid}/release_all", name="file_release_all")
      */
-    public function releaseAllAction($courseid)
+    public function releaseAllAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         $session = $this->getRequest()->getSession();
         if (!$session) {
             $uri = '../../../file/1/default/0/mine/0/0/0/list';
@@ -271,14 +271,14 @@ class FileController extends Controller
      *
      * @Route("/{courseid}/{resource}/{type}/{fileid}/new_modal", name="file_new_modal", defaults={"resource" = 0, "fileid" = 0})
      */
-    public function newModalAction($courseid, $resource, $type, $fileid)
+    public function newModalAction(Request $request, $courseid, $resource, $type, $fileid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $user = $this->getUser();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $tags = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByCourse($courseid);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
@@ -358,10 +358,10 @@ class FileController extends Controller
      * @Route("/{courseid}/{resource}/{type}/{fileid}/create", defaults={ "fileid" = 0 }, name="file_create", defaults={"resource" = 0, "fileid" = 0})
      * @Method("post")
      */
-    public function createAction($courseid, $resource, $type, $fileid)
+    public function createAction(Request $request, $courseid, $resource, $type, $fileid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $file = new File();
         $em = $this->getEm();
@@ -420,15 +420,15 @@ class FileController extends Controller
      *
      * @Route("/{courseid}/{fileid}/reviewupload", name="review_upload", defaults={"resource" = 0})
      */
-    public function uploadReviewAction($courseid, $fileid)
+    public function uploadReviewAction(Request $request, $courseid, $fileid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $resource = 0;
         $user = $this->getUser();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $options = array('courseid' => $courseid, 'resource' => $resource, 'review' => 'yes', 'role' => $role);
         $systemtags = $em->getRepository('MarcaTagBundle:Tagset')->findSystemTags();

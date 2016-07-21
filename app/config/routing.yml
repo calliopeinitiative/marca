@@ -1,11 +1,13 @@
-#login:
-#    path: /login
-#    defaults: { _controller: MarcaHomeBundle:Default:index }
-#login_check:
-#    path: /login_check
-#logout:
-#    path: /logout
-#    defaults: { _controller: MarcaHomeBundle:Default:index }
+login:
+    path: /login
+    defaults: { _controller: MarcaHomeBundle:Default:index }
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout
+    defaults: { _controller: MarcaHomeBundle:Default:index }
 
 wwwRedirect:
     path:  /

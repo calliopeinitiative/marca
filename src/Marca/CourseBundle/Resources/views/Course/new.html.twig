@@ -53,7 +53,7 @@
         {% endif %}
 
 
-        <form class="form" action="{{ path('course_create') }}" method="post" {{ form_start(form) }} novalidate="novalidate">
+        <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
 
 
             <div class="col-sm-6">

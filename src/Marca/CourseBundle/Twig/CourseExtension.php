@@ -1,37 +1,36 @@
 <?php
 
 namespace Marca\CourseBundle\Twig;
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
  * Description of CourseExtension
  *
- * @author sarasteger
+ * @author sarasteger revised for 27 by rlbaltha
  */
 class CourseExtension extends \Twig_Extension {
-    
-    private $container;
-    
-    public function __construct($container) {
+
+
+    public function __construct($container, $requestStack) {
         $this->container=$container;
-    } 
-    
+        $this->requestStack = $requestStack;
+    }
+
     public function getName() {
         return 'course';
-    } 
-    
+    }
+
     public function getFunctions()
     {
         return array(
-            'course_path' => new \Twig_Function_Method($this,'getCoursePath'),
+            new \Twig_SimpleFunction('course_path', array($this, 'course_path'))
         );
     }
-    
-    public function getCoursePath($route, array $params=array(), $absolute=false) {
-        $request = $this->container->get('request');
+
+
+    public function course_path($route, array $params=array(), $absolute=false) {
+
+        $request = $this->requestStack->getCurrentRequest();
         $courseid = $request->attributes->get('courseid');
         if (!$courseid) {
             throw new \Exception('No course id in url.');

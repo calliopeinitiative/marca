@@ -5,6 +5,7 @@ namespace Marca\HomeBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as SymfonyController;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Request;
 
 class Controller extends SymfonyController
 {
@@ -12,8 +13,9 @@ class Controller extends SymfonyController
     const ROLE_STUDENT=1;
     const ROLE_INSTRUCTOR=2;
     const ROLE_TA=3;
-    const ROLE_PORTREVIEW=4;    
-    
+    const ROLE_PORTREVIEW=4;
+
+
     /**
      *
      * @return EntityManager
@@ -27,8 +29,7 @@ class Controller extends SymfonyController
      *
      * @return \Marca\CourseBundle\Entity\Course
      */
-    protected function getCourse() {
-        $request = $this->getRequest();
+    protected function getCourse(Request $request) {
         $courseid = $request->attributes->get('courseid');
         $course = $this->getEm()->getRepository('MarcaCourseBundle:Course')->find($courseid);
         if (!$course) {
@@ -41,8 +42,7 @@ class Controller extends SymfonyController
      *
      * @return \Marca\CourseBundle\Entity\Roll
      */
-    protected function getRoll() {
-        $request = $this->getRequest();
+    protected function getRoll(Request $request) {
         $courseid = $request->attributes->get('courseid');
         $roll = $this->getEm()->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         if (!$roll) {
@@ -54,8 +54,8 @@ class Controller extends SymfonyController
     /**
      *@return string 
      */
-    protected function getCourseRole(){
-        $course = $this->getCourse();
+    protected function getCourseRole(Request $request){
+        $course = $this->getCourse($request);
         $user = $this->getUser();
         $rollentry = $this->getEm()->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
         if(!$rollentry){
@@ -72,9 +72,9 @@ class Controller extends SymfonyController
      * if so, returns true
      * thanks to Wyatt Peterson for design help
      */
-    protected function restrictAccessTo($allowed){
+    protected function restrictAccessTo(Request $request, $allowed){
         //grab our current user's role in our current course
-        $currentUserRoles = $this->getCourseRole();
+        $currentUserRoles = $this->getCourseRole($request);
         //test if user role is not in the array of allowed roles
         if(!in_array($currentUserRoles, $allowed)){
             throw new AccessDeniedException();

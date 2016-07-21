@@ -38,7 +38,7 @@ class NoteController extends Controller
     {
         $em = $this->getEm();
         $user = $this->getUser();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         
         $notes = $em->getRepository('MarcaNoteBundle:Note')->findNotes($user, $course);
 
@@ -56,7 +56,7 @@ class NoteController extends Controller
     {
         $em = $this->getEm();
         $user = $this->getUser();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
 
         $note = new Note();
         $note->setTitle('New Note');

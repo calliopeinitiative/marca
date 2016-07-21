@@ -32,7 +32,7 @@ class PaymentController extends Controller{
     /**
      * @Route("/select/{courseid}", name="select_payment")
      */
-    public function selectPaymentAction ($courseid)
+    public function selectPaymentAction (Request $request, $courseid)
     {
         $defaultData = array('message' => 'Type your message here');
         $form = $this->createFormBuilder($defaultData)
@@ -54,11 +54,11 @@ class PaymentController extends Controller{
      * @Route("/{courseid}", name="payment")
      * @Template()
      */
-    public function collectAction($courseid)
+    public function collectAction(Request $request, $courseid)
     {
         
         $this->stripeConfig();
-        $course=$this->getCourse();
+        $course=$this->getCourse($request);
         if($course->getInstitution()->getPaymentType() == 3){
             $publishableKey = $this->container->getParameter('stripe_publishable_key');
             $coupon = new Coupon();

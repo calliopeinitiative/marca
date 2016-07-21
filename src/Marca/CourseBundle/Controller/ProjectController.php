@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Marca\CourseBundle\Entity\Project;
 use Marca\CourseBundle\Form\ProjectType;
 use Marca\CourseBundle\Form\ResourceType;
@@ -61,10 +62,10 @@ class ProjectController extends Controller
      * @Route("/{courseid}/{resource}/new", name="project_new")
      * @Template()
      */
-    public function newAction($courseid, $resource)
+    public function newAction(Request $request, $courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
 
@@ -90,10 +91,10 @@ class ProjectController extends Controller
      * @Method("post")
      * @Template("MarcaCourseBundle:Project:new.html.twig")
      */
-    public function createAction($courseid)
+    public function createAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
@@ -131,10 +132,10 @@ class ProjectController extends Controller
      * @Route("/{id}/{courseid}/edit", name="project_edit")
      * @Template()
      */
-    public function editAction($id, $courseid)
+    public function editAction(Request $request, $id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $user = $this->getUser();
@@ -172,10 +173,10 @@ class ProjectController extends Controller
      * @Method("post")
      * @Template("MarcaCourseBundle:Project:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction(Request $request, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
 
@@ -217,10 +218,10 @@ class ProjectController extends Controller
      * @Route("/{courseid}/{id}/delete", name="project_delete")
      * @Method("post")
      */
-    public function deleteAction($courseid, $id)
+    public function deleteAction(Request $request, $courseid, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -253,10 +254,10 @@ class ProjectController extends Controller
      *
      * @Route("/{courseid}/{projectId}/{previousProjectId}/promote", name="project_promote")
      */
-    public function promoteAction($projectId, $previousProjectId)
+    public function promoteAction(Request $request, $projectId, $previousProjectId)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
 
@@ -282,10 +283,10 @@ class ProjectController extends Controller
      *
      * @Route("/{courseid}/{projectId}/{followingProjectId}/demote", name="project_demote")
      */
-    public function demoteAction($projectId, $followingProjectId)
+    public function demoteAction(Request $request, $projectId, $followingProjectId)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
 
@@ -312,10 +313,10 @@ class ProjectController extends Controller
      *
      * @Route("/{courseid}/{projectId}/set_default", name="project_set_default")
      */
-    public function setDefaultAction($projectId, $courseid)
+    public function setDefaultAction(Request $request, $projectId, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($projectId);

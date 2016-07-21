@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Marca\JournalBundle\Entity\Journal;
 use Marca\JournalBundle\Form\JournalType;
@@ -24,9 +25,9 @@ class JournalController extends Controller
      *
      * @Route("/{courseid}/sidebar", name="journal_sidebar")
      */
-    public function createSidebarAction($courseid)
+    public function createSidebarAction(Request $request, $courseid)
     {
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         return $this->render('MarcaJournalBundle::sidebar.html.twig', array(
             'role' => $role
         ));
@@ -37,7 +38,7 @@ class JournalController extends Controller
      *
      * @Route("/{courseid}/{user}/{userid}/subnav", name="journal_subnav")
      */
-    public function createSubnavAction($courseid,$user,$userid)
+    public function createSubnavAction(Request $request, $courseid,$user,$userid)
     {
         $em = $this->getEm();
         if ($user==0){
@@ -47,7 +48,7 @@ class JournalController extends Controller
             $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
         }
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         return $this->render('MarcaJournalBundle::subnav.html.twig', array(
             'roll' => $roll,
             'user' => $user,
@@ -61,10 +62,10 @@ class JournalController extends Controller
      *
      * @Route("/{courseid}/{page}/{userid}/{user}/list", name="journal_list", defaults={"page" = 1,"userid" = 0,"user" = 0}))
      */
-    public function indexAction($courseid,$page,$user,$userid)
+    public function indexAction(Request $request, $courseid,$page,$user,$userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         if ($user==0){
@@ -75,8 +76,8 @@ class JournalController extends Controller
         }
 
 
-        $course = $this->getCourse();
-        $role = $this->getCourseRole();
+        $course = $this->getCourse($request);
+        $role = $this->getCourseRole($request);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         $journals = $em->getRepository('MarcaJournalBundle:Journal')->findJournalRecent($user, $course);
@@ -101,13 +102,13 @@ class JournalController extends Controller
      *
      * @Route("/{courseid}/new", name="journal_new")
      */
-    public function newAction($courseid)
+    public function newAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         $em = $this->getEm();
         $user = $this->getUser();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
 
         $journal = new Journal();
         $journal->setBody('<p></p>');
@@ -128,11 +129,11 @@ class JournalController extends Controller
      *
      * @Route("/{courseid}/{id}/edit", name="journal_edit")
      */
-    public function editAction($courseid, $id)
+    public function editAction(Request $request, $courseid, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
-        $role = $this->getCourseRole();
+        $this->restrictAccessTo($request, $allowed);
+        $role = $this->getCourseRole($request);
         $em = $this->getEm();
         $user = $this->getUser();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -187,13 +188,13 @@ class JournalController extends Controller
      * @Route("/{courseid}/{id}/update", name="journal_update")
      * @Method("post")
      */
-    public function updateAction($id, $courseid)
+    public function updateAction(Request $request, $id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $user = $this->getUser();
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -233,10 +234,10 @@ class JournalController extends Controller
      * @Route("/{courseid}/{id}/ajaxupdate", name="journal_ajax")
      * @Method("post")
      */
-    public function ajaxUpdateAction ($id)
+    public function ajaxUpdateAction (Request $request, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
@@ -267,10 +268,10 @@ class JournalController extends Controller
      * @Route("/{courseid}/{id}/delete", name="journal_delete")
      * @Method("post")
      */
-    public function deleteAction($id, $courseid)
+    public function deleteAction(Request $request, $id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $user = $this->getUser();
         $em = $this->getEm();

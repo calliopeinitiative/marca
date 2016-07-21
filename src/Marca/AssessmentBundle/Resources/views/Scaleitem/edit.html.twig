@@ -13,7 +13,7 @@
                 <h2 class="panel-title small">Scale Item</h2>
             </div>
             <div class="panel-body">
-                <form action="{{ path('scaleitem_update', { 'id': scaleitem.id }) }}" method="post" {{ form_start(edit_form) }}>
+                <form action="{{ path('scaleitem_update', { 'id': scaleitem.id }) }}" method="post" {{ form_enctype(edit_form) }}>
                     {{ form_widget(edit_form) }}
             </div>
             <div class="panel-footer">

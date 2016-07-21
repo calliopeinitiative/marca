@@ -34,7 +34,7 @@ $(document).ready(function()
         <hr>
         <div>
             If you have a code purchased from your bookstore, enter it here:
-            <form action="{{ path('coupon_validate', {'courseid':courseid}) }}" method="post" {{ form_start(coupon_form) }}>
+            <form action="{{ path('coupon_validate', {'courseid':courseid}) }}" method="post" {{ form_enctype(coupon_form) }}>
             {{ form_widget(coupon_form) }}
             <button class = "btn btn-primary" type="submit">Submit Coupon</button>        
     </form>
@@ -53,7 +53,7 @@ $(document).ready(function()
 {% endif %}
 {% if paymenttype == 1 %}
     <div class="modal-body">
-    <form action="{{ path('coupon_validate', {'courseid':courseid}) }}" method="post" {{ form_start(coupon_form) }}>
+    <form action="{{ path('coupon_validate', {'courseid':courseid}) }}" method="post" {{ form_enctype(coupon_form) }}>
      {{ form_widget(coupon_form) }}
      <button class = "btn btn-primary" type="submit">Submit Coupon</button>        
     </form>

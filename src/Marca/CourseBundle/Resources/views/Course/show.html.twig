@@ -82,35 +82,35 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="margin-top-small">Grade Book (Under Development)</h3>
+        {#<div class="panel panel-default">#}
+            {#<div class="panel-heading">#}
+                {#<h3 class="margin-top-small">Grade Book (Under Development)</h3>#}
 
-                <p>Categories and percentages for grades</p>
-            </div>
-            <div class="panel-body">
-                <table class="table table-condensed table-striped">
-                    <tbody id="gradebook">
-                    {% if course.gradeset %}
-                        {% for category in course.gradeset.categories %}
-                            <tr>
-                                <td>{{ category.name }}: {{ category.percent }}%</td>
-                            </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td>
-                                This course does not have a Grade Book.
-                                <a id="gradebook_new" class="btn btn-primary btn-sm pull-right margin-top-small" href="javascript:void(0);">Create Grade Book<i
-                                            class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+                {#<p>Categories and percentages for grades</p>#}
+            {#</div>#}
+            {#<div class="panel-body">#}
+                {#<table class="table table-condensed table-striped">#}
+                    {#<tbody id="gradebook">#}
+                    {#{% if course.gradeset %}#}
+                        {#{% for category in course.gradeset.categories %}#}
+                            {#<tr>#}
+                                {#<td>{{ category.name }}: {{ category.percent }}%</td>#}
+                            {#</tr>#}
+                        {#{% endfor %}#}
+                    {#{% else %}#}
+                        {#<tr>#}
+                            {#<td>#}
+                                {#This course does not have a Grade Book.#}
+                                {#<a id="gradebook_new" class="btn btn-primary btn-sm pull-right margin-top-small" href="javascript:void(0);">Create Grade Book<i#}
+                                            {#class="glyphicon glyphicon-pencil glyphicon-white"></i></a>#}
 
-                            </td>
-                        </tr>
-                    {% endif %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                            {#</td>#}
+                        {#</tr>#}
+                    {#{% endif %}#}
+                    {#</tbody>#}
+                {#</table>#}
+            {#</div>#}
+        {#</div>#}
 
     </div>
 

@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Marca\DocBundle\Entity\Doc;
 use Marca\DocBundle\Entity\Autosave;
@@ -28,15 +29,15 @@ class DocController extends Controller
      *
      * @Route("/{courseid}/{id}/{view}/show", name="doc_show")
      */
-    public function showAction($id,$courseid)
+    public function showAction(Request $request, $id,$courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $user = $this->getUser();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
 
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
 
@@ -94,15 +95,15 @@ class DocController extends Controller
      *
      * @Route("/{courseid}/{id}/show_ajax", name="doc_show_ajax")
      */
-    public function show_ajaxAction($id,$courseid)
+    public function show_ajaxAction(Request $request, $id,$courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $user = $this->getUser();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
 
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $fileid = $file->getId();
@@ -137,14 +138,14 @@ class DocController extends Controller
      *
      * @Route("/{courseid}/{resource}/{fileid}/review", name="doc_review")
      */
-    public function reviewAction($fileid)
+    public function reviewAction(Request $request, $fileid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $user = $this->getUser();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
 
         $markupsets = $course->getMarkupsets();
 
@@ -170,15 +171,15 @@ class DocController extends Controller
      * @Route("/{courseid}/{id}/{view}/edit", name="doc_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $user = $this->getUser();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $type =2;
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
 
@@ -215,10 +216,10 @@ class DocController extends Controller
      * @Route("/{courseid}/{id}/{view}/update", name="doc_update")
      * @Method("post")
      */
-    public function updateAction($id,$courseid,$view)
+    public function updateAction(Request $request, $id, $courseid, $view)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
 
@@ -256,10 +257,10 @@ class DocController extends Controller
      * @Route("/{courseid}/{id}/ajaxupdate", name="doc_ajax")
      * @Method("post")
      */
-    public function ajaxUpdateAction($id)
+    public function ajaxUpdateAction(Request $request, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
@@ -288,10 +289,10 @@ class DocController extends Controller
      * @Route("/{courseid}/{id}/delete", name="doc_delete")
      * @Method("post")
      */
-    public function deleteAction($id,$courseid)
+    public function deleteAction(Request $request, $id,$courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -327,14 +328,14 @@ class DocController extends Controller
      *
      * @Route("/{courseid}/{id}/pdf", name="doc_pdf")
      */
-    public function createPdfAction($id)
+    public function createPdfAction(Request $request, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $user = $this->getUser();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
         $file = $doc->getFile();
         $file_owner = $file->getUser();

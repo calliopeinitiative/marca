@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Marca\PortfolioBundle\Entity\Portfolio;
 use Marca\PortfolioBundle\Form\PortfolioType;
 use Marca\PortfolioBundle\Entity\Portfolioset;
@@ -24,10 +25,10 @@ class PortfolioController extends Controller
      *
      * @Route("/{courseid}/sidebar", name="portfolio_sidebar")
      */
-    public function createSidebarAction($courseid)
+    public function createSidebarAction(Request $request, $courseid)
     {
-        $role = $this->getCourseRole();
-        $course = $this->getCourse();
+        $role = $this->getCourseRole($request);
+        $course = $this->getCourse($request);
         $portStatus = $course->getPortStatus();
         return $this->render('MarcaPortfolioBundle::sidebar.html.twig', array(
             'role'=> $role,
@@ -40,14 +41,14 @@ class PortfolioController extends Controller
      *
      * @Route("/{courseid}", name="portfolio")
      */
-    public function indexAction($courseid)
+    public function indexAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT, self::ROLE_PORTREVIEW);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $user = $this->getUser();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $portStatus = $course->getPortStatus();
 
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
@@ -85,10 +86,10 @@ class PortfolioController extends Controller
      *
      * @Route("/{courseid}/{project}/{portitemid}/find", name="portfolio_find")
      */
-    public function findAction($project, $courseid, $portitemid)
+    public function findAction(Request $request, $project, $courseid, $portitemid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $session = $this->get('session'); 
         $request = $this->getRequest();
@@ -96,8 +97,8 @@ class PortfolioController extends Controller
         
         $em = $this->getEm();
         $user = $this->getUser();
-        $role = $this->getCourseRole();
-        $course = $this->getCourse();
+        $role = $this->getCourseRole($request);
+        $course = $this->getCourse($request);
         $portStatus = $course->getPortStatus();
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesForPort($user, $course);
         $reviews = $em->getRepository('MarcaFileBundle:File')->findReviewsForPort($user, $course);
@@ -118,10 +119,10 @@ class PortfolioController extends Controller
      *
      * @Route("/{courseid}/{id}/show_modal", name="portfolio_show_modal")
      */
-    public function showModalAction($id)
+    public function showModalAction(Request $request, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);     
+        $this->restrictAccessTo($request, $allowed);
         $em = $this->getEm();
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
         $deleteForm = $this->createDeleteForm($id);
@@ -139,10 +140,10 @@ class PortfolioController extends Controller
      *
      * @Route("/{courseid}/{userid}/{user}/show", name="portfolio_user")
      */
-    public function showAction($courseid, $userid)
+    public function showAction(Request $request, $courseid, $userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT, self::ROLE_PORTREVIEW);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         if ($userid == '0')
@@ -150,8 +151,8 @@ class PortfolioController extends Controller
         else 
         {$user = $em->getRepository('MarcaUserBundle:User')->find($userid);}
         
-        $course = $this->getCourse();
-        $role = $this->getCourseRole();
+        $course = $this->getCourse($request);
+        $role = $this->getCourseRole($request);
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
         
@@ -192,16 +193,16 @@ class PortfolioController extends Controller
      *
      * @Route("/{courseid}/{id}/edit", name="portfolio_edit")
      */
-    public function editAction($id,$courseid)
+    public function editAction(Request $request, $id,$courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $options = array('courseid' => $courseid);
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $portStatus = $course->getPortStatus();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->find($id);
 
         if($portStatus!='true'){
@@ -249,10 +250,10 @@ class PortfolioController extends Controller
      * @Route("/{courseid}/{id}/update", name="portfolio_update")
      * @Method("post")
      */
-    public function updateAction($id,$courseid)
+    public function updateAction(Request $request, $id,$courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $options = array('courseid' => $courseid);
@@ -290,14 +291,14 @@ class PortfolioController extends Controller
      * @Route("/{courseid}/{fileid}/{portitemid}/add", name="portfolio_add")
      * @Template()
      */
-    public function addAction($courseid, $fileid, $portitemid)
+    public function addAction(Request $request, $courseid, $fileid, $portitemid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $user = $this->getUser();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
 
         //find default portfolio
         $portfoliosets = $em->getRepository('MarcaPortfolioBundle:Portfolioset')->findByUser($user,$course);
@@ -326,10 +327,10 @@ class PortfolioController extends Controller
      * @Route("/{courseid}/{id}/delete", name="portfolio_delete")
      * @Method("post")
      */
-    public function deleteAction($id, $courseid)
+    public function deleteAction(Request $request, $id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -364,12 +365,12 @@ class PortfolioController extends Controller
      *
      * @Route("/{courseid}/toggle_status", name="port_status_toggle")
      */
-    public function toggleStatusAction($courseid)
+    public function toggleStatusAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         $em = $this->getEm();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         if ($course->getPortStatus()=='true') {
             $course->setPortStatus(false);
         }

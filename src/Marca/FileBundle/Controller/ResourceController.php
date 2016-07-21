@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
 use Marca\FileBundle\Form\LinkType;
@@ -26,10 +27,10 @@ class ResourceController extends Controller
      *
      * @Route("/{courseid}/{resource}/resources_sidebar", name="file_resources_sidebar", defaults={ "tag" = 0,"project" = 0})
      */
-    public function createResourcesSidebarAction($courseid, $resource)
+    public function createResourcesSidebarAction(Request $request, $courseid, $resource)
     {
         $em = $this->getEm();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $projects = $em->getRepository('MarcaCourseBundle:Project')->findProjectsByCourse($course, $resource);
         $default_project = $projects[0]->getId();
@@ -51,14 +52,14 @@ class ResourceController extends Controller
      *
      * @Route("/{courseid}/{project}/{resource}/filebyproject", name="file_listbyproject")
      */
-    public function filesByProjectAction($project, $courseid, $resource)
+    public function filesByProjectAction(Request $request, $project, $courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $access = $role;
 
         $files = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $access);
@@ -90,10 +91,10 @@ class ResourceController extends Controller
      *
      * @Route("/{courseid}/{resource}/{id}/edit_modal", name="file_edit_modal", defaults={"resource" = 0, "fileid" = 0})
      */
-    public function editModalAction($id, $courseid, $resource)
+    public function editModalAction(Request $request, $id, $courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         $user = $this->getUser();
 
         $em = $this->getEm();
@@ -169,10 +170,10 @@ class ResourceController extends Controller
      * @Method("post")
      * @Template("MarcaFileBundle:File:edit.html.twig")
      */
-    public function updateAction($id, $courseid, $resource)
+    public function updateAction(Request $request, $id, $courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         $user = $this->getUser();
 
         $em = $this->getEm();
@@ -225,10 +226,10 @@ class ResourceController extends Controller
      *
      * @Route("/{courseid}/{id}/{resource}/show_modal", name="file_show_modal")
      */
-    public function showModalAction($id, $courseid)
+    public function showModalAction(Request $request, $id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
         $deleteForm = $this->createDeleteForm($id);
@@ -245,10 +246,10 @@ class ResourceController extends Controller
      * @Route("/{courseid}/{resource}/{id}/delete", name="file_delete", defaults={"resource" = 0})
      * @Method("post")
      */
-    public function deleteAction($id, $courseid, $resource)
+    public function deleteAction(Request $request, $id, $courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -298,14 +299,14 @@ class ResourceController extends Controller
      *
      * @Route("/{courseid}/{resource}/upload", name="file_upload", defaults={"resource" = 0})
      */
-    public function uploadAction($courseid, $resource)
+    public function uploadAction(Request $request, $courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $user = $this->getUser();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $project = $course->getProjectDefault();
         $options = array('courseid' => $courseid, 'resource' => $resource, 'review' => 'no');
@@ -363,10 +364,10 @@ class ResourceController extends Controller
      * @Route("/{courseid}/{id}/get/{filename}", name="file_get", defaults={"filename" = "name.ext"})
      *
      */
-    public function getAction($id)
+    public function getAction(Request $request, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
@@ -459,15 +460,15 @@ class ResourceController extends Controller
      *
      * @Route("/{courseid}/{id}/{view}/view_file", name="file_view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $review_file = $file->getReviewed();
         $markup = null;
 
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $user = $this->getUser();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
 
@@ -499,15 +500,15 @@ class ResourceController extends Controller
      *
      * @Route("/{courseid}/{id}/view_file_ajax", name="file_view_ajax")
      */
-    public function viewAjaxAction($id)
+    public function viewAjaxAction(Request $request, $id)
     {
         $em = $this->getEm();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $review_file = $file->getReviewed();
         $markup = null;
 
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $user = $this->getUser();
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->findUserInCourse($course, $user);
 

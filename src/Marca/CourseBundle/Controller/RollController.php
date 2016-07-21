@@ -8,6 +8,7 @@ use Marca\CourseBundle\Form\RollType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
@@ -22,14 +23,14 @@ class RollController extends Controller
      *
      * @Route("/{courseid}/", name="roll")
      */
-    public function indexAction($courseid)
+    public function indexAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_STUDENT, self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
-        $course = $this->getCourse();
-        $full_roll = $this->getRoll();
-        $role = $this->getCourseRole();
+        $course = $this->getCourse($request);
+        $full_roll = $this->getRoll($request);
+        $role = $this->getCourseRole($request);
         $paginator = $this->get('knp_paginator');
         $roll = $paginator->paginate($full_roll,$this->get('request')->query->get('page',1),100);
 
@@ -46,18 +47,18 @@ class RollController extends Controller
      *
      * @Route("/{courseid}/{rollid}/{user}/course_roll_profile", name="course_roll_profile")
      */
-    public function courseRollProfileAction($rollid)
+    public function courseRollProfileAction(Request $request, $rollid)
     {
         $allowed = array(self::ROLE_STUDENT, self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $roll_user = $em->getRepository('MarcaCourseBundle:Roll')->findUserByRoll($rollid);
         $user = $em->getRepository('MarcaUserBundle:User')->find($roll_user);
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $grades = $em->getRepository('MarcaGradebookBundle:Grade')->findGradesByCourse($user,$course);
-        $roll = $this->getRoll();
-        $role = $this->getCourseRole();
+        $roll = $this->getRoll($request);
+        $role = $this->getCourseRole($request);
         $profile = $em->getRepository('MarcaCourseBundle:Roll')->findRollUser($rollid);
         $countForums = $em->getRepository('MarcaForumBundle:Forum')->countForumsByUser($user,$course);
         $countComments = $em->getRepository('MarcaForumBundle:Comment')->countCommentsByUser($user,$course);        
@@ -137,13 +138,13 @@ class RollController extends Controller
      * @Route("/{courseid}/{id}/confirm_delete", name="roll_confirm_delete")
      * @Template()
      */
-    public function confirmDeleteAction($id)
+    public function confirmDeleteAction(Request $request, $id)
     {
         $allowed = array(self::ROLE_STUDENT, self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
 
         if (!$roll) {
@@ -166,10 +167,10 @@ class RollController extends Controller
      * @Route("/{courseid}/{id}/delete", name="roll_delete")
      * @Method("post")
      */
-    public function deleteAction($id, $courseid)
+    public function deleteAction(Request $request, $id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -206,12 +207,11 @@ class RollController extends Controller
      * @Route("/{courseid}/{id}/pending_delete", name="roll_pending_delete")
      * @Method("post")
      */
-    public function rollPendingDeleteAction($id)
+    public function rollPendingDeleteAction(Request $request, $id)
     {
         //NB security is handled in the conditional below
 
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -242,10 +242,10 @@ class RollController extends Controller
      * @Route("/{courseid}/{id}/approve_pending" , name="roll_approve")
      *
      */
-     public function approveAction($id, $courseid)
+     public function approveAction(Request $request, $id, $courseid)
      {
          $allowed = array(self::ROLE_INSTRUCTOR);
-         $this->restrictAccessTo($allowed);
+         $this->restrictAccessTo($request, $allowed);
         
          $em = $this->getEm();
          $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
@@ -262,10 +262,10 @@ class RollController extends Controller
      * @Route("/{courseid}/{id}/{role}/promote" , name="roll_promote")
      *
      */
-     public function promoteAction($id, $courseid, $role)
+     public function promoteAction(Request $request, $id, $courseid, $role)
      {
          $allowed = array(self::ROLE_INSTRUCTOR);
-         $this->restrictAccessTo($allowed);
+         $this->restrictAccessTo($request, $allowed);
         
          $em = $this->getEm();
          $roll = $em->getRepository('MarcaCourseBundle:Roll')->find($id);
@@ -282,12 +282,12 @@ class RollController extends Controller
      * @Route("/{courseid}/approve_all_pending" , name="roll_approve_all")
      *
      */
-     public function approveAllAction($courseid)
+     public function approveAllAction(Request $request, $courseid)
      {
          $allowed = array(self::ROLE_INSTRUCTOR);
-         $this->restrictAccessTo($allowed);
+         $this->restrictAccessTo($request, $allowed);
          $em = $this->getEm();
-         $course = $this->getCourse();
+         $course = $this->getCourse($request);
          foreach($course->getRoll() as $roll){
             if ($roll->getRole() == self::ROLE_PENDING){ 
                 $roll->setRole(self::ROLE_STUDENT);

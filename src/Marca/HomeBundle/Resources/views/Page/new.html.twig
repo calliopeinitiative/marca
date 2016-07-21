@@ -14,7 +14,7 @@
             <h2 class="panel-title">New Page</h2>
         </div>
         <div class="panel-body">
-<form action="{{ path('page_create') }}" method="post" {{ form_start(form) }}>
+<form action="{{ path('page_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <div class="btn-group pull-left" style="clear:both;">
         <button class="btn btn-primary" type="submit">Create</button>

@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Marca\CalendarBundle\Entity\Calendar;
 use Marca\CalendarBundle\Form\CalendarType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Calendar controller.
@@ -23,9 +24,9 @@ class CalendarController extends Controller
      *
      * @Route("/{courseid}/sidebar", name="calendar_sidebar")
      */
-    public function createSidebarAction($courseid)
+    public function createSidebarAction(Request $request, $courseid)
     {
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         return $this->render('MarcaCalendarBundle::sidebar.html.twig', array(
             'role' => $role
         ));
@@ -37,14 +38,14 @@ class CalendarController extends Controller
      *
      * @Route("/{courseid}/", name="calendar")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
-        $role = $this->getCourseRole();
-        $course = $this->getCourse();
+        $role = $this->getCourseRole($request);
+        $course = $this->getCourse($request);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
 
         
@@ -63,14 +64,14 @@ class CalendarController extends Controller
      *
      * @Route("/{courseid}/upcoming", name="calendar_upcoming")
      */
-    public function upcomingAction()
+    public function upcomingAction(Request $request)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
-        $role = $this->getCourseRole();
-        $course = $this->getCourse();
+        $role = $this->getCourseRole($request);
+        $course = $this->getCourse($request);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseStart($course);
         
         //pagination for files
@@ -90,14 +91,14 @@ class CalendarController extends Controller
      *
      * @Route("/{courseid}/{eventid}/display", name="calendar_display", defaults={"eventid" = 0})
      */
-    public function displayAction($eventid)
+    public function displayAction(Request $request, $eventid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
-        $role = $this->getCourseRole();
-        $course = $this->getCourse();
+        $role = $this->getCourseRole($request);
+        $course = $this->getCourse($request);
         $events = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         $event = $em->getRepository('MarcaCalendarBundle:Calendar')->find($eventid);
         if (!$event) {
@@ -122,13 +123,13 @@ class CalendarController extends Controller
      *
      * @Route("/{courseid}/{id}/show_modal", name="calendar_show_modal")
      */
-    public function showModalAction($id)
+    public function showModalAction(Request $request, $id)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
 
         if (!$calendar) {
@@ -148,13 +149,13 @@ class CalendarController extends Controller
      * @Route("/{courseid}/{set_date}/new", name="calendar_new")
      * @Template()
      */
-    public function newAction($courseid)
+    public function newAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         
         $startTime = $course->getTime();
@@ -201,14 +202,14 @@ class CalendarController extends Controller
      * @Route("/{courseid}/create", name="calendar_create")
      * @Method("post")
      */
-    public function createAction($courseid)
+    public function createAction(Request $request, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
-        $role = $this->getCourseRole();
+        $role = $this->getCourseRole($request);
         $user = $this->getUser();       
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         
         $calendar  = new Calendar();
         $calendar->setUser($user);
@@ -238,14 +239,14 @@ class CalendarController extends Controller
      *
      * @Route("/{courseid}/{id}/edit", name="calendar_edit")
      */
-    public function editAction($id, $courseid)
+    public function editAction(Request $request, $id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
-        $role = $this->getCourseRole();
-        $course = $this->getCourse();
+        $role = $this->getCourseRole($request);
+        $course = $this->getCourse($request);
         $events = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
         $eventid = $calendar->getId();
@@ -293,14 +294,14 @@ class CalendarController extends Controller
      * @Route("/{courseid}/{id}/update", name="calendar_update")
      * @Method("post")
      */
-    public function updateAction($id,$courseid)
+    public function updateAction(Request $request, $id,$courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
-        $role = $this->getCourseRole();
-        $course = $this->getCourse();
+        $role = $this->getCourseRole($request);
+        $course = $this->getCourse($request);
         $events = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->find($id);
 
@@ -341,10 +342,10 @@ class CalendarController extends Controller
      * @Route("/{courseid}/{id}/delete", name="calendar_delete")
      * @Method("post")
      */
-    public function deleteAction($id, $courseid)
+    public function deleteAction(Request $request, $id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $form = $this->createDeleteForm($id, $courseid);
         $request = $this->getRequest();
@@ -394,7 +395,7 @@ class CalendarController extends Controller
     {
 
         $em = $this->getEm();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $ip = $this->get('request')->getClientIp();
         $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
 

@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Marca\AssessmentBundle\Entity\Rating;
 use Marca\AssessmentBundle\Entity\Ratingset;
 use Marca\AssessmentBundle\Form\RatingsetType;
@@ -23,10 +24,10 @@ class RatingsetController extends Controller
      *
      * @Route("/{courseid}/{userid}/{user}/{portfoliosetid}/new", name="ratingset_new")
      */
-    public function newAction($courseid, $userid, $user, $portfoliosetid)
+    public function newAction(Request $request, $courseid, $userid, $user, $portfoliosetid)
     {
         $em = $this->getEm();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $rater =  $this->getUser();
         $next_port = $user;
         $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
@@ -61,10 +62,10 @@ class RatingsetController extends Controller
      *
      * @Route("/{courseid}/{userid}/{user}/{id}/edit", name="ratingset_edit")
      */
-    public function editAction($courseid, $id, $userid)
+    public function editAction(Request $request, $courseid, $id, $userid)
     {
         $em = $this->getEm();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $assessmentset = $course->getAssessmentset();
 
@@ -96,10 +97,10 @@ class RatingsetController extends Controller
      * @Route("/{courseid}/{userid}/{user}/{id}/update", name="ratingset_update")
      * @Method("post")
      */
-    public function updateAction($courseid,$id,$userid,$user)
+    public function updateAction(Request $request, $courseid,$id,$userid,$user)
     {
         $em = $this->getEm();
-        $course = $this->getCourse();
+        $course = $this->getCourse($request);
         $entity = $em->getRepository('MarcaAssessmentBundle:Ratingset')->find($id);
 
         if (!$entity) {
@@ -136,10 +137,9 @@ class RatingsetController extends Controller
      * @Route("/{courseid}/{userid}/{user}/{id}/delete", name="ratingset_delete")
      * @Method("post")
      */
-    public function deleteAction($courseid,$id,$userid,$user)
+    public function deleteAction(Request $request, $courseid,$id,$userid,$user)
     {
         $form = $this->createDeleteForm($courseid,$id,$userid,$user);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 

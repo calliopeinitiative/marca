@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Marca\ResponseBundle\Entity\Response;
 use Marca\ResponseBundle\Form\ResponseType;
 
@@ -22,10 +23,10 @@ class ResponseController extends Controller
      * @Route("/{courseid}/{sourceid}/{page}/{user}/{userid}/new", name="response_new", defaults={"page" = 1,"user" = 1})
      * @Template()
      */
-    public function newAction($courseid, $sourceid, $page, $user, $userid)
+    public function newAction(Request $request, $courseid, $sourceid, $page, $user, $userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
         $response = new Response();
@@ -70,11 +71,11 @@ class ResponseController extends Controller
      * @Method("post")
      * @Template("MarcaResponseBundle:Response:new.html.twig")
      */
-    public function createAction($courseid, $sourceid, $page, $user)
+    public function createAction(Request $request, $courseid, $sourceid, $page, $user)
     {
         
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $journal_list = $user;
@@ -111,10 +112,10 @@ class ResponseController extends Controller
      * @Route("/{courseid}/{sourceid}/{id}/{page}/{user}/{userid}/edit", name="response_edit", defaults={"page" = 1,"user" = 1})
      * @Template()
      */
-    public function editAction($id, $courseid, $sourceid, $page, $user, $userid)
+    public function editAction(Request $request, $id, $courseid, $sourceid, $page, $user, $userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $response = $em->getRepository('MarcaResponseBundle:Response')->find($id);
@@ -167,10 +168,10 @@ class ResponseController extends Controller
      * @Method("post")
      * @Template("MarcaResponseBundle:Response:edit.html.twig")
      */
-    public function updateAction($id, $sourceid, $courseid, $page, $user)
+    public function updateAction(Request $request, $id, $sourceid, $courseid, $page, $user)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $response = $em->getRepository('MarcaResponseBundle:Response')->find($id);
@@ -213,10 +214,10 @@ class ResponseController extends Controller
      * @Route("/{courseid}/{id}/{page}/{user}/{userid}/delete", name="response_delete")
      * @Method("post")
      */
-    public function deleteAction($id, $courseid, $page, $user, $userid)
+    public function deleteAction(Request $request, $id, $courseid, $page, $user, $userid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $form = $this->createDeleteForm($id, $courseid, $page, $user, $userid);
         $request = $this->getRequest();

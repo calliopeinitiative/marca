@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Marca\CourseBundle\Entity\Course;
 use Marca\UserBundle\Entity\User;
 use Marca\CourseBundle\Entity\Roll;
@@ -57,7 +58,6 @@ class EnrollController extends Controller
             'pending'=>$pending,
             'roll'=>$roll,
             'archive'=>$archive,
-            'roll'=>$roll,
             'modules' => $modules,
             'courseids'=>$courseids,
             'possible_courses' => $possible_courses,
@@ -96,7 +96,6 @@ class EnrollController extends Controller
            'pending'=>$pending,
            'roll'=>$roll,
            'archive'=>$archive,
-           'roll'=>$roll,
            'modules' => $modules,
            'courseids'=>$courseids,
            'possible_courses' => $possible_courses,
@@ -108,10 +107,10 @@ class EnrollController extends Controller
      * @Route("/{courseid}/enroll", name="enroll_enroll")
      * @Template()
      */
-    public function enrollCourseAction($courseid)
+    public function enrollCourseAction(Request $request, $courseid)
     {
        $user = $this->getUser();
-       $course = $this->getCourse();
+       $course = $this->getCourse($request);
        $coupon = $user->getCoupon();
        if($this->get('security.context')->isGranted('ROLE_INSTR') === TRUE){
            $validCoupon = TRUE;

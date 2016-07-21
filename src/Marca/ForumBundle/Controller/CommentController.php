@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Marca\ForumBundle\Entity\Comment;
 use Marca\ForumBundle\Form\CommentType;
@@ -23,10 +24,10 @@ class CommentController extends Controller
      *
      * @Route("/{courseid}/{forumid}/{parentid}/new", name="comment_new")
      */
-    public function newAction($courseid,$forumid,$parentid)
+    public function newAction(Request $request, $courseid,$forumid,$parentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $parent = $em->getRepository('MarcaForumBundle:Forum')->find($parentid);        
@@ -70,10 +71,10 @@ class CommentController extends Controller
      * @Method("post")
      * @Template("MarcaForumBundle:Comment:new.html.twig")
      */
-    public function createAction($courseid,$forumid,$parentid)
+    public function createAction(Request $request, $courseid,$forumid,$parentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $parent = $em->getRepository('MarcaForumBundle:Forum')->find($parentid);   
@@ -110,10 +111,10 @@ class CommentController extends Controller
      *
      * @Route("/{courseid}/{parentid}/{id}/edit", name="comment_edit")
      */
-    public function editAction($courseid, $id, $parentid)
+    public function editAction(Request $request, $courseid, $id, $parentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $user = $this->getUser();
@@ -163,10 +164,10 @@ class CommentController extends Controller
      * @Route("/{courseid}/{parentid}/{id}/update", name="comment_update")
      * @Method("post")
      */
-    public function updateAction($id,$courseid,$parentid)
+    public function updateAction(Request $request, $id,$courseid,$parentid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $em = $this->getEm();
         $parent = $em->getRepository('MarcaForumBundle:Forum')->find($parentid);   
@@ -204,10 +205,10 @@ class CommentController extends Controller
      * @Route("/{courseid}/{id}/delete", name="comment_delete")
      * @Method("post")
      */
-    public function deleteAction($id, $courseid)
+    public function deleteAction(Request $request, $id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($allowed);
+        $this->restrictAccessTo($request, $allowed);
         
         $form = $this->createDeleteForm($id, $courseid);
         $request = $this->getRequest();
