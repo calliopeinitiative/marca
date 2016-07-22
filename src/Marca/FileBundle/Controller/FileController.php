@@ -282,6 +282,7 @@ class FileController extends Controller
         $options = array('courseid' => $courseid, 'resource' => $resource);
 
         $file = new File();
+        $file->setName('New Document');
         $file->setUser($user);
         $file->setCourse($course);
         if ($resource != 0) {

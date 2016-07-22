@@ -30,7 +30,7 @@ class File
      * )
      * @Vich\UploadableField(mapping="property_file", fileNameProperty="path")
      *
-     * @var File $file
+     * @var File
      */
     protected $file;
     

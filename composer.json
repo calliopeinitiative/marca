@@ -20,10 +20,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "stof/doctrine-extensions-bundle": "dev-master",
-        "vich/uploader-bundle": "0.9.0",
         "knplabs/knp-paginator-bundle": "dev-master",
         "knplabs/knp-snappy-bundle": "dev-master",
-        "egeloen/ckeditor-bundle": "~2.0",
         "components/jquery": "2.1.*",
         "components/jqueryui": "1.11.*",
         "twbs/bootstrap" : "*",
@@ -31,7 +29,9 @@
         "packagist/yuicompressor-bin": "dev-master",
         "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1",
         "stripe/stripe-php": "1.*",
-        "besimple/sso-auth-bundle": "*@dev"
+        "besimple/sso-auth-bundle": "*@dev",
+        "egeloen/ckeditor-bundle": "^4.0",
+        "vich/uploader-bundle": "^1.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

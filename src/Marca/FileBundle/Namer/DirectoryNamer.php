@@ -2,6 +2,7 @@
 
 namespace Marca\FileBundle\Namer;
 
+use Vich\UploaderBundle\Mapping\PropertyMapping;
 use Vich\UploaderBundle\Naming\DirectoryNamerInterface;
 
 /**
@@ -16,10 +17,11 @@ class DirectoryNamer implements DirectoryNamerInterface
      * @param string $field The name of the uploadable field to generate a name for.
      * @return string The file name.
      */
-    function directoryName($obj, $field, $uploadDir)
+    function directoryName($object, PropertyMapping $mapping)
     {
-        $course = $obj->getCourse();
+        $course = $object->getCourse();
         $courseid = $course->getID();
-        return $uploadDir.'/'.$courseid;
+        return $courseid;
     }
 }
+

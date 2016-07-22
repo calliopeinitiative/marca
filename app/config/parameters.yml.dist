@@ -19,7 +19,6 @@ parameters:
     help_email:        help@yourserver.edu
     help_url:          http://www.gomarca.com/using-marca/
     wkhtmltopdf_path: /usr/local/bin/wkhtmltopdf-amd64
-    gaufrette:        false
     vich_storage:     vich_uploader.storage.file_system
     vich_uri_prefix:       %kernel.root_dir%/../uploads/files
     vich_upload_destination:  %kernel.root_dir%/../uploads/files
