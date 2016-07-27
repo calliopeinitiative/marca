@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Marca\NoteBundle\Entity\Note;
 use Marca\NoteBundle\Form\NoteType;
 
@@ -34,7 +35,7 @@ class NoteController extends Controller
      * @Route("/{courseid}/", name="note")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getEm();
         $user = $this->getUser();
@@ -52,7 +53,7 @@ class NoteController extends Controller
      * @Route("/{courseid}/new", name="note_new")
      * @Template()
      */
-    public function newAction($courseid)
+    public function newAction(Request $request, $courseid)
     {
         $em = $this->getEm();
         $user = $this->getUser();

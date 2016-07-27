@@ -21,18 +21,18 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="admin")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $user = $this->getUser();
         $users = array();
         
         $form = $this->createFormBuilder(new User())
-            ->add('lastname','text', array('label'  => 'Start of name, username, or email','attr' => array('class' => 'form-control'),))
+            ->add('lastname','text', array('label'  => 'Start of name, username, or email','attr' => array('class' => 'form-control', 'action' => 'javascript:void(0);'),))
             ->getForm();
-        
+
         //pagination
         $paginator = $this->get('knp_paginator');
-        $users = $paginator->paginate($users,$this->get('request')->query->get('page', 1),25);
+        $users = $paginator->paginate($users,$request->query->get('page', 1),25);
         $count = $users->getTotalItemCount();
         return $this->render('MarcaAdminBundle:Default:index.html.twig', array(
             'count' => $count,
@@ -48,19 +48,18 @@ class DefaultController extends Controller
      * @Route("/find", name="admin_find")
      * @Method("POST")
      */
-    public function findAction()
+    public function findAction(Request $request)
     {
         $em = $this->getEm();
         $user = $this->getUser();
-        
-        $request = $this->get('request');
+
         $postData = $request->request->get('form');
         $name = $postData['lastname'];
         $users = $em->getRepository('MarcaUserBundle:User')->findUsersByName($name);
 
         //pagination
         $paginator = $this->get('knp_paginator');
-        $users = $paginator->paginate($users,$this->get('request')->query->get('page', 1),25);
+        $users = $paginator->paginate($users,$request->query->get('page', 1),25);
         $count = $users->getTotalItemCount();
 
         return $this->render('MarcaAdminBundle:Default:find.html.twig',  array(
@@ -120,7 +119,7 @@ class DefaultController extends Controller
      * @Method("post")
      * @Template("MarcaAdminBundle:Default:edit.html.twig")
      */
-    public function updateAction($username)
+    public function updateAction(Request $request, $username)
     {
         $userManager = $this->container->get('fos_user.user_manager');
         $user = $userManager->findUserByUsername($username);
@@ -133,7 +132,6 @@ class DefaultController extends Controller
 
         $editForm = $this->createEditForm($user);
 
-        $request = $this->getRequest();
         $postData = $request->get('marca_adminbundle_useradmin');
         $new_username = $postData['username'];
         $new_email = $postData['email'];

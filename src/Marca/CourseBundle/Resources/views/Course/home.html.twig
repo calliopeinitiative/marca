@@ -6,7 +6,7 @@
     <div class="col-sm-6 col-xs-12">
         <div class="panel panel-marca">
             <div class="panel-heading">
-                <h2 class="panel-title small">Upcoming events</h2>
+                <h2 class="panel-title small">This Week</h2>
             </div>
             <div class="panel-body">
                 {% for calendar in calendar %}
@@ -20,12 +20,10 @@
                             {{ calendar.description|html_raw }}
                         </div>
                     </div>
+                    {% else %}
+                    Nothing in the calendar for this week.
                 {% endfor %}
 
-
-                <div class="navigation">
-                    {{ knp_pagination_render(calendar) }}
-                </div>
             </div>
         </div>
     </div>

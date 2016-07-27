@@ -13,7 +13,8 @@
         {% for note in notes %}
             <div class="panel panel-default" style="display: inline-block;margin-bottom: 10px;width: 100%;min-height:115px;">
                 <div class="panel-heading">
-                    <a href="{{ course_path('note_edit', { 'id': note.id }) }}"><h2 class="panel-title small">{{ note.title }}</h2></a>
+                    <a class="btn btn-default btn-sm pull-right" href="{{ course_path('note_edit', { 'id': note.id }) }}">Edit</a>
+                    <h2 class="panel-title small">{{ note.title }}</h2>
                 </div>
                 <div class="panel-body">
                     {{ note.description|html_raw }}

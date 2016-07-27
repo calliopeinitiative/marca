@@ -27,7 +27,7 @@ class CalendarRepository extends EntityRepository
      
     public function findCalendarByCourseStart($course)
       {   
-      $startDate = date("Y-m-d") ;  
+      $startDate = date("Y-m-d") ;
       $parents = $this->getEntityManager()
             ->createQuery('SELECT p.id from MarcaCourseBundle:Course c JOIN c.parents p WHERE c.id = ?1')->setParameter('1',$course)->getResult();
       if ($parents)   {
@@ -36,5 +36,19 @@ class CalendarRepository extends EntityRepository
      }
       return $this->getEntityManager()
             ->createQuery('SELECT c FROM MarcaCalendarBundle:Calendar c WHERE c.course = ?1 AND c.startDate >= ?2 ORDER BY c.startDate ASC')->setParameter('1',$course)->setParameter('2',$startDate)->getResult();
-     }       
+     }
+
+    public function findCalendarforCourseHome($course)
+    {
+        $startDate = date("Y-m-d") ;
+        $endDate = date( "Y-m-d", strtotime( "$startDate +7 day" ) );
+        $parents = $this->getEntityManager()
+            ->createQuery('SELECT p.id from MarcaCourseBundle:Course c JOIN c.parents p WHERE c.id = ?1')->setParameter('1',$course)->getResult();
+        if ($parents)   {
+            return $this->getEntityManager()
+                ->createQuery('SELECT c FROM MarcaCalendarBundle:Calendar c WHERE  (c.course in (?1) OR c.course = ?2) AND c.startDate >= ?3 AND c.startDate < ?4 ORDER BY c.startDate ASC')->setParameter('1',$parents)->setParameter('2',$course)->setParameter('3',$startDate)->setParameter('4',$endDate)->getResult();
+        }
+        return $this->getEntityManager()
+            ->createQuery('SELECT c FROM MarcaCalendarBundle:Calendar c WHERE c.course = ?1 AND c.startDate >= ?2 AND c.startDate < ?3 ORDER BY c.startDate ASC')->setParameter('1',$course)->setParameter('2',$startDate)->setParameter('3',$endDate)->getResult();
+    }
 }

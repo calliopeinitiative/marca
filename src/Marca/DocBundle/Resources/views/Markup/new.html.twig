@@ -4,8 +4,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-<script src="{{ asset('bundles/marcahome/js/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('bundles/marcahome/js/jquery-ui-1.8.22.custom.min.js') }}"></script> 
 <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
 {% endblock %}
 
@@ -30,9 +28,6 @@ $(document).ready(function()
         ['orange', 'cadetblue', 'tomato','blueviolet']        
     ]
     });
-    CKEDITOR.replace( 'marca_docbundle_markuptype_mouseover',  {
-    customConfig: '{{ asset('bundles/marcahome/js/ckeditor_local/ckeditor_config.js') }}'
-} );
 });
 </script>
 
@@ -42,12 +37,10 @@ $(document).ready(function()
             <h2 class="panel-title small">Markup Tag</h2>
         </div>
         <div class="panel-body">
-            <form action="{{ path('markup_create', { 'set_id': set_id }) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-                {{ form_widget(form) }}
+            {{ form(form) }}
         </div>
         <div class="panel-footer">
             <div class="btn-group">
-                <button class="btn btn-primary" type="submit">Update</button>
                 <a class="btn btn-default" href="{{ path('markupset') }}">Cancel</a>
             </div>
         </div>
