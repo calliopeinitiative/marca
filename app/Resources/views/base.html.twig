@@ -9,11 +9,10 @@
 
     {% block stylesheets %}
         {% stylesheets '@bootstrap_less' '%kernel.root_dir%/../vendor/components/jqueryui/themes/flick/jquery-ui.min.css' combine=true
-        output='css/compiled/main.css' %}
+        output='css/compiled/main.css'  filter='cssrewrite' %}
         <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/offline-theme-default.css') }}">
         {# externals #}
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
         <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Josefin+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         {# local #}

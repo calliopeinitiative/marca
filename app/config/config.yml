@@ -59,6 +59,22 @@ assetic:
       #file:   %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
     cssrewrite: ~
   assets:
+    bootstrap_fonts_woff:
+       inputs:
+           - '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.woff'
+       output: css/fonts/glyphicons-halflings-regular.woff
+    bootstrap_fonts_ttf:
+        inputs:
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.ttf'
+        output: css/fonts/glyphicons-halflings-regular.ttf
+    bootstrap_fonts_svg:
+        inputs:
+            - '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.svg'
+        output: css/fonts/glyphicons-halflings-regular.svg
+    bootstrap_fonts_eot:
+         inputs:
+             - '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.eot'
+         output: css/fonts/glyphicons-halflings-regular.eot
     jquery_js:
         inputs:
             - '%kernel.root_dir%/../vendor/components/jquery/jquery.js'
