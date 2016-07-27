@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-sm-2">
                             {% if portStatus == 'true' %}
-                                <a class="btn btn-default btn-xs"
+                                <a class="btn btn-primary btn-xs"
                                    href="{{ course_path('portfolio_find', {'project':'recent', 'portitemid': portitem.id }) }}">Add<i
                                             class="glyphicon glyphicon-plus glyphicon-white"></i></a>
                             {% endif %}
@@ -93,8 +93,6 @@
                             <div class="col-sm-2">
                                 {% if portStatus == 'true' %}
                                     <div class="btn-group btn-group">
-                                        <a class="btn btn-default btn-xs"
-                                           href="{{ course_path('portfolio_edit', { 'id': portfolio.id }) }}">Change</a>
                                         <a class="btn btn-default btn-xs" id='port_{{ portfolio.id }}'
                                            href="javascript:void(0);" title='Remove from portfolio'>Remove</a>
                                     </div>
