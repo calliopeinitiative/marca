@@ -24,6 +24,10 @@
             $('#help_close_btn').click(function(){
                 $('#help_show').slideToggle();$('#help').slideToggle();
             });
+            {# form page close/cancel adjust for appropriate redirect #}
+            $('#close_form').click(function(){
+                window.location.href='{{ path('user_home')}}';
+            });
         });
     </script>
 {% endblock %}
@@ -52,14 +56,21 @@
             </div>
         {% endif %}
 
-
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-footer">
+                    <button id="close_form" type="button" class="close">&times;</button>
+                    <h2>Create New Course</h2>
+                </div>
+            </div>
+        </div>
         <form class="form" action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
 
 
             <div class="col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="margin-top-small">{% if course.module!=0 %}Module{%else%}Essential{%endif%} settings</h2>
+                        <h2 class="margin-top-small">Essentials</h2>
                     </div>
                     <div class="panel-body">
                         {{ form_errors(form) }}
@@ -119,13 +130,13 @@
                         {{ form_row (form.module) }}
                         {{ form_rest(form) }}
                     </div>
+                </div>
+            </div>
 
-
-                    <div class="panel-footer">
-                        <div class="btn-group">
-                            <button class="btn btn-primary " type="submit">Create</button>
-                            <a class="btn btn-default" href="{{ path('user_home') }}">Cancel</a>
-                        </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <p>&#160;<button class="btn btn-primary pull-right" type="submit">Post</button></p>
                     </div>
                 </div>
             </div>
