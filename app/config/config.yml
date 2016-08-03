@@ -63,6 +63,10 @@ assetic:
        inputs:
            - '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.woff'
        output: css/fonts/glyphicons-halflings-regular.woff
+    bootstrap_fonts_woff2:
+       inputs:
+           - '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.woff2'
+       output: css/fonts/glyphicons-halflings-regular.woff2
     bootstrap_fonts_ttf:
         inputs:
             - '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.ttf'
