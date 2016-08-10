@@ -32,7 +32,7 @@ framework:
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_hosts:   ~
-    trusted_proxies: ~
+    trusted_proxies: [168.25.19.228]
     session:
         # handler_id set to null will use default session handler from php.ini
         handler_id:  ~
