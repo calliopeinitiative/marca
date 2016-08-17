@@ -42,7 +42,7 @@ class ReviewController extends Controller
      *
      * @Route("/{courseid}/{id}/show_ajax", name="review_show_ajax")
      */
-    public function show_ajaxAction($id, $courseid)
+    public function show_ajaxAction(Request $request, $id, $courseid)
     {
         $em = $this->getDoctrine()->getManager();
         $role = $this->getCourseRole($request);
@@ -70,7 +70,7 @@ class ReviewController extends Controller
      *
      * @Route("/{courseid}/{id}/refresh_ajax", name="review_refresh_ajax")
      */
-    public function refresh_ajaxAction($id)
+    public function refresh_ajaxAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $role = $this->getCourseRole($request);
@@ -125,7 +125,7 @@ class ReviewController extends Controller
      *
      * @Route("/{courseid}/{fileid}/{reviewrubricid}/new", name="review_new")
      */
-    public function newAction($courseid, $reviewrubricid, $fileid)
+    public function newAction(Request $request, $courseid, $reviewrubricid, $fileid)
     {
         $em = $this->getEm();
         $course = $this->getCourse($request);
@@ -158,7 +158,7 @@ class ReviewController extends Controller
      *
      * @Route("/{courseid}/{id}/edit_ajax", name="review_edit_ajax")
      */
-    public function edit_ajaxAction($id)
+    public function edit_ajaxAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $role = $this->getCourseRole($request);
