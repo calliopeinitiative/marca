@@ -391,7 +391,7 @@ class CalendarController extends Controller
      *
      * @Route("/{courseid}/print", name="agenda_print")
      */
-    public function htmlPrintAction()
+    public function htmlPrintAction(Request $request)
     {
 
         $em = $this->getEm();
