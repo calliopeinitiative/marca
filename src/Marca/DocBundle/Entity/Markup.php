@@ -49,7 +49,7 @@ class Markup
      *
      * @ORM\Column(name="color", type="string", length=255)
      */
-    private $color='royalblue'; 
+    private $color='lavender';
     
     /**
      * @var string $url

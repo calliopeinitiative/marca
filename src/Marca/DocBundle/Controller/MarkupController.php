@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Marca\DocBundle\Entity\Markup;
 use Marca\DocBundle\Form\MarkupType;
 
@@ -63,9 +64,7 @@ class MarkupController extends Controller
     public function newAction($set_id)
     {
         $markup = new Markup();
-        $form   = $this->createForm(new MarkupType(), $markup, array(
-            'em'=>$this->getDoctrine()->getManager(),
-        ));
+        $form   = $this->createForm(new MarkupType(), $markup);
 
         return array(
             'set_id' => $set_id,
@@ -81,7 +80,7 @@ class MarkupController extends Controller
      * @Method("post")
      * @Template("MarcaDocBundle:Markup:new.html.twig")
      */
-    public function createAction($set_id)
+    public function createAction(Request $request, $set_id)
     {
         $em = $this->getEm();
         $user = $this->getUser();
@@ -90,10 +89,8 @@ class MarkupController extends Controller
         $markup->setUser($user);
         $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($set_id);
         $markup->addMarkupset($markupset);
-        $request = $this->getRequest();
-        $form    = $this->createForm(new MarkupType(), $markup, array(
-            'em'=>$this->getDoctrine()->getManager(),
-        ));
+
+        $form   = $this->createForm(new MarkupType(), $markup);
         $form->handleRequest($request);
 
         $name = $markup->getName();
@@ -132,9 +129,7 @@ class MarkupController extends Controller
             throw $this->createNotFoundException('Unable to find Markup entity.');
         }
 
-        $editForm = $this->createForm(new MarkupType(), $markup, array(
-            'em'=>$this->getDoctrine()->getManager(),
-        ));
+        $editForm = $this->createForm(new MarkupType(), $markup);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -151,7 +146,7 @@ class MarkupController extends Controller
      * @Method("post")
      * @Template("MarcaDocBundle:Markup:edit.html.twig")
      */
-    public function updateAction($id, $set_id)
+    public function updateAction(Request $request, $id, $set_id)
     {
         $em = $this->getEm();
 
@@ -161,13 +156,8 @@ class MarkupController extends Controller
             throw $this->createNotFoundException('Unable to find Markup entity.');
         }
 
-        $editForm   = $this->createForm(new MarkupType(), $markup, array(
-            'em'=>$this->getDoctrine()->getManager(),
-        ));
+        $editForm = $this->createForm(new MarkupType(), $markup);
         $deleteForm = $this->createDeleteForm($id);
-
-        $request = $this->getRequest();
-
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -191,10 +181,9 @@ class MarkupController extends Controller
      * @Route("/{id}/delete", name="markup_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 

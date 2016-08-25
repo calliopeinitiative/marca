@@ -11,8 +11,6 @@ class MarkupType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $entitymanager = $options['em'];
-        $transformer = new ColorToCssTransformer($entitymanager);
         $builder
             ->add('name','text', array('label'  => 'Name','attr' => array('class' => 'text form-control'),))
             ->add('color','text', array('attr' => array('class' => 'colorpicker'),'label'  => 'Markup Color',) )
@@ -27,7 +25,6 @@ class MarkupType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Marca\DocBundle\Entity\Markup'
         ));
-        $resolver->setRequired(array('em'));
     }
 
     public function getName()

@@ -46,13 +46,8 @@
                     {{ form_errors(edit_form) }}
                     {{ form_widget(edit_form) }}
                     {{ form_rest(edit_form) }}
-                </div>
-                <div class="panel-footer">
-                    <div class="btn-group">
-                        <button class="btn btn-primary" type="submit">Update</button>
-                        <a class="btn btn-default" href="{{ path('markupset') }}">Cancel</a>
-                    </div>
-                    <a class="btn btn-warning pull-right" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                        <button class="btn btn-primary pull-right" type="submit">Post</button>
+                    <a class="btn btn-warning" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
                 </div>
             </div>
         </form>

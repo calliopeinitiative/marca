@@ -2,22 +2,31 @@
 
 {% extends 'MarcaUserBundle::dialog.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+    <script language="javascript">
+        $(document).ready(function () {
+            {# form page close/cancel adjust for appropriate redirect #}
+            $('#close_form').click(function () {
+                window.location.href = '{{ path('markupset') }}';
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
 <div class="col-sm-8 center">
     <form action="{{ path('markupset_create') }}" method="post" {{ form_enctype(form) }}>
 
         <div class="panel panel-default">
             <div class="panel-heading">
+                <button id="close_form" type="button" class="close">&times;</button>
                 <h2 class="panel-title small">Markup Set</h2>
             </div>
             <div class="panel-body">
                 {{ form_widget(form) }}
-            </div>
-            <div class="panel-footer">
-                <div class="btn-group">
-                    <button class="btn btn-primary" type="submit">Update</button>
-                    <a class="btn btn-default" href="{{ path('markupset') }}">Cancel</a>
-                </div>
+                    <button class="btn btn-primary pull-right" type="submit">Post</button>
             </div>
         </div>
     </form>
