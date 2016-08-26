@@ -144,9 +144,9 @@ be_simple_sso_auth:
             version: 2
         server:
             id: cas
-            login_url: https://cas.stage.uga.edu/cas/login
-            logout_url: https://cas.stage.uga.edu/cas/logout
-            validation_url: https://cas.stage.uga.edu/cas/serviceValidate
+            login_url: %cas_login_url%
+            logout_url: %cas_logout_url%
+            validation_url: %cas_validation_url%
 
 fos_user:
     db_driver: orm

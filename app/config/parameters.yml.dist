@@ -23,4 +23,7 @@ parameters:
     vich_uri_prefix:       %kernel.root_dir%/../uploads/files
     vich_upload_destination:  %kernel.root_dir%/../uploads/files
     cas: no
+    cas_login_url: https://cas.edu/cas/login
+    cas_logout_url: https://cas.edu/cas/logout
+    cas_validation_url: https://cas.edu/cas/serviceValidate
 
