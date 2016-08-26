@@ -268,7 +268,6 @@ class CalendarController extends Controller
         ));
     }
 
-
     /**
      * Creates a form to edit a Calendar entity.
      *
@@ -387,30 +386,6 @@ class CalendarController extends Controller
     
 
     /**
-     * Creates HTML for printing
-     *
-     * @Route("/{courseid}/print", name="agenda_print")
-     */
-    public function htmlPrintAction(Request $request)
-    {
-
-        $em = $this->getEm();
-        $course = $this->getCourse($request);
-        $ip = $this->get('request')->getClientIp();
-        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
-
-        if (!$calendar) {
-            throw $this->createNotFoundException('Unable to find Calendar entity.');
-        }
-
-        return $this->render('MarcaCalendarBundle:Calendar:pdf.html.twig', array(
-            'calendar' => $calendar,
-            'ip' => $ip
-        ));
-    }
-
-
-    /**
      * Creates a pdf of a Agenda for printing.
      *
      * @Route("/{courseid}/pdf", name="agenda_pdf")
@@ -418,14 +393,25 @@ class CalendarController extends Controller
     public function createPdfAction($courseid)
     {
 
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+
+        $calendar = $em->getRepository('MarcaCalendarBundle:Calendar')->findCalendarByCourseAll($course);
         $filename = 'attachment; filename="agenda.pdf"';
-        $pageUrl = $this->generateUrl('agenda_print', array('courseid'=> $courseid),  true); // use absolute path!
+
+        $html = $this->renderView('MarcaCalendarBundle:Calendar:pdf.html.twig', array(
+            'calendar' => $calendar,
+        ));
 
         return new Response(
-            $this->get('knp_snappy.pdf')->getOutput($pageUrl),
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
             200,
-            array('Content-Type'=> 'application/force-download', 'Content-Disposition'  => $filename )
+            array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => $filename
+            )
         );
+
     }
 
 }

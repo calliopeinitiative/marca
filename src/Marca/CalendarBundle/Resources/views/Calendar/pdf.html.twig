@@ -1,44 +1,53 @@
 {# Marca/DocBundle/Resources/views/Doc/pdf.html.twig #}
-{% if ip != '::1' %}
+
 <html>
 <head>
-    {% block stylesheets %}
-        {% stylesheets '@bootstrap_less' combine=true  output='css/compiled/main.css' %}
-        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
-        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
-        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/external.css') }}">
-        {% endstylesheets %}
-    {% endblock %}
     <style>
-        body {background: #fff;margin:0em;height:100%;width:100%; }
-        .agenda {margin:0em;height:100%;width:100%;}
+        body {
+            background: #fff;
+            margin: 0em;
+            height: 100%;
+            width: 100%;
+        }
+
+        .agenda {
+            margin: 0em;
+            height: 100%;
+            width: 100%;
+        }
+
+        .color-flag {
+            height: 100%;
+            width: 3em;
+            text-align: center;
+            margin-right: 6px;
+            border-radius: 0 4px 4px 0;
+            color: #006DCC;
+            background-color: #006DCC;
+        }
     </style>
 </head>
 <body>
 {# Agenda display #}
-    <div class="col-sm-12">
-        <div class="agenda">
-            <h1>Agenda for {{ calendar[0].course.name }}</h1>
-            <table class="table">
-                <tbody>
-                {% for calendar in calendar %}
-                    <tr>
-                        <td class='col-sm-2'>
-                            {{ calendar.startDate|date('j M Y') }} {{ calendar.startTime|date('g:i A') }}
-                        </td>
-                        <td class='col-sm-10'>
-                            <span class="pull-left color-flag" style="{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif%}">&#183;</span> {{ calendar.title }}
-                            <p>{{ calendar.description|html_raw }}</p>
-                        </td>
-                    </tr>
+<div class="col-sm-12">
+    <div class="agenda">
+        <h1>Agenda for {{ calendar[0].course.name }}</h1>
 
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        {% for calendar in calendar %}
+            {{ calendar.startDate|date('M j Y') }} {{ calendar.startTime|date('g:i A') }}
+
+            <p style="font-weight: bold">
+                <span class="pull-left color-flag"
+                      style="{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif %}">&#183;&#183;&#183;&#183;&#183;</span>
+                {{ calendar.title }}
+            </p>
+            <p>{{ calendar.description|html_raw }}</p>
+            <hr/>
+        {% endfor %}
+
     </div>
+</div>
 </body>
 
-   
 </html>
-{%endif%}
+
