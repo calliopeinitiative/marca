@@ -27,7 +27,7 @@ class CourseRepository extends EntityRepository
 
    public function findCourseByLastname($lastname)
     {
-       $lastname = strtolower($lastname);
+       $lastname = strtolower(trim($lastname));
        $lastname = $lastname.'%';
         return $this->getEntityManager()
             ->createQuery("SELECT u.lastname,u.firstname,c.name,c.time,c.id from MarcaCourseBundle:Roll r JOIN r.user u JOIN r.course c JOIN c.term t
