@@ -23,7 +23,7 @@ class File
      *     maxSize="10M",
      *     mimeTypes={"audio/mpeg", "application/vnd.ms-office", "image/gif", "image/png", "image/jpeg", "image/pjpeg", "application/pdf",
       * "application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.presentation",
-      * "application/vnd.oasis.opendocument.spreadsheet", "application/msword", "application/mspowerpoint",
+      * "application/vnd.oasis.opendocument.spreadsheet", "application/msword", "application/vnd.ms-powerpoint",
       * "application/excel", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       * "application/vnd.openxmlformats-officedocument.presentationml.presentation", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       * "application/zip"}
