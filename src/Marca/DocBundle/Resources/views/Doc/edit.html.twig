@@ -6,6 +6,7 @@
     {{ parent() }}
     <script language="javascript">
         $(document).ready(function () {
+            $(document).inactivityTimeout();
             var editorheight = $(document).height() * .88;
             $('#saving_alert').toggle();
             $('#doc-tools').css('height', function (index) {
