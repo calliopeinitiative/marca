@@ -13,6 +13,7 @@ use Marca\UserBundle\Entity\Profile;
 use Marca\CourseBundle\Entity\Project;
 use Marca\HomeBundle\Entity\Page;
 use Marca\CourseBundle\Form\CourseType;
+use Marca\CourseBundle\Form\NameType;
 use Marca\CourseBundle\Form\ModuleType;
 use Marca\CourseBundle\Form\AnnounceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -368,18 +369,53 @@ class CourseController extends Controller
         $type= Page::TYPE_COURSE;
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
         
-        $editForm = $this->createForm(new CourseType($options), $course);
+        
+        
+        $formtype = 'NameType';
+       
+        
+        
+        $editForm = $this->createEditPartForm($course, $formtype);
         $deleteForm = $this->createDeleteForm($courseid);
 
         return $this->render('MarcaCourseBundle:Course:edit.html.twig', array(
             'course'      => $course,
             'pages'      => $pages,
+            'formtype'   => $formtype,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
-
     
+    /**
+     * Creates a form to edit a CoursePart entity.
+     *
+     * @param Course $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditPartForm(Course $course, $formtype) {
+        
+        if ($formtype == 'CourseType') {
+            $form = $this->createForm(new CourseType(), $course, array(
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId())),
+            'method' => 'PUT',
+        ));
+            
+        }
+        elseif($formtype == 'NameType'){
+            $form = $this->createForm(new NameType(), $course, array(
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId())),
+            'method' => 'PUT',
+        ));
+        }
+        
+
+        $form->add('submit', 'submit', array('label' => 'Update', 'attr' => array('class' => 'btn btn-primary'),));
+
+        return $form;
+    }
+
     /**
      * Edits an existing Course entity.
      *

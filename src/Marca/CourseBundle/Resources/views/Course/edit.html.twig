@@ -81,12 +81,12 @@
                     </div>
                     <div class="panel-body">
                         {{ form_errors(edit_form) }}
-                        <div class="">{{ form_row (edit_form.name) }}</div>
+                        <div class="">{{ form_row (edit_form.name) }}</div>                         
+                        {% if formtype != 'NameType' %}                      
                         <div class="{% if course.module!=0 %}hide{% endif %}">{{ form_row (edit_form.time, {'type':'text'}) }}</div>
                         <div class="{% if course.module!=0 %}hide{% endif %}">{{ form_row (edit_form.term) }}</div>
-                        <div class="{% if course.module!=0 %}hide{% endif %}">{{ form_row (edit_form.externalid) }}</div>
-                    </div>
-
+                        {% endif %}
+                        {% if formtype == 'CourseType' %} 
                     <div class="panel-heading {% if course.module!=0 %}hide{% endif %}">
                         <h2>Tools</h2>
                     </div>
@@ -104,10 +104,11 @@
                         {{ form_row (edit_form.portfolio) }}
                         {{ form_row (edit_form.portset) }}
                         {{ form_row (edit_form.assessmentset) }}
-                    </div>
+                    </div> 
+                        {% endif %}
                 </div>
             </div>
-
+              {% if formtype != 'NameType' %}
             <div class="col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading {% if course.module!=0 %}hide{% endif %}">
@@ -134,6 +135,7 @@
                     </div>
                 </div>
             </div>
+                    {% endif %}
 
 
             <div class="col-sm-12">
