@@ -18,6 +18,7 @@ use Marca\CourseBundle\Form\CourseTermType;
 use Marca\CourseBundle\Form\TimeType;
 use Marca\CourseBundle\Form\ToolsType;
 use Marca\CourseBundle\Form\AccessType;
+use Marca\CourseBundle\Form\PortType;
 use Marca\CourseBundle\Form\ModuleType;
 use Marca\CourseBundle\Form\AnnounceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -427,6 +428,7 @@ class CourseController extends Controller
             'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
             'method' => 'POST',
         ));
+       
         }
         
          elseif($formtype == 'AccessType'){
@@ -436,8 +438,15 @@ class CourseController extends Controller
         ));
         }
         
+        elseif($formtype == 'PortType'){
+            $form = $this->createForm(new PortType(), $course, array(
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
+            'method' => 'POST',
+        ));
+        }
+        
 
-        $form->add('submit', 'submit', array('label' => 'Update', 'attr' => array('class' => 'btn btn-primary'),));
+         $form->add('submit', 'submit', array('label' => 'Update', 'attr' => array('class' => 'btn btn-primary'),));
 
         return $form;
     }

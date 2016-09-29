@@ -23,7 +23,7 @@
     <div class="col-sm-6">
         <div class="panel panel-default ">
             <div class="panel-heading">
-                <a class="btn btn-primary pull-right" href="{{ path('course_edit', { 'courseid': course.id, 'formtype':'CourseType' }) }}">Edit Course Settings
+                <a class="btn btn-primary pull-right" href="{{ path('course_edit', { 'courseid': course.id, 'formtype':'CourseType' }) }}">Edit All Course Settings
                     </a>
                 <h2 class="margin-top-small">Settings</h2>
             </div>
@@ -57,6 +57,8 @@
                         <li><strong>Student can start forum
                                 threads:</strong> {{ course.studentForum=='t' ? 'Yes' : 'No' }}</li>
                         <li><h2>Portfolio</h2></li>
+                        <a class="btn btn-primary btn-xs pull-right" href="{{ path('course_edit', { 'courseid': course.id, 'formtype':'PortType' }) }}">Edit Portfolio Settings
+                        </a>
                         <li><strong>Portfolio: </strong> {{ course.portfolio=='t' ? 'Yes' : 'No' }}</li>
                         <li><strong>Portfolio
                                 set:</strong>{% if portset %}{{ portset.name }}{% else %}No portfolio set designated{% endif %}
