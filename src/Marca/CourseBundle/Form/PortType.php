@@ -29,6 +29,7 @@ class PortType extends AbstractType
             ,'choice_label'=>'name','expanded'=>true,'multiple'=>false, 'label' => 'Portset','attr' => array('class' => 'radio'),));
             }
     
+            
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
