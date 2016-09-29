@@ -10,7 +10,7 @@ use Marca\TagBundle\Entity\TagsetRepository;
 use Marca\CourseBundle\Entity\TermRepository;
 use Marca\PortfolioBundle\Entity\PortsetRepository;
 
-class EditTermType extends AbstractType
+class CourseTermType extends AbstractType
 {
      
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -27,15 +27,10 @@ class EditTermType extends AbstractType
             return $qb;
             }
             ,'choice_label'=>'termName','expanded'=>true,'multiple'=>false, 'label' => 'Term','attr' => array('class' => 'radio'),))
-            ->add('parents','entity', array('class'=> 'MarcaCourseBundle:Course', 'query_builder' => function(\Marca\CourseBundle\Entity\CourseRepository $cr) use             ($user){
-            $qb = $cr->createQueryBuilder('MarcaCourseBundle:Course');
-            $qb->select('c')->from('MarcaCourseBundle:Course', 'c')->where('c.user = ?1 AND c.module = 1')->orWhere('c.module >= 2')->setParameter('1', $user);
-            return $qb;
-            }
+            
                        
    
-            ,'choice_label'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select markup sets for Documents','attr' => array('class' => 'checkbox'),));
-    }
+    ;}
     
     public function configureOptions(OptionsResolver $resolver)
     {

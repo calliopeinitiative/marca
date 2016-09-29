@@ -14,6 +14,10 @@ use Marca\CourseBundle\Entity\Project;
 use Marca\HomeBundle\Entity\Page;
 use Marca\CourseBundle\Form\CourseType;
 use Marca\CourseBundle\Form\NameType;
+use Marca\CourseBundle\Form\CourseTermType;
+use Marca\CourseBundle\Form\TimeType;
+use Marca\CourseBundle\Form\ToolsType;
+use Marca\CourseBundle\Form\AccessType;
 use Marca\CourseBundle\Form\ModuleType;
 use Marca\CourseBundle\Form\AnnounceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -345,9 +349,9 @@ class CourseController extends Controller
     /**
      * Displays a form to edit an existing Course entity.
      *
-     * @Route("/{courseid}/edit", name="course_edit")
+     * @Route("/{courseid}/{formtype}/edit", name="course_edit")
      */
-    public function editAction(Request $request, $courseid)
+    public function editAction(Request $request, $courseid, $formtype)
     {
         
         $allowed = array(self::ROLE_INSTRUCTOR);
@@ -368,13 +372,7 @@ class CourseController extends Controller
 
         $type= Page::TYPE_COURSE;
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
-        
-        
-        
-        $formtype = 'NameType';
-       
-        
-        
+               
         $editForm = $this->createEditPartForm($course, $formtype);
         $deleteForm = $this->createDeleteForm($courseid);
 
@@ -398,15 +396,43 @@ class CourseController extends Controller
         
         if ($formtype == 'CourseType') {
             $form = $this->createForm(new CourseType(), $course, array(
-            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId())),
-            'method' => 'PUT',
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
+            'method' => 'POST',
         ));
             
         }
         elseif($formtype == 'NameType'){
             $form = $this->createForm(new NameType(), $course, array(
-            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId())),
-            'method' => 'PUT',
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
+            'method' => 'POST',
+        ));
+        }
+         elseif($formtype == 'CourseTermType'){
+            $form = $this->createForm(new CourseTermType(), $course, array(
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
+            'method' => 'POST',
+        ));
+        }
+        
+        elseif($formtype == 'TimeType'){
+            $form = $this->createForm(new TimeType(), $course, array(
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
+            'method' => 'POST',
+        ));
+        
+            
+        }
+        elseif($formtype == 'ToolsType'){
+            $form = $this->createForm(new ToolsType(), $course, array(
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
+            'method' => 'POST',
+        ));
+        }
+        
+         elseif($formtype == 'AccessType'){
+            $form = $this->createForm(new AccessType(), $course, array(
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
+            'method' => 'POST',
         ));
         }
         
@@ -419,10 +445,10 @@ class CourseController extends Controller
     /**
      * Edits an existing Course entity.
      *
-     * @Route("/{courseid}/update", name="course_update")
+     * @Route("/{courseid}/{formtype}/update", name="course_update")
      * @Method("post")
      */
-    public function updateAction(Request $request, $courseid)
+    public function updateAction(Request $request, $courseid, $formtype)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($request, $allowed);
@@ -434,8 +460,12 @@ class CourseController extends Controller
         if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
-
+        if ($formtype == 'NameType'){         
+            $editForm = $this->createForm(new NameType($options), $course);
+         }
+         elseif ($formtype == 'CourseType') {
         $editForm = $this->createForm(new CourseType($options), $course);
+         }
         $deleteForm = $this->createDeleteForm($courseid);
 
         $type= Page::TYPE_COURSE;

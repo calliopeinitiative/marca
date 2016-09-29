@@ -23,25 +23,35 @@
     <div class="col-sm-6">
         <div class="panel panel-default ">
             <div class="panel-heading">
-                <a class="btn btn-primary pull-right" href="{{ path('course_edit', { 'courseid': course.id }) }}">Edit
-                    Settings </a>
+                <a class="btn btn-primary pull-right" href="{{ path('course_edit', { 'courseid': course.id, 'formtype':'CourseType' }) }}">Edit Course Settings
+                    </a>
                 <h2 class="margin-top-small">Settings</h2>
             </div>
-            <div class="panel-body">
-
-                <p>
-                    <strong>Time:</strong> {{ course.time|date('h:i a') }}
-                    <strong>Term:</strong> {{ course.term.termName }}
-                    <strong>External ID:</strong> {{ course.externalid }}
-                </p>
+            <div class="panel-body">                   
+                <p>    
+                        <p>
+                            <strong>Time:</strong> {{ course.time|date('h:i a') }}
+                                 <a class="btn btn-primary btn-xs pull-right" href="{{ path('course_edit', { 'courseid': course.id, 'formtype':'TimeType' }) }}">Edit Course Time
+                                 </a>
+                        </p>            
+                        <p>
+                        <strong>Term:</strong> {{ course.term.termName }}
+                         <a class="btn btn-primary btn-xs pull-right" href="{{ path('course_edit', { 'courseid': course.id, 'formtype':'CourseTermType' }) }}">Edit Course Term
+                        </a>
+                        </p>
+                        </p>
 
                 <ul class="list-unstyled">
                     {% if course.module == 0 %}
                         <li><h2 class="margin-top-small">Tools available in the course</h2></li>
+                        <a class="btn btn-primary btn-xs pull-right" href="{{ path('course_edit', { 'courseid': course.id, 'formtype':'ToolsType' }) }}">Edit Tools
+                        </a>
                         <li><strong>Notes tool:</strong> {{ course.notes=='t' ? 'Yes' : 'No' }}</li>
                         <li><strong>Forum tool:</strong> {{ course.forum=='t' ? 'Yes' : 'No' }}</li>
                         <li><strong>Journal tool:</strong> {{ course.journal=='t' ? 'Yes' : 'No' }}</li>
                         <li><h2>Student access</h2></li>
+                        <a class="btn btn-primary btn-xs pull-right" href="{{ path('course_edit', { 'courseid': course.id, 'formtype':'AccessType' }) }}">Edit Student Access
+                        </a>
                         <li><strong>Enrollment open:</strong> {{ course.enroll=='t' ? 'Yes' : 'No' }}</li>
                         <li><strong>Student can post files: </strong> {{ course.post=='t' ? 'Yes' : 'No' }}</li>
                         <li><strong>Student can start forum
