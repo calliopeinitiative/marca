@@ -65,7 +65,7 @@
                 <div class="panel-footer">
                     <button id="close_form" type="button" class="close">&times;</button>
                     <h2>Settings for {{ course.name }}</h2>
-                {{ form (edit_form) }}
+                {{ form (edit_form, {'attr' : {'novalidate':'novalidate'}}) }}
                 </div>
             </div>
         </div>        

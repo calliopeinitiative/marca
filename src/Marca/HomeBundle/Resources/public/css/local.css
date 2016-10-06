@@ -579,12 +579,21 @@ div.modal-body > div > label {width:100%;}
 div.checkbox > label {
     padding-left: 5px;
     padding-right: 5px;
-}
+    }
 
 .checkbox input[type="checkbox"] {
     position: inherit;
     margin-left: 10px;
+    margin-bottom: 10px;
 }
+form div{
+    margin-bottom: 10px;
+}
+label.checkbox {    
+    display: inline;
+    padding: 5px;
+    padding-left:0;
+    }
 
 div.radio > label {
     padding-left: 5px;

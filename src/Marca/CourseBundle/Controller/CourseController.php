@@ -398,7 +398,7 @@ class CourseController extends Controller
         if ($formtype == 'CourseType') {
             $form = $this->createForm(new CourseType(), $course, array(
             'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
-            'method' => 'POST',
+            'method' => 'POST', 
         ));
             
         }
@@ -450,29 +450,7 @@ class CourseController extends Controller
 
         return $form;
     }
-    
-    /**
-     * Finds and displays a Portfolio entity for remove confirm.
-     *
-     * @Route("/{courseid}/toggle_status", name="port_status_toggle")
-     */
-    public function toggleStatusAction(Request $request, $courseid)
-    {
-        $allowed = array(self::ROLE_INSTRUCTOR);
-        $this->restrictAccessTo($request, $allowed);
-        $em = $this->getEm();
-        $course = $this->getCourse($request);
-        if ($course->getPortStatus()=='true') {
-            $course->setPortStatus(false);
-        }
-        else {
-            $course->setPortStatus(true);
-        }
-        $em->persist($course);
-        $em->flush();
 
-        return $this->redirect($this->generateUrl('portfolio', array('courseid' => $courseid)));
-    }
 
     /**
      * Edits an existing Course entity.
@@ -492,12 +470,9 @@ class CourseController extends Controller
         if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
-        if ($formtype == 'NameType'){         
-            $editForm = $this->createForm(new NameType($options), $course);
-         }
-         elseif ($formtype == 'CourseType') {
-        $editForm = $this->createForm(new CourseType($options), $course);
-         }
+        
+        $editForm = $this->createEditPartForm($course, $formtype);
+
         $deleteForm = $this->createDeleteForm($courseid);
 
         $type= Page::TYPE_COURSE;

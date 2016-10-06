@@ -34,29 +34,23 @@ class CourseType extends AbstractType
             }
             ,'choice_label'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select associated modules','required' => true,'attr' => array('class' => 'checkbox'),))
             ->add('time', 'time', array('widget' => 'single_text','label'=>'Course Time','attr' => array('class' => 'text form-control')))
-            ->add('externalid','text', array('label'  => 'External ID (optional)','attr' => array('class' => 'text form-control'),))
-            ->add('enroll','checkbox', array('label'  => 'Allow students to enroll','attr' => array('class' => 'checkbox'),))
-            ->add('post', 'checkbox', array('label'  => 'Allow student to post documents','attr' => array('class' => 'checkbox'),))
-            ->add('studentForum', 'checkbox', array('label'  => 'Allow student to start Forum  threads','attr' => array('class' => 'checkbox'),))
-            ->add('notes', 'checkbox', array('label'  => 'Use the Notes tool','attr' => array('class' => 'checkbox'),))
-            ->add('forum', 'checkbox', array('label'  => 'Use the Forum','attr' => array('class' => 'checkbox'),))
-            ->add('journal', 'checkbox', array('label'  => 'Use the Journal','attr' => array('class' => 'checkbox'),))
-            ->add('portfolio', 'checkbox', array('label'  => 'Use the Portfolio','attr' => array('class' => 'checkbox inline'),))
+            ->add('enroll','checkbox', array('label'  => 'Allow students to enroll','label_attr' => array('class' => 'checkbox'),))
+            ->add('post', 'checkbox', array('label'  => 'Allow student to post documents','label_attr' => array('class' => 'checkbox'),))
+            ->add('studentForum', 'checkbox', array('label'  => 'Allow student to start Forum  threads','label_attr' => array('class' => 'checkbox'),))
+            ->add('notes', 'checkbox', array('label'  => 'Use the Notes tool','label_attr' => array('class' => 'checkbox'),))
+            ->add('forum', 'checkbox', array('label'  => 'Use the Forum','label_attr' => array('class' => 'checkbox'),))
+            ->add('journal', 'checkbox', array('label'  => 'Use the Journal','label_attr' => array('class' => 'checkbox'),))
+            ->add('portfolio', 'checkbox', array('label'  => 'Use the Portfolio','label_attr' => array('class' => 'checkbox inline'),))
             ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'query_builder' => function(PortsetRepository $pr) {
                     $qb = $pr->createQueryBuilder('MarcaPortfolioBundle:Portset');
                     $qb->select('p')->from('MarcaPortfolioBundle:Portset', 'p')->where('p.shared > 0')->andwhere('p.shared < 3');
                     return $qb;
                 }
             ,'choice_label'=>'name','expanded'=>true,'multiple'=>false, 'label' => 'Portset','attr' => array('class' => 'radio'),))
-            ->add('assessmentset','entity', array('class'=>'MarcaAssessmentBundle:Assessmentset', 'choice_label'=>'name','expanded'=>true,'multiple'=>false, 'label' => 'Select the Assessment Set for the Portfolio','attr' => array('class' => 'radio'),))
-            ->add('zine', 'hidden')
-            ->add('module', 'hidden')        
-            ->add('institution', 'entity', array('class'=>'MarcaAdminBundle:Institution','choice_label'=>'name', 'label'=>'Your Institution','expanded'=>true,'multiple'=>false, 'disabled'=>true,'attr' => array('class' => 'radio'),))
-            ->add('portStatus', 'hidden')         
             ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'query_builder' => function(TagsetRepository $tr) use ($userid){
             $qb = $tr->createQueryBuilder('MarcaTagBundle:Tagset');
             $qb->select('t')->from('Marca\TagBundle\Entity\Tagset', 't')->innerJoin('t.user', 'u')->where('u.id = ?1')->orWhere('t.shared = 2')->setParameter('1', $userid);
-            return $qb;
+             return $qb;
             }
             ,'choice_label'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select label sets','attr' => array('class' => 'checkbox'),))
             ->add('markupsets','entity', array('class'=>'MarcaDocBundle:Markupset', 'query_builder' => function(MarkupsetRepository $mr) use ($userid){
