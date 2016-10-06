@@ -21,6 +21,8 @@ class PortType extends AbstractType
         $institutionid = $user->getInstitution()->getId();
         $builder
                 ->add('portfolio', 'checkbox', array('label'  => 'Use the Portfolio','attr' => array('class' => 'checkbox inline'),))
+                ->add('portStatus', 'checkbox', array('label'  => 'Portfolio Editing On?','attr' => array('class' => 'checkbox inline'),))
+                        
                 ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'query_builder' => function(PortsetRepository $pr) {
                     $qb = $pr->createQueryBuilder('MarcaPortfolioBundle:Portset');
                     $qb->select('p')->from('MarcaPortfolioBundle:Portset', 'p')->where('p.shared > 0')->andwhere('p.shared < 3');

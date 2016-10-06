@@ -450,6 +450,29 @@ class CourseController extends Controller
 
         return $form;
     }
+    
+    /**
+     * Finds and displays a Portfolio entity for remove confirm.
+     *
+     * @Route("/{courseid}/toggle_status", name="port_status_toggle")
+     */
+    public function toggleStatusAction(Request $request, $courseid)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR);
+        $this->restrictAccessTo($request, $allowed);
+        $em = $this->getEm();
+        $course = $this->getCourse($request);
+        if ($course->getPortStatus()=='true') {
+            $course->setPortStatus(false);
+        }
+        else {
+            $course->setPortStatus(true);
+        }
+        $em->persist($course);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('portfolio', array('courseid' => $courseid)));
+    }
 
     /**
      * Edits an existing Course entity.
