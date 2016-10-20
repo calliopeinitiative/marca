@@ -278,7 +278,7 @@ class CourseController extends Controller
         $project2->setSortOrder(2);
         $project2->setCourse($course);
         
-        $project3 = new Project();
+        $project3 = new Projrlbalthaect();
         $project3->setName('Paper 3');
         $project3->setSortOrder(3);
         $project3->setCourse($course);

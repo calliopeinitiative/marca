@@ -241,6 +241,10 @@ class DocController extends Controller
         if ($editForm->isValid()) {
             $em->persist($doc);
             $em->flush();
+            $request->getSession()
+                ->getFlashBag()
+                ->add('saved', 'Your document was saved.  Click Edit to continue working.')
+            ;
 
             return $this->redirect($this->generateUrl('doc_show', array('id' => $fileid, 'courseid'=> $courseid, 'view' => $view)));
         }
