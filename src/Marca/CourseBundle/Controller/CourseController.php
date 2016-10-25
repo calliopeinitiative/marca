@@ -249,22 +249,46 @@ class CourseController extends Controller
     /**
      * Creates a new Course entity.
      *
-     * @Route("/create", name="course_create")
-     * @Method("post")
+     * @Route("/course_create", name="course_create")
      */
-    public function createAction(Request $request)
+    public function createAction()
     {
-        
         $em = $this->getEm();
         $user = $this->getUser();
         $institution = $user->getInstitution();
-        $options ='';
-        $course  = new Course();
+        //any instructor can create a new course, so give all instructors access
+        if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
+        throw new AccessDeniedException();
+        }
+        $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution);
+        $name = 'New Course';
+        $time = new \DateTime('08:00');
+
+        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findDefault();
+        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findDefault();
+        $portset = $em->getRepository('MarcaPortfolioBundle:Portset')->findDefault();  
+        $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->findDefault();
+        $modules = $em->getRepository('MarcaCourseBundle:Course')->findDefaultModules();
+        $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution);
+        
+        $course = new Course();
         $course->setUser($user);
         $course->setInstitution($institution);
-        $module = $request->request->get('module');
-        $form    = $this->createForm(new CourseType($options), $course);
-        $form->submit($request);
+        $course->setName($name);
+        $course->setTime($time);
+        $course->setPortset($portset); 
+        $course->setAssessmentset($assessmentset);  
+        $course->setTerm($term);
+        $course->setModule(0);
+        foreach ($tagsets as &$tagset) {
+        $course->addTagset($tagset);    
+        };
+        foreach ($markupsets as &$markupset) {
+        $course->addMarkupset($markupset);    
+        };
+        foreach ($modules as &$module) {
+            $course->addParent($module);
+        }; 
         
         $roll = new Roll();
         $roll->setRole(Roll::ROLE_INSTRUCTOR);
@@ -272,8 +296,6 @@ class CourseController extends Controller
         $roll->setStatus(1);
         $roll->setCourse($course);
         
-        if ($module == 0)
-        {
         $project1 = new Project();
         $project1->setName('Paper 1');
         $project1->setSortOrder(1);
@@ -293,57 +315,39 @@ class CourseController extends Controller
         $project4->setName('Portfolio Prep');
         $project4->setSortOrder(4);
         $project4->setCourse($course);
-
-        }
+        
         $project6 = new Project();
         $project6->setName('Readings');
         $project6->setSortOrder(6);
         $project6->setResource(true);
         $project6->setCourse($course);
-        
+
         $project7 = new Project();
         $project7->setName('Assignments');
         $project7->setSortOrder(7);
         $project7->setResource(true);
         $project7->setCourse($course);
         $project7->setCoursehome(true);
-        
+
         $project8 = new Project();
         $project8->setName('Resources');
         $project8->setSortOrder(8);
         $project8->setResource(true);
         $project8->setCourse($course);
         
-        $course->setProjectDefault($project1);
-
-        $type= Page::TYPE_COURSE;
-        $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
-
-        if ($form->isValid()) {
-            $em = $this->getEm();
+        $course->setProjectDefault($project1);         
             $em->persist($course);
             $em->persist($roll);
-            if ($module == 0)
-            {
             $em->persist($project1);
             $em->persist($project2);
             $em->persist($project3);
             $em->persist($project4);
-            }
             $em->persist($project6);
             $em->persist($project7);
             $em->persist($project8);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_show', array('courseid' => $course->getId())));
-            
-        }
-
-        return $this->render('MarcaCourseBundle:Course:new.html.twig', array(
-            'course' => $course,
-            'pages' => $pages,
-            'form'   => $form->createView()
-        ));
+            return $this->redirect($this->generateUrl('course_edit', array('courseid' => $course->getId(), 'formtype' => 'NameType')));
     }
  
     
