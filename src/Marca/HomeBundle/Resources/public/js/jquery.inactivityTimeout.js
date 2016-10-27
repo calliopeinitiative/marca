@@ -3,10 +3,10 @@
     var defaults = {
 
       //how long to wait (in seconds) before showing inactivity notification
-      inactivityWait: 300, //default 10 minutes
+      inactivityWait: 900, //default 10 minutes
 
       //how long to show inactivity dialog (in seconds) before automatically logging out.
-      dialogWait: 10, //default 1 minute
+      dialogWait: 20, //default 1 minute
 
       //when to reset timer
       bindEvents: "mousemove keydown wheel DOMMouseScroll mousewheel mousedown touchstart touchmove MSPointerDown MSPointerMove",

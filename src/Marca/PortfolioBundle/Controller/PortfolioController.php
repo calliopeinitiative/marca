@@ -308,8 +308,10 @@ class PortfolioController extends Controller
         $file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $file->setAccess(1);
         $portitem = $em->getRepository('MarcaPortfolioBundle:Portitem')->find($portitemid);
+        $portitem_sortorder = $portitem->getSortorder();
         $portfolio = new Portfolio();
         $portfolio->setFile($file);
+        $portfolio->setPortorder($portitem_sortorder);
         $portfolio->setUser($user);
         $portfolio->setCourse($course);
         $portfolio->setPortitem($portitem);
