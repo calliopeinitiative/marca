@@ -450,7 +450,7 @@ class CourseController extends Controller
         }
         
 
-         $form->add('submit', 'submit', array('label' => 'Update', 'attr' => array('class' => 'btn btn-primary'),));
+         $form->add('submit', 'submit', array('label' => 'Post', 'attr' => array('class' => 'btn btn-primary pull-right'),));
 
         return $form;
     }
