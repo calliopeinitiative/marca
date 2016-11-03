@@ -182,68 +182,6 @@ class CourseController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
-  
-    
-    /**
-     * Displays a form to create a new Course entity.
-     *
-     * @Route("/{type}/new", name="course_new")
-     */
-    public function newAction($type)
-    {
-        //type 0 is a new course; type 1 is a module
-        $em = $this->getEm();
-        $user = $this->getUser();
-        $institution = $user->getInstitution();
-        //any instructor can create a new course, so give all instructors access
-        if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
-        throw new AccessDeniedException();
-        }
-        $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution);
-        if ($type==0)
-        {$name = 'New Course';}
-        else {$name = 'New Module';}
-        $time = new \DateTime('08:00');
-
-        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findDefault();
-        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findDefault();
-        $portset = $em->getRepository('MarcaPortfolioBundle:Portset')->findDefault();  
-        $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->findDefault();
-        $modules = $em->getRepository('MarcaCourseBundle:Course')->findDefaultModules();
-        $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution);
-        
-        $course = new Course();
-        $course->setUser($user);
-        $course->setInstitution($institution);
-        $course->setName($name);
-        $course->setTime($time);
-        $course->setPortset($portset); 
-        $course->setAssessmentset($assessmentset);  
-        $course->setTerm($term);
-        if ($type!=0)
-        {$course->setEnroll(false);}
-        $course->setModule($type);
-        foreach ($tagsets as &$tagset) {
-        $course->addTagset($tagset);    
-        };
-        foreach ($markupsets as &$markupset) {
-        $course->addMarkupset($markupset);    
-        };
-        foreach ($modules as &$module) {
-            $course->addParent($module);
-        };
-
-        $type= Page::TYPE_COURSE;
-        $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
-        $options = '';
-        $form   = $this->createForm(new CourseType($options), $course);
-
-        return $this->render('MarcaCourseBundle:Course:new.html.twig', array(
-            'course' => $course,
-            'pages' => $pages,
-            'form'   => $form->createView()
-        ));
-    }
       
 
     /**
@@ -349,7 +287,81 @@ class CourseController extends Controller
 
             return $this->redirect($this->generateUrl('course_edit', array('courseid' => $course->getId(), 'formtype' => 'NameType')));
     }
- 
+
+
+    /**
+     * Creates a new Course entity.
+     *
+     * @Route("/module_create", name="module_create")
+     */
+    public function createModuleAction()
+    {
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $institution = $user->getInstitution();
+        //any instructor can create a new course, so give all instructors access
+        if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
+            throw new AccessDeniedException();
+        }
+
+        $name = 'New Module';
+        $time = new \DateTime('08:00');
+
+        $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findDefault();
+        $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findDefault();
+        $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution);
+
+        $course = new Course();
+        $course->setUser($user);
+        $course->setInstitution($institution);
+        $course->setName($name);
+        $course->setTime($time);
+        $course->setTerm($term);
+        $course->setModule(1);
+        foreach ($tagsets as &$tagset) {
+            $course->addTagset($tagset);
+        };
+        foreach ($markupsets as &$markupset) {
+            $course->addMarkupset($markupset);
+        };
+
+        $roll = new Roll();
+        $roll->setRole(Roll::ROLE_INSTRUCTOR);
+        $roll->setUser($user);
+        $roll->setStatus(1);
+        $roll->setCourse($course);
+
+        $project6 = new Project();
+        $project6->setName('Readings');
+        $project6->setSortOrder(6);
+        $project6->setResource(true);
+        $project6->setCourse($course);
+
+        $project7 = new Project();
+        $project7->setName('Assignments');
+        $project7->setSortOrder(7);
+        $project7->setResource(true);
+        $project7->setCourse($course);
+        $project7->setCoursehome(true);
+
+        $project8 = new Project();
+        $project8->setName('Resources');
+        $project8->setSortOrder(8);
+        $project8->setResource(true);
+        $project8->setCourse($course);
+
+        $course->setProjectDefault($project6);
+        $em->persist($course);
+        $em->persist($roll);
+        $em->persist($project6);
+        $em->persist($project7);
+        $em->persist($project8);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('course_edit', array('courseid' => $course->getId(), 'formtype' => 'ModuleType')));
+    }
+
+
     
     /**
      * Displays a form to edit an existing Course entity.
@@ -434,21 +446,24 @@ class CourseController extends Controller
         ));
        
         }
-        
          elseif($formtype == 'AccessType'){
             $form = $this->createForm(new AccessType(), $course, array(
             'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
             'method' => 'POST',
         ));
         }
-        
         elseif($formtype == 'PortType'){
             $form = $this->createForm(new PortType(), $course, array(
             'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
             'method' => 'POST',
         ));
         }
-        
+        elseif($formtype == 'ModuleType'){
+            $form = $this->createForm(new ModuleType(), $course, array(
+                'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
+                'method' => 'POST',
+            ));
+        }
 
          $form->add('submit', 'submit', array('label' => 'Post', 'attr' => array('class' => 'btn btn-primary pull-right'),));
 
