@@ -44,8 +44,8 @@ class RatingsetController extends Controller
         for ($i = 0; $i < $cnt; $i++) {
             $objective = $objectives[$i];
             $scale = $objective->getScale();
-            $scaleitems = $scale->getScaleitems();
-            $scaleitem = $scaleitems[1];
+            $default_scaleitem = $em->getRepository('MarcaAssessmentBundle:Scaleitem')->findDefault($scale->getId());
+            $scaleitem = $default_scaleitem;
             $rating = new Rating();
             $rating->setRatingset($ratingset);
             $rating->setObjective($objective);

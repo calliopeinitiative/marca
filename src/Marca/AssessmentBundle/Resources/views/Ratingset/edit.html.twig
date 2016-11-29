@@ -4,10 +4,29 @@
     {{ parent() }}
     <script language="javascript">
         $(document).ready(function () {
+
+            $('#submit').hide();
+            $("input[type=radio]").click(function () {
+                var count = 0
+                $("input[type=radio]:checked").each(function () {
+                    if ($(this).next().text() == 'No answer') {
+                        count = count +1;
+                    };
+                });
+                if (count == 0 ){
+                    $('#submit').show();
+                    $('#assess_alert').hide();
+                }
+                else {
+                    $('#assess_alert').show();
+                }
+            });
+
+
             {# form page close/cancel adjust for appropriate redirect #}
             $('#close_form').click(function () {
                 window.location.href = '{{ course_path('portfolio_user', { 'courseid': app.request.get('courseid'), 'userid':app.request.get('userid'),
-                'user':app.request.get('user') }) }}';
+                    'user':app.request.get('user') }) }}';
             });
         });
     </script>
@@ -15,6 +34,7 @@
 
 {% block content %}
     <div class="col-sm-8 center">
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 <button id="close_form" type="button" class="close">&times;</button>
@@ -39,7 +59,10 @@
                         <hr/>
                     {% endfor %}
                     {{ form_rest(edit_form) }}
-                    <button class="btn btn-primary pull-right" type="submit">Post</button>
+                    <div id="assess_alert" class="alert alert-warning">
+                        You must complete the assessment before you can post.
+                    </div>
+                    <button id="submit" class="btn btn-primary pull-right" type="submit">Post</button>
                     <a class="btn btn-warning" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
                 </form>
             </div>
