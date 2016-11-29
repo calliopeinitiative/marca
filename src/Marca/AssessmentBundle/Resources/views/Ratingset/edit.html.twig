@@ -5,8 +5,7 @@
     <script language="javascript">
         $(document).ready(function () {
 
-            $('#submit').hide();
-            $("input[type=radio]").click(function () {
+            function check_assessement() {
                 var count = 0
                 $("input[type=radio]:checked").each(function () {
                     if ($(this).next().text() == 'No answer') {
@@ -18,8 +17,15 @@
                     $('#assess_alert').hide();
                 }
                 else {
+                    $('#submit').hide();
                     $('#assess_alert').show();
                 }
+            };
+
+            $('#submit').hide();
+            check_assessement();
+            $("input[type=radio]").click(function () {
+                check_assessement();
             });
 
 
