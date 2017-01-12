@@ -20,6 +20,7 @@ use Marca\CourseBundle\Form\ToolsType;
 use Marca\CourseBundle\Form\AccessType;
 use Marca\CourseBundle\Form\PortType;
 use Marca\CourseBundle\Form\ModuleType;
+use Marca\CourseBundle\Form\OtherType;
 use Marca\CourseBundle\Form\AnnounceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -460,6 +461,12 @@ class CourseController extends Controller
         }
         elseif($formtype == 'ModuleType'){
             $form = $this->createForm(new ModuleType(), $course, array(
+                'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
+                'method' => 'POST',
+            ));
+        }
+        elseif($formtype == 'OtherType'){
+            $form = $this->createForm(new OtherType(), $course, array(
                 'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype)),
                 'method' => 'POST',
             ));

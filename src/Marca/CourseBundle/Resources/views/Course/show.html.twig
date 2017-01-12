@@ -73,6 +73,8 @@
                         </li>
                         <li><strong>Portfolio editing open: </strong>{{ course.portStatus=='t' ? 'Yes' : 'No' }}   </li>
                         <li><h2>Other Settings</h2></li>
+                        <a class="btn btn-primary btn-xs pull-right" href="{{ path('course_edit', { 'courseid': course.id, 'formtype':'OtherType' }) }}">Edit Markup and Labels
+                        </a>
                         <li><strong>Modules:</strong> {% for course in course.parents %}{{ course.name }}
                                 <br/>{% else %}No Modules{% endfor %} </li>
 
