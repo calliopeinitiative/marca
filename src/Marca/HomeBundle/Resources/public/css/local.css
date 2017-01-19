@@ -209,12 +209,12 @@ h3.small {
     font-weight:normal;
 }
 
-a {
+tr.file > td > a {
     color: #464648;
     text-decoration: none;
 }
 
-a:hover {
+tr.file > td > a:hover {
     color: #000000;
     text-decoration: underline;
 }
