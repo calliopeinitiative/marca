@@ -209,14 +209,22 @@ h3.small {
     font-weight:normal;
 }
 
-tr.file > td > a {
+a {
     color: #464648;
     text-decoration: none;
 }
 
-tr.file > td > a:hover {
+a:hover {
     color: #000000;
     text-decoration: underline;
+}
+
+p > a {
+    color: #337ab7;
+}
+
+p > a:hover {
+    color: #337ab7;
 }
 
 .centered {
