@@ -47,25 +47,25 @@
 {# Projects  Hide show #}
     {% for project in projects %}
         <li id="project_list">
-            <a href="#" class="link-filter project-sidebar" data-filter-column="2" data-filter-text="{{ project.name }}">{{ project.name }}</a>
+            <a href="#" class="link-filter project-sidebar" data-filter-column="3" data-filter-text="{{ project.name }}">{{ project.name }}</a>
         </li>
     {% endfor %}
 <li>
-    <a href="#" class="link-filter project-sidebar" data-filter-column="2" data-filter-text="">All Projects</a>
+    <a href="#" class="link-filter project-sidebar" data-filter-column="3" data-filter-text="">All Projects</a>
 </li>
 
 <hr class="marca-spacer"/>
 {# Labels Hide Show #}
     {% for tag in tags %}
         <li>
-            <a href="#" class="link-filter project-sidebar hidden" data-filter-column="3" data-filter-text="{{ tag.name }}"  data-color="{{ tag.color }}">{{ tag
+            <a href="#" class="link-filter project-sidebar hidden" data-filter-column="4" data-filter-text="{{ tag.name }}"  data-color="{{ tag.color }}">{{ tag
                 .name }}
                 <span class="pull-left color-flag" style="{% if tag.color != '' %}background: {{tag.color}};color:{{tag.color}};{% endif%}">&#183;</span>
             </a>
         </li>
     {% endfor %}
 <li>
-    <a href="#" class="link-filter project-sidebar" data-filter-column="3" data-filter-text="">All Labels
+    <a href="#" class="link-filter project-sidebar" data-filter-column="4" data-filter-text="">All Labels
         <span class="pull-left color-flag" style="background: white;color:white;">&#183;</span></a>
 </li>
 
