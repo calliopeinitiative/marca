@@ -183,14 +183,30 @@ class CourseController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
-      
+
+    /**
+     * @Route("/course_create_modal", name="course_create_modal")
+     */
+    public function courseCreateModalAction()
+    {
+        $em = $this->getEm();
+        $user = $this->getUser();
+        $courses = $em->getRepository('MarcaCourseBundle:Course')->findModules($user);
+        if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
+            throw new AccessDeniedException();
+        }
+        return $this->render('MarcaUserBundle:Default:course_create_modal.html.twig', array(
+            'user' => $user,
+            'courses' => $courses
+        ));
+    }
 
     /**
      * Creates a new Course entity.
      *
-     * @Route("/course_create", name="course_create")
+     * @Route("/{courseid}/course_create", name="course_create", defaults={"courseid"=0})
      */
-    public function createAction()
+    public function createAction($courseid)
     {
         $em = $this->getEm();
         $user = $this->getUser();
@@ -199,7 +215,8 @@ class CourseController extends Controller
         if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
         throw new AccessDeniedException();
         }
-        $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution);
+
+        //Get Defaults for course creation
         $name = 'New Course';
         $time = new \DateTime('08:00');
 
@@ -209,7 +226,8 @@ class CourseController extends Controller
         $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->findDefault();
         $modules = $em->getRepository('MarcaCourseBundle:Course')->findDefaultModules();
         $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution);
-        
+
+        //Create the course object and populate
         $course = new Course();
         $course->setUser($user);
         $course->setInstitution($institution);
@@ -227,14 +245,24 @@ class CourseController extends Controller
         };
         foreach ($modules as &$module) {
             $course->addParent($module);
-        }; 
-        
+        };
+
+
+        if($courseid !=0) {
+            $module = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+            $course->addParent($module);
+
+        }
+
+
+        //Create Roll object and populate with current user
         $roll = new Roll();
         $roll->setRole(Roll::ROLE_INSTRUCTOR);
         $roll->setUser($user);
         $roll->setStatus(1);
         $roll->setCourse($course);
-        
+
+        //Basic project set for course
         $project1 = new Project();
         $project1->setName('Paper 1');
         $project1->setSortOrder(1);
@@ -254,7 +282,8 @@ class CourseController extends Controller
         $project4->setName('Portfolio Prep');
         $project4->setSortOrder(4);
         $project4->setCourse($course);
-        
+
+        //Create default resources
         $project6 = new Project();
         $project6->setName('Readings');
         $project6->setSortOrder(6);
@@ -274,7 +303,9 @@ class CourseController extends Controller
         $project8->setResource(true);
         $project8->setCourse($course);
         
-        $course->setProjectDefault($project1);         
+        $course->setProjectDefault($project1);
+
+        //persist all thingys and flush
             $em->persist($course);
             $em->persist($roll);
             $em->persist($project1);
@@ -286,12 +317,12 @@ class CourseController extends Controller
             $em->persist($project8);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_edit', array('courseid' => $course->getId(), 'formtype' => 'NameType')));
+            return $this->redirect($this->generateUrl('course_home', array('courseid' => $course->getId())));
     }
 
 
     /**
-     * Creates a new Course entity.
+     * Creates a new Course entity. This entity functions as a module
      *
      * @Route("/module_create", name="module_create")
      */

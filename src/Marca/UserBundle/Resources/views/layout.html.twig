@@ -17,7 +17,8 @@
     {% endif %}
     {% if is_granted('ROLE_INSTR') %}
         <h2 class="nav-header">Settings</h2>
-        <li><a title="Click to create a new course" class="" href="{{ path('course_create') }}">Create
+
+        <li><a id="course_create" title="Click to create a new course" class="" href="javascript:void(0);">Create
                 Course</a></li>
         <li><a title="Click to create a new module" class="" href="{{ path('module_create') }}">Create
                 Module</a></li>
