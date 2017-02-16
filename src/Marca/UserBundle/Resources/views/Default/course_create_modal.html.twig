@@ -18,9 +18,12 @@
                 <a href="{{ path('course_create', { 'courseid': '0' }) }}" class="list-group-item">
                     <h2 class="list-group-item-heading">Create Course With NO Module</h2>
                 </a>
+                <a href="{{ path('module_create', { 'courseid': '0' }) }}" class="list-group-item">
+                    <h2 class="list-group-item-heading">Create Course With New Module</h2>
+                </a>
                 {% for course in courses %}
                     <a href="{{ path('course_create', { 'courseid': course.id }) }}" class="list-group-item">
-                        <h2 class="list-group-item-heading">Create Course With {{ course.name }} Module</h2>
+                        <h2 class="list-group-item-heading">Create Course With Existing Module: {{ course.name }}</h2>
                     </a>
                 {% endfor %}
             </div>

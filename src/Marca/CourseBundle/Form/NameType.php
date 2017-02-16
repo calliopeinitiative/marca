@@ -21,18 +21,6 @@ class NameType extends AbstractType
         $institutionid = $user->getInstitution()->getId();
         $builder
             ->add('name','text', array('attr' => array('class' => 'text form-control'),))
-            ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'query_builder' => function(TermRepository $tr) use ($institutionid){
-            $qb = $tr->createQueryBuilder('MarcaCourseBundle:Term');
-            $qb->select('t')->from('Marca\CourseBundle\Entity\Term', 't')->innerJoin('t.institution', 'i')->where('t.status != 3')->andWhere('i.id = ?1')->setParameter('1', $institutionid);
-            return $qb;
-            }
-            ,'choice_label'=>'termName','expanded'=>true,'multiple'=>false, 'label' => 'Term','attr' => array('class' => 'radio'),))
-            ->add('parents','entity', array('class'=> 'MarcaCourseBundle:Course', 'query_builder' => function(\Marca\CourseBundle\Entity\CourseRepository $cr) use($user){
-            $qb = $cr->createQueryBuilder('MarcaCourseBundle:Course');
-            $qb->select('c')->from('MarcaCourseBundle:Course', 'c')->where('c.user = ?1 AND c.module = 1')->orWhere('c.module >= 2')->setParameter('1', $user);
-            return $qb;
-            }
-            ,'choice_label'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select associated modules','required' => true,'attr' => array('class' => 'checkbox'),))
             ->add('time', 'time', array('widget' => 'single_text','label'=>'Course Time','attr' => array('class' => 'text form-control')))
     ;}
     

@@ -317,7 +317,7 @@ class CourseController extends Controller
             $em->persist($project8);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_home', array('courseid' => $course->getId())));
+            return $this->redirect($this->generateUrl('course_edit', array('courseid' => $course->getId(),'formtype' => 'NameType')));
     }
 
 
@@ -541,7 +541,7 @@ class CourseController extends Controller
             $em->persist($course);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
+            return $this->redirect($this->generateUrl('course_home', array('courseid' => $courseid)));
         }
 
         return $this->render('MarcaCourseBundle:Course:edit.html.twig', array(
@@ -553,7 +553,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Deletes a Course entity.
+     * "Deletes" a course entity by changing the term to hidden.
      *
      * @Route("/{courseid}/delete", name="course_delete")
      * @Method("post")
@@ -567,6 +567,7 @@ class CourseController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $user = $this->getUser();
         $institution = $user->getInstitution();
+        //Finds the Hidden Term
         $term = $em->getRepository('MarcaCourseBundle:Term')->findHidden($institution);
 
         //restrict access to the delete function to the course owner
