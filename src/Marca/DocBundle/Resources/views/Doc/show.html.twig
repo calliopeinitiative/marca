@@ -302,8 +302,16 @@
                                 { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}"
                                 allowfullscreen="true" webkitallowfullscreen="true"></iframe>
                     {% else %}
+                        {% if app.session.flashBag.has('saved') %}
+                            <div class="alert alert-success">
+                                {% for msg in app.session.flashBag.get('saved') %}
+                                    {{ msg }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                         <div id="doc-container" class="col-sm-8">
                             <div id='doc-display' class="col-sm-12 well">
+
                                 <div id='doc-body' class="doc-body">
                                     {{ doc.body|html_raw }}
                                 </div>

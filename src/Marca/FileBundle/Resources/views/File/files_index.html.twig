@@ -41,6 +41,7 @@
             <thead>
             <tr class="file">
                 <th><span>Title</span></th>
+                <th class="hidden"><span class="sr-only">For Sorting Purposes Only</span>Author</th>
                 <th>Author</th>
                 <th class="hidden-xs">Folder</th>
                 <th class=" hidden-sm hidden-xs">Labels</th>
@@ -150,6 +151,8 @@
 
                     <td>{% if app.request.attributes.get('_route') == 'file_list'
                         and file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname|title }} {{ file.user.lastname|title }}{% endif %}
+                    </td>
+                    <td class="hidden">{{ file.user.lastname|title }}{{ file.user.firstname|title }}
                     </td>
                     <td class="projects hidden-xs">
                         <span data-project='{{ file.project.id }}' class="project">{{ file.project.name }}</span>

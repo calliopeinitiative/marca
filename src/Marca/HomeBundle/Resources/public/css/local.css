@@ -219,6 +219,14 @@ a:hover {
     text-decoration: underline;
 }
 
+p > a {
+    color: #337ab7;
+}
+
+p > a:hover {
+    color: #337ab7;
+}
+
 .centered {
     text-align:right;
     color:blue;
