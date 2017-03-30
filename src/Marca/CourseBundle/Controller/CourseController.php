@@ -247,8 +247,66 @@ class CourseController extends Controller
             $course->addParent($module);
         };
 
+        // if $courseid = 1 create a new module with the same name as the course
+        if($courseid =1){
+            $name = 'New Module';
+            $time = new \DateTime('08:00');
 
-        if($courseid !=0) {
+            $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findDefault();
+            $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findDefault();
+            $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution);
+
+            $course_module = new Course();
+            $course_module->setUser($user);
+            $course_module->setInstitution($institution);
+            $course_module->setName($name);
+            $course_module->setTime($time);
+            $course_module->setTerm($term);
+            $course_module->setModule(1);
+            foreach ($tagsets as &$tagset) {
+                $course_module->addTagset($tagset);
+            };
+            foreach ($markupsets as &$markupset) {
+                $course_module->addMarkupset($markupset);
+            };
+
+            $module_roll = new Roll();
+            $module_roll->setRole(Roll::ROLE_INSTRUCTOR);
+            $module_roll->setUser($user);
+            $module_roll->setStatus(1);
+            $module_roll->setCourse($course_module);
+
+            $module_project6 = new Project();
+            $module_project6->setName('Readings');
+            $module_project6->setSortOrder(6);
+            $module_project6->setResource(true);
+            $module_project6->setCourse($course_module);
+
+            $module_project7 = new Project();
+            $module_project7->setName('Assignments');
+            $module_project7->setSortOrder(7);
+            $module_project7->setResource(true);
+            $module_project7->setCourse($course_module);
+            $module_project7->setCoursehome(true);
+
+            $module_project8 = new Project();
+            $module_project8->setName('Resources');
+            $module_project8->setSortOrder(8);
+            $module_project8->setResource(true);
+            $module_project8->setCourse($course_module);
+
+            $course_module->setProjectDefault($module_project6);
+
+            $em->persist($course_module);
+            $em->persist($module_roll);
+            $em->persist($module_project6);
+            $em->persist($module_project7);
+            $em->persist($module_project8);
+            $course->addParent($course_module);
+        }
+        //if $courseid does not = 0 find appropriate module to associate with this course
+        elseif ($courseid !=0)
+        {
             $module = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
             $course->addParent($module);
 
@@ -312,9 +370,11 @@ class CourseController extends Controller
             $em->persist($project2);
             $em->persist($project3);
             $em->persist($project4);
-            $em->persist($project6);
-            $em->persist($project7);
-            $em->persist($project8);
+            if ($courseid == 0 ) {
+                $em->persist($project6);
+                $em->persist($project7);
+                $em->persist($project8);
+            }
             $em->flush();
 
             return $this->redirect($this->generateUrl('course_edit', array('courseid' => $course->getId(),'formtype' => 'NameType')));
