@@ -215,7 +215,7 @@ class CourseController extends Controller
         if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
         throw new AccessDeniedException();
         }
-        $createtype = 0;
+        $moduleid = 0;
         //Get Defaults for course creation
         $name = 'New Course';
         $time = new \DateTime('08:00');
@@ -256,65 +256,61 @@ class CourseController extends Controller
             $markupsets = $em->getRepository('MarcaDocBundle:Markupset')->findDefault();
             $term = $em->getRepository('MarcaCourseBundle:Term')->findDefault($institution);
 
-            $course_module = new Course();
-            $course_module->setUser($user);
-            $course_module->setInstitution($institution);
-            $course_module->setName($name);
-            $course_module->setTime($time);
-            $course_module->setTerm($term);
-            $course_module->setModule(1);
+            $module = new Course();
+            $module->setUser($user);
+            $module->setInstitution($institution);
+            $module->setName($name);
+            $module->setTime($time);
+            $module->setTerm($term);
+            $module->setModule(1);
             foreach ($tagsets as &$tagset) {
-                $course_module->addTagset($tagset);
+                $module->addTagset($tagset);
             };
             foreach ($markupsets as &$markupset) {
-                $course_module->addMarkupset($markupset);
+                $module->addMarkupset($markupset);
             };
 
             $module_roll = new Roll();
             $module_roll->setRole(Roll::ROLE_INSTRUCTOR);
             $module_roll->setUser($user);
             $module_roll->setStatus(1);
-            $module_roll->setCourse($course_module);
+            $module_roll->setCourse($module);
 
             $module_project6 = new Project();
             $module_project6->setName('Readings');
             $module_project6->setSortOrder(6);
             $module_project6->setResource(true);
-            $module_project6->setCourse($course_module);
+            $module_project6->setCourse($module);
 
             $module_project7 = new Project();
             $module_project7->setName('Assignments');
             $module_project7->setSortOrder(7);
             $module_project7->setResource(true);
-            $module_project7->setCourse($course_module);
+            $module_project7->setCourse($module);
             $module_project7->setCoursehome(true);
 
             $module_project8 = new Project();
             $module_project8->setName('Resources');
             $module_project8->setSortOrder(8);
             $module_project8->setResource(true);
-            $module_project8->setCourse($course_module);
+            $module_project8->setCourse($module);
 
-            $course_module->setProjectDefault($module_project6);
-
-            $createtype = $course_module->getId();
-            var_dump($course_module); die;
-
-            $em->persist($course_module);
+            $module->setProjectDefault($module_project6);
+            $em->persist($module);
             $em->persist($module_roll);
             $em->persist($module_project6);
             $em->persist($module_project7);
             $em->persist($module_project8);
-            $course->addParent($course_module);
-
+            $em->flush();
+            $moduleid=$module->getId();
+            $course->addParent($module);
         }
         //if $courseid does not = 0 find appropriate module to associate with this course
         elseif ($courseid !=0)
         {
             $module = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
             $course->addParent($module);
-
-        }
+         }
 
 
         //Create Roll object and populate with current user
@@ -381,7 +377,7 @@ class CourseController extends Controller
             }
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_edit', array('courseid' => $course->getId(),'formtype' => 'NameType','createtype' => $createtype)));
+            return $this->redirect($this->generateUrl('course_edit', array('courseid' => $course->getId(),'formtype' => 'NameType','moduleid' => $moduleid)));
     }
 
 
@@ -462,9 +458,9 @@ class CourseController extends Controller
     /**
      * Displays a form to edit an existing Course entity.
      *
-     * @Route("/{courseid}/{formtype}/{createtype}/edit", name="course_edit", defaults={"createtype"=0})
+     * @Route("/{courseid}/{formtype}/{moduleid}/edit", name="course_edit", defaults={"moduleid"=0})
      */
-    public function editAction(Request $request, $courseid, $formtype, $createtype)
+    public function editAction(Request $request, $courseid, $formtype, $moduleid)
     {
         
         $allowed = array(self::ROLE_INSTRUCTOR);
@@ -486,7 +482,7 @@ class CourseController extends Controller
         $type= Page::TYPE_COURSE;
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
                
-        $editForm = $this->createEditPartForm($course, $formtype, $createtype);
+        $editForm = $this->createEditPartForm($course, $formtype, $moduleid);
         $deleteForm = $this->createDeleteForm($courseid);
 
         return $this->render('MarcaCourseBundle:Course:edit.html.twig', array(
@@ -495,7 +491,7 @@ class CourseController extends Controller
             'formtype'   => $formtype,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'createtype'   => $createtype,
+            'moduleid'   => $moduleid,
         ));
     }
     
@@ -506,31 +502,31 @@ class CourseController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createEditPartForm(Course $course, $formtype, $createtype) {
+    private function createEditPartForm(Course $course, $formtype, $moduleid) {
         
         if ($formtype == 'CourseType') {
             $form = $this->createForm(new CourseType(), $course, array(
-            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'createtype' => $createtype)),
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST', 
         ));
             
         }
         elseif($formtype == 'NameType'){
             $form = $this->createForm(new NameType(), $course, array(
-            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'createtype' => $createtype)),
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST',
         ));
         }
          elseif($formtype == 'CourseTermType'){
             $form = $this->createForm(new CourseTermType(), $course, array(
-            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'createtype' => $createtype)),
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST',
         ));
         }
         
         elseif($formtype == 'TimeType'){
             $form = $this->createForm(new TimeType(), $course, array(
-            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'createtype' => $createtype)),
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST',
         ));
         
@@ -538,32 +534,32 @@ class CourseController extends Controller
         }
         elseif($formtype == 'ToolsType'){
             $form = $this->createForm(new ToolsType(), $course, array(
-            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'createtype' => $createtype)),
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST',
         ));
        
         }
          elseif($formtype == 'AccessType'){
             $form = $this->createForm(new AccessType(), $course, array(
-            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'createtype' => $createtype)),
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST',
         ));
         }
         elseif($formtype == 'PortType'){
             $form = $this->createForm(new PortType(), $course, array(
-            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'createtype' => $createtype)),
+            'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST',
         ));
         }
         elseif($formtype == 'ModuleType'){
             $form = $this->createForm(new ModuleType(), $course, array(
-                'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'createtype' => $createtype)),
+                'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
                 'method' => 'POST',
             ));
         }
         elseif($formtype == 'OtherType'){
             $form = $this->createForm(new OtherType(), $course, array(
-                'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'createtype' => $createtype)),
+                'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
                 'method' => 'POST',
             ));
         }
@@ -577,10 +573,10 @@ class CourseController extends Controller
     /**
      * Edits an existing Course entity.
      *
-     * @Route("/{courseid}/{formtype}/{createtype}/update", name="course_update")
+     * @Route("/{courseid}/{formtype}/{moduleid}/update", name="course_update")
      * @Method("post")
      */
-    public function updateAction(Request $request, $courseid, $formtype, $createtype)
+    public function updateAction(Request $request, $courseid, $formtype, $moduleid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($request, $allowed);
@@ -593,7 +589,7 @@ class CourseController extends Controller
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
         
-        $editForm = $this->createEditPartForm($course, $formtype, $createtype);
+        $editForm = $this->createEditPartForm($course, $formtype, $moduleid);
 
         $deleteForm = $this->createDeleteForm($courseid);
 
@@ -604,12 +600,16 @@ class CourseController extends Controller
 
         if ($editForm->isValid()) {
             $em->persist($course);
-            if($createtype == 1){
+            if($moduleid != 0){
+                $module = $em->getRepository('MarcaCourseBundle:Course')->find($moduleid);
                 $coursename = $course->getName();
+                $module->setName($coursename);
+                $em->persist($module);
+
 
             }
-
             $em->flush();
+
 
             return $this->redirect($this->generateUrl('course_home', array('courseid' => $courseid)));
         }
