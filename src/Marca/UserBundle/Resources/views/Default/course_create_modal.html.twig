@@ -14,13 +14,22 @@
             <h4 class="modal-title">Create Course</h4>
         </div>
         <div class="modal-body">
+       
             <div class="list-group">
                 <a href="{{ path('course_create', { 'courseid': '0' }) }}" class="list-group-item">
                     <h2 class="list-group-item-heading">Create Course With NO Module</h2>
+                    {#<p> Creates a self-contained course with the standard set of projects and resources
+                    </p>#}
                 </a>
+                </div>
+                <div class="list-group">
                 <a href="{{ path('course_create', { 'courseid': '1' }) }}" class="list-group-item">
                     <h2 class="list-group-item-heading">Create Course With New Module</h2>
+                    <p> This new module will have the same name as the course.</p>
                 </a>
+                </div>
+                {#<p> Creates a course with the standard set of projects and adds an existing module</p>#}
+                <div class="list-group">
                 {% for course in courses %}
                     <a href="{{ path('course_create', { 'courseid': course.id }) }}" class="list-group-item">
                         <h2 class="list-group-item-heading">Create Course With Existing Module: {{ course.name }}</h2>
