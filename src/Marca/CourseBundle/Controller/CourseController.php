@@ -246,7 +246,10 @@ class CourseController extends Controller
         foreach ($modules as &$module) {
             $course->addParent($module);
         };
-
+        $this->addFlash(
+        'notice',
+        'Welcome to your new course! To customize your course click "Course Settings."'
+        );
         // if $courseid = 1 create a new module with the same name as the course
         if($courseid == 1){
             $name = 'New Module';
@@ -304,12 +307,24 @@ class CourseController extends Controller
             $em->flush();
             $moduleid=$module->getId();
             $course->addParent($module);
+            
+            $this->addFlash(
+            'notice',
+            'You will find your new module on the Emma homepage. Resources and calendar events for this course will be drawn from the module you just created. Add and edit content and calendar events within the module.'
+        );
+
+
         }
         //if $courseid does not = 0 find appropriate module to associate with this course
         elseif ($courseid !=0)
         {
             $module = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
             $course->addParent($module);
+
+            $this->addFlash(
+            'notice',
+            'Resources and calendar events for this course will be drawn from the module you selected. Add and edit content and calendar events within the module.'
+        );
          }
 
 

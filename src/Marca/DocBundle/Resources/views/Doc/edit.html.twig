@@ -48,6 +48,7 @@
         {# Markup insert and tracking #}
         function markup(id, tag, color) {
             var nEditor = CKEDITOR.instances.marca_docbundle_doctype_body;
+            nEditor.focus();
             var id = id;
             var tag = tag;
             var color = color;
@@ -61,6 +62,7 @@
         function note() {
             var note_id = new Date().getTime();
             var nEditor = CKEDITOR.instances.marca_docbundle_doctype_body;
+            nEditor.focus();
             if (nEditor.mode == 'wysiwyg') {
                 var hightlight = CKEDITOR.dom.element.createFromHtml('<span class="eDoc_highlight ' + note_id + '">' + nEditor.getSelection().getNative() + ' </span>');
                 nEditor.insertElement(hightlight);
