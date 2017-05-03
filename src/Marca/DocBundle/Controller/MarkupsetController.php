@@ -167,7 +167,7 @@ class MarkupsetController extends Controller
 
         $shared = $markupset->getShared();
         if($shared == 2){
-            $markupset->setShared(1);
+            $markupset->setShared(0);
         }else{$markupset->setShared(2);
         }
         
