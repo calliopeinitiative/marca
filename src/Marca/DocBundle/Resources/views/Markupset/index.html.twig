@@ -36,10 +36,13 @@
                                     {{ markupset.name }}
                                 </a>
                             </h4>
-                            {% if markupset.shared==1 %}(Shared){% elseif markupset.shared==2 %}Default{%endif%}
+                            {% if markupset.shared==1 %}(Shared){% elseif markupset.shared==2 %}(Default){%endif%}
                             {% if markupset.isOwner(app.user.username) %}
                                 <div class="btn-group pull-right" style="margin-top: -5px;">
                                 <a class="btn btn-default btn-sm" href="{{ path('markupset_edit', { 'id': markupset.id }) }}">Edit Set Information</a>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                <a class="btn btn-default btn-sm" href="{{ path('markupset_toggle', { 'id': markupset.id }) }}">Toggle Default</a>
+                                {% endif %}
                                 <a class='btn btn-default btn-sm' href="{{ path('markup_new', { 'set_id' : markupset.getid}) }}">Create Markup Tag</a>
                                 <a class='btn btn-default btn-sm' href="{{ path('add_tags', { 'id' : markupset.getid}) }}">Add Tags from Other Sets</a>
                                 </div>

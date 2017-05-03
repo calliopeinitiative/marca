@@ -149,6 +149,56 @@ class MarkupsetController extends Controller
         );
     }
 
+       /**
+     * Edits an existing Markupset entity.
+     *
+     * @Route("/{id}/toggle", name="markupset_toggle")
+     */
+    public function toggleAction($id)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+        $em = $this->getEm();
+
+        $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($id);
+
+        if (!$markupset) {
+            throw $this->createNotFoundException('Unable to find Markupset entity.');
+        }
+
+        $shared = $markupset->getShared();
+        if($shared == 2){
+            $markupset->setShared(1);
+        }else{$markupset->setShared(2);
+        }
+        
+            $em->persist($markupset);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('markupset', array('id' => $markupset->getid())));
+        
+        return array(
+            'markupset'      => $markupset,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Deletes a Markupset entity.
      *
