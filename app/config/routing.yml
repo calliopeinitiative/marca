@@ -9,6 +9,9 @@ logout:
     path: /logout
     defaults: { _controller: MarcaHomeBundle:Default:index }
 
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
 wwwRedirect:
     path:  /
     host: emma.uga.edu
