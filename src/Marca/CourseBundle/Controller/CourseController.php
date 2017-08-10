@@ -266,6 +266,7 @@ class CourseController extends Controller
             $module->setTime($time);
             $module->setTerm($term);
             $module->setModule(1);
+            $module->setEnroll(0);
             foreach ($tagsets as &$tagset) {
                 $module->addTagset($tagset);
             };
@@ -425,6 +426,7 @@ class CourseController extends Controller
         $course->setTime($time);
         $course->setTerm($term);
         $course->setModule(1);
+        $course->setEnroll(0);
         foreach ($tagsets as &$tagset) {
             $course->addTagset($tagset);
         };
