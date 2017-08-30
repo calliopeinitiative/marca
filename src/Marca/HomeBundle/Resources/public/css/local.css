@@ -219,11 +219,19 @@ a:hover {
     text-decoration: underline;
 }
 
-p > a {
+p * a {
     color: #337ab7;
 }
 
-p > a:hover {
+p * a:hover {
+    color: #337ab7;
+}
+
+div.doc-body * a {
+    color: #337ab7;
+}
+
+div.doc-body * a:hover {
     color: #337ab7;
 }
 
