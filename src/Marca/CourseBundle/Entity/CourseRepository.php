@@ -64,7 +64,7 @@ class CourseRepository extends EntityRepository
         return $this->getEntityManager()
             ->createQuery('SELECT c from MarcaCourseBundle:Course c JOIN c.roll r JOIN c.term t WHERE r.user = ?1 AND r.role > 0 AND r.role < 3 AND t.status = 0 AND t.status < 3 AND c
 .module = 0
-ORDER BY c.name')->setParameter('1',$user)->getResult();
+ORDER BY t.term DESC')->setParameter('1',$user)->getResult();
 
     }     
     
