@@ -15,8 +15,18 @@
             $("#archive_toggle").click(function () {
                 $('#archive').toggle();
             });
-            $('#archive').toggle();
-        });
+            $('#archive').toggle(); 
+
+            {# comment: jquery toggle of previous course listings of more than eight #}
+            $("#full_archive_toggle").click(function () {
+                $('div.archive:gt(7)').toggle();
+                $('#full_archive_toggle').toggle();
+            });  
+
+            $('div.archive:gt(7)').toggle();
+            {%if archive | length <= 8 %} $('#full_archive_toggle').toggle();{%endif%} 
+        });      
+
     </script>
 {% endblock %}
 
@@ -171,6 +181,7 @@
                 </div>
                 <div class="panel-body" id="archive">
                     {% for course in archive %}
+                    <div id = '{{loop.index}}' class="archive">
                         <div class="col-sm-9">
                             <a href="{{ path('course_home', { 'courseid': course.id }) }}">
                                 <h2 class="margin-top-small">{{ course.name }}</h2></a>
@@ -183,12 +194,13 @@
                                                                          title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"
                                                                          href="{{ path('course_show', { 'courseid': course.id }) }}">
                                     Settings</a>{% endif %}
+                    </div>    
                         </div>
                     {% endfor %}
                 </div>
                 <div class="panel-footer">
                     <span id="archive_info" class="">Click course name to enter.</span>
-                    <a class='btn btn-primary btn-xs pull-right' title="">See All</a>
+                    <a id='full_archive_toggle' class='btn btn-primary btn-xs pull-right' title="">See All</a>
                 </div>
             </div>
         </div>
