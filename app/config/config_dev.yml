@@ -35,3 +35,9 @@ monolog:
 
 assetic:
     use_controller: true
+
+hautelook_alice: 
+    fixtures_path: 'Resources/fixtures/orm'
+
+    
+
