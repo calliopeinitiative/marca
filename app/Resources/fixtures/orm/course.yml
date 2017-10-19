@@ -1,0 +1,22 @@
+Marca\CourseBundle\Entity\Course:
+    course:  
+        user: @user_instructor
+        name: 'Example Course'
+        time: <time()>
+        studentForum: TRUE
+        term: @term2
+        assessmentset: @assessmentset
+        markupsets: [@markupset]
+        projectDefault: @project1
+        tagset: [@tagset]
+Marca\CourseBundle\Entity\Roll:
+    roll:
+        user: @user_instructor
+        status: 1
+        course: @course
+        role: 2
+Marca\CourseBundle\Entity\Project:
+    project{1..4}:
+        name: 'Paper <current()>'
+        sortOrder: '<current()>'
+        course: @course

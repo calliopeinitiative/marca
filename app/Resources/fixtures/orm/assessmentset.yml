@@ -1,0 +1,35 @@
+Marca\AssessmentBundle\Entity\Assessmentset:
+    assessmentset:  
+        name: 'Example Set'
+        description: 'Example Assessment Set'
+        shared: 2
+Marca\AssessmentBundle\Entity\Scale:
+    scale:
+        name: "Example Scale"
+Marca\AssessmentBundle\Entity\Objective:
+    objective:
+        objective: 'Learning Objective 1'
+        description: 'Example Learning Objective'
+        assessmentset: @assessmentset
+        scale:  @scale
+Marca\AssessmentBundle\Entity\Scaleitem:
+    scaleitem1: 
+        name: 'Example Scale Item 1'
+        value: 0
+        scale: @scale
+    scaleitem2: 
+        name: 'Example Scale Item 2'
+        value: 1
+        scale: @scale
+    scaleitem3: 
+        name: 'Example Scale Item 3'
+        value: 2
+        scale: @scale                
+    scaleitem4: 
+        name: 'Example Scale Item 4'
+        value: 3
+        scale: @scale
+    scaleitem5: 
+        name: 'Example Scale Item 5'
+        value: 4
+        scale: @scale
