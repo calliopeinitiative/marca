@@ -123,7 +123,7 @@
 
 <div id="mainContainer">
 
-    {% if block('sidebar') %}
+    {% if block('sidebar') is defined %}
         {% if 'fos_user' not in app.request.attributes.get('_route') %}
             <div class="col-sm-2 hidden-xs sidebar ">
                 <ul class="nav nav-list">
@@ -149,8 +149,9 @@
 
         <div class="{% if 'fos_user' not in app.request.attributes.get('_route') %}col-sm-push-2 col-sm-10 col-sm-push-2{% else %}col-sm-12 col-sm-12{% endif %} col-xs-12"
              role="main">
+            {% if block('subnav') is defined %}
             {{ block('subnav') }}
-
+            {% endif %}
             {% if is_granted('ROLE_USER') %}
             <div class="navbar-collapse collapse" style="margin-bottom: 10px;">
                 <ul class="nav nav-list">

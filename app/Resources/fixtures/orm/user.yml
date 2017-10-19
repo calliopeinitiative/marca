@@ -1,0 +1,27 @@
+Marca\UserBundle\Entity\User:
+    user_{1..10}:  
+        username: '<userName()>'
+        plainPassword: 'password'
+        email: '<email()>'
+        firstname: '<firstName()>'
+        lastname: '<lastName()>'
+        enabled: TRUE
+        institution: @institution1
+    user_admin:
+        username: 'admin'
+        plainPassword: 'password'
+        email: '<email()>'
+        firstname: 'Admin'
+        lastname: 'Istrator'
+        enabled: TRUE
+        institution: @institution1
+        roles: [ROLE_ADMIN, ROLE_INSTR]
+    user_instructor:
+        username: 'instructor'
+        plainPassword: 'password'
+        email: '<email()>'
+        firstname: 'Iman'
+        lastname: 'Instructor'
+        enabled: TRUE
+        institution: @institution1
+        roles: [ROLE_INSTRUCTOR]        

@@ -1,0 +1,23 @@
+# src/Marca/DataFixtures/ORM/base.yml
+Marca\AdminBundle\Entity\Institution:
+    institution1:  
+        name: Marca University
+        paymentType: 1
+        semesterPrice: 0
+Marca\CourseBundle\Entity\Term:
+    term1:
+        term: 1
+        termName: Fall 2017
+        status: 1
+        institution: @institution1
+    term2:
+        term: 2
+        termName: Spring 2018
+        status: 0
+        institution: @institution1    
+    term3:
+        term: 3
+        termName: Summer 2018
+        status: 0
+        institution: @institution1
+        
