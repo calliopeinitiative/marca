@@ -1,11 +1,11 @@
 Marca\PortfolioBundle\Entity\Portset:
-    portset:  
+    portset:
         user: @user_admin
         name: 'Standard'
         description: 'The Standard Porfolio'
         shared: 2
 Marca\PortfolioBundle\Entity\Portitem:
-    portitem{1..4}: 
+    portitem{1..4}:
         portset: @portset
         name: 'PortItem <current()>'
         description: 'Description of the Item'
