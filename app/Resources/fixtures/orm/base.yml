@@ -2,7 +2,7 @@
 Marca\AdminBundle\Entity\Institution:
     institution1:  
         name: Marca University
-        paymentType: 1
+        paymentType: 0
         semesterPrice: 0
 Marca\CourseBundle\Entity\Term:
     term1:
@@ -22,7 +22,15 @@ Marca\CourseBundle\Entity\Term:
         institution: @institution1
 
 Marca\UserBundle\Entity\User:
-    user_{1..10}:
+    user_1:
+        username: 'student'
+        plainPassword: 'pw'
+        email: '<email()>'
+        firstname: '<firstName()>'
+        lastname: '<lastName()>'
+        enabled: TRUE
+        institution: @institution1
+    user_{2..10}:
         username: '<userName()>'
         plainPassword: 'pw'
         email: '<email()>'
@@ -48,4 +56,3 @@ Marca\UserBundle\Entity\User:
         enabled: TRUE
         institution: @institution1
         roles: [ROLE_INSTR]
-        
