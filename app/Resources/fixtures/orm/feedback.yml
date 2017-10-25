@@ -1,0 +1,14 @@
+Marca\AssignmentBundle\Entity\ReviewRubric:
+    reviewRubric:
+        name: "Quick Review"
+        Description: "Simple Response to Text"
+        Instructions: "Respond to the Text"
+        Keywords: "Thesis"
+        Shared: 0
+Marca\AssignmentBundle\Entity\promptItem:
+    promptItem:
+        prompt: "What Do You Think?"
+        type: 2
+        scale: @scale
+        reviewRubric: @reviewRubric
+        sortOrder: 0
