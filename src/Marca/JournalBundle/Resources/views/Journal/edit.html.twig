@@ -8,9 +8,11 @@
 
 {% block javascripts %}
 {{ parent() }}
+    <script src="{{ asset('bundles/marcahome/js/jquery.journalInactivityTimeout.js') }}"></script>
     <script language="javascript">
         $(document).ready(function()
-        {
+        {   
+            $(document).inactivityTimeout();
             {# form page close/cancel adjust for appropriate redirect #}
             $('#close_form').click(function(){
                 window.location.href='{{ course_path('journal_list') }}';
