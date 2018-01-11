@@ -8,11 +8,21 @@
 
 {% block javascripts %}
 {{ parent() }}
-    <script src="{{ asset('bundles/marcahome/js/jquery.journalInactivityTimeout.js') }}"></script>
-    <script language="javascript">
+    <script src="{{ asset('bundles/marcahome/js/jquery-idleTimeout-iframes.min.js') }}"></script>
+    <script src="{{ asset('bundles/marcahome/js/store.legacy.min.js') }}"></script>
+        <script language="javascript">
         $(document).ready(function()
-        {   
-            $(document).inactivityTimeout();
+        {
+            $(document).idleTimeout({
+                customCallback: function () {
+                    alert('xxx');
+                },
+                redirectUrl:  '/user/home',      // trailing comma
+                idleTimeLimit: 10,          // trailing comma
+                sessionKeepAliveTimer: false,
+                dialogTitle: 'Inactivity Notice',
+                dialogText: 'Looks like you have stopped working.  We will save your journal.'
+            });
             {# form page close/cancel adjust for appropriate redirect #}
             $('#close_form').click(function(){
                 window.location.href='{{ course_path('journal_list') }}';
