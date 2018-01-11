@@ -35,7 +35,11 @@
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
-        "doctrine/doctrine-fixtures-bundle": "^2.3"
+        "doctrine/doctrine-fixtures-bundle": "^2.3",
+        "hautelook/alice-bundle": "^2.0@beta",
+        "nelmio/alice": "^3.0@beta",
+        "theofidry/alice-data-fixtures": "^1.0@beta",
+        "doctrine/data-fixtures": "^1.2"
     },
     "scripts": {
         "post-install-cmd": [
