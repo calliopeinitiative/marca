@@ -15,13 +15,16 @@
         {
             $(document).idleTimeout({
                 customCallback: function () {
-                    alert('xxx');
+                    $("form[name='marca_journalbundle_journaltype']").submit();
                 },
-                redirectUrl:  '/user/home',      // trailing comma
-                idleTimeLimit: 10,          // trailing comma
+                redirectUrl:  false,
+                idleTimeLimit: 300,
                 sessionKeepAliveTimer: false,
+                dialogDisplayLimit: 20,
                 dialogTitle: 'Inactivity Notice',
-                dialogText: 'Looks like you have stopped working.  We will save your journal.'
+                dialogText: 'Looks like you have stopped working.  We will save your journal entry.',
+                dialogStayLoggedInButton: 'Keep working',
+                dialogLogOutNowButton: 'Save now'
             });
             {# form page close/cancel adjust for appropriate redirect #}
             $('#close_form').click(function(){
