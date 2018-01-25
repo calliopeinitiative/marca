@@ -4,9 +4,25 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('bundles/marcahome/js/jquery-idleTimeout-iframes.min.js') }}"></script>
+    <script src="{{ asset('bundles/marcahome/js/store.legacy.min.js') }}"></script>
     <script language="javascript">
         $(document).ready(function () {
-            $(document).inactivityTimeout();
+
+            $(document).idleTimeout({
+                customCallback: function () {
+                    $("#doc_form").submit();
+                },
+                redirectUrl:  false,
+                idleTimeLimit: 300,
+                sessionKeepAliveTimer: false,
+                dialogDisplayLimit: 20,
+                dialogTitle: 'Inactivity Notice',
+                dialogText: 'Looks like you have stopped working.  We will save your document.',
+                dialogStayLoggedInButton: 'Keep working',
+                dialogLogOutNowButton: 'Save now'
+            });
+
             var editorheight = $(document).height() * .88;
             $('#saving_alert').toggle();
             $('#doc-tools').css('height', function (index) {
