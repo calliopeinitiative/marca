@@ -190,14 +190,22 @@ class ProjectController extends Controller
 
 
 
-        $editForm = $this->createForm(new ProjectType(), $project);
+
+        if ($project->getResource()==0) {
+            $editForm = $this->createForm(new ProjectType(), $project);
+        }
+        else {
+            $editForm = $this->createForm(new ResourceType(), $project);
+        }
+
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
         $editForm->handleRequest($request);
         
         if ($project->getResource()==0) {
-            $project->setCoursehome('false');
+            $project->setResource(False);
+            $project->setCoursehome(False);
         }
         if ($editForm->isValid()) {
             $em->persist($project);
