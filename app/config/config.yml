@@ -231,7 +231,7 @@ ivory_ck_editor:
             disableNativeSpellChecker: false
             height: 300
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
-            stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckeditor_styles.js'
+            stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckedit_styles.js'
 
         editor_docs:
             skin: "bootstrapck, ../../../../bundles/marcahome/ckeditor/skins/bootstrapck/"
@@ -242,7 +242,7 @@ ivory_ck_editor:
             allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong s em; ol ul li span(*){font-size,font-family,color,background-color}[data-id]; img[*]{*}; iframe{*}[*];'
             disableNativeSpellChecker: false
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
-            stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckeditor_styles.js'
+            stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckedit_styles.js'
         editor_page:
             skin: "bootstrapck, ../../../../bundles/marcahome/ckeditor/skins/bootstrapck/"
             startupFocus: true
@@ -253,7 +253,7 @@ ivory_ck_editor:
             disableNativeSpellChecker: false
             height: 500
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
-            stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckeditor_styles.js'
+            stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckedit_styles.js'
     toolbars:
         configs:
             toolbar_simple: [ ['Bold','Italic','Underline','Strike'],['Link','Unlink'],['NumberedList','BulletedList']]
