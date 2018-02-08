@@ -53,10 +53,10 @@ assetic:
   java: /usr/bin/java
   filters:
     yui_js:
-      jar: %kernel.root_dir%/../vendor/packagist/yuicompressor-bin/bin/yuicompressor.jar
+      jar: %kernel.root_dir%/../vendor/packagelist/yuicompressor-bin/bin/yuicompressor.jar
     lessphp:
       apply_to: "\.less$"
-      #file:   %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
+      file:   %kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php
     cssrewrite: ~
   assets:
     bootstrap_fonts_woff:

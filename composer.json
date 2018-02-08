@@ -24,15 +24,15 @@
         "knplabs/knp-snappy-bundle": "dev-master",
         "components/jquery": "2.1.*",
         "components/jqueryui": "1.11.*",
-        "twbs/bootstrap" : "*",
-        "oyejorge/less.php": "~1.5",
-        "packagist/yuicompressor-bin": "dev-master",
+        "twbs/bootstrap" : "3.3.*",
         "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1",
         "stripe/stripe-php": "1.*",
         "besimple/sso-auth-bundle": "*@dev",
         "egeloen/ckeditor-bundle": "^4.0",
         "vich/uploader-bundle": "^1.2",
-        "dompdf/dompdf": "^0.8.2"
+        "dompdf/dompdf": "^0.8.2",
+        "packagelist/yuicompressor-bin": "^2.4",
+        "oyejorge/less.php": "v1.7.0.14"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
