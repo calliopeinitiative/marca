@@ -2,17 +2,10 @@
 
 <html>
 <head>
-    {#{% block stylesheets %}#}
-        {#{% stylesheets '@bootstrap_less' combine=true  output='css/compiled/main.css' %}#}
-        {#<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />#}
-        {#<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">#}
-        {#<link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/external.css') }}">#}
-        {#<link type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">#}
-        {#{% endstylesheets %}#}
-    {#{% endblock %}#}
 <style>
-body {background: #fff }
-.doc-body {height:100%;width:90%;}
+body {background: #fff;
+	  margin: .5in;
+ }
 /*
     Document   : local
     Created on : Mar 23, 2012, 9:24:24 PM
@@ -906,7 +899,8 @@ tr.review td .label {font-size: 90%;}
 	
 }
 .eDoc_wc_pdf {
-	text-align: center;	
+	text-align: center;
+	page-break-before: always;	
 }
 .eDoc_header_pdf {
 	text-align: left;
@@ -1327,14 +1321,7 @@ br[type="_moz"] {
 <body>
 
 {# Doc display #}
-<div class="row margin-top clear">
-    <div class="col-sm-8 pad">
-        <div class="doc-body">
             {{ doc.body|html_raw }}
-        </div>
-    </div>
-</div>
-
 </body>
 
 
