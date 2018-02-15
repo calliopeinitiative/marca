@@ -875,6 +875,9 @@ tr.review td .label {font-size: 90%;}
     margin-left:0.5in;
     line-height: 200%;
 }
+.eDoc_header_pdf {text-align:left; line-height: 200%;}
+.eDoc_wc_pdf {text-align:center; line-height: 200%;}
+.eDoc_block_quote {margin-left:0.5in; line-height: 200%;}
 
 .eDoc_paragraph_indent {
     text-indent:0.5in;
