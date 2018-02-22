@@ -8,26 +8,23 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
 
     {% block stylesheets %}
-        {% stylesheets '@bootstrap_less' '%kernel.root_dir%/../vendor/components/jqueryui/themes/flick/jquery-ui.min.css' combine=true
-        output='css/compiled/main.css'  filter='cssrewrite' %}
-        <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/offline-theme-default.css') }}">
         {# externals #}
         <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Josefin+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         {# local #}
         <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/local.css') }}">
-        {% endstylesheets %}
     {% endblock %}
 
     {% block javascripts %}
-        {% javascripts '@jquery_js' '@jqueryui_js' '@bootstrap_js' combine=true output='js/compiled/main.js' %}
-        <script src="{{ asset_url }}"></script>
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="{{ asset('bundles/marcahome/js/jquery.form.js') }}"></script>
         <script src="{{ asset('bundles/marcahome/js/offline.min.js') }}"></script>
         <script src="{{ asset('bundles/marcahome/js/jquery.tinysort.min.js') }}"></script>
-
-          {% endjavascripts %}
 
         <script language="javascript">
             $(document).ready(function () {

@@ -30,9 +30,7 @@
         "besimple/sso-auth-bundle": "*@dev",
         "egeloen/ckeditor-bundle": "^4.0",
         "vich/uploader-bundle": "^1.2",
-        "dompdf/dompdf": "^0.8.2",
-        "packagelist/yuicompressor-bin": "^2.4",
-        "oyejorge/less.php": "v1.7.0.14"
+        "dompdf/dompdf": "^0.8.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

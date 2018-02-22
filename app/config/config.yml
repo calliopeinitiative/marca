@@ -50,62 +50,12 @@ twig:
 
 # Assetic Configuration
 assetic:
-  java: /usr/bin/java
-  filters:
-    yui_js:
-      jar: %kernel.root_dir%/../vendor/packagelist/yuicompressor-bin/bin/yuicompressor.jar
-    lessphp:
-      apply_to: "\.less$"
-      file:   %kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php
-    cssrewrite: ~
-  assets:
-    bootstrap_fonts_woff:
-       inputs:
-           - '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.woff'
-       output: css/fonts/glyphicons-halflings-regular.woff
-    bootstrap_fonts_woff2:
-       inputs:
-           - '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.woff2'
-       output: css/fonts/glyphicons-halflings-regular.woff2
-    bootstrap_fonts_ttf:
-        inputs:
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.ttf'
-        output: css/fonts/glyphicons-halflings-regular.ttf
-    bootstrap_fonts_svg:
-        inputs:
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.svg'
-        output: css/fonts/glyphicons-halflings-regular.svg
-    bootstrap_fonts_eot:
-         inputs:
-             - '%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.eot'
-         output: css/fonts/glyphicons-halflings-regular.eot
-    jquery_js:
-        inputs:
-            - '%kernel.root_dir%/../vendor/components/jquery/jquery.js'
-        filters: [yui_js]
-    jqueryui_js:
-        inputs:
-            - '%kernel.root_dir%/../vendor/components/jqueryui/jquery-ui.js'
-        filters: [yui_js]
-    bootstrap_js:
-        inputs:
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/transition.js'
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/alert.js'
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/modal.js'
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/dropdown.js'
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/scrollspy.js'
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/tab.js'
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/tooltip.js'
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/popover.js'
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/button.js'
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/collapse.js'
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/carousel.js'
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/js/affix.js'
-        filters: [yui_js]
-    bootstrap_less:
-        inputs:
-            - '%kernel.root_dir%/../vendor/twbs/bootstrap/less/bootstrap.less'
-        filters: [lessphp]
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
 
 
 # Doctrine Configuration
@@ -193,12 +143,6 @@ vich_uploader:
             directory_namer: directory_namer.upload_file  # specify a directory namer service id for this entity, null default
             delete_on_remove: true # determines whether to delete file upon removal of entity
             inject_on_load: true # determines whether to inject a File instance upon load
-
-knp_snappy:
-    pdf:
-        enabled:    true
-        binary:     %wkhtmltopdf_path%
-        options:    []
 
 ivory_ck_editor:
     plugins:
