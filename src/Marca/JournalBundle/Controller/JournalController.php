@@ -212,6 +212,10 @@ class JournalController extends Controller
         if ($editForm->isValid()) {
             $em->persist($journal);
             $em->flush();
+            $request->getSession()
+                ->getFlashBag()
+                ->add('saved', 'Your journal was saved.  Click Edit to continue working.');
+
 
             return $this->redirect($this->generateUrl('journal_list', array('courseid'=> $courseid,)));
         }

@@ -1,0 +1,48 @@
+Marca\CourseBundle\Entity\Course:
+    course:
+        user: @user_instructor
+        name: 'Demo Course'
+        time: <dateTime()>
+        studentForum: TRUE
+        term: @term1
+        assessmentset: @assessmentset
+        markupsets: [@markupset]
+        projectDefault: @project1
+        tagset: [@tagset]
+        portset: @portset
+        roll: [@roll]
+        pendingFlag: TRUE
+        institution: @institution1
+Marca\CourseBundle\Entity\Roll:
+    roll:
+        user: @user_instructor
+        status: 1
+        course: @course
+        role: 2
+    roll{2..10}:
+        user: @user_<current()>
+        status: 1
+        course: @course
+        role: 1
+Marca\CourseBundle\Entity\Project:
+    project{1..4}:
+        name: 'Paper <current()>'
+        sortOrder: '<current()>'
+        course: @course
+    project5:
+        name: 'Assignments'
+        sortOrder: 1
+        course: @course
+        resource: TRUE
+        coursehome: TRUE
+    project6:
+        name: 'Readings'
+        sortOrder: 2
+        course: @course
+        resource: TRUE
+    project7:
+        name: 'Resources'
+        sortOrder: 3
+        course: @course
+        resource: TRUE
+

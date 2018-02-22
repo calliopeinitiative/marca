@@ -15,6 +15,7 @@ use Marca\DocBundle\Form\DocType;
 use Marca\FileBundle\Entity\File;
 use Marca\CourseBundle\Entity\Project;
 use Marca\CourseBundle\Entity\Roll;
+use Dompdf\Dompdf;
 
 /**
  * Doc controller.
@@ -352,7 +353,9 @@ class DocController extends Controller
 
         $name = $file->getName();
         $filename = 'attachment; filename="'.$name.'.pdf"';
-        $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
+
+        
+
 
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
@@ -361,15 +364,28 @@ class DocController extends Controller
         $html = $this->renderView('MarcaDocBundle:Doc:pdf.html.twig', array(
           'doc' => $doc,
         ));
+     
 
-        return new Response(
-          $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
-          200,
-          array(
-            'Content-Type'          => 'application/pdf',
-            'Content-Disposition'   => $filename
-          )
-        );
+        // instantiate and use the dompdf class
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        $dompdf->stream();
+        // return new Response(
+        //   $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+        //   200,
+        //   array(
+        //     'Content-Type'          => 'application/pdf',
+        //     'Content-Disposition'   => $filename
+        //   )
+        // );
 
     }
 

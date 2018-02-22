@@ -109,7 +109,10 @@ p {margin-bottom: 0px;}
 .eDoc_error {background:#bcd85f;padding:1px;}
 .eDoc_hanging_indent {text-indent:-0.5in; margin-left:0.5in;line-height: 200%;}
 .eDoc_paragraph_indent {text-indent:0.5in; line-height: 200%;}
-.eDoc_single_space {line-height: 100%;}
+.eDoc_header_pdf {text-align:left; line-height: 200%;}
+.eDoc_wc_pdf {text-align:center; line-height: 200%;}
+.eDoc_block_quote {margin-left:0.5in; line-height: 200%;} 
+.eDoc_single_space {line-height: 100%;} 
 .eDoc_double_space {line-height: 200%;}
 .context {background:#b6e4ff;padding:1px;}
 .author {background:#ffd8b6;padding:1px;}
