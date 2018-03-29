@@ -1,13 +1,12 @@
 Marca\TagBundle\Entity\Tagset:
-    tagset:  
+    tagset:
         user: @user_admin
         name: 'Example Set'
-        shared: 1
+        shared: 2
 Marca\TagBundle\Entity\Tag:
-    tag{1..5}: 
+    tag{1..5}:
         user: @user_admin
         name: 'Draft <current()>'
         color: '<safeColorName()>'
         shared: 1
-        tagset: [@tagset]        
-
+        tagset: [@tagset]

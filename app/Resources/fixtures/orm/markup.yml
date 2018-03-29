@@ -1,15 +1,14 @@
 Marca\DocBundle\Entity\Markupset:
-    markupset:  
+    markupset:
         owner: @user_admin
         name: 'Example Set'
-        shared: 1
+        shared: 2
 Marca\DocBundle\Entity\Markup:
-    markup{1..10}: 
+    markup{1..10}:
         user: @user_admin
         name: 'Tag <current()>'
         color: '<safeColorName()>'
         value: 'Link to Purdue OWL <current()>'
         url: 'https://owl.english.purdue.edu/owl'
         mouseover: 'Please Revise'
-        markupset: [@markupset]        
-
+        markupset: [@markupset]
