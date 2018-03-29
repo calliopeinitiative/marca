@@ -354,7 +354,7 @@ class DocController extends Controller
         $name = $file->getName();
         $filename = 'attachment; filename="'.$name.'.pdf"';
 
-        
+
 
 
         if (!$doc) {
@@ -364,7 +364,7 @@ class DocController extends Controller
         $html = $this->renderView('MarcaDocBundle:Doc:pdf.html.twig', array(
           'doc' => $doc,
         ));
-     
+
 
         // instantiate and use the dompdf class
         $dompdf = new Dompdf();
@@ -377,7 +377,7 @@ class DocController extends Controller
         $dompdf->render();
 
         // Output the generated PDF to Browser
-        $dompdf->stream();
+        $dompdf->stream($name);
         // return new Response(
         //   $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
         //   200,
