@@ -272,6 +272,9 @@ div.doc-body * a:hover {
     padding-bottom:20px;
 }
 
+strong{
+  font-weight:bold;
+}
 /********** End 02. Typography **********/
 
 
@@ -605,7 +608,7 @@ div.checkbox > label {
 form div{
     margin-bottom: 10px;
 }
-label.checkbox {    
+label.checkbox {
     display: inline;
     padding: 5px;
     padding-left:0;
