@@ -30,7 +30,7 @@ class DocController extends Controller
      *
      * @Route("/{courseid}/{id}/{view}/show", name="doc_show")
      */
-    public function showAction(Request $request, $id,$courseid)
+    public function showAction(Request $request, $id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
         $this->restrictAccessTo($request, $allowed);
@@ -51,13 +51,10 @@ class DocController extends Controller
 
 
         $review_file = $file->getReviewed();
-        if ($review_file)
-        {
+        if ($review_file) {
             $parent_file = $em->getRepository('MarcaFileBundle:File')->find($review_file->getId());
             $review_owner = $review_file->getUser();
-        }
-        else
-        {
+        } else {
             $parent_file = $file;
             $review_owner = $file_owner;
         }
@@ -70,20 +67,19 @@ class DocController extends Controller
 
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
-        }
-        else if ($file_owner != $user && $review_owner != $user && $file_access==0 && $role != 2 )  {
+        } else if ($file_owner != $user && $review_owner != $user && $file_access == 0 && $role != 2) {
             throw new AccessDeniedException();
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MarcaDocBundle:Doc:show.html.twig', array(
-            'doc'      => $doc,
+            'doc' => $doc,
             'roll' => $roll,
-            'role'      => $role,
-            'count'=> $count,
-            'file'        => $file,
-            'parent_file'        => $parent_file,
+            'role' => $role,
+            'count' => $count,
+            'file' => $file,
+            'parent_file' => $parent_file,
             'markup' => $markup,
             'reviews' => $reviews,
             'local_resource' => $local_resource,
@@ -96,7 +92,7 @@ class DocController extends Controller
      *
      * @Route("/{courseid}/{id}/show_ajax", name="doc_show_ajax")
      */
-    public function show_ajaxAction(Request $request, $id,$courseid)
+    public function show_ajaxAction(Request $request, $id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_PORTREVIEW, self::ROLE_STUDENT);
         $this->restrictAccessTo($request, $allowed);
@@ -111,7 +107,11 @@ class DocController extends Controller
         $doc = $file->getDoc();
         $file_owner = $file->getUser();
         $review_file = $file->getReviewed();
-        if ($review_file) {$review_owner = $review_file->getUser();} else {$review_owner = $file_owner;}
+        if ($review_file) {
+            $review_owner = $review_file->getUser();
+        } else {
+            $review_owner = $file_owner;
+        }
         $file_access = $file->getAccess();
 
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findMarkupByCourse($course);
@@ -119,19 +119,17 @@ class DocController extends Controller
 
         if (!$doc) {
             throw $this->createNotFoundException('Unable to find Doc entity.');
-        }
-        else if ($file_owner != $user && $review_owner != $user && $file_access==0 && $role != 2 )  {
+        } else if ($file_owner != $user && $review_owner != $user && $file_access == 0 && $role != 2) {
             throw new AccessDeniedException();
         }
 
         return $this->render('MarcaDocBundle:Doc:show_ajax.html.twig', array(
-            'doc'      => $doc,
-            'role'      => $role,
-            'file'        => $file,
+            'doc' => $doc,
+            'role' => $role,
+            'file' => $file,
             'markup' => $markup,
         ));
     }
-
 
 
     /**
@@ -155,13 +153,13 @@ class DocController extends Controller
         $doc = new Doc();
         $doc->setBody($reviewed_body);
 
-        $form   = $this->createForm(new DocType(), $doc);
+        $form = $this->createForm(new DocType(), $doc);
 
         return $this->render('MarcaDocBundle:Doc:new.html.twig', array(
             'doc' => $doc,
             'fileid' => $fileid,
-            'markupsets'      => $markupsets,
-            'form'   => $form->createView()
+            'markupsets' => $markupsets,
+            'form' => $form->createView()
         ));
     }
 
@@ -181,11 +179,11 @@ class DocController extends Controller
         $course = $this->getCourse($request);
         $user = $this->getUser();
         $role = $this->getCourseRole($request);
-        $type =2;
+        $type = 2;
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
 
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
-        if($user != $file->getUser()){
+        if ($user != $file->getUser()) {
             throw new AccessDeniedException();
         };
         $doc = $file->getDoc();
@@ -200,13 +198,13 @@ class DocController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MarcaDocBundle:Doc:edit.html.twig', array(
-            'doc'      => $doc,
-            'file'        => $file,
-            'pages'        => $pages,
-            'role'      => $role,
-            'markupsets'      => $markupsets,
+            'doc' => $doc,
+            'file' => $file,
+            'pages' => $pages,
+            'role' => $role,
+            'markupsets' => $markupsets,
             'reviews' => $reviews,
-            'edit_form'   => $editForm->createView(),
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -232,7 +230,7 @@ class DocController extends Controller
         }
 
 
-        $editForm   = $this->createForm(new DocType(), $doc);
+        $editForm = $this->createForm(new DocType(), $doc);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -244,15 +242,14 @@ class DocController extends Controller
             $em->flush();
             $request->getSession()
                 ->getFlashBag()
-                ->add('saved', 'Your document was saved.  Click Edit to continue working.')
-            ;
+                ->add('saved', 'Your document was saved.  Click Edit to continue working.');
 
-            return $this->redirect($this->generateUrl('doc_show', array('id' => $fileid, 'courseid'=> $courseid, 'view' => $view)));
+            return $this->redirect($this->generateUrl('doc_show', array('id' => $fileid, 'courseid' => $courseid, 'view' => $view)));
         }
 
         return $this->render('MarcaDocBundle:Doc:edit.html.twig', array(
-            'doc'      => $doc,
-            'edit_form'   => $editForm->createView(),
+            'doc' => $doc,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -284,7 +281,7 @@ class DocController extends Controller
         $em->flush();
 
         $return = "success";
-        return new Response($return,200,array('Content-Type'=>'application/json'));
+        return new Response($return, 200, array('Content-Type' => 'application/json'));
     }
 
 
@@ -294,7 +291,7 @@ class DocController extends Controller
      * @Route("/{courseid}/{id}/delete", name="doc_delete")
      * @Method("post")
      */
-    public function deleteAction(Request $request, $id,$courseid)
+    public function deleteAction(Request $request, $id, $courseid)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($request, $allowed);
@@ -316,15 +313,14 @@ class DocController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('doc', array('courseid'=> $courseid,)));
+        return $this->redirect($this->generateUrl('doc', array('courseid' => $courseid,)));
     }
 
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
-            ->getForm()
-            ;
+            ->getForm();
     }
 
 
@@ -345,16 +341,18 @@ class DocController extends Controller
         $file = $doc->getFile();
         $file_owner = $file->getUser();
         $review_file = $file->getReviewed();
-        if ($review_file) {$review_owner = $review_file->getUser();} else {$review_owner = $file_owner;}
+        if ($review_file) {
+            $review_owner = $review_file->getUser();
+        } else {
+            $review_owner = $file_owner;
+        }
         $file_access = $file->getAccess();
-        if ($file_owner != $user && $review_owner != $user && $file_access==0 && $role != 2 )  {
+        if ($file_owner != $user && $review_owner != $user && $file_access == 0 && $role != 2) {
             throw new AccessDeniedException();
         }
 
         $name = $file->getName();
-        $filename = 'attachment; filename="'.$name.'.pdf"';
-
-
+        $filename = 'attachment; filename="' . $name . '.pdf"';
 
 
         if (!$doc) {
@@ -362,7 +360,7 @@ class DocController extends Controller
         }
 
         $html = $this->renderView('MarcaDocBundle:Doc:pdf.html.twig', array(
-          'doc' => $doc,
+            'doc' => $doc,
         ));
 
 
@@ -377,15 +375,15 @@ class DocController extends Controller
         $dompdf->render();
 
         // Output the generated PDF to Browser
-        $dompdf->stream($name);
-        // return new Response(
-        //   $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
-        //   200,
-        //   array(
-        //     'Content-Type'          => 'application/pdf',
-        //     'Content-Disposition'   => $filename
-        //   )
-        // );
+        //        $dompdf->stream($name);
+        return new Response(
+            $dompdf->output(),
+            200,
+            array(
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => $filename
+            )
+        );
 
     }
 
