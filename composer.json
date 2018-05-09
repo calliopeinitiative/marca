@@ -21,7 +21,6 @@
         "friendsofsymfony/user-bundle": "~2.0",
         "stof/doctrine-extensions-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
-        "knplabs/knp-snappy-bundle": "dev-master",
         "components/jquery": "2.1.*",
         "components/jqueryui": "1.11.*",
         "twbs/bootstrap" : "3.3.*",
