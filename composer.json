@@ -33,9 +33,7 @@
         "dompdf/dompdf": "^0.8.2"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3",
-        "doctrine/doctrine-fixtures-bundle": "^2.3",
-        "doctrine/data-fixtures": "^1.2"
+        "sensio/generator-bundle": "~2.3"
     },
     "scripts": {
         "post-install-cmd": [
