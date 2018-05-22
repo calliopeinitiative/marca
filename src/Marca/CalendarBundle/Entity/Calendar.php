@@ -73,7 +73,7 @@ class Calendar
      *
      * @ORM\Column(name="color", type="string", length=255, nullable=true)
      */
-    private $color='royalblue';
+    private $color='lavender';
 
     /**
     * @ORM\ManyToOne(targetEntity="Marca\UserBundle\Entity\User")
