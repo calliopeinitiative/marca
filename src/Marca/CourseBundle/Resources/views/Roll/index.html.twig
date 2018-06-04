@@ -75,7 +75,7 @@
                                             <a class="btn btn-default btn-xs"
                                                href="{{ path('roll_approve', { 'id': roll.id,'courseid':course.id, }) }}">Approve</a>
                                             <a class="btn btn-default btn-xs"
-                                               href="{{ path('user_roll_modal', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a>
+                                               href="{{ path('roll_confirm_delete', { 'id': roll.id,'courseid':course.id, }) }}">Remove</a>
                                         </div>
                                     {% else %}
                                         Change role:
