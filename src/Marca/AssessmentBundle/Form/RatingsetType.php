@@ -12,7 +12,7 @@ class RatingsetType extends AbstractType
 
     public function __construct($options)
     {
-        $this->options= $options;
+        $this->options = $options;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -20,17 +20,17 @@ class RatingsetType extends AbstractType
         $options = $this->options;
         $scale = $options['scale'];
         $role = $options['role'];
-            if ($role != 4){
-        $builder ->add('notesforstudent','textarea', array('disabled' => true, 'label'  => 'Notes for the student','attr' => array('class' => 'text form-control'),));
+        if ($role == 4) {
+            $builder->add('notesforstudent', 'textarea', array('disabled' => true, 'label' => 'Notes for the student', 'attr' => array('class' => 'text form-control'),));
+        } else {
+            $builder->add('notesforstudent', 'textarea', array('disabled' => false, 'label' => 'Notes for the student', 'attr' => array('class' => 'text form-control'),));
             }
         $builder
             ->add('ratings', 'collection', array(
-                'type'   => new RatingType($scale),
-                'options'  => array('required'  => false),))
-            ->add('grade','integer', array('label'  => 'Grade (must be an integer)','attr' => array('class' => 'text form-control'),))
-            ->add('notesforreviewer','textarea', array('label'  => 'Notes for the reviewer','attr' => array('class' => 'text form-control'),))
-            ;
-
+                'type' => new RatingType($scale),
+                'options' => array('required' => false),))
+            ->add('grade', 'integer', array('label' => 'Grade (must be an integer)', 'attr' => array('class' => 'text form-control'),))
+            ->add('notesforreviewer', 'textarea', array('label' => 'Notes for the reviewer', 'attr' => array('class' => 'text form-control'),));
 
 
     }
