@@ -10,6 +10,7 @@ use Marca\CalendarBundle\Entity\Calendar;
 use Marca\CalendarBundle\Form\CalendarType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Dompdf\Dompdf;
 
 /**
  * Calendar controller.
@@ -403,12 +404,24 @@ class CalendarController extends Controller
             'calendar' => $calendar,
         ));
 
+        // instantiate and use the dompdf class
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        //        $dompdf->stream($name);
         return new Response(
-            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            $dompdf->output(),
             200,
             array(
-                'Content-Type'          => 'application/pdf',
-                'Content-Disposition'   => $filename
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => $filename
             )
         );
 
