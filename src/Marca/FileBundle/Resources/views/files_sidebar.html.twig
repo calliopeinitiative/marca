@@ -29,25 +29,31 @@
 
 <hr class="marca-spacer"/>
 <li>
-    <a data-scope-index="myfiles" class="project-sidebar"  href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
-        Files
-    </a>
+    <a class="project-sidebar project-sidebar-active" data-scope-index="myfiles"
+       href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My Files</a>
 </li>
 <li>
-    <a data-scope-index="reviews" class="project-sidebar" href="{{ course_path('file_reviews', { 'userid':  0, 'resource': app.request.get('resource') }) }}">
-        Reviews
-    </a>
+    <a class="project-sidebar" data-scope-index="sharedfile"
+       href="{{ course_path('file_listshared', { 'resource': app.request.get('resource')}) }}">Shared Files</a>
 </li>
-
-
-
+<li>
+    <a class="project-sidebar" data-scope-index="reviewsbyme"
+       href="{{ course_path('file_reviews', { 'userid':  0, 'resource': app.request.get('resource') }) }}">Reviews
+        by Me</a>
+</li>
+<li>
+    <a class="project-sidebar" data-scope-index="reviewsforme"
+       href="{{ course_path('file_reviews_for_user', { 'userid':  0, 'resource': app.request.get('resource') }) }}">Reviews
+        for Me</a>
+</li>
 
 <hr class="marca-spacer"/>
 
 {# Projects  Hide show #}
     {% for project in projects %}
         <li id="project_list">
-            <a href="#" class="link-filter project-sidebar" data-filter-column="3" data-filter-text="{{ project.name }}">{{ project.name }}</a>
+            <a href="#" class="link-filter project-sidebar" data-filter-column="3"
+               data-filter-text="{{ project.name }}">{{ project.name }}</a>
         </li>
     {% endfor %}
 <li>
@@ -58,9 +64,11 @@
 {# Labels Hide Show #}
     {% for tag in tags %}
         <li>
-            <a href="#" class="link-filter project-sidebar hidden" data-filter-column="4" data-filter-text="{{ tag.name }}"  data-color="{{ tag.color }}">{{ tag
+            <a href="#" class="link-filter project-sidebar hidden" data-filter-column="4"
+               data-filter-text="{{ tag.name }}" data-color="{{ tag.color }}">{{ tag
                 .name }}
-                <span class="pull-left color-flag" style="{% if tag.color != '' %}background: {{tag.color}};color:{{tag.color}};{% endif%}">&#183;</span>
+                <span class="pull-left color-flag"
+                      style="{% if tag.color != '' %}background: {{tag.color}};color:{{tag.color}};{% endif %}">&#183;</span>
             </a>
         </li>
     {% endfor %}

@@ -405,6 +405,11 @@ ul .dropdown-menu .glyphicon {
     color:#464648;
 }
 
+.project-sidebar-active{
+    color:#000;
+    background: #eeeeee;
+}
+
 .navbar-text>a {
     color:white;
 }

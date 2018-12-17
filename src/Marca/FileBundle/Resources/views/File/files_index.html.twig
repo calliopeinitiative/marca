@@ -6,13 +6,12 @@
     {# navbar #}
     <nav class="navbar navbar-default" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
+            <div class="navbar-brand">
+                {% if app.request.get('_route') == 'file_list' %}My Files
+                {% elseif app.request.get('_route') == 'file_listshared' %}Shared Files
+                {% endif %}
+            </div>
             <ul class="nav navbar-nav">
-                <li>
-                    <div class="btn-group" role="group" aria-label="sub navigation">
-                        <a class="btn btn-default navbar-btn" data-scope-index="myfiles" href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My Files</a>
-                        <a class="btn btn-default navbar-btn" data-scope-index="sharedfile" href="{{ course_path('file_listshared', { 'resource': app.request.get('resource')}) }}">Shared Files</a>
-                    </div>
-                </li>
                 {% if 'file_listshared' in app.request.attributes.get('_route') %}
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
                     <li style="display: none" id="allauthors"><a href="#" class="link-filter" data-filter-column="1" data-filter-text="">All

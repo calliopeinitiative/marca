@@ -182,7 +182,14 @@ class DocController extends Controller
         $type = 2;
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
 
+
+        $portStatus = $course->getPortStatus();
         $file = $em->getRepository('MarcaFileBundle:File')->find($id);
+
+        if($portStatus!='true' and count($file->getPortfolio()) !=0){
+            throw new AccessDeniedException();
+        }
+
         if ($user != $file->getUser()) {
             throw new AccessDeniedException();
         };
