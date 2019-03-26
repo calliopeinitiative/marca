@@ -6,17 +6,12 @@
     {# main list of files #}
     <nav class="navbar navbar-default" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
+            <div class="navbar-brand">
+                {% if app.request.get('_route') == 'file_reviews' %}Reviews by Me
+                {% elseif app.request.get('_route') == 'file_reviews_for_user' %}Review for Me
+                {% endif %}
+            </div>
             <ul class="nav navbar-nav">
-                <li>
-                    <div class="btn-group" role="group" aria-label="sub navigation">
-                        <a class="btn btn-default navbar-btn" data-scope-index="reviewsbyme"
-                           href="{{ course_path('file_reviews', { 'userid':  0, 'resource': app.request.get('resource') }) }}">Reviews
-                            by me</a>
-                        <a class="btn btn-default navbar-btn" data-scope-index="reviewsforme"
-                           href="{{ course_path('file_reviews_for_user', { 'userid':  0, 'resource': app.request.get('resource') }) }}">Reviews
-                            for me</a>
-                    </div>
-                </li>
                 {% if role == '2' %}
                     {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
                     <li>

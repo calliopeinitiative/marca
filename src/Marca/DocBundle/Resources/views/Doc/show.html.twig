@@ -1,8 +1,8 @@
 {# Marca/DocBundle/Resources/views/Doc/show.html.twig #}
 
 {% extends app.request.xmlHttpRequest
-? '::ajax.html.twig'
-: 'MarcaDocBundle::layout.html.twig' %}
+    ? '::ajax.html.twig'
+    : 'MarcaDocBundle::layout.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -16,7 +16,7 @@
                 {% elseif parent_file.ext == 'odt' or parent_file.ext == 'ods' or parent_file.ext == 'odp' or parent_file.ext == 'pdf' %}
                 $('#file-container').load('{{ course_path('file_view_ajax', { 'id': parent_file.id}) }}');
                 {% elseif parent_file.url %}
-                var win = window.open("{{ parent_file.url}}");
+                var win = window.open("{{ parent_file.url }}");
                 {% else %}
                 var win = window.open("{{ course_path('file_get', { 'id': parent_file.id}) }}");
                 {% endif %}
@@ -34,7 +34,7 @@
             {# Review files/docs #}
             {# Reviews here are documents, not Feedback prompts and responses,#}
             $('.review_nav, .review_info').hide()
-            {% for review in parent_file.reviews%}
+            {% for review in parent_file.reviews %}
             {% if review.id == app.request.get('id') %}
             $('#parent_nav, #parent_info').hide();
             $('#review_nav_{{ review.id }}, #review_info_{{ review.id }}').show();
@@ -45,7 +45,7 @@
                 {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
                 $('#file-container').load('{{ course_path('file_view_ajax', { 'id': review.id}) }}');
                 {% elseif parent_file.url %}
-                var win = window.open("{{ review.url}}");
+                var win = window.open("{{ review.url }}");
                 {% else %}
                 var win = window.open("{{ course_path('file_get', { 'id': review.id}) }}");
                 {% endif %}
@@ -118,8 +118,8 @@
                         id="review_{{ parent_file.id }}" style="margin-top: -2px;">
                         <a href="javascript:void(0);" title="View {{ parent_file.name }}">
                             <span style="font-size:18px;">{{ parent_file.name|slice(0,20) }} {% if parent_file.name|length > 20 %}...{% endif %}</span>
-                        <span class="small"
-                              style="font-family:proxima-nova, sans-serif;">by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}</span>
+                            <span class="small"
+                                  style="font-family:proxima-nova, sans-serif;">by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}</span>
                         </a>
 
                     </li>
@@ -134,9 +134,10 @@
                                    href="javascript:void(0);">
                                 <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"
                                       alt="Review by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}"></span>
-                                    <span class="small hidden-lg hidden-md hidden-sm hidden-xs" style="font-family:proxima-nova, sans-serif;">Review</span>
-                                <span class="small hidden-md hidden-sm"
-                                      style="font-family:proxima-nova, sans-serif;">by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}</span>
+                                    <span class="small hidden-lg hidden-md hidden-sm hidden-xs"
+                                          style="font-family:proxima-nova, sans-serif;">Review</span>
+                                    <span class="small hidden-md hidden-sm"
+                                          style="font-family:proxima-nova, sans-serif;">by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}</span>
                                 </a>
                             </li>
                         {% endif %}
@@ -147,11 +148,14 @@
 
                     {# Parent file #}
                     <span id='parent_nav'>
-                    {% if  parent_file.doc and parent_file.isOwner(app.user.username) %}
+                    {% if parent_file.doc and parent_file.isOwner(app.user.username) and parent_file.course.portStatus != 'true' and parent_file.portfolio|length !=0 %}
+                        <li class="navbar-text">Portfolio editing is closed</li>
+                        {% elseif parent_file.doc and parent_file.isOwner(app.user.username) %}
                         <li class="navbar-text">
                             <a title="Edit this document" class=""
                                href="{{ course_path('doc_edit', { 'id': parent_file.id,'view': app.request.get('view') }) }}">Edit</a>
                         </li>
+                    {% else %}
                     {% endif %}
                         {# Don't show Review button if it is a review or a Resource #}
                         {% if parent_file.doc and parent_file.reviewed|length == 0 and parent_file.project.resource != 'true' %}
@@ -165,7 +169,8 @@
 
                         {# conditional to SaveAs project for students and Saveas Resource for instructors #}
                         {% if (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource != 'true') or (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource == 'true'  and local_resource) or (not parent_file.isOwner(app.user.username) and parent_file.doc and file.project.resource == 'true') %}
-                            <li class="navbar-text hidden-sm"><a title="Create a copy of this document" id="new_saveas" class=""
+                            <li class="navbar-text hidden-sm"><a title="Create a copy of this document" id="new_saveas"
+                                                                 class=""
                                                                  href="javascript:void(0)">SaveAs</a>
                             </li>
                         {% endif %}
@@ -299,7 +304,7 @@
                     {% if app.request.get('_route') == 'file_view' or app.request.get('_route') == 'file_view_ajax' %}
                         <iframe class="col-sm-8" id="viewer"
                                 src="{{ asset('bundles/marcahome/ViewerJS/index.html') }}#{{ course_path('file_get',
-                                { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}"
+                                    { 'id': file.id }) }}/{{ file.name }}.{{ file.ext }}"
                                 allowfullscreen="true" webkitallowfullscreen="true"></iframe>
                     {% else %}
                         {% if app.session.flashBag.has('saved') %}
@@ -328,7 +333,9 @@
                 {# Markup pops for this document #}
                 {% for markup in markup %}
                 <div data-id='{{ markup.id }}' id='{{ markup.value }}' class='popover left'>
-                    <button type="button" class="close popover-close" data-dismiss="popover" aria-hidden="true">&times;</button>
+                    <button type="button" class="close popover-close" data-dismiss="popover" aria-hidden="true">
+                        &times;
+                    </button>
                     <div class="popover-title">
                         <span class="pull-left color-flag" style="background: {{ markup.color }};">&#183;</span>
                         {{ markup.name }}</div>
