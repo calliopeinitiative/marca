@@ -32,7 +32,6 @@ framework:
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_hosts:   ~
-    trusted_proxies: [168.25.19.228]
     session:
         # handler_id set to null will use default session handler from php.ini
         handler_id:  ~
@@ -40,27 +39,27 @@ framework:
 
 # Twig Configuration
 twig:
-    debug:            %kernel.debug%
-    strict_variables: %kernel.debug%
+    debug:            '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
     globals:
-      application_name:       %app_name%
-      cas:                    %cas%
-      help_email:             %help_email%
-      help_url:               %help_url%
+      application_name:       '%app_name%'
+      cas:                    '%cas%'
+      help_email:             '%help_email%'
+      help_url:               '%help_url%'
 
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   "%database_driver%"
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
+        driver:   '%database_driver%'
+        host:     '%database_host%'
+        port:     '%database_port%'
+        dbname:   '%database_name%'
+        user:     '%database_user%'
+        password: '%database_password%'
         charset:  UTF8
 
     orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
@@ -68,13 +67,13 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: %mailer_transport%
-    host:      %mailer_host%
-    port:      %mailer_port%
-    encryption: %mailer_encryption%
-    username:  %mailer_user%
-    password:  %mailer_password%
-    sender_address: %mailer_sender_address%
+    transport: '%mailer_transport%'
+    host:      '%mailer_host%'
+    port:      '%mailer_port%'
+    encryption: '%mailer_encryption%'
+    username:  '%mailer_user%'
+    password:  '%mailer_password%'
+    sender_address: '%mailer_sender_address%'
     spool: { type: memory }
 
 be_simple_sso_auth:
@@ -84,9 +83,9 @@ be_simple_sso_auth:
             version: 2
         server:
             id: cas
-            login_url: %cas_login_url%
-            logout_url: %cas_logout_url%
-            validation_url: %cas_validation_url%
+            login_url: '%cas_login_url%'
+            logout_url: '%cas_logout_url%'
+            validation_url: '%cas_validation_url%'
 
 fos_user:
     db_driver: orm
@@ -99,7 +98,7 @@ fos_user:
         confirmation:
             enabled:    false
     from_email:
-        address:        %from_email%
+        address:        '%from_email%'
         sender_name:    Emma
 
 
@@ -124,11 +123,11 @@ knp_paginator:
 
 vich_uploader:
     db_driver: orm # or mongodb
-    storage: %vich_storage%
+    storage: '%vich_storage%'
     mappings:
         property_file:
-            uri_prefix: %vich_uri_prefix%   # uri prefix to resource
-            upload_destination: %vich_upload_destination%   # gaufrette storage fs id, required
+            uri_prefix: '%vich_uri_prefix%'   # uri prefix to resource
+            upload_destination: '%vich_upload_destination%'   # gaufrette storage fs id, required
             namer: vich_uploader.namer_origname # namer.upload_file  specify a file namer service id for this entity, null default
             directory_namer: directory_namer.upload_file  # specify a directory namer service id for this entity, null default
             delete_on_remove: true # determines whether to delete file upon removal of entity
