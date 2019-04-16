@@ -2,13 +2,14 @@
 
 namespace Marca\CourseBundle\Form;
 
+use Marca\CourseBundle\Entity\TermRepository;
+use Marca\DocBundle\Entity\MarkupsetRepository;
+use Marca\PortfolioBundle\Entity\PortsetRepository;
+use Marca\TagBundle\Entity\TagsetRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Marca\DocBundle\Entity\MarkupsetRepository;
-use Marca\TagBundle\Entity\TagsetRepository;
-use Marca\CourseBundle\Entity\TermRepository;
-use Marca\PortfolioBundle\Entity\PortsetRepository;
 
 class ModuleType extends AbstractType
 {
@@ -20,7 +21,7 @@ class ModuleType extends AbstractType
         $userid = $course->getUser()->getId();
         $institutionid = $user->getInstitution()->getId();
         $builder
-            ->add('name','text', array('attr' => array('class' => 'text form-control'),))
+            ->add('name',TextType::class, array('attr' => array('class' => 'text form-control'),))
             ->add('tagset','entity', array('class'=>'MarcaTagBundle:Tagset', 'query_builder' => function(TagsetRepository $tr) use ($userid){
                 $qb = $tr->createQueryBuilder('MarcaTagBundle:Tagset');
                 $qb->select('t')->from('Marca\TagBundle\Entity\Tagset', 't')->innerJoin('t.user', 'u')->where('u.id = ?1')->orWhere('t.shared = 2')->setParameter('1', $userid);
@@ -36,7 +37,7 @@ class ModuleType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_coursebundle_coursetype';
     }

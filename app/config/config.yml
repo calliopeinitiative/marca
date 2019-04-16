@@ -48,16 +48,6 @@ twig:
       help_email:             %help_email%
       help_url:               %help_url%
 
-# Assetic Configuration
-assetic:
-    debug:          "%kernel.debug%"
-    use_controller: false
-    bundles:        [ ]
-    #java: /usr/bin/java
-    filters:
-        cssrewrite: ~
-
-
 # Doctrine Configuration
 doctrine:
     dbal:

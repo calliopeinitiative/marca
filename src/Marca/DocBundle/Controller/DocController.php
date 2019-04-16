@@ -2,20 +2,20 @@
 
 namespace Marca\DocBundle\Controller;
 
+use Dompdf\Dompdf;
+use Marca\CourseBundle\Entity\Project;
+use Marca\CourseBundle\Entity\Roll;
+use Marca\DocBundle\Entity\Autosave;
+use Marca\DocBundle\Entity\Doc;
+use Marca\DocBundle\Form\DocType;
+use Marca\FileBundle\Entity\File;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Marca\DocBundle\Entity\Doc;
-use Marca\DocBundle\Entity\Autosave;
-use Marca\DocBundle\Form\DocType;
-use Marca\FileBundle\Entity\File;
-use Marca\CourseBundle\Entity\Project;
-use Marca\CourseBundle\Entity\Roll;
-use Dompdf\Dompdf;
 
 /**
  * Doc controller.

@@ -2,16 +2,16 @@
 
 namespace Marca\AdminBundle\Controller;
 
-use Marca\HomeBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Marca\UserBundle\Entity\User;
-use Marca\AdminBundle\Entity\Institution;
 use FOS\UserBundle\Entity\UserManager;
+use Marca\AdminBundle\Entity\Institution;
+use Marca\AdminBundle\Form\InstitutionType;
 use Marca\CourseBundle\Entity\Term;
 use Marca\CourseBundle\Form\TermType;
-use Marca\AdminBundle\Form\InstitutionType;
+use Marca\HomeBundle\Controller\Controller;
+use Marca\UserBundle\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Allows Admins to setup and manage information about the educational institutions using an install of Marca

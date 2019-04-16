@@ -3,6 +3,7 @@
 namespace Marca\NoteBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -11,7 +12,7 @@ class NoteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title','text', array('label'  => 'Title','attr' => array('class' => 'text form-control'),))
+            ->add('title',TextType::class, array('label'  => 'Title','attr' => array('class' => 'text form-control'),))
             ->add('description', 'ckeditor', array('config_name' => 'editor_default',))
         ;
     }
@@ -23,7 +24,7 @@ class NoteType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_notebundle_notetype';
     }

@@ -2,13 +2,13 @@
 
 namespace Marca\CourseBundle\Form;
 
+use Marca\CourseBundle\Entity\TermRepository;
+use Marca\DocBundle\Entity\MarkupsetRepository;
+use Marca\PortfolioBundle\Entity\PortsetRepository;
+use Marca\TagBundle\Entity\TagsetRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Marca\DocBundle\Entity\MarkupsetRepository;
-use Marca\TagBundle\Entity\TagsetRepository;
-use Marca\CourseBundle\Entity\TermRepository;
-use Marca\PortfolioBundle\Entity\PortsetRepository;
 
 class OtherType extends AbstractType
 {
@@ -41,7 +41,7 @@ class OtherType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_coursebundle_coursetype';
     }

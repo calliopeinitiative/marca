@@ -2,16 +2,16 @@
 
 namespace Marca\AssignmentBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Marca\HomeBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Marca\AssignmentBundle\Entity\Review;
-use Marca\FileBundle\Entity\File;
 use Marca\AssignmentBundle\Entity\ReviewResponse;
 use Marca\AssignmentBundle\Entity\ReviewRubric;
 use Marca\AssignmentBundle\Form\ReviewType;
 use Marca\AssignmentBundle\Form\selectRubricType;
+use Marca\FileBundle\Entity\File;
+use Marca\HomeBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Review controller.

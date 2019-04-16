@@ -3,6 +3,7 @@
 namespace Marca\GradebookBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,7 +25,7 @@ class GradeType extends AbstractType
     {
         $options = $this->options;
         $builder
-            ->add('grade','number', array('attr' => array('class' => 'form-control'),))
+            ->add('grade',NumberType::class, array('attr' => array('class' => 'form-control'),))
             ->add('category', 'entity', array('class' => 'MarcaGradebookBundle:Category','property'=>'name','query_builder' =>
                 function(\Marca\GradebookBundle\Entity\CategoryRepository $er) use ($options) {
                     $gradesetid = $options['gradesetid'] ;
@@ -47,7 +48,7 @@ class GradeType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_gradebookbundle_grade';
     }

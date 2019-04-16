@@ -2,26 +2,26 @@
 
 namespace Marca\CourseBundle\Controller;
 
+use Marca\CourseBundle\Entity\Course;
+use Marca\CourseBundle\Entity\Project;
+use Marca\CourseBundle\Entity\Roll;
+use Marca\CourseBundle\Entity\Term;
+use Marca\CourseBundle\Form\AccessType;
+use Marca\CourseBundle\Form\AnnounceType;
+use Marca\CourseBundle\Form\CourseTermType;
+use Marca\CourseBundle\Form\CourseType;
+use Marca\CourseBundle\Form\ModuleType;
+use Marca\CourseBundle\Form\NameType;
+use Marca\CourseBundle\Form\OtherType;
+use Marca\CourseBundle\Form\PortType;
+use Marca\CourseBundle\Form\TimeType;
+use Marca\CourseBundle\Form\ToolsType;
 use Marca\HomeBundle\Controller\Controller;
+use Marca\HomeBundle\Entity\Page;
+use Marca\UserBundle\Entity\Profile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\CourseBundle\Entity\Course;
-use Marca\CourseBundle\Entity\Term;
-use Marca\CourseBundle\Entity\Roll;
-use Marca\UserBundle\Entity\Profile;
-use Marca\CourseBundle\Entity\Project;
-use Marca\HomeBundle\Entity\Page;
-use Marca\CourseBundle\Form\CourseType;
-use Marca\CourseBundle\Form\NameType;
-use Marca\CourseBundle\Form\CourseTermType;
-use Marca\CourseBundle\Form\TimeType;
-use Marca\CourseBundle\Form\ToolsType;
-use Marca\CourseBundle\Form\AccessType;
-use Marca\CourseBundle\Form\PortType;
-use Marca\CourseBundle\Form\ModuleType;
-use Marca\CourseBundle\Form\OtherType;
-use Marca\CourseBundle\Form\AnnounceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 

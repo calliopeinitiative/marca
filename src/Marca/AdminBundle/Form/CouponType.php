@@ -27,7 +27,7 @@ class CouponType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_adminbundle_institutiontype';
     }

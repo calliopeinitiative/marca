@@ -2,10 +2,11 @@
 
 namespace Marca\AssignmentBundle\Form;
 
+use Marca\AssignmentBundle\Entity\PromptItem;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Marca\AssignmentBundle\Entity\PromptItem;
 
 class PromptItemType extends AbstractType
 {
@@ -14,7 +15,7 @@ class PromptItemType extends AbstractType
         $builder
             ->add('prompt', 'ckeditor', array('config_name' => 'editor_simple',))
             ->add('helpText', 'ckeditor', array('config_name' => 'editor_simple',))
-            ->add('type', 'choice', array('choices'   => array(PromptItem::TYPE_SHORTTEXT => 'Short Text', PromptItem::TYPE_PARAGRAPHTEXT => 'Paragraph Text', PromptItem::TYPE_SCALE => 'Scale', PromptItem::TYPE_NORESPONSE => 'No Response'),'required'  => true,'label'  => 'Response Type', 'expanded' => true,'attr' => array('class' => 'radio'),))
+            ->add('type', ChoiceType::class, array('choices'   => array(PromptItem::TYPE_SHORTTEXT => 'Short Text', PromptItem::TYPE_PARAGRAPHTEXT => 'Paragraph Text', PromptItem::TYPE_SCALE => 'Scale', PromptItem::TYPE_NORESPONSE => 'No Response'),'required'  => true,'label'  => 'Response Type', 'expanded' => true,'attr' => array('class' => 'radio'),))
             ->add('scale','entity',array('class'=>'MarcaAssessmentBundle:Scale','property'=>'name', 'expanded' => true,'required'  => true,'attr' => array('class' => 'radio'),))        ;
     }
 
@@ -25,7 +26,7 @@ class PromptItemType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_assignmentbundle_promptitemtype';
     }

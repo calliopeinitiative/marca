@@ -2,12 +2,12 @@
 
 namespace Marca\CourseBundle\Controller;
 
+use Marca\CourseBundle\Entity\Term;
+use Marca\CourseBundle\Form\TermType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\CourseBundle\Entity\Term;
-use Marca\CourseBundle\Form\TermType;
 
 /**
  * Term controller.

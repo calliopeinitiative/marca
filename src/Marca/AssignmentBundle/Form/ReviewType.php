@@ -3,6 +3,9 @@
 namespace Marca\AssignmentBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,14 +22,14 @@ class ReviewType extends AbstractType
     {
         $options = $this->options;
         $builder
-            ->add('reviewresponses', 'collection', array(
+            ->add('reviewresponses', CollectionType::class, array(
                 'type'   => new ReviewResponseType($options),
                 'options'  => array(
                 'required'  => false),))
-            ->add('grade','text', array('attr' => array('class' => 'text form-control'),))
-            ->add('notes', 'textarea', array('attr' => array('class' => 'text form-control'),))
-            ->add('feedbackGrade','text', array('attr' => array('class' => 'text form-control'),))
-            ->add('feedbackComment', 'textarea', array('attr' => array('class' => 'text form-control'),))
+            ->add('grade',TextType::class, array('attr' => array('class' => 'text form-control'),))
+            ->add('notes', TextareaType::class, array('attr' => array('class' => 'text form-control'),))
+            ->add('feedbackGrade',TextType::class, array('attr' => array('class' => 'text form-control'),))
+            ->add('feedbackComment', TextareaType::class, array('attr' => array('class' => 'text form-control'),))
         ;
     }
 
@@ -37,7 +40,7 @@ class ReviewType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_assignmentbundle_reviewtype';
     }

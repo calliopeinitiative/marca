@@ -2,13 +2,13 @@
 
 namespace Marca\AssignmentBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
+use Marca\AssignmentBundle\Entity\ReviewRubric;
+use Marca\AssignmentBundle\Form\ReviewRubricType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\AssignmentBundle\Entity\ReviewRubric;
-use Marca\AssignmentBundle\Form\ReviewRubricType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * ReviewRubric controller.

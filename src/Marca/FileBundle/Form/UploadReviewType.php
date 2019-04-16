@@ -3,6 +3,9 @@
 namespace Marca\FileBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,8 +24,8 @@ class UploadReviewType extends AbstractType
         $role = $options['role'] ;
         if ($role==2) {
             $builder
-                ->add('file','file', array('label'  => ' '))
-                ->add('name','text', array('attr' => array('class' => 'text form-control', 'placeholder' => 'Name of your file'),))
+                ->add('file',FileType::class, array('label'  => ' '))
+                ->add('name',TextType::class, array('attr' => array('class' => 'text form-control', 'placeholder' => 'Name of your file'),))
                 ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' =>
                     function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
                         $courseid = $options['courseid'] ;
@@ -41,13 +44,13 @@ class UploadReviewType extends AbstractType
                             ->setParameter('tag',  '3');
                     }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Labels', 'attr' => array('class' => 'checkbox'),
                 ))
-                ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared', '2' => 'Hidden'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
+                ->add('access', ChoiceType::class, array('choices'   => array('0' => 'Private', '1' => 'Shared', '2' => 'Hidden'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
             ;
         }
         else {
             $builder
-                ->add('file','file', array('label'  => ' '))
-                ->add('name','text', array('attr' => array('class' => 'text form-control'),))
+                ->add('file',FileType::class, array('label'  => ' '))
+                ->add('name',TextType::class, array('attr' => array('class' => 'text form-control'),))
                 ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' =>
                     function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
                         $courseid = $options['courseid'] ;
@@ -66,7 +69,7 @@ class UploadReviewType extends AbstractType
                             ->setParameter('tag',  '3');
                     }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Labels', 'attr' => array('class' => 'checkbox'),
                 ))
-                ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
+                ->add('access', ChoiceType::class, array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
             ;
         }
     }
@@ -79,7 +82,7 @@ class UploadReviewType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_filebundle_filetype';
     }

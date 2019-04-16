@@ -3,6 +3,8 @@
 namespace Marca\CourseBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -11,9 +13,9 @@ class TermType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('termName','text', array('label'  => 'Term','attr' => array('class' => 'text form-control'),))
+            ->add('termName',TextType::class, array('label'  => 'Term','attr' => array('class' => 'text form-control'),))
             ->add('term', null, array('label' => 'Term ID Number (optional)', 'required' => 'false','attr' => array('class' => 'text form-control'),))
-            ->add('status', 'choice', array('choices' => array(
+            ->add('status', ChoiceType::class, array('choices' => array(
                 '0' => 'Inactive',
                 '1' => 'Active',
                 '2' => 'Continuing',
@@ -29,7 +31,7 @@ class TermType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_coursebundle_termtype';
     }

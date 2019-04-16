@@ -3,11 +3,11 @@
 namespace Marca\TagBundle\Controller;
 
 use Marca\HomeBundle\Controller\Controller;
+use Marca\TagBundle\Entity\Tag;
+use Marca\TagBundle\Form\TagType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\TagBundle\Entity\Tag;
-use Marca\TagBundle\Form\TagType;
 
 /**
  * Tag controller.

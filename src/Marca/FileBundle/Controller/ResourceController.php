@@ -2,18 +2,18 @@
 
 namespace Marca\FileBundle\Controller;
 
-use Marca\HomeBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
 use Marca\FileBundle\Form\LinkType;
 use Marca\FileBundle\Form\UploadType;
+use Marca\HomeBundle\Controller\Controller;
 use Marca\TagBundle\Entity\Tagset;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Resource controller.

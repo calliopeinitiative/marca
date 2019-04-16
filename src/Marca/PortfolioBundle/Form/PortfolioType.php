@@ -41,7 +41,7 @@ class PortfolioType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_portfoliobundle_portfoliotype';
     }

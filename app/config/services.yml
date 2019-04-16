@@ -15,3 +15,10 @@ services:
             - '@fos_user.user_manager'
             - '@doctrine.orm.entity_manager'
             - '@fos_user.util.token_generator'
+    course_path_twig_extension:
+        class: Marca\CourseBundle\Twig\CourseExtension
+        arguments:
+            - '@service_container'
+            - '@request_stack'
+        tags:
+                - { name: twig.extension }

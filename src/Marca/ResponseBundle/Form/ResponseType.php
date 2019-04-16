@@ -22,7 +22,7 @@ class ResponseType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_responsebundle_responsetype';
     }

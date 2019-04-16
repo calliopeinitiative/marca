@@ -33,7 +33,7 @@ class CategoryType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_gradebookbundle_category';
     }

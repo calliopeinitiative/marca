@@ -3,11 +3,11 @@
 namespace Marca\TagBundle\Controller;
 
 use Marca\HomeBundle\Controller\Controller;
+use Marca\TagBundle\Entity\Tagset;
+use Marca\TagBundle\Form\TagsetType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\TagBundle\Entity\Tagset;
-use Marca\TagBundle\Form\TagsetType;
 
 /**
  * Tagset controller.

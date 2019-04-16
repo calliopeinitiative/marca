@@ -7,10 +7,10 @@
 
 namespace Marca\DocBundle\Form\DataTransformer;
 
-use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\Common\Persistence\ObjectManager;
 use Marca\DocBundle\Entity\Markup;
+use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class ColorToCssTransformer implements DataTransformerInterface
 {

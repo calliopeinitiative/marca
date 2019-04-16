@@ -3,13 +3,13 @@
 namespace Marca\UserBundle\Controller;
 
 use Marca\HomeBundle\Controller\Controller;
+use Marca\HomeBundle\Entity\Page;
+use Marca\UserBundle\Form\NewuserType;
+use Marca\UserBundle\Form\ResearchType;
+use Marca\UserBundle\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\HomeBundle\Entity\Page;
-use Marca\UserBundle\Form\UserType;
-use Marca\UserBundle\Form\NewuserType;
-use Marca\UserBundle\Form\ResearchType;
 
 /**
  * Enroll controller.
@@ -47,9 +47,7 @@ class DefaultController extends Controller
         $archive = $em->getRepository('MarcaCourseBundle:Course')->findArchivedCourses($user);
         $possible_courses = '';
 
-
-
-        return array(
+        return $this->render('MarcaUserBundle:Default:index.html.twig', array(
             'user' => $user,
             'courses' => $courses,
             'roll' => $roll,
@@ -57,7 +55,8 @@ class DefaultController extends Controller
             'modules' => $modules,
             'archive' => $archive,
             'possible_courses' => $possible_courses,
-        );
+        ));
+
     }
 
     /**

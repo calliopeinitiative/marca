@@ -2,8 +2,8 @@
 
 namespace Marca\UserBundle\Form;
 
-use Symfony\Component\Form\FormBuilderInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 
 class RegistrationFormType extends BaseType 

@@ -2,15 +2,15 @@
 
 namespace Marca\CalendarBundle\Controller;
 
+use Dompdf\Dompdf;
+use Marca\CalendarBundle\Entity\Calendar;
+use Marca\CalendarBundle\Form\CalendarType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\CalendarBundle\Entity\Calendar;
-use Marca\CalendarBundle\Form\CalendarType;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Dompdf\Dompdf;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Calendar controller.

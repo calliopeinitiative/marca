@@ -24,7 +24,7 @@ class ObjectiveType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_assessmentbundle_objectivetype';
     }

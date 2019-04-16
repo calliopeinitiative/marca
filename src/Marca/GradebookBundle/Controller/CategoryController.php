@@ -2,13 +2,13 @@
 
 namespace Marca\GradebookBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
+use Marca\GradebookBundle\Entity\Category;
+use Marca\GradebookBundle\Form\CategoryType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\GradebookBundle\Entity\Category;
-use Marca\GradebookBundle\Form\CategoryType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Category controller.

@@ -2,10 +2,10 @@
 
 namespace Marca\HomeBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller as SymfonyController;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller as SymfonyController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class Controller extends SymfonyController
 {

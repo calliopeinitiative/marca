@@ -2,10 +2,10 @@
 
 namespace Marca\CourseBundle\Form;
 
+use Marca\CourseBundle\Entity\RollRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Marca\CourseBundle\Entity\RollRepository;
 
 class TeamType extends AbstractType
 {
@@ -35,7 +35,7 @@ class TeamType extends AbstractType
         ));
     }
     
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_coursebundle_teamtype';
     }

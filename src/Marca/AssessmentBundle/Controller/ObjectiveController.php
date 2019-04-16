@@ -2,12 +2,12 @@
 
 namespace Marca\AssessmentBundle\Controller;
 
+use Marca\AssessmentBundle\Entity\Objective;
+use Marca\AssessmentBundle\Form\ObjectiveType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\AssessmentBundle\Entity\Objective;
-use Marca\AssessmentBundle\Form\ObjectiveType;
 
 /**
  * Objective controller.

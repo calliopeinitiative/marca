@@ -2,20 +2,20 @@
 
 namespace Marca\FileBundle\Controller;
 
+use Marca\DocBundle\Entity\Doc;
+use Marca\FileBundle\Entity\File;
+use Marca\FileBundle\Form\DocType;
+use Marca\FileBundle\Form\FileType;
+use Marca\FileBundle\Form\LinkType;
+use Marca\FileBundle\Form\UploadReviewType;
 use Marca\HomeBundle\Controller\Controller;
+use Marca\TagBundle\Entity\Tagset;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Marca\FileBundle\Entity\File;
-use Marca\FileBundle\Form\FileType;
-use Marca\FileBundle\Form\LinkType;
-use Marca\FileBundle\Form\DocType;
-use Marca\FileBundle\Form\UploadReviewType;
-use Marca\TagBundle\Entity\Tagset;
-use Marca\DocBundle\Entity\Doc;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * File controller.

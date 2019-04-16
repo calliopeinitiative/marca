@@ -2,10 +2,10 @@
 
 namespace Marca\AssessmentBundle\Form;
 
+use Marca\AssessmentBundle\Entity\ScaleitemRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Marca\AssessmentBundle\Entity\ScaleitemRepository;
 
 class RatingType extends AbstractType
 {
@@ -36,7 +36,7 @@ class RatingType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_assessmentbundle_ratingtype';
     }

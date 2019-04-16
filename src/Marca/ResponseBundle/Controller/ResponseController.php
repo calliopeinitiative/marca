@@ -3,12 +3,12 @@
 namespace Marca\ResponseBundle\Controller;
 
 use Marca\HomeBundle\Controller\Controller;
+use Marca\ResponseBundle\Entity\Response;
+use Marca\ResponseBundle\Form\ResponseType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use Marca\ResponseBundle\Entity\Response;
-use Marca\ResponseBundle\Form\ResponseType;
 
 /**
  * Response controller.

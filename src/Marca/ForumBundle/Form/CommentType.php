@@ -22,7 +22,7 @@ class CommentType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_forumbundle_commenttype';
     }

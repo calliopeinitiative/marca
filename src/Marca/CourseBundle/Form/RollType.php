@@ -23,7 +23,7 @@ class RollType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_coursebundle_rolltype';
     }

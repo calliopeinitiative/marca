@@ -2,12 +2,12 @@
 
 namespace Marca\UserBundle\Security;
 
-use Marca\UserBundle\Entity\User;
 use BeSimple\SsoAuthBundle\Security\Core\User\UserFactoryInterface;
 use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Security\UserProvider;
 use FOS\UserBundle\Util\TokenGenerator;
+use Marca\UserBundle\Entity\User;
 
 class SSOUserProvider extends UserProvider implements UserFactoryInterface
 {

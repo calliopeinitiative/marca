@@ -3,12 +3,12 @@
 namespace Marca\DocBundle\Controller;
 
 
+use Marca\DocBundle\Entity\Tracking;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
-use Marca\DocBundle\Entity\Tracking;
 
 /**
  * Tracking controller.

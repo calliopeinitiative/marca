@@ -3,12 +3,12 @@
 namespace Marca\NoteBundle\Controller;
 
 use Marca\HomeBundle\Controller\Controller;
+use Marca\NoteBundle\Entity\Note;
+use Marca\NoteBundle\Form\NoteType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use Marca\NoteBundle\Entity\Note;
-use Marca\NoteBundle\Form\NoteType;
 
 /**
  * Note controller.

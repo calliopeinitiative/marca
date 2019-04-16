@@ -2,9 +2,9 @@
 
 namespace Marca\CourseBundle\Controller;
 
-use Marca\HomeBundle\Controller\Controller;
 use Marca\CourseBundle\Entity\Roll;
 use Marca\CourseBundle\Form\RollType;
+use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

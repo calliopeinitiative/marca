@@ -2,14 +2,14 @@
 
 namespace Marca\AssessmentBundle\Controller;
 
+use Marca\AssessmentBundle\Entity\Rating;
+use Marca\AssessmentBundle\Entity\Ratingset;
+use Marca\AssessmentBundle\Form\RatingsetType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use Marca\AssessmentBundle\Entity\Rating;
-use Marca\AssessmentBundle\Entity\Ratingset;
-use Marca\AssessmentBundle\Form\RatingsetType;
 
 /**
  * Ratingset controller.

@@ -2,13 +2,16 @@
 
 namespace Marca\CourseBundle\Form;
 
+use Marca\CourseBundle\Entity\TermRepository;
+use Marca\DocBundle\Entity\MarkupsetRepository;
+use Marca\PortfolioBundle\Entity\PortsetRepository;
+use Marca\TagBundle\Entity\TagsetRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Marca\DocBundle\Entity\MarkupsetRepository;
-use Marca\TagBundle\Entity\TagsetRepository;
-use Marca\CourseBundle\Entity\TermRepository;
-use Marca\PortfolioBundle\Entity\PortsetRepository;
 
 class CourseType extends AbstractType
 {
@@ -20,7 +23,7 @@ class CourseType extends AbstractType
         $userid = $course->getUser()->getId();
         $institutionid = $user->getInstitution()->getId();
         $builder
-            ->add('name','text', array('attr' => array('class' => 'text form-control'),))
+            ->add('name',TextType::class, array('attr' => array('class' => 'text form-control'),))
             ->add('term','entity', array('class'=>'MarcaCourseBundle:Term', 'query_builder' => function(TermRepository $tr) use ($institutionid){
             $qb = $tr->createQueryBuilder('MarcaCourseBundle:Term');
             $qb->select('t')->from('Marca\CourseBundle\Entity\Term', 't')->innerJoin('t.institution', 'i')->where('t.status != 3')->andWhere('i.id = ?1')->setParameter('1', $institutionid);
@@ -33,14 +36,14 @@ class CourseType extends AbstractType
             return $qb;
             }
             ,'choice_label'=>'name','expanded'=>true,'multiple'=>true, 'label' => 'Select associated modules','required' => true,'attr' => array('class' => 'checkbox'),))
-            ->add('time', 'time', array('widget' => 'single_text','label'=>'Course Time','attr' => array('class' => 'text form-control')))
-            ->add('enroll','checkbox', array('label'  => 'Allow students to enroll','label_attr' => array('class' => 'checkbox'),))
-            ->add('post', 'checkbox', array('label'  => 'Allow student to post documents','label_attr' => array('class' => 'checkbox'),))
-            ->add('studentForum', 'checkbox', array('label'  => 'Allow student to start Forum  threads','label_attr' => array('class' => 'checkbox'),))
-            ->add('notes', 'checkbox', array('label'  => 'Use the Notes tool','label_attr' => array('class' => 'checkbox'),))
-            ->add('forum', 'checkbox', array('label'  => 'Use the Forum','label_attr' => array('class' => 'checkbox'),))
-            ->add('journal', 'checkbox', array('label'  => 'Use the Journal','label_attr' => array('class' => 'checkbox'),))
-            ->add('portfolio', 'checkbox', array('label'  => 'Use the Portfolio','label_attr' => array('class' => 'checkbox inline'),))
+            ->add('time', TimeType::class, array('widget' => 'single_text','label'=>'Course Time','attr' => array('class' => 'text form-control')))
+            ->add('enroll',CheckboxType::class, array('label'  => 'Allow students to enroll','label_attr' => array('class' => 'checkbox'),))
+            ->add('post', CheckboxType::class, array('label'  => 'Allow student to post documents','label_attr' => array('class' => 'checkbox'),))
+            ->add('studentForum', CheckboxType::class, array('label'  => 'Allow student to start Forum  threads','label_attr' => array('class' => 'checkbox'),))
+            ->add('notes', CheckboxType::class, array('label'  => 'Use the Notes tool','label_attr' => array('class' => 'checkbox'),))
+            ->add('forum', CheckboxType::class, array('label'  => 'Use the Forum','label_attr' => array('class' => 'checkbox'),))
+            ->add('journal', CheckboxType::class, array('label'  => 'Use the Journal','label_attr' => array('class' => 'checkbox'),))
+            ->add('portfolio', CheckboxType::class, array('label'  => 'Use the Portfolio','label_attr' => array('class' => 'checkbox inline'),))
             ->add('portset','entity', array('class'=>'MarcaPortfolioBundle:Portset', 'query_builder' => function(PortsetRepository $pr) {
                     $qb = $pr->createQueryBuilder('MarcaPortfolioBundle:Portset');
                     $qb->select('p')->from('MarcaPortfolioBundle:Portset', 'p')->where('p.shared > 0')->andwhere('p.shared < 3');
@@ -68,7 +71,7 @@ class CourseType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_coursebundle_coursetype';
     }

@@ -3,6 +3,8 @@
 namespace Marca\FileBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,8 +21,8 @@ class LinkType extends AbstractType
     {
         $options = $this->options;
         $builder
-             ->add('name','text', array('attr' => array('class' => 'text form-control', 'placeholder' => 'Name of your link'),))
-             ->add('url','text', array('attr' => array('class' => 'text form-control', 'placeholder' => 'http://yourlink.edu'),))
+             ->add('name',TextType::class, array('attr' => array('class' => 'text form-control', 'placeholder' => 'Name of your link'),))
+             ->add('url',TextType::class, array('attr' => array('class' => 'text form-control', 'placeholder' => 'http://yourlink.edu'),))
              ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' => 
                 function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
                 $courseid = $options['courseid'] ;
@@ -44,7 +46,7 @@ class LinkType extends AbstractType
                         ->orderBy('c.name', 'ASC');
                 }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Labels', 'attr' => array('class' => 'checkbox'),
               ))  
-             ->add('access', 'choice', array('choices'   => array('0' => 'Private', '1' => 'Shared'),'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
+             ->add('access', ChoiceType::class, array('choices'   => array('0' => 'Private', '1' => 'Shared'),'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
             ;
     }
     
@@ -56,7 +58,7 @@ class LinkType extends AbstractType
     }
                  
                         
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_filebundle_filetype';
     }

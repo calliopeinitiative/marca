@@ -3,11 +3,11 @@
 namespace Marca\HomeBundle\Controller;
 
 use Marca\HomeBundle\Controller\Controller;
+use Marca\HomeBundle\Entity\Page;
+use Marca\HomeBundle\Form\PageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\HomeBundle\Entity\Page;
-use Marca\HomeBundle\Form\PageType;
 
 /**
  * Page controller.

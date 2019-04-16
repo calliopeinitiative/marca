@@ -2,13 +2,14 @@
 
 namespace Marca\CourseBundle\Form;
 
+use Marca\CourseBundle\Entity\TermRepository;
+use Marca\DocBundle\Entity\MarkupsetRepository;
+use Marca\PortfolioBundle\Entity\PortsetRepository;
+use Marca\TagBundle\Entity\TagsetRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Marca\DocBundle\Entity\MarkupsetRepository;
-use Marca\TagBundle\Entity\TagsetRepository;
-use Marca\CourseBundle\Entity\TermRepository;
-use Marca\PortfolioBundle\Entity\PortsetRepository;
 
 class AccessType extends AbstractType
 {
@@ -20,9 +21,9 @@ class AccessType extends AbstractType
         $userid = $course->getUser()->getId();
         $institutionid = $user->getInstitution()->getId();
         $builder
-            ->add('enroll','checkbox', array('label'  => 'Allow students to enroll','attr' => array('class' => 'checkbox'),))
-            ->add('post', 'checkbox', array('label'  => 'Allow student to post documents','attr' => array('class' => 'checkbox'),))
-            ->add('studentForum', 'checkbox', array('label'  => 'Allow student to start Forum  threads','attr' => array('class' => 'checkbox'),));
+            ->add('enroll',CheckboxType::class, array('label'  => 'Allow students to enroll','attr' => array('class' => 'checkbox'),))
+            ->add('post', CheckboxType::class, array('label'  => 'Allow student to post documents','attr' => array('class' => 'checkbox'),))
+            ->add('studentForum', CheckboxType::class, array('label'  => 'Allow student to start Forum  threads','attr' => array('class' => 'checkbox'),));
     }
     
     public function configureOptions(OptionsResolver $resolver)
@@ -32,7 +33,7 @@ class AccessType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_coursebundle_coursetype';
     }

@@ -3,6 +3,9 @@
 namespace Marca\AssessmentBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,16 +24,16 @@ class RatingsetType extends AbstractType
         $scale = $options['scale'];
         $role = $options['role'];
         if ($role == 4) {
-            $builder->add('notesforstudent', 'textarea', array('disabled' => true, 'label' => 'Notes for the student', 'attr' => array('class' => 'text form-control'),));
+            $builder->add('notesforstudent', TextareaType::class, array('disabled' => true, 'label' => 'Notes for the student', 'attr' => array('class' => 'text form-control'),));
         } else {
-            $builder->add('notesforstudent', 'textarea', array('disabled' => false, 'label' => 'Notes for the student', 'attr' => array('class' => 'text form-control'),));
+            $builder->add('notesforstudent', TextareaType::class, array('disabled' => false, 'label' => 'Notes for the student', 'attr' => array('class' => 'text form-control'),));
             }
         $builder
-            ->add('ratings', 'collection', array(
+            ->add('ratings', CollectionType::class, array(
                 'type' => new RatingType($scale),
                 'options' => array('required' => false),))
-            ->add('grade', 'integer', array('label' => 'Grade (must be an integer)', 'attr' => array('class' => 'text form-control'),))
-            ->add('notesforreviewer', 'textarea', array('label' => 'Notes for the reviewer', 'attr' => array('class' => 'text form-control'),));
+            ->add('grade', IntegerType::class, array('label' => 'Grade (must be an integer)', 'attr' => array('class' => 'text form-control'),))
+            ->add('notesforreviewer', TextareaType::class, array('label' => 'Notes for the reviewer', 'attr' => array('class' => 'text form-control'),));
 
 
     }
@@ -42,7 +45,7 @@ class RatingsetType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_assessmentbundle_ratingsettype';
     }

@@ -3,10 +3,13 @@
 namespace Marca\AssignmentBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ReviewResponseType extends AbstractType
 {
@@ -29,8 +32,8 @@ class ReviewResponseType extends AbstractType
 
             $form = $event->getForm();
             $form
-                ->add('responseShortText','text', array('attr' => array('class' => 'text form-control'), 'label'  => ' ',))
-                ->add('responseParagraphText', 'textarea', array('attr' => array('class' => 'text form-control'), 'label'  => ' ',))
+                ->add('responseShortText',TextType::class, array('attr' => array('class' => 'text form-control'), 'label'  => ' ',))
+                ->add('responseParagraphText', TextareaType::class, array('attr' => array('class' => 'text form-control'), 'label'  => ' ',))
                 ->add('scaleitem', 'entity', array('class' => 'MarcaAssessmentBundle:Scaleitem','property'=>'name','query_builder' =>
                     function(\Marca\AssessmentBundle\Entity\ScaleitemRepository $sc) use ($promptid) {
                         return $sc->createQueryBuilder('s')
@@ -40,7 +43,7 @@ class ReviewResponseType extends AbstractType
                             ->orderBy('s.value')
                             ->setParameter('id', $promptid) ;},
                     'expanded'=>true,'required'  => TRUE,'label'  => 'Select','attr' => array('class' => 'radio'),))
-                ->add('helpful', 'choice', array('choices'   => array(true => 'Yes', false => 'No'),'required'  => TRUE,'label'  => 'Was this helpful?', 'expanded' => true,'attr' => array('class' => 'radio inline'),));
+                ->add('helpful', ChoiceType::class, array('choices'   => array(true => 'Yes', false => 'No'),'required'  => TRUE,'label'  => 'Was this helpful?', 'expanded' => true,'attr' => array('class' => 'radio inline'),));
 
 
         });
@@ -54,7 +57,7 @@ class ReviewResponseType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_assignmentbundle_reviewresponsetype';
     }

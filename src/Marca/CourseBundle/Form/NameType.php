@@ -2,13 +2,15 @@
 
 namespace Marca\CourseBundle\Form;
 
+use Marca\CourseBundle\Entity\TermRepository;
+use Marca\DocBundle\Entity\MarkupsetRepository;
+use Marca\PortfolioBundle\Entity\PortsetRepository;
+use Marca\TagBundle\Entity\TagsetRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Marca\DocBundle\Entity\MarkupsetRepository;
-use Marca\TagBundle\Entity\TagsetRepository;
-use Marca\CourseBundle\Entity\TermRepository;
-use Marca\PortfolioBundle\Entity\PortsetRepository;
 
 class NameType extends AbstractType
 {
@@ -20,8 +22,8 @@ class NameType extends AbstractType
         $userid = $course->getUser()->getId();
         $institutionid = $user->getInstitution()->getId();
         $builder
-            ->add('name','text', array('attr' => array('class' => 'text form-control'),))
-            ->add('time', 'time', array('widget' => 'single_text','label'=>'Course Time','attr' => array('class' => 'text form-control')))
+            ->add('name',TextType::class, array('attr' => array('class' => 'text form-control'),))
+            ->add('time', TimeType::class, array('widget' => 'single_text','label'=>'Course Time','attr' => array('class' => 'text form-control')))
     ;}
     
     public function configureOptions(OptionsResolver $resolver)
@@ -31,7 +33,7 @@ class NameType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_coursebundle_coursetype';
     }

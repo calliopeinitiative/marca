@@ -3,6 +3,8 @@
 namespace Marca\GradebookBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,8 +18,8 @@ class AttendanceType extends AbstractType
     {
         $builder
             ->add('date')
-            ->add('date', 'date', array('widget' => 'single_text','format' => 'MM/dd/yyyy','label'  => 'Date','attr' => array('class' => 'text form-control')))
-            ->add('type', 'choice', array('choices'   => array('0' => 'Absent', '1' => 'Tardy'),'required'  => true, 'multiple'=>false,'label'  => '', 'expanded' => true,'attr' => array('class' => 'radio'),))
+            ->add('date', DateType::class, array('widget' => 'single_text','format' => 'MM/dd/yyyy','label'  => 'Date','attr' => array('class' => 'text form-control')))
+            ->add('type', ChoiceType::class, array('choices'   => array('0' => 'Absent', '1' => 'Tardy'),'required'  => true, 'multiple'=>false,'label'  => '', 'expanded' => true,'attr' => array('class' => 'radio'),))
         ;
     }
     
@@ -34,7 +36,7 @@ class AttendanceType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_gradebookbundle_attendance';
     }

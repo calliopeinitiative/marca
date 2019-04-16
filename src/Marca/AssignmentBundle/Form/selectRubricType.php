@@ -8,6 +8,7 @@
 namespace Marca\AssignmentBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +18,7 @@ class selectRubricType extends AbstractType
     {
         $builder
         //    ->add('rubric', 'entity', array('class'=>'MarcaAssignmentBundle:ReviewRubric', 'property'=>'name'))
-              ->add('rubric', 'integer')
+              ->add('rubric', IntegerType::class)
         ;
     }
     
@@ -28,7 +29,7 @@ class selectRubricType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_assignmentbundle_selectrubrictype';
     }

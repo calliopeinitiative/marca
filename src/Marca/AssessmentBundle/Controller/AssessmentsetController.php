@@ -2,12 +2,12 @@
 
 namespace Marca\AssessmentBundle\Controller;
 
+use Marca\AssessmentBundle\Entity\Assessmentset;
+use Marca\AssessmentBundle\Form\AssessmentsetType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\AssessmentBundle\Entity\Assessmentset;
-use Marca\AssessmentBundle\Form\AssessmentsetType;
 
 /**
  * Assessmentset controller.

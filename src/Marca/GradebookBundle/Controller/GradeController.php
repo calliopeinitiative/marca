@@ -2,13 +2,13 @@
 
 namespace Marca\GradebookBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Marca\GradebookBundle\Entity\Grade;
+use Marca\GradebookBundle\Form\GradeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\GradebookBundle\Entity\Grade;
-use Marca\GradebookBundle\Form\GradeType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Grade controller.

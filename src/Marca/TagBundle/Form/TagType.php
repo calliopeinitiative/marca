@@ -3,6 +3,7 @@
 namespace Marca\TagBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -11,8 +12,8 @@ class TagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name','text', array('label'  => 'Name','attr' => array('class' => 'text form-control'),))
-            ->add('color','text', array('attr' => array('class' => 'colorpicker'),'label'  => 'Color',) )
+            ->add('name',TextType::class, array('label'  => 'Name','attr' => array('class' => 'text form-control'),))
+            ->add('color',TextType::class, array('attr' => array('class' => 'colorpicker'),'label'  => 'Color',) )
         ;
     }
     
@@ -23,7 +24,7 @@ class TagType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'marca_tagbundle_tagtype';
     }

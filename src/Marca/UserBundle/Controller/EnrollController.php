@@ -2,15 +2,15 @@
 
 namespace Marca\UserBundle\Controller;
 
+use Marca\CourseBundle\Entity\Course;
+use Marca\CourseBundle\Entity\Roll;
 use Marca\HomeBundle\Controller\Controller;
+use Marca\UserBundle\Entity\User;
+use Marca\UserBundle\Form\ProfileType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use Marca\CourseBundle\Entity\Course;
-use Marca\UserBundle\Entity\User;
-use Marca\CourseBundle\Entity\Roll;
-use Marca\UserBundle\Form\ProfileType;
 
 /**
  * Enroll controller.

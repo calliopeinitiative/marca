@@ -2,13 +2,13 @@
 
 namespace Marca\AdminBundle\Controller;
 
+use Marca\AdminBundle\Form\AdminUserType;
 use Marca\HomeBundle\Controller\Controller;
+use Marca\UserBundle\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-use Marca\UserBundle\Entity\User;
-use Marca\AdminBundle\Form\AdminUserType;
 
 
 /**

@@ -3,11 +3,11 @@
 namespace Marca\PortfolioBundle\Controller;
 
 use Marca\HomeBundle\Controller\Controller;
+use Marca\PortfolioBundle\Entity\Portitem;
+use Marca\PortfolioBundle\Form\PortitemType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Marca\PortfolioBundle\Entity\Portitem;
-use Marca\PortfolioBundle\Form\PortitemType;
 
 /**
  * Portitem controller.
