@@ -730,15 +730,11 @@ class CourseController extends Controller
      */
     private function createEditForm(Course $course, $options)
     {
-        $form = $this->createForm(new AnnounceType($options), $course, array(
-            'action' => $this->generateUrl('announce_update', array('courseid' => $course->getId())),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        $form = $this->createForm(AnnounceType::class, $course);
         return $form;
     }
-    
+
+
     /**
      * Edits an existing Course entity.
      *
