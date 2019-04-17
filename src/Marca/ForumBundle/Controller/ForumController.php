@@ -106,12 +106,8 @@ class ForumController extends Controller
      */
     private function createCreateForm(Forum $forum, $courseid)
     {
-        $form = $this->createForm(new ForumType(), $forum, array(
-            'action' => $this->generateUrl('forum_create', array('courseid' => $courseid)),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        $form = $this->createForm(ForumType::class, $forum, [
+            'action' => $this->generateUrl('forum_create', ['id' => $forum->getId(), 'courseid' => $courseid])]);
         return $form;
     }
 
@@ -173,12 +169,11 @@ class ForumController extends Controller
 
         $options = array();
         $editForm = $this->createEditForm($forum, $courseid, $options);
-        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         return $this->render('MarcaForumBundle:Forum:edit.html.twig', array(
             'forum'      => $forum,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'courseid' => $courseid
         ));
     }
 
@@ -192,12 +187,8 @@ class ForumController extends Controller
      */
     private function createEditForm(Forum $forum, $courseid)
     {
-        $form = $this->createForm(new ForumType(), $forum, array(
-            'action' => $this->generateUrl('forum_update', array('id' => $forum->getId(),'courseid' => $courseid)),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        $form = $this->createForm(ForumType::class, $forum, [
+            'action' => $this->generateUrl('forum_update', ['id' => $forum->getId(), 'courseid' => $courseid])]);
         return $form;
     }
 
@@ -221,8 +212,6 @@ class ForumController extends Controller
         }
 
         $editForm = $this->createEditForm($forum, $courseid);
-        $deleteForm = $this->createDeleteForm($id, $courseid);
-
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -235,58 +224,22 @@ class ForumController extends Controller
         return $this->render('MarcaForumBundle:Forum:edit.html.twig', array(
             'forum'      => $forum,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
+
     /**
-     * Deletes a Forum entity.
-     *
-     * @Route("/{courseid}/{id}/delete", name="forum_delete")
-     * @Method("post")
+     * @Route("/{courseid}/{id}", name="forum_delete", methods="DELETE")
      */
-    public function deleteAction(Request $request, $courseid, $id)
+    public function delete(Request $request, Forum $forum, $courseid)
     {
-        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
-        $this->restrictAccessTo($request, $allowed);
-        $user = $this->getUser();
-        
-        $form = $this->createDeleteForm($id, $courseid);
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getEm();
-            $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
-
-            if (!$forum) {
-                throw $this->createNotFoundException('Unable to find Forum entity.');
-            }
-            elseif($user != $forum->getUser()){
-                throw new AccessDeniedException();
-            }
-
+        if ($this->isCsrfTokenValid('delete'.$forum->getId(), $request->request->get('_token'))) {
+            $em = $this->getDoctrine()->getManager();
             $em->remove($forum);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('forum', array('courseid' => $courseid, 'set' => 0)));
+        return $this->redirectToRoute('forum', ['courseid' => $courseid]);
     }
 
-    /**
-     * Creates a form to delete a Forum entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id, $courseid)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('forum_delete', array('id' => $id,'courseid' => $courseid,)))
-            ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
-            ->getForm()
-            ;
-    }
 }

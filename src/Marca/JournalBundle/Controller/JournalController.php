@@ -149,13 +149,13 @@ class JournalController extends Controller
 
         $options = array();
         $editForm = $this->createEditForm($journal, $courseid, $options);
-        $deleteForm = $this->createDeleteForm($id, $courseid);
+//        $deleteForm = $this->createDeleteForm($id, $courseid);
 
 
         return $this->render('MarcaJournalBundle:Journal:edit.html.twig',array(
             'journal'      => $journal,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
             'roll' => $roll,
             'role' => $role,
             'user' => $user
@@ -169,14 +169,10 @@ class JournalController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createEditForm(Journal $journal, $courseid, $options)
+    private function createEditForm(Journal $journal, $courseid)
     {
-        $form = $this->createForm(new JournalType($options), $journal, array(
-            'action' => $this->generateUrl('journal_update', array('id' => $journal->getId(),'courseid' => $courseid,)),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        $form = $this->createForm(JournalType::class, $journal, [
+            'action' => $this->generateUrl('journal_update', ['id' => $journal->getId(), 'courseid' => $courseid])]);
         return $form;
     }
 
@@ -310,12 +306,12 @@ class JournalController extends Controller
      */
     private function createDeleteForm($id, $courseid)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('journal_delete', array('id' => $id,'courseid' => $courseid,)))
-            ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
-            ->getForm()
-            ;
+//        return $this->createFormBuilder()
+//            ->setAction($this->generateUrl('journal_delete', array('id' => $id,'courseid' => $courseid,)))
+//            ->setMethod('POST')
+//            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+//            ->getForm()
+//            ;
     }
 
 
