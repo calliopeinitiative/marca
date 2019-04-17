@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
+            new FOS\CKEditorBundle\FOSCKEditorBundle(),
             new BeSimple\SsoAuthBundle\BeSimpleSsoAuthBundle(),
             new Marca\HomeBundle\MarcaHomeBundle(),
             new Marca\UserBundle\MarcaUserBundle(),

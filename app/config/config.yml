@@ -46,6 +46,8 @@ twig:
       cas:                    '%cas%'
       help_email:             '%help_email%'
       help_url:               '%help_url%'
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
 
 # Doctrine Configuration
 doctrine:
@@ -133,7 +135,7 @@ vich_uploader:
             delete_on_remove: true # determines whether to delete file upon removal of entity
             inject_on_load: true # determines whether to inject a File instance upon load
 
-ivory_ck_editor:
+fos_ck_editor:
     plugins:
         wordcount:
             path:     "bundles/marcahome/ckeditor/plugins/wordcount/"

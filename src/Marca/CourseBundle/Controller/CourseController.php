@@ -730,9 +730,11 @@ class CourseController extends Controller
      */
     private function createEditForm(Course $course, $options)
     {
-        $form = $this->createForm(AnnounceType::class, $course);
+        $form = $this->createForm(AnnounceType::class, $course, [
+            'action' => $this->generateUrl('announce_update', ['courseid' => $course->getId()])]);
         return $form;
     }
+
 
 
     /**
@@ -756,7 +758,7 @@ class CourseController extends Controller
 
         $editForm = $this->createEditForm($course, $options);
 
-        $editForm->submit($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($course);
