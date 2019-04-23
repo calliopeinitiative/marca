@@ -54,12 +54,8 @@ class CommentController extends Controller
      */
     private function createCreateForm(Comment $comment, $courseid, $forumid, $parentid)
     {
-        $form = $this->createForm(new CommentType(), $comment, array(
-            'action' => $this->generateUrl('comment_create', array('courseid' => $courseid, 'forumid' => $forumid, 'parentid' => $parentid)),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        $form = $this->createForm(CommentType::class, $comment, [
+            'action' => $this->generateUrl('comment_create', ['courseid' => $courseid, 'forumid' => $forumid, 'parentid' => $parentid])]);
         return $form;
     }
 
@@ -84,7 +80,6 @@ class CommentController extends Controller
         $comment->setUser($user);
         $comment->setForum($forum);     
         
-        $request = $this->getRequest();
         $form = $this->createCreateForm($comment, $courseid, $forumid, $parentid);
         $form->handleRequest($request);
 
@@ -149,12 +144,8 @@ class CommentController extends Controller
      */
     private function createEditForm(Comment $comment, $courseid, $forumid, $parentid)
     {
-        $form = $this->createForm(new CommentType(), $comment, array(
-            'action' => $this->generateUrl('comment_update', array('id' => $comment->getId(),'courseid' => $courseid, 'forumid' => $forumid, 'parentid' => $parentid)),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        $form = $this->createForm(CommentType::class, $comment, [
+            'action' => $this->generateUrl('comment_update', ['id' => $comment->getId(), 'courseid' => $courseid, 'forumid' => $forumid, 'parentid' => $parentid])]);
         return $form;
     }
 

@@ -147,12 +147,8 @@ class ReplyController extends Controller
      */
     private function createEditForm(Reply $reply, $commentid, $courseid)
     {
-        $form = $this->createForm(new ReplyType(), $reply, array(
-            'action' => $this->generateUrl('reply_update', array('id' => $reply->getId(),'courseid' => $courseid, 'commentid' => $commentid)),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        $form = $this->createForm(ReplyType::class, $reply, [
+            'action' => $this->generateUrl('reply_update', ['id' => $reply->getId(), 'courseid' => $courseid])]);
         return $form;
     }
 
