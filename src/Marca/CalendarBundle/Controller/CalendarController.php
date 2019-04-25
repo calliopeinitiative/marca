@@ -187,12 +187,8 @@ class CalendarController extends Controller
      */
     private function createCreateForm(Calendar $calendar, $courseid)
     {
-        $form = $this->createForm(new CalendarType(), $calendar, array(
-            'action' => $this->generateUrl('calendar_create', array('courseid' => $courseid)),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        $form = $this->createForm(CalendarType::class, $calendar, [
+            'action' => $this->generateUrl('calendar_create', ['courseid' => $courseid])]);
         return $form;
     }
 
@@ -278,12 +274,8 @@ class CalendarController extends Controller
      */
     private function createEditForm(Calendar $calendar, $courseid)
     {
-        $form = $this->createForm(new CalendarType(), $calendar, array(
-            'action' => $this->generateUrl('calendar_update', array('id' => $calendar->getId(),'courseid' => $courseid)),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        $form = $this->createForm(CalendarType::class, $calendar, [
+            'action' => $this->generateUrl('calendar_update', ['id' => $calendar->getId(), 'courseid' => $courseid])]);
         return $form;
     }
 
