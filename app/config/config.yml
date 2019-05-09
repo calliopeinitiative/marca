@@ -140,9 +140,6 @@ fos_ck_editor:
         wordcount:
             path:     "bundles/marcahome/ckeditor/plugins/wordcount/"
             filename: "plugin.js"
-        mediaembed:
-            path:     "bundles/marcahome/ckeditor/plugins/mediaembed/"
-            filename: "plugin.js"
         maxheight:
             path:     "bundles/marcahome/ckeditor/plugins/maxheight/"
             filename: "plugin.js"
@@ -152,7 +149,7 @@ fos_ck_editor:
             startupFocus: true
             toolbar: "toolbar_simple"
             removePlugins: "elementspath,contextmenu,liststyle,tabletools"
-            allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong em; ol ul li span(*); img[*]{*}; iframe{*}[*];'
+            allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong em; ol ul li span(*); img[*]{*};'
             disableNativeSpellChecker: false
             height: 150
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
@@ -160,9 +157,9 @@ fos_ck_editor:
             skin: "bootstrapck, ../../../../bundles/marcahome/ckeditor/skins/bootstrapck/"
             startupFocus: true
             toolbar: "toolbar_default"
-            extraPlugins: 'wordcount,mediaembed'
+            extraPlugins: 'wordcount'
             removePlugins: "elementspath,contextmenu,liststyle,tabletools"
-            allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong em; ol ul li span(*){font-size,font-family,color,background-color}; img[*]{*}; iframe{*}[*];'
+            allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong em; ol ul li span(*){font-size,font-family,color,background-color}; img[*]{*}; '
             disableNativeSpellChecker: false
             height: 300
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
@@ -172,9 +169,9 @@ fos_ck_editor:
             skin: "bootstrapck, ../../../../bundles/marcahome/ckeditor/skins/bootstrapck/"
             startupFocus: true
             toolbar: "toolbar_docs"
-            extraPlugins: 'wordcount,mediaembed,maxheight'
+            extraPlugins: 'wordcount,maxheight'
             removePlugins: "elementspath,contextmenu,liststyle,tabletools"
-            allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong s em; ol ul li span(*){font-size,font-family,color,background-color}[data-id]; img[*]{*}; iframe{*}[*];'
+            allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong s em; ol ul li span(*){font-size,font-family,color,background-color}[data-id]; img[*]{*}; '
             disableNativeSpellChecker: false
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
             stylesSet: 'marca_styles:../../bundles/marcahome/ckeditor/ckedit_styles.js'
@@ -182,7 +179,7 @@ fos_ck_editor:
             skin: "bootstrapck, ../../../../bundles/marcahome/ckeditor/skins/bootstrapck/"
             startupFocus: true
             toolbar: "toolbar_page"
-            extraPlugins: 'wordcount,mediaembed,maxheight'
+            extraPlugins: 'wordcount,maxheight'
             removePlugins: "elementspath,contextmenu,liststyle,tabletools"
             allowedContent: true
             disableNativeSpellChecker: false
@@ -192,6 +189,6 @@ fos_ck_editor:
     toolbars:
         configs:
             toolbar_simple: [ ['Bold','Italic','Underline','Strike'],['Link','Unlink'],['NumberedList','BulletedList']]
-            toolbar_default: [ ['Styles','Bold','Italic','Underline','Strike','JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor','FontSize'],['Link','Unlink','NumberedList','BulletedList','Outdent','Indent','Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'] ]
-            toolbar_docs: [ ['Styles','Bold','Italic','Underline','Strike','JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor','FontSize'],['Link','Unlink','NumberedList','BulletedList','Outdent','Indent','Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'] ]
+            toolbar_default: [ ['Styles','Bold','Italic','Underline','Strike','JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor','FontSize'],['Link','Unlink','NumberedList','BulletedList','Outdent','Indent','Image'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'] ]
+            toolbar_docs: [ ['Styles','Bold','Italic','Underline','Strike','JustifyLeft','JustifyCenter','JustifyRight','TextColor','BGColor','FontSize'],['Link','Unlink','NumberedList','BulletedList','Outdent','Indent','Image'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'] ]
             toolbar_page: [ ['Source','Styles','Bold','Italic','Underline','Strike','Font','FontSize'],['JustifyLeft','JustifyCenter','JustifyRight'],['TextColor','BGColor'],['Link','Unlink'],['NumberedList','BulletedList'],['Outdent','Indent'],['Image','MediaEmbed'],[ 'PasteText', 'PasteFromWord', 'Undo', 'Redo','RemoveFormat'],['About'] ]
