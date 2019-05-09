@@ -51,7 +51,11 @@
                     {# if journal has responses, do no show delete button #}
                     {% if journal.responses|length == 0%}
                         {# standard delete button for confirm #}
-                        <a class="btn btn-warning" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
+                        <form class="inline" method="post" action="{{ path('journal_delete', {'id': journal.id, 'courseid':journal.course.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ journal.id) }}">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
                     {% else %}
                         <span  class='alert' >Since this journal entry has at least one response, it can not be deleted.</span>
                     {% endif %}
@@ -59,8 +63,7 @@
             </div>
     </div>
 
-    {# Modal for Delete confirmation #}
-    {#{{ form(delete_form)|delete_modal }}#}
+
 
 {% endblock %}
 
