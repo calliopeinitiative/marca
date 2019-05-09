@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Note controller.
@@ -90,15 +91,14 @@ class NoteController extends Controller
         }
         $options = array();
         $editForm = $this->createEditForm($note, $courseid, $options);
-        $deleteForm = $this->createDeleteForm($id, $courseid);
+//        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         return array(
             'note'      => $note,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
         );
     }
-
 
     /**
      * Creates a form to edit a Note entity.
@@ -107,14 +107,10 @@ class NoteController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createEditForm(Note $note, $courseid, $options)
+    private function createEditForm(Note $note, $courseid)
     {
-        $form = $this->createForm(new NoteType($options), $note, array(
-            'action' => $this->generateUrl('note_update', array('id' => $note->getId(),'courseid' => $courseid,)),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        $form = $this->createForm(NoteType::class, $note, [
+            'action' => $this->generateUrl('note_update', ['id' => $note->getId(), 'courseid' => $courseid])]);
         return $form;
     }
 
@@ -125,7 +121,7 @@ class NoteController extends Controller
      * @Method("post")
      * @Template("MarcaNoteBundle:Note:edit.html.twig")
      */
-    public function updateAction($id, $courseid)
+    public function updateAction(Request $request, $id, $courseid)
     {
         $em = $this->getEm();
 
@@ -137,9 +133,7 @@ class NoteController extends Controller
 
         $options = array();
         $editForm = $this->createEditForm($note, $courseid, $options);
-        $deleteForm = $this->createDeleteForm($id, $courseid);
-
-        $request = $this->getRequest();
+//        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         $editForm->handleRequest($request);
 
@@ -153,7 +147,7 @@ class NoteController extends Controller
         return array(
             'note'      => $note,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -192,13 +186,13 @@ class NoteController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id, $courseid)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('note_delete', array('id' => $id,'courseid' => $courseid,)))
-            ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
-            ->getForm()
-            ;
-    }
+//    private function createDeleteForm($id, $courseid)
+//    {
+//        return $this->createFormBuilder()
+//            ->setAction($this->generateUrl('note_delete', array('id' => $id,'courseid' => $courseid,)))
+//            ->setMethod('POST')
+//            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+//            ->getForm()
+//            ;
+//    }
 }
