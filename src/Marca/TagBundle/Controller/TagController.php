@@ -6,7 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Marca\TagBundle\Entity\Tag;
 use Marca\TagBundle\Form\TagType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**

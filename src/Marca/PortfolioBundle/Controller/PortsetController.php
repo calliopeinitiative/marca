@@ -7,7 +7,7 @@ use Marca\PortfolioBundle\Entity\Portitem;
 use Marca\PortfolioBundle\Entity\Portset;
 use Marca\PortfolioBundle\Form\PortsetType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**

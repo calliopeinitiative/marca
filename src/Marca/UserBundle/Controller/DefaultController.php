@@ -8,7 +8,7 @@ use Marca\UserBundle\Form\NewuserType;
 use Marca\UserBundle\Form\ResearchType;
 use Marca\UserBundle\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**

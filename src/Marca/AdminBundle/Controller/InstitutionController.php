@@ -10,7 +10,7 @@ use Marca\CourseBundle\Form\TermType;
 use Marca\HomeBundle\Controller\Controller;
 use Marca\UserBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**

@@ -20,7 +20,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Marca\HomeBundle\Entity\Page;
 use Marca\UserBundle\Entity\Profile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
