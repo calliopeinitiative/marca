@@ -14,7 +14,7 @@ use Marca\CourseBundle\Form\ModuleType;
 use Marca\CourseBundle\Form\NameType;
 use Marca\CourseBundle\Form\OtherType;
 use Marca\CourseBundle\Form\PortType;
-use Marca\CourseBundle\Form\TimeType;
+use Marca\CourseBundle\Form\CoursetimeType;
 use Marca\CourseBundle\Form\ToolsType;
 use Marca\HomeBundle\Controller\Controller;
 use Marca\HomeBundle\Entity\Page;
@@ -541,8 +541,8 @@ class CourseController extends Controller
         ));
         }
         
-        elseif($formtype == 'TimeType'){
-            $form = $this->createForm(new TimeType(), $course, array(
+        elseif($formtype == 'CoursetimeType'){
+            $form = $this->createForm(new CoursetimeType(), $course, array(
             'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST',
         ));

@@ -11,13 +11,14 @@ use Vich\UploaderBundle\Naming\DirectoryNamerInterface;
 class DirectoryNamer implements DirectoryNamerInterface
 {
     /**
-     * Creates a name for the file being uploaded.
+     * Creates a directory name for the file being uploaded.
      *
-     * @param object $obj The object the upload is attached to.
-     * @param string $field The name of the uploadable field to generate a name for.
-     * @return string The file name.
+     * @param object          $object  The object the upload is attached to
+     * @param PropertyMapping $mapping The mapping to use to manipulate the given object
+     *
+     * @return string The directory name
      */
-    function directoryName($object, PropertyMapping $mapping)
+    public function directoryName($object, PropertyMapping $mapping):string
     {
         $course = $object->getCourse();
         $courseid = $course->getID();
