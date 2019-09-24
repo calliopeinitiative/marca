@@ -24,11 +24,10 @@
         "egeloen/ckeditor-bundle": "^6.0",
         "vich/uploader-bundle": "~1.9",
         "dompdf/dompdf": "^0.8.3",
-        "umpirsky/symfony-upgrade-fixer": "^0.1.6",
         "friendsofsymfony/ckeditor-bundle": "^2.1"
     },
     "require-dev": {
-        "symfony/web-server-bundle": "^4.2"
+        "rector/rector": "^0.5.12"
     },
     "scripts": {
         "post-install-cmd": [
