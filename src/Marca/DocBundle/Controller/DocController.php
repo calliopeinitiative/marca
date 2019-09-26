@@ -10,12 +10,15 @@ use Marca\DocBundle\Entity\Doc;
 use Marca\DocBundle\Form\DocType;
 use Marca\FileBundle\Entity\File;
 use Marca\HomeBundle\Controller\Controller;
+use Marca\JournalBundle\Entity\Journal;
+use Marca\JournalBundle\Form\JournalType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Doc controller.
@@ -170,7 +173,7 @@ class DocController extends Controller
      * @Route("/{courseid}/{id}/{view}/edit", name="doc_edit")
      * @Template()
      */
-    public function editAction(Request $request, $id)
+    public function editAction(Request $request, $id, $courseid, $view)
     {
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($request, $allowed);
@@ -201,7 +204,7 @@ class DocController extends Controller
             throw $this->createNotFoundException('Unable to find Doc entity.');
         }
 
-        $editForm = $this->createForm(new DocType(), $doc);
+        $editForm = $this->createEditForm($doc, $courseid, $view);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MarcaDocBundle:Doc:edit.html.twig', array(
@@ -237,10 +240,8 @@ class DocController extends Controller
         }
 
 
-        $editForm = $this->createForm(new DocType(), $doc);
+        $editForm = $this->createEditForm($doc, $courseid, $view);
         $deleteForm = $this->createDeleteForm($id);
-
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -326,9 +327,24 @@ class DocController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm();
     }
+
+    /**
+     * Creates a form to edit a Journal entity.
+     *
+     * @param Doc $doc
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Doc $doc, $courseid, $view)
+    {
+        $form = $this->createForm(DocType::class, $doc, [
+            'action' => $this->generateUrl('doc_update', ['id' => $doc->getId(), 'courseid' => $courseid, 'view' => $view])]);
+        return $form;
+    }
+
 
 
     /**

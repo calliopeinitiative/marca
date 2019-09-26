@@ -24,6 +24,8 @@ class DefaultController extends Controller
 
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
 
-        return array('pages' => $pages);
+        return $this->render('MarcaHomeBundle:Default:index.html.twig', array(
+            'pages' => $pages
+        ));
     }
 }

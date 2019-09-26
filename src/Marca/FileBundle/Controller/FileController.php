@@ -291,7 +291,7 @@ class FileController extends Controller
         $file->setProject($project);
 
         if ($type == 'link') {
-            $form = $this->createForm(new LinkType($options), $file);
+            $form = $this->createForm(LinkType::class,  $file, ['options' => $options]);
             return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
                 'file' => $file,
                 'resource' => $resource,
@@ -302,7 +302,7 @@ class FileController extends Controller
                 'form' => $form->createView()
             ));
         } elseif ($type == 'doc') {
-            $form = $this->createForm(new DocType($options), $file);
+            $form = $this->createForm(DocType::class, $file, ['options' => $options]);
             return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
                 'file' => $file,
                 'resource' => $resource,
@@ -333,7 +333,7 @@ class FileController extends Controller
                 'view' => 'window')));
         } elseif ($type == 'saveas') {
             $file->setName('SaveAs Document');
-            $form = $this->createForm(new DocType($options), $file);
+            $form = $this->createForm(DocType::class, $file, ['options' => $options]);
             return $this->render('MarcaFileBundle:File:new_modal.html.twig', array(
                 'file' => $file,
                 'resource' => $resource,
@@ -369,8 +369,8 @@ class FileController extends Controller
         $file->setCourse($course);
         $options = array('courseid' => $courseid, 'resource' => $resource);
 
-        $form = $this->createForm(new FileType($options), $file);
-        $form->submit($request);
+        $form = $this->createForm(FileType::class, $file, ['options' => $options]);
+        $form->handleRequest($request);
         if ($type == 'doc') {
             $doc = new Doc();
             $doc->setFile($file);
@@ -443,14 +443,14 @@ class FileController extends Controller
         }
         $file->setReviewed($reviewed_file);
         $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
-        $form = $this->createForm(new UploadReviewType($options), $file);
+        $form = $this->createForm(UploadReviewType::class, $file, ['options' => $options]);
         if (!$resource) {
             $resource = '0';
         }
 
 
         if ($request->getMethod() === 'POST') {
-            $form->submit($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $em = $this->getEm();
                 $em->persist($file);

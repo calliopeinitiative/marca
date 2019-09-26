@@ -6,6 +6,7 @@ use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
 use Marca\FileBundle\Form\LinkType;
 use Marca\FileBundle\Form\UploadType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Marca\HomeBundle\Controller\Controller;
 use Marca\TagBundle\Entity\Tagset;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -152,12 +153,12 @@ class ResourceController extends Controller
      */
     private function createEditLinkForm(File $file, $courseid, $options, $resource)
     {
-        $form = $this->createForm(new LinkType($options), $file, array(
+        $form = $this->createForm(LinkType::class, $file, array(
             'action' => $this->generateUrl('file_update', array('id' => $file->getId(), 'courseid' => $courseid, 'resource' => $resource)),
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Post', 'attr' => array('class' => 'btn btn-primary pull-right'),));
+        $form->add('submit', SubmitType::class, array('label' => 'Post', 'attr' => array('class' => 'btn btn-primary pull-right'),));
         return $form;
     }
 
@@ -188,7 +189,7 @@ class ResourceController extends Controller
             throw new AccessDeniedException();
         }
 
-        $editForm = $this->createForm(new FileType($options), $file);
+        $editForm = $this->createForm(FileType::class, $file, ['options' => $options]);
 
         $postData = $request->get('marca_filebundle_filetype');
         $project = $postData['project'];
@@ -319,7 +320,7 @@ class ResourceController extends Controller
         $file->setUser($user);
         $file->setCourse($course);
         $file->setProject($project);
-        $form = $this->createForm(new UploadType($options), $file);
+        $form = $this->createForm(UploadType::class, $file, ['options' => $options]);
 
         if ($request->getMethod() === 'POST') {
             $form->submit($request);

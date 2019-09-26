@@ -11,16 +11,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DocType extends AbstractType
 {
-    protected $options;
-
-     public function __construct (array $options)
-     {
-        $this->options = $options;
-     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $options = $this->options;
+        $courseid = $options[courseid];
         $builder
              ->add('name',TextType::class, array('label'  => 'Name','attr' => array('class' => 'text form-control', 'placeholder' => 'Name of your file'),))
              ->add('url',HiddenType::class)   

@@ -134,8 +134,8 @@
 
         <div class="col-sm-11 center">
             <form id="doc_form"
-                  action="{{ course_path('doc_update', { 'id': doc.id,'view': app.request.get('view') }) }}"
-                  method="post" {{ form_enctype(edit_form) }}>
+                  action="{{ course_path('doc_update', { 'id': doc.id, 'courseid': app.request.get('courseid'),'view': app.request.get('view') }) }}"
+                  method="post">
 
 
                 <div class="col-sm-12 center">

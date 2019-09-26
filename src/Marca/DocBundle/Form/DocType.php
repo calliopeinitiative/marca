@@ -5,13 +5,14 @@ namespace Marca\DocBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class DocType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('body', 'ckeditor', array('config_name' => 'editor_docs',))
+            ->add('body', CKEditorType::Class, ['config_name' => 'editor_docs'])
         ;
     }
     
