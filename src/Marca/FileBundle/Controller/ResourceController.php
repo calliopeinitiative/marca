@@ -191,13 +191,13 @@ class ResourceController extends Controller
 
         $editForm = $this->createForm(FileType::class, $file, ['options' => $options]);
 
-        $postData = $request->get('marca_filebundle_filetype');
-        $project = $postData['project'];
-        $resource = $em->getRepository('MarcaCourseBundle:Project')->find($project);
-        $resource = $resource->getResource();
-        if (!$resource) {
-            $resource = '0';
-        }
+//        $postData = $request->get('marca_filebundle_filetype');
+//        $project = $postData['project'];
+//        $resource = $em->getRepository('MarcaCourseBundle:Project')->find($project);
+//        $resource = $resource->getResource();
+//        if (!$resource) {
+//            $resource = '0';
+//        }
 
 
         $editForm->handleRequest($request);
