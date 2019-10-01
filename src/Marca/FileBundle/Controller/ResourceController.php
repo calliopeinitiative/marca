@@ -323,7 +323,7 @@ class ResourceController extends Controller
         $form = $this->createForm(UploadType::class, $file, ['options' => $options]);
 
         if ($request->getMethod() === 'POST') {
-            $form->submit($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $em = $this->getEm();
                 $em->persist($file);
