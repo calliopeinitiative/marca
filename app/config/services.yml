@@ -22,3 +22,13 @@ services:
             - '@request_stack'
         tags:
                 - { name: twig.extension }
+
+    directory_namer.upload_file:
+        class: Marca\FileBundle\Namer\DirectoryNamer
+        public: true
+        tags:
+            - { name: directory_namer }
+
+    vich_uploader.namer_origname.property_file:
+        class: Vich\UploaderBundle\Naming\OrignameNamer
+        public: true

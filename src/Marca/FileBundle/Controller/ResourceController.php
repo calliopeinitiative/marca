@@ -6,6 +6,7 @@ use Marca\FileBundle\Entity\File;
 use Marca\FileBundle\Form\FileType;
 use Marca\FileBundle\Form\LinkType;
 use Marca\FileBundle\Form\UploadType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Marca\HomeBundle\Controller\Controller;
 use Marca\TagBundle\Entity\Tagset;
@@ -252,7 +253,7 @@ class ResourceController extends Controller
 
         $form = $this->createDeleteForm($id);
 
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
@@ -288,7 +289,7 @@ class ResourceController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm();
     }
 
