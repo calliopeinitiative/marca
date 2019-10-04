@@ -135,8 +135,8 @@ vich_uploader:
         property_file:
             uri_prefix: '%vich_uri_prefix%'   # uri prefix to resource
             upload_destination: '%vich_upload_destination%'   # gaufrette storage fs id, required
-#            namer: vich_uploader.namer_origname # namer.upload_file  specify a file namer service id for this entity, null default
-#            directory_namer: directory_namer.upload_file  # specify a directory namer service id for this entity, null default
+            namer: vich_uploader.namer_origname # namer.upload_file  specify a file namer service id for this entity, null default
+            directory_namer: directory_namer.upload_file  # specify a directory namer service id for this entity, null default
 #            delete_on_remove: true # determines whether to delete file upon removal of entity
 #            inject_on_load: true # determines whether to inject a File instance upon load
 
