@@ -7,6 +7,7 @@ use Marca\CalendarBundle\Entity\Calendar;
 use Marca\CalendarBundle\Form\CalendarType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -213,7 +214,6 @@ class CalendarController extends Controller
         $calendar->setCourse($course);
 
         $form = $this->createCreateForm($calendar, $courseid);
-        $request = $this->getRequest();
         $form->handleRequest($request);
         
         if ($form->isValid()) {
@@ -305,8 +305,7 @@ class CalendarController extends Controller
         $eventid = $calendar->getId();
         $editForm = $this->createEditForm($calendar, $courseid);
         $deleteForm = $this->createDeleteForm($id, $courseid);
-
-        $request = $this->getRequest();
+        
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -372,7 +371,7 @@ class CalendarController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('calendar_delete', array('id' => $id, 'courseid' => $courseid)))
             ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+            ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
             ;
     }
