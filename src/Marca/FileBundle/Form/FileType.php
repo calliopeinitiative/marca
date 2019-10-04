@@ -43,7 +43,7 @@ class FileType extends AbstractType
                         ->orderBy('c.name', 'ASC');},
                  'choice_label' => 'name','expanded'=>true,'multiple'=>true, 'label'  => 'Select Labels', 'attr' => array('class' => 'checkbox'),
               ))  
-             ->add('access', ChoiceType::class, array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing','attr' => array('class' => 'radio'),))
+             ->add('access', ChoiceType::class, array('choices'   => array('Private' => '0', 'Shared' => '1'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing','attr' => array('class' => 'radio'),))
             ;
     }
     

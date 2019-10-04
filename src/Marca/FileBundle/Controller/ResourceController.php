@@ -114,9 +114,9 @@ class ResourceController extends Controller
 
         //test to see if this is a link update
         if (empty($url)) {
-            $editForm = $this->createEditForm($file, $courseid, $options, $resource);
+            $editForm = $this->createForm(FileType::class, $file, ['options' => $options]);
         } else {
-            $editForm = $this->createEditLinkForm($file, $courseid, $options, $resource);
+            $editForm = $this->createForm(LinkType::class, $file, ['options' => $options]);
         }
 
 
@@ -127,41 +127,35 @@ class ResourceController extends Controller
         ));
     }
 
-    /**
-     * Creates a form to edit a File entity.
-     *
-     * @param File $file
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createEditForm(File $file, $courseid, $options, $resource)
-    {
-        $form = $this->createForm(new FileType($options), $file, array(
-            'action' => $this->generateUrl('file_update', array('id' => $file->getId(), 'courseid' => $courseid, 'resource' => $resource)),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Post', 'attr' => array('class' => 'btn btn-primary pull-right'),));
-        return $form;
-    }
-
-    /**
-     * Creates a form to edit a File entity.
-     *
-     * @param File $file
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createEditLinkForm(File $file, $courseid, $options, $resource)
-    {
-        $form = $this->createForm(LinkType::class, $file, array(
-            'action' => $this->generateUrl('file_update', array('id' => $file->getId(), 'courseid' => $courseid, 'resource' => $resource)),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', SubmitType::class, array('label' => 'Post', 'attr' => array('class' => 'btn btn-primary pull-right'),));
-        return $form;
-    }
+//    /**
+//     * Creates a form to edit a File entity.
+//     *
+//     * @param File $file
+//     *
+//     * @return \Symfony\Component\Form\Form The form
+//     */
+//    private function createEditForm(File $file, $options)
+//    {
+//        $form = $this->createForm(FileType::class, $file, $options,
+//            ['action' => $this->generateUrl('file_update', ['id' => $file->getId(), 'courseid' => $options['courseid'], 'resource' => $options['resource']]),
+//            'method' => 'POST']);
+//        return $form;
+//    }
+//
+//    /**
+//     * Creates a form to edit a File entity.
+//     *
+//     * @param File $file
+//     *
+//     * @return \Symfony\Component\Form\Form The form
+//     */
+//    private function createEditLinkForm(File $file, $options)
+//    {
+//        $form = $this->createForm(LinkType::class, $file,
+//            ['action' => $this->generateUrl('file_update', ['id' => $file->getId(), 'courseid' => $options['courseid'], 'resource' => $options['resource']]),
+//                'method' => 'POST']);
+//        return $form;
+//    }
 
 
     /**

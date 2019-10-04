@@ -44,9 +44,9 @@ class LinkType extends AbstractType
                         ->setParameter('course', $courseid)        
                         ->orderBy('c.name', 'ASC');
                 },'choice_label' => 'name', 'expanded'=>true,'multiple'=>true, 'label'  => 'Labels', 'attr' => array('class' => 'checkbox'),
-              ))  
-             ->add('access', ChoiceType::class, array('choices'   => array('0' => 'Private', '1' => 'Shared'),'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
-            ;
+              ))
+            ->add('access', ChoiceType::class, array('choices'   => array('Private' => '0', 'Shared' => '1'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing','attr' => array('class' => 'radio'),))
+        ;
     }
     
     public function configureOptions(OptionsResolver $resolver)

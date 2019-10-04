@@ -14,7 +14,12 @@
             <h4 class="modal-title">File Settings</h4>
         </div>
         <div class="modal-body">
-            {{ form(edit_form) }}
+            <form action="{{ path('file_update', {'id': file.id, 'courseid':file.course.id, 'resource':app.request.get('resource')}) }}" method="post"  novalidate="novalidate">
+                <div class="modal-body">
+                    {{ form_widget(edit_form) }}
+                    <button type="submit" class="btn btn-primary pull-right" type="submit">Post</button>
+                </div>
+            </form>
         </div>
     </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
