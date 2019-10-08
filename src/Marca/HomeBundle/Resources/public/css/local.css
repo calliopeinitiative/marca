@@ -587,6 +587,10 @@ li.dropdown a {
     border-top:none !important;
 }
 
+button.btn-primary {
+    float:right;
+}
+
 
 /********** End 05. Bootstrap Elements **********/
 
