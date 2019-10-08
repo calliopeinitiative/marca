@@ -5,6 +5,7 @@ namespace Marca\NoteBundle\Controller;
 use Marca\HomeBundle\Controller\Controller;
 use Marca\NoteBundle\Entity\Note;
 use Marca\NoteBundle\Form\NoteType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -34,7 +35,6 @@ class NoteController extends Controller
      * Lists all Note entities.
      *
      * @Route("/{courseid}/", name="note")
-     * @Template()
      */
     public function indexAction(Request $request)
     {
@@ -44,7 +44,9 @@ class NoteController extends Controller
 
         $notes = $em->getRepository('MarcaNoteBundle:Note')->findNotes($user, $course);
 
-        return array('notes' => $notes);
+        return $this->render('MarcaNoteBundle:Note:index.html.twig', array(
+            'notes' => $notes
+        ));
     }
 
 
@@ -52,7 +54,6 @@ class NoteController extends Controller
      * Displays a form to create a new Note entity.
      *
      * @Route("/{courseid}/new", name="note_new")
-     * @Template()
      */
     public function newAction(Request $request, $courseid)
     {
@@ -78,7 +79,6 @@ class NoteController extends Controller
      * Displays a form to edit an existing Note entity.
      *
      * @Route("/{courseid}/{id}/edit", name="note_edit")
-     * @Template()
      */
     public function editAction($id, $courseid)
     {
@@ -91,13 +91,13 @@ class NoteController extends Controller
         }
         $options = array();
         $editForm = $this->createEditForm($note, $courseid, $options);
-//        $deleteForm = $this->createDeleteForm($id, $courseid);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
-        return array(
+        return $this->render('MarcaNoteBundle:Note:edit.html.twig', array(
             'note'      => $note,
             'edit_form'   => $editForm->createView(),
-//            'delete_form' => $deleteForm->createView(),
-        );
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
@@ -119,7 +119,6 @@ class NoteController extends Controller
      *
      * @Route("/{courseid}/{id}/update", name="note_update")
      * @Method("post")
-     * @Template("MarcaNoteBundle:Note:edit.html.twig")
      */
     public function updateAction(Request $request, $id, $courseid)
     {
@@ -133,9 +132,9 @@ class NoteController extends Controller
 
         $options = array();
         $editForm = $this->createEditForm($note, $courseid, $options);
-//        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         $editForm->handleRequest($request);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         if ($editForm->isValid()) {
             $em->persist($note);
@@ -144,11 +143,11 @@ class NoteController extends Controller
             return $this->redirect($this->generateUrl('note', array('courseid' => $courseid)));
         }
 
-        return array(
+        return $this->render('MarcaNoteBundle:Note:edit.html.twig', array(
             'note'      => $note,
             'edit_form'   => $editForm->createView(),
-//            'delete_form' => $deleteForm->createView(),
-        );
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
@@ -157,10 +156,9 @@ class NoteController extends Controller
      * @Route("/{courseid}/{id}/delete", name="note_delete")
      * @Method("post")
      */
-    public function deleteAction($id, $courseid)
+    public function deleteAction(Request $request,$id, $courseid)
     {
         $form = $this->createDeleteForm($id, $courseid);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -179,6 +177,8 @@ class NoteController extends Controller
             return $this->redirect($this->generateUrl('note', array('courseid' => $courseid)));
     }
 
+
+
     /**
      * Creates a form to delete a Note entity by id.
      *
@@ -186,13 +186,15 @@ class NoteController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-//    private function createDeleteForm($id, $courseid)
-//    {
-//        return $this->createFormBuilder()
-//            ->setAction($this->generateUrl('note_delete', array('id' => $id,'courseid' => $courseid,)))
-//            ->setMethod('POST')
-//            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
-//            ->getForm()
-//            ;
-//    }
+    private function createDeleteForm($id, $courseid)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('note_delete', array('id' => $id,'courseid' => $courseid,)))
+            ->setMethod('POST')
+            ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+            ->getForm()
+            ;
+    }
 }
+
+
