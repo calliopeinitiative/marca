@@ -339,7 +339,6 @@ class CalendarController extends Controller
         $this->restrictAccessTo($request, $allowed);
 
         $form = $this->createDeleteForm($id, $courseid);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
