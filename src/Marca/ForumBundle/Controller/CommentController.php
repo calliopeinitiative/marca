@@ -4,6 +4,7 @@ namespace Marca\ForumBundle\Controller;
 
 use Marca\ForumBundle\Entity\Comment;
 use Marca\ForumBundle\Form\CommentType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
@@ -171,8 +172,6 @@ class CommentController extends Controller
         $editForm = $this->createEditForm($comment, $courseid, $id, $parentid);
         $deleteForm = $this->createDeleteForm($id, $courseid);
 
-        $request = $this->getRequest();
-
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -202,7 +201,6 @@ class CommentController extends Controller
         $this->restrictAccessTo($request, $allowed);
         
         $form = $this->createDeleteForm($id, $courseid);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -234,7 +232,7 @@ class CommentController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('comment_delete', array('id' => $id,'courseid' => $courseid,)))
             ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+            ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
             ;
     }

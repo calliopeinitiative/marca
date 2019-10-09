@@ -6,6 +6,7 @@ use Marca\ForumBundle\Entity\Reply;
 use Marca\ForumBundle\Form\ReplyType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,12 +56,12 @@ class ReplyController extends Controller
      */
     private function createCreateForm(Reply $reply, $commentid, $courseid)
     {
-        $form = $this->createForm(new ReplyType(), $reply, array(
+        $form = $this->createForm(ReplyType::class, $reply, array(
             'action' => $this->generateUrl('reply_create', array('courseid' => $courseid, 'commentid' => $commentid)),
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+        $form->add('submit', SubmitType::class, array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
         return $form;
     }
 
@@ -82,8 +83,7 @@ class ReplyController extends Controller
         $user = $this->getUser();    
         $reply->setUser($user);
         $reply->setComment($comment);
-        
-        $request = $this->getRequest();
+
         $form = $this->createCreateForm($reply, $commentid, $courseid);
         $form->handleRequest($request);
 
@@ -148,7 +148,7 @@ class ReplyController extends Controller
     private function createEditForm(Reply $reply, $commentid, $courseid)
     {
         $form = $this->createForm(ReplyType::class, $reply, [
-            'action' => $this->generateUrl('reply_update', ['id' => $reply->getId(), 'courseid' => $courseid])]);
+            'action' => $this->generateUrl('reply_update', ['id' => $reply->getId(),'commentid' => $commentid, 'courseid' => $courseid])]);
         return $form;
     }
 
@@ -173,8 +173,6 @@ class ReplyController extends Controller
 
         $editForm = $this->createEditForm($reply, $commentid, $courseid);
         $deleteForm = $this->createDeleteForm($id, $courseid);
-
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -205,7 +203,6 @@ class ReplyController extends Controller
         $this->restrictAccessTo($request, $allowed);
         
         $form = $this->createDeleteForm($id, $courseid);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -236,7 +233,7 @@ class ReplyController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('reply_delete', array('id' => $id,'courseid' => $courseid,)))
             ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+            ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
             ;
     }
