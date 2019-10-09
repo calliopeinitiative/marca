@@ -6,6 +6,7 @@ use Marca\ForumBundle\Entity\Forum;
 use Marca\ForumBundle\Form\ForumType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -115,7 +116,6 @@ class ForumController extends Controller
      * Creates a new Forum entity.
      *
      * @Route("/{courseid}/create", name="forum_create")
-     * @Method("post")
      */
     public function createAction(Request $request, $courseid)
     {
@@ -169,10 +169,12 @@ class ForumController extends Controller
 
         $options = array();
         $editForm = $this->createEditForm($forum, $courseid, $options);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         return $this->render('MarcaForumBundle:Forum:edit.html.twig', array(
             'forum'      => $forum,
             'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
             'courseid' => $courseid
         ));
     }
@@ -197,7 +199,6 @@ class ForumController extends Controller
      * Edits an existing Forum entity.
      *
      * @Route("/{courseid}/{id}/update", name="forum_update")
-     * @Method("post")
      */
     public function updateAction(Request $request, $courseid, $id)
     {
@@ -213,6 +214,7 @@ class ForumController extends Controller
 
         $editForm = $this->createEditForm($forum, $courseid);
         $editForm->handleRequest($request);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         if ($editForm->isValid()) {
             $em->persist($forum);
@@ -224,22 +226,52 @@ class ForumController extends Controller
         return $this->render('MarcaForumBundle:Forum:edit.html.twig', array(
             'forum'      => $forum,
             'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
         ));
     }
 
 
     /**
-     * @Route("/{courseid}/{id}", name="forum_delete", methods="DELETE")
+     * Deletes a Note entity.
+     *
+     * @Route("/{courseid}/{id}/delete", name="forum_delete")
      */
-    public function delete(Request $request, Forum $forum, $courseid)
+    public function deleteAction(Request $request,$id, $courseid)
     {
-        if ($this->isCsrfTokenValid('delete'.$forum->getId(), $request->request->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($forum);
+        $form = $this->createDeleteForm($id, $courseid);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getEm();
+            $note = $em->getRepository('MarcaForumBundle:Forum')->find($id);
+
+            if (!$note) {
+                throw $this->createNotFoundException('Unable to find Forum entity.');
+            }
+
+            $em->remove($note);
             $em->flush();
         }
 
-        return $this->redirectToRoute('forum', ['courseid' => $courseid]);
+        return $this->redirect($this->generateUrl('forum', array('courseid' => $courseid)));
     }
 
+
+/**
+ * Creates a form to delete a Forum entity by id.
+ *
+ * @param mixed $id The entity id
+ *
+ * @return \Symfony\Component\Form\Form The form
+ */
+private function createDeleteForm($id, $courseid)
+{
+    return $this->createFormBuilder()
+        ->setAction($this->generateUrl('forum_delete', array('id' => $id,'courseid' => $courseid,)))
+        ->setMethod('POST')
+        ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+        ->getForm()
+        ;
+}
 }

@@ -25,16 +25,16 @@
                 <div class="panel-body">
                     {{ form(edit_form) }}
                     {% if forum.comments|length == 0%}
-                        <form method="post" action="{{ path('forum_delete', {'id': forum.id, 'courseid': courseid }) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ forum.id) }}">
-                            <button class="btn btn-danger">Delete</button>
-                        </form>
+                        <a class="btn btn-warning" id='toggle_modal' title='Delete'
+                           href='javascript:void(0);'>Delete</a>
                     {% else %}
                         <span>Since this forum has at least one comment, it can not be deleted.</span>
                     {% endif %}
                 </div>
         </div>
     </div>
+
+    {# Modal for Delete confirmation #}
+    {{ form(delete_form)|delete_modal }}
 
 {% endblock %}
