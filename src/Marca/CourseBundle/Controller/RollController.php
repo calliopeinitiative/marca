@@ -6,6 +6,7 @@ use Marca\CourseBundle\Entity\Roll;
 use Marca\CourseBundle\Form\RollType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,14 +30,11 @@ class RollController extends Controller
         $this->restrictAccessTo($request, $allowed);
 
         $course = $this->getCourse($request);
-        $full_roll = $this->getRoll($request);
+        $roll = $this->getRoll($request);
         $role = $this->getCourseRole($request);
-        $paginator = $this->get('knp_paginator');
-        $roll = $paginator->paginate($full_roll,$this->get('request')->query->get('page',1),100);
 
         return $this->render('MarcaCourseBundle:Roll:index.html.twig', array(
             'roll' => $roll,
-            'full_roll' => $full_roll,
             'course' => $course,
             'role'=> $role
         ));
@@ -173,7 +171,6 @@ class RollController extends Controller
         $this->restrictAccessTo($request, $allowed);
         
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -195,7 +192,7 @@ class RollController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }
