@@ -8,6 +8,7 @@ use Marca\UserBundle\Form\NewuserType;
 use Marca\UserBundle\Form\ResearchType;
 use Marca\UserBundle\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -21,7 +22,6 @@ class DefaultController extends Controller
 
     /**
      * @Route("/home", name="user_home")
-     * @Template()
      */
     public function indexAction()
     {
@@ -57,6 +57,7 @@ class DefaultController extends Controller
             'possible_courses' => $possible_courses,
         ));
 
+
     }
 
     /**
@@ -81,7 +82,6 @@ class DefaultController extends Controller
      * Finds and displays a User profile.
      *
      * @Route("/show", name="user_show")
-     * @Template()
      */
     public function showAction()
     {
@@ -89,7 +89,10 @@ class DefaultController extends Controller
         if (!$user) {
             throw $this->createNotFoundException('Unable to find Profile entity.');
         }
-        return array('user' => $user);
+
+        return $this->render('MarcaUserBundle:Default:show.html.twig', array(
+            'user' => $user,
+        ));
     }
 
 
@@ -97,9 +100,8 @@ class DefaultController extends Controller
      * Displays a form to edit an existing User entity.
      *
      * @Route("/{id}/edit", name="user_edit")
-     * @Template()
      */
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
 
         $user = $this->getUser();
@@ -109,16 +111,16 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('Unable to find User entity.');
         }
         if (strlen($user->getLastname())==0 || strlen($user->getFirstname())==0) {
-            $editForm = $this->createForm(new NewuserType(), $user);
+            $editForm = $this->createForm(NewuserType::class, $user);
         }
         else {
-            $editForm = $this->createForm(new UserType(), $user);
+            $editForm = $this->createForm(UserType::class, $user);
         }
 
-        return array(
-            'user'      => $user,
+        return $this->render('MarcaUserBundle:Default:edit.html.twig', array(
+            'user' => $user,
             'edit_form'   => $editForm->createView(),
-        );
+        ));
     }
 
 
@@ -126,9 +128,8 @@ class DefaultController extends Controller
      * Displays a form to edit Research consent.
      *
      * @Route("/{id}/research", name="user_research")
-     * @Template("MarcaUserBundle:Default:research.html.twig")
      */
-    public function researchAction($id)
+    public function researchAction(Request $request, $id)
     {
         $em = $this->getEm();
 
@@ -145,11 +146,11 @@ class DefaultController extends Controller
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
         $editForm = $this->createForm(new ResearchType(), $user);
 
-        return array(
+        return $this->render('MarcaUserBundle:Default:research.html.twig', array(
             'user'      => $user,
             'edit_form'   => $editForm->createView(),
             'pages' => $pages,
-        );
+        ));
     }
 
 
@@ -157,10 +158,8 @@ class DefaultController extends Controller
      * Edits an existing User entity.
      *
      * @Route("/{id}/update", name="user_update")
-     * @Method("post")
-     * @Template("MarcaUserBundle:Default:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction(Request $request, $id)
     {
         $em = $this->getEm();
 
@@ -177,9 +176,7 @@ class DefaultController extends Controller
             $user->setInstitution($institution);
         }
 
-        $editForm   = $this->createForm(new UserType(), $user);
-
-        $request = $this->getRequest();
+        $editForm   = $this->createForm(UserType::class, $user);
 
         $editForm->handleRequest($request);
 
@@ -190,10 +187,10 @@ class DefaultController extends Controller
             return $this->redirect($this->generateUrl('user_show'));
         }
 
-        return array(
+        return $this->render('MarcaUserBundle:Default:edit.html.twig', array(
             'user'      => $user,
             'edit_form'   => $editForm->createView(),
-        );
+        ));
     }
 
 
@@ -201,10 +198,8 @@ class DefaultController extends Controller
      * Edits an existing User entity.
      *
      * @Route("/{id}/updateresearch", name="user_updateresearch")
-     * @Method("post")
-     * @Template("MarcaUserBundle:Default:research.html.twig")
      */
-    public function updateResearchAction($id)
+    public function updateResearchAction(Request $request, $id)
     {
         $em = $this->getEm();
 
@@ -213,8 +208,6 @@ class DefaultController extends Controller
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
-
-
 
         $editForm   = $this->createForm(new ResearchType(), $user);
 
@@ -230,10 +223,11 @@ class DefaultController extends Controller
             return $this->redirect($this->generateUrl('user_show'));
         }
 
-        return array(
+
+        return $this->render('MarcaUserBundle:Default:research.html.twig', array(
             'user'      => $user,
             'edit_form'   => $editForm->createView(),
-        );
+        ));
     }
 
 }

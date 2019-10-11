@@ -2,12 +2,10 @@
 
 namespace Marca\UserBundle\Controller;
 
-use Marca\CourseBundle\Entity\Course;
-use Marca\CourseBundle\Entity\Roll;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Marca\HomeBundle\Controller\Controller;
 use Marca\UserBundle\Entity\User;
 use Marca\UserBundle\Form\ProfileType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +19,6 @@ class EnrollController extends Controller
 {
     /**
      * @Route("/")
-     * @Template()
      */
     public function indexAction()
     {
@@ -48,7 +45,7 @@ class EnrollController extends Controller
 
         $find_user = new User();
         $form = $this->createFormBuilder($find_user)
-            ->add('lastname','text', array('label'  => ' ','attr' => array('class' => 'text form-control'),))
+            ->add('lastname',TextType::class, array('label'  => ' ','attr' => array('class' => 'text form-control'),))
             ->getForm();
 
         $possible_courses = '';
@@ -69,7 +66,7 @@ class EnrollController extends Controller
      * @Route("/list", name="enroll_list")
      * @Template("MarcaUserBundle:Default:index.html.twig")
      */
-    public function listCourseAction()
+    public function listCourseAction(Request $request)
     {
         $em = $this->getEm();
         $user = $this->getUser();
@@ -82,10 +79,9 @@ class EnrollController extends Controller
         
         $find_user = new User();
         $form = $this->createFormBuilder($find_user)
-            ->add('lastname','text', array('label'  => ' ','attr' => array('class' => 'text form-control'),))
+            ->add('lastname',TextType::class, array('label'  => ' ','attr' => array('class' => 'text form-control'),))
             ->getForm();
-        
-       $request = $this->get('request');
+
        $postData = $request->request->get('form');
        $lastname = $postData['lastname'];
        $em = $this->getEm(); 
@@ -105,7 +101,6 @@ class EnrollController extends Controller
     
       /**
      * @Route("/{courseid}/enroll", name="enroll_enroll")
-     * @Template()
      */
     public function enrollCourseAction(Request $request, $courseid)
     {
