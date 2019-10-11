@@ -244,13 +244,13 @@ class ForumController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getEm();
-            $note = $em->getRepository('MarcaForumBundle:Forum')->find($id);
+            $forum = $em->getRepository('MarcaForumBundle:Forum')->find($id);
 
-            if (!$note) {
+            if (!$forum) {
                 throw $this->createNotFoundException('Unable to find Forum entity.');
             }
 
-            $em->remove($note);
+            $em->remove($forum);
             $em->flush();
         }
 

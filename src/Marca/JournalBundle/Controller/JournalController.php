@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Marca\JournalBundle\Entity\Journal;
 use Marca\JournalBundle\Form\JournalType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -149,13 +150,13 @@ class JournalController extends Controller
 
         $options = array();
         $editForm = $this->createEditForm($journal, $courseid, $options);
-//        $deleteForm = $this->createDeleteForm($id, $courseid);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
 
         return $this->render('MarcaJournalBundle:Journal:edit.html.twig',array(
             'journal'      => $journal,
             'edit_form'   => $editForm->createView(),
-//            'delete_form' => $deleteForm->createView(),
+            'delete_form' => $deleteForm->createView(),
             'roll' => $roll,
             'role' => $role,
             'user' => $user
@@ -201,6 +202,7 @@ class JournalController extends Controller
 
         $options = array();
         $editForm = $this->createEditForm($journal, $courseid, $options);
+        $deleteForm = $this->createDeleteForm($id, $courseid);
 
         $editForm->handleRequest($request);
 
@@ -218,6 +220,7 @@ class JournalController extends Controller
         return $this->render('MarcaJournalBundle:Journal:edit.html.twig',array(
             'journal'      => $journal,
             'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
             'roll' => $roll,
             'role' => $role,
             'user' => $user
@@ -283,4 +286,47 @@ class JournalController extends Controller
     }
 
 
+    /**
+     * Deletes a Note entity.
+     *
+     * @Route("/{courseid}/{id}/delete", name="journal_delete")
+     */
+    public function deleteAction(Request $request,$id, $courseid)
+    {
+        $form = $this->createDeleteForm($id, $courseid);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getEm();
+            $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($id);
+
+            if (!$journal) {
+                throw $this->createNotFoundException('Unable to find Journal entity.');
+            }
+
+            $em->remove($journal);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('journal_list', array('courseid' => $courseid)));
+    }
+
+
+    /**
+     * Creates a form to delete a Journal entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id, $courseid)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('journal_delete', array('id' => $id,'courseid' => $courseid,)))
+            ->setMethod('POST')
+            ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+            ->getForm()
+            ;
+    }
 }
