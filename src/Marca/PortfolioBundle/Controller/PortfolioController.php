@@ -7,6 +7,7 @@ use Marca\PortfolioBundle\Entity\Portfolio;
 use Marca\PortfolioBundle\Entity\Portfolioset;
 use Marca\PortfolioBundle\Form\PortfolioType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,8 +92,7 @@ class PortfolioController extends Controller
         $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
         $this->restrictAccessTo($request, $allowed);
 
-        $session = $this->get('session'); 
-        $request = $this->getRequest();
+        $session = $this->get('session');
         $session->set('port_referrer', $request->getRequestUri());
         
         $em = $this->getEm();
@@ -266,7 +266,6 @@ class PortfolioController extends Controller
         $editForm   = $this->createEditForm($portfolio, $courseid, $options);
         $deleteForm = $this->createDeleteForm($id);
 
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -335,7 +334,6 @@ class PortfolioController extends Controller
         $this->restrictAccessTo($request, $allowed);
         
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -357,7 +355,7 @@ class PortfolioController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }
