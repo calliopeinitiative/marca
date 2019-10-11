@@ -2,10 +2,12 @@
 
 namespace Marca\ResponseBundle\Controller;
 
+use Marca\CourseBundle\Form\ProjectType;
 use Marca\HomeBundle\Controller\Controller;
 use Marca\ResponseBundle\Entity\Response;
 use Marca\ResponseBundle\Form\ResponseType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,36 +34,42 @@ class ResponseController extends Controller
         $response = new Response();
         $response->setBody('<p></p>');
         $options = array();
-        $form = $this->createCreateForm($response, $courseid, $sourceid, $options, $page, $user, $userid);
+        $form = $this->createForm(ResponseType::class, $response);
 
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($sourceid);
 
-        return array(
+
+        return $this->render('MarcaResponseBundle:Response:new.html.twig', array(
             'response' => $response,
             'journal' => $journal,
             'sourceid' => $sourceid,
+            'courseid' => $courseid,
+            'user' => $user,
+            'userid' => $userid,
+            'page' => $page,
             'form'   => $form->createView()
-        );
-    }
-
-
-    /**
-     * Creates a form to create a Grade entity.
-     *
-     * @param Response $response The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Response $response, $courseid, $sourceid, $options, $page, $user, $userid)
-    {
-        $form = $this->createForm(new ResponseType($options), $response, array(
-            'action' => $this->generateUrl('response_create', array('courseid' => $courseid, 'sourceid' => $sourceid,'page' => $page,'user' => $user,'userid' => $userid, )),
-            'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
-        return $form;
     }
+
+
+//    /**
+//     * Creates a form to create a Grade entity.
+//     *
+//     * @param Response $response The entity
+//     *
+//     * @return \Symfony\Component\Form\Form The form
+//     */
+//    private function createCreateForm(Response $response, $courseid, $sourceid, $options, $page, $user, $userid)
+//    {
+//        $form = $this->createForm(ResponseType::class, $response, $options, array(
+//            'action' => $this->generateUrl('response_create', array('courseid' => $courseid, 'sourceid' => $sourceid,'page' => $page,'user' => $user,'userid' => $userid, )),
+//            'method' => 'POST',
+//        ));
+//
+//        $form->add('submit', SubmitType::class, array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+//        return $form;
+//    }
 
 
     /**
@@ -86,9 +94,8 @@ class ResponseController extends Controller
         $journal = $em->getRepository('MarcaJournalBundle:Journal')->find($sourceid);
         $userid = $journal->getUser()->getId();
         $response->setJournal($journal);
-        $request = $this->getRequest();
         $options = array();
-        $form = $this->createCreateForm($response, $courseid, $sourceid, $options, $page, $user, $userid);
+        $form = $this->createForm(ResponseType::class, $response);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -98,19 +105,24 @@ class ResponseController extends Controller
             return $this->redirect($this->generateUrl('journal_list', array('courseid' => $courseid, 'page' => $page,'userid'=>$userid, 'user'=>$journal_list)));   
             }
 
-        return array(
+
+        return $this->render('MarcaResponseBundle:Response:new.html.twig', array(
             'response' => $response,
             'journal' => $journal,
             'sourceid' => $sourceid,
+            'courseid' => $courseid,
+            'user' => $user,
+            'userid' => $userid,
+            'page' => $page,
             'form'   => $form->createView()
-            );
+        ));
+
         }
 
     /**
      * Displays a form to edit an existing Response response.
      *
      * @Route("/{courseid}/{sourceid}/{id}/{page}/{user}/{userid}/edit", name="response_edit", defaults={"page" = 1,"user" = 1})
-     * @Template()
      */
     public function editAction(Request $request, $id, $courseid, $sourceid, $page, $user, $userid)
     {
@@ -128,36 +140,40 @@ class ResponseController extends Controller
         }
 
         $options = array();
-        $editForm = $this->createEditForm($response, $courseid, $sourceid, $options, $page, $user, $userid);
+        $editForm =  $this->createForm(ResponseType::class, $response);
         $deleteForm = $this->createDeleteForm($id, $courseid, $page, $user, $userid);
 
-        return array(
-            'response'      => $response,
-            'sourceid' => $sourceid,
+        return $this->render('MarcaResponseBundle:Response:edit.html.twig', array(
+            'response' => $response,
             'journal' => $journal,
+            'sourceid' => $sourceid,
+            'courseid' => $courseid,
+            'user' => $user,
+            'userid' => $userid,
+            'page' => $page,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-
-    /**
-     * Creates a form to edit a Response entity.
-     *
-     * @param Response $response
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createEditForm(Response $response, $courseid, $sourceid, $options, $page, $user, $userid)
-    {
-        $form = $this->createForm(new ResponseType($options), $response, array(
-            'action' => $this->generateUrl('response_update', array('id' => $response->getId(),'courseid' => $courseid, 'sourceid' => $sourceid,'page' => $page,'user' => $user,'userid' => $userid, )),
-            'method' => 'POST',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
-        return $form;
     }
+
+
+//    /**
+//     * Creates a form to edit a Response entity.
+//     *
+//     * @param Response $response
+//     *
+//     * @return \Symfony\Component\Form\Form The form
+//     */
+//    private function createEditForm(Response $response, $courseid, $sourceid, $options, $page, $user, $userid)
+//    {
+//        $form = $this->createForm(new ResponseType($options), $response, array(
+//            'action' => $this->generateUrl('response_update', array('id' => $response->getId(),'courseid' => $courseid, 'sourceid' => $sourceid,'page' => $page,'user' => $user,'userid' => $userid, )),
+//            'method' => 'POST',
+//        ));
+//
+//        $form->add('submit', SubmitType::class, array('label' => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
+//        return $form;
+//    }
 
 
 
@@ -165,8 +181,6 @@ class ResponseController extends Controller
      * Edits an existing Response response.
      *
      * @Route("/{courseid}/{sourceid}/{id}/{page}/{user}/update", name="response_update", defaults={"page" = 1,"user" = 1})
-     * @Method("post")
-     * @Template("MarcaResponseBundle:Response:edit.html.twig")
      */
     public function updateAction(Request $request, $id, $sourceid, $courseid, $page, $user)
     {
@@ -186,10 +200,9 @@ class ResponseController extends Controller
              $response->setJournal($journal);
 
              $options = array();
-             $editForm = $this->createEditForm($response, $courseid, $sourceid, $options, $page, $user, $userid);
+             $editForm =  $this->createForm(ResponseType::class, $response);
              $deleteForm = $this->createDeleteForm($id, $courseid,  $page, $user, $userid);
 
-             $request = $this->getRequest();
              $editForm->handleRequest($request);
 
             if ($editForm->isValid()) {
@@ -199,20 +212,24 @@ class ResponseController extends Controller
             return $this->redirect($this->generateUrl('journal_list', array('courseid' => $courseid, 'page' => $page,'userid'=>$userid, 'user'=>$user)));   
             }
 
-            return array(
-            'response'      => $response,
-            'sourceid' => $sourceid,
+
+        return $this->render('MarcaResponseBundle:Response:edit.html.twig', array(
+            'response' => $response,
             'journal' => $journal,
+            'sourceid' => $sourceid,
+            'courseid' => $courseid,
+            'user' => $user,
+            'userid' => $userid,
+            'page' => $page,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Deletes a Response response.
      *
      * @Route("/{courseid}/{id}/{page}/{user}/{userid}/delete", name="response_delete")
-     * @Method("post")
      */
     public function deleteAction(Request $request, $id, $courseid, $page, $user, $userid)
     {
@@ -220,7 +237,6 @@ class ResponseController extends Controller
         $this->restrictAccessTo($request, $allowed);
         
         $form = $this->createDeleteForm($id, $courseid, $page, $user, $userid);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -251,7 +267,7 @@ class ResponseController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('response_delete', array('id' => $id,'courseid' => $courseid, 'page' => $page,'user' => $user,'userid' => $userid,)))
             ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+            ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
             ;
     }
