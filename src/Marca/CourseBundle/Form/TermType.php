@@ -2,6 +2,7 @@
 
 namespace Marca\CourseBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,13 +15,13 @@ class TermType extends AbstractType
     {
         $builder
             ->add('termName',TextType::class, array('label'  => 'Term','attr' => array('class' => 'text form-control'),))
-            ->add('term', null, array('label' => 'Term ID Number (optional)', 'required' => 'false','attr' => array('class' => 'text form-control'),))
+            ->add('term', TextType::class, array('label' => 'Term ID Number (optional)', 'required' => 'false','attr' => array('class' => 'text form-control'),))
             ->add('status', ChoiceType::class, array('choices' => array(
                 '0' => 'Inactive',
                 '1' => 'Active',
                 '2' => 'Continuing',
                 '3' => 'Hidden'),'attr' => array('class' => 'form-control'),))
-            ->add('institution', 'entity', array('class'=>'MarcaAdminBundle:Institution','property'=>'name', 'label'=>'Select Your Institution','attr' => array('class' => 'form-control'),))
+            ->add('institution', EntityType::class, array('class'=>'MarcaAdminBundle:Institution','property'=>'name', 'label'=>'Select Your Institution','attr' => array('class' => 'form-control'),))
         ;
     }
     

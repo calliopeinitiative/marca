@@ -13,7 +13,7 @@
             });
             {# form page close/cancel adjust for appropriate redirect #}
             $('#close_form').click(function(){
-                window.location.href='{{ path('course_show', { 'courseid': courseid }) }}';
+                window.location.href='{{ path('course_show', { 'courseid': project.course.id }) }}';
             });
         });
     </script>
@@ -21,7 +21,7 @@
 
 {% block content %}
     <div class="col-sm-6 center">
-        <form action="{{ course_path('project_update', { 'id': project.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+        <form action="{{ course_path('project_update', { 'id': project.id }) }}" method="post" novalidate="novalidate">
 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -30,7 +30,6 @@
                 </div>
                 <div class="panel-body">
                     {{ form_widget(edit_form) }}
-                    <button class="btn btn-primary pull-right" type="submit">Post</button>
                     {% if files %}
                         <span class="">Since this Folder has at least one file, it can not be deleted.</span>
                     {% else %}

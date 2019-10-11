@@ -20,6 +20,8 @@ use Marca\HomeBundle\Controller\Controller;
 use Marca\HomeBundle\Entity\Page;
 use Marca\UserBundle\Entity\Profile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -522,27 +524,27 @@ class CourseController extends Controller
     private function createEditPartForm(Course $course, $formtype, $moduleid) {
         
         if ($formtype == 'CourseType') {
-            $form = $this->createForm(new CourseType(), $course, array(
+            $form = $this->createForm(CourseType::class, $course, array(
             'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST', 
         ));
             
         }
         elseif($formtype == 'NameType'){
-            $form = $this->createForm(new NameType(), $course, array(
+            $form = $this->createForm(NameType::class, $course, array(
             'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST',
         ));
         }
          elseif($formtype == 'CourseTermType'){
-            $form = $this->createForm(new CourseTermType(), $course, array(
+            $form = $this->createForm(CourseTermType::class, $course, array(
             'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST',
         ));
         }
         
         elseif($formtype == 'CoursetimeType'){
-            $form = $this->createForm(new CoursetimeType(), $course, array(
+            $form = $this->createForm(CoursetimeType::class, $course, array(
             'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST',
         ));
@@ -550,38 +552,38 @@ class CourseController extends Controller
             
         }
         elseif($formtype == 'ToolsType'){
-            $form = $this->createForm(new ToolsType(), $course, array(
+            $form = $this->createForm(ToolsType::class, $course, array(
             'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST',
         ));
        
         }
          elseif($formtype == 'AccessType'){
-            $form = $this->createForm(new AccessType(), $course, array(
+            $form = $this->createForm(AccessType::class, $course, array(
             'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST',
         ));
         }
         elseif($formtype == 'PortType'){
-            $form = $this->createForm(new PortType(), $course, array(
+            $form = $this->createForm(PortType::class, $course, array(
             'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
             'method' => 'POST',
         ));
         }
         elseif($formtype == 'ModuleType'){
-            $form = $this->createForm(new ModuleType(), $course, array(
+            $form = $this->createForm(ModuleType::class, $course, array(
                 'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
                 'method' => 'POST',
             ));
         }
         elseif($formtype == 'OtherType'){
-            $form = $this->createForm(new OtherType(), $course, array(
+            $form = $this->createForm(OtherType::class, $course, array(
                 'action' => $this->generateUrl('course_update', array('courseid' => $course->getId(),'id' => $course->getId(), 'formtype' => $formtype, 'moduleid' => $moduleid)),
                 'method' => 'POST',
             ));
         }
 
-         $form->add('submit', 'submit', array('label' => 'Post', 'attr' => array('class' => 'btn btn-primary pull-right'),));
+         $form->add('submit', SubmitType::class, array('label' => 'Post', 'attr' => array('class' => 'btn btn-primary pull-right'),));
 
         return $form;
     }
@@ -613,7 +615,7 @@ class CourseController extends Controller
         $type= Page::TYPE_COURSE;
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
 
-         $editForm->submit($request);
+         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($course);
@@ -663,7 +665,7 @@ class CourseController extends Controller
         }
         $form = $this->createDeleteForm($courseid);
 
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             
@@ -683,7 +685,7 @@ class CourseController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

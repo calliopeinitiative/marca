@@ -7,8 +7,9 @@ use Marca\CourseBundle\Form\ProjectType;
 use Marca\CourseBundle\Form\ResourceType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -18,49 +19,48 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ProjectController extends Controller
 {
-    /**
-     * Lists all Project entities.
-     *
-     * @Route("/", name="project")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $em = $this->getEm();
+//    /**
+//     * Lists all Project entities.
+//     *
+//     * @Route("/", name="project")
+//     * @Template()
+//     */
+//    public function indexAction()
+//    {
+//        $em = $this->getEm();
+//
+//        $projects = $em->getRepository('MarcaCourseBundle:Project')->findAll();
+//
+//        return array('projects' => $projects);
+//    }
 
-        $projects = $em->getRepository('MarcaCourseBundle:Project')->findAll();
-
-        return array('projects' => $projects);
-    }
-
-    /**
-     * Finds and displays a Project entity.
-     *
-     * @Route("/{id}/show", name="project_show")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getEm();
-
-        $project = $em->getRepository('MarcaCourseBundle:Project')->find($id);
-
-        if (!$project) {
-            throw $this->createNotFoundException('Unable to find Project entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'project' => $project,
-            'delete_form' => $deleteForm->createView(),);
-    }
+//    /**
+//     * Finds and displays a Project entity.
+//     *
+//     * @Route("/{id}/show", name="project_show")
+//     * @Template()
+//     */
+//    public function showAction($id)
+//    {
+//        $em = $this->getEm();
+//
+//        $project = $em->getRepository('MarcaCourseBundle:Project')->find($id);
+//
+//        if (!$project) {
+//            throw $this->createNotFoundException('Unable to find Project entity.');
+//        }
+//
+//        $deleteForm = $this->createDeleteForm($id);
+//
+//        return array(
+//            'project' => $project,
+//            'delete_form' => $deleteForm->createView(),);
+//    }
 
     /**
      * Displays a form to create a new Project entity.
      *
      * @Route("/{courseid}/{resource}/new", name="project_new")
-     * @Template()
      */
     public function newAction(Request $request, $courseid, $resource)
     {
@@ -75,21 +75,19 @@ class ProjectController extends Controller
         $project = new Project();
         $project->setResource($resource);
         $project->setSortOrder($maxCourse + 1);
-        $form = $this->createForm(new ProjectType(), $project);
+        $form = $this->createForm(ProjectType::class, $project);
 
-        return array(
+        return $this->render('MarcaCourseBundle:Project:new.html.twig', array(
             'project' => $project,
             'courseid' => $courseid,
             'form' => $form->createView()
-        );
+        ));
     }
 
     /**
      * Creates a new Project entity.
      *
      * @Route("/{courseid}/{resource}/create", name="project_create")
-     * @Method("post")
-     * @Template("MarcaCourseBundle:Project:new.html.twig")
      */
     public function createAction(Request $request, $courseid)
     {
@@ -100,18 +98,11 @@ class ProjectController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $project = new Project();
         $project->setCourse($course);
-        $request = $this->getRequest();
-        $form = $this->createForm(new ProjectType(), $project);
+        $project->setSortOrder(0);
+        $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            //iterates over current courses, updates sort orders
-            foreach ($course->getProjects() as $projects) {
-                if ($project->getSortOrder() <= $projects->getSortOrder()) {
-                    $currentsort = $projects->getSortOrder();
-                    $projects->setSortOrder($currentsort + 1);
-                }
-            }
             $em->persist($project);
             $em->flush();
 
@@ -119,18 +110,17 @@ class ProjectController extends Controller
 
         }
 
-        return array(
+        return $this->render('MarcaCourseBundle:Project:new.html.twig', array(
             'project' => $project,
             'courseid' => $courseid,
             'form' => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Project entity.
      *
      * @Route("/{id}/{courseid}/edit", name="project_edit")
-     * @Template()
      */
     public function editAction(Request $request, $id, $courseid)
     {
@@ -148,30 +138,28 @@ class ProjectController extends Controller
         }
 
         if ($project->getResource()==0) {
-            $editForm = $this->createForm(new ProjectType(), $project);
+            $project->setCoursehome('false');
+            $editForm = $this->createForm(ProjectType::class, $project);
         }
         else {
-            $editForm = $this->createForm(new ResourceType(), $project);
+            $editForm = $this->createForm(ResourceType::class, $project);
         }
 
-
         $deleteForm = $this->createDeleteForm($id);
-
-        return array(
+        return $this->render('MarcaCourseBundle:Project:edit.html.twig', array(
             'project' => $project,
             'files' => $files,
             'courseid' => $courseid,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
+
     }
 
     /**
      * Edits an existing Project entity.
      *
      * @Route("/{id}/{courseid}/update", name="project_update")
-     * @Method("post")
-     * @Template("MarcaCourseBundle:Project:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -179,37 +167,43 @@ class ProjectController extends Controller
         $this->restrictAccessTo($request, $allowed);
 
         $em = $this->getEm();
+        $user = $this->getUser();
 
         $project = $em->getRepository('MarcaCourseBundle:Project')->find($id);
+        $files = $em->getRepository('MarcaFileBundle:File')->checkProjectFiles($project, $user);
         $course = $project->getCourse();
         $courseid = $course->getId();
 
         if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
-
-
-
-        $editForm = $this->createForm(new ProjectType(), $project);
+        if ($project->getResource()==0) {
+            $project->setCoursehome(0);
+        }
+        if ($project->getResource()==0) {
+            $editForm = $this->createForm(ProjectType::class, $project);
+        }
+        else {
+            $editForm = $this->createForm(ResourceType::class, $project);
+        }
         $deleteForm = $this->createDeleteForm($id);
 
-        $request = $this->getRequest();
         $editForm->handleRequest($request);
         
-        if ($project->getResource()==0) {
-            $project->setCoursehome('false');
-        }
+
         if ($editForm->isValid()) {
             $em->persist($project);
             $em->flush();
             return $this->redirect($this->generateUrl('course_show', array('courseid' => $courseid)));
         }
 
-        return array(
+        return $this->render('MarcaCourseBundle:Project:edit.html.twig', array(
             'project' => $project,
+            'files' => $files,
+            'courseid' => $courseid,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -224,7 +218,6 @@ class ProjectController extends Controller
         $this->restrictAccessTo($request, $allowed);
 
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
         $em = $this->getEm();
@@ -245,7 +238,7 @@ class ProjectController extends Controller
     {
         //This function is not currently used (it was called from deleteAction)
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm();
     }
 

@@ -4,7 +4,7 @@ namespace Marca\CourseBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,9 +15,8 @@ class ResourceType extends AbstractType
     {
         $builder
             ->add('name',TextType::class, array('label'  => 'Name:','attr' => array('class' => 'text form-control'),))
-            ->add('sortOrder', HiddenType::class)
-            ->add('resource', HiddenType::class)
-            ->add('coursehome', ChoiceType::class, array('choices'   => array(true => 'Yes', false => 'No'),'required'  => true,'label'  => 'Show on course home:', 'expanded' => true,'attr' => array('class' => 'radio'),))
+            ->add('coursehome', ChoiceType::class, array('choices'   => array('No' => '0', 'Yes' => '1'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Show on course home:','attr' => array('class' => 'radio'),))
+            ->add('submit',SubmitType::class, array('label'  => 'Post','attr' => array('class' => 'btn btn-primary pull-right'),));
         ;
     }
     
