@@ -5,9 +5,10 @@ namespace Marca\DocBundle\Controller;
 use Marca\DocBundle\Entity\Markupset;
 use Marca\DocBundle\Form\MarkupsetType;
 use Marca\HomeBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
  * Markupset controller.
@@ -20,13 +21,15 @@ class MarkupsetController extends Controller
      * Lists all Markupset entities.
      *
      * @Route("/", name="markupset")
-     * @Template()
      */
     public function indexAction()
     {
         $user = $this->getUser();
         $markupsets = $user->getMarkupsets();
-        return array('markupsets' => $markupsets);
+
+        return $this->render('MarcaDocBundle:Markupset:index.html.twig',array(
+            'markupsets' => $markupsets
+        ));
     }
 
 
@@ -34,40 +37,36 @@ class MarkupsetController extends Controller
      * Displays a form to create a new Markupset entity.
      *
      * @Route("/new", name="markupset_new")
-     * @Template()
      */
     public function newAction()
     {
         $entity = new Markupset();
-        $form   = $this->createForm(new MarkupsetType(), $entity);
+        $form   = $this->createForm(MarkupsetType::class, $entity);
 
-        return array(
+
+        return $this->render('MarcaDocBundle:Markupset:new.html.twig',array(
             'entity' => $entity,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Creates a new Markupset entity.
      *
      * @Route("/create", name="markupset_create")
-     * @Method("post")
-     * @Template("MarcaDocBundle:Markupset:new.html.twig")
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
         $em = $this->getEm();
         $user = $this->getUser();
         $markupset  = new Markupset();
         $markupset->setOwner($user);
-        $request = $this->getRequest();
-        $form    = $this->createForm(new MarkupsetType(), $markupset);
+        $form    = $this->createForm(MarkupsetType::class, $markupset);
         $form->handleRequest($request);
         
         
         $entity  = new Markupset();
-        $request = $this->getRequest();
-        $form    = $this->createForm(new MarkupsetType(), $entity);
+        $form    = $this->createForm(MarkupsetType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -79,17 +78,16 @@ class MarkupsetController extends Controller
             
         }
 
-        return array(
+        return $this->render('MarcaDocBundle:Markupset:new.html.twig',array(
             'markupset' => $markupset,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Markupset entity.
      *
      * @Route("/{id}/edit", name="markupset_edit")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -101,24 +99,22 @@ class MarkupsetController extends Controller
             throw $this->createNotFoundException('Unable to find Markupset entity.');
         }
 
-        $editForm = $this->createForm(new MarkupsetType(), $markupset);
+        $editForm = $this->createForm(MarkupsetType::class, $markupset);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaDocBundle:Markupset:edit.html.twig',array(
             'markupset'      => $markupset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Edits an existing Markupset entity.
      *
      * @Route("/{id}/update", name="markupset_update")
-     * @Method("post")
-     * @Template("MarcaDocBundle:Markupset:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($id, Request $request)
     {
         $em = $this->getEm();
 
@@ -128,10 +124,9 @@ class MarkupsetController extends Controller
             throw $this->createNotFoundException('Unable to find Markupset entity.');
         }
 
-        $editForm   = $this->createForm(new MarkupsetType(), $markupset);
+        $editForm   = $this->createForm(MarkupsetType::class, $markupset);
         $deleteForm = $this->createDeleteForm($id);
 
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -142,11 +137,13 @@ class MarkupsetController extends Controller
             return $this->redirect($this->generateUrl('markupset', array('id' => $markupset->getid())));
         }
 
-        return array(
+        return $this->render('MarcaDocBundle:Markupset:edit.html.twig',array(
             'markupset'      => $markupset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
+
+
     }
 
        /**
@@ -175,12 +172,13 @@ class MarkupsetController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('markupset', array('id' => $markupset->getid())));
-        
-        return array(
+
+        return $this->render('MarcaDocBundle:Markupset:edit.html.twig',array(
             'markupset'      => $markupset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
+
     }
 
 
@@ -211,23 +209,12 @@ class MarkupsetController extends Controller
 
         return $this->redirect($this->generateUrl('markupset', array('id' => $markupset->getid())));
 
-        return array(
+        return $this->render('MarcaDocBundle:Markupset:edit.html.twig',array(
             'markupset'      => $markupset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -235,12 +222,10 @@ class MarkupsetController extends Controller
      * Deletes a Markupset entity.
      *
      * @Route("/{id}/delete", name="markupset_delete")
-     * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($id, Request $request)
     {
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -271,7 +256,13 @@ class MarkupsetController extends Controller
 
         return array(
             'markupsets'=>$markupsets
-        ); 
+        );
+
+        return $this->render('MarcaDocBundle:Markupset:edit.html.twig',array(
+            'markupsets'=>$markupsets
+        ));
+
+
     }
     
     /**
@@ -322,6 +313,14 @@ class MarkupsetController extends Controller
          
          return array("currentset"=>$currentset, 
                       "allsets"=>$allsets);
+
+         return $this->render('MarcaDocBundle:Markupset:addTagsMarkupset.html.twig',array(
+             'currentset' => $currentset,
+             'allsets' => $allsets
+         ));
+
+
+
      }
      
      /**
@@ -375,7 +374,7 @@ class MarkupsetController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('markupset_delete', array('id' => $id)))
             ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+            ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
             ;
     }
