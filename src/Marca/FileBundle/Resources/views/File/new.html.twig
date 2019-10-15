@@ -22,7 +22,7 @@ $(' form div ul li ul li').addClass('alert alert-error');
     <h3 id="myModalLabel">{% if app.request.get('type') == 'doc' %}New Document{% elseif app.request.get('type') == 'saveas' %}Save As Document{% else %}New Link{%endif%}</h3>
 </div>
 <form action="{{ course_path('file_create',{'resource': app.request.get('resource'), 'tag': app.request.get('tag'),'type': app.request.get('type'),
-'user': '0','project': 'recent'}) }}" method="post" {{ form_enctype(form) }}  novalidate="novalidate">
+'user': '0','project': 'recent'}) }}" method="post" novalidate="novalidate">
   <div class="modal-body">
       {{ form_errors(form) }} 
         <ul class="list-unstyled">
