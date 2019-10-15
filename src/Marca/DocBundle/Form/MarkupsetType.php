@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class MarkupsetType extends AbstractType
 {
@@ -14,7 +15,7 @@ class MarkupsetType extends AbstractType
     {
         $builder
             ->add('name',TextType::class, array('label'  => 'Name','attr' => array('class' => 'text form-control'),))
-            ->add('description', 'ckeditor', array('config_name' => 'editor_docs',))
+            ->add('description', CKEditorType::class, array('config_name' => 'editor_docs',))
             ->add('sortorder', HiddenType::class)
             ->add('shared', HiddenType::class)
         ;
