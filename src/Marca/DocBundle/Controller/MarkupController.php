@@ -5,10 +5,10 @@ namespace Marca\DocBundle\Controller;
 use Marca\DocBundle\Entity\Markup;
 use Marca\DocBundle\Form\MarkupType;
 use Marca\HomeBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Markup controller.
@@ -29,7 +29,9 @@ class MarkupController extends Controller
 
         $markup = $em->getRepository('MarcaDocBundle:Markup')->findAll();
 
-        return array('markup' => $markup);
+        return $this->render('MarcaDocBundle:Markup:index.html.twig',array(
+            'markup' => $markup
+        ));
     }
 
     /**
@@ -50,9 +52,10 @@ class MarkupController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaDocBundle:Markup:index.html.twig',array(
             'markup'      => $markup,
-            'delete_form' => $deleteForm->createView(),        );
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
@@ -64,20 +67,20 @@ class MarkupController extends Controller
     public function newAction($set_id)
     {
         $markup = new Markup();
-        $form   = $this->createForm(new MarkupType(), $markup);
+        $form   = $this->createForm(MarkupType::class, $markup);
 
-        return array(
+        return $this->render('MarcaDocBundle:Markup:new.html.twig',array(
             'set_id' => $set_id,
             'markup' => $markup,
             'form'   => $form->createView()
-        );
+        ));
+
     }
 
     /**
      * Creates a new Markup entity.
      *
      * @Route("/{set_id}/create", name="markup_create")
-     * @Method("post")
      * @Template("MarcaDocBundle:Markup:new.html.twig")
      */
     public function createAction(Request $request, $set_id)
@@ -90,7 +93,7 @@ class MarkupController extends Controller
         $markupset = $em->getRepository('MarcaDocBundle:Markupset')->find($set_id);
         $markup->addMarkupset($markupset);
 
-        $form   = $this->createForm(new MarkupType(), $markup);
+        $form   = $this->createForm(MarkupType::class, $markup);
         $form->handleRequest($request);
 
         $name = $markup->getName();
@@ -107,10 +110,10 @@ class MarkupController extends Controller
             
         }
 
-        return array(
+        return $this->render('MarcaDocBundle:Markup:new.html.twig',array(
             'markup' => $markup,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
@@ -129,21 +132,21 @@ class MarkupController extends Controller
             throw $this->createNotFoundException('Unable to find Markup entity.');
         }
 
-        $editForm = $this->createForm(new MarkupType(), $markup);
+        $editForm = $this->createForm(MarkupType::class, $markup);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaDocBundle:Markup:edit.html.twig',array(
             'markup'      => $markup,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
+
     }
 
     /**
      * Edits an existing Markup entity.
      *
      * @Route("/{set_id}/{id}/update", name="markup_update")
-     * @Method("post")
      * @Template("MarcaDocBundle:Markup:edit.html.twig")
      */
     public function updateAction(Request $request, $id, $set_id)
@@ -156,7 +159,7 @@ class MarkupController extends Controller
             throw $this->createNotFoundException('Unable to find Markup entity.');
         }
 
-        $editForm = $this->createForm(new MarkupType(), $markup);
+        $editForm = $this->createForm(MarkupType::class, $markup);
         $deleteForm = $this->createDeleteForm($id);
         $editForm->handleRequest($request);
 
@@ -168,18 +171,17 @@ class MarkupController extends Controller
             return $this->redirect($this->generateUrl('markupset'));
         }
 
-        return array(
+        return $this->render('MarcaDocBundle:Markup:edit.html.twig',array(
             'markup'      => $markup,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Deletes a Markup entity.
      *
      * @Route("/{id}/delete", name="markup_delete")
-     * @Method("post")
      */
     public function deleteAction(Request $request, $id)
     {
@@ -207,7 +209,7 @@ class MarkupController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

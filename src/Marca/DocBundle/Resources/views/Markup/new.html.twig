@@ -38,7 +38,7 @@
 
     <div class="col-sm-8 center">
         <div class="panel panel-default">
-            <form action="{{ path('markup_create', { 'set_id': app.request.get('set_id')}) }}" method="post" {{ form_enctype(form) }}>
+            <form action="{{ path('markup_create', { 'set_id': app.request.get('set_id')}) }}" method="post">
             <div class="panel-heading">
                 <button id="close_form" type="button" class="close">&times;</button>
                 <h2 class="panel-title small">Markup Tag</h2>
