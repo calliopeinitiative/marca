@@ -194,9 +194,7 @@ class CourseController extends Controller
         $em = $this->getEm();
         $user = $this->getUser();
         $courses = $em->getRepository('MarcaCourseBundle:Course')->findModules($user);
-        if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ROLE_INSTR', null, 'Unable to access this page!');
         return $this->render('MarcaUserBundle:Default:course_create_modal.html.twig', array(
             'user' => $user,
             'courses' => $courses
@@ -214,9 +212,7 @@ class CourseController extends Controller
         $user = $this->getUser();
         $institution = $user->getInstitution();
         //any instructor can create a new course, so give all instructors access
-        if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
-        throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ROLE_INSTR', null, 'Unable to access this page!');
         $moduleid = 0;
         //Get Defaults for course creation
         $name = 'New Course';
@@ -410,9 +406,7 @@ class CourseController extends Controller
         $user = $this->getUser();
         $institution = $user->getInstitution();
         //any instructor can create a new course, so give all instructors access
-        if (false === $this->get('security.context')->isGranted('ROLE_INSTR')) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted('ROLE_INSTR', null, 'Unable to access this page!');
 
         $name = 'New Module';
         $time = new \DateTime('08:00');
