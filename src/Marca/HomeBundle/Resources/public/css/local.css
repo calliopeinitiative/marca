@@ -573,6 +573,7 @@ li.dropdown a {
 }
 .panel-footer + .panel-collapse .panel-body {
     border-bottom-color: #CCCCCC;
+    background-color: white;
 }
 
 .panel-title {
