@@ -6,6 +6,7 @@ use Marca\HomeBundle\Controller\Controller;
 use Marca\TagBundle\Entity\Tagset;
 use Marca\TagBundle\Form\TagsetType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -18,9 +19,7 @@ class TagsetController extends Controller
 {
     /**
      * Lists all Tagset entities.
-     *
      * @Route("/", name="tagset")
-     * @Template()
      */
     public function indexAction()
     {
@@ -28,14 +27,15 @@ class TagsetController extends Controller
         $user = $this->getUser();
         $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByUser($user);
 
-        return array('tagsets' => $tagsets);
+        return $this->render('MarcaTagBundle:Tagset:index.html.twig',array(
+            'tagsets' => $tagsets
+        ));
     }
 
     /**
      * Finds and displays a Tagset entity.
      *
      * @Route("/{id}/show", name="tagset_show")
-     * @Template()
      */
     public function showAction($id)
     {
@@ -49,9 +49,10 @@ class TagsetController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaTagBundle:Tagset:show.html.twig',array(
             'tagset'      => $tagset,
-            'delete_form' => $deleteForm->createView(),        );
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
@@ -63,12 +64,12 @@ class TagsetController extends Controller
     public function newAction()
     {
         $tagset = new Tagset();
-        $form   = $this->createForm(new TagsetType(), $tagset);
+        $form   = $this->createForm(TagsetType::class, $tagset);
 
-        return array(
+        return $this->render('MarcaTagBundle:Tagset:new.html.twig',array(
             'tagset' => $tagset,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
@@ -78,29 +79,26 @@ class TagsetController extends Controller
      * @Method("post")
      * @Template("MarcaTagBundle:Tagset:new.html.twig")
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
         $em = $this->getEm();
         $user = $this->getUser();
         $tagset  = new Tagset();
         $tagset->setUser($user);
-        $request = $this->getRequest();
-        $form    = $this->createForm(new TagsetType(), $tagset);
+        $form    = $this->createForm(TagsetType::class, $tagset);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getEm();
             $em->persist($tagset);
             $em->flush();
-
             return $this->redirect($this->generateUrl('tagset', array('id' => $tagset->getId())));
-            
         }
 
-        return array(
+        return $this->render('MarcaTagBundle:Tagset:new.html.twig',array(
             'tagset' => $tagset,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
@@ -109,7 +107,7 @@ class TagsetController extends Controller
      * @Route("/{id}/edit", name="tagset_edit")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
         $em = $this->getEm();
 
@@ -119,24 +117,21 @@ class TagsetController extends Controller
             throw $this->createNotFoundException('Unable to find Tagset tagset.');
         }
 
-        $editForm = $this->createForm(new TagsetType(), $tagset);
+        $editForm = $this->createForm(TagsetType::class, $tagset);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaTagBundle:Tagset:edit.html.twig',array(
             'tagset'      => $tagset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Edits an existing Tagset entity.
-     *
      * @Route("/{id}/update", name="tagset_update")
-     * @Method("post")
-     * @Template("MarcaTagBundle:Tagset:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction(Request $request, $id)
     {
         $em = $this->getEm();
 
@@ -146,10 +141,8 @@ class TagsetController extends Controller
             throw $this->createNotFoundException('Unable to find Tagset entity.');
         }
 
-        $editForm   = $this->createForm(new TagsetType(), $tagset);
+        $editForm   = $this->createForm(TagsetType::class, $tagset);
         $deleteForm = $this->createDeleteForm($id);
-
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -160,23 +153,20 @@ class TagsetController extends Controller
             return $this->redirect($this->generateUrl('tagset'));
         }
 
-        return array(
+        return $this->render('MarcaTagBundle:Tagset:edit.html.twig',array(
             'tagset'      => $tagset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Deletes a Tagset entity.
-     *
      * @Route("/{id}/delete", name="tagset_delete")
-     * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 

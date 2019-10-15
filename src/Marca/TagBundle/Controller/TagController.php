@@ -2,10 +2,12 @@
 
 namespace Marca\TagBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Marca\HomeBundle\Controller\Controller;
 use Marca\TagBundle\Entity\Tag;
 use Marca\TagBundle\Form\TagType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -17,10 +19,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class TagController extends Controller
 {
     /**
-     * Lists all Tag entities.
-     *
+     * Lists all Tag entities
      * @Route("/", name="tag")
-     * @Template()
      */
     public function indexAction()
     {
@@ -30,7 +30,11 @@ class TagController extends Controller
         $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByUser($user);
         $tagsetid = 0;
 
-        return array('tags' => $tags, 'tagsets' => $tagsets, 'tagsetid'=> $tagsetid);
+        return $this->render('MarcaTagBundle:Tag:index.html.twig',array(
+            'tags' => $tags,
+            'tagsets' => $tagsets,
+            'tagsetid'=> $tagsetid
+        ));
     }
     
     
@@ -48,14 +52,17 @@ class TagController extends Controller
         $tagsets = $em->getRepository('MarcaTagBundle:Tagset')->findTagsetByUser($user);
         $tagsetid = $id;
 
-        return array('tags' => $tags, 'tagsets' => $tagsets, 'tagsetid'=> $tagsetid );
+        return $this->render('MarcaTagBundle:Tag:index.html.twig',array(
+            'tags' => $tags,
+            'tagsets' => $tagsets,
+            'tagsetid'=> $tagsetid
+        ));
     }    
 
     /**
      * Finds and displays a Tag entity.
      *
      * @Route("/{id}/show", name="tag_show")
-     * @Template()
      */
     public function showAction($id)
     {
@@ -69,16 +76,16 @@ class TagController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaTagBundle:Tag:show.html.twig',array(
             'tag'      => $tag,
-            'delete_form' => $deleteForm->createView(),        );
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
      * Displays a form to create a new Tag entity.
      *
      * @Route("/{tagsetid}/new", name="tag_new")
-     * @Template()
      */
     public function newAction($tagsetid)
     {
@@ -88,13 +95,14 @@ class TagController extends Controller
         $tag = new Tag();
         $tag->setTagset($tagset);
 
-        $form   = $this->createForm(new TagType(), $tag);
+        $form   = $this->createForm(TagType::class, $tag);
 
-        return array(
+        return $this->render('MarcaTagBundle:Tag:new.html.twig',array(
             'tag' => $tag,
             'tagset' => $tagset,
             'form'   => $form->createView()
-        );
+        ));
+
     }
 
     /**
@@ -104,7 +112,7 @@ class TagController extends Controller
      * @Method("post")
      * @Template("MarcaTagBundle:Tag:new.html.twig")
      */
-    public function createAction($tagsetid)
+    public function createAction(Request $request, $tagsetid)
     {
         $em = $this->getEm();
         $tagset = $em->getRepository('MarcaTagBundle:Tagset')->find($tagsetid);
@@ -112,8 +120,7 @@ class TagController extends Controller
         $tag  = new Tag();
         $tag->setUser($user);
         $tag->addTagset($tagset);
-        $request = $this->getRequest();
-        $form    = $this->createForm(new TagType(), $tag);
+        $form    = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -125,17 +132,16 @@ class TagController extends Controller
             
         }
 
-        return array(
+        return $this->render('MarcaTagBundle:Tag:new.html.twig',array(
             'tag' => $tag,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Tag entity.
      *
      * @Route("/{id}/{tagsetid}/edit", name="tag_edit")
-     * @Template()
      */
     public function editAction($id, $tagsetid)
     {
@@ -147,26 +153,23 @@ class TagController extends Controller
             throw $this->createNotFoundException('Unable to find Tag entity.');
         }
 
-        $editForm = $this->createForm(new TagType(), $tag);
+        $editForm = $this->createForm(TagType::class, $tag);
         $deleteForm = $this->createDeleteForm($id);
 
-
-        return array(
+        return $this->render('MarcaTagBundle:Tag:edit.html.twig',array(
             'tag'      => $tag,
             'tagset'      => $tagset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Edits an existing Tag entity.
      *
      * @Route("/{id}/{tagsetid}/update", name="tag_update")
-     * @Method("post")
-     * @Template("MarcaTagBundle:Tag:edit.html.twig")
      */
-    public function updateAction($id, $tagsetid)
+    public function updateAction(Request $request, $id, $tagsetid)
     {
         $em = $this->getEm();
 
@@ -176,10 +179,8 @@ class TagController extends Controller
             throw $this->createNotFoundException('Unable to find Tag entity.');
         }
 
-        $editForm   = $this->createForm(new TagType(), $tag);
+        $editForm   = $this->createForm(TagType::class, $tag);
         $deleteForm = $this->createDeleteForm($id);
-
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -191,11 +192,11 @@ class TagController extends Controller
             return $this->redirect($this->generateUrl('tagset'));
         }
 
-        return array(
+        return $this->render('MarcaTagBundle:Tagset:edit.html.twig',array(
             'tag'      => $tag,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -204,10 +205,9 @@ class TagController extends Controller
      * @Route("/{id}/delete", name="tag_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -229,7 +229,7 @@ class TagController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }
