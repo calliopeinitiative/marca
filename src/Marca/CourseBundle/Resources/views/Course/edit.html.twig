@@ -30,8 +30,8 @@
                 $('#delete_modal').modal();
             });
             {# form page close/cancel adjust for appropriate redirect #}
-            $('#close_form').click(function(){
-                window.location.href='{{ path('course_show', { 'courseid': course.id }) }}';
+            $('#close_form').click(function () {
+                window.location.href = '{{ path('course_show', { 'courseid': course.id }) }}';
             });
         });
     </script>
@@ -61,18 +61,21 @@
             </div>
         {% endif %}
         <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-footer">
+            <div class="panel panel-default padding-bottom">
+                <div class="panel-footer padding-bottom"" >
                     <button id="close_form" type="button" class="close">&times;</button>
                     <h2>Settings for {{ course.name }}</h2>
-                {{ form (edit_form, {'attr' : {'novalidate':'novalidate'}}) }}
-                    <button class="btn btn-warning" id="toggle_modal" type="button" >Delete</button>
+                    {{ form (edit_form, {'attr' : {'novalidate':'novalidate'}}) }}
+
+                    {% if formtype=='CourseType' %}
+                        <button class="btn btn-warning" id="toggle_modal" type="button">Delete</button>
+                    {% endif %}
                 </div>
             </div>
-        </div>        
+        </div>
     </div>
-                
-                
+
+
     <div id="delete_modal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
