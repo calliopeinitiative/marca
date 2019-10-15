@@ -7,7 +7,6 @@ use Marca\HomeBundle\Entity\Page;
 use Marca\UserBundle\Form\NewuserType;
 use Marca\UserBundle\Form\ResearchType;
 use Marca\UserBundle\Form\UserType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -33,7 +32,7 @@ class DefaultController extends Controller
             return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
         }
         if ($user->getInstitution()->getResearch()===true && $user->getResearch()==0){
-            return $this->redirect($this->generateUrl('user_research', array('id' => $id)));
+            return $this->redirect($this->generateUrl('user_research'));
         }
 
         $username = $user->getFirstname().' '.$user->getLastname();
@@ -127,9 +126,9 @@ class DefaultController extends Controller
     /**
      * Displays a form to edit Research consent.
      *
-     * @Route("/{id}/research", name="user_research")
+     * @Route("/research", name="user_research")
      */
-    public function researchAction(Request $request, $id)
+    public function researchAction(Request $request)
     {
         $em = $this->getEm();
 
@@ -144,7 +143,7 @@ class DefaultController extends Controller
 
         $type= Page::TYPE_RESEARCH;
         $pages = $em->getRepository('MarcaHomeBundle:Page')->findPageByType($type);
-        $editForm = $this->createForm(new ResearchType(), $user);
+        $editForm = $this->createForm(ResearchType::class, $user);
 
         return $this->render('MarcaUserBundle:Default:research.html.twig', array(
             'user'      => $user,
@@ -209,9 +208,7 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
-        $editForm   = $this->createForm(new ResearchType(), $user);
-
-        $request = $this->getRequest();
+        $editForm   = $this->createForm(ResearchType::class, $user);
 
         $editForm->handleRequest($request);
 
