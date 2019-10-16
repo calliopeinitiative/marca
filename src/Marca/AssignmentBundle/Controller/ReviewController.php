@@ -10,6 +10,8 @@ use Marca\AssignmentBundle\Form\selectRubricType;
 use Marca\FileBundle\Entity\File;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -99,7 +101,7 @@ class ReviewController extends Controller
     public function displaySelectAction($courseid, $fileid)
     {
         $rubric = new Review();
-        $select_form = $this->createFormBuilder($rubric)->add('reviewrubric', 'entity', array('class'=>'MarcaAssignmentBundle:ReviewRubric', 'property'=>'name','required'  => true,'label'  => 'Select Rubric for your Review', 'expanded' => false,'attr' => array('class' => 'form-control'),))->getForm();
+        $select_form = $this->createFormBuilder($rubric)->add('reviewrubric', EntityType::class, array('class'=>'MarcaAssignmentBundle:ReviewRubric', 'choice_label'=>'name','required'  => true,'label'  => 'Select Rubric for your Review', 'expanded' => false,'attr' => array('class' => 'form-control'),))->getForm();
         return $this->render('MarcaAssignmentBundle:Review:displaySelect.html.twig', array(
             'form'=>$select_form->createView(),
             'courseid' => $courseid,
@@ -112,9 +114,8 @@ class ReviewController extends Controller
      * @Route("/{courseid}/{fileid}/assignrubric", name="assignrubric")
      * @Method("POST")
      */
-    public function assignAction($courseid, $fileid)
+    public function assignAction(Request $request, $courseid, $fileid)
     {
-        $request = $this->get('request');
         $postData = $request->request->get('form');
         $rubric = $postData['reviewrubric'];
         return $this->redirect($this->generateUrl('review_new', array('courseid'=>$courseid, 'fileid'=>$fileid, 'reviewrubricid'=>$rubric)));
@@ -170,7 +171,7 @@ class ReviewController extends Controller
             throw $this->createNotFoundException('Unable to find Review entity.');
         }
 
-        $editForm = $this->createForm(new ReviewType($options), $review);
+        $editForm = $this->createForm(ReviewType::class, $review, ['options' => $options]);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MarcaAssignmentBundle:Review:edit_ajax.html.twig', array(
@@ -199,8 +200,8 @@ class ReviewController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ReviewType($options), $review);
-        $editForm->submit($request);
+        $editForm = $this->createForm(ReviewType::class, $review, ['options' => $options]);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($review);
@@ -225,7 +226,7 @@ class ReviewController extends Controller
     public function deleteAction(Request $request, $id, $courseid)
     {
         $form = $this->createDeleteForm($id);
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -247,7 +248,7 @@ class ReviewController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

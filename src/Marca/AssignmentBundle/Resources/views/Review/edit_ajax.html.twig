@@ -7,15 +7,15 @@
         });
         $('.question').fadeOut();
         var options = {
-            target:        '#feedback'
+            target: '#feedback'
         };
-        $('#review-edit').submit(function() {
+        $('#review-edit').submit(function () {
             $(this).ajaxSubmit(options);
             return false;
         });
         $('#loading-feedback').fadeOut();
         {# nice little jquery plugin for sorting: tinysort #}
-        $('div#responses>div').tsort({order:'asc',attr:'id'});
+        $('div#responses>div').tsort({order: 'asc', attr: 'id'});
     });
 </script>
 
@@ -31,50 +31,51 @@
 
 
 <form id="review-edit" action="{{ course_path('review_update', { 'id': review.id }) }}"
-      method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+      method="post" novalidate="novalidate">
     {{ form_errors(edit_form) }}
     <div id="responses">
-    {% for reviewresponse in edit_form.reviewresponses %}
-        <div id="{{ review.reviewresponses[loop.index-1].reviewPrompt.sortOrder }}"  class="panel panel-default">
-            <div class="panel-heading">
-                <strong>
-                    {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|html_raw }}
-                </strong>
+        {% for reviewresponse in edit_form.reviewresponses %}
+            <div id="{{ review.reviewresponses[loop.index-1].reviewPrompt.sortOrder }}" class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>
+                        {{ review.reviewresponses[loop.index-1].reviewPrompt.prompt|html_raw }}
+                    </strong>
 
-                <p class=""><em>{{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|html_raw }}</em></p>
-            </div>
-            <div class="panel-body">
-                <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=0 %} hide {% endif %}">
-                    {% if app.user.username==review.reviewer.username %}
-                        {{ form_row(reviewresponse.responseShortText) }}
-                    {% else %}
-                        {{ form_row(reviewresponse.responseShortText, { 'attr':{'disabled':'disabled'}} ) }}
-                    {% endif %}
+                    <p class=""><em>{{ review.reviewresponses[loop.index-1].reviewPrompt.helptext|html_raw }}</em></p>
                 </div>
-                <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=1 %} hide {% endif %}">
-                    {% if app.user.username==review.reviewer.username %}
-                        {{ form_row(reviewresponse.responseParagraphText) }}
-                    {% else %}
-                        {{ form_row(reviewresponse.responseParagraphText, { 'attr':{'disabled':'disabled'}} ) }}
-                    {% endif %}
+                <div class="panel-body">
+                    <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=0 %} hide {% endif %}">
+                        {% if app.user.username==review.reviewer.username %}
+                            {{ form_row(reviewresponse.responseShortText) }}
+                        {% else %}
+                            {{ form_row(reviewresponse.responseShortText, { 'attr':{'disabled':'disabled'}} ) }}
+                        {% endif %}
+                    </div>
+                    <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=1 %} hide {% endif %}">
+                        {% if app.user.username==review.reviewer.username %}
+                            {{ form_row(reviewresponse.responseParagraphText) }}
+                        {% else %}
+                            {{ form_row(reviewresponse.responseParagraphText, { 'attr':{'disabled':'disabled'}} ) }}
+                        {% endif %}
+                    </div>
+                    <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=2 %} hide {% endif %}">
+                        {% if app.user.username==review.reviewer.username %}
+                            {{ form_row(reviewresponse.scaleitem) }}
+                        {% else %}
+                            {{ form_row(reviewresponse.scaleitem, { 'attr':{'disabled':'disabled'}} ) }}
+                        {% endif %}
+                    </div>
+
+
                 </div>
-                <div class="{% if review.reviewresponses[loop.index-1].reviewPrompt.type!=2 %} hide {% endif %}">
-                    {% if app.user.username==review.reviewer.username %}
-                        {{ form_row(reviewresponse.scaleitem) }}
-                    {% else %}
-                        {{ form_row(reviewresponse.scaleitem, { 'attr':{'disabled':'disabled'}} ) }}
-                    {% endif %}
+
+                <div class="panel-footer {% if app.user.username==review.reviewer.username %} hide {% endif %}"
+                     style="min-height: 100px;">
+                    {{ form_row(reviewresponse.helpful) }}
                 </div>
-
-
             </div>
-
-            <div class="panel-footer {% if app.user.username==review.reviewer.username %} hide {% endif %}" style="min-height: 100px;">
-                {{ form_row(reviewresponse.helpful) }}
-            </div>
-        </div>
-    {% endfor %}
-        </div>
+        {% endfor %}
+    </div>
     <div class="panel panel-default">
         <div class="panel-heading">
             <strong>Grading {% if role==2 %}(Instructors only){% endif %}</strong>

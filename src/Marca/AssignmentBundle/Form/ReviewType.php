@@ -11,21 +11,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ReviewType extends AbstractType
 {
-    protected $options;
-
-    public function __construct (array $options)
-    {
-        $this->options = $options;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $options = $this->options;
+        $this->options = $options['options'];
         $builder
-            ->add('reviewresponses', CollectionType::class, array(
-                'type'   => new ReviewResponseType($options),
-                'options'  => array(
-                'required'  => false),))
+            ->add('reviewresponses', CollectionType::class, [
+                'entry_type' => ReviewResponseType::class
+            ])
             ->add('grade',TextType::class, array('attr' => array('class' => 'text form-control'),))
             ->add('notes', TextareaType::class, array('attr' => array('class' => 'text form-control'),))
             ->add('feedbackGrade',TextType::class, array('attr' => array('class' => 'text form-control'),))
@@ -36,7 +29,8 @@ class ReviewType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Marca\AssignmentBundle\Entity\Review'
+            'data_class' => 'Marca\AssignmentBundle\Entity\Review',
+            'options' => null,
         ));
     }
 
