@@ -4,27 +4,26 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
+    <script src="{{ asset('bundles/marcahome/js/colorPick.js') }}"></script>
     <script language="javascript">
-        $(document).ready(function()
-        {
-            $('#toggle_modal').click(function(){
+        $(document).ready(function () {
+            $('#toggle_modal').click(function () {
                 $('#delete_modal').modal();
             });
-            $("#marca_tagbundle_tagtype_color").spectrum({
-                preferredFormat: "name",
-                showPaletteOnly: true,
-                showInput: true,
-                color: '{{tag.color}}',
-                palette: [
-                    ['royalblue', 'seagreen', 'slateblue','darkorange'],
-                    ['darkmagenta', 'darkslategrey', 'teal','firebrick'],
-                    ['orange', 'cadetblue', 'tomato','blueviolet'],
-                    ['lavender', 'lavenderblush', 'lightblue','lightcoral'],
-                    ['lightcyan', 'lightgoldenrodyellow', 'lightgray','lightpink'],
-                    ['lightsalmon', 'lightskyblue', 'lightsteelblue','lightyellow'],
-                    ['palegreen', 'paleturquoise', 'peachpuff','plum']
-                ]
+            $("#marca_tagbundle_tagtype_color").colorPick({
+                'initialColor': 'royalblue',
+                'allowRecent': true,
+                'recentMax': 5,
+                'allowCustomColor': false,
+                'palette': ['royalblue', 'seagreen', 'slateblue', 'darkorange',
+                    'darkmagenta', 'darkslategrey', 'teal', 'firebrick', 'orange',
+                    'cadetblue', 'tomato', 'blueviolet'],
+                'onColorSelected': function () {
+                    this.element.css({'backgroundColor': this.color, 'color': this.color});
+                    var selectedColor = this.color;
+                    selectedColor = selectedColor.toLowerCase();
+                    this.element.val(selectedColor);
+                }
             });
         });
     </script>
@@ -32,7 +31,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/colorPick.css') }}">
 {% endblock %}
 
 {% block content %}

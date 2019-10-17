@@ -153,7 +153,7 @@ fos_ck_editor:
             skin: "bootstrapck, ../../../../bundles/marcahome/ckeditor/skins/bootstrapck/"
             startupFocus: true
             toolbar: "toolbar_simple"
-            removePlugins: "elementspath,contextmenu,liststyle,tabletools"
+            removePlugins: "elementspath,liststyle"
             allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong em; ol ul li span(*); img[*]{*};'
             disableNativeSpellChecker: false
             height: 150
@@ -163,7 +163,7 @@ fos_ck_editor:
             startupFocus: true
             toolbar: "toolbar_default"
             extraPlugins: 'wordcount'
-            removePlugins: "elementspath,contextmenu,liststyle,tabletools"
+            removePlugins: "elementspath,liststyle"
             allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong em; ol ul li span(*){font-size,font-family,color,background-color}; img[*]{*}; '
             disableNativeSpellChecker: false
             height: 300
@@ -175,7 +175,7 @@ fos_ck_editor:
             startupFocus: true
             toolbar: "toolbar_docs"
             extraPlugins: 'wordcount,maxheight'
-            removePlugins: "elementspath,contextmenu,liststyle,tabletools"
+            removePlugins: "elementspath,liststyle"
             allowedContent: 'p h2 h3 h4 img{text-align,margin-left}(*); a[!href,target]{*}(*); table th tr td strong s em; ol ul li span(*){font-size,font-family,color,background-color}[data-id]; img[*]{*}; '
             disableNativeSpellChecker: false
             contentsCss: "bundles/marcahome/ckeditor/ckeditor.css"
@@ -185,7 +185,7 @@ fos_ck_editor:
             startupFocus: true
             toolbar: "toolbar_page"
             extraPlugins: 'wordcount,maxheight'
-            removePlugins: "elementspath,contextmenu,liststyle,tabletools"
+            removePlugins: "elementspath,liststyle"
             allowedContent: true
             disableNativeSpellChecker: false
             height: 500
