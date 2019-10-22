@@ -170,7 +170,7 @@ class PortfolioController extends Controller
         $portfolio = $em->getRepository('MarcaPortfolioBundle:Portfolio')->findShownOnly($user,$course);
         $portfoliosetid = $portfolioset->getId();
         $portfolio_docs = $paginator->paginate($portfolio, $request->query->get('page', 1),1);
-        
+
         $ratingset = $em->getRepository('MarcaAssessmentBundle:Ratingset')->ratingsetsByPortfolioset($portfolioset);
         }
         else {$portfolio = '';$portfolio_docs = ''; $portfoliosetid = '0';$ratingset = '';}

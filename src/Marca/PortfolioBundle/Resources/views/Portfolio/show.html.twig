@@ -200,7 +200,7 @@
                             {% for rating in ratingset.ratings %}
                                 <div class='hide'><strong
                                             class='margin-top'>{{ rating.objective.objective|html_raw }}</strong>
-                                    {{ rating.scaleitem.name }}</div>
+                                    {% if rating.scaleitem %}{{ rating.scaleitem.name }}{% endif %}</div>
                             {% endfor %}
 
                             <p>Notes for Student:</p>

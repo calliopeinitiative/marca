@@ -7,6 +7,7 @@ use Marca\AssessmentBundle\Entity\Ratingset;
 use Marca\AssessmentBundle\Form\RatingsetType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -80,7 +81,7 @@ class RatingsetController extends Controller
         $objective = $objectives[0];
         $scale = $objective->getScale()->getId();
         $options = array('scale' => $scale, 'role' => $role);
-        $editForm = $this->createForm(new RatingsetType($options), $ratingset);
+        $editForm = $this->createForm(RatingsetType::class, $ratingset, ['options' => $options]);
         $deleteForm = $this->createDeleteForm($courseid,$id,$userid,$user);
 
         return $this->render('MarcaAssessmentBundle:Ratingset:edit.html.twig', array(
@@ -112,10 +113,8 @@ class RatingsetController extends Controller
         $objective = $objectives[0];
         $scale = $objective->getScale()->getId();
         $options = array('scale' => $scale, 'role' => $role);
-        $editForm   = $this->createForm(new RatingsetType($options), $entity);
+        $editForm = $this->createForm(RatingsetType::class, $entity, ['options' => $options]);
         $deleteForm = $this->createDeleteForm($courseid,$id,$userid,$user);
-
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -172,7 +171,7 @@ class RatingsetController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('ratingset_delete', array('id' => $id,'courseid' => $courseid,'userid' => $userid,'user' => $user,)))
             ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+            ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
             ;
     }
