@@ -14,7 +14,7 @@
                         Objective</a>
                     <a class="btn btn-default btn-sm" href="{{ path('assessmentset') }}">List Assessment Sets</a>
                 </div>
-                <h2 class="margin-top-small">{{ assessmentset.name }}</h2>
+                <h2 class="margin-top-small">{{ assessmentset.name|html_raw  }}</h2>
 
                 <p>{{ assessmentset.description|html_raw }}</p>
             </div>

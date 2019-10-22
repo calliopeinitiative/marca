@@ -14,7 +14,7 @@
                 {% for assessmentset in assessmentsets %}
 
                     <a class="list-group-item" href="{{ path('assessmentset_show', { 'id': assessmentset.id }) }}">
-                        <h3 class="margin-top-small">{{ assessmentset.name }}</h3>
+                        <h3 class="margin-top-small">{{ assessmentset.name|html_raw  }}</h3>
                         {{ assessmentset.description|html_raw }}
                     </a>
 

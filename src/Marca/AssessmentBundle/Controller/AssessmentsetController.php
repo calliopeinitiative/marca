@@ -5,9 +5,12 @@ namespace Marca\AssessmentBundle\Controller;
 use Marca\AssessmentBundle\Entity\Assessmentset;
 use Marca\AssessmentBundle\Form\AssessmentsetType;
 use Marca\HomeBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 
 /**
  * Assessmentset controller.
@@ -64,7 +67,7 @@ class AssessmentsetController extends Controller
     public function newAction()
     {
         $assessmentset = new Assessmentset();
-        $form   = $this->createForm(new AssessmentsetType(), $assessmentset);
+        $form   = $this->createForm(AssessmentsetType::class, $assessmentset);
 
         return $this->render('MarcaAssessmentBundle:Assessmentset:new.html.twig', array(
             'assessmentset' => $assessmentset,
@@ -72,17 +75,16 @@ class AssessmentsetController extends Controller
         ));
     }
 
+
     /**
      * Creates a new Assessmentset entity.
      *
      * @Route("/create", name="assessmentset_create")
-     * @Method("post")
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
         $assessmentset  = new Assessmentset();
-        $request = $this->getRequest();
-        $form    = $this->createForm(new AssessmentsetType(), $assessmentset);
+        $form    = $this->createForm(AssessmentsetType::class, $assessmentset);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -100,6 +102,7 @@ class AssessmentsetController extends Controller
         ));
     }
 
+
     /**
      * Displays a form to edit an existing Assessmentset entity.
      *
@@ -115,7 +118,7 @@ class AssessmentsetController extends Controller
             throw $this->createNotFoundException('Unable to find Assessmentset entity.');
         }
 
-        $editForm = $this->createForm(new AssessmentsetType(), $assessmentset);
+        $editForm = $this->createForm(AssessmentsetType::class, $assessmentset);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MarcaAssessmentBundle:Assessmentset:edit.html.twig', array(
@@ -131,7 +134,7 @@ class AssessmentsetController extends Controller
      * @Route("/{id}/update", name="assessmentset_update")
      * @Method("post")
      */
-    public function updateAction($id)
+    public function updateAction($id,  Request $request)
     {
         $em = $this->getEm();
 
@@ -141,10 +144,8 @@ class AssessmentsetController extends Controller
             throw $this->createNotFoundException('Unable to find Assessmentset entity.');
         }
 
-        $editForm   = $this->createForm(new AssessmentsetType(), $assessmentset);
+        $editForm   = $this->createForm(AssessmentsetType::class, $assessmentset);
         $deleteForm = $this->createDeleteForm($id);
-
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -168,10 +169,9 @@ class AssessmentsetController extends Controller
      * @Route("/{id}/delete", name="assessmentset_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($id,  Request $request)
     {
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -190,11 +190,30 @@ class AssessmentsetController extends Controller
         return $this->redirect($this->generateUrl('assessmentset'));
     }
 
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
+//    private function createDeleteForm($id)
+//    {
+//        return $this->createFormBuilder(array('id' => $id))
+//            ->add('id', 'hidden')
+//            ->getForm()
+//        ;
+//    }
+
+
+/**
+ * Creates a form to delete.
+ *
+ * @param mixed $id The entity id
+ *
+ * @return \Symfony\Component\Form\Form The form
+ */
+private function createDeleteForm($id)
+{
+    return $this->createFormBuilder()
+        ->setAction($this->generateUrl('assessmentset_delete', array('id' => $id)))
+        ->setMethod('POST')
+        ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+        ->getForm()
         ;
-    }
+}
+
 }

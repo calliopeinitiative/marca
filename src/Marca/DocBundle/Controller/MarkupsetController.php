@@ -363,7 +363,7 @@ class MarkupsetController extends Controller
 
 
     /**
-     * Creates a form to delete a Journal entity by id.
+     * Creates a form to delete.
      *
      * @param mixed $id The entity id
      *
