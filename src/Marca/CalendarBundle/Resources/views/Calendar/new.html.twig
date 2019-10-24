@@ -5,7 +5,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/marcahome/js/jquery.timepicker.min.js') }}"></script>
-    <script src="{{ asset('bundles/marcahome/js/spectrum.js') }}"></script>
+    <script src="{{ asset('bundles/marcahome/js/colorPick.js') }}"></script>
     {% set set_date = app.request.get('set_date')|date("m/d/Y") %}
 
     <script language="javascript">
@@ -23,17 +23,20 @@
                 showButtonPanel: true,
             });
             $('#marca_calendarbundle_calendartype_endTime').timepicker(({'timeFormat': 'H:i'}));
-            $("#marca_calendarbundle_calendartype_color").spectrum({
-                preferredFormat: "name",
-                showPaletteOnly: true,
-                showInput: true,
-                color: 'lavender',
-                palette: [
-                    ['lavender', 'lavenderblush', 'lightblue', 'lightcoral'],
-                    ['lightcyan', 'lightgoldenrodyellow', 'lightgray', 'lightpink'],
-                    ['lightsalmon', 'lightskyblue', 'lightsteelblue', 'lightyellow'],
-                    ['palegreen', 'paleturquoise', 'peachpuff', 'plum']
-                ]
+            $("#calendar_color").colorPick({
+                'initialColor': 'royalblue',
+                'allowRecent': true,
+                'recentMax': 5,
+                'allowCustomColor': false,
+                'palette': ['royalblue', 'seagreen', 'slateblue', 'darkorange',
+                    'darkmagenta', 'darkslategrey', 'teal', 'firebrick', 'orange',
+                    'cadetblue', 'tomato', 'blueviolet'],
+                'onColorSelected': function () {
+                    this.element.css({'backgroundColor': this.color, 'color': this.color});
+                    var selectedColor = this.color;
+                    selectedColor = selectedColor.toLowerCase();
+                    this.element.val(selectedColor);
+                }
             });
         });
     </script>
@@ -41,7 +44,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/spectrum.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/colorPick.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery.timepicker.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ asset('bundles/marcahome/css/jquery-ui.theme.min.css') }}">
 {% endblock %}
