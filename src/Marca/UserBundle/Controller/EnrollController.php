@@ -106,7 +106,7 @@ class EnrollController extends Controller
        $user = $this->getUser();
        $course = $this->getCourse($request);
        $coupon = $user->getCoupon();
-       if($this->get('security.context')->isGranted('ROLE_INSTR') === TRUE){
+       if($this->get('security.authorization_checker')->isGranted('ROLE_INSTR') === TRUE){
            $validCoupon = TRUE;
        }
        elseif($coupon == NULL){

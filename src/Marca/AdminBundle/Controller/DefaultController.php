@@ -6,6 +6,7 @@ use Marca\AdminBundle\Form\AdminUserType;
 use Marca\HomeBundle\Controller\Controller;
 use Marca\UserBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class DefaultController extends Controller
         $users = array();
         
         $form = $this->createFormBuilder(new User())
-            ->add('lastname','text', array('label'  => 'Start of name, username, or email','attr' => array('class' => 'form-control', 'action' => 'javascript:void(0);'),))
+            ->add('lastname',TextType::class, array('label'  => 'Start of name, username, or email','attr' => array('class' => 'form-control', 'action' => 'javascript:void(0);'),))
             ->getForm();
 
         //pagination
