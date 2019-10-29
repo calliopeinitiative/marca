@@ -25,6 +25,7 @@
                     this.element.val(selectedColor);
                 }
             });
+            $("#marca_tagbundle_tagtype_color").val("{{tag.color}}").attr("style","background-color:{{ tag.color }}; color:{{ tag.color }}");
         });
     </script>
 {% endblock %}

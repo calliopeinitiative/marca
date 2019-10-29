@@ -31,6 +31,7 @@
                     this.element.val(selectedColor);
                 }
             });
+            $("#calendar_color").val("{{calendar.color}}").attr("style","background-color:{{ calendar.color }}; color:{{ calendar.color }}");
         });
     </script>
 {% endblock %}

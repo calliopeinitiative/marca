@@ -25,6 +25,8 @@
                     this.element.val(selectedColor);
                 }
             });
+            $("#marca_docbundle_markuptype_color").val("{{markup.color}}").attr("style","background-color:{{ markup.color }}; color:{{ markup.color }}");
+
         });
     </script>
 {% endblock %}
