@@ -89,7 +89,7 @@ class ProjectController extends Controller
      *
      * @Route("/{courseid}/{resource}/create", name="project_create")
      */
-    public function createAction(Request $request, $courseid)
+    public function createAction(Request $request, $courseid, $resource)
     {
         $allowed = array(self::ROLE_INSTRUCTOR);
         $this->restrictAccessTo($request, $allowed);
@@ -98,6 +98,7 @@ class ProjectController extends Controller
         $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
         $project = new Project();
         $project->setCourse($course);
+        $project->setResource($resource);
         $project->setSortOrder(0);
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
