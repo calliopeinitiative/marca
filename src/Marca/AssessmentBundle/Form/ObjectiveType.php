@@ -2,6 +2,7 @@
 
 namespace Marca\AssessmentBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +15,7 @@ class ObjectiveType extends AbstractType
         $builder
             ->add('objective', CKEditorType::class, array('config_name' => 'editor_simple',))
             ->add('description', CKEditorType::class, array('config_name' => 'editor_simple',))
-            ->add('scale','entity', array('class'=>'MarcaAssessmentBundle:Scale', 'property'=>'name','expanded'=>false,'multiple'=>false, 'label' => 'Select a Scale for this Objective','attr' => array('class' => 'form-control'),))
+            ->add('scale',EntityType::class, array('class'=>'MarcaAssessmentBundle:Scale', 'choice_label'=>'name','expanded'=>false,'multiple'=>false, 'label' => 'Select a Scale for this Objective','attr' => array('class' => 'form-control'),))
         ;
     }
 

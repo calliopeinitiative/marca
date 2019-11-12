@@ -5,6 +5,8 @@ namespace Marca\AssessmentBundle\Controller;
 use Marca\AssessmentBundle\Entity\Objective;
 use Marca\AssessmentBundle\Form\ObjectiveType;
 use Marca\HomeBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -29,7 +31,7 @@ class ObjectiveController extends Controller
         $objective = new Objective();
         $objective->setDescription('<p></p>');
         $objective->setObjective('<p></p>');
-        $form   = $this->createForm(new ObjectiveType(), $objective);
+        $form   = $this->createForm(ObjectiveType::class, $objective);
 
         return $this->render('MarcaAssessmentBundle:Objective:new.html.twig', array(
             'objective' => $objective,
@@ -44,15 +46,14 @@ class ObjectiveController extends Controller
      * @Route("/{assessmentsetid}/create", name="objective_create")
      * @Method("post")
      */
-    public function createAction($assessmentsetid)
+    public function createAction($assessmentsetid, Request $request)
     {
         $em = $this->getEm();
         $assessmentset = $em->getRepository('MarcaAssessmentBundle:Assessmentset')->find($assessmentsetid);
         
         $objective  = new Objective();
         $objective->setAssessmentset($assessmentset);
-        $request = $this->getRequest();
-        $form    = $this->createForm(new ObjectiveType(), $objective);
+        $form    = $this->createForm(ObjectiveType::class, $objective);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -86,7 +87,7 @@ class ObjectiveController extends Controller
             throw $this->createNotFoundException('Unable to find Objective entity.');
         }
 
-        $editForm = $this->createForm(new ObjectiveType(), $objective);
+        $editForm = $this->createForm(ObjectiveType::class, $objective);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MarcaAssessmentBundle:Objective:edit.html.twig', array(
@@ -103,7 +104,7 @@ class ObjectiveController extends Controller
      * @Method("post")
      * @Template("MarcaAssessmentBundle:Objective:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($id, Request $request)
     {
         $em = $this->getEm();
 
@@ -113,10 +114,9 @@ class ObjectiveController extends Controller
             throw $this->createNotFoundException('Unable to find Objective entity.');
         }
 
-        $editForm   = $this->createForm(new ObjectiveType(), $objective);
+        $editForm   = $this->createForm(ObjectiveType::class, $objective);
         $deleteForm = $this->createDeleteForm($id);
 
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -140,11 +140,10 @@ class ObjectiveController extends Controller
      * @Route("/{id}/delete", name="objective_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($id, Request $request)
     {
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
-
+        
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -165,7 +164,7 @@ class ObjectiveController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }
