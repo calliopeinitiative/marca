@@ -6,8 +6,9 @@ use Marca\AssessmentBundle\Entity\Scale;
 use Marca\AssessmentBundle\Form\ScaleType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Scale controller.
@@ -63,7 +64,7 @@ class ScaleController extends Controller
     public function newAction()
     {
         $scale = new Scale();
-        $form   = $this->createForm(new ScaleType(), $scale);
+        $form   = $this->createForm(ScaleType::class, $scale);
 
         return $this->render('MarcaAssessmentBundle:Scale:new.html.twig', array(
             'scale' => $scale,
@@ -77,11 +78,10 @@ class ScaleController extends Controller
      * @Route("/create", name="scale_create")
      * @Method("post")
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
         $scale  = new Scale();
-        $request = $this->getRequest();
-        $form    = $this->createForm(new ScaleType(), $scale);
+        $form    = $this->createForm(ScaleType::class, $scale);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -114,7 +114,7 @@ class ScaleController extends Controller
             throw $this->createNotFoundException('Unable to find Scale entity.');
         }
 
-        $editForm = $this->createForm(new ScaleType(), $scale);
+        $editForm = $this->createForm(ScaleType::class, $scale);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MarcaAssessmentBundle:Scale:edit.html.twig', array(
@@ -140,7 +140,7 @@ class ScaleController extends Controller
             throw $this->createNotFoundException('Unable to find Scale entity.');
         }
 
-        $editForm   = $this->createForm(new ScaleType(), $scale);
+        $editForm   = $this->createForm(ScaleType::class, $scale);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -192,7 +192,7 @@ class ScaleController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }
