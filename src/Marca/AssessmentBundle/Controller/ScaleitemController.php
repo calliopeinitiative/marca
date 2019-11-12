@@ -5,6 +5,8 @@ namespace Marca\AssessmentBundle\Controller;
 use Marca\AssessmentBundle\Entity\Scaleitem;
 use Marca\AssessmentBundle\Form\ScaleitemType;
 use Marca\HomeBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -25,7 +27,7 @@ class ScaleitemController extends Controller
     public function newAction($scaleid)
     {
         $scaleitem = new Scaleitem();
-        $form   = $this->createForm(new ScaleitemType(), $scaleitem);
+        $form   = $this->createForm(ScaleitemType::class, $scaleitem);
 
         return $this->render('MarcaAssessmentBundle:Scaleitem:new.html.twig', array(
             'scaleitem' => $scaleitem,
@@ -40,15 +42,14 @@ class ScaleitemController extends Controller
      * @Route("/{scaleid}/create", name="scaleitem_create")
      * @Method("post")
      */
-    public function createAction($scaleid)
+    public function createAction($scaleid, Request $request)
     {
         $em = $this->getEm();
         $scale = $em->getRepository('MarcaAssessmentBundle:Scale')->find($scaleid);
         
         $scaleitem  = new Scaleitem();
         $scaleitem->setScale($scale);
-        $request = $this->getRequest();
-        $form    = $this->createForm(new ScaleitemType(), $scaleitem);
+        $form    = $this->createForm(ScaleitemType::class, $scaleitem);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -82,7 +83,7 @@ class ScaleitemController extends Controller
             throw $this->createNotFoundException('Unable to find Scaleitem entity.');
         }
 
-        $editForm = $this->createForm(new ScaleitemType(), $scaleitem);
+        $editForm = $this->createForm(ScaleitemType::class, $scaleitem);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MarcaAssessmentBundle:Scaleitem:edit.html.twig', array(
@@ -98,7 +99,7 @@ class ScaleitemController extends Controller
      * @Route("/{id}/update", name="scaleitem_update")
      * @Method("post")
      */
-    public function updateAction($id)
+    public function updateAction($id,  Request $request)
     {
         $em = $this->getEm();
 
@@ -111,10 +112,9 @@ class ScaleitemController extends Controller
             throw $this->createNotFoundException('Unable to find Scaleitem entity.');
         }
 
-        $editForm   = $this->createForm(new ScaleitemType(), $scaleitem);
+        $editForm   = $this->createForm(ScaleitemType::class, $scaleitem);
         $deleteForm = $this->createDeleteForm($id);
 
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -138,10 +138,9 @@ class ScaleitemController extends Controller
      * @Route("/{id}/delete", name="scaleitem_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($id, Request $request)
     {
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -164,7 +163,7 @@ class ScaleitemController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

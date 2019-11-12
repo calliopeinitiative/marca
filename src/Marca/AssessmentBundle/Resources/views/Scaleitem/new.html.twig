@@ -19,7 +19,7 @@
                 <h2 class="panel-title small">Scale Item</h2>
             </div>
             <div class="panel-body">
-                <form action="{{ path('scaleitem_create', {'scaleid':scaleid}) }}" method="post" {{ form_enctype(form) }}>
+                <form action="{{ path('scaleitem_create', {'scaleid':scaleid}) }}" method="post">
                     {{ form_widget(form) }}
             </div>
             <div class="panel-footer">
