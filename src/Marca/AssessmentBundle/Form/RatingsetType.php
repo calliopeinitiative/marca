@@ -19,6 +19,7 @@ class RatingsetType extends AbstractType
         $this->options = $options['options'];
         $role = $this->options['role'] ;
         $scale = $this->options['scale'] ;
+        $options = array('scale' => $scale);
         if ($role == 4) {
             $builder->add('notesforstudent', TextareaType::class, array('disabled' => true, 'label' => 'Notes for the student', 'attr' => array('class' => 'text form-control'),));
         } else {
@@ -26,7 +27,7 @@ class RatingsetType extends AbstractType
             }
         $builder
             ->add('ratings', CollectionType::class, [
-                'entry_type' => RatingType::class, 'entry_options' => ['options' => $scale],
+                'entry_type' => RatingType::class, 'entry_options' => ['options' => $options],
             ])
             ->add('grade', IntegerType::class, array('label' => 'Grade (must be an integer)', 'attr' => array('class' => 'text form-control'),))
             ->add('notesforreviewer', TextareaType::class, array('label' => 'Notes for the reviewer', 'attr' => array('class' => 'text form-control'),));
