@@ -6,6 +6,7 @@ use Marca\GradebookBundle\Entity\Attendance;
 use Marca\GradebookBundle\Form\AttendanceType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -101,11 +102,11 @@ class AttendanceController extends Controller
     */
     private function createEditForm($attendance, $courseid, $rollid, $user)
     {
-        $form = $this->createForm(new AttendanceType(), $attendance, array(
+        $form = $this->createForm(AttendanceType::class, $attendance, array(
             'action' => $this->generateUrl('attendance_update', array('id' => $attendance->getId(),'courseid'=>$courseid,'rollid'=>$rollid, 'user'=>$user)),
             'method' => 'POST',
         ));
-        $form->add('submit', 'submit', array('label' => 'Update','attr' => array('class' => 'btn btn-primary pull-right')));
+        $form->add('submit', SubmitType::class, array('label' => 'Update','attr' => array('class' => 'btn btn-primary pull-right')));
 
         return $form;
     }
@@ -182,7 +183,7 @@ class AttendanceController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('attendance_delete', array('id' => $id,'courseid' => $courseid,'rollid' => $rollid, 'user' => $user)))
             ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => 'Delete','attr' => array('class' => 'btn btn-default')))
+            ->add('submit', SubmitType::class, array('label' => 'Delete','attr' => array('class' => 'btn btn-default')))
             ->getForm()
         ;
     }
