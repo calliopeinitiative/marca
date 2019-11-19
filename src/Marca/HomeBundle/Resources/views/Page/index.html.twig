@@ -20,7 +20,7 @@
                 </tr>
                 {% for page in pages %}
                     <tr>
-                        <td><a href="{{ path('page_show', { 'id': page.id }) }}">{{ page.title }}</a></td>
+                        <td><a href="{{ path('page_show', { 'id': page.id }) }}">{{ page.title|html_raw }}</a></td>
                         <td>{% if page.type ==1 %}Research consent form{% elseif page.type ==2 %}Rubric{% else %}Display on Homepage{% endif %}</td>
                         <td><a class="btn btn-primary" href="{{ path('page_edit', { 'id': page.id }) }}">Edit</a>
                         </td>

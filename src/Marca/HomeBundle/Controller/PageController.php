@@ -5,6 +5,8 @@ namespace Marca\HomeBundle\Controller;
 use Marca\HomeBundle\Controller\Controller;
 use Marca\HomeBundle\Entity\Page;
 use Marca\HomeBundle\Form\PageType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -64,7 +66,7 @@ class PageController extends Controller
     {
         $page = new Page();
         $page->setBody('<p></p>');
-        $form   = $this->createForm(new PageType(), $page);
+        $form   = $this->createForm(PageType::class, $page);
 
         return array(
             'page' => $page,
@@ -79,11 +81,10 @@ class PageController extends Controller
      * @Method("post")
      * @Template("MarcaHomeBundle:Page:new.html.twig")
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
         $page  = new Page();
-        $request = $this->getRequest();
-        $form    = $this->createForm(new PageType(), $page);
+        $form    = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -117,7 +118,7 @@ class PageController extends Controller
             throw $this->createNotFoundException('Unable to find Page entity.');
         }
 
-        $editForm = $this->createForm(new PageType(), $page);
+        $editForm = $this->createForm(PageType::class, $page);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -134,7 +135,7 @@ class PageController extends Controller
      * @Method("post")
      * @Template("MarcaHomeBundle:Page:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($id,  Request $request)
     {
         $em = $this->getEm();
 
@@ -144,10 +145,8 @@ class PageController extends Controller
             throw $this->createNotFoundException('Unable to find Page entity.');
         }
 
-        $editForm   = $this->createForm(new PageType(), $page);
+        $editForm   = $this->createForm(PageType::class, $page);
         $deleteForm = $this->createDeleteForm($id);
-
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -171,10 +170,9 @@ class PageController extends Controller
      * @Route("/{id}/delete", name="page_delete")
      * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction($id,  Request $request)
     {
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -196,7 +194,7 @@ class PageController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }
