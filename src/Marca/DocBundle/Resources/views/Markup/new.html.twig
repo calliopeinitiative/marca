@@ -11,13 +11,13 @@
                 $('#delete_modal').modal();
             });
             $("#marca_docbundle_markuptype_color").colorPick({
-                'initialColor': 'royalblue',
+                'initialColor': 'lightblue',
                 'allowRecent': true,
                 'recentMax': 5,
                 'allowCustomColor': false,
-                'palette': ['royalblue', 'seagreen', 'slateblue', 'darkorange',
-                    'darkmagenta', 'darkslategrey', 'teal', 'firebrick', 'orange',
-                    'cadetblue', 'tomato', 'blueviolet'],
+                'palette': ['lightblue', 'lightgrey', 'lightpink', 'thistle',
+                    'moccasin', 'palegreen', 'lemonchiffon', 'gold', 'lightsalmon',
+                    'mediumaquamarine', 'lightcoral', 'plum'],
                 'onColorSelected': function () {
                     this.element.css({'backgroundColor': this.color, 'color': this.color});
                     var selectedColor = this.color;
