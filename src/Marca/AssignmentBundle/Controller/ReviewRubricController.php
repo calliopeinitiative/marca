@@ -6,6 +6,7 @@ use Marca\AssignmentBundle\Entity\ReviewRubric;
 use Marca\AssignmentBundle\Form\ReviewRubricType;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,7 @@ class ReviewRubricController extends Controller
      * Lists all ReviewRubric entities.
      *
      * @Route("/", name="reviewrubric")
-     * @Template()
+     * @Template("MarcaAssignmentBundle:ReviewRubric:index.html.twig")
      */
     public function indexAction()
     {
@@ -40,7 +41,7 @@ class ReviewRubricController extends Controller
      * Finds and displays a ReviewRubric entity.
      *
      * @Route("/{id}/show", name="reviewrubric_show")
-     * @Template()
+     * @Template("MarcaAssignmentBundle:ReviewRubric:show.html.twig")
      */
     public function showAction($id)
     {
@@ -64,13 +65,13 @@ class ReviewRubricController extends Controller
      * Displays a form to create a new ReviewRubric entity.
      *
      * @Route("/new", name="reviewrubric_new")
-     * @Template()
+     * @Template("MarcaAssignmentBundle:ReviewRubric:new.html.twig")
      */
     public function newAction()
     {
         $reviewrubric = new ReviewRubric();
         $reviewrubric->setShared(0);
-        $form   = $this->createForm(new ReviewRubricType(), $reviewrubric);
+        $form   = $this->createForm(ReviewRubricType::class, $reviewrubric);
 
         return array(
             'reviewrubric' => $reviewrubric,
@@ -82,13 +83,12 @@ class ReviewRubricController extends Controller
      * Creates a new ReviewRubric entity.
      *
      * @Route("/create", name="reviewrubric_create")
-     * @Method("post")
      */
     public function createAction(Request $request)
     {
         
         $entity  = new ReviewRubric();
-        $form = $this->createForm(new ReviewRubricType(), $entity);
+        $form = $this->createForm(ReviewRubricType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -109,7 +109,7 @@ class ReviewRubricController extends Controller
      * Displays a form to edit an existing ReviewRubric entity.
      *
      * @Route("/{id}/edit", name="reviewrubric_edit")
-     * @Template()
+     * @Template("MarcaAssignmentBundle:ReviewRubric:edit.html.twig")
      */
     public function editAction($id)
     {
@@ -121,7 +121,7 @@ class ReviewRubricController extends Controller
             throw $this->createNotFoundException('Unable to find ReviewRubric entity.');
         }
 
-        $editForm = $this->createForm(new ReviewRubricType(), $reviewrubric);
+        $editForm = $this->createForm(ReviewRubricType::class, $reviewrubric);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -135,7 +135,6 @@ class ReviewRubricController extends Controller
      * Edits an existing ReviewRubric entity.
      *
      * @Route("/{id}/update", name="reviewrubric_update")
-     * @Method("POST")
      * @Template("MarcaAssignmentBundle:ReviewRubric:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
@@ -149,7 +148,7 @@ class ReviewRubricController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ReviewRubricType(), $reviewrubric);
+        $editForm = $this->createForm(ReviewRubricType::class, $reviewrubric);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -170,7 +169,7 @@ class ReviewRubricController extends Controller
      * Displays a form to delete an existing ReviewRubric entity.
      *
      * @Route("/{id}/delete_modal", name="reviewrubric_delete_modal")
-     * @Template()
+     * @Template("MarcaAssignmentBundle:ReviewRubric:delete_modal.html.twig")
      */
     public function delete_modalAction($id)
     {
@@ -194,7 +193,6 @@ class ReviewRubricController extends Controller
      * Deletes a ReviewRubric entity.
      *
      * @Route("/{id}/delete", name="reviewrubric_delete")
-     * @Method("POST")
      */
     public function deleteAction(Request $request, $id)
     {
@@ -219,7 +217,7 @@ class ReviewRubricController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

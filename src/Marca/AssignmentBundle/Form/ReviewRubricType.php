@@ -2,6 +2,7 @@
 
 namespace Marca\AssignmentBundle\Form;
 
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,10 +16,10 @@ class ReviewRubricType extends AbstractType
     {
         $builder
             ->add('name',TextType::class, array('attr' => array('class' => 'text form-control'),))
-            ->add('description', 'ckeditor', array('config_name' => 'editor_simple',))
-            ->add('instructions', 'ckeditor', array('config_name' => 'editor_simple',))
+            ->add('description', CKEditorType::class, array('config_name' => 'editor_simple',))
+            ->add('instructions', CKEditorType::class, array('config_name' => 'editor_simple',))
             ->add('keywords',TextType::class, array('attr' => array('class' => 'text form-control'),))
-            ->add('shared', ChoiceType::class, array('choices'   => array(0 => 'My Classes', 1 => 'Public'),'required'  => true,'label'  => 'Share your Rubric', 'expanded' => true,'attr' => array('class' => 'radio'),))
+            ->add('shared', ChoiceType::class, array('choices'   => array('My Classes' => '0', 'Public' => '1'),'required'  => true,'label'  => 'Share your Rubric', 'expanded' => true,'attr' => array('class' => 'radio'),))
         ;
     }
 

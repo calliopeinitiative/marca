@@ -17,7 +17,7 @@
         </div>
         <div class="modal-body">
             <form action="{{ path('reviewrubric_update', { 'id': reviewrubric.id }) }}"
-                  method="post" {{ form_enctype(edit_form) }} style="margin-bottom:0;" novalidate="novalidate">
+                  method="post" style="margin-bottom:0;" novalidate="novalidate">
                 {{ form_widget(edit_form) }}
                 <a id="delete_rubric" class="btn btn-warning"
                    title='Delete Rubric' href="javascript:void(0);">Delete</a>

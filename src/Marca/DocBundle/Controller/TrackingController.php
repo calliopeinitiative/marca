@@ -22,8 +22,7 @@ class TrackingController extends Controller
      * Lists all Tracking entities.
      *
      * @Route("/", name="tracking")
-     * @Method("GET")
-     * @Template()
+     * @Template("MarcaDocBundle:Tracking:index.html.twig")
      */
     public function indexAction()
     {
@@ -40,7 +39,6 @@ class TrackingController extends Controller
      * Lists all Tracking entities.
      *
      * @Route("/{fileid}/add", name="tracking_add")
-     * @Method("POST")
      */
     public function addAction($fileid)
     {
@@ -63,8 +61,7 @@ class TrackingController extends Controller
      * Finds and displays a Tracking entity.
      *
      * @Route("/{id}", name="tracking_show")
-     * @Method("GET")
-     * @Template()
+     * @Template("MarcaDocBundle:Tracking:show.html.twig")
      */
     public function showAction($id)
     {

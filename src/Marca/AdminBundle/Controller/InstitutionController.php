@@ -10,6 +10,7 @@ use Marca\CourseBundle\Form\TermType;
 use Marca\HomeBundle\Controller\Controller;
 use Marca\UserBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -23,7 +24,7 @@ class InstitutionController extends Controller {
     /**
      * @Route("/", name="institution")
      * @Route("/{id}/index", name="institution2")
-     * @Template()
+     * @Template("MarcaAdminBundle:Institution:index.html.twig")
      */
     public function indexAction($id = null)
     {
@@ -35,7 +36,7 @@ class InstitutionController extends Controller {
     
     /**
      * @Route("/new", name="inst_new_modal")
-     * @Template()
+     * @Template("MarcaAdminBundle:Institution:new.html.twig")
      */
     public function newAction()
     {
@@ -47,7 +48,6 @@ class InstitutionController extends Controller {
     
     /**
      * @Route("/create", name="inst_create")
-     * @Method("post")
      */
     public function createAction()
     {
@@ -69,7 +69,6 @@ class InstitutionController extends Controller {
      * Deletes an Institution entity.
      *
      * @Route("/delete/{id}", name="institution_delete")
-     * @Method("post")
      */
     public function deleteAction($id)
     {
@@ -98,7 +97,7 @@ class InstitutionController extends Controller {
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }
