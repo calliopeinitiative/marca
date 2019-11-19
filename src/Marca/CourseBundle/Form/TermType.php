@@ -17,11 +17,11 @@ class TermType extends AbstractType
             ->add('termName',TextType::class, array('label'  => 'Term','attr' => array('class' => 'text form-control'),))
             ->add('term', TextType::class, array('label' => 'Term ID Number (optional)', 'required' => 'false','attr' => array('class' => 'text form-control'),))
             ->add('status', ChoiceType::class, array('choices' => array(
-                '0' => 'Inactive',
-                '1' => 'Active',
-                '2' => 'Continuing',
-                '3' => 'Hidden'),'attr' => array('class' => 'form-control'),))
-            ->add('institution', EntityType::class, array('class'=>'MarcaAdminBundle:Institution','property'=>'name', 'label'=>'Select Your Institution','attr' => array('class' => 'form-control'),))
+                'Inactive' => '0',
+                'Active' => '1',
+                'Continuing' => '2',
+                'Hidden' => '3'),'attr' => array('class' => 'form-control'),))
+            ->add('institution', EntityType::class, array('class'=>'MarcaAdminBundle:Institution','choice_label'=>'name', 'label'=>'Select Your Institution','attr' => array('class' => 'form-control'),))
         ;
     }
     

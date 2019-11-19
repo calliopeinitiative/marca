@@ -9,7 +9,7 @@
 {% block content %}
     <div class="col-sm-6 center">
         <div class="panel panel-default">
-            <form action="{{ path('term_update', { 'id': term.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+            <form action="{{ path('term_update', { 'id': term.id }) }}" method="post">
                 <div class="panel-heading">
                     Term
                 </div>

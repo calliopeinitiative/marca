@@ -5,9 +5,10 @@ namespace Marca\CourseBundle\Controller;
 use Marca\CourseBundle\Entity\Term;
 use Marca\CourseBundle\Form\TermType;
 use Marca\HomeBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Term controller.
@@ -20,7 +21,7 @@ class TermController extends Controller
      * Lists all Term entities.
      *
      * @Route("/", name="term")
-     * @Template()
+     * @Template("MarcaCourseBundle:Term:index.html.twig")
      */
     public function indexAction()
     {
@@ -35,7 +36,7 @@ class TermController extends Controller
      * Finds and displays a Term entity.
      *
      * @Route("/{id}/show", name="term_show")
-     * @Template()
+     * @Template("MarcaCourseBundle:Term:show.html.twig")
      */
     public function showAction($id)
     {
@@ -57,13 +58,13 @@ class TermController extends Controller
      * Displays a form to create a new Term entity.
      *
      * @Route("/new", name="term_new")
-     * @Template()
+     * @Template("MarcaCourseBundle:Term:new.html.twig")
      */
     public function newAction()
     {
         
         $term = new Term();
-        $form   = $this->createForm(new TermType(), $term);
+        $form   = $this->createForm(TermType::class, $term);
 
         return array(
             'term' => $term,
@@ -86,7 +87,7 @@ class TermController extends Controller
         $term->setInstitution($institution);
         //One is active status, someday we have to figure out how to get that constant in the controller
         $term->setStatus(1);
-        $form   = $this->createForm(new TermType(), $term);
+        $form   = $this->createForm(TermType::class, $term);
 
         return array(
             'term' => $term,
@@ -98,15 +99,13 @@ class TermController extends Controller
      * Creates a new Term entity.
      *
      * @Route("/create", name="term_create")
-     * @Method("post")
      * @Template("MarcaCourseBundle:Term:new.html.twig")
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
         
         $term  = new Term();
-        $request = $this->getRequest();
-        $form    = $this->createForm(new TermType(), $term);
+        $form    = $this->createForm(TermType::class, $term);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -128,7 +127,7 @@ class TermController extends Controller
      * Displays a form to edit an existing Term entity.
      *
      * @Route("/{id}/edit", name="term_edit")
-     * @Template()
+     * @Template("MarcaCourseBundle:Term:edit.html.twig")
      */
     public function editAction($id)
     {
@@ -141,7 +140,7 @@ class TermController extends Controller
             throw $this->createNotFoundException('Unable to find Term entity.');
         }
 
-        $editForm = $this->createForm(new TermType(), $term);
+        $editForm = $this->createForm(TermType::class, $term);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -155,10 +154,9 @@ class TermController extends Controller
      * Edits an existing Term entity.
      *
      * @Route("/{id}/update", name="term_update")
-     * @Method("post")
      * @Template("MarcaCourseBundle:Term:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction(Request $request, $id)
     {
         
         $em = $this->getEm();
@@ -169,10 +167,9 @@ class TermController extends Controller
             throw $this->createNotFoundException('Unable to find Term entity.');
         }
 
-        $editForm   = $this->createForm(new TermType(), $term);
+        $editForm   = $this->createForm(TermType::class, $term);
         $deleteForm = $this->createDeleteForm($id);
 
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -194,13 +191,11 @@ class TermController extends Controller
      * Deletes a Term entity.
      *
      * @Route("/{id}/delete", name="term_delete")
-     * @Method("post")
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request, $id)
     {
 
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -222,7 +217,7 @@ class TermController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }
