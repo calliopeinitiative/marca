@@ -20,7 +20,7 @@ class CalendarType extends AbstractType
             ->add('title',TextType::class, array('label'  => 'Title','attr' => array('class' => 'text form-control'),))
             ->add('startTime', TimeType::class, array('widget' => 'single_text','label'=>'Time','attr' => array('class' => 'text form-control')))
             ->add('startDate', DateType::class, array('widget' => 'single_text','format' => 'MM/dd/yyyy','label'  => 'Date','attr' => array('class' => 'text form-control')))
-            ->add('color',TextType::class, array('attr' => array('class' => 'colorpicker'),'label'  => 'Event Color',) )
+            ->add('color',TextType::class, array('attr' => array('class' => 'colorpicker'),'label'  => 'Event Color','attr' => array('class' => 'text form-control')) )
             ->add('description', CKEditorType::Class, ['config_name' => 'editor_default'])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary'],

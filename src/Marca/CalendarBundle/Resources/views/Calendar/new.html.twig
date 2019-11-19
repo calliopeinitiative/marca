@@ -14,23 +14,23 @@
             $('#close_form').click(function () {
                 window.location.href = '{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}';
             });
-            $('#marca_calendarbundle_calendartype_startDate').val('{{ set_date }}');
-            $('#marca_calendarbundle_calendartype_startDate').datepicker({
+            $('#calendar_startDate').val('{{ set_date }}');
+            $('#calendar_startDate').datepicker({
                 showButtonPanel: true,
             });
-            $('#marca_calendarbundle_calendartype_startTime').timepicker(({'timeFormat': 'H:i'}));
-            $('#marca_calendarbundle_calendartype_endDate').datepicker({
+            $('#calendar_startTime').timepicker(({'timeFormat': 'H:i'}));
+            $('#calendar_endDate').datepicker({
                 showButtonPanel: true,
             });
-            $('#marca_calendarbundle_calendartype_endTime').timepicker(({'timeFormat': 'H:i'}));
+            $('#calendar_endTime').timepicker(({'timeFormat': 'H:i'}));
             $("#calendar_color").colorPick({
-                'initialColor': 'royalblue',
+                'initialColor': 'lightblue',
                 'allowRecent': true,
                 'recentMax': 5,
                 'allowCustomColor': false,
-                'palette': ['royalblue', 'seagreen', 'slateblue', 'darkorange',
-                    'darkmagenta', 'darkslategrey', 'teal', 'firebrick', 'orange',
-                    'cadetblue', 'tomato', 'blueviolet'],
+                'palette': ['lightblue', 'lightgrey', 'lightpink', 'thistle',
+                    'moccasin', 'palegreen', 'lemonchiffon', 'gold', 'lightsalmon',
+                    'mediumaquamarine', 'lightcoral', 'plum'],
                 'onColorSelected': function () {
                     this.element.css({'backgroundColor': this.color, 'color': this.color});
                     var selectedColor = this.color;
