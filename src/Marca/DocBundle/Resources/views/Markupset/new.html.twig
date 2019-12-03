@@ -21,12 +21,16 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <button id="close_form" type="button" class="close">&times;</button>
                 <h2 class="panel-title small">Markup Set</h2>
             </div>
             <div class="panel-body">
                 {{ form_widget(form) }}
-                    <button class="btn btn-primary pull-right" type="submit">Post</button>
+                </div>
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <button class="btn btn-primary" type="submit">Create</button>
+                    <a class="btn btn-default" href="{{ path('markupset') }}">Cancel</a>
+                </div>
             </div>
         </div>
     </form>
