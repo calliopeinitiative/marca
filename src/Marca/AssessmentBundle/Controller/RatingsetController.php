@@ -67,7 +67,8 @@ class RatingsetController extends Controller
     {
         $em = $this->getEm();
         $course = $this->getCourse($request);
-//        $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+        $usernumber = $user;
+        $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $assessmentset = $course->getAssessmentset();
         $role = $this->getCourseRole($request);
 
@@ -82,7 +83,7 @@ class RatingsetController extends Controller
         $scale = $objective->getScale()->getId();
         $options = array('scale' => $scale, 'role' => $role);
         $editForm = $this->createForm(RatingsetType::class, $ratingset, ['options' => $options]);
-        $deleteForm = $this->createDeleteForm($courseid,$id,$userid,$user);
+        $deleteForm = $this->createDeleteForm($courseid,$id,$userid,$usernumber);
 
         return $this->render('MarcaAssessmentBundle:Ratingset:edit.html.twig', array(
             'ratingset'      => $ratingset,
@@ -97,8 +98,7 @@ class RatingsetController extends Controller
     /**
      * Edits an existing Ratingset entity.
      *
-     * @Route("/{courseid}/{userid}/{user}/{id}/update", name="ratingset_update")
-     * @Method("post")
+     * @Route("/{courseid}/{userid}/{user}/{id}/update", name="ratingset_update", methods={"POST"})
      */
     public function updateAction(Request $request, $courseid,$id,$userid,$user)
     {
@@ -165,8 +165,9 @@ class RatingsetController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($courseid,$id,$userid,$user)
+    private function createDeleteForm($courseid,$id,$userid,$usernumber)
     {
+        $user = $usernumber;
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('ratingset_delete', array('id' => $id,'courseid' => $courseid,'userid' => $userid,'user' => $user,)))
             ->setMethod('POST')
