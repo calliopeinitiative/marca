@@ -6,9 +6,8 @@ use Marca\HomeBundle\Controller\Controller;
 use Marca\PortfolioBundle\Entity\Portitem;
 use Marca\PortfolioBundle\Entity\Portset;
 use Marca\PortfolioBundle\Form\PortsetType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Portset controller.
@@ -21,7 +20,6 @@ class PortsetController extends Controller
      * Lists all Portset entities.
      *
      * @Route("/", name="portset")
-     * @Template()
      */
     public function indexAction()
     {
@@ -29,14 +27,15 @@ class PortsetController extends Controller
 
         $portsets = $em->getRepository('MarcaPortfolioBundle:Portset')->findAll();
 
-        return array('portsets' => $portsets);
+        return $this->render('MarcaPortfolioBundle:Portset:index.html.twig', array(
+            'portsets' => $portsets
+        ));
     }
 
     /**
      * Finds and displays a Portset entity.
      *
      * @Route("/{id}/show", name="portset_show")
-     * @Template()
      */
     public function showAction($id)
     {
@@ -50,17 +49,17 @@ class PortsetController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaPortfolioBundle:Portset:show.html.twig', array(
             'portset'      => $portset,
             'portitems'    => $portitems,
-            'delete_form' => $deleteForm->createView(),        );
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
      * Displays a form to create a new Portset entity.
      *
      * @Route("/new", name="portset_new")
-     * @Template()
      */
     public function newAction()
     {
@@ -71,18 +70,16 @@ class PortsetController extends Controller
 
         $form   = $this->createForm(new PortsetType(), $portset);
 
-        return array(
+        return $this->render('MarcaPortfolioBundle:Portset:new.html.twig', array(
             'portset' => $portset,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Creates a new Portset entity.
      *
-     * @Route("/create", name="portset_create")
-     * @Method("post")
-     * @Template("MarcaPortfolioBundle:Portset:new.html.twig")
+     * @Route("/create", name="portset_create", methods={"POST"})
      */
     public function createAction()
     {
@@ -107,18 +104,16 @@ class PortsetController extends Controller
             return $this->redirect($this->generateUrl('portset_show', array('id' => $portset->getId())));
             
         }
-
-        return array(
+        return $this->render('MarcaPortfolioBundle:Portset:new.html.twig', array(
             'portset' => $portset,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Portset entity.
      *
      * @Route("/{id}/edit", name="portset_edit")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -133,19 +128,17 @@ class PortsetController extends Controller
         $editForm = $this->createForm(new PortsetType(), $portset);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaPortfolioBundle:Portset:edit.html.twig', array(
             'portset'      => $portset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Edits an existing Portset entity.
      *
-     * @Route("/{id}/update", name="portset_update")
-     * @Method("post")
-     * @Template("MarcaPortfolioBundle:Portset:edit.html.twig")
+     * @Route("/{id}/update", name="portset_update", methods={"POST"})
      */
     public function updateAction($id)
     {
@@ -171,18 +164,17 @@ class PortsetController extends Controller
             return $this->redirect($this->generateUrl('portset_show', array('id' => $id)));
         }
 
-        return array(
+        return $this->render('MarcaPortfolioBundle:Portset:edit.html.twig', array(
             'portset'      => $portset,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Deletes a Portset entity.
      *
-     * @Route("/{id}/delete", name="portset_delete")
-     * @Method("post")
+     * @Route("/{id}/delete", name="portset_delete", methods={"DELETE"})
      */
     public function deleteAction($id)
     {
@@ -218,7 +210,7 @@ class PortsetController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('portset_delete', array('id' => $id)))
             ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+            ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
             ;
     }

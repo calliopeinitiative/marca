@@ -63,11 +63,11 @@ class RatingsetController extends Controller
      *
      * @Route("/{courseid}/{userid}/{user}/{id}/edit", name="ratingset_edit")
      */
-    public function editAction(Request $request, $courseid, $id, $userid)
+    public function editAction(Request $request, $courseid, $id, $userid, $user)
     {
         $em = $this->getEm();
         $course = $this->getCourse($request);
-        $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
+//        $user = $em->getRepository('MarcaUserBundle:User')->find($userid);
         $assessmentset = $course->getAssessmentset();
         $role = $this->getCourseRole($request);
 
@@ -136,7 +136,6 @@ class RatingsetController extends Controller
      * Deletes a Ratingset entity.
      *
      * @Route("/{courseid}/{userid}/{user}/{id}/delete", name="ratingset_delete")
-     * @Method("post")
      */
     public function deleteAction(Request $request, $courseid,$id,$userid,$user)
     {

@@ -2,6 +2,7 @@
 
 namespace Marca\PortfolioBundle\Form;
 
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -15,9 +16,9 @@ class PortitemType extends AbstractType
     {
         $builder
             ->add('name',TextType::class, array('label'  => 'Portfolio item name','attr' => array('class' => 'text form-control'),))
-            ->add('description', 'ckeditor', array('config_name' => 'editor_default',))
+            ->add('description', CKEditorType::class, array('config_name' => 'editor_default',))
             ->add('sortorder',NumberType::class, array('label'  => 'Sort Order','attr' => array('class' => 'text form-control'),))
-            ->add('status', ChoiceType::class, array('choices'   => array(1 => 'Yes', 0 => 'No'),'required'  => true,'label'  => 'Show in Portfolio Display', 'expanded' => true,'attr' => array('class' => 'radio'),))
+            ->add('status', ChoiceType::class, array('choices'   => array('Yes' => 1 , 'No' => 0),'required'  => true,'label'  => 'Show in Portfolio Display', 'expanded' => true,'attr' => array('class' => 'radio'),))
         ;
     }
     

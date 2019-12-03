@@ -2,12 +2,12 @@
 
 namespace Marca\PortfolioBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Marca\HomeBundle\Controller\Controller;
 use Marca\PortfolioBundle\Entity\Portitem;
 use Marca\PortfolioBundle\Form\PortitemType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Portitem controller.
@@ -20,7 +20,6 @@ class PortitemController extends Controller
      * Lists all Portitem entities.
      *
      * @Route("/", name="portitem")
-     * @Template()
      */
     public function indexAction()
     {
@@ -28,14 +27,16 @@ class PortitemController extends Controller
 
         $portitems = $em->getRepository('MarcaPortfolioBundle:Portitem')->findAll();
 
-        return array('portitems' => $portitems);
+
+        return $this->render('MarcaPortfolioBundle:Portitem:index.html.twig', array(
+            'portitems' => $portitems
+        ));
     }
 
     /**
      * Finds and displays a Portitem entity.
      *
      * @Route("/{id}/show", name="portitem_show")
-     * @Template()
      */
     public function showAction($id)
     {
@@ -49,45 +50,42 @@ class PortitemController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaPortfolioBundle:Portitem:show.html.twig', array(
             'portitem'      => $portitem,
-            'delete_form' => $deleteForm->createView(),        );
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
      * Displays a form to create a new Portitem entity.
      *
      * @Route("/{portsetid}/new", name="portitem_new")
-     * @Template()
      */
     public function newAction($portsetid)
     {
         $portitem = new Portitem();
 
-        $form   = $this->createForm(new PortitemType(), $portitem);
+        $form   = $this->createForm(PortitemType::class, $portitem);
 
-        return array(
+        return $this->render('MarcaPortfolioBundle:Portitem:new.html.twig', array(
             'portsetid' => $portsetid,
             'portitem' => $portitem,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Creates a new Portitem entity.
      *
-     * @Route("/{portsetid}/create", name="portitem_create")
-     * @Method("post")
-     * @Template("MarcaPortfolioBundle:Portitem:new.html.twig")
+     * @Route("/{portsetid}/create", name="portitem_create", methods={"POST"})
      */
-    public function createAction($portsetid)
+    public function createAction(Request $request, $portsetid)
     {
         $em = $this->getEm();
         $portitem  = new Portitem();
         $portset = $em->getRepository('MarcaPortfolioBundle:Portset')->find($portsetid);
         $portitem->setPortset($portset);
-        $request = $this->getRequest();
-        $form    = $this->createForm(new PortitemType(), $portitem);
+        $form    = $this->createForm(PortitemType::class, $portitem);
         $form->handleRequest($request);
 
 
@@ -100,17 +98,16 @@ class PortitemController extends Controller
             
         }
 
-        return array(
+        return $this->render('MarcaPortfolioBundle:Portitem:new.html.twig', array(
             'portitem' => $portitem,
             'form'   => $form->createView()
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Portitem entity.
      *
      * @Route("/{id}/edit", name="portitem_edit")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -122,24 +119,22 @@ class PortitemController extends Controller
             throw $this->createNotFoundException('Unable to find Portitem entity.');
         }
 
-        $editForm = $this->createForm(new PortitemType(), $portitem);
+        $editForm = $this->createForm(PortitemType::class, $portitem);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('MarcaPortfolioBundle:Portitem:edit.html.twig', array(
             'portitem'      => $portitem,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Edits an existing Portitem entity.
      *
-     * @Route("/{id}/update", name="portitem_update")
-     * @Method("post")
-     * @Template("MarcaPortfolioBundle:Portitem:edit.html.twig")
+     * @Route("/{id}/update", name="portitem_update", methods={"POST"})
      */
-    public function updateAction($id)
+    public function updateAction(Request $request, $id)
     {
         $em = $this->getEm();
 
@@ -150,10 +145,8 @@ class PortitemController extends Controller
             throw $this->createNotFoundException('Unable to find Portitem entity.');
         }
 
-        $editForm   = $this->createForm(new PortitemType(), $portitem);
+        $editForm   = $this->createForm(PortitemType::class, $portitem);
         $deleteForm = $this->createDeleteForm($id);
-
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -164,23 +157,21 @@ class PortitemController extends Controller
             return $this->redirect($this->generateUrl('portset_show', array('id' => $portsetid)));
         }
 
-        return array(
+        return $this->render('MarcaPortfolioBundle:Portitem:edit.html.twig', array(
             'portitem'      => $portitem,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Deletes a Portitem entity.
      *
-     * @Route("/{id}/delete", name="portitem_delete")
-     * @Method("post")
+     * @Route("/{id}/delete", name="portitem_delete", methods={"POST"})
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -212,7 +203,7 @@ class PortitemController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('portset_delete', array('id' => $id)))
             ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
+            ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
             ;
     }

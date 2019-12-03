@@ -18,7 +18,7 @@
     <div class="col-sm-8 well center">
         <h2>Portfolios</h2>
 
-        <form action="{{ path('portitem_update', { 'id': portitem.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+        <form action="{{ path('portitem_update', { 'id': portitem.id }) }}" method="post">
             {{ form_widget(edit_form) }}
             <button class="btn btn-primary pull-right" type="submit">Post</button>
             <a class="btn btn-warning" id='toggle_modal' title='Delete' href='javascript:void(0);'>Delete</a>
