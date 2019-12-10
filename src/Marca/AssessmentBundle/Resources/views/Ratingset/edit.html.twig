@@ -57,7 +57,7 @@
                     {{ form_row(edit_form.notesforreviewer) }}
                     {{ form_row(edit_form.grade) }}
                     <hr/>
-                    <h3>{{ assessmentset.name }}</h3>
+                    <h3>{{ assessmentset.name|html_raw }}</h3>
                     {% for rating in edit_form.ratings %}
                         <p><strong>{{ ratingset.ratings[loop.index-1].objective.objective|html_raw }}</strong></p>
                         <p>{{ ratingset.ratings[loop.index-1].objective.description|html_raw }}</p>

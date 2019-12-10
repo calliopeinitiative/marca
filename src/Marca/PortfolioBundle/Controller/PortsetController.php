@@ -198,7 +198,7 @@ class PortsetController extends Controller
 
 
     /**
-     * Creates a form to delete a Journal entity by id.
+     * Creates a form to delete a Portset entity by id.
      *
      * @param mixed $id The entity id
      *
