@@ -13,7 +13,7 @@
             {% for portset in portsets %}
 
                 <a class="list-group-item" href="{{ path('portset_show', { 'id': portset.id }) }}">
-                    <h3 class="margin-top-small">{{ portset.name }}</h3>
+                    <h3 class="margin-top-small">{{ portset.name|html_raw }}</h3>
                     {% if portset.shared ==2 %}(Default){% endif %}
                     {{ portset.description|html_raw }}
                 </a>

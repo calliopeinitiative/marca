@@ -7,6 +7,7 @@ use Marca\PortfolioBundle\Entity\Portitem;
 use Marca\PortfolioBundle\Entity\Portset;
 use Marca\PortfolioBundle\Form\PortsetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -68,7 +69,7 @@ class PortsetController extends Controller
         $portset->setDescription('<p></p>');
         $portset->setUser($user);
 
-        $form   = $this->createForm(new PortsetType(), $portset);
+        $form   = $this->createForm(PortsetType::class, $portset);
 
         return $this->render('MarcaPortfolioBundle:Portset:new.html.twig', array(
             'portset' => $portset,
@@ -81,7 +82,7 @@ class PortsetController extends Controller
      *
      * @Route("/create", name="portset_create", methods={"POST"})
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
         $em = $this->getEm();
         $user = $this->getUser();
@@ -90,9 +91,8 @@ class PortsetController extends Controller
         
         $portitem = new Portitem();
         $portitem->setPortset($portset);
-        
-        $request = $this->getRequest();
-        $form    = $this->createForm(new PortsetType(), $portset);
+
+        $form    = $this->createForm(PortsetType::class, $portset);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -125,7 +125,7 @@ class PortsetController extends Controller
             throw $this->createNotFoundException('Unable to find Portset entity.');
         }
 
-        $editForm = $this->createForm(new PortsetType(), $portset);
+        $editForm = $this->createForm(PortsetType::class, $portset);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MarcaPortfolioBundle:Portset:edit.html.twig', array(
@@ -140,7 +140,7 @@ class PortsetController extends Controller
      *
      * @Route("/{id}/update", name="portset_update", methods={"POST"})
      */
-    public function updateAction($id)
+    public function updateAction($id, Request $request)
     {
         $em = $this->getEm();
 
@@ -150,10 +150,8 @@ class PortsetController extends Controller
             throw $this->createNotFoundException('Unable to find Portset entity.');
         }
 
-        $editForm   = $this->createForm(new PortsetType(), $portset);
+        $editForm   = $this->createForm(PortsetType::class, $portset);
         $deleteForm = $this->createDeleteForm($id);
-
-        $request = $this->getRequest();
 
         $editForm->handleRequest($request);
 
@@ -174,12 +172,11 @@ class PortsetController extends Controller
     /**
      * Deletes a Portset entity.
      *
-     * @Route("/{id}/delete", name="portset_delete", methods={"DELETE"})
+     * @Route("/{id}/delete", name="portset_delete"), methods={"DELETE"})
      */
-    public function deleteAction($id)
+    public function deleteAction($id, Request $request)
     {
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
 
         $form->handleRequest($request);
 
@@ -197,6 +194,8 @@ class PortsetController extends Controller
 
         return $this->redirect($this->generateUrl('portset'));
     }
+
+
 
     /**
      * Creates a form to delete a Journal entity by id.

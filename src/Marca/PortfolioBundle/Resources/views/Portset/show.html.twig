@@ -5,7 +5,7 @@
 {% block content %}
 
     <div class="well">
-        <h2 class="margin-top-small">{{ portset.name }}</h2>
+        <h2 class="margin-top-small">{{ portset.name|html_raw }}</h2>
 
         <div class="btn-group pull-right" style="margin-top: -15px;">
             <a class="btn btn-default btn-sm" role="button" href="{{ path('portitem_new', { 'portsetid': portset.id }) }}">Add Item<i
@@ -20,7 +20,7 @@
             {% for portitem in portitems %}
 
                 <a class="list-group-item" href="{{ path('portitem_edit', { 'id': portitem.id }) }}">
-                    <h4 class="margin-top-small">{{ portitem.name }}</h4>
+                    <h4 class="margin-top-small">{{ portitem.name|html_raw }}</h4>
                     {{ portitem.description|html_raw }}
                 </a>
 
