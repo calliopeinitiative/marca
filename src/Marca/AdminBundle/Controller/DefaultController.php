@@ -6,6 +6,7 @@ use Marca\AdminBundle\Form\AdminUserType;
 use Marca\HomeBundle\Controller\Controller;
 use Marca\UserBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -102,13 +103,13 @@ class DefaultController extends Controller
      */
     private function createEditForm(User $user)
     {
-        $form = $this->createForm(new AdminUserType(), $user, array(
+        $form = $this->createForm(AdminUserType::class, $user, array(
             'action' => $this->generateUrl('admin_user_update', array('username' => $user->getUsername())),
             'method' => 'POST',
             'attr' => array('novalidate' => 'novalidate'),
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update','attr' => array('class' => 'btn btn-default'),));
+        $form->add('submit', SubmitType::class, array('label' => 'Update','attr' => array('class' => 'btn btn-default'),));
 
         return $form;
     }
