@@ -208,7 +208,7 @@ class PortsetController extends Controller
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('portset_delete', array('id' => $id)))
-            ->setMethod('POST')
+            ->setMethod('DELETE')
             ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
             ;

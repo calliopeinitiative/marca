@@ -167,7 +167,7 @@ class PortitemController extends Controller
     /**
      * Deletes a Portitem entity.
      *
-     * @Route("/{id}/delete", name="portitem_delete", methods={"POST"})
+     * @Route("/{id}/delete", name="portitem_delete", methods={"DELETE"})
      */
     public function deleteAction(Request $request, $id)
     {
@@ -201,8 +201,8 @@ class PortitemController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('portset_delete', array('id' => $id)))
-            ->setMethod('POST')
+            ->setAction($this->generateUrl('portitem_delete', array('id' => $id)))
+            ->setMethod('DELETE')
             ->add('submit', SubmitType::class, array('label' => 'Yes','attr' => array('class' => 'btn btn-danger'),))
             ->getForm()
             ;
