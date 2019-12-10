@@ -40,32 +40,32 @@ class UploadReviewType extends AbstractType
                             ->setParameter('tag',  '3');},
                         'choice_label' => 'name', 'expanded'=>true,'multiple'=>true, 'label'  => 'Labels', 'attr' => array('class' => 'checkbox'),
                 ))
-                ->add('access', ChoiceType::class, array('choices'   => array('0' => 'Private', '1' => 'Shared', '2' => 'Hidden'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
+                ->add('access', ChoiceType::class, array('choices'   => array('Private' => '0', 'Shared' => '1', 'Hidden' => '0'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
             ;
         }
         else {
             $builder
                 ->add('file',FileType::class, array('label'  => ' '))
                 ->add('name',TextType::class, array('attr' => array('class' => 'text form-control'),))
-                ->add('project', 'entity', array('class' => 'MarcaCourseBundle:Project','property'=>'name','query_builder' =>
+                ->add('project', EntityType::class, array('class' => 'MarcaCourseBundle:Project','choice_label'=>'name','query_builder' =>
                     function(\Marca\CourseBundle\Entity\ProjectRepository $er) use ($options) {
-                        $courseid = $options['courseid'] ;
-                        $resource = $options['resource'] ;
+                        $courseid = $this->options['courseid'] ;
+                        $resource = $this->options['resource'] ;
                         return $er->createQueryBuilder('p')
                             ->where('p.course = :course')
                             ->andWhere('p.resource = :resource')
                             ->setParameter('course', $courseid)
                             ->setParameter('resource', $resource)
                             ->orderBy('p.name', 'ASC');}, 'expanded'=>true,'multiple'=>false,'label'  => 'Select', 'attr' => array('class' => 'radio'),))
-                ->add('tag', 'entity', array('class' => 'MarcaTagBundle:Tag','property'=>'name','query_builder' =>
+                ->add('tag', EntityType::class, array('class' => 'MarcaTagBundle:Tag','choice_label'=>'name','query_builder' =>
                     function(\Marca\TagBundle\Entity\TagRepository $er) use ($options) {
-                        $courseid = $options['courseid'] ;
+                        $courseid = $this->options['courseid'] ;
                         return $er->createQueryBuilder('t')
                             ->where('t.id = :tag')
                             ->setParameter('tag',  '3');
                     }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Labels', 'attr' => array('class' => 'checkbox'),
                 ))
-                ->add('access', ChoiceType::class, array('choices'   => array('0' => 'Private', '1' => 'Shared'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
+                ->add('access', ChoiceType::class, array('choices'   => array('Private' => '0', 'Shared' => '1'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
             ;
         }
     }
