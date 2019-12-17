@@ -4,7 +4,7 @@ security:
     firewalls:
         main:
             remember_me:
-                key:      "%secret%"
+                secret:      "%secret%"
                 lifetime: 2678400 # 31 days in seconds
                 path:     /
                 domain:   ~
