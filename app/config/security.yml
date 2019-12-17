@@ -13,18 +13,19 @@ security:
 
     firewalls:
         main:
+            provider: chain_provider
             pattern: ^/
             form_login:
-                csrf_provider: form.csrf_provider
-                default_target_path: /user/home          
+                csrf_token_generator: security.csrf.token_manager
+                default_target_path: /user/home
             logout:
                 path:   /logout
                 target: /home
             anonymous:    true
             switch_user: true
+            logout_on_user_change: true
 
-    access_control:
-        #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
+    access_control:        #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -40,6 +41,7 @@ security:
         - { path: ^/journal/, role: ROLE_USER }
         - { path: ^/forum/, role: ROLE_USER }
         - { path: ^/comment/, role: ROLE_USER }
+        - { path: ^/reply/, role: ROLE_USER }
         - { path: ^/file/, role: ROLE_USER }
         - { path: ^/user/, role: ROLE_USER }
         - { path: ^/doc/, role: ROLE_USER }  

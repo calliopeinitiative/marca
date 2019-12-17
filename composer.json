@@ -4,12 +4,28 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "Marca\\AdminBundle\\": "src/Marca/AdminBundle",
+            "Marca\\AssessmentBundle\\": "src/Marca/AssessmentBundle",
+            "Marca\\AssignmentBundle\\": "src/Marca/AssignmentBundle",
+            "Marca\\CalendarBundle\\": "src/Marca/CalendarBundle",
+            "Marca\\CourseBundle\\": "src/Marca/CourseBundle",
+            "Marca\\DocBundle\\": "src/Marca/DocBundle",
+            "Marca\\FileBundle\\": "src/Marca/FileBundle",
+            "Marca\\ForumBundle\\": "src/Marca/ForumBundle",
+            "Marca\\GradebookBundle\\": "src/Marca/GradebookBundle",
+            "Marca\\HomeBundle\\": "src/Marca/HomeBundle",
+            "Marca\\JournalBundle\\": "src/Marca/JournalBundle",
+            "Marca\\NoteBundle\\": "src/Marca/NoteBundle",
+            "Marca\\PortfolioBundle\\": "src/Marca/PortfolioBundle",
+            "Marca\\ResponseBundle\\": "src/Marca/ResponseBundle",
+            "Marca\\TagBundle\\": "src/Marca/TagBundle",
+            "Marca\\UserBundle\\": "src/Marca/UserBundle"
         },
-        "classmap": [
-            "app/AppKernel.php",
-            "app/AppCache.php"
-        ]
+        "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
+    },
+    "autoload-dev": {
+        "psr-4": { "Tests\\": "tests/" },
+        "files": [ "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php" ]
     },
     "require": {
         "php": ">=7.2",
@@ -33,7 +49,7 @@
     "require-dev": {
     },
     "scripts": {
-        "post-install-cmd": [
+        "symfony-scripts": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
@@ -41,24 +57,31 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],
+        "post-install-cmd": [
+            "@symfony-scripts"
+        ],
         "post-update-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+            "@symfony-scripts"
         ]
     },
     "config": {
-        "bin-dir": "bin"
+        "platform": {
+            "php": "7.1"
+        },
+        "sort-packages": true
     },
     "extra": {
         "symfony-app-dir": "app",
+        "symfony-bin-dir": "bin",
+        "symfony-var-dir": "var",
         "symfony-web-dir": "web",
-        "symfony-assets-install": "symlink",
+        "symfony-tests-dir": "tests",
+        "symfony-assets-install": "relative",
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
+        },
+        "branch-alias": {
+            "dev-master": "3.4-dev"
         }
     }
 }
