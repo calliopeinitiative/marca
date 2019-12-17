@@ -22,7 +22,7 @@ class PageController extends Controller
      * Lists all Page entities.
      *
      * @Route("/", name="page")
-     * @Template()
+     * @Template("MarcaHomeBundle:Page:index.html.twig")
      */
     public function indexAction()
     {
@@ -37,7 +37,7 @@ class PageController extends Controller
      * Finds and displays a Page entity.
      *
      * @Route("/{id}/show", name="page_show")
-     * @Template()
+     * @Template("MarcaHomeBundle:Page:show.html.twig")
      */
     public function showAction($id)
     {
@@ -60,7 +60,7 @@ class PageController extends Controller
      * Displays a form to create a new Page entity.
      *
      * @Route("/new", name="page_new")
-     * @Template()
+     * @Template("MarcaHomeBundle:Page:new.html.twig")
      */
     public function newAction()
     {
@@ -106,7 +106,7 @@ class PageController extends Controller
      * Displays a form to edit an existing Page entity.
      *
      * @Route("/{id}/edit", name="page_edit")
-     * @Template()
+     * @Template("MarcaHomeBundle:Page:edit.html.twig")
      */
     public function editAction($id)
     {
