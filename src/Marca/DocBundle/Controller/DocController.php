@@ -275,7 +275,6 @@ class DocController extends Controller
         $em = $this->getEm();
         $doc = $em->getRepository('MarcaDocBundle:Doc')->find($id);
 
-        $request = $this->getRequest();
         $test = $request->request->get('docBody');
 
         if (!$doc) {
