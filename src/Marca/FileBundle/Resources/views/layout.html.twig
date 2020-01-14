@@ -66,14 +66,15 @@
             });
 
             //set active state
+            $( ".project-sidebar").removeClass('project-sidebar-active');
             {% if 'shared' in app.request.attributes.get('_route')  %}
-            $( "[data-scope-index='sharedfile']").addClass('active');
+            $( "[data-scope-index='sharedfile']").addClass('project-sidebar-active');
             {% elseif 'list' in app.request.attributes.get('_route') %}
-            $( "[data-scope-index='myfiles']").addClass('active');
+            $( "[data-scope-index='myfiles']").addClass('project-sidebar-active');
             {% elseif 'for' in app.request.attributes.get('_route')%}
-            $( "[data-scope-index='reviewsforme']").addClass('active');
+            $( "[data-scope-index='reviewsforme']").addClass('project-sidebar-active');
             {% elseif  app.request.get('userid')==0  %}
-            $( "[data-scope-index='reviewsbyme']").addClass('active');
+            $( "[data-scope-index='reviewsbyme']").addClass('project-sidebar-active');
             {% else %}
             $( ".filter1").html('{{ heading }}');
             {% endif %}
