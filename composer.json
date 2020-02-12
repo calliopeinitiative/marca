@@ -8,8 +8,8 @@
         }
     },
     "require": {
-        "php": ">=5.3.9",
-        "symfony/symfony": "2.7.*",
+        "php": ">=7.2",
+        "symfony/symfony": "2.8.*",
         "doctrine/orm": "^2.4.8",
         "doctrine/doctrine-bundle": "~1.4",
         "symfony/assetic-bundle": "~2.3",
@@ -20,15 +20,6 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "stof/doctrine-extensions-bundle": "dev-master",
-        "knplabs/knp-paginator-bundle": "dev-master",
-        "knplabs/knp-snappy-bundle": "dev-master",
-        "components/jquery": "2.1.*",
-        "components/jqueryui": "1.11.*",
-        "twbs/bootstrap" : "*",
-        "oyejorge/less.php": "~1.5",
-        "packagist/yuicompressor-bin": "dev-master",
-        "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1",
-        "stripe/stripe-php": "1.*",
         "besimple/sso-auth-bundle": "*@dev",
         "egeloen/ckeditor-bundle": "^4.0",
         "vich/uploader-bundle": "^1.2"
