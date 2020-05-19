@@ -3,6 +3,7 @@
 namespace Marca\DocBundle\Controller;
 
 
+use Symfony\Component\HttpFoundation\Request;
 use Marca\DocBundle\Entity\Tracking;
 use Marca\HomeBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -40,10 +41,9 @@ class TrackingController extends Controller
      *
      * @Route("/{fileid}/add", name="tracking_add")
      */
-    public function addAction($fileid)
+    public function addAction(Request $request, $fileid)
     {
         $em = $this->getEm();
-        $request = $this->getRequest();
         $markupid = $request->request->get('markupid');
         $file = $em->getRepository('MarcaFileBundle:File')->find($fileid);
         $markup = $em->getRepository('MarcaDocBundle:Markup')->find($markupid);
