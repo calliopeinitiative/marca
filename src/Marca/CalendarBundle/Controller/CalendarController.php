@@ -78,7 +78,7 @@ class CalendarController extends Controller
         
         //pagination for files
         $paginator = $this->get('knp_paginator');
-        $calendar = $paginator->paginate($calendar,$request->query->get('page', 1),10);
+        $calendar = $paginator->paginate($calendar,$request->query->get('page', 1),2);
         
         return $this->render('MarcaCalendarBundle:Calendar:index.html.twig', array(
             'calendar' => $calendar,

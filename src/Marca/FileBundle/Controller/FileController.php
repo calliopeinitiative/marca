@@ -74,7 +74,11 @@ class FileController extends Controller
             $heading = 'Files by ' . $user->getFirstname() . ' ' . $user->getLastname() ;
         }
 
-        $files = $em->getRepository('MarcaFileBundle:File')->findFilesByUser($user, $course, $access);
+        $query = $em->getRepository('MarcaFileBundle:File')->findFilesByUser($user, $course, $access);
+
+        //pagination for files
+        $paginator = $this->get('knp_paginator');
+        $files = $paginator->paginate($query, $request->query->getInt('page', 1),50);
 
         return $this->render('MarcaFileBundle:File:files_index.html.twig', array(
             'files' => $files,
@@ -180,7 +184,11 @@ class FileController extends Controller
         $role = $this->getCourseRole($request);
         $access = $role;
 
-        $files = $em->getRepository('MarcaFileBundle:File')->findSharedFiles($course, $access);
+        $query = $em->getRepository('MarcaFileBundle:File')->findSharedFiles($course, $access);
+
+        //pagination for files
+        $paginator = $this->get('knp_paginator');
+        $files = $paginator->paginate($query, $request->query->getInt('page', 1),50);
 
         $session = $this->get('session');
 
@@ -198,8 +206,9 @@ class FileController extends Controller
             'files' => $files,
             'role' => $role,
             'course' => $course,
-            'heading' => $heading
+            'heading' => $heading,
         ));
+
     }
 
     /**
@@ -443,7 +452,8 @@ class FileController extends Controller
         }
         $file->setReviewed($reviewed_file);
         $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
-        $form = $this->createForm(UploadReviewType::class, $file, ['options' => $options]);
+        $form = $this->createForm(UploadReviewType::class, $file);
+        $form = $this->createForm(UploadReviewType::class, $file);
         if (!$resource) {
             $resource = '0';
         }
