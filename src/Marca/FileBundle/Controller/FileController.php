@@ -118,7 +118,11 @@ class FileController extends Controller
             $heading = 'Reviews by ' . $user->getFirstname() . ' ' . $user->getLastname() ;
         }
 
-        $files = $em->getRepository('MarcaFileBundle:File')->findReviewsByUser($user, $course, $access);
+        $query = $em->getRepository('MarcaFileBundle:File')->findReviewsByUser($user, $course, $access);
+
+        //pagination for files
+        $paginator = $this->get('knp_paginator');
+        $files = $paginator->paginate($query, $request->query->getInt('page', 1),50);
 
         return $this->render('MarcaFileBundle:File:reviews_index.html.twig', array(
             'files' => $files,
@@ -157,7 +161,11 @@ class FileController extends Controller
             $heading = 'Reviews for ' . $user->getFirstname() . ' ' . $user->getLastname() ;
         }
 
-        $files = $em->getRepository('MarcaFileBundle:File')->findReviewsForUser($user, $course, $access);
+        $query = $em->getRepository('MarcaFileBundle:File')->findReviewsForUser($user, $course, $access);
+
+        //pagination for files
+        $paginator = $this->get('knp_paginator');
+        $files = $paginator->paginate($query, $request->query->getInt('page', 1),50);
 
         return $this->render('MarcaFileBundle:File:reviews_index.html.twig', array(
             'files' => $files,
