@@ -131,7 +131,7 @@ class Course
      *
      * @ORM\Column(name="portfolio", type="boolean")
      */
-    private $portfolio = true;
+    private $portfolio = false;
 
     /**
      * @var boolean $zine
