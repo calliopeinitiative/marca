@@ -332,9 +332,9 @@ class FileController extends Controller
         } elseif ($type == 'review') {
             $file->setName('Review');
             if ($role == 2) {
-                $file->setAccess('2');
+                $file->setAccess(2);
             } else {
-                $file->setAccess('0');
+                $file->setAccess(0);
             }
             $doc = new Doc();
             $doc->setFile($file);
@@ -454,14 +454,13 @@ class FileController extends Controller
         $file->setName('Review');
         $file->setProject($reviewed_file->getProject());
         if ($role == 2) {
-            $file->setAccess('2');
+            $file->setAccess(2);
         } else {
-            $file->setAccess('0');
+            $file->setAccess(0);
         }
         $file->setReviewed($reviewed_file);
         $file->addTag($em->getRepository('MarcaTagBundle:Tag')->find(3));
-        $form = $this->createForm(UploadReviewType::class, $file);
-        $form = $this->createForm(UploadReviewType::class, $file);
+        $form = $this->createForm(UploadReviewType::class, $file, ['options' => $options]);
         if (!$resource) {
             $resource = '0';
         }

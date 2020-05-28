@@ -40,7 +40,7 @@ class UploadReviewType extends AbstractType
                             ->setParameter('tag',  '3');},
                         'choice_label' => 'name', 'expanded'=>true,'multiple'=>true, 'label'  => 'Labels', 'attr' => array('class' => 'checkbox'),
                 ))
-                ->add('access', ChoiceType::class, array('choices'   => array('Private' => '0', 'Shared' => '1', 'Hidden' => '0'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
+                ->add('access', ChoiceType::class, array('choices'   => array('Private' => 0, 'Shared' => 1, 'Hidden' => 2),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'attr' => array('class' => 'radio'),))
             ;
         }
         else {
@@ -65,7 +65,8 @@ class UploadReviewType extends AbstractType
                             ->setParameter('tag',  '3');
                     }, 'expanded'=>true,'multiple'=>true, 'label'  => 'Labels', 'attr' => array('class' => 'checkbox'),
                 ))
-                ->add('access', ChoiceType::class, array('choices'   => array('Private' => '0', 'Shared' => '1'),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'expanded' => true,'attr' => array('class' => 'radio'),))
+                ->add('access', ChoiceType::class, array('choices'   => array('Private' => 0, 'Shared' => 1),'required'  => true, 'expanded'=>true,'multiple'=>false,'label'  => 'Sharing', 'attr' => array('class' => 'radio'),))
+
             ;
         }
     }
