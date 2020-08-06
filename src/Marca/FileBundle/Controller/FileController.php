@@ -78,7 +78,7 @@ class FileController extends Controller
 
         //pagination for files
         $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($query, $request->query->getInt('page', 1),50);
+        $files = $paginator->paginate($query, $request->query->getInt('page', 1),200);
 
         return $this->render('MarcaFileBundle:File:files_index.html.twig', array(
             'files' => $files,
@@ -122,7 +122,7 @@ class FileController extends Controller
 
         //pagination for files
         $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($query, $request->query->getInt('page', 1),50);
+        $files = $paginator->paginate($query, $request->query->getInt('page', 1),200);
 
         return $this->render('MarcaFileBundle:File:reviews_index.html.twig', array(
             'files' => $files,
@@ -165,7 +165,7 @@ class FileController extends Controller
 
         //pagination for files
         $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($query, $request->query->getInt('page', 1),50);
+        $files = $paginator->paginate($query, $request->query->getInt('page', 1),200);
 
         return $this->render('MarcaFileBundle:File:reviews_index.html.twig', array(
             'files' => $files,
@@ -196,7 +196,7 @@ class FileController extends Controller
 
         //pagination for files
         $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($query, $request->query->getInt('page', 1),50);
+        $files = $paginator->paginate($query, $request->query->getInt('page', 1),200);
 
         $session = $this->get('session');
 

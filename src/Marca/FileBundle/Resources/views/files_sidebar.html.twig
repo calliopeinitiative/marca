@@ -32,6 +32,16 @@
     <a class="project-sidebar" data-scope-index="myfiles"
        href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My Files</a>
 </li>
+<li class="dropdown">
+    <a data-scope-index="byuser" href="#" title="Select by Author">Select Author <b class="caret"></b></a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">
+        {% for roll in course.roll %}
+            <li><a class="project-sidebar" data-scope-index="sharedfile"
+                   href="{{ course_path('file_list', { 'resource': app.request.get('resource'), 'userid': roll.user.id}) }}">{{ roll.firstname|title }} {{ roll.lastname|title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</li>
 <li>
     <a class="project-sidebar" data-scope-index="sharedfile"
        href="{{ course_path('file_listshared', { 'resource': app.request.get('resource')}) }}">Shared Files</a>
