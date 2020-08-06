@@ -26,21 +26,10 @@
         {% endif %}
     {% else %}
     {% endfor %}
-
 <hr class="marca-spacer"/>
 <li>
     <a class="project-sidebar" data-scope-index="myfiles"
        href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My Files</a>
-</li>
-<li class="dropdown">
-    <a data-scope-index="byuser" href="#" title="Select by Author">Select Author <b class="caret"></b></a>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">
-        {% for roll in course.roll %}
-            <li><a class="project-sidebar" data-scope-index="sharedfile"
-                   href="{{ course_path('file_list', { 'resource': app.request.get('resource'), 'userid': roll.user.id}) }}">{{ roll.firstname|title }} {{ roll.lastname|title }}</a>
-            </li>
-        {% endfor %}
-    </ul>
 </li>
 <li>
     <a class="project-sidebar" data-scope-index="sharedfile"
@@ -56,8 +45,19 @@
        href="{{ course_path('file_reviews_for_user', { 'userid':  0, 'resource': app.request.get('resource') }) }}">Reviews
         for Me</a>
 </li>
+<li class="dropdown">
+    <a data-scope-index="byuser" href="#" title="Select by Author">Files by Author <b class="caret"></b></a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">
+        {% for roll in course.roll %}
+            <li><a class="project-sidebar" data-scope-index="sharedfile"
+                   href="{{ course_path('file_list', { 'resource': app.request.get('resource'), 'userid': roll.user.id}) }}">{{ roll.firstname|title }} {{ roll.lastname|title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</li>
 
 <hr class="marca-spacer"/>
+<span style="font-weight: bold">Filters for current page.</span>
 
 {# Projects  Hide show #}
     {% for project in projects %}
@@ -70,7 +70,7 @@
     <a href="#" class="link-filter project-sidebar" data-filter-column="3" data-filter-text="">All Projects</a>
 </li>
 
-<hr class="marca-spacer"/>
+<br/>
 {# Labels Hide Show #}
     {% for tag in tags %}
         <li>

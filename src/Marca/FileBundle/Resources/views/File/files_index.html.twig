@@ -35,10 +35,15 @@
                 <span class="navbar-text filter2"></span>
                 <li style="padding-top: 12px;padding-left: 12px;"><span class="filter3 label"></span></li>
                 <span class="navbar-text file_count hidden-sm hidden-xs"></span>
+
                 <span class="navbar-text hidden-sm hidden-xs">Files open in a new tab.</span>
             </ul>
         </div>
+        <div class="navigation">
+            {{ knp_pagination_render(files) }}
+        </div>
     </nav>
+
 
     <div class="file-wrapper well">
         <table id="file_list" class="col-sm-12 table">
