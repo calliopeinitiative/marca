@@ -7,23 +7,28 @@
     <nav class="navbar navbar-default" role="navigation" style="margin-top: -20px;">
         <div class="container-fluid">
             <div class="navbar-brand">
-                {% if app.request.get('_route') == 'file_list' %}My Files
-                {% elseif app.request.get('_route') == 'file_listshared' %}Shared Files
-                {% endif %}
+                {{ heading }}
             </div>
             <ul class="nav navbar-nav">
-                {% if 'file_listshared' in app.request.attributes.get('_route') %}
-                    {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
-                    <li style="display: none" id="allauthors"><a href="#" class="link-filter" data-filter-column="1" data-filter-text="">All
-                            Authors</a></li>
+                {% if heading == "Shared Files" or "Files by" in heading %}
+                    <li class="dropdown">
+                        <a data-scope-index="byuser" href="#" title="Select by Author">Select Author <b class="caret"></b></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">
+                            {% for roll in course.roll %}
+                                <li><a class="project-sidebar" data-scope-index="sharedfile"
+                                       href="{{ course_path('file_list', { 'resource': app.request.get('resource'), 'userid': roll.user.id}) }}">{{ roll.firstname|title }} {{ roll.lastname|title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
                 {% endif %}
-                <form class="navbar-form navbar-right hidden-sm hidden-xs" role="search">
-                    <div class="form-group">
-                        <label class="sr-only" for="file_search">Search in List</label>
-                        <input id="file_search" type="search" placeholder="Search in list" data-column="all"
-                               class="search selectable form-control">
-                    </div>
-                </form>
+{#                <form class="navbar-form navbar-right hidden-sm hidden-xs" role="search">#}
+{#                    <div class="form-group">#}
+{#                        <label class="sr-only" for="file_search">Search in List</label>#}
+{#                        <input id="file_search" type="search" placeholder="Search in list" data-column="all"#}
+{#                               class="search selectable form-control">#}
+{#                    </div>#}
+{#                </form>#}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <span class="navbar-text filter1"></span>

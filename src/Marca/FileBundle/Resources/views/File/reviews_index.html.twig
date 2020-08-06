@@ -13,7 +13,7 @@
             </div>
             <ul class="nav navbar-nav">
                 {% if role == '2' %}
-                    {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}
+{#                    {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}#}
                     <li>
                         <a href="{{ course_path('file_release_all') }}">Release Reviews</a>
                     </li>

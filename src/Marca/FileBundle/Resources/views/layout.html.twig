@@ -65,19 +65,19 @@
                 $('#file_modal').load(url);
             });
 
-            //set active state
-            $( ".project-sidebar").removeClass('project-sidebar-active');
-            {% if 'shared' in app.request.attributes.get('_route')  %}
-            $( "[data-scope-index='sharedfile']").addClass('project-sidebar-active');
-            {% elseif 'list' in app.request.attributes.get('_route') %}
-            $( "[data-scope-index='myfiles']").addClass('project-sidebar-active');
-            {% elseif 'for' in app.request.attributes.get('_route')%}
-            $( "[data-scope-index='reviewsforme']").addClass('project-sidebar-active');
-            {% elseif  app.request.get('userid')==0  %}
-            $( "[data-scope-index='reviewsbyme']").addClass('project-sidebar-active');
-            {% else %}
-            $( ".filter1").html('{{ heading }}');
-            {% endif %}
+            {#//set active state#}
+            {#$( ".project-sidebar").removeClass('project-sidebar-active');#}
+            {#{% if heading =="Shared Files"  %}#}
+            {#$( "[data-scope-index='sharedfile']").addClass('project-sidebar-active');#}
+            {#{% elseif heading =="My Files" %}#}
+            {#$( "[data-scope-index='myfiles']").addClass('project-sidebar-active');#}
+            {#{% elseif heading =="Reviews for Me" %}#}
+            {#$( "[data-scope-index='reviewsforme']").addClass('project-sidebar-active');#}
+            {#{% elseif  heading =="Reviews by Me"  %}#}
+            {#$( "[data-scope-index='reviewsbyme']").addClass('project-sidebar-active');#}
+            {#{% else %}#}
+            {#$( ".filter1").html('{{ heading }}');#}
+            {#{% endif %}#}
 
 
             //create anchor for dropdown review find
