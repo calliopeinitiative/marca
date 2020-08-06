@@ -196,7 +196,7 @@ class FileController extends Controller
 
         //pagination for files
         $paginator = $this->get('knp_paginator');
-        $files = $paginator->paginate($query, $request->query->getInt('page', 1),5);
+        $files = $paginator->paginate($query, $request->query->getInt('page', 1),200);
 
         $session = $this->get('session');
 
