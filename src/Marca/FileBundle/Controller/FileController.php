@@ -93,6 +93,43 @@ class FileController extends Controller
     /**
      * Lists all File entities by User.
      *
+     * @Route("/{courseid}/{project}/{resource}/byproject", name="file_list_byproject", defaults={"resource" = 0})
+     */
+    public function filesByProjectAction(Request $request, $courseid, $project)
+    {
+        $allowed = array(self::ROLE_INSTRUCTOR, self::ROLE_STUDENT);
+        $this->restrictAccessTo($request, $allowed);
+
+        $session = $this->get('session');
+        $session->set('referrer', $request->getRequestUri());
+
+        $em = $this->getEm();
+        $course = $em->getRepository('MarcaCourseBundle:Course')->find($courseid);
+        $role = $this->getCourseRole($request);
+
+        $user = $this->getUser();
+        $access = $role;
+        $heading = 'File by Project';
+
+
+        $query = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $access);
+
+        //pagination for files
+        $paginator = $this->get('knp_paginator');
+        $files = $paginator->paginate($query, $request->query->getInt('page', 1),200);
+
+        return $this->render('MarcaFileBundle:File:files_index.html.twig', array(
+            'files' => $files,
+            'role' => $role,
+            'user' => $user,
+            'course' => $course,
+            'heading' => $heading
+        ));
+    }
+
+    /**
+     * Lists all File entities by User.
+     *
      * @Route("/{courseid}/{userid}/{resource}/reviews", name="file_reviews")
      */
     public function reviewsByUserAction(Request $request, $userid, $courseid)

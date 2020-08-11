@@ -4,48 +4,73 @@
 
 {% block content %}
     {# navbar #}
-    <nav class="navbar navbar-default" role="navigation" style="margin-top: -20px;">
+    <nav class="navbar navbar-default" role="navigation" style="margin-top: -20px;margin-bottom: -20px;">
         <div class="container-fluid">
             <div class="navbar-brand">
                 {{ heading }}
             </div>
-{#            <ul class="nav navbar-nav">#}
-{#                {% if heading == "Shared Files" or "Files by" in heading %}#}
-{#                    <li class="dropdown">#}
-{#                        <a data-scope-index="byuser" href="#" title="Select by Author">Select Author <b class="caret"></b></a>#}
-{#                        <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">#}
-{#                            {% for roll in course.roll %}#}
-{#                                <li><a class="project-sidebar" data-scope-index="sharedfile"#}
-{#                                       href="{{ course_path('file_list', { 'resource': app.request.get('resource'), 'userid': roll.user.id}) }}">{{ roll.firstname|title }} {{ roll.lastname|title }}</a>#}
-{#                                </li>#}
-{#                            {% endfor %}#}
-{#                        </ul>#}
-{#                    </li>#}
-{#                {% endif %}#}
-{#                <form class="navbar-form navbar-right hidden-sm hidden-xs" role="search">#}
-{#                    <div class="form-group">#}
-{#                        <label class="sr-only" for="file_search">Search in List</label>#}
-{#                        <input id="file_search" type="search" placeholder="Search in list" data-column="all"#}
-{#                               class="search selectable form-control">#}
-{#                    </div>#}
-{#                </form>#}
-{#            </ul>#}
-            <ul class="nav navbar-nav navbar-right">
-                <span class="navbar-text filter1"></span>
-                <span class="navbar-text filter2"></span>
-                <li style="padding-top: 12px;padding-left: 12px;"><span class="filter3 label"></span></li>
-                <span class="navbar-text file_count hidden-sm hidden-xs"></span>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a class="project-sidebar" data-scope-index="myfiles"
+                       href="{{ course_path('file_list', { 'userid':  0, 'resource': app.request.get('resource') }) }}">My
+                        Files</a>
+                </li>
+                <li>
+                    <a class="project-sidebar" data-scope-index="sharedfile"
+                       href="{{ course_path('file_listshared', { 'resource': app.request.get('resource')}) }}">Shared
+                        Files</a>
+                </li>
+                <li>
+                    <a class="project-sidebar" data-scope-index="reviewsbyme"
+                       href="{{ course_path('file_reviews', { 'userid':  0, 'resource': app.request.get('resource') }) }}">Reviews
+                        by Me</a>
+                </li>
+                <li>
+                    <a class="project-sidebar" data-scope-index="reviewsforme"
+                       href="{{ course_path('file_reviews_for_user', { 'userid':  0, 'resource': app.request.get('resource') }) }}">Reviews
+                        for Me</a>
+                </li>
+                <li class="dropdown">
+                    <a data-scope-index="byuser" href="#" title="Select by Author">Files by Author <b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">
+                        {% for roll in course.roll %}
+                            <li><a class="project-sidebar" data-scope-index="sharedfile"
+                                   href="{{ course_path('file_list', { 'resource': app.request.get('resource'), 'userid': roll.user.id}) }}">{{ roll.firstname|title }} {{ roll.lastname|title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
 
-                <span class="navbar-text hidden-sm hidden-xs">Files open in a new tab.</span>
+                <li class="dropdown">
+                    <a href="#" title="Select by Project">Files by Project <b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="findByProject">
+                        {% for project in course.projects %}
+                            <li><a class="project-sidebar"
+                                   href="{{ course_path('file_list_byproject', { 'resource': app.request.get('resource'), 'project': project.id}) }}">{{ project.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
             </ul>
-        </div>
-        <div class="navigation">
-            {{ knp_pagination_render(files) }}
+
         </div>
     </nav>
 
+    <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+            <span class="navbar-text filter1"></span>
+            <span class="navbar-text filter2"></span>
+            <li style="padding-top: 12px;padding-left: 12px;"><span class="filter3 label"></span></li>
+            <span class="navbar-text file_count hidden-sm hidden-xs"></span>
 
+            <span class="navbar-text hidden-sm hidden-xs">Files open in a new tab.</span>
+        </ul>
+        <div class="navigation">
+            {{ knp_pagination_render(files) }}
+        </div>
+    </div>
     <div class="file-wrapper well">
+
         <table id="file_list" class="col-sm-12 table">
             <thead>
             <tr class="file">
@@ -101,17 +126,6 @@
 
                         {# status labels #}
 
-                        {% if file.reviews|length != 0 %}
-                            <span
-                                    class="label label-default blueviolet pull-right margin-left"
-                                    data-toggle="popover" data-content="
-                                {% if file.reviews |length != 0 %}Review{% if file.reviews |length > 1 %}s{% endif %} by {% for
-                            review in file.reviews %}{{ review.user.firstname }} {{ review.user.lastname }}{% if review.access ==2 %} (not
-                        yet available){% endif %}
-
-
-                        {% if not loop.last %},{% endif %} {% endfor %} {% endif %}">Review{% if file.reviews |length > 1 %}s{% endif %}</span>
-                        {% endif %}
                         {% if file.access==1 %}
                             <span class="label label-success pull-right margin-left" title="This file is shared with the rest of the
                             class.">Shared</span>
@@ -124,7 +138,7 @@
                             <span class="label label-primary pull-right margin-left" data-toggle="popover"
                                   data-content="
                                 {% if file.feedback|length != 0 %}Feedback by {% for
-                                  feedback in file.feedback %}{{ feedback.reviewer.firstname }} {{ feedback.reviewer.lastname }}{% if not loop.last %},{% endif %} {% endfor %} {% endif %}">Feedback</span>
+                                      feedback in file.feedback %}{{ feedback.reviewer.firstname }} {{ feedback.reviewer.lastname }}{% if not loop.last %},{% endif %} {% endfor %} {% endif %}">Feedback</span>
                         {% endif %}
 
                         <div class="hidden-xs">
@@ -159,7 +173,7 @@
                     </td>
 
                     <td>{% if app.request.attributes.get('_route') == 'file_list'
-                        and file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname|title }} {{ file.user.lastname|title }}{% endif %}
+                            and file.isOwner(app.user.username) %}me{% else %}{{ file.user.firstname|title }} {{ file.user.lastname|title }}{% endif %}
                     </td>
                     <td class="hidden">{{ file.user.lastname|title }}{{ file.user.firstname|title }}
                     </td>
@@ -173,6 +187,23 @@
                     </td>
                     <td class="hidden-sm hidden-xs">{{ file.updated|date('m/d/y, g:i a') }}</td>
                 </tr>
+
+                {% if file.reviews|length != 0 %}
+                    <tr style="height: .2em;">
+                        <td style="background-color: white; height: .2em; border-top:0px solid white" colspan="5">
+                    <span class="label label-default blueviolet"
+                          style="font-size: 10px; margin-right: .3em; margin-left: 2em">
+                            Review{% if file.reviews |length > 1 %}s{% endif %}
+                    </span>
+                            by
+                            {% for
+                                review in file.reviews %}{{ review.user.firstname }} {{ review.user.lastname }} ({{ review.updated|date('m/d/y, g:i a') }}){% if review.access ==2 %} (not
+                                yet available){% endif %}{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endif %}
+
             {% endfor %}
             </tbody>
         </table>
