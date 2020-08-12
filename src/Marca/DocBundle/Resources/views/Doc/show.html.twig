@@ -217,8 +217,8 @@
                     {# Close #}
                     <li style="padding-right: 10px;margin-left:15px">
                         {% if app.request.get('view') == 'window' %}
-                            <a title="Close the current window or tab" id="close_window" class=""
-                               href="javascript:void(0);">Close</a>
+{#                            <a title="Close the current window or tab" id="close_window" class=""#}
+{#                               href="javascript:void(0);">Close</a>#}
                         {% elseif file.project.resource == 'true' %}
                             {% if app.session.get('resource_referrer') %}
                                 <a title="Close this document" class=""
