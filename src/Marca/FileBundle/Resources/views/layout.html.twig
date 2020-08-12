@@ -141,10 +141,6 @@
                 txt = txt.replace(/[*]/, '-');
 
 
-                // count files after filtering
-                var count = $('#file_list tr').not(':hidden').length - 1;
-                var count_text = ' ' + count + ' files found';
-                $('span.file_count').html(count_text);
                 // filter breadcrumbs
                 if (col==1){
                     if (txt=='') {txt='Shared Files';$('#allauthors').hide();} else {txt='Files by ' + txt;$('#allauthors').show();}
@@ -174,7 +170,7 @@
             $('.file_name').bind('focus', function(){ $(".file-menu").hide();$(this).parent().children("div").children("div").toggle(); });
 
             // count files after filtering in find
-            var count = $('#file_list tr').not(':hidden').length - 1;
+            var count = $('#file_list tr').not(':hidden').length - $('#file_list tr.review_info').length - 1;
             var count_text = ' ' + count + ' files found';
             $('span.file_count').html(count_text);
             // show labels only on page
