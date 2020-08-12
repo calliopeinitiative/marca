@@ -45,9 +45,11 @@
                     <a href="#" title="Select by Project">Files by Project <b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="findByProject">
                         {% for project in course.projects %}
+                            {%  if project.resource == false %}
                             <li><a class="project-sidebar"
                                    href="{{ course_path('file_list_byproject', { 'resource': app.request.get('resource'), 'project': project.id}) }}">{{ project.name }}</a>
                             </li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 </li>
