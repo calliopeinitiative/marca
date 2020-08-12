@@ -53,6 +53,12 @@
                         {% endfor %}
                     </ul>
                 </li>
+                {% if role == '2' %}
+                    {#                    {{ render_esi(controller('MarcaCourseBundle:Course:createRoll', { 'courseid': app.request.get('courseid') })) }}#}
+                    <li>
+                        <a href="{{ course_path('file_release_all') }}">Release Reviews</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
