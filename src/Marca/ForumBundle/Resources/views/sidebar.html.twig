@@ -1,7 +1,7 @@
 {# Marca/ForumBundle/Resources/views/sidebar.html.twig #}
 {# esi fragment for forum sidebar #}
 
-<h1><a  title='Course Forum' href="{{ course_path('forum') }}" class="marca-gray">Forum</a></h1>
+<h2><a  title='Course Forum' href="{{ course_path('forum') }}" class="marca-gray">Forum</a></h2>
 {% if is_granted('ROLE_INSTR') %}
     <a class='btn btn-primary margin-bottom-medium' href="{{ course_path('forum_new') }}">Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
 {% endif %}

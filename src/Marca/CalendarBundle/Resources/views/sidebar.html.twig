@@ -1,7 +1,7 @@
 {# Marca/CalenarBundle/Resources/views/sidebar.html.twig #}
 {# esi fragment for calendar sidebar #}
 
-<h1><a title='Course Calendar' href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}" class="marca-gray">Calendar</a></h1>
+<h2><a title='Course Calendar' href="{{ course_path('calendar_display', { 'gotodate': "now"|date('Y-m-d')}) }}" class="marca-gray">Calendar</a></h2>
 
 {% if app.request.get('_route') == 'calendar_new' or app.request.get('_route') == 'calendar_edit' %}
 {% else %}

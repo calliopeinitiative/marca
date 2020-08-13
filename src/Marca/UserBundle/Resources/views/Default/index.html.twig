@@ -42,7 +42,7 @@
                         {% for exiting_course in courseids if exiting_course.id == course.id %}
                             <div class="row" style="background: #f5f5f5">
                                 <div class="col-sm-12">
-                                    <h2>{{ course.name }}</h2>
+                                    <h3>{{ course.name }}</h3>
 
                                     <p>{{ course.firstname }} {{ course.lastname }}, {{ course.time|date('h:i a') }}</p>
 
@@ -131,7 +131,7 @@
                             </a>
                         {% endif %}
                         <a href="{{ path('course_home', { 'courseid': course.id }) }}">
-                            <h2 class="margin-top-small">{{ course.name }}</h2></a>
+                            <h3 class="margin-top-small">{{ course.name }}</h3></a>
 
                         <p>{{ course.user.firstname }} {{ course.user.lastname }}
                             , {{ course.time|date('h:i a') }}</p>
@@ -161,7 +161,7 @@
                             </a>
                         {% endif %}
                         <a href="{{ path('course_home', { 'courseid': course.id }) }}">
-                            <h2 class="margin-top-small">{{ course.name }}</h2></a>
+                            <h3 class="margin-top-small">{{ course.name }}</h3></a>
 
                         <p>{{ course.user.firstname }} {{ course.user.lastname }}
                             , {{ course.time|date('h:i a') }}</p>
@@ -186,7 +186,7 @@
                         <div id='{{ loop.index }}' class="archive">
                             <div class="col-sm-9">
                                 <a href="{{ path('course_home', { 'courseid': course.id }) }}">
-                                    <h2 class="margin-top-small">{{ course.name }}</h2></a>
+                                    <h3 class="margin-top-small">{{ course.name }}</h3></a>
 
                                 <p>{{ course.term.termname }}, {{ course.user.firstname }} {{ course.user.lastname }}
                                     , {{ course.time|date('h:i a') }}</p>

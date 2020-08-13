@@ -4,8 +4,8 @@
 {% block title %}{{ application_name }} Home{% endblock %}
 
 {% block sidebar %}
-    <h1><a title="Click to list your current or pending courses" href="{{ path('user_home') }}"
-           class="marca-gray">Home</a></h1>
+    <h2><a title="Click to list your current or pending courses" href="{{ path('user_home') }}"
+           class="marca-gray">Home</a></h2>
     {% if is_granted('ROLE_USER') %}
         <li><a title="Click to enroll in a new course" class="" title="Enroll" href="{{ path('enroll_find') }}">Enroll
                 in a course</a></li>

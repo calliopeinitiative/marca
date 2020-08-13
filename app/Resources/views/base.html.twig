@@ -85,8 +85,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a id="main_nav" class="navbar-brand" href="{{ path('user_home') }}"
-                   title="{{ application_name }} Homepage">{{ application_name }}</a>
+                <h1 class="margin-top-small" style="font-size: small"><a id="main_nav" class="navbar-brand" href="{{ path('user_home') }}"
+                       title="{{ application_name }} Homepage">{{ application_name }}</a></h1>
 
             </div>
 
@@ -124,7 +124,6 @@
 
 
 <div id="mainContainer">
-
     {% if block('sidebar') is defined %}
         {% if 'fos_user' not in app.request.attributes.get('_route') %}
             <div class="col-sm-2 hidden-xs sidebar ">
