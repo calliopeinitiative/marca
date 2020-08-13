@@ -17,17 +17,17 @@
         <div class="panel panel-marca">
             <div class="panel-heading">
                 <a class="btn btn-primary btn-sm pull-right" href="{{  course_path('calendar_upcoming')  }}">Course Agenda</a>
-                <h2 class="panel-title small">This Week</h2>
+                <h2 class="panel-title small" tabindex="0">This Week</h2>
             </div>
             <div class="panel-body">
                 {% for calendar in calendar %}
                     <div class="panel panel-default">
-                        <div class="panel-heading">
+                        <div class="panel-heading" tabindex="0">
 
                             <h3 class="panel-title"><span class="pull-left color-flag" style="{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif%}">&#183;</span> {{ calendar.title }}</h3>
                             <span class="pull-right">{% if calendar.startDate %}{{ calendar.startDate|date('D M j Y') }}  {{ calendar.startTime|date('g:i A') }}{% endif%}</span>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body" tabindex="0">
                             {{ calendar.description|html_raw }}
                         </div>
                     </div>
@@ -43,11 +43,11 @@
         <div class="col-sm-6 col-xs-12">
             <div class="panel panel-marca">
                 <div class="panel-heading">
-                    <h2 class="panel-title small" style="display:inline-block;">Announcements</h2>
+                    <h2 class="panel-title small" style="display:inline-block;" tabindex="0">Announcements</h2>
                     {% if course.isOwner(app.user.username) %}<a class="btn btn-primary btn-sm pull-right panel-heading-button" href="{{ path('announce_edit', { 'courseid': course.id }) }}">Edit</a>{% endif %}
 
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" tabindex="0">
                     <p>{{ course.announcement|html_raw }}</p>
                 </div>
 
@@ -57,7 +57,7 @@
                 <div class="panel panel-marca">
                     <div class="panel-heading">
                         <a class="btn btn-primary btn-sm pull-right" title='All Course Resources' href="{{ course_path('file_listbyproject', { 'project': default_resource, 'resource': 1}) }}">All Resources</a>
-                        <h2 class="panel-title small">Featured Resources</h2>
+                        <h2 class="panel-title small" tabindex="0">Featured Resources</h2>
                     </div>
                     <div class="panel-body">
                         <table class="table">

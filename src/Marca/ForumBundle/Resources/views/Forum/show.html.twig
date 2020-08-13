@@ -14,17 +14,17 @@
                 {% if forum.user.photo %}
                     <img alt="Thumbnail image of {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}"  src="{{ forum.user.photo }}" class="user-photo-sm img-rounded pull-left"/>
                 {% endif%}
-                <h2 class="inline-block marca-blue"><a class="forum_title" title="Open this discussion" href="{{ course_path('forum') }}">{{ forum.title }}</a></h2>
-                <p>by {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}, {{ forum.updated|date('M d Y') }}
+                <h2 class="inline-block marca-blue"><a class="forum_title" title="Open this discussion" href="{{ course_path('forum') }}" tabindex="0">{{ forum.title }}</a></h2>
+                <p tabindex="0">by {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}, {{ forum.updated|date('M d Y') }}
                 </p>
             </div>
 
             <div class="panel-body">
-                <div class="margin-bottom">{{ forum.body|html_raw }}
+                <div class="margin-bottom" tabindex="0">{{ forum.body|html_raw }}
                 </div>
                 {% for comment in forum.comments%}
                     <div class="panel panel-default">
-                        <div class="panel-heading padding-bottom" >
+                        <div class="panel-heading padding-bottom"  tabindex="0">
                             {% if comment.user.photo %}
                                 <img alt="Thumbnail image of {{ comment.user.firstname|capitalize }} {{ comment.user.lastname|capitalize }}"  src="{{ comment.user.photo }}" class="user-photo-xs img-rounded" />
                             {% endif%}
@@ -39,10 +39,11 @@
                                 </div>
                         </span>
                         </div>
-                        <div class="panel-body">{{ comment.body|html_raw }}
+                        <div class="panel-body">
+                            <div tabindex="0">{{ comment.body|html_raw }}</div>
                             {% for reply in comment.replies%}
                                 <div class="panel panel-default">
-                                    <div class="panel-heading padding-bottom" >
+                                    <div class="panel-heading padding-bottom"  tabindex="0">
                                         {% if comment.user.photo %}
                                             <img alt="Thumbnail image of {{ reply.user.firstname|capitalize }} {{ reply.user.lastname|capitalize }}"  src="{{ reply.user.photo }}" class="user-photo-xs img-rounded" />
                                         {% endif%}
@@ -56,7 +57,7 @@
                                                  </div>
                                             </span>
                                     </div>
-                                    <div class="panel-body" >{{ reply.body|html_raw }}
+                                    <div class="panel-body"  tabindex="0">{{ reply.body|html_raw }}
                                     </div>
                                 </div>
                             {% endfor %}

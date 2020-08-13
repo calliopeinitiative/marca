@@ -11,7 +11,8 @@
             var count = txt.trim().replace(/\s+/gi, ' ').split(' ').length;
             $("#word-count").text(count);
             {% for journal in journals %}
-            {% if app.request.get('page')==loop.index %}$('#journal_{{loop.index}}').addClass('active');{% endif %}
+            {% if app.request.get('page')==loop.index %}$('#journal_{{loop.index}}').addClass('active');
+            {% endif %}
             {% endfor %}
 
 
@@ -55,12 +56,77 @@
                 url = url.replace("index", index);
                 $(this).attr("href", url).click();
             });
+
         });
     </script>
 {% endblock %}
 
 {% block content %}
+    <div class="navbar-header col-sm-9">
+        {% if app.session.flashBag.has('saved') %}
+            <div class="alert alert-success">
+                {% for msg in app.session.flashBag.get('saved') %}
+                    {{ msg }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% for journal in journal %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title small" tabindex="0">{{ journal.title }}</h2>
+                    <span class="pull-right">
+                    <span id="word-count"></span> word(s)
 
+                        <div class="btn-group">
+                            {% if journal.isOwner(app.user.username) %}
+                                <a class="btn btn-default btn-sm" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
+                            {% endif %}
+                            {% if role==2 %}
+                                <a class="btn btn-default btn-sm" href="{{ course_path('response_new',{ 'sourceid': journal.id, 'page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id }) }}">Respond</a>
+                            {% endif %}
+                        </div>
+
+                </span>
+                    <p>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }} </p>
+                </div>
+                <div class="panel-body">
+                    {# Div needed for word count #}
+                    <div class="journal-body" tabindex="0">
+                        {{ journal.body|html_raw }}
+                    </div>
+
+                    {% for response in journal.responses %}
+                        <div class="col-sm-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    {% if response.isOwner(app.user.username) %}
+                                        <a class="btn btn-default btn-sm pull-right" href="{{ course_path('response_edit',{ 'id': response.id,'sourceid': journal.id, 'page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id  }) }}">Edit</a>
+                                    {% endif %}
+                                    <h3>Response by {{ response.user.firstname}} {{ response.user.lastname}}</h3>
+                                </div>
+                                <div class="panel-body">
+                                    {{ response.body|html_raw }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        {% else %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% if app.request.get('userid') != 0 %}
+
+                    {% else %}
+                        Just click
+                        <a class="btn btn-primary margin-bottom-medium" href="{{ course_path('journal_new')  }}">Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+                        to get started.
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 <div class="col-sm-3 well">
     <h2>Journal Posts</h2>
     <ul class="list-group">
@@ -76,69 +142,5 @@
     {% endfor %}
     </ul>
 </div>
-<div class="navbar-header col-sm-9">
-    {% if app.session.flashBag.has('saved') %}
-        <div class="alert alert-success">
-            {% for msg in app.session.flashBag.get('saved') %}
-                {{ msg }}
-            {% endfor %}
-        </div>
-    {% endif %}
-    {% for journal in journal %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="panel-title small">{{ journal.title }}</h2>
-                <span class="pull-right">
-                    <span id="word-count"></span> word(s)
 
-                        <div class="btn-group">
-                            {% if journal.isOwner(app.user.username) %}
-                            <a class="btn btn-default btn-sm" href="{{ course_path('journal_edit', { 'id': journal.id }) }}">Edit</a>
-                            {% endif %}
-                            {% if role==2 %}
-                            <a class="btn btn-default btn-sm" href="{{ course_path('response_new',{ 'sourceid': journal.id, 'page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id }) }}">Respond</a>
-                            {% endif %}
-                        </div>
-
-                </span>
-                <p>Created  {{ journal.created|date('M d Y, h:ia') }}  / Updated  {{ journal.updated|date('M d Y, h:ia') }} </p>
-            </div>
-            <div class="panel-body">
-                {# Div needed for word count #}
-                <div class="journal-body">
-                    {{ journal.body|html_raw }}
-                    </div>
-
-                {% for response in journal.responses %}
-                    <div class="col-sm-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                {% if response.isOwner(app.user.username) %}
-                                    <a class="btn btn-default btn-sm pull-right" href="{{ course_path('response_edit',{ 'id': response.id,'sourceid': journal.id, 'page': app.request.get('page'),'user':app.request.get('user'),'userid':journal.user.id  }) }}">Edit</a>
-                                {% endif %}
-                                <h3>Response by {{ response.user.firstname}} {{ response.user.lastname}}</h3>
-                            </div>
-                            <div class="panel-body">
-                                {{ response.body|html_raw }}
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-
-            </div>
-        </div>
-    {% else %}
-        <div class="panel panel-default">
-            <div class="panel-body">
-                {% if app.request.get('userid') != 0 %}
-
-                {% else %}
-                    Just click
-                    <a class="btn btn-primary margin-bottom-medium" href="{{ course_path('journal_new')  }}">Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
-                    to get started.
-                {% endif %}
-            </div>
-        </div>
-    {% endfor %}
-</div>
 {% endblock %}

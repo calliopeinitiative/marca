@@ -116,7 +116,7 @@
                 <ul class="nav navbar-nav">
                     <li class="{% if parent_file.id == app.request.get('id') %}active{% endif %} document"
                         id="review_{{ parent_file.id }}" style="margin-top: -2px;">
-                        <a href="javascript:void(0);" title="View {{ parent_file.name }}">
+                        <a href="javascript:void(0);" title="View {{ parent_file.name }}" tabindex="1">
                             <span style="font-size:18px;">{{ parent_file.name|slice(0,20) }} {% if parent_file.name|length > 20 %}...{% endif %}</span>
                             <span class="small"
                                   style="font-family:proxima-nova, sans-serif;">by {% if parent_file.isOwner(app.user.username) %}me{% else %}{{ parent_file.user.firstname }} {{ parent_file.user.lastname }}{% endif %}</span>
@@ -124,14 +124,14 @@
 
                     </li>
                     <li id="skip">
-                        <a id="sidebar_anchor" href="#main_content">Skip to Content</a>
+                        <a id="sidebar_anchor" href="#doc-body" tabindex="1">Skip to Content</a>
                     </li>
                     {% for review in parent_file.reviews %}
                         {% if (parent_file.isOwner(app.user.username) and review.access!=2) or review.isOwner(app.user.username) or review.access==1 or role==2 %}
                             <li class="{% if review.id == app.request.get('id') %}active{% endif %} document"
                                 id="review_{{ review.id }}">
                                 <a title="Review by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}"
-                                   href="javascript:void(0);">
+                                   href="javascript:void(0);" tabindex="2">
                                 <span class="glyphicon glyphicon-comment" style="color:#888;" title="Review"
                                       alt="Review by {% if review.isOwner(app.user.username) %}me{% else %}{{ review.user.firstname }} {{ review.user.lastname }}{% endif %}"></span>
                                     <span class="small hidden-lg hidden-md hidden-sm hidden-xs"
@@ -153,7 +153,7 @@
                         {% elseif parent_file.doc and parent_file.isOwner(app.user.username) %}
                         <li class="navbar-text">
                             <a title="Edit this document" class=""
-                               href="{{ course_path('doc_edit', { 'id': parent_file.id,'view': app.request.get('view') }) }}">Edit</a>
+                               href="{{ course_path('doc_edit', { 'id': parent_file.id,'view': app.request.get('view') }) }}" tabindex="3">Edit</a>
                         </li>
                     {% else %}
                     {% endif %}
@@ -162,7 +162,7 @@
                             <li class="navbar-text">
                                 <a title="Create a copy of this document for peer review" id="new_review"
                                    class=""
-                                   href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}">Create
+                                   href="{{ course_path('file_new_modal', { 'resource' : '0', 'tag' : '3', 'type': 'review', 'fileid': file.id }) }}" tabindex="4">Create
                                     Review</a>
                             </li>
                         {% endif %}
@@ -171,18 +171,18 @@
                         {% if (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource != 'true') or (parent_file.doc and parent_file.isOwner(app.user.username) and file.project.resource == 'true'  and local_resource) or (not parent_file.isOwner(app.user.username) and parent_file.doc and file.project.resource == 'true') %}
                             <li class="navbar-text hidden-sm"><a title="Create a copy of this document" id="new_saveas"
                                                                  class=""
-                                                                 href="javascript:void(0)">SaveAs</a>
+                                                                 href="javascript:void(0)" tabindex="4">SaveAs</a>
                             </li>
                         {% endif %}
                         {% if parent_file.doc %}
                             <li class="navbar-text hidden-sm"><a title="Print this document" class=""
-                                                                 href="{{ course_path('doc_pdf', { 'id': parent_file.doc.id }) }}">Printable
+                                                                 href="{{ course_path('doc_pdf', { 'id': parent_file.doc.id }) }}" tabindex="5">Printable
                                     PDF</a>
                             </li>
                     {% elseif parent_file.ext == 'odt' or parent_file.ext == 'ods' or parent_file.ext == 'odp' or parent_file.ext == 'pdf' %}
                             <li class="navbar-text hidden-sm hidden-xs">
                                 <a title="Download this document" class=""
-                                   href="{{ course_path('file_get', { 'id': parent_file.id }) }}">Download</a>
+                                   href="{{ course_path('file_get', { 'id': parent_file.id }) }}" tabindex="6">Download</a>
                             </li>
 
                         {% endif %}
@@ -196,18 +196,18 @@
                         {% if review.doc and review.doc.isOwner(app.user.username) %}
                             <li class="navbar-text">
                                 <a title="Edit this document" class=""
-                                   href="{{ course_path('doc_edit', { 'id': review.id,'view': app.request.get('view') }) }}">Edit</a>
+                                   href="{{ course_path('doc_edit', { 'id': review.id,'view': app.request.get('view') }) }}" tabindex="3">Edit</a>
                             </li>
                         {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
                             <li class="navbar-text">
                                 <a title="Download this document" class=""
-                                   href="{{ course_path('file_get', { 'id': review.id }) }}">Download</a>
+                                   href="{{ course_path('file_get', { 'id': review.id }) }}"  tabindex="6">Download</a>
                             </li>
                         {% endif %}
                             {% if review.doc %}
                                 <li class="navbar-text hidden-sm hidden-xs">
                                     <a title="Print this document" class=""
-                                       href="{{ course_path('doc_pdf', { 'id': review.doc.id }) }}">Printable PDF</a>
+                                       href="{{ course_path('doc_pdf', { 'id': review.doc.id }) }}"  tabindex="5">Printable PDF</a>
                                 </li>
                             {% endif %}
                     </span>
@@ -222,10 +222,10 @@
                         {% elseif file.project.resource == 'true' %}
                             {% if app.session.get('resource_referrer') %}
                                 <a title="Close this document" class=""
-                                   href="{{ app.session.get('resource_referrer') }} ">Close</a>
+                                   href="{{ app.session.get('resource_referrer') }} "  tabindex="7">Close</a>
                             {% else %}
                                 <a title="Close this document" class=""
-                                   href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}">Close</a>
+                                   href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'all', 'user': '0','resource': '1', 'tag': '0', 'userid': '0' }) }}"  tabindex="7">Close</a>
                             {% endif %}
                         {% else %}
                             {% if app.session.get('referrer') %}
@@ -233,7 +233,7 @@
                                    href="{{ app.session.get('referrer') }} ">Close</a>
                             {% else %}
                                 <a title="Close this document" class=""
-                                   href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}">Close</a>
+                                   href="{{ course_path('file_list', { 'project': 'recent', 'scope': 'mine', 'user': '0', 'resource': '0', 'tag': '0', 'userid': '0' }) }}" tabindex="7" >Close</a>
                             {% endif %}
                         {% endif %}
                     </li>
@@ -299,7 +299,7 @@
                 </script>
 
                 {# Document display or File Viewer #}
-                <div id='file-container'>
+                <div id='file-container' tabindex="8">
                     <p class="sr-only">Beginning of the document content.</p>
                     {% if app.request.get('_route') == 'file_view' or app.request.get('_route') == 'file_view_ajax' %}
                         <iframe class="col-sm-8" id="viewer"
@@ -317,7 +317,7 @@
                         <div id="doc-container" class="col-sm-8">
                             <div id='doc-display' class="col-sm-12 well">
 
-                                <div id='doc-body' class="doc-body">
+                                <div id='doc-body' class="doc-body"  tabindex="9">
                                     {{ doc.body|html_raw }}
                                 </div>
                             </div>

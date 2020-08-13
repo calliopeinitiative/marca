@@ -143,18 +143,6 @@
                                       feedback in file.feedback %}{{ feedback.reviewer.firstname }} {{ feedback.reviewer.lastname }}{% if not loop.last %},{% endif %} {% endfor %} {% endif %}">Feedback</span>
                         {% endif %}
 
-                        {# review info #}
-                        {% if file.reviews|length != 0 %}
-                            <div class="review_info" style="position:absolute;left:3em;right:0;">
-                               <span class="label label-default blueviolet" style="font-size: 10px; margin-right: .3em;">
-                                     Review{% if file.reviews |length > 1 %}s{% endif %}</span>
-                                by {% for review in file.reviews %}
-                                    {{ review.user.firstname }} {{ review.user.lastname }} ({{ review.updated|date('m/d/y, g:i a') }}){% if review.access ==2 %} (not
-                                    yet available){% endif %}{% if not loop.last %}, {% endif %}
-                                   {% endfor %}
-                            </div>
-                        {% endif %}
-
                         <div class="hidden-xs">
                             <div class="file-menu" >
                                 {% if file.isOwner(app.user.username) %}
@@ -183,6 +171,19 @@
                                 {% elseif file.isOwner(app.user.username) and file.feedback|length != 0 %}Files that have feedback can not be deleted.
                                 {% endif %}
                             </div>
+                        {# review info #}
+                        {% if file.reviews|length != 0 %}
+                            <div class="review_info" style="position:absolute;left:3em;right:0;">
+                               <span class="label label-default blueviolet" style="font-size: 10px; margin-right: .3em;">
+                                     Review{% if file.reviews |length > 1 %}s{% endif %}</span>
+                                by {% for review in file.reviews %}
+                                    {{ review.user.firstname }} {{ review.user.lastname }} ({{ review.updated|date('m/d/y, g:i a') }}){% if review.access ==2 %} (not
+                                    yet available){% endif %}{% if not loop.last %}, {% endif %}
+                                   {% endfor %}
+                            </div>
+                        {% endif %}
+
+
                         </div>
                     </td>
 

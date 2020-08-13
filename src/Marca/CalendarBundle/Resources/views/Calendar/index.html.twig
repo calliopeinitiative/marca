@@ -39,10 +39,10 @@
                 <tbody>
                 {% for calendar in calendar %}
                     <tr>
-                        <td class='col-sm-2'>
+                        <td class='col-sm-2' tabindex="0">
                             {{ calendar.startDate|date('M j Y') }} {{ calendar.startTime|date('g:i A') }}
                         </td>
-                        <td class='col-sm-9'>
+                        <td class='col-sm-9' tabindex="0">
                             <span class="pull-left color-flag" style="{% if calendar.color != '' %}background: {{calendar.color}};color:{{calendar.color}};{% endif%}">&#183;</span> {{ calendar.title }}
                             <p>{{ calendar.description|html_raw }}</p>
                         </td>

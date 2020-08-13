@@ -102,7 +102,7 @@
 
     {# file/doc  show #}
     {# file/doc info  #}
-    <div class="panel panel-default">
+    <div class="panel panel-default" tabindex="10">
         <div class="panel-body">
 
             {# parent file info #}
@@ -232,7 +232,7 @@
 
     {# Notes Panel #}
     {% if app.request.get('_route') != 'file_view' %}
-        <div id="notes" class="panel panel-default">
+        <div id="notes" class="panel panel-default" >
             <div class="panel-heading">
                 <h2 class="panel-title" style="width: 100%">
                     <a class="accordion-toggle " data-toggle="collapse" data-parent="#accordion" href="#collapseNotes">
