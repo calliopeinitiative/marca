@@ -33,7 +33,7 @@
                 <li class="dropdown">
                     <a data-scope-index="byuser" href="#" title="Select by Author">Files by Author <b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="findByAuthor">
-                        {% for roll in course.roll %}
+                        {% for roll in roll %}
                             <li><a class="project-sidebar" data-scope-index="sharedfile"
                                    href="{{ course_path('file_list', { 'resource': app.request.get('resource'), 'userid': roll.user.id}) }}">{{ roll.firstname|title }} {{ roll.lastname|title }}</a>
                             </li>

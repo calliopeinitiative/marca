@@ -75,6 +75,7 @@ class FileController extends Controller
         }
 
         $query = $em->getRepository('MarcaFileBundle:File')->findFilesByUser($user, $course, $access);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         //pagination for files
         $paginator = $this->get('knp_paginator');
@@ -83,6 +84,7 @@ class FileController extends Controller
         return $this->render('MarcaFileBundle:File:files_index.html.twig', array(
             'files' => $files,
             'role' => $role,
+            'roll' => $roll,
             'user' => $user,
             'course' => $course,
             'heading' => $heading
@@ -113,6 +115,7 @@ class FileController extends Controller
 
 
         $query = $em->getRepository('MarcaFileBundle:File')->findFilesByProject($project, $access);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         //pagination for files
         $paginator = $this->get('knp_paginator');
@@ -121,6 +124,7 @@ class FileController extends Controller
         return $this->render('MarcaFileBundle:File:files_index.html.twig', array(
             'files' => $files,
             'role' => $role,
+            'roll' => $roll,
             'user' => $user,
             'course' => $course,
             'heading' => $heading
@@ -230,6 +234,7 @@ class FileController extends Controller
         $access = $role;
 
         $query = $em->getRepository('MarcaFileBundle:File')->findSharedFiles($course, $access);
+        $roll = $em->getRepository('MarcaCourseBundle:Roll')->findRollByCourse($courseid);
 
         //pagination for files
         $paginator = $this->get('knp_paginator');
@@ -250,6 +255,7 @@ class FileController extends Controller
         return $this->render($template, array(
             'files' => $files,
             'role' => $role,
+            'roll' => $roll,
             'course' => $course,
             'heading' => $heading,
         ));
