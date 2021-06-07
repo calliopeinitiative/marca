@@ -63,10 +63,10 @@
 
         <ul class="dropdown-menu" role="menu">
             {% if is_granted('ROLE_INSTR') %}
-                <li><a href="{{ course_path('calendar_new', {'set_date': "now"|date("Y-m-d")} ) }}">
-                        <span class="glyphicon glyphicon-calendar"></span>New Event
-                    </a>
-                </li>
+{#                <li><a href="{{ course_path('calendar_new', {'set_date': "now"|date("Y-m-d")} ) }}">#}
+{#                        <span class="glyphicon glyphicon-calendar"></span>New Event#}
+{#                    </a>#}
+{#                </li>#}
             {% endif %}
             <li><a href="{{ course_path('calendar_upcoming') }}">View Agenda</a></li>
         </ul>
@@ -76,9 +76,9 @@
     {# Journal #}
     {% if course.journal=='true' and course.module== 0 %}
         <li class="dropdown"><a href="{{ course_path('journal_list') }}">Journal<b class="caret"></b></a>
-            <ul class="dropdown-menu">
-                <li><a href="{{ course_path('journal_new') }}"><span class="glyphicon glyphicon-pencil"></span>New Journal</a></li>
-            </ul>
+{#            <ul class="dropdown-menu">#}
+{#                <li><a href="{{ course_path('journal_new') }}"><span class="glyphicon glyphicon-pencil"></span>New Journal</a></li>#}
+{#            </ul>#}
         </li>
     {% endif %}
 
@@ -90,9 +90,9 @@
     {% if course.notes=='true' and course.module== 0 %}
         <li class="dropdown">
             <a href="{{ course_path('note') }}">Notes<b class="caret"></b></a>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ course_path('note_new') }}"><span class="glyphicon glyphicon-pencil"></span>New Note</a></li>
-            </ul>
+{#            <ul class="dropdown-menu" role="menu">#}
+{#                <li><a href="{{ course_path('note_new') }}"><span class="glyphicon glyphicon-pencil"></span>New Note</a></li>#}
+{#            </ul>#}
         </li>
     {% endif %}
 {% endif %}

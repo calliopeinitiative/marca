@@ -9,20 +9,20 @@
     {% for project in projects if project.course.id == app.request.get('courseid') %}
         {# if for resources (only instructor can post to resources)  #}
         {% if loop.first %}
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    Create
-                    <i class="glyphicon glyphicon-pencil glyphicon-white"></i>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a id='file_new_doc' title='Create new document' href='javascript:void(0);'><i
-                                    class="glyphicon glyphicon-edit"></i> Document</a></li>
-                    <li><a id='file_new_upload' title='Upload document' href="javascript:void(0);"><i
-                                    class="glyphicon glyphicon-upload"></i> Upload</a></li>
-                    <li><a id='file_new_link' title='Create new link' href="javascript:void(0);"><i
-                                    class="glyphicon glyphicon-adjust"></i> Link</a></li>
-                </ul>
-            </div>
+{#            <div class="btn-group">#}
+{#                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">#}
+{#                    Create#}
+{#                    <i class="glyphicon glyphicon-pencil glyphicon-white"></i>#}
+{#                </button>#}
+{#                <ul class="dropdown-menu">#}
+{#                    <li><a id='file_new_doc' title='Create new document' href='javascript:void(0);'><i#}
+{#                                    class="glyphicon glyphicon-edit"></i> Document</a></li>#}
+{#                    <li><a id='file_new_upload' title='Upload document' href="javascript:void(0);"><i#}
+{#                                    class="glyphicon glyphicon-upload"></i> Upload</a></li>#}
+{#                    <li><a id='file_new_link' title='Create new link' href="javascript:void(0);"><i#}
+{#                                    class="glyphicon glyphicon-adjust"></i> Link</a></li>#}
+{#                </ul>#}
+{#            </div>#}
         {% endif %}
     {% else %}
     {% endfor %}
