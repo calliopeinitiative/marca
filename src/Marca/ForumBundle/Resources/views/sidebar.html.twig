@@ -3,6 +3,6 @@
 
 <h2><a  title='Course Forum' href="{{ course_path('forum') }}" class="marca-gray">Forum</a></h2>
 {% if is_granted('ROLE_INSTR') %}
-    <a class='btn btn-primary margin-bottom-medium' href="{{ course_path('forum_new') }}">Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>
+{#    <a class='btn btn-primary margin-bottom-medium' href="{{ course_path('forum_new') }}">Create<i class="glyphicon glyphicon-pencil glyphicon-white"></i></a>#}
 {% endif %}
 <li><a href="{{ course_path('forum', { 'set': 0 }) }}">All Discussions</a></li>

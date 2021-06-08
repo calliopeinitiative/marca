@@ -32,7 +32,7 @@
                             <span class="pull-right" >
                             {{ comment.updated|date('M d Y') }}
                                 <div class="btn-group">
-                                    <a class="btn btn-primary  btn-sm"  title="Reply to this comment" href="{{ course_path('reply_new', { 'commentid': comment.id  }) }}">Reply</a>
+{#                                    <a class="btn btn-primary  btn-sm"  title="Reply to this comment" href="{{ course_path('reply_new', { 'commentid': comment.id  }) }}">Reply</a>#}
                                     {% if comment.user==app.user %}
                                         <a class="btn btn-default  btn-sm"  title="Edit this comment" href="{{ course_path('comment_edit', { 'id': comment.id, 'parentid': forum.id }) }}">Edit</a>
                                     {% endif%}
