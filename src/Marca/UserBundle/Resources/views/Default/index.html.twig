@@ -57,8 +57,8 @@
                                     <p>{{ course.firstname }} {{ course.lastname }}, {{ course.time|date('h:i a') }}</p>
                                 </div>
                                 <div class="col-sm-4">
-                                    <a class="btn btn-primary margin-top" title="Enroll in this course"
-                                       href="{{ path('enroll_enroll', { 'courseid': course.id } ) }}">Enroll</a>
+{#                                    <a class="btn btn-primary margin-top" title="Enroll in this course"#}
+{#                                       href="{{ path('enroll_enroll', { 'courseid': course.id } ) }}">Enroll</a>#}
                                 </div>
                                 <hr/>
                             </div>
@@ -124,11 +124,11 @@
                 <div class="panel-body">
                     {% for course in courses %}
                         {% if course.isOwner(app.user.username) %}
-                            <a class="btn btn-default pull-right"
-                               title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"
-                               href="{{ path('course_show', { 'courseid': course.id }) }}">
-                                Settings
-                            </a>
+{#                            <a class="btn btn-default pull-right"#}
+{#                               title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"#}
+{#                               href="{{ path('course_show', { 'courseid': course.id }) }}">#}
+{#                                Settings#}
+{#                            </a>#}
                         {% endif %}
                         <a href="{{ path('course_home', { 'courseid': course.id }) }}">
                             <h3 class="margin-top-small">{{ course.name }}</h3></a>
@@ -154,11 +154,11 @@
                 <div class="panel-body">
                     {% for course in modules %}
                         {% if course.isOwner(app.user.username) %}
-                            <a class="btn btn-default pull-right"
-                               title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"
-                               href="{{ path('course_show', { 'courseid': course.id }) }}">
-                                Settings
-                            </a>
+{#                            <a class="btn btn-default pull-right"#}
+{#                               title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"#}
+{#                               href="{{ path('course_show', { 'courseid': course.id }) }}">#}
+{#                                Settings#}
+{#                            </a>#}
                         {% endif %}
                         <a href="{{ path('course_home', { 'courseid': course.id }) }}">
                             <h3 class="margin-top-small">{{ course.name }}</h3></a>
@@ -192,10 +192,10 @@
                                     , {{ course.time|date('h:i a') }}</p>
                             </div>
                             <div class="col-sm-3">
-                                {% if course.isOwner(app.user.username) %}<a class="btn btn-default"
-                                                                             title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"
-                                                                             href="{{ path('course_show', { 'courseid': course.id }) }}">
-                                        Settings</a>{% endif %}
+{#                                {% if course.isOwner(app.user.username) %}<a class="btn btn-default"#}
+{#                                                                             title="Edit setting for {{ course.name }} {{ course.time|date('h:i a') }}"#}
+{#                                                                             href="{{ path('course_show', { 'courseid': course.id }) }}">#}
+{#                                        Settings</a>{% endif %}#}
                             </div>
                         </div>
                     {% endfor %}

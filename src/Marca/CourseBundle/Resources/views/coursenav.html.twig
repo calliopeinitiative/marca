@@ -28,10 +28,10 @@
             <li class="divider"></li>
             {% if course.module== 0 %}
                 <li><a href="{{ course_path('roll') }}">Course Roll</a></li>{% endif %}
-            {% if is_granted('ROLE_INSTR') %}
-                <li>
-                    <a href="{{ course_path('course_show') }}">{% if course.module== 0 %}Course{% else %}Module{% endif %} Settings</a></li>
-            {% endif %}
+{#            {% if is_granted('ROLE_INSTR') %}#}
+{#                <li>#}
+{#                    <a href="{{ course_path('course_show') }}">{% if course.module== 0 %}Course{% else %}Module{% endif %} Settings</a></li>#}
+{#            {% endif %}#}
         </ul>
     </li>
 

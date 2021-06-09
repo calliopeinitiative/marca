@@ -26,11 +26,11 @@
         <div class="panel-footer">
             <div style="text-align:center;margin-left:0;margin-right:0;">
             <div class="btn-group" style="text-align:center;">
-                <a class="btn btn-default" title="Edit Profile" href="{{ path('user_edit', { 'id': user.id }) }}">Edit Profile</a>
+{#                <a class="btn btn-default" title="Edit Profile" href="{{ path('user_edit', { 'id': user.id }) }}">Edit Profile</a>#}
                 {% if cas!='yes' %}
                     <a class="btn btn-default" title="Change Password" href="{{ path('fos_user_change_password') }}">Change Password</a>
                 {% endif %}
-                <a class="btn btn-default" title="Enroll in a Course" href="{{ path('enroll_find') }}">Enroll in a Course</a>
+{#                <a class="btn btn-default" title="Enroll in a Course" href="{{ path('enroll_find') }}">Enroll in a Course</a>#}
                 {% if user.institution.research==true %}
                     <a class="btn btn-default" title="Change Password" href="{{ path('user_research', { 'id': user.id }) }}">Review Research Consent</a>
                 {% endif %}

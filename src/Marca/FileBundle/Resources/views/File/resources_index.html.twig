@@ -67,15 +67,15 @@
                                                       title="This file is shared with the class.">Shared</span>{% endif %}
                         <div class="hidden-xs">
                             <div class="file-menu">
-                                {% if file.isOwner(app.user.username) and file.project.course==course %}
-                                    <a data-id='{{ file.id }}' class="settings" href="javascript:void(0);" title="Edit the setting for this file.">Settings</a>
-                                {% endif %}
-                                {% if file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}
-                                    <a href="{{ course_path('file_get', { 'id': file.id}) }}" title="Download {{ file.name }}">Download</a>
-                                {% endif %}
-                                {% if file.isOwner(app.user.username) and file.portfolio|length == 0  and file.project.course==course %}
-                                    <a data-id='{{ file.id }}' class="delete delete_confirm" href='javascript:void(0);' title="Delete this file.">Delete</a>
-                                {% endif %}
+{#                                {% if file.isOwner(app.user.username) and file.project.course==course %}#}
+{#                                    <a data-id='{{ file.id }}' class="settings" href="javascript:void(0);" title="Edit the setting for this file.">Settings</a>#}
+{#                                {% endif %}#}
+{#                                {% if file.ext == 'odt' or file.ext == 'ods' or file.ext == 'odp' or file.ext == 'pdf' %}#}
+{#                                    <a href="{{ course_path('file_get', { 'id': file.id}) }}" title="Download {{ file.name }}">Download</a>#}
+{#                                {% endif %}#}
+{#                                {% if file.isOwner(app.user.username) and file.portfolio|length == 0  and file.project.course==course %}#}
+{#                                    <a data-id='{{ file.id }}' class="delete delete_confirm" href='javascript:void(0);' title="Delete this file.">Delete</a>#}
+{#                                {% endif %}#}
                             </div>
                         </div>
                     </td>

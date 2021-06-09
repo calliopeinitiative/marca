@@ -8,8 +8,8 @@
             <div class="panel-heading" >
                 <div class="btn-group pull-right">
 
-                    <a class="btn btn-primary btn-sm" title="Comment on this discussion" href="{{ course_path('comment_new', { 'parentid': forum.id ,'forumid': forum.id }) }}">Comment</a>
-                    {% if forum.user==app.user %}<a class="btn btn-default btn-sm" title="Edit this discussion" href="{{ course_path('forum_edit', { 'id': forum.id }) }}">Edit</a>{% endif%}
+{#                    <a class="btn btn-primary btn-sm" title="Comment on this discussion" href="{{ course_path('comment_new', { 'parentid': forum.id ,'forumid': forum.id }) }}">Comment</a>#}
+{#                    {% if forum.user==app.user %}<a class="btn btn-default btn-sm" title="Edit this discussion" href="{{ course_path('forum_edit', { 'id': forum.id }) }}">Edit</a>{% endif%}#}
                 </div>
                 {% if forum.user.photo %}
                     <img alt="Thumbnail image of {{ forum.user.firstname|capitalize }} {{ forum.user.lastname|capitalize }}"  src="{{ forum.user.photo }}" class="user-photo-sm img-rounded pull-left"/>
@@ -34,7 +34,7 @@
                                 <div class="btn-group">
 {#                                    <a class="btn btn-primary  btn-sm"  title="Reply to this comment" href="{{ course_path('reply_new', { 'commentid': comment.id  }) }}">Reply</a>#}
                                     {% if comment.user==app.user %}
-                                        <a class="btn btn-default  btn-sm"  title="Edit this comment" href="{{ course_path('comment_edit', { 'id': comment.id, 'parentid': forum.id }) }}">Edit</a>
+{#                                        <a class="btn btn-default  btn-sm"  title="Edit this comment" href="{{ course_path('comment_edit', { 'id': comment.id, 'parentid': forum.id }) }}">Edit</a>#}
                                     {% endif%}
                                 </div>
                         </span>
@@ -52,7 +52,7 @@
                                             {{ reply.updated|date('M d Y') }}
                                                  <div class="btn-group">
                                                      {% if reply.user==app.user %}
-                                                         <a class="btn btn-default btn-sm"  title="Edit this reply" href="{{ course_path('reply_edit', { 'id': reply.id, 'commentid': comment.id }) }}">Edit</a>
+{#                                                         <a class="btn btn-default btn-sm"  title="Edit this reply" href="{{ course_path('reply_edit', { 'id': reply.id, 'commentid': comment.id }) }}">Edit</a>#}
                                                      {% endif%}
                                                  </div>
                                             </span>

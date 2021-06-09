@@ -10,8 +10,8 @@
         </li>
     {% endif %}
     {% if is_granted('ROLE_INSTR') %}
-        <li>
-            <a href="{{ course_path('course_show') }}">{% if app.session.get('module')== 0 %}Course{% else %}Module{% endif %}
-                Settings</a>
-        </li>
+{#        <li>#}
+{#            <a href="{{ course_path('course_show') }}">{% if app.session.get('module')== 0 %}Course{% else %}Module{% endif %}#}
+{#                Settings</a>#}
+{#        </li>#}
     {% endif %}
