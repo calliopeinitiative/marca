@@ -47,7 +47,9 @@
 </tr>
 
 <tr>
-<td>{% if file.isOwner(app.user.username) %}<a class="" href="{{ course_path('file_edit', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Edit listing</a>{% endif%}</td>    
+<td>
+{# {% if file.isOwner(app.user.username) %}<a class="" href="{{ course_path('file_edit', { 'id': file.id, 'resource': app.request.get('resource'), 'tag': app.request.get('tag') }) }}">Edit listing</a>{% endif%}#}
+</td>
 <td>{% if file.isOwner(app.user.username) and file.access==1 and app.request.get('resource')=='0' %}<a class="" href="{{ course_path('portfolio_new', { 'fileid': file.id }) }}">Add to Portfolio</a>{% endif%}</td>
 <td>{{ file.responses |length }} Response(s)</td>
 

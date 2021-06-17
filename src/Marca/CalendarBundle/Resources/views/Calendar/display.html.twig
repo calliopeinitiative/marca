@@ -22,16 +22,19 @@
                         },
                         eventClick: function(calEvent, jsEvent, view) {
                             var role = "{{ role }}";
-                            if (calEvent.isOwner == 'yes' && role == '2') {
-                                var route = "{{ course_path('calendar_edit', { 'id': "event_id"  }) }}";
-                                route = route.replace("event_id", calEvent.id);
-                                window.location.href = route;
-                            }
-                            else {
-                                var route = "{{ course_path('calendar_show_modal', { 'id': "event_id"}) }}";
-                                route = route.replace("event_id", calEvent.id);
-                                $('#calendar_modal').load(route);
-                            }
+                            var route = "{{ course_path('calendar_show_modal', { 'id': "event_id"}) }}";
+                            route = route.replace("event_id", calEvent.id);
+                            $('#calendar_modal').load(route);
+                            {#if (calEvent.isOwner == 'yes' && role == '2') {#}
+                            {#    var route = "{{ course_path('calendar_edit', { 'id': "event_id"  }) }}";#}
+                            {#    route = route.replace("event_id", calEvent.id);#}
+                            {#    window.location.href = route;#}
+                            {#}#}
+                            {#else {#}
+                            {#    var route = "{{ course_path('calendar_show_modal', { 'id': "event_id"}) }}";#}
+                            {#    route = route.replace("event_id", calEvent.id);#}
+                            {#    $('#calendar_modal').load(route);#}
+                            {#}#}
                         },
                         header:
                         {

@@ -191,9 +191,9 @@
                         <div class="panel-heading">
                             <span class="panel-title">Rating by {{ ratingset.rater.firstname }}  {{ ratingset.rater.lastname }}</span>
                             {% if ratingset.isOwner(app.user.username) %}
-                                <a class="btn btn-primary btn-xs pull-right"
-                                   href="{{ course_path('ratingset_edit', {'id':ratingset.id, 'userid':app.request.get('userid'), 'user':app.request.get('user')}) }}">Edit
-                                    Rating</a>
+{#                                <a class="btn btn-primary btn-xs pull-right"#}
+{#                                   href="{{ course_path('ratingset_edit', {'id':ratingset.id, 'userid':app.request.get('userid'), 'user':app.request.get('user')}) }}">Edit#}
+{#                                    Rating</a>#}
                             {% endif %}
                         </div>
                         <div class="panel-body">
@@ -224,9 +224,9 @@
                 {% else %}
                     {% if role == 2 or role == 4 %}
                         <hr/>
-                        <a class="btn btn-primary margin-top btn-sm"
-                           href="{{ course_path('ratingset_new', {'portfoliosetid':portfoliosetid,'userid':userid,'user':app.request.get('user')}) }}">New
-                            Rating</a>
+{#                        <a class="btn btn-primary margin-top btn-sm"#}
+{#                           href="{{ course_path('ratingset_new', {'portfoliosetid':portfoliosetid,'userid':userid,'user':app.request.get('user')}) }}">New#}
+{#                            Rating</a>#}
                     {% endif %}
                 {% endfor %}
 
