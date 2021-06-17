@@ -195,8 +195,8 @@
 
                         {% if review.doc and review.doc.isOwner(app.user.username) %}
                             <li class="navbar-text">
-                                <a title="Edit this document" class=""
-                                   href="{{ course_path('doc_edit', { 'id': review.id,'view': app.request.get('view') }) }}" tabindex="3">Edit</a>
+{#                                <a title="Edit this document" class=""#}
+{#                                   href="{{ course_path('doc_edit', { 'id': review.id,'view': app.request.get('view') }) }}" tabindex="3">Edit</a>#}
                             </li>
                         {% elseif review.ext == 'odt' or review.ext == 'ods' or review.ext == 'odp' or review.ext == 'pdf' %}
                             <li class="navbar-text">
